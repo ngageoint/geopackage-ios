@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 #import "GPKGConnection.h"
+#import "GPKGGeometryColumnsDao.h"
 
 @interface GPKGGeoPackage : NSObject
 
@@ -23,5 +24,7 @@
 -(GPKGConnection *)getDatabase;
 
 -(NSArray *)getFeatureTables;
+
+-(GPKGGeometryColumnsDao *) getGeometryColumnsDao;
 
 @end

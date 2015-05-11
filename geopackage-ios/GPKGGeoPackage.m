@@ -47,10 +47,14 @@
 
 -(NSArray *)getFeatureTables{
     
-    GPKGGeometryColumnsDao *dao = [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
+    GPKGGeometryColumnsDao *dao = [self getGeometryColumnsDao];
     NSArray *tables = dao.getFeatureTables;
     
     return tables;
+}
+
+-(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
+    return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
 @end

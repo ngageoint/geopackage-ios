@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-NSString * const TABLE_NAME = @"gpkg_geometry_columns";
-NSString * const COLUMN_TABLE_NAME = @"table_name";
-NSString * const COLUMN_COLUMN_NAME = @"column_name";
-NSString * const COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
-NSString * const COLUMN_SRS_ID = @"srs_id";
-NSString * const COLUMN_Z = @"z";
-NSString * const COLUMN_M = @"m";
+extern NSString * const GC_TABLE_NAME;
+extern NSString * const GC_COLUMN_TABLE_NAME;
+extern NSString * const GC_COLUMN_COLUMN_NAME;
+extern NSString * const GC_COLUMN_GEOMETRY_TYPE_NAME;
+extern NSString * const GC_COLUMN_SRS_ID;
+extern NSString * const GC_COLUMN_Z;
+extern NSString * const GC_COLUMN_M;
 
 @interface GPKGGeometryColumns : NSObject
 

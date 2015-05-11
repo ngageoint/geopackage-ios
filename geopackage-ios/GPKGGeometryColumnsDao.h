@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGConnection.h"
 #import "GPKGBaseDao.h"
+#import "GPKGGeometryColumns.h"
 
 @interface GPKGGeometryColumnsDao : GPKGBaseDao
 

@@ -31,4 +31,14 @@
     return singleColumnResults;
 }
 
+-(BOOL) isTableExists{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSArray *) queryForAll{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 @end

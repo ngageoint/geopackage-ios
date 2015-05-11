@@ -20,12 +20,39 @@
 
 -(NSArray *)getFeatureTables{
     
-    NSString *queryString = @"select table_name from gpkg_geometry_columns";
+    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GC_COLUMN_TABLE_NAME, GC_TABLE_NAME];
     
     NSArray *results = [self query:queryString];
-    NSMutableArray *tables = [self singleColumnResults:results];
+    NSArray *tables = [self singleColumnResults:results];
     
     return tables;
+}
+
+-(BOOL) isTableExists{
+    
+    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", GC_TABLE_NAME];
+    
+    NSArray *results = [self query:queryString];
+    NSInteger count = [results count];
+    
+    return count > 0;
+}
+
+-(NSArray *) queryForAll{
+    
+    NSString *queryString = [NSString stringWithFormat:@"select * from %@", GC_TABLE_NAME];
+    
+    NSArray *results = [self query:queryString];
+    
+    NSMutableArray *objectResults = [[NSMutableArray alloc] init];
+    for(NSArray *result in results){
+        GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
+        objectResult.tableName = [result objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_TABLE_NAME]];
+        objectResult.columnName = [result objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_COLUMN_NAME]];
+        [objectResults addObject: objectResult];
+    }
+    
+    return objectResults;
 }
 
 @end

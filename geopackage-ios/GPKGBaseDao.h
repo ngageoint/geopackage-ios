@@ -19,4 +19,8 @@
 
 -(NSArray *) singleColumnResults: (NSArray *) results;
 
+-(BOOL) isTableExists;
+
+-(NSArray *) queryForAll;
+
 @end
