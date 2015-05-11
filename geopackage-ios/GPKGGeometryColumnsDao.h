@@ -15,6 +15,10 @@
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
+//-(GPKGGeometryColumns *) queryForIdWithTableName: (NSString *) tableName AndColumnName: (NSString *) columnName;
+
+//-(GPKGGeometryColumns *) queryForTableName: (NSString *) tableName;
+
 -(NSArray *)getFeatureTables;
 
 @end

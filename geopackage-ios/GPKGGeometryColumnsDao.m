@@ -22,24 +22,25 @@
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GC_COLUMN_TABLE_NAME, GC_TABLE_NAME];
     
-    NSArray *results = [self query:queryString];
+    GPKGResultSet *results = [self query:queryString];
     NSArray *tables = [self singleColumnResults:results];
+    [results close];
     
     return tables;
 }
 
--(NSString *) tableName{
+-(NSString *) getTableName{
     return GC_TABLE_NAME;
 }
 
--(NSObject *) create: (NSArray *) values{
+-(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
     GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
-    objectResult.tableName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_TABLE_NAME]];
-    objectResult.columnName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_COLUMN_NAME]];
-    objectResult.geometryTypeName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_GEOMETRY_TYPE_NAME]];
-    objectResult.srsId = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_SRS_ID]];
-    objectResult.z = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_Z]];
-    objectResult.m = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_M]];
+    objectResult.tableName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_TABLE_NAME]];
+    objectResult.columnName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_COLUMN_NAME]];
+    objectResult.geometryTypeName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_GEOMETRY_TYPE_NAME]];
+    objectResult.srsId = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_SRS_ID]];
+    objectResult.z = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_Z]];
+    objectResult.m = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_M]];
     return objectResult;
 }
 

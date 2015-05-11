@@ -7,22 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGResultSet.h"
 
 @interface GPKGConnection : NSObject
 
 
-@property (nonatomic, strong) NSMutableArray *arrColumnNames;
-
-@property (nonatomic) int affectedRows;
-
-@property (nonatomic) long long lastInsertedRowID;
+@property (nonatomic, strong) NSString *databaseFilename;
 
 
--(instancetype)initWithDatabaseFilename:(NSString *) dbFilename;
+-(instancetype) initWithDatabaseFilename:(NSString *) dbFilename;
 
--(NSArray *)query:(NSString *)query;
+-(GPKGResultSet *) query:(NSString *) statement;
 
--(void)update:(NSString *)query;
+-(long long) insert:(NSString *) statement;
+
+-(int) update:(NSString *) statement;
+
+-(int) delete:(NSString *) statement;
 
 -(void)close;
 

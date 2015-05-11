@@ -15,16 +15,16 @@
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
--(NSArray *) query: (NSString *) query;
+-(NSString *) getTableName;
 
--(NSArray *) singleColumnResults: (NSArray *) results;
+-(NSArray *) queryForAll;
 
--(NSString *) tableName;
+-(GPKGResultSet *) query: (NSString *) query;
 
--(NSObject *) create: (NSArray *) values;
+-(NSArray *) singleColumnResults: (GPKGResultSet *) results;
 
 -(BOOL) isTableExists;
 
--(NSArray *) queryForAll;
+
 
 @end

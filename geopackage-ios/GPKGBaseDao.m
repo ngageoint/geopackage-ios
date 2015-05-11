@@ -8,6 +8,12 @@
 
 #import "GPKGBaseDao.h"
 
+@interface GPKGBaseDao()
+
+-(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values;
+
+@end
+
 @implementation GPKGBaseDao
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
@@ -18,54 +24,56 @@
     return self;
 }
 
--(NSArray *) query: (NSString *) query{
-    NSArray *results = [self.database query:query];
+-(GPKGResultSet *) query: (NSString *) query{
+    GPKGResultSet *results = [self.database query:query];
     return results;
 }
 
--(NSArray *) singleColumnResults: (NSArray *) results{
+-(NSArray *) singleColumnResults: (GPKGResultSet *) results{
     NSMutableArray *singleColumnResults = [[NSMutableArray alloc] init];
-    for(NSArray *result in results){
+    while([results moveToNext]){
+        NSArray *result = [results getRow];
         [singleColumnResults addObject: [result objectAtIndex:(0)]];
     }
     return singleColumnResults;
 }
 
--(NSString *) tableName{
+-(NSString *) getTableName{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
--(NSObject *) create: (NSArray *) values{
+-(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
 -(BOOL) isTableExists{
-    NSString * tableName = [self tableName];
+    NSString * tableName = [self getTableName];
     NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
     
-    NSArray *results = [self query:queryString];
-    NSInteger count = [results count];
+    GPKGResultSet *results = [self query:queryString];
+    BOOL found = [results moveToNext];
+    [results close];
     
-    return count > 0;
+    return found;
 }
 
 -(NSArray *) queryForAll{
-    /*
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-     */
-    NSString * tableName = [self tableName];
+
+    NSString * tableName = [self getTableName];
     NSString *queryString = [NSString stringWithFormat:@"select * from %@", tableName];
     
-    NSArray *results = [self query:queryString];
+    GPKGResultSet *results = [self query:queryString];
     
     NSMutableArray *objectResults = [[NSMutableArray alloc] init];
-    for(NSArray *result in results){
-        NSObject *objectResult = [self create:result];
+    while([results moveToNext]){
+        NSArray *result = [results getRow];
+        NSObject *objectResult = [self createObjectWithColumns:results.columns andValues:result];
         [objectResults addObject: objectResult];
     }
+    
+    [results close];
     
     return objectResults;
 }
