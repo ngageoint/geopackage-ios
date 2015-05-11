@@ -25,4 +25,6 @@ extern NSString * const GC_COLUMN_M;
 @property (nonatomic, strong) NSNumber *z;
 @property (nonatomic, strong) NSNumber *m;
 
+-(NSArray *) getColumns;
+
 @end

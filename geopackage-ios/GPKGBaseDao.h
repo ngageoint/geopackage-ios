@@ -19,6 +19,10 @@
 
 -(NSArray *) singleColumnResults: (NSArray *) results;
 
+-(NSString *) tableName;
+
+-(NSObject *) create: (NSArray *) values;
+
 -(BOOL) isTableExists;
 
 -(NSArray *) queryForAll;

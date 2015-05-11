@@ -87,19 +87,55 @@
                 
                 // Go through all columns and fetch each column data.
                 for (int i=0; i<totalColumns; i++){
-                    // Convert the column data to text (characters).
-                    char *dbDataAsChars = (char *)sqlite3_column_text(compiledStatement, i);
                     
-                    // If there are contents in the currenct column (field) then add them to the current row array.
-                    if (dbDataAsChars != NULL) {
-                        // Convert the characters to string.
-                        [arrDataRow addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
+                    int type = sqlite3_column_type(compiledStatement, i);
+                    switch (type) {
+                        case SQLITE_TEXT:;
+                            
+                            // Convert the column data to text (characters).
+                            char *dbDataAsChars = (char *)sqlite3_column_text(compiledStatement, i);
+                            
+                            // If there are contents in the currenct column (field) then add them to the current row array.
+                            if (dbDataAsChars != NULL) {
+                                // Convert the characters to string.
+                                [arrDataRow addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
+                            }
+                            break;
+                            
+                        case SQLITE_INTEGER:;
+                            
+                            int intValue = sqlite3_column_int(compiledStatement, i);
+                            [arrDataRow addObject:[NSNumber numberWithInt: intValue]];
+                            
+                            break;
+                            
+                        case SQLITE_FLOAT:;
+                            
+                            double floatValue = sqlite3_column_double(compiledStatement, i);
+                            [arrDataRow addObject:[NSNumber numberWithDouble: floatValue]];
+                            
+                            break;
+                            
+                        case SQLITE_NULL:
+                            
+                            [arrDataRow addObject:nil];
+                            break;
+                            
+                        case SQLITE_BLOB:
+                            {
+                                NSData *blobValue = [[NSData alloc] initWithBytes:sqlite3_column_blob(compiledStatement, i) length:sqlite3_column_bytes(compiledStatement,  i)];
+                                [arrDataRow addObject:blobValue];
+                            }
+                            break;
+                            
+                        default:
+                            break;
                     }
                     
                     // Keep the current column name.
                     if (self.arrColumnNames.count != totalColumns) {
-                        dbDataAsChars = (char *)sqlite3_column_name(compiledStatement, i);
-                        [self.arrColumnNames addObject:[NSString stringWithUTF8String:dbDataAsChars]];
+                        char *columnName = (char *)sqlite3_column_name(compiledStatement, i);
+                        [self.arrColumnNames addObject:[NSString stringWithUTF8String:columnName]];
                     }
                 }
                 

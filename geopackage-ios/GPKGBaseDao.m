@@ -31,14 +31,43 @@
     return singleColumnResults;
 }
 
--(BOOL) isTableExists{
+-(NSString *) tableName{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
--(NSArray *) queryForAll{
+-(NSObject *) create: (NSArray *) values{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
+}
+
+-(BOOL) isTableExists{
+    NSString * tableName = [self tableName];
+    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
+    
+    NSArray *results = [self query:queryString];
+    NSInteger count = [results count];
+    
+    return count > 0;
+}
+
+-(NSArray *) queryForAll{
+    /*
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+     */
+    NSString * tableName = [self tableName];
+    NSString *queryString = [NSString stringWithFormat:@"select * from %@", tableName];
+    
+    NSArray *results = [self query:queryString];
+    
+    NSMutableArray *objectResults = [[NSMutableArray alloc] init];
+    for(NSArray *result in results){
+        NSObject *objectResult = [self create:result];
+        [objectResults addObject: objectResult];
+    }
+    
+    return objectResults;
 }
 
 @end

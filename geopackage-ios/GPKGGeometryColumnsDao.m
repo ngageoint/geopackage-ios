@@ -28,31 +28,19 @@
     return tables;
 }
 
--(BOOL) isTableExists{
-    
-    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", GC_TABLE_NAME];
-    
-    NSArray *results = [self query:queryString];
-    NSInteger count = [results count];
-    
-    return count > 0;
+-(NSString *) tableName{
+    return GC_TABLE_NAME;
 }
 
--(NSArray *) queryForAll{
-    
-    NSString *queryString = [NSString stringWithFormat:@"select * from %@", GC_TABLE_NAME];
-    
-    NSArray *results = [self query:queryString];
-    
-    NSMutableArray *objectResults = [[NSMutableArray alloc] init];
-    for(NSArray *result in results){
-        GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
-        objectResult.tableName = [result objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_TABLE_NAME]];
-        objectResult.columnName = [result objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_COLUMN_NAME]];
-        [objectResults addObject: objectResult];
-    }
-    
-    return objectResults;
+-(NSObject *) create: (NSArray *) values{
+    GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
+    objectResult.tableName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_TABLE_NAME]];
+    objectResult.columnName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_COLUMN_NAME]];
+    objectResult.geometryTypeName = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_GEOMETRY_TYPE_NAME]];
+    objectResult.srsId = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_SRS_ID]];
+    objectResult.z = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_Z]];
+    objectResult.m = [values objectAtIndex:[self.database.arrColumnNames indexOfObject:GC_COLUMN_M]];
+    return objectResult;
 }
 
 @end
