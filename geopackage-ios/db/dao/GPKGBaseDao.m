@@ -8,12 +8,6 @@
 
 #import "GPKGBaseDao.h"
 
-@interface GPKGBaseDao()
-
--(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values;
-
-@end
-
 @implementation GPKGBaseDao
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
@@ -22,6 +16,82 @@
         self.database = database;
     }
     return self;
+}
+
+-(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSArray *) getIdColumns{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSString *) getTableName{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(BOOL) isTableExists{
+    NSString * tableName = [self getTableName];
+    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
+    
+    GPKGResultSet *results = [self query:queryString];
+    BOOL found = [results moveToNext];
+    [results close];
+    
+    return found;
+}
+
+-(NSObject *) queryForId: (NSObject *) idValue{
+    NSArray *idValues = @[idValue];
+    NSObject *objectResult = [self queryForMultiId: idValues];
+    return objectResult;
+}
+
+-(NSObject *) queryForMultiId: (NSArray *) idValues{
+    NSString * tableName = [self getTableName];
+    NSMutableString *queryString = [NSMutableString string];
+    [queryString appendFormat:@"select * from %@ where ", tableName];
+
+    NSArray * idColumns = [self getIdColumns];
+    for(int i = 0; i < [idValues count]; i++){
+        if(i > 0){
+            [queryString appendString:@" and "];
+        }
+        [queryString appendFormat:@"%@ = ", [idColumns objectAtIndex:i]];
+        NSObject *idValue = [idValues objectAtIndex:i];
+        [queryString appendString:[self getSqlValueString:idValue]];
+    }
+    
+    GPKGResultSet *results = [self query:queryString];
+
+    NSObject *objectResult = [self getObject: results];
+    
+    [results close];
+    
+    return objectResult;
+}
+
+-(GPKGResultSet *) queryForAll{
+
+    NSString *queryString = [self buildSelectAll];
+    GPKGResultSet *results = [self query:queryString];
+    
+    return results;
+}
+
+-(NSObject *) getObject: (GPKGResultSet *) results{
+    
+    NSObject *objectResult = nil;
+    
+    if([results moveToNext]){
+        NSArray *result = [results getRow];
+        objectResult = [self createObjectWithColumns:results.columns andValues:result];
+    }
+    
+    return objectResult;
 }
 
 -(GPKGResultSet *) query: (NSString *) query{
@@ -38,44 +108,58 @@
     return singleColumnResults;
 }
 
--(NSString *) getTableName{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
--(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
--(BOOL) isTableExists{
-    NSString * tableName = [self getTableName];
-    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
-    
+-(GPKGResultSet *) queryForEqWithField: (NSString *) field andValue: (NSObject *) value{
+    NSString *whereString = [self buildWhereWithField:field andValue:value];
+    NSString *queryString = [self buildSelectAllWithWhere:whereString];
     GPKGResultSet *results = [self query:queryString];
-    BOOL found = [results moveToNext];
-    [results close];
-    
-    return found;
+    return results;
 }
 
--(NSArray *) queryForAll{
-
+-(NSString *) buildSelectAll{
     NSString * tableName = [self getTableName];
     NSString *queryString = [NSString stringWithFormat:@"select * from %@", tableName];
-    
-    GPKGResultSet *results = [self query:queryString];
-    
-    NSMutableArray *objectResults = [[NSMutableArray alloc] init];
-    while([results moveToNext]){
-        NSArray *result = [results getRow];
-        NSObject *objectResult = [self createObjectWithColumns:results.columns andValues:result];
-        [objectResults addObject: objectResult];
+    return queryString;
+}
+
+-(NSString *) buildSelectAllWithWhere: (NSString *) where{
+    NSString *queryString = [NSString stringWithFormat:@"%@ where %@", [self buildSelectAll], where];
+    return queryString;
+}
+
+/*
+-(NSString *) buildWhere: (NSDictionary *) fields{
+    NSMutableString *queryString = [NSMutableString string];
+    //TODO
+    return nil;
+}
+ */
+
+-(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value{
+    return [self buildWhereWithField:field andValue:value andOperation:@"="];
+}
+
+-(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value andOperation: (NSString *) operation{
+    NSMutableString *whereString = [NSMutableString string];
+    [whereString appendFormat:@"%@ ", field];
+    if(value == nil){
+        [whereString appendString:@"is null"];
+    }else{
+        [whereString appendFormat:@"%@ %@", operation, [self getSqlValueString:value]];
     }
-    
-    [results close];
-    
-    return objectResults;
+    return whereString;
+}
+
+-(NSString *) getSqlValueString: (NSObject *) value{
+    NSMutableString *sqlString = [NSMutableString string];
+    BOOL isString = [value isKindOfClass:[NSString class]];
+    if(isString){
+        [sqlString appendString:@"'"];
+    }
+    [sqlString appendFormat: @"%@", value];
+    if(isString){
+        [sqlString appendString:@"'"];
+    }
+    return sqlString;
 }
 
 @end

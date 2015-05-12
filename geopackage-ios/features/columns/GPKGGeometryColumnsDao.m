@@ -33,6 +33,11 @@
     return GC_TABLE_NAME;
 }
 
+-(NSArray *) getIdColumns{
+    NSArray *idColumns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME];
+    return idColumns;
+}
+
 -(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
     GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
     objectResult.tableName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_TABLE_NAME]];

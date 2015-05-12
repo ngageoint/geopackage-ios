@@ -13,9 +13,11 @@
 
 @property (nonatomic) sqlite3_stmt *statement;
 
+@property (nonatomic) int count;
+
 @property (nonatomic, strong) NSArray *columns;
 
--(instancetype) initWithStatement:(sqlite3_stmt *) statement;
+-(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count;
 
 -(BOOL) moveToNext;
 

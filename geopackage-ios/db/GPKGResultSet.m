@@ -10,10 +10,11 @@
 
 @implementation GPKGResultSet
 
--(instancetype) initWithStatement:(sqlite3_stmt *) statement{
+-(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count{
     self = [super init];
     if(self){
         self.statement = statement;
+        self.count = count;
     
         int totalColumns = sqlite3_column_count(statement);
 

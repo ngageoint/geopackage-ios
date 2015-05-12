@@ -45,13 +45,43 @@
     
     GPKGResultSet *resultSet = nil;
     
+    int count = [self count:statement];
+    
     sqlite3_stmt *compiledStatement;
     BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
-        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement];
+        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
     }
     
     return resultSet;
+}
+
+-(int) count:(NSString *) statement{
+    
+    NSString *countStatement = [statement lowercaseString];
+    
+    if(![countStatement containsString:@" count(*) "]){
+        
+        NSRange range = [countStatement rangeOfString:@" from "];
+        if(range.length == 0){
+            return -1;
+        }
+        NSInteger index = [countStatement rangeOfString:@" from "].location;
+        
+        countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
+    }
+    
+    int count = 0;
+    
+    sqlite3_stmt *compiledStatement;
+    BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [countStatement UTF8String], -1, &compiledStatement, NULL);
+    if(prepareStatementResult == SQLITE_OK && sqlite3_step(compiledStatement) == SQLITE_ROW) {
+        count = sqlite3_column_int(compiledStatement, 0);
+    }
+    
+    sqlite3_finalize(compiledStatement);
+    
+    return count;
 }
 
 -(long long) insert:(NSString *) statement{
