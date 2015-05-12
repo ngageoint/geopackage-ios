@@ -19,6 +19,8 @@
 
 -(GPKGResultSet *) query:(NSString *) statement;
 
+-(int) count:(NSString *) statement;
+
 -(long long) insert:(NSString *) statement;
 
 -(int) update:(NSString *) statement;

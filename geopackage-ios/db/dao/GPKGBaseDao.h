@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGConnection.h"
+#import "GPKGColumnValue.h"
 
 @interface GPKGBaseDao : NSObject
 
@@ -37,8 +38,18 @@
 
 -(NSString *) buildSelectAllWithWhere: (NSString *) where;
 
+-(NSString *) buildWhereWithFields: (NSDictionary *) fields;
+
+-(NSString *) buildWhereWithColumnValueFields: (NSDictionary *) fields;
+
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value;
 
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value andOperation: (NSString *) operation;
+
+-(NSString *) buildWhereWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+-(int) count;
+
+-(int) countWhere: (NSString *) where;
 
 @end

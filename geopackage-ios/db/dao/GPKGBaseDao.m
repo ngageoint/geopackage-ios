@@ -67,7 +67,10 @@
     
     GPKGResultSet *results = [self query:queryString];
 
-    NSObject *objectResult = [self getObject: results];
+    NSObject *objectResult = nil;
+    if([results moveToNext]){
+        objectResult = [self getObject: results];
+    }
     
     [results close];
     
@@ -84,12 +87,8 @@
 
 -(NSObject *) getObject: (GPKGResultSet *) results{
     
-    NSObject *objectResult = nil;
-    
-    if([results moveToNext]){
-        NSArray *result = [results getRow];
-        objectResult = [self createObjectWithColumns:results.columns andValues:result];
-    }
+    NSArray *result = [results getRow];
+    NSObject *objectResult = [self createObjectWithColumns:results.columns andValues:result];
     
     return objectResult;
 }
@@ -126,13 +125,28 @@
     return queryString;
 }
 
-/*
--(NSString *) buildWhere: (NSDictionary *) fields{
-    NSMutableString *queryString = [NSMutableString string];
-    //TODO
-    return nil;
+
+-(NSString *) buildWhereWithFields: (NSDictionary *) fields{
+    NSMutableString *whereString = [NSMutableString string];
+    for(id key in fields){
+        if([whereString length] > 0){
+            [whereString appendString:@" and "];
+        }
+        [whereString appendString:[self buildWhereWithField:key andValue:[fields objectForKey:key]]];
+    }
+    return whereString;
 }
- */
+
+-(NSString *) buildWhereWithColumnValueFields: (NSDictionary *) fields{
+    NSMutableString *whereString = [NSMutableString string];
+    for(id key in fields){
+        if([whereString length] > 0){
+            [whereString appendString:@" and "];
+        }
+        [whereString appendString:[self buildWhereWithField:key andColumnValue:[fields objectForKey:key]]];
+    }
+    return whereString;
+}
 
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value{
     return [self buildWhereWithField:field andValue:value andOperation:@"="];
@@ -147,6 +161,43 @@
         [whereString appendFormat:@"%@ %@", operation, [self getSqlValueString:value]];
     }
     return whereString;
+}
+
+-(NSString *) buildWhereWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    
+    NSMutableString *whereString = [NSMutableString string];
+    
+    if(value != nil){
+        if(value.value != nil && value.tolerance != nil){
+            double doubleValue = [(NSNumber *)value.value doubleValue];
+            double tolerance = [value.tolerance doubleValue];
+            [whereString appendFormat:@"%@ >= %f and %@ <= %f", field, doubleValue - tolerance, field, doubleValue + tolerance];
+        }else{
+            [whereString appendString:[self buildWhereWithField:field andValue:value.value]];
+        }
+    }else{
+        [whereString appendString:[self buildWhereWithField:field andValue:nil]];
+    }
+    
+    return whereString;
+}
+
+-(int) count{
+    return [self countWhere:nil];
+}
+
+-(int) countWhere: (NSString *) where{
+    NSMutableString *countString = [NSMutableString string];
+    NSString * tableName = [self getTableName];
+    [countString appendFormat:@"select count(*) from %@", tableName];
+    if(where != nil){
+        [countString appendString:@" "];
+        if(![where hasPrefix:@"where"]){
+            [countString appendString:@"where "];
+        }
+        [countString appendString:where];
+    }
+    return [self.database count:countString];
 }
 
 -(NSString *) getSqlValueString: (NSObject *) value{

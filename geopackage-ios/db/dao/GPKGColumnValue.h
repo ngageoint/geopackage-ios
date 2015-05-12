@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSObject *value;
 
-@property (nonatomic) double *tolerance;
+@property (nonatomic) NSNumber *tolerance;
 
 @end
