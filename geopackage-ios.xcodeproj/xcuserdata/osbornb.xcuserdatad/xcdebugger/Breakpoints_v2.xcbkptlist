@@ -25,7 +25,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "geopackage-ios/GPKGConnection.m"
+            filePath = "geopackage-ios/db/GPKGConnection.m"
             timestampString = "452801981.322239"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

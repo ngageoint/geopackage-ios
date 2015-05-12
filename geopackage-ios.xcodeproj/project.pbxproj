@@ -140,7 +140,7 @@
 				048C211F1AFB937000EBC38B /* srs */,
 				048C211E1AFB935C00EBC38B /* contents */,
 			);
-			name = core;
+			path = core;
 			sourceTree = "<group>";
 		};
 		048C211E1AFB935C00EBC38B /* contents */ = {
@@ -166,7 +166,7 @@
 				04FE04991B01556A00B9308E /* GPKGResultSet.h */,
 				04FE049A1B01556A00B9308E /* GPKGResultSet.m */,
 			);
-			name = db;
+			path = db;
 			sourceTree = "<group>";
 		};
 		0499E61C1AFD2C8D00431FCF /* factory */ = {
@@ -177,7 +177,7 @@
 				0499E6201AFD330200431FCF /* GPKGGeoPackageFactory.h */,
 				0499E6211AFD330200431FCF /* GPKGGeoPackageFactory.m */,
 			);
-			name = factory;
+			path = factory;
 			sourceTree = "<group>";
 		};
 		0499E6231AFD43E400431FCF /* features */ = {
@@ -197,6 +197,7 @@
 				0499E6291AFD443600431FCF /* GPKGGeometryColumnsDao.m */,
 			);
 			name = columns;
+			path = features/columns;
 			sourceTree = "<group>";
 		};
 		0499E62B1AFD4CA400431FCF /* dao */ = {
@@ -205,7 +206,7 @@
 				0499E62C1AFD4CC100431FCF /* GPKGBaseDao.h */,
 				0499E62D1AFD4CC100431FCF /* GPKGBaseDao.m */,
 			);
-			name = dao;
+			path = dao;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
