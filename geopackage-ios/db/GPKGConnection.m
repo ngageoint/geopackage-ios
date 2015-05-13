@@ -8,6 +8,7 @@
 
 #import "GPKGConnection.h"
 #import <sqlite3.h>
+#import "GPKGSqlLiteQueryBuilder.h"
 
 @interface GPKGConnection()
 
@@ -42,7 +43,7 @@
     sqlite3_close(self.database);
 }
 
--(GPKGResultSet *)query:(NSString *) statement{
+-(GPKGResultSet *) rawQuery:(NSString *) statement{
     
     GPKGResultSet *resultSet = nil;
     
@@ -54,6 +55,41 @@
         resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
     }
     
+    return resultSet;
+}
+
+-(GPKGResultSet *) queryWithTable: (NSString *) table
+                  andColumns: (NSArray *) columns
+                    andWhere: (NSString *) where
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                  andOrderBy: (NSString *) orderBy{
+    return [self queryWithTable:table
+                     andColumns:columns
+                       andWhere:where
+                     andGroupBy:groupBy
+                      andHaving:having
+                     andOrderBy:orderBy
+                       andLimit:nil];
+}
+
+-(GPKGResultSet *) queryWithTable: (NSString *) table
+                          andColumns: (NSArray *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    
+    NSString * query = [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:false
+                                                             andTables:table
+                                                            andColumns:columns
+                                                              andWhere:where
+                                                            andGroupBy:groupBy
+                                                             andHaving:having
+                                                            andOrderBy:orderBy
+                                                              andLimit:limit];
+    GPKGResultSet *resultSet = [self rawQuery:query];
     return resultSet;
 }
 

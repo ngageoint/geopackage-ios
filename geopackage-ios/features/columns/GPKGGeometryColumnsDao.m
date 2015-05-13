@@ -22,7 +22,7 @@
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GC_COLUMN_TABLE_NAME, GC_TABLE_NAME];
     
-    GPKGResultSet *results = [self query:queryString];
+    GPKGResultSet *results = [self rawQuery:queryString];
     NSArray *tables = [self singleColumnResults:results];
     [results close];
     

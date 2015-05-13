@@ -18,7 +18,22 @@
 
 -(instancetype)initWithDatabaseFilename:(NSString *) filename;
 
--(GPKGResultSet *) query:(NSString *) statement;
+-(GPKGResultSet *) rawQuery:(NSString *) statement;
+
+-(GPKGResultSet *) queryWithTable: (NSString *) table
+                       andColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                       andGroupBy: (NSString *) groupBy
+                       andHaving: (NSString *) having
+                       andOrderBy: (NSString *) orderBy;
+
+-(GPKGResultSet *) queryWithTable: (NSString *) table
+                       andColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                       andGroupBy: (NSString *) groupBy
+                       andHaving: (NSString *) having
+                       andOrderBy: (NSString *) orderBy
+                       andLimit: (NSString *) limit;
 
 -(int) count:(NSString *) statement;
 

@@ -10,6 +10,7 @@
 		040136231AF92C9300C92AFC /* libgeopackage-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 040136171AF92C9300C92AFC /* libgeopackage-ios.a */; };
 		040686581B024BA800A1FF7A /* GPKGPreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686571B024BA800A1FF7A /* GPKGPreparedStatement.m */; };
 		0406865B1B024E2500A1FF7A /* GPKGColumnValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406865A1B024E2500A1FF7A /* GPKGColumnValue.m */; };
+		040686611B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686601B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m */; };
 		048C21211AFB99D300EBC38B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C21201AFB99D300EBC38B /* libsqlite3.dylib */; };
 		048C21281AFBA5B300EBC38B /* GPKGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C21271AFBA5B300EBC38B /* GPKGConnection.m */; };
 		0499E61B1AFD22D700431FCF /* GPKGGeoPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E61A1AFD22D700431FCF /* GPKGGeoPackage.m */; };
@@ -51,6 +52,8 @@
 		040686571B024BA800A1FF7A /* GPKGPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGPreparedStatement.m; sourceTree = "<group>"; };
 		040686591B024E2500A1FF7A /* GPKGColumnValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGColumnValue.h; sourceTree = "<group>"; };
 		0406865A1B024E2500A1FF7A /* GPKGColumnValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGColumnValue.m; sourceTree = "<group>"; };
+		0406865F1B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGSqlLiteQueryBuilder.h; sourceTree = "<group>"; };
+		040686601B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGSqlLiteQueryBuilder.m; sourceTree = "<group>"; };
 		048C21201AFB99D300EBC38B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		048C21261AFBA5B300EBC38B /* GPKGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnection.h; sourceTree = "<group>"; };
 		048C21271AFBA5B300EBC38B /* GPKGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnection.m; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 		048C21251AFBA53000EBC38B /* db */ = {
 			isa = PBXGroup;
 			children = (
+				0406865F1B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.h */,
+				040686601B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m */,
 				0499E62B1AFD4CA400431FCF /* dao */,
 				048C21261AFBA5B300EBC38B /* GPKGConnection.h */,
 				048C21271AFBA5B300EBC38B /* GPKGConnection.m */,
@@ -316,6 +321,7 @@
 				0499E6271AFD441C00431FCF /* GPKGGeometryColumns.m in Sources */,
 				04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */,
 				0499E62A1AFD443600431FCF /* GPKGGeometryColumnsDao.m in Sources */,
+				040686611B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m in Sources */,
 				040686581B024BA800A1FF7A /* GPKGPreparedStatement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

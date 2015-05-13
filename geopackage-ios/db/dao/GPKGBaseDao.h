@@ -24,9 +24,13 @@
 
 -(void) dropTable;
 
--(NSObject *) queryForId: (NSObject *) idValue;
+-(GPKGResultSet *) queryForId: (NSObject *) idValue;
 
--(NSObject *) queryForMultiId: (NSArray *) idValues;
+-(NSObject *) queryForIdObject: (NSObject *) idValue;
+
+-(GPKGResultSet *) queryForMultiId: (NSArray *) idValues;
+
+-(NSObject *) queryForMultiIdObject: (NSArray *) idValues;
 
 -(GPKGResultSet *) queryForAll;
 
@@ -34,15 +38,36 @@
 
 -(NSObject *) getFirstObject: (GPKGResultSet *)results;
 
--(GPKGResultSet *) query: (NSString *) query;
+-(GPKGResultSet *) rawQuery: (NSString *) query;
 
 -(NSArray *) singleColumnResults: (GPKGResultSet *) results;
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andValue: (NSObject *) value;
 
--(NSString *) buildSelectAll;
+-(GPKGResultSet *) queryForEqWithField: (NSString *) field
+                              andValue: (NSObject *) value
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy;
 
--(NSString *) buildSelectAllWithWhere: (NSString *) where;
+-(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+-(GPKGResultSet *) queryForFieldValues: (NSDictionary *) fieldValues;
+
+-(GPKGResultSet *) queryForColumnValueFieldValues: (NSDictionary *) fieldValues;
+
+-(GPKGResultSet *) queryForWhere: (NSString *) where;
+
+-(GPKGResultSet *) queryForWhere: (NSString *) where
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy;
+
+-(GPKGResultSet *) queryForWhere: (NSString *) where
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy
+                              andLimit: (NSString *) limit;
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
 
