@@ -14,6 +14,7 @@
     self = [super init];
     if(self != nil){
         self.database = database;
+        self.databaseName = database.name;
     }
     return self;
 }
@@ -45,34 +46,29 @@
 }
 
 -(NSObject *) queryForId: (NSObject *) idValue{
-    NSArray *idValues = @[idValue];
-    NSObject *objectResult = [self queryForMultiId: idValues];
+    
+    NSArray * idColumns = [self getIdColumns];
+    NSString * whereString = [self buildWhereWithField:[idColumns objectAtIndex:0] andValue:idValue];
+    NSString *queryString = [self buildSelectAllWithWhere:whereString];
+    GPKGResultSet *results = [self query:queryString];
+    
+    NSObject * objectResult = [self getFirstObject:results];
+
     return objectResult;
 }
 
 -(NSObject *) queryForMultiId: (NSArray *) idValues{
-    NSString * tableName = [self getTableName];
-    NSMutableString *queryString = [NSMutableString string];
-    [queryString appendFormat:@"select * from %@ where ", tableName];
-
+    
     NSArray * idColumns = [self getIdColumns];
+    NSMutableDictionary *idDictionary = [[NSMutableDictionary alloc] init];
     for(int i = 0; i < [idValues count]; i++){
-        if(i > 0){
-            [queryString appendString:@" and "];
-        }
-        [queryString appendFormat:@"%@ = ", [idColumns objectAtIndex:i]];
-        NSObject *idValue = [idValues objectAtIndex:i];
-        [queryString appendString:[self getSqlValueString:idValue]];
+        [idDictionary setObject:[idValues objectAtIndex:i] forKey:[idColumns objectAtIndex:i]];
     }
-    
+    NSString * whereString = [self buildWhereWithFields:idDictionary];
+    NSString *queryString = [self buildSelectAllWithWhere:whereString];
     GPKGResultSet *results = [self query:queryString];
-
-    NSObject *objectResult = nil;
-    if([results moveToNext]){
-        objectResult = [self getObject: results];
-    }
     
-    [results close];
+    NSObject * objectResult = [self getFirstObject:results];
     
     return objectResult;
 }
@@ -89,6 +85,17 @@
     
     NSArray *result = [results getRow];
     NSObject *objectResult = [self createObjectWithColumns:results.columns andValues:result];
+    
+    return objectResult;
+}
+
+-(NSObject *) getFirstObject: (GPKGResultSet *)results{
+    NSObject *objectResult = nil;
+    if([results moveToNext]){
+        objectResult = [self getObject: results];
+    }
+    
+    [results close];
     
     return objectResult;
 }

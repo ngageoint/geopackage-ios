@@ -11,8 +11,10 @@
 @implementation GPKGGeoPackageManager
 
 -(GPKGGeoPackage *)open:(NSString *) name{
-    GPKGConnection *database = [[GPKGConnection alloc] initWithDatabaseFilename:@"gdal_sample.gpkg"]; // TODO
-    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithName: name andPath:@"TODO" andDatabase: database];
+    NSString *filename = @"gdal_sample.gpkg"; // TODO
+    
+    GPKGConnection *database = [[GPKGConnection alloc] initWithDatabaseFilename:filename];
+    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithConnection:database];
     return geoPackage;
 }
 

@@ -12,10 +12,11 @@
 @interface GPKGConnection : NSObject
 
 
-@property (nonatomic, strong) NSString *databaseFilename;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *filename;
 
 
--(instancetype) initWithDatabaseFilename:(NSString *) dbFilename;
+-(instancetype)initWithDatabaseFilename:(NSString *) filename;
 
 -(GPKGResultSet *) query:(NSString *) statement;
 

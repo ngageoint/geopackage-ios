@@ -13,7 +13,7 @@
 
 @interface GPKGGeoPackage : NSObject
 
--(instancetype) initWithName: (NSString *) name andPath: (NSString *) path andDatabase: (GPKGConnection *) database;
+-(instancetype) initWithConnection: (GPKGConnection *) database;
 
 -(void)close;
 

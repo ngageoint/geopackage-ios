@@ -12,6 +12,8 @@
 
 @interface GPKGBaseDao : NSObject
 
+@property (nonatomic, strong) NSString *databaseName;
+
 @property (nonatomic) GPKGConnection *database;
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
@@ -27,6 +29,8 @@
 -(GPKGResultSet *) queryForAll;
 
 -(NSObject *) getObject: (GPKGResultSet *) results;
+
+-(NSObject *) getFirstObject: (GPKGResultSet *)results;
 
 -(GPKGResultSet *) query: (NSString *) query;
 

@@ -19,12 +19,12 @@
 
 @implementation GPKGGeoPackage
 
--(instancetype) initWithName: (NSString *) name andPath: (NSString *) path andDatabase: (GPKGConnection *) database{
+-(instancetype) initWithConnection: (GPKGConnection *) database{
     self = [super init];
     if(self != nil){
-        self.name = name;
-        self.path = path;
         self.database = database;
+        self.name = database.name;
+        self.path = database.filename;
     }
     return self;
 }

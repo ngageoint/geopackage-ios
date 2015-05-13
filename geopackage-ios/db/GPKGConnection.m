@@ -17,21 +17,22 @@
 
 @implementation GPKGConnection
 
--(instancetype)initWithDatabaseFilename:(NSString *)dbFilename{
+-(instancetype)initWithDatabaseFilename:(NSString *) filename{
     self = [super init];
     if(self){
-        self.databaseFilename = dbFilename;
-    }
-    
-    // Open the database.
-    NSString *databasePath  = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.databaseFilename];
-    sqlite3 *sqlite3Database;
-    BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
-    if(openDatabaseResult != SQLITE_OK){
-        // In the database cannot be opened then show the error message on the debugger.
-        NSLog(@"%s", sqlite3_errmsg(self.database));
-    }else{
-        self.database = sqlite3Database;
+        self.filename = filename;
+        self.name = [[filename lastPathComponent] stringByDeletingPathExtension];
+        
+        // Open the database.
+        NSString *databasePath  = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.filename];
+        sqlite3 *sqlite3Database;
+        BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
+        if(openDatabaseResult != SQLITE_OK){
+            // In the database cannot be opened then show the error message on the debugger.
+            NSLog(@"%s", sqlite3_errmsg(self.database));
+        }else{
+            self.database = sqlite3Database;
+        }
     }
 
     return self;
