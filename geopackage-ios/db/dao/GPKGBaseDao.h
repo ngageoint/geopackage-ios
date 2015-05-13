@@ -22,6 +22,8 @@
 
 -(BOOL) isTableExists;
 
+-(void) dropTable;
+
 -(NSObject *) queryForId: (NSObject *) idValue;
 
 -(NSObject *) queryForMultiId: (NSArray *) idValues;
@@ -41,6 +43,10 @@
 -(NSString *) buildSelectAll;
 
 -(NSString *) buildSelectAllWithWhere: (NSString *) where;
+
+-(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
+
+-(NSString *) buildPkWhereWithValues: (NSArray *) idValues;
 
 -(NSString *) buildWhereWithFields: (NSDictionary *) fields;
 

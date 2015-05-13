@@ -123,4 +123,16 @@
     return rowsModified;
 }
 
+-(void) exec:(NSString *) statement{
+    
+    char * errInfo ;
+    int result = sqlite3_exec(self.database, [statement UTF8String], nil, nil, &errInfo);
+    
+    if (SQLITE_OK != result) {
+        NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %s, Error: %s", statement, err];
+    }
+    
+}
+
 @end

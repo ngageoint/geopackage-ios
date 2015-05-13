@@ -28,6 +28,8 @@
 
 -(int) delete:(NSString *) statement;
 
+-(void) exec:(NSString *) statement;
+
 -(void)close;
 
 @end

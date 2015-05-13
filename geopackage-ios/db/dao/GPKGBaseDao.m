@@ -36,19 +36,19 @@
 
 -(BOOL) isTableExists{
     NSString * tableName = [self getTableName];
-    NSString *queryString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
-    
-    GPKGResultSet *results = [self query:queryString];
-    BOOL found = [results moveToNext];
-    [results close];
-    
+    NSString *countString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", tableName];
+    int count = [self.database count:countString];
+    BOOL found = count > 0;
     return found;
+}
+
+-(void) dropTable{
+    [self.database exec:[NSString stringWithFormat:@"drop table if exists %@", [self getTableName]]];
 }
 
 -(NSObject *) queryForId: (NSObject *) idValue{
     
-    NSArray * idColumns = [self getIdColumns];
-    NSString * whereString = [self buildWhereWithField:[idColumns objectAtIndex:0] andValue:idValue];
+    NSString * whereString = [self buildPkWhereWithValue:idValue];
     NSString *queryString = [self buildSelectAllWithWhere:whereString];
     GPKGResultSet *results = [self query:queryString];
     
@@ -59,12 +59,7 @@
 
 -(NSObject *) queryForMultiId: (NSArray *) idValues{
     
-    NSArray * idColumns = [self getIdColumns];
-    NSMutableDictionary *idDictionary = [[NSMutableDictionary alloc] init];
-    for(int i = 0; i < [idValues count]; i++){
-        [idDictionary setObject:[idValues objectAtIndex:i] forKey:[idColumns objectAtIndex:i]];
-    }
-    NSString * whereString = [self buildWhereWithFields:idDictionary];
+    NSString * whereString = [self buildPkWhereWithValues:idValues];
     NSString *queryString = [self buildSelectAllWithWhere:whereString];
     GPKGResultSet *results = [self query:queryString];
     
@@ -132,6 +127,21 @@
     return queryString;
 }
 
+-(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
+    NSArray * idColumns = [self getIdColumns];
+    NSString * whereString = [self buildWhereWithField:[idColumns objectAtIndex:0] andValue:idValue];
+    return whereString;
+}
+
+-(NSString *) buildPkWhereWithValues: (NSArray *) idValues{
+    NSArray * idColumns = [self getIdColumns];
+    NSMutableDictionary *idDictionary = [[NSMutableDictionary alloc] init];
+    for(int i = 0; i < [idValues count]; i++){
+        [idDictionary setObject:[idValues objectAtIndex:i] forKey:[idColumns objectAtIndex:i]];
+    }
+    NSString * whereString = [self buildWhereWithFields:idDictionary];
+    return whereString;
+}
 
 -(NSString *) buildWhereWithFields: (NSDictionary *) fields{
     NSMutableString *whereString = [NSMutableString string];
