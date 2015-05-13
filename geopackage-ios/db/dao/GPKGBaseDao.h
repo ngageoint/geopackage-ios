@@ -56,18 +56,32 @@
 
 -(GPKGResultSet *) queryForColumnValueFieldValues: (NSDictionary *) fieldValues;
 
--(GPKGResultSet *) queryForWhere: (NSString *) where;
+-(GPKGResultSet *) queryWhere: (NSString *) where;
 
--(GPKGResultSet *) queryForWhere: (NSString *) where
+-(GPKGResultSet *) queryWhere: (NSString *) where
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy;
 
--(GPKGResultSet *) queryForWhere: (NSString *) where
+-(GPKGResultSet *) queryWhere: (NSString *) where
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit;
+
+-(int) update: (NSObject *) object;
+
+-(int) delete: (NSObject *) object;
+
+-(int) deleteById: (NSObject *) idValue;
+
+-(int) deleteByMultiId: (NSArray *) idValues;
+
+-(int) deleteWhere: (NSString *) where;
+
+-(long long) create: (NSObject *) object;
+
+-(long long) insert: (NSObject *) object;
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
 

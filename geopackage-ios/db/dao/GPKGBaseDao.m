@@ -143,23 +143,57 @@
     return results;
 }
 
--(GPKGResultSet *) queryForWhere: (NSString *) where{
+-(GPKGResultSet *) queryWhere: (NSString *) where{
     return [self.database queryWithTable:[self getTableName] andColumns:nil andWhere:where andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
--(GPKGResultSet *) queryForWhere: (NSString *) where
+-(GPKGResultSet *) queryWhere: (NSString *) where
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy{
     return [self.database queryWithTable:[self getTableName] andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
 }
 
--(GPKGResultSet *) queryForWhere: (NSString *) where
+-(GPKGResultSet *) queryWhere: (NSString *) where
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit{
     return [self.database queryWithTable:[self getTableName] andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(int) update: (NSObject *) object{
+    // TODO
+    return -1;
+}
+
+-(int) delete: (NSObject *) object{
+    // TODO
+    return -1;
+}
+
+-(int) deleteById: (NSObject *) idValue{
+    // TODO
+    return -1;
+}
+
+-(int) deleteByMultiId: (NSArray *) idValues{
+    // TODO
+    return -1;
+}
+
+-(int) deleteWhere: (NSString *) where{
+    // TODO
+    return -1;
+}
+
+-(long long) create: (NSObject *) object{
+    return [self insert:object];
+}
+
+-(long long) insert: (NSObject *) object{
+    // TODO
+    return -1;
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
