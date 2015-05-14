@@ -9,6 +9,7 @@
 #import "GPKGConnection.h"
 #import <sqlite3.h>
 #import "GPKGSqlLiteQueryBuilder.h"
+#import "GPKGSqlUtils.h"
 
 @interface GPKGConnection()
 
@@ -40,22 +41,11 @@
 }
 
 -(void)close{
-    sqlite3_close(self.database);
+    [GPKGSqlUtils closeDatabase:self.database];
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement{
-    
-    GPKGResultSet *resultSet = nil;
-    
-    int count = [self count:statement];
-    
-    sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
-    }
-    
-    return resultSet;
+    return [GPKGSqlUtils queryWithDatabase:self.database andStatement:statement];
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
@@ -94,81 +84,27 @@
 }
 
 -(int) count:(NSString *) statement{
-    
-    NSString *countStatement = [statement lowercaseString];
-    
-    if(![countStatement containsString:@" count(*) "]){
-        
-        NSRange range = [countStatement rangeOfString:@" from "];
-        if(range.length == 0){
-            return -1;
-        }
-        NSInteger index = [countStatement rangeOfString:@" from "].location;
-        
-        countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
-    }
-    
-    int count = 0;
-    
-    sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [countStatement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK && sqlite3_step(compiledStatement) == SQLITE_ROW) {
-        count = sqlite3_column_int(compiledStatement, 0);
-    }
-    
-    sqlite3_finalize(compiledStatement);
-    
-    return count;
+    return [GPKGSqlUtils countWithDatabase:self.database andStatement:statement];
+}
+
+-(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
+    return [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where];
 }
 
 -(long long) insert:(NSString *) statement{
-    
-    long long lastInsertRowId = -1;
-    
-    sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        lastInsertRowId = sqlite3_last_insert_rowid(self.database);
-    }
-    
-    sqlite3_finalize(compiledStatement);
-    
-    return lastInsertRowId;
+    return [GPKGSqlUtils insertWithDatabase:self.database andStatement:statement];
 }
 
 -(int) update:(NSString *) statement{
-    return [self updateOrDelete:statement];
+    return [GPKGSqlUtils updateWithDatabase:self.database andStatement:statement];
 }
 
 -(int) delete:(NSString *) statement{
-    return [self updateOrDelete:statement];
-}
-
--(int) updateOrDelete:(NSString *) statement{
-    
-    int rowsModified = -1;
-    
-    sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(self.database, [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        rowsModified = sqlite3_changes(self.database);
-    }
-    
-    sqlite3_finalize(compiledStatement);
-    
-    return rowsModified;
+    return [GPKGSqlUtils deleteWithDatabase:self.database andStatement:statement];
 }
 
 -(void) exec:(NSString *) statement{
-    
-    char * errInfo ;
-    int result = sqlite3_exec(self.database, [statement UTF8String], nil, nil, &errInfo);
-    
-    if (SQLITE_OK != result) {
-        NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
-        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %s, Error: %s", statement, err];
-    }
-    
+    [GPKGSqlUtils execWithDatabase:self.database andStatement:statement];
 }
 
 @end

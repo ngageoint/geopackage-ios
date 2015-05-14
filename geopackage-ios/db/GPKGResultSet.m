@@ -7,6 +7,7 @@
 //
 
 #import "GPKGResultSet.h"
+#import "GPKGSqlUtils.h"
 
 @implementation GPKGResultSet
 
@@ -36,7 +37,7 @@
 }
 
 -(void) close{
-    sqlite3_finalize(self.statement);
+    [GPKGSqlUtils closeStatement:self.statement];
 }
 
 -(NSArray *) getRow{

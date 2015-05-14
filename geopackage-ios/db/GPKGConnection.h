@@ -37,6 +37,8 @@
 
 -(int) count:(NSString *) statement;
 
+-(int) countWithTable: (NSString *) table andWhere: (NSString *) where;
+
 -(long long) insert:(NSString *) statement;
 
 -(int) update:(NSString *) statement;
