@@ -36,6 +36,8 @@
 
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
++(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where;
+
 +(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
 +(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where;
@@ -45,5 +47,7 @@
 +(void) closeResultSet: (GPKGResultSet *) resultSet;
 
 +(void) closeDatabase: (sqlite3 *) database;
+
++(NSString *) getSqlValueString: (NSObject *) value;
 
 @end

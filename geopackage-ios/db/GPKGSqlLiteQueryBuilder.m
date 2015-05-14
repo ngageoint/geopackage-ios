@@ -55,8 +55,6 @@
 
 +(void) appendColumnsToString: (NSArray *) columns toString: (NSMutableString *) string{
     
-    NSUInteger columnCount = [columns count];
-    
     BOOL first = true;
     for(NSString * column in columns){
         

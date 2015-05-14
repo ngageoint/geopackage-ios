@@ -7,6 +7,7 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGSqlUtils.h"
 
 @implementation GPKGBaseDao
 
@@ -31,6 +32,7 @@
 
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 -(void) setValueInObject: (NSObject*) object withColumnName: (NSString *) column withValue: (NSObject *) value{
@@ -177,8 +179,16 @@
 }
 
 -(int) update: (NSObject *) object{
-    // TODO
-    return -1;
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    for(NSString * column in self.columns){
+        if(![self.idColumns containsObject:column]){
+            NSObject * value = [self getValueFromObject:object withColumnName:column];
+            [values setObject:value forKey:column];
+        }
+    }
+    NSString *where = [self buildPkWhereWithValues:[self getIdValues:object]];
+    int count = [self.database updateWithTable:self.tableName andValues:values andWhere:where];
+    return count;
 }
 
 -(int) delete: (NSObject *) object{
@@ -261,7 +271,7 @@
     if(value == nil){
         [whereString appendString:@"is null"];
     }else{
-        [whereString appendFormat:@"%@ %@", operation, [self getSqlValueString:value]];
+        [whereString appendFormat:@"%@ %@", operation, [GPKGSqlUtils getSqlValueString:value]];
     }
     return whereString;
 }
@@ -301,19 +311,6 @@
         [countString appendString:where];
     }
     return [self.database count:countString];
-}
-
--(NSString *) getSqlValueString: (NSObject *) value{
-    NSMutableString *sqlString = [NSMutableString string];
-    BOOL isString = [value isKindOfClass:[NSString class]];
-    if(isString){
-        [sqlString appendString:@"'"];
-    }
-    [sqlString appendFormat: @"%@", value];
-    if(isString){
-        [sqlString appendString:@"'"];
-    }
-    return sqlString;
 }
 
 @end

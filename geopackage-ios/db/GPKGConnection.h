@@ -43,6 +43,8 @@
 
 -(int) update:(NSString *) statement;
 
+-(int) updateWithTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where;
+
 -(int) delete:(NSString *) statement;
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where;

@@ -94,6 +94,10 @@
     return [GPKGSqlUtils updateWithDatabase:self.database andStatement:statement];
 }
 
+-(int) updateWithTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where{
+    return [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where];
+}
+
 -(int) delete:(NSString *) statement{
     return [GPKGSqlUtils deleteWithDatabase:self.database andStatement:statement];
 }

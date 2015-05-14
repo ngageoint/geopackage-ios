@@ -18,7 +18,7 @@
     
     if (SQLITE_OK != result) {
         NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
-        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %@, Error: %s", statement, err];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %@, Error: %@", statement, err];
     }
 }
 
@@ -144,6 +144,37 @@
     return [self updateOrDeleteWithDatabase: database andStatement:statement];
 }
 
++(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where{
+    
+    NSMutableString *updateStatement = [NSMutableString string];
+    [updateStatement appendString:@"update "];
+    [updateStatement appendString:table];
+    [updateStatement appendString:@" set "];
+    
+    BOOL first = true;
+    
+    for(id key in values){
+        if(first){
+            first = false;
+        }else{
+            [updateStatement appendString:@","];
+        }
+        [updateStatement appendString:key];
+        [updateStatement appendString:@"="];
+        [updateStatement appendString:[self getSqlValueString: [values objectForKey:key]]];
+
+    }
+    
+    if(where != nil){
+        [updateStatement appendString:@" where "];
+        [updateStatement appendString:where];
+    }
+    
+    int count = [self updateWithDatabase:database andStatement:updateStatement];
+    
+    return count;
+}
+
 +(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
     return [self updateOrDeleteWithDatabase: database andStatement:statement];
 }
@@ -197,6 +228,19 @@
 
 +(void) closeDatabase: (sqlite3 *) database{
     sqlite3_close(database);
+}
+
++(NSString *) getSqlValueString: (NSObject *) value{
+    NSMutableString *sqlString = [NSMutableString string];
+    BOOL isString = [value isKindOfClass:[NSString class]];
+    if(isString){
+        [sqlString appendString:@"'"];
+    }
+    [sqlString appendFormat: @"%@", value];
+    if(isString){
+        [sqlString appendString:@"'"];
+    }
+    return sqlString;
 }
 
 @end
