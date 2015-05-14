@@ -45,6 +45,8 @@
 
 -(int) delete:(NSString *) statement;
 
+-(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where;
+
 -(void) exec:(NSString *) statement;
 
 -(void)close;

@@ -16,9 +16,15 @@
 
 @property (nonatomic) GPKGConnection *database;
 
--(instancetype) initWithDatabase: (GPKGConnection *) database;
+@property (nonatomic, strong) NSArray *idColumns;
 
--(NSString *) getTableName;
+@property (nonatomic, strong) NSArray *columns;
+
+@property (nonatomic, strong) NSString *tableName;
+
+@property (nonatomic, strong) NSMutableDictionary *columnIndex;
+
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 -(BOOL) isTableExists;
 
@@ -82,6 +88,8 @@
 -(long long) create: (NSObject *) object;
 
 -(long long) insert: (NSObject *) object;
+
+-(NSArray *) getIdValues: (NSObject *) object;
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
 

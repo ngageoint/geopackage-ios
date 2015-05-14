@@ -7,6 +7,7 @@
 //
 
 #import "GPKGSqlUtils.h"
+#import "GPKGSqlLiteQueryBuilder.h"
 
 @implementation GPKGSqlUtils
 
@@ -17,7 +18,7 @@
     
     if (SQLITE_OK != result) {
         NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
-        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %s, Error: %s", statement, err];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %@, Error: %s", statement, err];
     }
 }
 
@@ -28,11 +29,34 @@
     int count = [self countWithDatabase:database andStatement:statement];
     
     sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
     }
     
+    return resultSet;
+}
+
++(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database
+                            andDistinct: (BOOL) distinct
+                            andTable: (NSString *) table
+                            andColumns: (NSArray *) columns
+                            andWhere: (NSString *) where
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    NSString * query = [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:distinct
+                                                             andTables:table
+                                                            andColumns:columns
+                                                              andWhere:where
+                                                            andGroupBy:groupBy
+                                                             andHaving:having
+                                                            andOrderBy:orderBy
+                                                              andLimit:limit];
+    GPKGResultSet *resultSet = [self queryWithDatabase: database andStatement: query];
     return resultSet;
 }
 
@@ -78,9 +102,15 @@
     int count = 0;
     
     sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(database, [countStatement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK && sqlite3_step(compiledStatement) == SQLITE_ROW) {
-        count = sqlite3_column_int(compiledStatement, 0);
+    int prepareStatementResult = sqlite3_prepare_v2(database, [countStatement UTF8String], -1, &compiledStatement, NULL);
+    if(prepareStatementResult == SQLITE_OK) {
+        if(sqlite3_step(compiledStatement) == SQLITE_ROW){
+            count = sqlite3_column_int(compiledStatement, 0);
+        } else{
+            [NSException raise:@"SQL Failed" format:@"Failed to get count: %@, Error: %s", countStatement, sqlite3_errmsg(database)];
+        }
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to execute count SQL: %@, Error: %s", countStatement, sqlite3_errmsg(database)];
     }
     
     [self closeStatement:compiledStatement];
@@ -93,9 +123,16 @@
     long long lastInsertRowId = -1;
     
     sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
-        lastInsertRowId = sqlite3_last_insert_rowid(database);
+        int executeQueryResults = sqlite3_step(compiledStatement);
+        if (executeQueryResults == SQLITE_DONE) {
+            lastInsertRowId = sqlite3_last_insert_rowid(database);
+        }else{
+            [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+        }
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
     }
     
     [self closeStatement:compiledStatement];
@@ -111,14 +148,38 @@
     return [self updateOrDeleteWithDatabase: database andStatement:statement];
 }
 
++(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where{
+    
+    NSMutableString *deleteStatement = [NSMutableString string];
+    
+    [deleteStatement appendString:@"delete from "];
+    [deleteStatement appendString:table];
+    
+    if(where != nil){
+        [deleteStatement appendString:@" where "];
+        [deleteStatement appendString:where];
+    }
+    
+    int count = [self deleteWithDatabase:database andStatement:deleteStatement];
+    
+    return count;
+}
+
 +(int) updateOrDeleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
     
     int rowsModified = -1;
     
     sqlite3_stmt *compiledStatement;
-    BOOL prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
-        rowsModified = sqlite3_changes(database);
+        int executeQueryResults = sqlite3_step(compiledStatement);
+        if (executeQueryResults == SQLITE_DONE) {
+            rowsModified = sqlite3_changes(database);
+        }else{
+            [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+        }
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
     }
     
     [self closeStatement:compiledStatement];

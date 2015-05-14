@@ -13,9 +13,84 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        
+        self.tableName = GC_TABLE_NAME;
+        self.idColumns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME];
+        self.columns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME, GC_COLUMN_GEOMETRY_TYPE_NAME, GC_COLUMN_SRS_ID, GC_COLUMN_Z, GC_COLUMN_M];
+        [self.columnIndex setObject:[NSNumber numberWithInt:1] forKey:GC_COLUMN_TABLE_NAME];
+        [self.columnIndex setObject:[NSNumber numberWithInt:2] forKey:GC_COLUMN_COLUMN_NAME];
+        [self.columnIndex setObject:[NSNumber numberWithInt:3] forKey:GC_COLUMN_GEOMETRY_TYPE_NAME];
+        [self.columnIndex setObject:[NSNumber numberWithInt:4] forKey:GC_COLUMN_SRS_ID];
+        [self.columnIndex setObject:[NSNumber numberWithInt:5] forKey:GC_COLUMN_Z];
+        [self.columnIndex setObject:[NSNumber numberWithInt:6] forKey:GC_COLUMN_M];
     }
     return self;
+}
+
+-(NSObject *) createObject{
+    return [[GPKGGeometryColumns alloc] init];
+}
+
+-(void) setValueInObject: (NSObject*) object withColumnIndex: (int) columnIndex withValue: (NSObject *) value{
+    
+    GPKGGeometryColumns *setObject = (GPKGGeometryColumns*) object;
+    
+    switch(columnIndex){
+        case 1:
+            setObject.tableName = (NSString *) value;
+            break;
+        case 2:
+            setObject.columnName = (NSString *) value;
+            break;
+        case 3:
+            setObject.geometryTypeName = (NSString *) value;
+            break;
+        case 4:
+            setObject.srsId = (NSNumber *) value;
+            break;
+        case 5:
+            setObject.z = (NSNumber *) value;
+            break;
+        case 6:
+            setObject.m = (NSNumber *) value;
+            break;
+        default:
+            [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
+            break;
+    }
+    
+}
+
+-(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+    
+    NSObject * value = nil;
+    
+    GPKGGeometryColumns *getObject = (GPKGGeometryColumns*) object;
+    
+    switch(columnIndex){
+        case 1:
+            value = getObject.tableName;
+            break;
+        case 2:
+            value = getObject.columnName;
+            break;
+        case 3:
+            value = getObject.geometryTypeName;
+            break;
+        case 4:
+            value = getObject.srsId;
+            break;
+        case 5:
+            value = getObject.z;
+            break;
+        case 6:
+            value = getObject.m;
+            break;
+        default:
+            [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
+            break;
+    }
+    
+    return value;
 }
 
 -(NSArray *)getFeatureTables{
@@ -27,26 +102,6 @@
     [results close];
     
     return tables;
-}
-
--(NSString *) getTableName{
-    return GC_TABLE_NAME;
-}
-
--(NSArray *) getIdColumns{
-    NSArray *idColumns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME];
-    return idColumns;
-}
-
--(NSObject *) createObjectWithColumns: (NSArray *)columns andValues: (NSArray *) values{
-    GPKGGeometryColumns *objectResult = [[GPKGGeometryColumns alloc] init];
-    objectResult.tableName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_TABLE_NAME]];
-    objectResult.columnName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_COLUMN_NAME]];
-    objectResult.geometryTypeName = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_GEOMETRY_TYPE_NAME]];
-    objectResult.srsId = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_SRS_ID]];
-    objectResult.z = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_Z]];
-    objectResult.m = [values objectAtIndex:[columns indexOfObject:GC_COLUMN_M]];
-    return objectResult;
 }
 
 @end

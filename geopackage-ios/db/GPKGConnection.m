@@ -8,7 +8,6 @@
 
 #import "GPKGConnection.h"
 #import <sqlite3.h>
-#import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGSqlUtils.h"
 
 @interface GPKGConnection()
@@ -28,10 +27,9 @@
         // Open the database.
         NSString *databasePath  = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.filename];
         sqlite3 *sqlite3Database;
-        BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
+        int openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
         if(openDatabaseResult != SQLITE_OK){
-            // In the database cannot be opened then show the error message on the debugger.
-            NSLog(@"%s", sqlite3_errmsg(self.database));
+            [NSException raise:@"Open Database Failure" format:@"Failed to open database: %@, Error: %s", databasePath, sqlite3_errmsg(sqlite3Database)];
         }else{
             self.database = sqlite3Database;
         }
@@ -56,11 +54,11 @@
                   andOrderBy: (NSString *) orderBy{
     return [self queryWithTable:table
                      andColumns:columns
-                       andWhere:where
+                     andWhere:where
                      andGroupBy:groupBy
-                      andHaving:having
+                     andHaving:having
                      andOrderBy:orderBy
-                       andLimit:nil];
+                     andLimit:nil];
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
@@ -70,17 +68,14 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    
-    NSString * query = [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:false
-                                                             andTables:table
-                                                            andColumns:columns
-                                                              andWhere:where
-                                                            andGroupBy:groupBy
-                                                             andHaving:having
-                                                            andOrderBy:orderBy
-                                                              andLimit:limit];
-    GPKGResultSet *resultSet = [self rawQuery:query];
-    return resultSet;
+    return [GPKGSqlUtils queryWithDatabase:self.database
+                               andDistinct:false andTable:table
+                               andColumns:columns
+                               andWhere:where
+                               andGroupBy:groupBy
+                               andHaving:having
+                               andOrderBy:orderBy
+                               andLimit:limit];
 }
 
 -(int) count:(NSString *) statement{
@@ -101,6 +96,10 @@
 
 -(int) delete:(NSString *) statement{
     return [GPKGSqlUtils deleteWithDatabase:self.database andStatement:statement];
+}
+
+-(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where{
+    return [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where];
 }
 
 -(void) exec:(NSString *) statement{

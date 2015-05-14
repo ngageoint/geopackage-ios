@@ -16,6 +16,16 @@
 
 +(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
++(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database
+                            andDistinct: (BOOL) distinct
+                            andTable: (NSString *) table
+                            andColumns: (NSArray *) columns
+                            andWhere: (NSString *) where
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
 +(int) countWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
 +(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where;
@@ -27,6 +37,8 @@
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
 +(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
+
++(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where;
 
 +(void) closeStatement: (sqlite3_stmt *) statment;
 

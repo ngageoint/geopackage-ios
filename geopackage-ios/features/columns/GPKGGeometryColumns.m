@@ -18,8 +18,4 @@ NSString * const GC_COLUMN_M = @"m";
 
 @implementation GPKGGeometryColumns
 
--(NSArray *) getColumns{
-    return @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME, GC_COLUMN_GEOMETRY_TYPE_NAME, GC_COLUMN_SRS_ID, GC_COLUMN_Z, GC_COLUMN_M];
-}
-
 @end
