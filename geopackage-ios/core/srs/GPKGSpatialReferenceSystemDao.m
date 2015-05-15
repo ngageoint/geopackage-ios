@@ -32,22 +32,22 @@
     GPKGSpatialReferenceSystem *setObject = (GPKGSpatialReferenceSystem*) object;
     
     switch(columnIndex){
-        case 1:
+        case 0:
             setObject.srsName = (NSString *) value;
             break;
-        case 2:
+        case 1:
             setObject.srsId = (NSNumber *) value;
             break;
-        case 3:
+        case 2:
             setObject.organization = (NSString *) value;
             break;
-        case 4:
+        case 3:
             setObject.organizationCoordsysId = (NSNumber *) value;
             break;
-        case 5:
+        case 4:
             setObject.definition = (NSString *) value;
             break;
-        case 6:
+        case 5:
             setObject.srsDescription = (NSString *) value;
             break;
         default:
@@ -64,22 +64,22 @@
     GPKGSpatialReferenceSystem *getObject = (GPKGSpatialReferenceSystem*) object;
     
     switch(columnIndex){
-        case 1:
+        case 0:
             value = getObject.srsName;
             break;
-        case 2:
+        case 1:
             value = getObject.srsId;
             break;
-        case 3:
+        case 2:
             value = getObject.organization;
             break;
-        case 4:
+        case 3:
             value = getObject.organizationCoordsysId;
             break;
-        case 5:
+        case 4:
             value = getObject.definition;
             break;
-        case 6:
+        case 5:
             value = getObject.srsDescription;
             break;
         default:
