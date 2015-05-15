@@ -140,6 +140,40 @@
     return lastInsertRowId;
 }
 
++(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values{
+    
+    NSMutableString *insertStatement = [NSMutableString string];
+    [insertStatement appendString:@"insert into "];
+    [insertStatement appendString:table];
+    [insertStatement appendString:@"("];
+    
+    BOOL first = true;
+    
+    for(id key in values){
+        if(first){
+            first = false;
+        }else{
+            [insertStatement appendString:@","];
+        }
+        [insertStatement appendString:key];
+    }
+    [insertStatement appendString:@") values ("];
+    first = true;
+    for(id key in values){
+        if(first){
+            first = false;
+        }else{
+            [insertStatement appendString:@","];
+        }
+        [insertStatement appendString:[self getSqlValueString: [values objectForKey:key]]];
+    }
+    [insertStatement appendString:@")"];
+    
+    long long id = [self insertWithDatabase:database andStatement:insertStatement];
+    
+    return id;
+}
+
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
     return [self updateOrDeleteWithDatabase: database andStatement:statement];
 }

@@ -34,6 +34,8 @@
 
 +(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
++(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values;
+
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
 +(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where;

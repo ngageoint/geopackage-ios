@@ -212,8 +212,15 @@
 }
 
 -(long long) insert: (NSObject *) object{
-    // TODO
-    return -1;
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    for(NSString * column in self.columns){
+        NSObject * value = [self getValueFromObject:object withColumnName:column];
+        if(value != nil){
+            [values setObject:value forKey:column];
+        }
+    }
+    long long id = [self.database insertWithTable:self.tableName andValues:values];
+    return id;
 }
 
 -(NSArray *) getIdValues: (NSObject *) object{
