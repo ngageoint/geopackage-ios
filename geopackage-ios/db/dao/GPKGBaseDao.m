@@ -16,7 +16,6 @@
     if(self != nil){
         self.database = database;
         self.databaseName = database.name;
-        self.columnIndex = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -43,6 +42,14 @@
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnName: (NSString *) column{
     int columnIndex = ((NSNumber*) [self.columnIndex valueForKey:column]).intValue;
     return [self getValueFromObject:object withColumnIndex:columnIndex];
+}
+
+-(void) initializeColumnIndex{
+    self.columnIndex = [[NSMutableDictionary alloc] init];
+    NSInteger count = [self.columns count];
+    for(int i = 0; i < count; i++){
+        [self.columnIndex setObject:[NSNumber numberWithInt:i] forKey:[self.columns objectAtIndex:i]];
+    }
 }
 
 -(BOOL) isTableExists{

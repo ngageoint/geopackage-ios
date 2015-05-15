@@ -16,12 +16,7 @@
         self.tableName = GC_TABLE_NAME;
         self.idColumns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME];
         self.columns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME, GC_COLUMN_GEOMETRY_TYPE_NAME, GC_COLUMN_SRS_ID, GC_COLUMN_Z, GC_COLUMN_M];
-        [self.columnIndex setObject:[NSNumber numberWithInt:1] forKey:GC_COLUMN_TABLE_NAME];
-        [self.columnIndex setObject:[NSNumber numberWithInt:2] forKey:GC_COLUMN_COLUMN_NAME];
-        [self.columnIndex setObject:[NSNumber numberWithInt:3] forKey:GC_COLUMN_GEOMETRY_TYPE_NAME];
-        [self.columnIndex setObject:[NSNumber numberWithInt:4] forKey:GC_COLUMN_SRS_ID];
-        [self.columnIndex setObject:[NSNumber numberWithInt:5] forKey:GC_COLUMN_Z];
-        [self.columnIndex setObject:[NSNumber numberWithInt:6] forKey:GC_COLUMN_M];
+        [self initializeColumnIndex];
     }
     return self;
 }
@@ -35,22 +30,22 @@
     GPKGGeometryColumns *setObject = (GPKGGeometryColumns*) object;
     
     switch(columnIndex){
-        case 1:
+        case 0:
             setObject.tableName = (NSString *) value;
             break;
-        case 2:
+        case 1:
             setObject.columnName = (NSString *) value;
             break;
-        case 3:
+        case 2:
             setObject.geometryTypeName = (NSString *) value;
             break;
-        case 4:
+        case 3:
             setObject.srsId = (NSNumber *) value;
             break;
-        case 5:
+        case 4:
             setObject.z = (NSNumber *) value;
             break;
-        case 6:
+        case 5:
             setObject.m = (NSNumber *) value;
             break;
         default:
@@ -67,22 +62,22 @@
     GPKGGeometryColumns *getObject = (GPKGGeometryColumns*) object;
     
     switch(columnIndex){
-        case 1:
+        case 0:
             value = getObject.tableName;
             break;
-        case 2:
+        case 1:
             value = getObject.columnName;
             break;
-        case 3:
+        case 2:
             value = getObject.geometryTypeName;
             break;
-        case 4:
+        case 3:
             value = getObject.srsId;
             break;
-        case 5:
+        case 4:
             value = getObject.z;
             break;
-        case 6:
+        case 5:
             value = getObject.m;
             break;
         default:
@@ -93,7 +88,20 @@
     return value;
 }
 
--(NSArray *)getFeatureTables{
+-(GPKGGeometryColumns *) queryForTableName: (NSString *) tableName{
+    
+    GPKGGeometryColumns *geometryColumns = nil;
+    
+    GPKGResultSet * result = [self queryForEqWithField:GC_COLUMN_TABLE_NAME andValue:tableName];
+    if([result moveToNext]){
+        geometryColumns = (GPKGGeometryColumns *) [self getObject:result];
+    }
+    [result close];
+    
+    return geometryColumns;
+}
+
+-(NSArray *) getFeatureTables{
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GC_COLUMN_TABLE_NAME, GC_TABLE_NAME];
     

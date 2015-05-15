@@ -26,6 +26,8 @@
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
+-(void) initializeColumnIndex;
+
 -(BOOL) isTableExists;
 
 -(void) dropTable;
