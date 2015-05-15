@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		040136231AF92C9300C92AFC /* libgeopackage-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 040136171AF92C9300C92AFC /* libgeopackage-ios.a */; };
-		040686581B024BA800A1FF7A /* GPKGPreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686571B024BA800A1FF7A /* GPKGPreparedStatement.m */; };
 		0406865B1B024E2500A1FF7A /* GPKGColumnValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406865A1B024E2500A1FF7A /* GPKGColumnValue.m */; };
 		040686611B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686601B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m */; };
 		040686641B04C75200A1FF7A /* GPKGSqlUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686631B04C75200A1FF7A /* GPKGSqlUtils.m */; };
@@ -52,8 +51,6 @@
 		040136171AF92C9300C92AFC /* libgeopackage-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libgeopackage-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		040136221AF92C9300C92AFC /* geopackage-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "geopackage-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		040136281AF92C9300C92AFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		040686561B024BA800A1FF7A /* GPKGPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGPreparedStatement.h; sourceTree = "<group>"; };
-		040686571B024BA800A1FF7A /* GPKGPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGPreparedStatement.m; sourceTree = "<group>"; };
 		040686591B024E2500A1FF7A /* GPKGColumnValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGColumnValue.h; sourceTree = "<group>"; };
 		0406865A1B024E2500A1FF7A /* GPKGColumnValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGColumnValue.m; sourceTree = "<group>"; };
 		0406865F1B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGSqlLiteQueryBuilder.h; sourceTree = "<group>"; };
@@ -244,8 +241,6 @@
 			children = (
 				0499E62C1AFD4CC100431FCF /* GPKGBaseDao.h */,
 				0499E62D1AFD4CC100431FCF /* GPKGBaseDao.m */,
-				040686561B024BA800A1FF7A /* GPKGPreparedStatement.h */,
-				040686571B024BA800A1FF7A /* GPKGPreparedStatement.m */,
 				040686591B024E2500A1FF7A /* GPKGColumnValue.h */,
 				0406865A1B024E2500A1FF7A /* GPKGColumnValue.m */,
 			);
@@ -352,7 +347,6 @@
 				04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */,
 				0499E62A1AFD443600431FCF /* GPKGGeometryColumnsDao.m in Sources */,
 				040686611B03BE4F00A1FF7A /* GPKGSqlLiteQueryBuilder.m in Sources */,
-				040686581B024BA800A1FF7A /* GPKGPreparedStatement.m in Sources */,
 				040686641B04C75200A1FF7A /* GPKGSqlUtils.m in Sources */,
 				0406866D1B06566E00A1FF7A /* GPKGSpatialReferenceSystem.m in Sources */,
 			);

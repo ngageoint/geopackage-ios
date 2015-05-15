@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
             endingLineNumber = "21"
-            landmarkName = "-initWithName:andPath:andDatabase:"
+            landmarkName = "-initWithConnection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
