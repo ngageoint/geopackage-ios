@@ -39,6 +39,6 @@
 
 -(GPKGResultSet *) getGeometryColumns: (GPKGSpatialReferenceSystem *) srs;
 
-//-(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs;
+-(GPKGResultSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs;
 
 @end

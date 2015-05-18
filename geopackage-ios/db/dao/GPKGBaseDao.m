@@ -190,7 +190,7 @@
     
     NSObject * sameIdObject = nil;
     if(object != nil){
-        NSArray * idValues = [self getIdValues:object];
+        NSArray * idValues = [self getMultiId:object];
         sameIdObject = [self queryForMultiIdObject:idValues];
     }
     return sameIdObject;
@@ -206,13 +206,13 @@
             [values setObject:value forKey:column];
         }
     }
-    NSString *where = [self buildPkWhereWithValues:[self getIdValues:object]];
+    NSString *where = [self buildPkWhereWithValues:[self getMultiId:object]];
     int count = [self.database updateWithTable:self.tableName andValues:values andWhere:where];
     return count;
 }
 
 -(int) delete: (NSObject *) object{
-    return [self deleteByMultiId:[self getIdValues:object]];
+    return [self deleteByMultiId:[self getMultiId:object]];
 }
 
 -(int) deleteById: (NSObject *) idValue{
@@ -258,13 +258,27 @@
     return id;
 }
 
--(NSArray *) getIdValues: (NSObject *) object{
+-(NSObject *) getId: (NSObject *) object{
+    return [self getValueFromObject:object withColumnName:[self.idColumns objectAtIndex:0]];
+}
+
+-(NSArray *) getMultiId: (NSObject *) object{
     NSMutableArray *idValues = [[NSMutableArray alloc] init];
     for(NSString *idColumn in self.idColumns){
         NSObject* idValue = [self getValueFromObject:object withColumnName:idColumn];
         [idValues addObject:idValue];
     }
     return idValues;
+}
+
+-(void) setId: (NSObject *) object withIdValue: (NSObject *) id{
+    [self setValueInObject:object withColumnName:[self.idColumns objectAtIndex:0] withValue:id];
+}
+
+-(void) setMultiId: (NSObject *) object withIdValues: (NSArray *) idValues{
+    for(int i = 0; i < [idValues count]; i++){
+        [self setValueInObject:object withColumnName:[self.idColumns objectAtIndex:i] withValue:[idValues objectAtIndex:i]];
+    }
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{

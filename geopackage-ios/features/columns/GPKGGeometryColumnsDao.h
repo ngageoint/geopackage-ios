@@ -10,6 +10,8 @@
 #import "GPKGConnection.h"
 #import "GPKGBaseDao.h"
 #import "GPKGGeometryColumns.h"
+#import "GPKGSpatialReferenceSystem.h"
+#import "GPKGContents.h"
 
 @interface GPKGGeometryColumnsDao : GPKGBaseDao
 
@@ -18,5 +20,9 @@
 -(GPKGGeometryColumns *) queryForTableName: (NSString *) tableName;
 
 -(NSArray *) getFeatureTables;
+
+-(GPKGSpatialReferenceSystem *) getSrs: (GPKGGeometryColumns *) geometryColumns;
+
+-(GPKGContents *) getContents: (GPKGGeometryColumns *) geometryColumns;
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGContents.h"
+#import "GPKGSpatialReferenceSystem.h"
 
 extern NSString * const GC_TABLE_NAME;
 extern NSString * const GC_COLUMN_TABLE_NAME;
@@ -24,5 +26,17 @@ extern NSString * const GC_COLUMN_M;
 @property (nonatomic, strong) NSNumber *srsId;
 @property (nonatomic, strong) NSNumber *z;
 @property (nonatomic, strong) NSNumber *m;
+
+// TODO
+//-(enum WKBGeometryType) getGeometryType;
+//-(void) setGeometryType: (enum WKBGeometryType) geometryType;
+
+-(void) setZ:(NSNumber *)z;
+
+-(void) setM:(NSNumber *)m;
+
+-(void) setContents: (GPKGContents *) contents;
+
+-(void) setSrs: (GPKGSpatialReferenceSystem *) srs;
 
 @end

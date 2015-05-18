@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGSpatialReferenceSystem.h"
+#import "GPKGBoundingBox.h"
 
 extern NSString * const CON_TABLE_NAME;
+extern NSString * const CON_COLUMN_PK;
 extern NSString * const CON_COLUMN_TABLE_NAME;
 extern NSString * const CON_COLUMN_DATA_TYPE;
 extern NSString * const CON_COLUMN_IDENTIFIER;
@@ -38,5 +41,11 @@ enum GPKGContentsDataType{FEATURES,TILES};
 -(enum GPKGContentsDataType) getContentsDataType;
 
 -(void) setContentsDataType: (enum GPKGContentsDataType) dataType;
+
+-(void) setSrs: (GPKGSpatialReferenceSystem *) srs;
+
+-(GPKGBoundingBox *) getBoundingBox;
+
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 @end

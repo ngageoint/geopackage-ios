@@ -8,6 +8,7 @@
 
 #import "GPKGContentsDao.h"
 #import "GPKGGeometryColumnsDao.h"
+#import "GPKGSpatialReferenceSystemDao.h"
 
 @implementation GPKGContentsDao
 
@@ -254,6 +255,12 @@
     return count;
 }
 
+-(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents{
+    GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForId:contents.srsId];
+    return srs;
+}
+
 -(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents{
     GPKGGeometryColumns * geometryColumns = nil;
     GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
@@ -287,6 +294,10 @@
     return results;
 }
  */
+
+-(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
+    return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+}
 
 -(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];

@@ -9,6 +9,7 @@
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGGeometryColumnsDao.h"
+#import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
 
 @implementation GPKGSpatialReferenceSystemDao
@@ -238,10 +239,12 @@
     return results;
 }
 
-//TODO
-//-(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs{
-//
-//}
+
+-(GPKGResultSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs{
+    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+    GPKGResultSet * results = [dao queryForEqWithField:TMS_COLUMN_SRS_ID andValue:srs.srsId];
+    return results;
+}
 
 -(GPKGContentsDao *) getContentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
@@ -251,9 +254,9 @@
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
-//TODO
-//-(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
-//    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
-//}
+
+-(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
+}
 
 @end

@@ -9,6 +9,7 @@
 #import "GPKGContents.h"
 
 NSString * const CON_TABLE_NAME = @"gpkg_contents";
+NSString * const CON_COLUMN_PK = @"table_name";
 NSString * const CON_COLUMN_TABLE_NAME = @"table_name";
 NSString * const CON_COLUMN_DATA_TYPE = @"data_type";
 NSString * const CON_COLUMN_IDENTIFIER = @"identifier";
@@ -48,6 +49,25 @@ NSString * const CON_COLUMN_SRS_ID = @"srs_id";
             self.dataType = @"tiles";
             break;
     }
+}
+
+-(void) setSrs: (GPKGSpatialReferenceSystem *) srs{
+    if(srs != nil){
+        self.srsId = srs.srsId;
+    }else{
+        self.srsId = nil;
+    }
+}
+
+-(GPKGBoundingBox *) getBoundingBox{
+    return[[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMaxLongitude:self.maxX andMinLatitude:self.minY andMaxLatitude:self.maxY];
+}
+
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox{
+    self.minX = boundingBox.minLongitude;
+    self.maxX = boundingBox.maxLongitude;
+    self.minY = boundingBox.minLatitude;
+    self.maxY = boundingBox.maxLatitude;
 }
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "GPKGGeometryColumnsDao.h"
+#import "GPKGSpatialReferenceSystemDao.h"
+#import "GPKGContentsDao.h"
 
 @implementation GPKGGeometryColumnsDao
 
@@ -110,6 +112,26 @@
     [results close];
     
     return tables;
+}
+
+-(GPKGSpatialReferenceSystem *) getSrs: (GPKGGeometryColumns *) geometryColumns{
+    GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForId:geometryColumns.srsId];
+    return srs;
+}
+
+-(GPKGContents *) getContents: (GPKGGeometryColumns *) geometryColumns{
+    GPKGContentsDao * dao = [self getContentsDao];
+    GPKGContents *contents = (GPKGContents *)[dao queryForId:geometryColumns.tableName];
+    return contents;
+}
+
+-(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
+    return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+}
+
+-(GPKGContentsDao *) getContentsDao{
+    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 
 @end

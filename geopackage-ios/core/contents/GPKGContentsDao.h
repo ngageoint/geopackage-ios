@@ -8,7 +8,7 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGContents.h"
-#import "GPKGContents.h"
+#import "GPKGSpatialReferenceSystem.h"
 #import "GPKGGeometryColumns.h"
 
 @interface GPKGContentsDao : GPKGBaseDao
@@ -34,6 +34,8 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection;
 
 -(int) deleteIdsCascade: (NSArray *) idCollection andUserTable: (BOOL) userTable;
+
+-(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents;
 
 -(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents;
 

@@ -95,7 +95,13 @@
 
 -(long long) createIfNotExists: (NSObject *) object;
 
--(NSArray *) getIdValues: (NSObject *) object;
+-(NSObject *) getId: (NSObject *) object;
+
+-(NSArray *) getMultiId: (NSObject *) object;
+
+-(void) setId: (NSObject *) object withIdValue: (NSObject *) id;
+
+-(void) setMultiId: (NSObject *) object withIdValues: (NSArray *) idValues;
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
 
