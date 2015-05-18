@@ -9,6 +9,7 @@
 #import "GPKGConnection.h"
 #import <sqlite3.h>
 #import "GPKGSqlUtils.h"
+#import "GPKGGeoPackageConstants.h"
 
 @interface GPKGConnection()
 
@@ -112,6 +113,22 @@
 
 -(void) exec:(NSString *) statement{
     [GPKGSqlUtils execWithDatabase:self.database andStatement:statement];
+}
+
+-(BOOL) tableExists: (NSString *) table{
+    int count = [self countWithTable:@"sqlite_master" andWhere:[NSString stringWithFormat:@"type ='table' and name = '%@'", table]];
+    BOOL found = count > 0;
+    return found;
+}
+
+-(void) setApplicationId{
+    NSData *bytes = [GPKG_APPLICATION_ID dataUsingEncoding:NSUTF8StringEncoding];
+    int applicationId = CFSwapInt32BigToHost(*(int*)([bytes bytes]));
+    [self exec:[NSString stringWithFormat:@"PRAGMA application_id = %d", applicationId]];
+}
+
+-(void) dropTable: (NSString *) table{
+    [self exec:[NSString stringWithFormat:@"drop table if exists %@", table]];
 }
 
 @end

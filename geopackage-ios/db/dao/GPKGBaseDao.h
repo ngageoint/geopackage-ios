@@ -28,7 +28,7 @@
 
 -(void) initializeColumnIndex;
 
--(BOOL) isTableExists;
+-(BOOL) tableExists;
 
 -(void) dropTable;
 
@@ -77,6 +77,8 @@
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit;
 
+-(NSObject *) queryForSameId: (NSObject *) object;
+
 -(int) update: (NSObject *) object;
 
 -(int) delete: (NSObject *) object;
@@ -90,6 +92,8 @@
 -(long long) create: (NSObject *) object;
 
 -(long long) insert: (NSObject *) object;
+
+-(long long) createIfNotExists: (NSObject *) object;
 
 -(NSArray *) getIdValues: (NSObject *) object;
 

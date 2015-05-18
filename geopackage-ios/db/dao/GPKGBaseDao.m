@@ -34,6 +34,10 @@
     return nil;
 }
 
+-(void) validateObject: (NSObject*) object{
+    
+}
+
 -(void) setValueInObject: (NSObject*) object withColumnName: (NSString *) column withValue: (NSObject *) value{
     int columnIndex = ((NSNumber*) [self.columnIndex valueForKey:column]).intValue;
     [self setValueInObject:object withColumnIndex:columnIndex withValue:value];
@@ -52,15 +56,12 @@
     }
 }
 
--(BOOL) isTableExists{
-    NSString *countString = [NSString stringWithFormat:@"select count(*) from sqlite_master where type ='table' and name = '%@'", self.tableName];
-    int count = [self.database count:countString];
-    BOOL found = count > 0;
-    return found;
+-(BOOL) tableExists{
+    return [self.database tableExists:self.tableName];
 }
 
 -(void) dropTable{
-    [self.database exec:[NSString stringWithFormat:@"drop table if exists %@", self.tableName]];
+    [self.database dropTable:self.tableName];
 }
 
 -(GPKGResultSet *) queryForId: (NSObject *) idValue{
@@ -185,7 +186,19 @@
     return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
+-(NSObject *) queryForSameId: (NSObject *) object{
+    
+    NSObject * sameIdObject = nil;
+    if(object != nil){
+        NSArray * idValues = [self getIdValues:object];
+        sameIdObject = [self queryForMultiIdObject:idValues];
+    }
+    return sameIdObject;
+}
+
 -(int) update: (NSObject *) object{
+    [self validateObject:object];
+    
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     for(NSString * column in self.columns){
         if(![self.idColumns containsObject:column]){
@@ -219,6 +232,8 @@
 }
 
 -(long long) insert: (NSObject *) object{
+    [self validateObject:object];
+    
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     for(NSString * column in self.columns){
         NSObject * value = [self getValueFromObject:object withColumnName:column];
@@ -227,6 +242,19 @@
         }
     }
     long long id = [self.database insertWithTable:self.tableName andValues:values];
+    return id;
+}
+
+-(long long) createIfNotExists: (NSObject *) object{
+    
+    NSObject * existingObject = [self queryForSameId:object];
+    
+    long long id = -1;
+    
+    if(existingObject == nil){
+        id = [self create:object];
+    }
+    
     return id;
 }
 

@@ -9,6 +9,7 @@
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGGeometryColumnsDao.h"
+#import "GPKGContentsDao.h"
 
 @implementation GPKGSpatialReferenceSystemDao
 
@@ -162,7 +163,7 @@
         
         // Delete Geometry Columns
         GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
-        if([geometryColumnsDao isTableExists]){
+        if([geometryColumnsDao tableExists]){
             GPKGResultSet * geometryColumns = [self getGeometryColumns:srs];
             while([geometryColumns moveToNext]){
                 GPKGGeometryColumns * geometryColumn = (GPKGGeometryColumns *) [geometryColumnsDao getObject:geometryColumns];
@@ -225,10 +226,11 @@
     return count;
 }
 
-//TODO
-//-(GPKGContents *) getContents: (GPKGSpatialReferenceSystem *) srs{
-//
-//}
+-(GPKGResultSet *) getContents: (GPKGSpatialReferenceSystem *) srs{
+    GPKGContentsDao * dao = [self getContentsDao];
+    GPKGResultSet * results = [dao queryForEqWithField:CON_COLUMN_SRS_ID andValue:srs.srsId];
+    return results;
+}
 
 -(GPKGResultSet *) getGeometryColumns: (GPKGSpatialReferenceSystem *) srs{
     GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
@@ -241,10 +243,9 @@
 //
 //}
 
-//TODO
-//-(GPKGContentsDao *) getContentsDao{
-//    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
-//}
+-(GPKGContentsDao *) getContentsDao{
+    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
+}
 
 -(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];

@@ -53,6 +53,12 @@
 
 -(void) exec:(NSString *) statement;
 
+-(BOOL) tableExists: (NSString *) table;
+
+-(void) setApplicationId;
+
+-(void) dropTable: (NSString *) table;
+
 -(void)close;
 
 @end

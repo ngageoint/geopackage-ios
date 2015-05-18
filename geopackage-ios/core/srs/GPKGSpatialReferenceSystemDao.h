@@ -35,7 +35,7 @@
 
 -(int) deleteIdsCascade: (NSArray *) idCollection;
 
-//-(GPKGContents *) getContents: (GPKGSpatialReferenceSystem *) srs;
+-(GPKGResultSet *) getContents: (GPKGSpatialReferenceSystem *) srs;
 
 -(GPKGResultSet *) getGeometryColumns: (GPKGSpatialReferenceSystem *) srs;
 
