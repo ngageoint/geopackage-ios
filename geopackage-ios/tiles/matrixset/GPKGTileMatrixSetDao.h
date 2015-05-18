@@ -13,6 +13,10 @@
 
 @interface GPKGTileMatrixSetDao : GPKGBaseDao
 
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+-(NSArray *) getTileTables;
+
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGTileMatrixSet *) tileMatrixSet;
 
 -(GPKGContents *) getContents: (GPKGTileMatrixSet *) tileMatrixSet;
