@@ -16,7 +16,7 @@
     self = [super initWithDatabase:database];
     if(self != nil){
         self.tableName = TMS_TABLE_NAME;
-        self.idColumns = @[TMS_COLUMN_TABLE_NAME];
+        self.idColumns = @[TMS_COLUMN_PK];
         self.columns = @[TMS_COLUMN_TABLE_NAME, TMS_COLUMN_SRS_ID, TMS_COLUMN_MIN_X, TMS_COLUMN_MIN_Y, TMS_COLUMN_MAX_X, TMS_COLUMN_MAX_Y];
         [self initializeColumnIndex];
     }

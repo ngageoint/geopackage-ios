@@ -12,6 +12,7 @@
 #import "GPKGBoundingBox.h"
 
 extern NSString * const TMS_TABLE_NAME;
+extern NSString * const TMS_COLUMN_PK;
 extern NSString * const TMS_COLUMN_TABLE_NAME;
 extern NSString * const TMS_COLUMN_SRS_ID;
 extern NSString * const TMS_COLUMN_MIN_X;

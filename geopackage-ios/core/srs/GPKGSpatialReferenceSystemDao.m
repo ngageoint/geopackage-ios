@@ -18,7 +18,7 @@
     self = [super initWithDatabase:database];
     if(self != nil){
         self.tableName = SRS_TABLE_NAME;
-        self.idColumns = @[SRS_COLUMN_SRS_ID];
+        self.idColumns = @[SRS_COLUMN_PK];
         self.columns = @[SRS_COLUMN_SRS_NAME, SRS_COLUMN_SRS_ID, SRS_COLUMN_ORGANIZATION, SRS_COLUMN_ORGANIZATION_COORDSYS_ID, SRS_COLUMN_DEFINITION, SRS_COLUMN_DESCRIPTION];
         [self initializeColumnIndex];
     }
@@ -160,7 +160,13 @@
     if(srs != nil){
         
         // Delete contents
-        //TODO
+        GPKGContentsDao * contentsDao = [self getContentsDao];
+        GPKGResultSet * contents = [self getContents:srs];
+        while([contents moveToNext]){
+            GPKGContents * content = (GPKGContents *) [contentsDao getObject:contents];
+            [contentsDao delete:content];
+        }
+        [contents close];
         
         // Delete Geometry Columns
         GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
@@ -174,7 +180,15 @@
         }
         
         // Delete Tile Matrix Set
-        //TODO
+        GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+        if([tileMatrixSetDao tableExists]){
+            GPKGResultSet * tileMatrixSets = [self getTileMatrixSet:srs];
+            while([tileMatrixSets moveToNext]){
+                GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [tileMatrixSetDao getObject:tileMatrixSets];
+                [tileMatrixSetDao delete:tileMatrixSet];
+            }
+            [tileMatrixSets close];
+        }
         
         // Delete
         count = [self delete:srs];

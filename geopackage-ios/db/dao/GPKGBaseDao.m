@@ -186,6 +186,14 @@
     return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
+-(BOOL) idExists: (NSObject *) id{
+    return [self queryForId:id] != nil;
+}
+
+-(BOOL) multiIdExists: (NSArray *) idValues{
+    return [self queryForMultiId:idValues] != nil;
+}
+
 -(NSObject *) queryForSameId: (NSObject *) object{
     
     NSObject * sameIdObject = nil;

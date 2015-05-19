@@ -9,6 +9,7 @@
 #import "GPKGTileMatrixSet.h"
 
 NSString * const TMS_TABLE_NAME = @"gpkg_tile_matrix_set";
+NSString * const TMS_COLUMN_PK = @"table_name";
 NSString * const TMS_COLUMN_TABLE_NAME = @"table_name";
 NSString * const TMS_COLUMN_SRS_ID = @"srs_id";
 NSString * const TMS_COLUMN_MIN_X = @"min_x";
@@ -20,6 +21,7 @@ NSString * const TMS_COLUMN_MAX_Y = @"max_y";
 
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
+        // Verify the Contents have a tiles data type (Spec Requirement 33)
         enum GPKGContentsDataType dataType = contents.getContentsDataType;
         if(dataType != TILES){
             [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix Set must have a data type of tiles"];

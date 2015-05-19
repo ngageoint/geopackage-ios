@@ -77,6 +77,10 @@
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit;
 
+-(BOOL) idExists: (NSObject *) id;
+
+-(BOOL) multiIdExists: (NSArray *) idValues;
+
 -(NSObject *) queryForSameId: (NSObject *) object;
 
 -(int) update: (NSObject *) object;

@@ -9,6 +9,7 @@
 #import "GPKGContentsDao.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGSpatialReferenceSystemDao.h"
+#import "GPKGTileMatrixSetDao.h"
 
 @implementation GPKGContentsDao
 
@@ -16,7 +17,7 @@
     self = [super initWithDatabase:database];
     if(self != nil){
         self.tableName = CON_TABLE_NAME;
-        self.idColumns = @[CON_COLUMN_TABLE_NAME];
+        self.idColumns = @[CON_COLUMN_PK];
         self.columns = @[CON_COLUMN_TABLE_NAME, CON_COLUMN_DATA_TYPE, CON_COLUMN_IDENTIFIER, CON_COLUMN_DESCRIPTION, CON_COLUMN_LAST_CHANGE, CON_COLUMN_MIN_X, CON_COLUMN_MIN_Y, CON_COLUMN_MAX_X, CON_COLUMN_MAX_Y, CON_COLUMN_SRS_ID];
         [self initializeColumnIndex];
     }
@@ -130,11 +131,10 @@
             break;
         case TILES:{
                 // Tiles require Tile Matrix Set table (Spec Requirement 37)
-            // TODO
-                //GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
-                //if(![tileMatrixSetDao tableExists]){
-                //    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, TMS_TABLE_NAME];
-                //}
+                GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+                if(![tileMatrixSetDao tableExists]){
+                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, TMS_TABLE_NAME];
+                }
             
                 // Tiles require Tile Matrix table (Spec Requirement 41)
             // TODO
@@ -176,7 +176,13 @@
         //TODO
         
         // Delete Tile Matrix Set
-        //TODO
+        GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+        if([tileMatrixSetDao tableExists]){
+            GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:contents];
+            if(tileMatrixSet != nil){
+                [tileMatrixSetDao delete:tileMatrixSet];
+            }
+        }
         
         // Delete
         count = [self delete:contents];
@@ -272,8 +278,6 @@
     return geometryColumns;
 }
 
-//TODO
-/*
 -(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGContents *) contents{
     GPKGTileMatrixSet * tileMatrixSet = nil;
     GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
@@ -284,7 +288,6 @@
     [results close];
     return tileMatrixSet;
 }
- */
 
 // TODO
 /*
@@ -303,10 +306,9 @@
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
-//TODO
-//-(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
-//    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
-//}
+-(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
+}
 
 //TODO
 //-(GPKGTileMatrixDao *) getTileMatrixDao{

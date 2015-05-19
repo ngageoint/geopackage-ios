@@ -11,6 +11,8 @@
 #import "GPKGSpatialReferenceSystem.h"
 
 extern NSString * const GC_TABLE_NAME;
+extern NSString * const GC_COLUMN_PK1;
+extern NSString * const GC_COLUMN_PK2;
 extern NSString * const GC_COLUMN_TABLE_NAME;
 extern NSString * const GC_COLUMN_COLUMN_NAME;
 extern NSString * const GC_COLUMN_GEOMETRY_TYPE_NAME;

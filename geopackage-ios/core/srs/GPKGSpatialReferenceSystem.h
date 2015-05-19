@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const SRS_TABLE_NAME;
+extern NSString * const SRS_COLUMN_PK;
 extern NSString * const SRS_COLUMN_SRS_NAME;
 extern NSString * const SRS_COLUMN_SRS_ID;
 extern NSString * const SRS_COLUMN_ORGANIZATION;

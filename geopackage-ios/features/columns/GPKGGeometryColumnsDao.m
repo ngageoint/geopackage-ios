@@ -16,7 +16,7 @@
     self = [super initWithDatabase:database];
     if(self != nil){
         self.tableName = GC_TABLE_NAME;
-        self.idColumns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME];
+        self.idColumns = @[GC_COLUMN_PK1, GC_COLUMN_PK2];
         self.columns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME, GC_COLUMN_GEOMETRY_TYPE_NAME, GC_COLUMN_SRS_ID, GC_COLUMN_Z, GC_COLUMN_M];
         [self initializeColumnIndex];
     }
