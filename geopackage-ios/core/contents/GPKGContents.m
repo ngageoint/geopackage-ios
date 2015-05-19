@@ -21,6 +21,9 @@ NSString * const CON_COLUMN_MAX_X = @"max_x";
 NSString * const CON_COLUMN_MAX_Y = @"max_y";
 NSString * const CON_COLUMN_SRS_ID = @"srs_id";
 
+NSString * const CDT_FEATURES = @"features";
+NSString * const CDT_TILES = @"tiles";
+
 @implementation GPKGContents
 
 -(enum GPKGContentsDataType) getContentsDataType{
@@ -28,8 +31,8 @@ NSString * const CON_COLUMN_SRS_ID = @"srs_id";
     
     if(self.dataType != nil){
         NSDictionary *dataTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSNumber numberWithInteger:FEATURES], @"features",
-                            [NSNumber numberWithInteger:TILES], @"tiles",
+                            [NSNumber numberWithInteger:FEATURES], CDT_FEATURES,
+                            [NSNumber numberWithInteger:TILES], CDT_TILES,
                             nil
                             ];
         NSNumber *enumValue = [dataTypes objectForKey:self.dataType];
@@ -43,10 +46,10 @@ NSString * const CON_COLUMN_SRS_ID = @"srs_id";
 -(void) setContentsDataType: (enum GPKGContentsDataType) dataType{
     switch(dataType){
         case FEATURES:
-            self.dataType = @"features";
+            self.dataType = CDT_FEATURES;
             break;
         case TILES:
-            self.dataType = @"tiles";
+            self.dataType = CDT_TILES;
             break;
     }
 }

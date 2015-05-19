@@ -19,6 +19,10 @@
 
 -(int) deleteCascadeWhere: (NSString *) where;
 
+-(int) deleteByIdCascade: (NSNumber *) id;
+
+-(int) deleteIdsCascade: (NSArray *) idCollection;
+
 -(GPKGResultSet *) queryByConstraintName: (NSString *) constraintName;
 
 -(GPKGDataColumnConstraints *) queryByUniqueConstraintName: (NSString *) constraintName

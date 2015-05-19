@@ -18,7 +18,15 @@ extern NSString * const DCC_COLUMN_MAX;
 extern NSString * const DCC_COLUMN_MAX_IS_INCLUSIVE;
 extern NSString * const DCC_COLUMN_DESCRIPTION;
 
-enum GPKGDataColumnConstraintType{RANGE,ENUM,GLOB};
+enum GPKGDataColumnConstraintType{
+    RANGE,
+    ENUM,
+    GLOB
+};
+
+extern NSString * const DCCT_RANGE;
+extern NSString * const DCCT_ENUM;
+extern NSString * const DCCT_GLOB;
 
 @interface GPKGDataColumnConstraints : NSObject
 

@@ -18,6 +18,10 @@ NSString * const DCC_COLUMN_MAX = @"max";
 NSString * const DCC_COLUMN_MAX_IS_INCLUSIVE = @"maxIsInclusive";
 NSString * const DCC_COLUMN_DESCRIPTION = @"description";
 
+NSString * const DCCT_RANGE =@"range";
+NSString * const DCCT_ENUM =@"enum";
+NSString * const DCCT_GLOB =@"glob";
+
 @implementation GPKGDataColumnConstraints
 
 -(enum GPKGDataColumnConstraintType) getDataColumnConstraintType{
@@ -25,9 +29,9 @@ NSString * const DCC_COLUMN_DESCRIPTION = @"description";
     
     if(self.constraintType != nil){
         NSDictionary *constraintTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithInteger:RANGE], @"range",
-                                   [NSNumber numberWithInteger:ENUM], @"enum",
-                                   [NSNumber numberWithInteger:GLOB], @"glob",
+                                   [NSNumber numberWithInteger:RANGE], DCCT_RANGE,
+                                   [NSNumber numberWithInteger:ENUM], DCCT_ENUM,
+                                   [NSNumber numberWithInteger:GLOB], DCCT_GLOB,
                                    nil
                                    ];
         NSNumber *enumValue = [constraintTypes objectForKey:self.constraintType];
@@ -46,13 +50,13 @@ NSString * const DCC_COLUMN_DESCRIPTION = @"description";
 -(void) setDataColumnConstraintType: (enum GPKGDataColumnConstraintType) constraintType{
     switch(constraintType){
         case RANGE:
-            self.constraintType = @"range";
+            self.constraintType = DCCT_RANGE;
             break;
         case ENUM:
-            self.constraintType = @"enum";
+            self.constraintType = DCCT_ENUM;
             break;
         case GLOB:
-            self.constraintType = @"glob";
+            self.constraintType = DCCT_GLOB;
             break;
     }
     switch(constraintType){

@@ -23,7 +23,13 @@ extern NSString * const CON_COLUMN_MAX_X;
 extern NSString * const CON_COLUMN_MAX_Y;
 extern NSString * const CON_COLUMN_SRS_ID;
 
-enum GPKGContentsDataType{FEATURES,TILES};
+enum GPKGContentsDataType{
+    FEATURES,
+    TILES
+};
+
+extern NSString * const CDT_FEATURES;
+extern NSString * const CDT_TILES;
 
 @interface GPKGContents : NSObject
 

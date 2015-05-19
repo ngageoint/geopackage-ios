@@ -22,8 +22,6 @@
     return self;
 }
 
-
-
 -(NSObject *) createObject{
     return [[GPKGDataColumnConstraints alloc] init];
 }
@@ -160,6 +158,27 @@
             count += [self deleteCascade:dataColumnConstraints];
         }
         [results close];
+    }
+    return count;
+}
+
+-(int) deleteByIdCascade: (NSNumber *) id{
+    int count = 0;
+    if(id != nil){
+        GPKGDataColumnConstraints *dataColumnConstraints = (GPKGDataColumnConstraints *) [self queryForIdObject:id];
+        if(dataColumnConstraints != nil){
+            count = [self deleteCascade:dataColumnConstraints];
+        }
+    }
+    return count;
+}
+
+-(int) deleteIdsCascade: (NSArray *) idCollection{
+    int count = 0;
+    if(idCollection != nil){
+        for(NSNumber * id in idCollection){
+            count += [self deleteByIdCascade:id];
+        }
     }
     return count;
 }
