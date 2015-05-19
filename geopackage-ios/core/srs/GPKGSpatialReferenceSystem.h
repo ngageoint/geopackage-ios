@@ -24,6 +24,6 @@ extern NSString * const SRS_COLUMN_DESCRIPTION;
 @property (nonatomic, strong) NSString *organization;
 @property (nonatomic, strong) NSNumber *organizationCoordsysId;
 @property (nonatomic, strong) NSString *definition;
-@property (nonatomic, strong) NSString *srsDescription;
+@property (nonatomic, strong) NSString *theDescription;
 
 @end

@@ -50,7 +50,7 @@
             setObject.definition = (NSString *) value;
             break;
         case 5:
-            setObject.srsDescription = (NSString *) value;
+            setObject.theDescription = (NSString *) value;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -82,7 +82,7 @@
             value = getObject.definition;
             break;
         case 5:
-            value = getObject.srsDescription;
+            value = getObject.theDescription;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

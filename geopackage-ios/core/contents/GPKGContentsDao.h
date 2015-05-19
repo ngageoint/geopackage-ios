@@ -10,6 +10,7 @@
 #import "GPKGContents.h"
 #import "GPKGSpatialReferenceSystem.h"
 #import "GPKGGeometryColumns.h"
+#import "GPKGTileMatrixSet.h"
 
 @interface GPKGContentsDao : GPKGBaseDao
 
@@ -39,8 +40,8 @@
 
 -(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents;
 
-//-(GPKGResultSet *) getTileMatrixSet: (GPKGContents *) contents;
+-(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGContents *) contents;
 
-//-(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents;
+-(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents;
 
 @end

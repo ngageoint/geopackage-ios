@@ -30,7 +30,7 @@ enum GPKGContentsDataType{FEATURES,TILES};
 @property (nonatomic, strong) NSString *tableName;
 @property (nonatomic, strong) NSString *dataType;
 @property (nonatomic, strong) NSString *identifier;
-@property (nonatomic, strong) NSString *contentsDescription;
+@property (nonatomic, strong) NSString *theDescription;
 @property (nonatomic, strong) NSDate *lastChange;
 @property (nonatomic, strong) NSDecimalNumber *minX;
 @property (nonatomic, strong) NSDecimalNumber *minY;
