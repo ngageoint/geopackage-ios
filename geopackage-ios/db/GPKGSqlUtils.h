@@ -34,11 +34,11 @@
 
 +(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
-+(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values;
++(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSDictionary *) values;
 
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSMutableDictionary *) values andWhere: (NSString *) where;
++(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSDictionary *) values andWhere: (NSString *) where;
 
 +(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
 

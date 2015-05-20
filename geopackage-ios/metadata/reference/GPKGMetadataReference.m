@@ -49,34 +49,54 @@ NSString * const RST_ROW_COL = @"row/col";
     switch(referenceScopeType){
         case GEOPACKAGE:
             self.referenceScope = RST_GEOPACKAGE;
+            self.tableName = nil;
+            self.columnName = nil;
+            self.rowIdValue = nil;
             break;
         case TABLE:
             self.referenceScope = RST_TABLE;
-            break;
-        case COLUMN:
-            self.referenceScope = RST_COLUMN;
+            self.columnName = nil;
+            self.rowIdValue = nil;
             break;
         case ROW:
             self.referenceScope = RST_ROW;
+            self.columnName = nil;
+            break;
+        case COLUMN:
+            self.referenceScope = RST_COLUMN;
+            self.rowIdValue = nil;
             break;
         case ROW_COL:
             self.referenceScope = RST_ROW_COL;
             break;
     }
+    
 }
 
 -(void) setTableName:(NSString *)tableName{
-    // TODO validate
+    if (self.referenceScope != nil && self.tableName != nil && [self getReferenceScopeType] == GEOPACKAGE){
+        [NSException raise:@"Illegal Argument" format:@"The table name must be null for %@ reference scope", RST_GEOPACKAGE];
+    }
     _tableName = tableName;
 }
 
 -(void) setColumnName:(NSString *)columnName{
-    // TODO validate
+    if(self.referenceScope != nil && self.columnName != nil){
+        enum GPKGReferenceScopeType scopeType = [self getReferenceScopeType];
+        if(scopeType == GEOPACKAGE || scopeType == TABLE || scopeType == ROW){
+            [NSException raise:@"Illegal Argument" format:@"The column name must be null for %@ reference scope", self.referenceScope];
+        }
+    }
     _columnName = columnName;
 }
 
 -(void) setRowIdValue:(NSNumber *)rowIdValue{
-    // TODO validate
+    if(self.referenceScope != nil && self.rowIdValue != nil){
+        enum GPKGReferenceScopeType scopeType = [self getReferenceScopeType];
+        if(scopeType == GEOPACKAGE || scopeType == TABLE || scopeType == COLUMN){
+            [NSException raise:@"Illegal Argument" format:@"The row id must be null for %@ reference scope", self.referenceScope];
+        }
+    }
     _rowIdValue = rowIdValue;
 }
 

@@ -215,6 +215,11 @@
         }
     }
     NSString *where = [self buildPkWhereWithValues:[self getMultiId:object]];
+    int count = [self updateWithValues:values andWhere:where];
+    return count;
+}
+
+-(int) updateWithValues: (NSDictionary *) values andWhere: (NSString *) where{
     int count = [self.database updateWithTable:self.tableName andValues:values andWhere:where];
     return count;
 }

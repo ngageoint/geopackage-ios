@@ -7,6 +7,7 @@
 //
 
 #import "GPKGMetadataDao.h"
+#import "GPKGMetadataReferenceDao.h"
 
 @implementation GPKGMetadataDao
 
@@ -88,7 +89,9 @@
     if(metadata != nil){
         
         // Delete Metadata References and remove parent references
-        // TODO
+        GPKGMetadataReferenceDao * dao = [self getMetadataReferenceDao];
+        [dao deleteByMetadata:metadata.id];
+        [dao removeMetadataParent:metadata.id];
         
         // Delete
         count = [self delete:metadata];
@@ -141,9 +144,8 @@
     return count;
 }
 
-// TODO
-//-(GPKGMetadataReferenceDao *) getMetadataReferenceDao{
-//    return [[GPKGMetadataReferenceDao alloc] initWithDatabase:self.database];
-//}
+-(GPKGMetadataReferenceDao *) getMetadataReferenceDao{
+    return [[GPKGMetadataReferenceDao alloc] initWithDatabase:self.database];
+}
 
 @end

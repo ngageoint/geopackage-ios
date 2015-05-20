@@ -75,68 +75,6 @@ NSString * const MST_DIMENSION_GROUP = @"dimensionGroup";
     
     GPKGMetadataScope * scope = [GPKGMetadata fromScopeType:scopeType];
     self.scope = scope.name;
-    
-    /* TODO delete
-    switch(scopeType){
-        case UNDEFINED:
-            self.scope = MST_UNDEFINED;
-            break;
-        case FIELD_SESSION:
-            self.scope = MST_FIELD_SESSION;
-            break;
-        case COLLECTION_SESSION:
-            self.scope = MST_COLLECTION_SESSION;
-            break;
-        case SERIES:
-            self.scope = MST_SERIES;
-            break;
-        case DATASET:
-            self.scope = MST_DATASET;
-            break;
-        case FEATURE_TYPE:
-            self.scope = MST_FEATURE_TYPE;
-            break;
-        case FEATURE:
-            self.scope = MST_FEATURE;
-            break;
-        case ATTRIBUTE_TYPE:
-            self.scope = MST_ATTRIBUTE_TYPE;
-            break;
-        case ATTRIBUTE:
-            self.scope = MST_ATTRIBUTE;
-            break;
-        case TILE:
-            self.scope = MST_TILE;
-            break;
-        case MODEL:
-            self.scope = MST_MODEL;
-            break;
-        case CATALOG:
-            self.scope = MST_CATALOG;
-            break;
-        case SCHEMA:
-            self.scope = MST_SCHEMA;
-            break;
-        case TAXONOMY:
-            self.scope = MST_TAXONOMY;
-            break;
-        case SOFTWARE:
-            self.scope = MST_SOFTWARE;
-            break;
-        case SERVICE:
-            self.scope = MST_SERVICE;
-            break;
-        case COLLECTION_HARDWARE:
-            self.scope = MST_COLLECTION_HARDWARE;
-            break;
-        case NON_GEOGRAPHIC_DATASET:
-            self.scope = MST_NON_GEOGRAPHIC_DATASET;
-            break;
-        case DIMENSION_GROUP:
-            self.scope = MST_DIMENSION_GROUP;
-            break;
-    }
-          */
 }
 
 +(GPKGMetadataScope *) fromScopeType: (enum GPKGMetadataScopeType) type{

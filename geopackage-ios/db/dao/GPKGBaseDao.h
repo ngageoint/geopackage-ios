@@ -85,6 +85,8 @@
 
 -(int) update: (NSObject *) object;
 
+-(int) updateWithValues: (NSDictionary *) values andWhere: (NSString *) where;
+
 -(int) delete: (NSObject *) object;
 
 -(int) deleteById: (NSObject *) idValue;

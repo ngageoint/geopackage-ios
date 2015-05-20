@@ -7,7 +7,20 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGMetadataReference.h"
 
 @interface GPKGMetadataReferenceDao : GPKGBaseDao
+
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+-(int) deleteByMetadata: (NSNumber *) fileId;
+
+-(int) removeMetadataParent: (NSNumber *) parentId;
+
+-(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId andParent: (NSNumber *) parentId;
+
+-(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId;
+
+-(GPKGResultSet *) queryByMetadataParent: (NSNumber *) parentId;
 
 @end
