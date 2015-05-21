@@ -15,19 +15,21 @@
 @property (nonatomic, strong) NSString *tableName;
 @property (nonatomic, strong) NSArray *columnNames;
 @property (nonatomic, strong) NSArray *columns;
-@property (nonatomic, strong) NSMutableDictionary *nameToIndex;
+@property (nonatomic, strong) NSDictionary *nameToIndex;
 @property (nonatomic) int pkIndex;
-@property (nonatomic, strong) NSArray *uniqueConstraints;
+@property (nonatomic, strong) NSMutableArray *uniqueConstraints;
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
+-(void) duplicateCheckWithIndex: (int) index andPreviousIndex: (NSNumber *) previousIndex andColumn: (NSString *) column;
+
+-(void) typeCheckWithExpected: (enum GPKGDataType) expected andColumn: (GPKGUserColumn *) column;
+
+-(void) missingCheckWithIndex: (NSNumber *) index andColumn: (NSString *) column;
+
 -(int) getColumnIndexWithColumnName: (NSString *) columnName;
 
--(NSArray *) getColumnNames;
-
 -(NSString *) getColumnNameWithIndex: (int) index;
-
--(NSArray *) getColumns;
 
 -(GPKGUserColumn *) getColumnWithIndex: (int) index;
 

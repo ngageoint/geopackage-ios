@@ -17,7 +17,7 @@
         self.table = table;
         self.tableName = table.tableName;
         self.idColumns = @[[table getPkColumn].name];
-        self.columns = [table getColumnNames];
+        self.columns = table.columnNames;
         [self initializeColumnIndex];
     }
     return self;
