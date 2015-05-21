@@ -13,9 +13,9 @@
 
 @property (nonatomic, strong) GPKGUserTable *table;
 @property (nonatomic, strong) NSArray *columnTypes;
-@property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSMutableArray *values;
 
--(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSArray *) values;
+-(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
 
 -(instancetype) initWithTable: (GPKGUserTable *) table;
 
