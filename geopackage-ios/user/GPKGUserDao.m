@@ -41,4 +41,8 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    return self.projection;
+}
+
 @end

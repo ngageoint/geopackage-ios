@@ -96,6 +96,11 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    //TODO
+    return nil;
+}
+
 -(GPKGContents *) getContents: (GPKGDataColumns *) dataColumns{
     GPKGContentsDao * dao = [self getContentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForId:dataColumns.tableName];

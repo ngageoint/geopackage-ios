@@ -116,6 +116,14 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    GPKGContents *projectionObject = (GPKGContents*) object;
+    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
+    GPKGProjection * projection = [srsDao getProjection:srs];
+    return projection;
+}
+
 -(void) validateObject: (NSObject*) object{
     
     GPKGContents *validateObject = (GPKGContents*) object;

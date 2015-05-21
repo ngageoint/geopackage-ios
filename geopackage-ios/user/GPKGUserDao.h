@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) GPKGUserTable * table;
 
+@property (nonatomic, strong) GPKGProjection * projection;
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table;
 
 @end

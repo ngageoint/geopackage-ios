@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGConnection.h"
 #import "GPKGColumnValue.h"
+#import "GPKGProjection.h"
 
 @interface GPKGBaseDao : NSObject
 
@@ -29,6 +30,8 @@
 -(void) initializeColumnIndex;
 
 -(BOOL) tableExists;
+
+-(GPKGProjection *) getProjection: (NSObject *) object;
 
 -(void) dropTable;
 

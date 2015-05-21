@@ -90,6 +90,11 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    //TODO
+    return nil;
+}
+
 -(NSArray *) getTileTables{
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", TMS_COLUMN_TABLE_NAME, TMS_TABLE_NAME];

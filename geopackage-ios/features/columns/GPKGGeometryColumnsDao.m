@@ -90,6 +90,14 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    GPKGGeometryColumns *projectionObject = (GPKGGeometryColumns*) object;
+    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
+    GPKGProjection * projection = [srsDao getProjection:srs];
+    return projection;
+}
+
 -(GPKGGeometryColumns *) queryForTableName: (NSString *) tableName{
     
     GPKGGeometryColumns *geometryColumns = nil;

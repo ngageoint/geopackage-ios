@@ -60,6 +60,11 @@
     return [self.database tableExists:self.tableName];
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 -(void) dropTable{
     [self.database dropTable:self.tableName];
 }

@@ -11,6 +11,7 @@
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
+#import "GPKGProjectionFactory.h"
 
 @implementation GPKGSpatialReferenceSystemDao
 
@@ -90,6 +91,12 @@
     }
     
     return value;
+}
+
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
+    GPKGProjection * projection = [GPKGProjectionFactory getProjection:projectionObject.organizationCoordsysId];
+    return projection;
 }
 
 -(GPKGSpatialReferenceSystem *) createWgs84{

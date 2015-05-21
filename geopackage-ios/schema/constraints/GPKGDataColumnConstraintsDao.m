@@ -101,6 +101,11 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    //TODO
+    return nil;
+}
+
 -(int) deleteCascade: (GPKGDataColumnConstraints *) constraints{
     int count = 0;
     

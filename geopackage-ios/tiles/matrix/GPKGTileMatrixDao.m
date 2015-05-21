@@ -101,6 +101,11 @@
     return value;
 }
 
+-(GPKGProjection *) getProjection: (NSObject *) object{
+    //TODO
+    return nil;
+}
+
 -(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix{
     GPKGContentsDao * dao = [self getContentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForId:tileMatrix.tableName];
