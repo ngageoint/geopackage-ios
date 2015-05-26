@@ -13,9 +13,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = MR_TABLE_NAME;
-        self.idColumns = @[MR_COLUMN_FILE_ID, MR_COLUMN_PARENT_ID];
-        self.columns = @[MR_COLUMN_REFERENCE_SCOPE, MR_COLUMN_TABLE_NAME, MR_COLUMN_COLUMN_NAME, MR_COLUMN_ROW_ID_VALUE, MR_COLUMN_TIMESTAMP, MR_COLUMN_FILE_ID, MR_COLUMN_PARENT_ID];
+        self.tableName = GPKG_MR_TABLE_NAME;
+        self.idColumns = @[GPKG_MR_COLUMN_FILE_ID, GPKG_MR_COLUMN_PARENT_ID];
+        self.columns = @[GPKG_MR_COLUMN_REFERENCE_SCOPE, GPKG_MR_COLUMN_TABLE_NAME, GPKG_MR_COLUMN_COLUMN_NAME, GPKG_MR_COLUMN_ROW_ID_VALUE, GPKG_MR_COLUMN_TIMESTAMP, GPKG_MR_COLUMN_FILE_ID, GPKG_MR_COLUMN_PARENT_ID];
         [self initializeColumnIndex];
     }
     return self;
@@ -95,7 +95,7 @@
 }
 
 -(int) deleteByMetadata: (NSNumber *) fileId{
-    NSString * where = [self buildWhereWithField:MR_COLUMN_FILE_ID andValue:fileId];
+    NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_FILE_ID andValue:fileId];
     int count = [self deleteWhere:where];
     return count;
 }
@@ -103,9 +103,9 @@
 -(int) removeMetadataParent: (NSNumber *) parentId{
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [values setObject:nil forKey:MR_COLUMN_PARENT_ID];
+    [values setObject:nil forKey:GPKG_MR_COLUMN_PARENT_ID];
 
-    NSString * where = [self buildWhereWithField:MR_COLUMN_PARENT_ID andValue:parentId];
+    NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
     
     int count = [self updateWithValues:values andWhere:where];
     return count;
@@ -114,18 +114,18 @@
 -(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId andParent: (NSNumber *) parentId{
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [values setObject:fileId forKey:MR_COLUMN_FILE_ID];
-    [values setObject:parentId forKey:MR_COLUMN_PARENT_ID];
+    [values setObject:fileId forKey:GPKG_MR_COLUMN_FILE_ID];
+    [values setObject:parentId forKey:GPKG_MR_COLUMN_PARENT_ID];
     
     return [self queryForFieldValues:values];
 }
 
 -(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId{
-    return [self queryForEqWithField:MR_COLUMN_FILE_ID andValue:fileId];
+    return [self queryForEqWithField:GPKG_MR_COLUMN_FILE_ID andValue:fileId];
 }
 
 -(GPKGResultSet *) queryByMetadataParent: (NSNumber *) parentId{
-    return [self queryForEqWithField:MR_COLUMN_PARENT_ID andValue:parentId];
+    return [self queryForEqWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
 }
 
 @end

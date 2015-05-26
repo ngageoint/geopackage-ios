@@ -10,6 +10,29 @@
 
 @implementation GPKGProjectionTransform
 
-//TODO
+-(instancetype) initWithFrom: (GPKGProjection *) fromProjection andTo: (GPKGProjection *) toProjection{
+    self = [super init];
+    if(self != nil){
+        self.fromProjection = fromProjection;
+        self.toProjection = toProjection;
+    }
+    return self;
+}
+
+// TODO
+//-(WKBPoint *) transformWithPoint: (WKBPoint *) from{}
+
+-(GPKGBoundingBox *) transformWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    //TODO
+    return boundingBox;
+}
+
+-(NSArray *) transformWithX: (double) x andY: (double) y{
+    //TODO
+    NSMutableArray *coord = [[NSMutableArray alloc] initWithCapacity:2];
+    [coord addObject:[NSNumber numberWithDouble:x]];
+    [coord addObject:[NSNumber numberWithDouble:y]];
+    return coord;
+}
 
 @end

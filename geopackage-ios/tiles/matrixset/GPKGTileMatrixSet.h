@@ -11,14 +11,14 @@
 #import "GPKGSpatialReferenceSystem.h"
 #import "GPKGBoundingBox.h"
 
-extern NSString * const TMS_TABLE_NAME;
-extern NSString * const TMS_COLUMN_PK;
-extern NSString * const TMS_COLUMN_TABLE_NAME;
-extern NSString * const TMS_COLUMN_SRS_ID;
-extern NSString * const TMS_COLUMN_MIN_X;
-extern NSString * const TMS_COLUMN_MIN_Y;
-extern NSString * const TMS_COLUMN_MAX_X;
-extern NSString * const TMS_COLUMN_MAX_Y;
+extern NSString * const GPKG_TMS_TABLE_NAME;
+extern NSString * const GPKG_TMS_COLUMN_PK;
+extern NSString * const GPKG_TMS_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_TMS_COLUMN_SRS_ID;
+extern NSString * const GPKG_TMS_COLUMN_MIN_X;
+extern NSString * const GPKG_TMS_COLUMN_MIN_Y;
+extern NSString * const GPKG_TMS_COLUMN_MAX_X;
+extern NSString * const GPKG_TMS_COLUMN_MAX_Y;
 
 @interface GPKGTileMatrixSet : NSObject
 

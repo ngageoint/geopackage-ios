@@ -9,38 +9,42 @@
 #import <Foundation/Foundation.h>
 
 enum GPKGDataType{
-    BOOLEAN,
-    TINYINT,
-    SMALLINT,
-    MEDIUMINT,
-    INT,
-    INTEGER,
-    FLOAT,
-    DOUBLE,
-    REAL,
-    TEXT,
-    BLOB,
-    DATE,
-    DATETIME
+    GPKG_DT_BOOLEAN,
+    GPKG_DT_TINYINT,
+    GPKG_DT_SMALLINT,
+    GPKG_DT_MEDIUMINT,
+    GPKG_DT_INT,
+    GPKG_DT_INTEGER,
+    GPKG_DT_FLOAT,
+    GPKG_DT_DOUBLE,
+    GPKG_DT_REAL,
+    GPKG_DT_TEXT,
+    GPKG_DT_BLOB,
+    GPKG_DT_DATE,
+    GPKG_DT_DATETIME,
+    GPKG_DT_GEOMETRY
 };
 
-extern NSString * const DT_BOOLEAN;
-extern NSString * const DT_TINYINT;
-extern NSString * const DT_SMALLINT;
-extern NSString * const DT_MEDIUMINT;
-extern NSString * const DT_INT;
-extern NSString * const DT_INTEGER;
-extern NSString * const DT_FLOAT;
-extern NSString * const DT_DOUBLE;
-extern NSString * const DT_REAL;
-extern NSString * const DT_TEXT;
-extern NSString * const DT_BLOB;
-extern NSString * const DT_DATE;
-extern NSString * const DT_DATETIME;
+extern NSString * const GPKG_DT_BOOLEAN_NAME;
+extern NSString * const GPKG_DT_TINYINT_NAME;
+extern NSString * const GPKG_DT_SMALLINT_NAME;
+extern NSString * const GPKG_DT_MEDIUMINT_NAME;
+extern NSString * const GPKG_DT_INT_NAME;
+extern NSString * const GPKG_DT_INTEGER_NAME;
+extern NSString * const GPKG_DT_FLOAT_NAME;
+extern NSString * const GPKG_DT_DOUBLE_NAME;
+extern NSString * const GPKG_DT_REAL_NAME;
+extern NSString * const GPKG_DT_TEXT_NAME;
+extern NSString * const GPKG_DT_BLOB_NAME;
+extern NSString * const GPKG_DT_DATE_NAME;
+extern NSString * const GPKG_DT_DATETIME_NAME;
+extern NSString * const GPKG_DT_GEOMETRY_NAME;
 
 @interface GPKGDataTypes : NSObject
 
 +(NSString *) name: (enum GPKGDataType) dataType;
+
++(enum GPKGDataType) fromName: (NSString *) name;
 
 +(Class) classType: (enum GPKGDataType) dataType;
 

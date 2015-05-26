@@ -15,9 +15,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = TMS_TABLE_NAME;
-        self.idColumns = @[TMS_COLUMN_PK];
-        self.columns = @[TMS_COLUMN_TABLE_NAME, TMS_COLUMN_SRS_ID, TMS_COLUMN_MIN_X, TMS_COLUMN_MIN_Y, TMS_COLUMN_MAX_X, TMS_COLUMN_MAX_Y];
+        self.tableName = GPKG_TMS_TABLE_NAME;
+        self.idColumns = @[GPKG_TMS_COLUMN_PK];
+        self.columns = @[GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_COLUMN_SRS_ID, GPKG_TMS_COLUMN_MIN_X, GPKG_TMS_COLUMN_MIN_Y, GPKG_TMS_COLUMN_MAX_X, GPKG_TMS_COLUMN_MAX_Y];
         [self initializeColumnIndex];
     }
     return self;
@@ -91,13 +91,16 @@
 }
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
-    //TODO
-    return nil;
+    GPKGTileMatrixSet *projectionObject = (GPKGTileMatrixSet*) object;
+    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
+    GPKGProjection * projection = [srsDao getProjection:srs];
+    return projection;
 }
 
 -(NSArray *) getTileTables{
     
-    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", TMS_COLUMN_TABLE_NAME, TMS_TABLE_NAME];
+    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_TABLE_NAME];
     
     GPKGResultSet *results = [self rawQuery:queryString];
     NSArray *tables = [self singleColumnResults:results];

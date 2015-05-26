@@ -12,7 +12,8 @@
 
 +(GPKGProjection *) getProjection: (NSNumber *) epsg{
     //TODO
-    return nil;
+    GPKGProjection *projection = [[GPKGProjection alloc] initWithEpsg:[NSNumber numberWithInt:3857]];
+    return projection;
 }
 
 @end

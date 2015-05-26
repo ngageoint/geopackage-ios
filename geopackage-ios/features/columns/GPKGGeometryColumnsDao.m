@@ -15,9 +15,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = GC_TABLE_NAME;
-        self.idColumns = @[GC_COLUMN_PK1, GC_COLUMN_PK2];
-        self.columns = @[GC_COLUMN_TABLE_NAME, GC_COLUMN_COLUMN_NAME, GC_COLUMN_GEOMETRY_TYPE_NAME, GC_COLUMN_SRS_ID, GC_COLUMN_Z, GC_COLUMN_M];
+        self.tableName = GPKG_GC_TABLE_NAME;
+        self.idColumns = @[GPKG_GC_COLUMN_PK1, GPKG_GC_COLUMN_PK2];
+        self.columns = @[GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_COLUMN_COLUMN_NAME, GPKG_GC_COLUMN_GEOMETRY_TYPE_NAME, GPKG_GC_COLUMN_SRS_ID, GPKG_GC_COLUMN_Z, GPKG_GC_COLUMN_M];
         [self initializeColumnIndex];
     }
     return self;
@@ -102,7 +102,7 @@
     
     GPKGGeometryColumns *geometryColumns = nil;
     
-    GPKGResultSet * result = [self queryForEqWithField:GC_COLUMN_TABLE_NAME andValue:tableName];
+    GPKGResultSet * result = [self queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:tableName];
     if([result moveToNext]){
         geometryColumns = (GPKGGeometryColumns *) [self getObject:result];
     }
@@ -113,7 +113,7 @@
 
 -(NSArray *) getFeatureTables{
     
-    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GC_COLUMN_TABLE_NAME, GC_TABLE_NAME];
+    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_TABLE_NAME];
     
     GPKGResultSet *results = [self rawQuery:queryString];
     NSArray *tables = [self singleColumnResults:results];

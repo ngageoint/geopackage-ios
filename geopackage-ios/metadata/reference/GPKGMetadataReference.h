@@ -9,28 +9,28 @@
 #import <Foundation/Foundation.h>
 #import "GPKGMetadata.h"
 
-extern NSString * const MR_TABLE_NAME;
-extern NSString * const MR_COLUMN_REFERENCE_SCOPE;
-extern NSString * const MR_COLUMN_TABLE_NAME;
-extern NSString * const MR_COLUMN_COLUMN_NAME;
-extern NSString * const MR_COLUMN_ROW_ID_VALUE;
-extern NSString * const MR_COLUMN_TIMESTAMP;
-extern NSString * const MR_COLUMN_FILE_ID;
-extern NSString * const MR_COLUMN_PARENT_ID;
+extern NSString * const GPKG_MR_TABLE_NAME;
+extern NSString * const GPKG_MR_COLUMN_REFERENCE_SCOPE;
+extern NSString * const GPKG_MR_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_MR_COLUMN_COLUMN_NAME;
+extern NSString * const GPKG_MR_COLUMN_ROW_ID_VALUE;
+extern NSString * const GPKG_MR_COLUMN_TIMESTAMP;
+extern NSString * const GPKG_MR_COLUMN_FILE_ID;
+extern NSString * const GPKG_MR_COLUMN_PARENT_ID;
 
 enum GPKGReferenceScopeType{
-    GEOPACKAGE,
-    TABLE,
-    COLUMN,
-    ROW,
-    ROW_COL
+    GPKG_RST_GEOPACKAGE,
+    GPKG_RST_TABLE,
+    GPKG_RST_COLUMN,
+    GPKG_RST_ROW,
+    GPKG_RST_ROW_COL
 };
 
-extern NSString * const RST_GEOPACKAGE;
-extern NSString * const RST_TABLE;
-extern NSString * const RST_COLUMN;
-extern NSString * const RST_ROW;
-extern NSString * const RST_ROW_COL;
+extern NSString * const GPKG_RST_GEOPACKAGE_NAME;
+extern NSString * const GPKG_RST_TABLE_NAME;
+extern NSString * const GPKG_RST_COLUMN_NAME;
+extern NSString * const GPKG_RST_ROW_NAME;
+extern NSString * const GPKG_RST_ROW_COL_NAME;
 
 @interface GPKGMetadataReference : NSObject
 

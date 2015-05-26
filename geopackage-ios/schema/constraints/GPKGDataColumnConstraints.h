@@ -8,25 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const DCC_TABLE_NAME;
-extern NSString * const DCC_COLUMN_CONSTRAINT_NAME;
-extern NSString * const DCC_COLUMN_CONSTRAINT_TYPE;
-extern NSString * const DCC_COLUMN_VALUE;
-extern NSString * const DCC_COLUMN_MIN;
-extern NSString * const DCC_COLUMN_MIN_IS_INCLUSIVE;
-extern NSString * const DCC_COLUMN_MAX;
-extern NSString * const DCC_COLUMN_MAX_IS_INCLUSIVE;
-extern NSString * const DCC_COLUMN_DESCRIPTION;
+extern NSString * const GPKG_DCC_TABLE_NAME;
+extern NSString * const GPKG_DCC_COLUMN_CONSTRAINT_NAME;
+extern NSString * const GPKG_DCC_COLUMN_CONSTRAINT_TYPE;
+extern NSString * const GPKG_DCC_COLUMN_VALUE;
+extern NSString * const GPKG_DCC_COLUMN_MIN;
+extern NSString * const GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE;
+extern NSString * const GPKG_DCC_COLUMN_MAX;
+extern NSString * const GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE;
+extern NSString * const GPKG_DCC_COLUMN_DESCRIPTION;
 
 enum GPKGDataColumnConstraintType{
-    RANGE,
-    ENUM,
-    GLOB
+    GPKG_DCCT_RANGE,
+    GPKG_DCCT_ENUM,
+    GPKG_DCCT_GLOB
 };
 
-extern NSString * const DCCT_RANGE;
-extern NSString * const DCCT_ENUM;
-extern NSString * const DCCT_GLOB;
+extern NSString * const GPKG_DCCT_RANGE_NAME;
+extern NSString * const GPKG_DCCT_ENUM_NAME;
+extern NSString * const GPKG_DCCT_GLOB_NAME;
 
 @interface GPKGDataColumnConstraints : NSObject
 

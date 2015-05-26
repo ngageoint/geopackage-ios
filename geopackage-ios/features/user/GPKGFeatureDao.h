@@ -8,6 +8,8 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGGeometryColumns.h"
+#import "GPKGFeatureRow.h"
+#import "WKBGeometryTypes.h"
 
 @interface GPKGFeatureDao : GPKGUserDao
 
@@ -15,9 +17,10 @@
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
 
+-(GPKGFeatureRow *) newRow;
+
 -(NSString *) getGeometryColumnName;
 
-//TODO
-//-(WKBGeometryType *) getGeometryType;
+-(enum WKBGeometryType) getGeometryType;
 
 @end

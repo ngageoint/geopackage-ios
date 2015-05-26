@@ -8,21 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const EX_EXTENSION_NAME_DIVIDER;
-extern NSString * const EX_TABLE_NAME;
-extern NSString * const EX_COLUMN_TABLE_NAME;
-extern NSString * const EX_COLUMN_COLUMN_NAME;
-extern NSString * const EX_COLUMN_EXTENSION_NAME;
-extern NSString * const EX_COLUMN_DEFINITION;
-extern NSString * const EX_COLUMN_SCOPE;
+extern NSString * const GPKG_EX_EXTENSION_NAME_DIVIDER;
+extern NSString * const GPKG_EX_TABLE_NAME;
+extern NSString * const GPKG_EX_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_EX_COLUMN_COLUMN_NAME;
+extern NSString * const GPKG_EX_COLUMN_EXTENSION_NAME;
+extern NSString * const GPKG_EX_COLUMN_DEFINITION;
+extern NSString * const GPKG_EX_COLUMN_SCOPE;
 
 enum GPKGExtensionScopeType{
-    READ_WRITE,
-    WRITE_ONLY
+    GPKG_EST_READ_WRITE,
+    GPKG_EST_WRITE_ONLY
 };
 
-extern NSString * const EST_READ_WRITE;
-extern NSString * const EST_WRITE_ONLY;
+extern NSString * const GPKG_EST_READ_WRITE_NAME;
+extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
 
 @interface GPKGExtensions : NSObject
 

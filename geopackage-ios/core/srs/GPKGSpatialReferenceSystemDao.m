@@ -18,9 +18,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = SRS_TABLE_NAME;
-        self.idColumns = @[SRS_COLUMN_PK];
-        self.columns = @[SRS_COLUMN_SRS_NAME, SRS_COLUMN_SRS_ID, SRS_COLUMN_ORGANIZATION, SRS_COLUMN_ORGANIZATION_COORDSYS_ID, SRS_COLUMN_DEFINITION, SRS_COLUMN_DESCRIPTION];
+        self.tableName = GPKG_SRS_TABLE_NAME;
+        self.idColumns = @[GPKG_SRS_COLUMN_PK];
+        self.columns = @[GPKG_SRS_COLUMN_SRS_NAME, GPKG_SRS_COLUMN_SRS_ID, GPKG_SRS_COLUMN_ORGANIZATION, GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID, GPKG_SRS_COLUMN_DEFINITION, GPKG_SRS_COLUMN_DESCRIPTION];
         [self initializeColumnIndex];
     }
     return self;
@@ -250,20 +250,20 @@
 
 -(GPKGResultSet *) getContents: (GPKGSpatialReferenceSystem *) srs{
     GPKGContentsDao * dao = [self getContentsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:CON_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_CON_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 
 -(GPKGResultSet *) getGeometryColumns: (GPKGSpatialReferenceSystem *) srs{
     GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GC_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 
 
 -(GPKGResultSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs{
     GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
-    GPKGResultSet * results = [dao queryForEqWithField:TMS_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 

@@ -28,14 +28,21 @@
     return self;
 }
 
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
+-(GPKGFeatureRow *) newRow{
+    return [[GPKGFeatureRow alloc] initWithTable:self.table];
+}
+
 -(NSString *) getGeometryColumnName{
     return self.geometryColumns.columnName;
 }
 
-//TODO
-//-(WKBGeometryType *) getGeometryType{
-//    return [self.geometryColumns getGeometryType];
-//}
+-(enum WKBGeometryType) getGeometryType{
+    return [self.geometryColumns getGeometryType];
+}
 
 -(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];

@@ -8,33 +8,33 @@
 
 #import "GPKGMetadata.h"
 
-NSString * const M_TABLE_NAME = @"gpkg_metadata";
-NSString * const M_COLUMN_PK = @"id";
-NSString * const M_COLUMN_ID = @"id";
-NSString * const M_COLUMN_SCOPE = @"md_scope";
-NSString * const M_COLUMN_STANDARD_URI = @"md_standard_uri";
-NSString * const M_COLUMN_MIME_TYPE = @"mime_type";
-NSString * const M_COLUMN_METADATA = @"metadata";
+NSString * const GPKG_M_TABLE_NAME = @"gpkg_metadata";
+NSString * const GPKG_M_COLUMN_PK = @"id";
+NSString * const GPKG_M_COLUMN_ID = @"id";
+NSString * const GPKG_M_COLUMN_SCOPE = @"md_scope";
+NSString * const GPKG_M_COLUMN_STANDARD_URI = @"md_standard_uri";
+NSString * const GPKG_M_COLUMN_MIME_TYPE = @"mime_type";
+NSString * const GPKG_M_COLUMN_METADATA = @"metadata";
 
-NSString * const MST_UNDEFINED = @"undefined";
-NSString * const MST_FIELD_SESSION = @"fieldSession";
-NSString * const MST_COLLECTION_SESSION = @"collectionSession";
-NSString * const MST_SERIES = @"series";
-NSString * const MST_DATASET = @"dataset";
-NSString * const MST_FEATURE_TYPE = @"featureType";
-NSString * const MST_FEATURE = @"feature";
-NSString * const MST_ATTRIBUTE_TYPE = @"attributeType";
-NSString * const MST_ATTRIBUTE = @"attribute";
-NSString * const MST_TILE = @"tile";
-NSString * const MST_MODEL = @"model";
-NSString * const MST_CATALOG = @"catalog";
-NSString * const MST_SCHEMA = @"schema";
-NSString * const MST_TAXONOMY = @"taxonomy";
-NSString * const MST_SOFTWARE = @"software";
-NSString * const MST_SERVICE = @"service";
-NSString * const MST_COLLECTION_HARDWARE = @"collectionHardware";
-NSString * const MST_NON_GEOGRAPHIC_DATASET = @"nonGeographicDataset";
-NSString * const MST_DIMENSION_GROUP = @"dimensionGroup";
+NSString * const GPKG_MST_UNDEFINED_NAME = @"undefined";
+NSString * const GPKG_MST_FIELD_SESSION_NAME = @"fieldSession";
+NSString * const GPKG_MST_COLLECTION_SESSION_NAME = @"collectionSession";
+NSString * const GPKG_MST_SERIES_NAME = @"series";
+NSString * const GPKG_MST_DATASET_NAME = @"dataset";
+NSString * const GPKG_MST_FEATURE_TYPE_NAME = @"featureType";
+NSString * const GPKG_MST_FEATURE_NAME = @"feature";
+NSString * const GPKG_MST_ATTRIBUTE_TYPE_NAME = @"attributeType";
+NSString * const GPKG_MST_ATTRIBUTE_NAME = @"attribute";
+NSString * const GPKG_MST_TILE_NAME = @"tile";
+NSString * const GPKG_MST_MODEL_NAME = @"model";
+NSString * const GPKG_MST_CATALOG_NAME = @"catalog";
+NSString * const GPKG_MST_SCHEMA_NAME = @"schema";
+NSString * const GPKG_MST_TAXONOMY_NAME = @"taxonomy";
+NSString * const GPKG_MST_SOFTWARE_NAME = @"software";
+NSString * const GPKG_MST_SERVICE_NAME = @"service";
+NSString * const GPKG_MST_COLLECTION_HARDWARE_NAME = @"collectionHardware";
+NSString * const GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME = @"nonGeographicDataset";
+NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
 
 @implementation GPKGMetadata
 
@@ -43,25 +43,25 @@ NSString * const MST_DIMENSION_GROUP = @"dimensionGroup";
     
     if(self.scope != nil){
         NSDictionary *scopeTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                         [NSNumber numberWithInteger:UNDEFINED], MST_UNDEFINED,
-                                         [NSNumber numberWithInteger:FIELD_SESSION], MST_FIELD_SESSION,
-                                         [NSNumber numberWithInteger:COLLECTION_SESSION], MST_COLLECTION_SESSION,
-                                         [NSNumber numberWithInteger:SERIES], MST_SERIES,
-                                         [NSNumber numberWithInteger:DATASET], MST_DATASET,
-                                         [NSNumber numberWithInteger:FEATURE_TYPE], MST_FEATURE_TYPE,
-                                         [NSNumber numberWithInteger:FEATURE], MST_FEATURE,
-                                         [NSNumber numberWithInteger:ATTRIBUTE_TYPE], MST_ATTRIBUTE_TYPE,
-                                         [NSNumber numberWithInteger:ATTRIBUTE], MST_ATTRIBUTE,
-                                         [NSNumber numberWithInteger:TILE], MST_TILE,
-                                         [NSNumber numberWithInteger:MODEL], MST_MODEL,
-                                         [NSNumber numberWithInteger:CATALOG], MST_CATALOG,
-                                         [NSNumber numberWithInteger:SCHEMA], MST_SCHEMA,
-                                         [NSNumber numberWithInteger:TAXONOMY], MST_TAXONOMY,
-                                         [NSNumber numberWithInteger:SOFTWARE], MST_SOFTWARE,
-                                         [NSNumber numberWithInteger:SERVICE], MST_SERVICE,
-                                         [NSNumber numberWithInteger:COLLECTION_HARDWARE], MST_COLLECTION_HARDWARE,
-                                         [NSNumber numberWithInteger:NON_GEOGRAPHIC_DATASET], MST_NON_GEOGRAPHIC_DATASET,
-                                         [NSNumber numberWithInteger:DIMENSION_GROUP], MST_DIMENSION_GROUP,
+                                         [NSNumber numberWithInteger:GPKG_MST_UNDEFINED], GPKG_MST_UNDEFINED_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_FIELD_SESSION], GPKG_MST_FIELD_SESSION_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_COLLECTION_SESSION], GPKG_MST_COLLECTION_SESSION_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_SERIES], GPKG_MST_SERIES_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_DATASET], GPKG_MST_DATASET_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_FEATURE_TYPE], GPKG_MST_FEATURE_TYPE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_FEATURE], GPKG_MST_FEATURE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_ATTRIBUTE_TYPE], GPKG_MST_ATTRIBUTE_TYPE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_ATTRIBUTE], GPKG_MST_ATTRIBUTE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_TILE], GPKG_MST_TILE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_MODEL], GPKG_MST_MODEL_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_CATALOG], GPKG_MST_CATALOG_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_SCHEMA], GPKG_MST_SCHEMA_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_TAXONOMY], GPKG_MST_TAXONOMY_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_SOFTWARE], GPKG_MST_SOFTWARE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_SERVICE], GPKG_MST_SERVICE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_COLLECTION_HARDWARE], GPKG_MST_COLLECTION_HARDWARE_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_NON_GEOGRAPHIC_DATASET], GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_DIMENSION_GROUP], GPKG_MST_DIMENSION_GROUP_NAME,
                                          nil
                                          ];
         NSNumber *enumValue = [scopeTypes objectForKey:self.scope];
@@ -82,98 +82,98 @@ NSString * const MST_DIMENSION_GROUP = @"dimensionGroup";
     GPKGMetadataScope * scope = [[GPKGMetadataScope alloc] init];
     
     switch(type){
-        case UNDEFINED:
-            scope.name = MST_UNDEFINED;
+        case GPKG_MST_UNDEFINED:
+            scope.name = GPKG_MST_UNDEFINED_NAME;
             scope.code = @"NA";
             scope.definition = @"Metadata information scope is undefined";
             break;
-        case FIELD_SESSION:
-            scope.name = MST_FIELD_SESSION;
+        case GPKG_MST_FIELD_SESSION:
+            scope.name = GPKG_MST_FIELD_SESSION_NAME;
             scope.code = @"012";
             scope.definition = @"Information applies to the field session";
             break;
-        case COLLECTION_SESSION:
-            scope.name = MST_COLLECTION_SESSION;
+        case GPKG_MST_COLLECTION_SESSION:
+            scope.name = GPKG_MST_COLLECTION_SESSION_NAME;
             scope.code = @"004";
             scope.definition = @"Information applies to the collection session";
             break;
-        case SERIES:
-            scope.name = MST_SERIES;
+        case GPKG_MST_SERIES:
+            scope.name = GPKG_MST_SERIES_NAME;
             scope.code = @"006";
             scope.definition = @"Information applies to the (dataset) series";
             break;
-        case DATASET:
-            scope.name = MST_DATASET;
+        case GPKG_MST_DATASET:
+            scope.name = GPKG_MST_DATASET_NAME;
             scope.code = @"005";
             scope.definition = @"Information applies to the (geographic feature) dataset";
             break;
-        case FEATURE_TYPE:
-            scope.name = MST_FEATURE_TYPE;
+        case GPKG_MST_FEATURE_TYPE:
+            scope.name = GPKG_MST_FEATURE_TYPE_NAME;
             scope.code = @"010";
             scope.definition = @"Information applies to a feature type (class)";
             break;
-        case FEATURE:
-            scope.name = MST_FEATURE;
+        case GPKG_MST_FEATURE:
+            scope.name = GPKG_MST_FEATURE_NAME;
             scope.code = @"009";
             scope.definition = @"Information applies to a feature (instance)";
             break;
-        case ATTRIBUTE_TYPE:
-            scope.name = MST_ATTRIBUTE_TYPE;
+        case GPKG_MST_ATTRIBUTE_TYPE:
+            scope.name = GPKG_MST_ATTRIBUTE_TYPE_NAME;
             scope.code = @"002";
             scope.definition = @"Information applies to the attribute class";
             break;
-        case ATTRIBUTE:
-            scope.name = MST_ATTRIBUTE;
+        case GPKG_MST_ATTRIBUTE:
+            scope.name = GPKG_MST_ATTRIBUTE_NAME;
             scope.code = @"001";
             scope.definition = @"Information applies to the characteristic of a feature (instance)";
             break;
-        case TILE:
-            scope.name = MST_TILE;
+        case GPKG_MST_TILE:
+            scope.name = GPKG_MST_TILE_NAME;
             scope.code = @"016";
             scope.definition = @"Information applies to a tile, a spatial subset of geographic data";
             break;
-        case MODEL:
-            scope.name = MST_MODEL;
+        case GPKG_MST_MODEL:
+            scope.name = GPKG_MST_MODEL_NAME;
             scope.code = @"015";
             scope.definition = @"Information applies to a copy or imitation of an existing or hypothetical object";
             break;
-        case CATALOG:
-            scope.name = MST_CATALOG;
+        case GPKG_MST_CATALOG:
+            scope.name = GPKG_MST_CATALOG_NAME;
             scope.code = @"NA";
             scope.definition = @"Metadata applies to a feature catalog";
             break;
-        case SCHEMA:
-            scope.name = MST_SCHEMA;
+        case GPKG_MST_SCHEMA:
+            scope.name = GPKG_MST_SCHEMA_NAME;
             scope.code = @"NA";
             scope.definition = @"Metadata applies to an application schema";
             break;
-        case TAXONOMY:
-            scope.name = MST_TAXONOMY;
+        case GPKG_MST_TAXONOMY:
+            scope.name = GPKG_MST_TAXONOMY_NAME;
             scope.code = @"NA";
             scope.definition = @"Metadata applies to a taxonomy or knowledge system";
             break;
-        case SOFTWARE:
-            scope.name = MST_SOFTWARE;
+        case GPKG_MST_SOFTWARE:
+            scope.name = GPKG_MST_SOFTWARE_NAME;
             scope.code = @"013";
             scope.definition = @"Information applies to a computer program or routine";
             break;
-        case SERVICE:
-            scope.name = MST_SERVICE;
+        case GPKG_MST_SERVICE:
+            scope.name = GPKG_MST_SERVICE_NAME;
             scope.code = @"014";
             scope.definition = @"Information applies to a capability which a service provider entity makes available to a service user entity through a set of interfaces that define a behaviour, such as a use case";
             break;
-        case COLLECTION_HARDWARE:
-            scope.name = MST_COLLECTION_HARDWARE;
+        case GPKG_MST_COLLECTION_HARDWARE:
+            scope.name = GPKG_MST_COLLECTION_HARDWARE_NAME;
             scope.code = @"003";
             scope.definition = @"Information applies to the collection hardware class";
             break;
-        case NON_GEOGRAPHIC_DATASET:
-            scope.name = MST_NON_GEOGRAPHIC_DATASET;
+        case GPKG_MST_NON_GEOGRAPHIC_DATASET:
+            scope.name = GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME;
             scope.code = @"007";
             scope.definition = @"Information applies to non-geographic data";
             break;
-        case DIMENSION_GROUP:
-            scope.name = MST_DIMENSION_GROUP;
+        case GPKG_MST_DIMENSION_GROUP:
+            scope.name = GPKG_MST_DIMENSION_GROUP_NAME;
             scope.code = @"008";
             scope.definition = @"Information applies to a dimension group";
             break;

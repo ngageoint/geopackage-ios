@@ -33,12 +33,16 @@
 }
 
 -(NSString *) getTypeName{
-    return [GPKGDataTypes name:self.dataType];
+    NSString * type = nil;
+    if(self.dataType && self.dataType != GPKG_DT_GEOMETRY){
+        type = [GPKGDataTypes name:self.dataType];
+    }
+    return type;
 }
 
 -(void) validateMax{
     
-    if(self.max != nil && self.dataType != TEXT && self.dataType != BLOB){
+    if(self.max != nil && self.dataType != GPKG_DT_TEXT && self.dataType != GPKG_DT_BLOB){
         [NSException raise:@"Illegal State" format:@"Column max is only supported for TEXT and BLOB columns. column: %@, max: %@, type: %@", self.name, self.max, [GPKGDataTypes name:self.dataType]];
     }
 }

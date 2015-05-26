@@ -8,19 +8,20 @@
 
 #import "GPKGDataTypes.h"
 
-NSString * const DT_BOOLEAN = @"BOOLEAN";
-NSString * const DT_TINYINT = @"TINYINT";
-NSString * const DT_SMALLINT = @"SMALLINT";
-NSString * const DT_MEDIUMINT = @"MEDIUMINT";
-NSString * const DT_INT = @"INT";
-NSString * const DT_INTEGER = @"INTEGER";
-NSString * const DT_FLOAT = @"FLOAT";
-NSString * const DT_DOUBLE = @"DOUBLE";
-NSString * const DT_REAL = @"REAL";
-NSString * const DT_TEXT = @"TEXT";
-NSString * const DT_BLOB = @"BLOB";
-NSString * const DT_DATE = @"DATE";
-NSString * const DT_DATETIME = @"DATETIME";
+NSString * const GPKG_DT_BOOLEAN_NAME = @"BOOLEAN";
+NSString * const GPKG_DT_TINYINT_NAME = @"TINYINT";
+NSString * const GPKG_DT_SMALLINT_NAME = @"SMALLINT";
+NSString * const GPKG_DT_MEDIUMINT_NAME = @"MEDIUMINT";
+NSString * const GPKG_DT_INT_NAME = @"INT";
+NSString * const GPKG_DT_INTEGER_NAME = @"INTEGER";
+NSString * const GPKG_DT_FLOAT_NAME = @"FLOAT";
+NSString * const GPKG_DT_DOUBLE_NAME = @"DOUBLE";
+NSString * const GPKG_DT_REAL_NAME = @"REAL";
+NSString * const GPKG_DT_TEXT_NAME = @"TEXT";
+NSString * const GPKG_DT_BLOB_NAME = @"BLOB";
+NSString * const GPKG_DT_DATE_NAME = @"DATE";
+NSString * const GPKG_DT_DATETIME_NAME = @"DATETIME";
+NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
 
 @implementation GPKGDataTypes
 
@@ -28,76 +29,109 @@ NSString * const DT_DATETIME = @"DATETIME";
     NSString * name = nil;
     
     switch(dataType){
-        case BOOLEAN:
-            name = DT_BOOLEAN;
+        case GPKG_DT_BOOLEAN:
+            name = GPKG_DT_BOOLEAN_NAME;
             break;
-        case TINYINT:
-            name = DT_TINYINT;
+        case GPKG_DT_TINYINT:
+            name = GPKG_DT_TINYINT_NAME;
             break;
-        case SMALLINT:
-            name = DT_SMALLINT;
+        case GPKG_DT_SMALLINT:
+            name = GPKG_DT_SMALLINT_NAME;
             break;
-        case MEDIUMINT:
-            name = DT_MEDIUMINT;
+        case GPKG_DT_MEDIUMINT:
+            name = GPKG_DT_MEDIUMINT_NAME;
             break;
-        case INT:
-            name = DT_INT;
+        case GPKG_DT_INT:
+            name = GPKG_DT_INT_NAME;
             break;
-        case INTEGER:
-            name = DT_INTEGER;
+        case GPKG_DT_INTEGER:
+            name = GPKG_DT_INTEGER_NAME;
             break;
-        case FLOAT:
-            name = DT_FLOAT;
+        case GPKG_DT_FLOAT:
+            name = GPKG_DT_FLOAT_NAME;
             break;
-        case DOUBLE:
-            name = DT_DOUBLE;
+        case GPKG_DT_DOUBLE:
+            name = GPKG_DT_DOUBLE_NAME;
             break;
-        case REAL:
-            name = DT_REAL;
+        case GPKG_DT_REAL:
+            name = GPKG_DT_REAL_NAME;
             break;
-        case TEXT:
-            name = DT_TEXT;
+        case GPKG_DT_TEXT:
+            name = GPKG_DT_TEXT_NAME;
             break;
-        case BLOB:
-            name = DT_BLOB;
+        case GPKG_DT_BLOB:
+            name = GPKG_DT_BLOB_NAME;
             break;
-        case DATE:
-            name = DT_DATE;
+        case GPKG_DT_DATE:
+            name = GPKG_DT_DATE_NAME;
             break;
-        case DATETIME:
-            name = DT_DATETIME;
+        case GPKG_DT_DATETIME:
+            name = GPKG_DT_DATETIME_NAME;
+            break;
+        case GPKG_DT_GEOMETRY:
+            name = GPKG_DT_GEOMETRY_NAME;
             break;
     }
     
     return name;
 }
 
++(enum GPKGDataType) fromName: (NSString *) name{
+    enum GPKGDataType value = -1;
+    
+    if(name != nil){
+        NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithInteger:GPKG_DT_BOOLEAN], GPKG_DT_BOOLEAN_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_TINYINT], GPKG_DT_TINYINT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_SMALLINT], GPKG_DT_SMALLINT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_MEDIUMINT], GPKG_DT_MEDIUMINT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_INT], GPKG_DT_INT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_INTEGER], GPKG_DT_INTEGER_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_FLOAT], GPKG_DT_FLOAT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_DOUBLE], GPKG_DT_DOUBLE_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_REAL], GPKG_DT_REAL_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_TEXT], GPKG_DT_TEXT_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_BLOB], GPKG_DT_BLOB_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_DATE], GPKG_DT_DATE_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_DATETIME], GPKG_DT_DATETIME_NAME,
+                               [NSNumber numberWithInteger:GPKG_DT_GEOMETRY], GPKG_DT_GEOMETRY_NAME,
+                               nil
+                               ];
+        NSNumber *enumValue = [types objectForKey:name];
+        value = (enum GPKGDataType)[enumValue intValue];
+    }
+    
+    return value;
+}
+
 +(Class) classType: (enum GPKGDataType) dataType{
     Class class = nil;
     
     switch(dataType){
-        case BOOLEAN:
-        case TINYINT:
-        case SMALLINT:
-        case MEDIUMINT:
-        case INT:
-        case INTEGER:
+        case GPKG_DT_BOOLEAN:
+        case GPKG_DT_TINYINT:
+        case GPKG_DT_SMALLINT:
+        case GPKG_DT_MEDIUMINT:
+        case GPKG_DT_INT:
+        case GPKG_DT_INTEGER:
             class = [NSNumber class];
             break;
-        case FLOAT:
-        case DOUBLE:
-        case REAL:
+        case GPKG_DT_FLOAT:
+        case GPKG_DT_DOUBLE:
+        case GPKG_DT_REAL:
             class = [NSDecimalNumber class];
             break;
-        case TEXT:
+        case GPKG_DT_TEXT:
             class = [NSString class];
             break;
-        case BLOB:
+        case GPKG_DT_BLOB:
             class = [NSData class];
             break;
-        case DATE:
-        case DATETIME:
+        case GPKG_DT_DATE:
+        case GPKG_DT_DATETIME:
             class = [NSDate class];
+            break;
+        case GPKG_DT_GEOMETRY:
             break;
     }
     

@@ -8,19 +8,19 @@
 
 #import "GPKGDataColumnConstraints.h"
 
-NSString * const DCC_TABLE_NAME = @"gpkg_data_column_constraints";
-NSString * const DCC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
-NSString * const DCC_COLUMN_CONSTRAINT_TYPE = @"constraint_type";
-NSString * const DCC_COLUMN_VALUE = @"value";
-NSString * const DCC_COLUMN_MIN = @"min";
-NSString * const DCC_COLUMN_MIN_IS_INCLUSIVE = @"minIsInclusive";
-NSString * const DCC_COLUMN_MAX = @"max";
-NSString * const DCC_COLUMN_MAX_IS_INCLUSIVE = @"maxIsInclusive";
-NSString * const DCC_COLUMN_DESCRIPTION = @"description";
+NSString * const GPKG_DCC_TABLE_NAME = @"gpkg_data_column_constraints";
+NSString * const GPKG_DCC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
+NSString * const GPKG_DCC_COLUMN_CONSTRAINT_TYPE = @"constraint_type";
+NSString * const GPKG_DCC_COLUMN_VALUE = @"value";
+NSString * const GPKG_DCC_COLUMN_MIN = @"min";
+NSString * const GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE = @"minIsInclusive";
+NSString * const GPKG_DCC_COLUMN_MAX = @"max";
+NSString * const GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE = @"maxIsInclusive";
+NSString * const GPKG_DCC_COLUMN_DESCRIPTION = @"description";
 
-NSString * const DCCT_RANGE =@"range";
-NSString * const DCCT_ENUM =@"enum";
-NSString * const DCCT_GLOB =@"glob";
+NSString * const GPKG_DCCT_RANGE_NAME =@"range";
+NSString * const GPKG_DCCT_ENUM_NAME =@"enum";
+NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 
 @implementation GPKGDataColumnConstraints
 
@@ -29,9 +29,9 @@ NSString * const DCCT_GLOB =@"glob";
     
     if(self.constraintType != nil){
         NSDictionary *constraintTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithInteger:RANGE], DCCT_RANGE,
-                                   [NSNumber numberWithInteger:ENUM], DCCT_ENUM,
-                                   [NSNumber numberWithInteger:GLOB], DCCT_GLOB,
+                                   [NSNumber numberWithInteger:GPKG_DCCT_RANGE], GPKG_DCCT_RANGE_NAME,
+                                   [NSNumber numberWithInteger:GPKG_DCCT_ENUM], GPKG_DCCT_ENUM_NAME,
+                                   [NSNumber numberWithInteger:GPKG_DCCT_GLOB], GPKG_DCCT_GLOB_NAME,
                                    nil
                                    ];
         NSNumber *enumValue = [constraintTypes objectForKey:self.constraintType];
@@ -49,22 +49,22 @@ NSString * const DCCT_GLOB =@"glob";
 
 -(void) setDataColumnConstraintType: (enum GPKGDataColumnConstraintType) constraintType{
     switch(constraintType){
-        case RANGE:
-            self.constraintType = DCCT_RANGE;
+        case GPKG_DCCT_RANGE:
+            self.constraintType = GPKG_DCCT_RANGE_NAME;
             break;
-        case ENUM:
-            self.constraintType = DCCT_ENUM;
+        case GPKG_DCCT_ENUM:
+            self.constraintType = GPKG_DCCT_ENUM_NAME;
             break;
-        case GLOB:
-            self.constraintType = DCCT_GLOB;
+        case GPKG_DCCT_GLOB:
+            self.constraintType = GPKG_DCCT_GLOB_NAME;
             break;
     }
     switch(constraintType){
-        case RANGE:
+        case GPKG_DCCT_RANGE:
             self.value = nil;
             break;
-        case ENUM:
-        case GLOB:
+        case GPKG_DCCT_ENUM:
+        case GPKG_DCCT_GLOB:
             self.min = nil;
             self.max = nil;
             self.minIsInclusive = nil;
@@ -74,34 +74,34 @@ NSString * const DCCT_GLOB =@"glob";
 }
 
 -(void) setValue:(NSString *)value{
-    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] == RANGE){
+    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] == GPKG_DCCT_RANGE){
         [NSException raise:@"Illegal State" format:@"The value must be null for range constraints"];
     }
     _value = value;
 }
 
 -(void) setMin:(NSDecimalNumber *)min{
-    [self validateRangeValueWithColumn:DCC_COLUMN_MIN andValue:min];
+    [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MIN andValue:min];
     _min = min;
 }
 
 -(void) setMinIsInclusive:(NSNumber *)minIsInclusive{
-    [self validateRangeValueWithColumn:DCC_COLUMN_MIN_IS_INCLUSIVE andValue:minIsInclusive];
+    [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE andValue:minIsInclusive];
     _minIsInclusive = minIsInclusive;
 }
 
 -(void) setMax:(NSDecimalNumber *)max{
-    [self validateRangeValueWithColumn:DCC_COLUMN_MAX andValue:max];
+    [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MAX andValue:max];
     _max = max;
 }
 
 -(void) setMaxIsInclusive:(NSNumber *)maxIsInclusive{
-    [self validateRangeValueWithColumn:DCC_COLUMN_MAX_IS_INCLUSIVE andValue:maxIsInclusive];
+    [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE andValue:maxIsInclusive];
     _maxIsInclusive = maxIsInclusive;
 }
 
 -(void) validateRangeValueWithColumn: (NSString *) column andValue: (NSObject *) value{
-    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] != RANGE){
+    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] != GPKG_DCCT_RANGE){
         [NSException raise:@"Illegal State" format:@"The %@ must be null for enum and glob constraints", column];
     }
 }

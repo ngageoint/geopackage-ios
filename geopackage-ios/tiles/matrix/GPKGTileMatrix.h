@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "GPKGContents.h"
 
-extern NSString * const TM_TABLE_NAME;
-extern NSString * const TM_COLUMN_PK1;
-extern NSString * const TM_COLUMN_PK2;
-extern NSString * const TM_COLUMN_TABLE_NAME;
-extern NSString * const TM_COLUMN_ZOOM_LEVEL;
-extern NSString * const TM_COLUMN_MATRIX_WIDTH;
-extern NSString * const TM_COLUMN_MATRIX_HEIGHT;
-extern NSString * const TM_COLUMN_TILE_WIDTH;
-extern NSString * const TM_COLUMN_TILE_HEIGHT;
-extern NSString * const TM_COLUMN_PIXEL_X_SIZE;
-extern NSString * const TM_COLUMN_PIXEL_Y_SIZE;
+extern NSString * const GPKG_TM_TABLE_NAME;
+extern NSString * const GPKG_TM_COLUMN_PK1;
+extern NSString * const GPKG_TM_COLUMN_PK2;
+extern NSString * const GPKG_TM_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_TM_COLUMN_ZOOM_LEVEL;
+extern NSString * const GPKG_TM_COLUMN_MATRIX_WIDTH;
+extern NSString * const GPKG_TM_COLUMN_MATRIX_HEIGHT;
+extern NSString * const GPKG_TM_COLUMN_TILE_WIDTH;
+extern NSString * const GPKG_TM_COLUMN_TILE_HEIGHT;
+extern NSString * const GPKG_TM_COLUMN_PIXEL_X_SIZE;
+extern NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE;
 
 @interface GPKGTileMatrix : NSObject
 

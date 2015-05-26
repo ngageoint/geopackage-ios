@@ -14,9 +14,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = M_TABLE_NAME;
-        self.idColumns = @[M_COLUMN_PK];
-        self.columns = @[M_COLUMN_ID, M_COLUMN_SCOPE, M_COLUMN_STANDARD_URI, M_COLUMN_MIME_TYPE, M_COLUMN_METADATA];
+        self.tableName = GPKG_M_TABLE_NAME;
+        self.idColumns = @[GPKG_M_COLUMN_PK];
+        self.columns = @[GPKG_M_COLUMN_ID, GPKG_M_COLUMN_SCOPE, GPKG_M_COLUMN_STANDARD_URI, GPKG_M_COLUMN_MIME_TYPE, GPKG_M_COLUMN_METADATA];
         [self initializeColumnIndex];
     }
     return self;

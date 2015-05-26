@@ -9,55 +9,55 @@
 #import <Foundation/Foundation.h>
 #import "GPKGMetadataScope.h"
 
-extern NSString * const M_TABLE_NAME;
-extern NSString * const M_COLUMN_PK;
-extern NSString * const M_COLUMN_ID;
-extern NSString * const M_COLUMN_SCOPE;
-extern NSString * const M_COLUMN_STANDARD_URI;
-extern NSString * const M_COLUMN_MIME_TYPE;
-extern NSString * const M_COLUMN_METADATA;
+extern NSString * const GPKG_M_TABLE_NAME;
+extern NSString * const GPKG_M_COLUMN_PK;
+extern NSString * const GPKG_M_COLUMN_ID;
+extern NSString * const GPKG_M_COLUMN_SCOPE;
+extern NSString * const GPKG_M_COLUMN_STANDARD_URI;
+extern NSString * const GPKG_M_COLUMN_MIME_TYPE;
+extern NSString * const GPKG_M_COLUMN_METADATA;
 
 enum GPKGMetadataScopeType{
-    UNDEFINED,
-    FIELD_SESSION,
-    COLLECTION_SESSION,
-    SERIES,
-    DATASET,
-    FEATURE_TYPE,
-    FEATURE,
-    ATTRIBUTE_TYPE,
-    ATTRIBUTE,
-    TILE,
-    MODEL,
-    CATALOG,
-    SCHEMA,
-    TAXONOMY,
-    SOFTWARE,
-    SERVICE,
-    COLLECTION_HARDWARE,
-    NON_GEOGRAPHIC_DATASET,
-    DIMENSION_GROUP
+    GPKG_MST_UNDEFINED,
+    GPKG_MST_FIELD_SESSION,
+    GPKG_MST_COLLECTION_SESSION,
+    GPKG_MST_SERIES,
+    GPKG_MST_DATASET,
+    GPKG_MST_FEATURE_TYPE,
+    GPKG_MST_FEATURE,
+    GPKG_MST_ATTRIBUTE_TYPE,
+    GPKG_MST_ATTRIBUTE,
+    GPKG_MST_TILE,
+    GPKG_MST_MODEL,
+    GPKG_MST_CATALOG,
+    GPKG_MST_SCHEMA,
+    GPKG_MST_TAXONOMY,
+    GPKG_MST_SOFTWARE,
+    GPKG_MST_SERVICE,
+    GPKG_MST_COLLECTION_HARDWARE,
+    GPKG_MST_NON_GEOGRAPHIC_DATASET,
+    GPKG_MST_DIMENSION_GROUP
 };
 
-extern NSString * const MST_UNDEFINED;
-extern NSString * const MST_FIELD_SESSION;
-extern NSString * const MST_COLLECTION_SESSION;
-extern NSString * const MST_SERIES;
-extern NSString * const MST_DATASET;
-extern NSString * const MST_FEATURE_TYPE;
-extern NSString * const MST_FEATURE;
-extern NSString * const MST_ATTRIBUTE_TYPE;
-extern NSString * const MST_ATTRIBUTE;
-extern NSString * const MST_TILE;
-extern NSString * const MST_MODEL;
-extern NSString * const MST_CATALOG;
-extern NSString * const MST_SCHEMA;
-extern NSString * const MST_TAXONOMY;
-extern NSString * const MST_SOFTWARE;
-extern NSString * const MST_SERVICE;
-extern NSString * const MST_COLLECTION_HARDWARE;
-extern NSString * const MST_NON_GEOGRAPHIC_DATASET;
-extern NSString * const MST_DIMENSION_GROUP;
+extern NSString * const GPKG_MST_UNDEFINED_NAME;
+extern NSString * const GPKG_MST_FIELD_SESSION_NAME;
+extern NSString * const GPKG_MST_COLLECTION_SESSION_NAME;
+extern NSString * const GPKG_MST_SERIES_NAME;
+extern NSString * const GPKG_MST_DATASET_NAME;
+extern NSString * const GPKG_MST_FEATURE_TYPE_NAME;
+extern NSString * const GPKG_MST_FEATURE_NAME;
+extern NSString * const GPKG_MST_ATTRIBUTE_TYPE_NAME;
+extern NSString * const GPKG_MST_ATTRIBUTE_NAME;
+extern NSString * const GPKG_MST_TILE_NAME;
+extern NSString * const GPKG_MST_MODEL_NAME;
+extern NSString * const GPKG_MST_CATALOG_NAME;
+extern NSString * const GPKG_MST_SCHEMA_NAME;
+extern NSString * const GPKG_MST_TAXONOMY_NAME;
+extern NSString * const GPKG_MST_SOFTWARE_NAME;
+extern NSString * const GPKG_MST_SERVICE_NAME;
+extern NSString * const GPKG_MST_COLLECTION_HARDWARE_NAME;
+extern NSString * const GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME;
+extern NSString * const GPKG_MST_DIMENSION_GROUP_NAME;
 
 @interface GPKGMetadata : NSObject
 

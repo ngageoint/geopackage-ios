@@ -17,9 +17,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = CON_TABLE_NAME;
-        self.idColumns = @[CON_COLUMN_PK];
-        self.columns = @[CON_COLUMN_TABLE_NAME, CON_COLUMN_DATA_TYPE, CON_COLUMN_IDENTIFIER, CON_COLUMN_DESCRIPTION, CON_COLUMN_LAST_CHANGE, CON_COLUMN_MIN_X, CON_COLUMN_MIN_Y, CON_COLUMN_MAX_X, CON_COLUMN_MAX_Y, CON_COLUMN_SRS_ID];
+        self.tableName = GPKG_CON_TABLE_NAME;
+        self.idColumns = @[GPKG_CON_COLUMN_PK];
+        self.columns = @[GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_COLUMN_DATA_TYPE, GPKG_CON_COLUMN_IDENTIFIER, GPKG_CON_COLUMN_DESCRIPTION, GPKG_CON_COLUMN_LAST_CHANGE, GPKG_CON_COLUMN_MIN_X, GPKG_CON_COLUMN_MIN_Y, GPKG_CON_COLUMN_MAX_X, GPKG_CON_COLUMN_MAX_Y, GPKG_CON_COLUMN_SRS_ID];
         [self initializeColumnIndex];
     }
     return self;
@@ -130,25 +130,25 @@
     enum GPKGContentsDataType dataType = [validateObject getContentsDataType];
     
     switch (dataType) {
-        case FEATURES:{
+        case GPKG_CDT_FEATURES:{
                 // Features require Geometry Columns table (Spec Requirement 21)
                 GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
                 if(![geometryColumnsDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GC_TABLE_NAME];
+                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_GC_TABLE_NAME];
                 }
             }
             break;
-        case TILES:{
+        case GPKG_CDT_TILES:{
                 // Tiles require Tile Matrix Set table (Spec Requirement 37)
                 GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
                 if(![tileMatrixSetDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, TMS_TABLE_NAME];
+                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_TMS_TABLE_NAME];
                 }
             
                 // Tiles require Tile Matrix table (Spec Requirement 41)
                 GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
                 if(![tileMatrixDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, TM_TABLE_NAME];
+                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_TM_TABLE_NAME];
                 }
             }
             
@@ -286,7 +286,7 @@
 -(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents{
     GPKGGeometryColumns * geometryColumns = nil;
     GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GC_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
         geometryColumns = (GPKGGeometryColumns *)[self getObject:results];
     }
@@ -297,7 +297,7 @@
 -(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGContents *) contents{
     GPKGTileMatrixSet * tileMatrixSet = nil;
     GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
-    GPKGResultSet * results = [dao queryForEqWithField:TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
         tileMatrixSet = (GPKGTileMatrixSet *)[self getObject:results];
     }
@@ -307,7 +307,7 @@
 
 -(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents{
     GPKGTileMatrixDao * dao = [self getTileMatrixDao];
-    GPKGResultSet * results = [dao queryForEqWithField:TM_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:contents.tableName];
     return results;
 }
 

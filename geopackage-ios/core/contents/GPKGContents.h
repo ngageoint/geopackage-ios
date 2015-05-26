@@ -10,26 +10,26 @@
 #import "GPKGSpatialReferenceSystem.h"
 #import "GPKGBoundingBox.h"
 
-extern NSString * const CON_TABLE_NAME;
-extern NSString * const CON_COLUMN_PK;
-extern NSString * const CON_COLUMN_TABLE_NAME;
-extern NSString * const CON_COLUMN_DATA_TYPE;
-extern NSString * const CON_COLUMN_IDENTIFIER;
-extern NSString * const CON_COLUMN_DESCRIPTION;
-extern NSString * const CON_COLUMN_LAST_CHANGE;
-extern NSString * const CON_COLUMN_MIN_X;
-extern NSString * const CON_COLUMN_MIN_Y;
-extern NSString * const CON_COLUMN_MAX_X;
-extern NSString * const CON_COLUMN_MAX_Y;
-extern NSString * const CON_COLUMN_SRS_ID;
+extern NSString * const GPKG_CON_TABLE_NAME;
+extern NSString * const GPKG_CON_COLUMN_PK;
+extern NSString * const GPKG_CON_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_CON_COLUMN_DATA_TYPE;
+extern NSString * const GPKG_CON_COLUMN_IDENTIFIER;
+extern NSString * const GPKG_CON_COLUMN_DESCRIPTION;
+extern NSString * const GPKG_CON_COLUMN_LAST_CHANGE;
+extern NSString * const GPKG_CON_COLUMN_MIN_X;
+extern NSString * const GPKG_CON_COLUMN_MIN_Y;
+extern NSString * const GPKG_CON_COLUMN_MAX_X;
+extern NSString * const GPKG_CON_COLUMN_MAX_Y;
+extern NSString * const GPKG_CON_COLUMN_SRS_ID;
 
 enum GPKGContentsDataType{
-    FEATURES,
-    TILES
+    GPKG_CDT_FEATURES,
+    GPKG_CDT_TILES
 };
 
-extern NSString * const CDT_FEATURES;
-extern NSString * const CDT_TILES;
+extern NSString * const GPKG_CDT_FEATURES_NAME;
+extern NSString * const GPKG_CDT_TILES_NAME;
 
 @interface GPKGContents : NSObject
 

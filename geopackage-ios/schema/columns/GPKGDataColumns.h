@@ -10,16 +10,16 @@
 #import "GPKGContents.h"
 #import "GPKGDataColumnConstraints.h"
 
-extern NSString * const DC_TABLE_NAME;
-extern NSString * const DC_COLUMN_PK1;
-extern NSString * const DC_COLUMN_PK2;
-extern NSString * const DC_COLUMN_TABLE_NAME;
-extern NSString * const DC_COLUMN_COLUMN_NAME;
-extern NSString * const DC_COLUMN_NAME;
-extern NSString * const DC_COLUMN_TITLE;
-extern NSString * const DC_COLUMN_DESCRIPTION;
-extern NSString * const DC_COLUMN_MIME_TYPE;
-extern NSString * const DC_COLUMN_CONSTRAINT_NAME;
+extern NSString * const GPKG_DC_TABLE_NAME;
+extern NSString * const GPKG_DC_COLUMN_PK1;
+extern NSString * const GPKG_DC_COLUMN_PK2;
+extern NSString * const GPKG_DC_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_DC_COLUMN_COLUMN_NAME;
+extern NSString * const GPKG_DC_COLUMN_NAME;
+extern NSString * const GPKG_DC_COLUMN_TITLE;
+extern NSString * const GPKG_DC_COLUMN_DESCRIPTION;
+extern NSString * const GPKG_DC_COLUMN_MIME_TYPE;
+extern NSString * const GPKG_DC_COLUMN_CONSTRAINT_NAME;
 
 @interface GPKGDataColumns : NSObject
 

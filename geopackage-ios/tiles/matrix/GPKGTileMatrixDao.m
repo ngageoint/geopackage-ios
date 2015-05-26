@@ -8,15 +8,16 @@
 
 #import "GPKGTileMatrixDao.h"
 #import "GPKGContentsDao.h"
+#import "GPKGTileMatrixSetDao.h"
 
 @implementation GPKGTileMatrixDao
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = TM_TABLE_NAME;
-        self.idColumns = @[TM_COLUMN_PK1, TM_COLUMN_PK2];
-        self.columns = @[TM_COLUMN_TABLE_NAME, TM_COLUMN_ZOOM_LEVEL, TM_COLUMN_MATRIX_WIDTH, TM_COLUMN_MATRIX_HEIGHT, TM_COLUMN_TILE_WIDTH, TM_COLUMN_TILE_HEIGHT, TM_COLUMN_PIXEL_X_SIZE, TM_COLUMN_PIXEL_Y_SIZE];
+        self.tableName = GPKG_TM_TABLE_NAME;
+        self.idColumns = @[GPKG_TM_COLUMN_PK1, GPKG_TM_COLUMN_PK2];
+        self.columns = @[GPKG_TM_COLUMN_TABLE_NAME, GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_MATRIX_WIDTH, GPKG_TM_COLUMN_MATRIX_HEIGHT, GPKG_TM_COLUMN_TILE_WIDTH, GPKG_TM_COLUMN_TILE_HEIGHT, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE];
         [self initializeColumnIndex];
     }
     return self;
@@ -102,8 +103,21 @@
 }
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
-    //TODO
-    return nil;
+    GPKGTileMatrix *projectionObject = (GPKGTileMatrix*) object;
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+    GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:projectionObject];
+    GPKGProjection * projection = [tileMatrixSetDao getProjection:tileMatrixSet];
+    return projection;
+}
+
+-(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGTileMatrix *) tileMatrix{
+    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForId:tileMatrix.tableName];
+    return tileMatrixSet;
+}
+
+-(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 
 -(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix{

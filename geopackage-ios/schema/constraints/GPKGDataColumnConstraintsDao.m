@@ -14,9 +14,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = DCC_TABLE_NAME;
-        self.idColumns = @[DCC_COLUMN_CONSTRAINT_NAME, DCC_COLUMN_CONSTRAINT_TYPE, DCC_COLUMN_VALUE];
-        self.columns = @[DCC_COLUMN_CONSTRAINT_NAME, DCC_COLUMN_CONSTRAINT_TYPE, DCC_COLUMN_VALUE, DCC_COLUMN_MIN, DCC_COLUMN_MIN_IS_INCLUSIVE, DCC_COLUMN_MAX, DCC_COLUMN_MAX_IS_INCLUSIVE, DCC_COLUMN_DESCRIPTION];
+        self.tableName = GPKG_DCC_TABLE_NAME;
+        self.idColumns = @[GPKG_DCC_COLUMN_CONSTRAINT_NAME, GPKG_DCC_COLUMN_CONSTRAINT_TYPE, GPKG_DCC_COLUMN_VALUE];
+        self.columns = @[GPKG_DCC_COLUMN_CONSTRAINT_NAME, GPKG_DCC_COLUMN_CONSTRAINT_TYPE, GPKG_DCC_COLUMN_VALUE, GPKG_DCC_COLUMN_MIN, GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE, GPKG_DCC_COLUMN_MAX, GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE, GPKG_DCC_COLUMN_DESCRIPTION];
         [self initializeColumnIndex];
     }
     return self;
@@ -102,8 +102,16 @@
 }
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
-    //TODO
-    return nil;
+    GPKGDataColumnConstraints *projectionObject = (GPKGDataColumnConstraints*) object;
+    GPKGResultSet *dataColumnResults = [self getDataColumns:projectionObject];
+    GPKGDataColumnsDao *dataColumnsDao = [self getDataColumnsDao];
+    GPKGProjection * projection = nil;
+    if([dataColumnResults moveToNext]){
+        GPKGDataColumns *dataColumns = (GPKGDataColumns *)[dataColumnsDao getObject:dataColumnResults];
+        projection = [dataColumnsDao getProjection:dataColumns];
+    }
+    [dataColumnResults close];
+    return projection;
 }
 
 -(int) deleteCascade: (GPKGDataColumnConstraints *) constraints{
@@ -189,7 +197,7 @@
 }
 
 -(GPKGResultSet *) queryByConstraintName: (NSString *) constraintName{
-    return [self queryForEqWithField:DCC_COLUMN_CONSTRAINT_NAME andValue:constraintName];
+    return [self queryForEqWithField:GPKG_DCC_COLUMN_CONSTRAINT_NAME andValue:constraintName];
 }
 
 -(GPKGDataColumnConstraints *) queryByUniqueConstraintName: (NSString *) constraintName
@@ -210,6 +218,12 @@
     
     return result;
     
+}
+
+-(GPKGResultSet *) getDataColumns: (GPKGDataColumnConstraints *) dataColumnConstraints{
+    GPKGDataColumnsDao * dao = [self getDataColumnsDao];
+    GPKGResultSet *results = [dao queryByConstraintName:dataColumnConstraints.constraintName];
+    return results;
 }
 
 -(GPKGDataColumnsDao *) getDataColumnsDao{

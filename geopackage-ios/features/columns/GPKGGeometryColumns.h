@@ -9,16 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "GPKGContents.h"
 #import "GPKGSpatialReferenceSystem.h"
+#import "WKBGeometryTypes.h"
 
-extern NSString * const GC_TABLE_NAME;
-extern NSString * const GC_COLUMN_PK1;
-extern NSString * const GC_COLUMN_PK2;
-extern NSString * const GC_COLUMN_TABLE_NAME;
-extern NSString * const GC_COLUMN_COLUMN_NAME;
-extern NSString * const GC_COLUMN_GEOMETRY_TYPE_NAME;
-extern NSString * const GC_COLUMN_SRS_ID;
-extern NSString * const GC_COLUMN_Z;
-extern NSString * const GC_COLUMN_M;
+extern NSString * const GPKG_GC_TABLE_NAME;
+extern NSString * const GPKG_GC_COLUMN_PK1;
+extern NSString * const GPKG_GC_COLUMN_PK2;
+extern NSString * const GPKG_GC_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_GC_COLUMN_COLUMN_NAME;
+extern NSString * const GPKG_GC_COLUMN_GEOMETRY_TYPE_NAME;
+extern NSString * const GPKG_GC_COLUMN_SRS_ID;
+extern NSString * const GPKG_GC_COLUMN_Z;
+extern NSString * const GPKG_GC_COLUMN_M;
 
 @interface GPKGGeometryColumns : NSObject
 
@@ -29,9 +30,9 @@ extern NSString * const GC_COLUMN_M;
 @property (nonatomic, strong) NSNumber *z;
 @property (nonatomic, strong) NSNumber *m;
 
-// TODO
-//-(enum WKBGeometryType) getGeometryType;
-//-(void) setGeometryType: (enum WKBGeometryType) geometryType;
+-(enum WKBGeometryType) getGeometryType;
+
+-(void) setGeometryType: (enum WKBGeometryType) geometryType;
 
 -(void) setZ:(NSNumber *)z;
 

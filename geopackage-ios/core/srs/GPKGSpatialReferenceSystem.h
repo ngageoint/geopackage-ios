@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const SRS_TABLE_NAME;
-extern NSString * const SRS_COLUMN_PK;
-extern NSString * const SRS_COLUMN_SRS_NAME;
-extern NSString * const SRS_COLUMN_SRS_ID;
-extern NSString * const SRS_COLUMN_ORGANIZATION;
-extern NSString * const SRS_COLUMN_ORGANIZATION_COORDSYS_ID;
-extern NSString * const SRS_COLUMN_DEFINITION;
-extern NSString * const SRS_COLUMN_DESCRIPTION;
+extern NSString * const GPKG_SRS_TABLE_NAME;
+extern NSString * const GPKG_SRS_COLUMN_PK;
+extern NSString * const GPKG_SRS_COLUMN_SRS_NAME;
+extern NSString * const GPKG_SRS_COLUMN_SRS_ID;
+extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION;
+extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID;
+extern NSString * const GPKG_SRS_COLUMN_DEFINITION;
+extern NSString * const GPKG_SRS_COLUMN_DESCRIPTION;
 
 @interface GPKGSpatialReferenceSystem : NSObject
 

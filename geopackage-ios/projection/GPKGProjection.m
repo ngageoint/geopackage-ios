@@ -10,6 +10,17 @@
 
 @implementation GPKGProjection
 
-//TODO
+-(instancetype) initWithEpsg: (NSNumber *) epsg{
+    self = [super init];
+    if(self != nil){
+        self.epsg = epsg;
+    }
+    return self;
+}
+
+-(double) toMeters: (double) value{
+    //TODO
+    return value;
+}
 
 @end

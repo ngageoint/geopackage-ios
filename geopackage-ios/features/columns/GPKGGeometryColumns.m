@@ -8,32 +8,40 @@
 
 #import "GPKGGeometryColumns.h"
 
-NSString * const GC_TABLE_NAME = @"gpkg_geometry_columns";
-NSString * const GC_COLUMN_PK1 = @"table_name";
-NSString * const GC_COLUMN_PK2 = @"column_name";
-NSString * const GC_COLUMN_TABLE_NAME = @"table_name";
-NSString * const GC_COLUMN_COLUMN_NAME = @"column_name";
-NSString * const GC_COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
-NSString * const GC_COLUMN_SRS_ID = @"srs_id";
-NSString * const GC_COLUMN_Z = @"z";
-NSString * const GC_COLUMN_M = @"m";
+NSString * const GPKG_GC_TABLE_NAME = @"gpkg_geometry_columns";
+NSString * const GPKG_GC_COLUMN_PK1 = @"table_name";
+NSString * const GPKG_GC_COLUMN_PK2 = @"column_name";
+NSString * const GPKG_GC_COLUMN_TABLE_NAME = @"table_name";
+NSString * const GPKG_GC_COLUMN_COLUMN_NAME = @"column_name";
+NSString * const GPKG_GC_COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
+NSString * const GPKG_GC_COLUMN_SRS_ID = @"srs_id";
+NSString * const GPKG_GC_COLUMN_Z = @"z";
+NSString * const GPKG_GC_COLUMN_M = @"m";
 
 @implementation GPKGGeometryColumns
 
+-(enum WKBGeometryType) getGeometryType{
+    return [WKBGeometryTypes fromName:self.geometryTypeName];
+}
+
+-(void) setGeometryType: (enum WKBGeometryType) geometryType{
+    self.geometryTypeName = [WKBGeometryTypes name:geometryType];
+}
+
 -(void) setZ:(NSNumber *)z{
-    [self validateValuesWithColumn:GC_COLUMN_Z andValue:z];
+    [self validateValuesWithColumn:GPKG_GC_COLUMN_Z andValue:z];
     _z = z;
 }
 
 -(void) setM:(NSNumber *)m{
-    [self validateValuesWithColumn:GC_COLUMN_M andValue:m];
+    [self validateValuesWithColumn:GPKG_GC_COLUMN_M andValue:m];
     _m = m;
 }
 
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
         enum GPKGContentsDataType dataType = contents.getContentsDataType;
-        if(dataType != FEATURES){
+        if(dataType != GPKG_CDT_FEATURES){
             [NSException raise:@"Contents Type" format:@"The Contents of Geometry Columns must have a data type of features"];
         }
         self.tableName = contents.tableName;

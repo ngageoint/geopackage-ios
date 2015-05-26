@@ -8,17 +8,17 @@
 
 #import "GPKGTileMatrix.h"
 
-NSString * const TM_TABLE_NAME = @"gpkg_tile_matrix";
-NSString * const TM_COLUMN_PK1 = @"table_name";
-NSString * const TM_COLUMN_PK2 = @"zoom_level";
-NSString * const TM_COLUMN_TABLE_NAME = @"table_name";
-NSString * const TM_COLUMN_ZOOM_LEVEL = @"zoom_level";
-NSString * const TM_COLUMN_MATRIX_WIDTH = @"matrix_width";
-NSString * const TM_COLUMN_MATRIX_HEIGHT = @"matrix_height";
-NSString * const TM_COLUMN_TILE_WIDTH = @"tile_width";
-NSString * const TM_COLUMN_TILE_HEIGHT = @"tile_height";
-NSString * const TM_COLUMN_PIXEL_X_SIZE = @"pixel_x_size";
-NSString * const TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
+NSString * const GPKG_TM_TABLE_NAME = @"gpkg_tile_matrix";
+NSString * const GPKG_TM_COLUMN_PK1 = @"table_name";
+NSString * const GPKG_TM_COLUMN_PK2 = @"zoom_level";
+NSString * const GPKG_TM_COLUMN_TABLE_NAME = @"table_name";
+NSString * const GPKG_TM_COLUMN_ZOOM_LEVEL = @"zoom_level";
+NSString * const GPKG_TM_COLUMN_MATRIX_WIDTH = @"matrix_width";
+NSString * const GPKG_TM_COLUMN_MATRIX_HEIGHT = @"matrix_height";
+NSString * const GPKG_TM_COLUMN_TILE_WIDTH = @"tile_width";
+NSString * const GPKG_TM_COLUMN_TILE_HEIGHT = @"tile_height";
+NSString * const GPKG_TM_COLUMN_PIXEL_X_SIZE = @"pixel_x_size";
+NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
 
 @implementation GPKGTileMatrix
 
@@ -26,7 +26,7 @@ NSString * const TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
     if(contents != nil){
         // Verify the Contents have a tiles data type (Spec Requirement 42)
         enum GPKGContentsDataType dataType = contents.getContentsDataType;
-        if(dataType != TILES){
+        if(dataType != GPKG_CDT_TILES){
             [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix must have a data type of tiles"];
         }
         self.tableName = contents.tableName;
@@ -36,37 +36,37 @@ NSString * const TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
 }
 
 -(void) setZoomLevel:(NSNumber *)zoomLevel{
-    [self validateValuesWithColumn:TM_COLUMN_ZOOM_LEVEL andValue:zoomLevel andAllowZero:true];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_ZOOM_LEVEL andValue:zoomLevel andAllowZero:true];
     _zoomLevel = zoomLevel;
 }
 
 -(void) setMatrixWidth:(NSNumber *)matrixWidth{
-    [self validateValuesWithColumn:TM_COLUMN_MATRIX_WIDTH andValue:matrixWidth andAllowZero:false];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_MATRIX_WIDTH andValue:matrixWidth andAllowZero:false];
     _matrixWidth = matrixWidth;
 }
 
 -(void) setMatrixHeight:(NSNumber *)matrixHeight{
-    [self validateValuesWithColumn:TM_COLUMN_MATRIX_HEIGHT andValue:matrixHeight andAllowZero:false];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_MATRIX_HEIGHT andValue:matrixHeight andAllowZero:false];
     _matrixHeight = matrixHeight;
 }
 
 -(void) setTileWidth:(NSNumber *)tileWidth{
-    [self validateValuesWithColumn:TM_COLUMN_TILE_WIDTH andValue:tileWidth andAllowZero:false];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_TILE_WIDTH andValue:tileWidth andAllowZero:false];
     _tileWidth = tileWidth;
 }
 
 -(void) setTileHeight:(NSNumber *)tileHeight{
-    [self validateValuesWithColumn:TM_COLUMN_TILE_HEIGHT andValue:tileHeight andAllowZero:false];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_TILE_HEIGHT andValue:tileHeight andAllowZero:false];
     _tileHeight = tileHeight;
 }
 
 -(void) setPixelXSize:(NSDecimalNumber *)pixelXSize{
-    [self validateValuesWithColumn:TM_COLUMN_PIXEL_X_SIZE andValue:pixelXSize];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_PIXEL_X_SIZE andValue:pixelXSize];
     _pixelXSize = pixelXSize;
 }
 
 -(void) setPixelYSize:(NSDecimalNumber *)pixelYSize{
-    [self validateValuesWithColumn:TM_COLUMN_PIXEL_Y_SIZE andValue:pixelYSize];
+    [self validateValuesWithColumn:GPKG_TM_COLUMN_PIXEL_Y_SIZE andValue:pixelYSize];
     _pixelYSize = pixelYSize;
 }
 

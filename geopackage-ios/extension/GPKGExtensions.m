@@ -8,16 +8,16 @@
 
 #import "GPKGExtensions.h"
 
-NSString * const EX_EXTENSION_NAME_DIVIDER = @"_";
-NSString * const EX_TABLE_NAME = @"gpkg_extensions";
-NSString * const EX_COLUMN_TABLE_NAME = @"table_name";
-NSString * const EX_COLUMN_COLUMN_NAME = @"column_name";
-NSString * const EX_COLUMN_EXTENSION_NAME = @"extension_name";
-NSString * const EX_COLUMN_DEFINITION = @"definition";
-NSString * const EX_COLUMN_SCOPE = @"scope";
+NSString * const GPKG_EX_EXTENSION_NAME_DIVIDER = @"_";
+NSString * const GPKG_EX_TABLE_NAME = @"gpkg_extensions";
+NSString * const GPKG_EX_COLUMN_TABLE_NAME = @"table_name";
+NSString * const GPKG_EX_COLUMN_COLUMN_NAME = @"column_name";
+NSString * const GPKG_EX_COLUMN_EXTENSION_NAME = @"extension_name";
+NSString * const GPKG_EX_COLUMN_DEFINITION = @"definition";
+NSString * const GPKG_EX_COLUMN_SCOPE = @"scope";
 
-NSString * const EST_READ_WRITE = @"read-write";
-NSString * const EST_WRITE_ONLY = @"write-only";
+NSString * const GPKG_EST_READ_WRITE_NAME = @"read-write";
+NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 
 @implementation GPKGExtensions
 
@@ -26,8 +26,8 @@ NSString * const EST_WRITE_ONLY = @"write-only";
     
     if(self.scope != nil){
         NSDictionary *scopeTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInteger:READ_WRITE], EST_READ_WRITE,
-                                    [NSNumber numberWithInteger:WRITE_ONLY], EST_WRITE_ONLY,
+                                    [NSNumber numberWithInteger:GPKG_EST_READ_WRITE], GPKG_EST_READ_WRITE_NAME,
+                                    [NSNumber numberWithInteger:GPKG_EST_WRITE_ONLY], GPKG_EST_WRITE_ONLY_NAME,
                                     nil
                                     ];
         NSNumber *enumValue = [scopeTypes objectForKey:self.scope];
@@ -40,11 +40,11 @@ NSString * const EST_WRITE_ONLY = @"write-only";
 -(void) setExtensionScopeType: (enum GPKGExtensionScopeType) extensionScopeType{
     
     switch(extensionScopeType){
-        case READ_WRITE:
-            self.scope = EST_READ_WRITE;
+        case GPKG_EST_READ_WRITE:
+            self.scope = GPKG_EST_READ_WRITE_NAME;
             break;
-        case WRITE_ONLY:
-            self.scope = EST_WRITE_ONLY;
+        case GPKG_EST_WRITE_ONLY:
+            self.scope = GPKG_EST_WRITE_ONLY_NAME;
             break;
     }
     
@@ -58,13 +58,13 @@ NSString * const EST_WRITE_ONLY = @"write-only";
 }
 
 -(void) setExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName{
-    [self setExtensionName:[NSString stringWithFormat:@"%@%@%@", author, EX_EXTENSION_NAME_DIVIDER, extensionName]];
+    [self setExtensionName:[NSString stringWithFormat:@"%@%@%@", author, GPKG_EX_EXTENSION_NAME_DIVIDER, extensionName]];
 }
 
 -(NSString *) getAuthor{
     NSString * author = nil;
     if(self.extensionName != nil){
-        author = [[self.extensionName componentsSeparatedByString:EX_EXTENSION_NAME_DIVIDER] objectAtIndex:0];
+        author = [[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER] objectAtIndex:0];
     }
     return author;
 }
@@ -72,7 +72,7 @@ NSString * const EST_WRITE_ONLY = @"write-only";
 -(NSString *) getExtensionNameNoAuthor{
     NSString * value = nil;
     if(self.extensionName != nil){
-        value = [[self.extensionName componentsSeparatedByString:EX_EXTENSION_NAME_DIVIDER] objectAtIndex:1];
+        value = [[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER] objectAtIndex:1];
     }
     return value;
 }

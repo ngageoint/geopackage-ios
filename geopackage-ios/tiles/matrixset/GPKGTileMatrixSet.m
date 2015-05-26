@@ -8,14 +8,14 @@
 
 #import "GPKGTileMatrixSet.h"
 
-NSString * const TMS_TABLE_NAME = @"gpkg_tile_matrix_set";
-NSString * const TMS_COLUMN_PK = @"table_name";
-NSString * const TMS_COLUMN_TABLE_NAME = @"table_name";
-NSString * const TMS_COLUMN_SRS_ID = @"srs_id";
-NSString * const TMS_COLUMN_MIN_X = @"min_x";
-NSString * const TMS_COLUMN_MIN_Y = @"min_y";
-NSString * const TMS_COLUMN_MAX_X = @"max_x";
-NSString * const TMS_COLUMN_MAX_Y = @"max_y";
+NSString * const GPKG_TMS_TABLE_NAME = @"gpkg_tile_matrix_set";
+NSString * const GPKG_TMS_COLUMN_PK = @"table_name";
+NSString * const GPKG_TMS_COLUMN_TABLE_NAME = @"table_name";
+NSString * const GPKG_TMS_COLUMN_SRS_ID = @"srs_id";
+NSString * const GPKG_TMS_COLUMN_MIN_X = @"min_x";
+NSString * const GPKG_TMS_COLUMN_MIN_Y = @"min_y";
+NSString * const GPKG_TMS_COLUMN_MAX_X = @"max_x";
+NSString * const GPKG_TMS_COLUMN_MAX_Y = @"max_y";
 
 @implementation GPKGTileMatrixSet
 
@@ -23,7 +23,7 @@ NSString * const TMS_COLUMN_MAX_Y = @"max_y";
     if(contents != nil){
         // Verify the Contents have a tiles data type (Spec Requirement 33)
         enum GPKGContentsDataType dataType = contents.getContentsDataType;
-        if(dataType != TILES){
+        if(dataType != GPKG_CDT_TILES){
             [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix Set must have a data type of tiles"];
         }
         self.tableName = contents.tableName;
