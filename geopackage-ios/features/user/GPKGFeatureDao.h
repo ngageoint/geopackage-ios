@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) GPKGGeometryColumns * geometryColumns;
 
--(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
+-(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGFeatureTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
 
 -(GPKGFeatureTable *) getFeatureTable;
 

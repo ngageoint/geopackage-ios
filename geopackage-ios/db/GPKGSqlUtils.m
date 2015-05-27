@@ -70,7 +70,7 @@
         if(range.length == 0){
             return -1;
         }
-        NSInteger index = [countStatement rangeOfString:@" from "].location;
+        NSInteger index = range.location;
         
         countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
     }

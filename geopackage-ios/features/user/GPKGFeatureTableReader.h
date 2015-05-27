@@ -7,9 +7,15 @@
 //
 
 #import "GPKGUserTableReader.h"
+#import "GPKGGeometryColumns.h"
+#import "GPKGFeatureTable.h"
 
 @interface GPKGFeatureTableReader : GPKGUserTableReader
 
-// TODO
+@property (nonatomic, strong) GPKGGeometryColumns * geometryColumns;
+
+-(instancetype) initWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
+
+-(GPKGFeatureTable *) readFeatureTableWithConnection: (GPKGConnection *) db;
 
 @end
