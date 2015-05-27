@@ -124,13 +124,13 @@
 
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGGeometryColumns *) geometryColumns{
     GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForId:geometryColumns.srsId];
+    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:geometryColumns.srsId];
     return srs;
 }
 
 -(GPKGContents *) getContents: (GPKGGeometryColumns *) geometryColumns{
     GPKGContentsDao * dao = [self getContentsDao];
-    GPKGContents *contents = (GPKGContents *)[dao queryForId:geometryColumns.tableName];
+    GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:geometryColumns.tableName];
     return contents;
 }
 

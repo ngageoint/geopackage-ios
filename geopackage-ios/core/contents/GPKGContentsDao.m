@@ -279,7 +279,7 @@
 
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents{
     GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForId:contents.srsId];
+    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:contents.srsId];
     return srs;
 }
 

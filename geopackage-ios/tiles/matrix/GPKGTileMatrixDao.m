@@ -112,7 +112,7 @@
 
 -(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGTileMatrix *) tileMatrix{
     GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
-    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForId:tileMatrix.tableName];
+    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:tileMatrix.tableName];
     return tileMatrixSet;
 }
 
@@ -122,7 +122,7 @@
 
 -(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix{
     GPKGContentsDao * dao = [self getContentsDao];
-    GPKGContents *contents = (GPKGContents *)[dao queryForId:tileMatrix.tableName];
+    GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrix.tableName];
     return contents;
 }
 

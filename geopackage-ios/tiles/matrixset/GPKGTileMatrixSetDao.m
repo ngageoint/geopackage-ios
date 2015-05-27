@@ -111,13 +111,13 @@
 
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGTileMatrixSet *) tileMatrixSet{
     GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForId:tileMatrixSet.srsId];
+    GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:tileMatrixSet.srsId];
     return srs;
 }
 
 -(GPKGContents *) getContents: (GPKGTileMatrixSet *) tileMatrixSet{
     GPKGContentsDao * dao = [self getContentsDao];
-    GPKGContents *contents = (GPKGContents *)[dao queryForId:tileMatrixSet.tableName];
+    GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrixSet.tableName];
     return contents;
 }
 

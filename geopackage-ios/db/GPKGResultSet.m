@@ -74,6 +74,9 @@
         }
         
         NSObject * value = [self getValueWithIndex:i];
+        if(value == nil){
+            value = [NSNull null];
+        }
         [values addObject:value];
     }
 

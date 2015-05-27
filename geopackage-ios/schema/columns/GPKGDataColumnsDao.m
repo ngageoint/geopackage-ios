@@ -106,7 +106,7 @@
 
 -(GPKGContents *) getContents: (GPKGDataColumns *) dataColumns{
     GPKGContentsDao * dao = [self getContentsDao];
-    GPKGContents *contents = (GPKGContents *)[dao queryForId:dataColumns.tableName];
+    GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:dataColumns.tableName];
     return contents;
 }
 

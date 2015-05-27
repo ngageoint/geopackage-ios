@@ -17,6 +17,18 @@
         self.tableName = tableName;
         self.columns = columns;
     
+        // Sort the columns by index
+        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
+        columns = [columns sortedArrayUsingDescriptors:@[sort]];
+        
+        // Verify the columns have ordered indices without gaps
+        for(int i = 0; i < [columns count]; i++){
+            GPKGUserColumn * column = [columns objectAtIndex:i];
+            if(column == nil || column.index != i){
+                [NSException raise:@"Missing Column" format:@"No column found at index: %d, Table Name: %@", i, tableName];
+            }
+        }
+        
         NSNumber * pk = nil;
     
         NSMutableSet * indices = [[NSMutableSet alloc]init];
@@ -42,7 +54,7 @@
             }
             [indices addObject:indexNumber];
             
-            [tempColumnNames replaceObjectAtIndex:index withObject:column.name];
+            [tempColumnNames addObject:column.name];
             [tempNameToIndex setObject:indexNumber forKey:column.name];
         }
         self.columnNames = tempColumnNames;
@@ -52,17 +64,7 @@
             [NSException raise:@"No Primary Key" format:@"No primary key column was found for table '%@'", tableName];
         }
         self.pkIndex = [pk intValue];
-        
-        // Verify the columns have ordered indices without gaps
-        for(int i = 0; i < [columns count]; i++){
-            if(![indices containsObject:[NSNumber numberWithInt:i]]){
-                [NSException raise:@"Missing Column" format:@"No column found at index: %d, Table Name: %@", i, tableName];
-            }
-        }
-        
-        // Sort the columns by index
-        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
-        columns = [columns sortedArrayUsingDescriptors:@[sort]];
+
     }
     return self;
 }
