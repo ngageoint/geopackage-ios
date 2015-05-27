@@ -32,6 +32,18 @@
     return [self newRow];
 }
 
+-(GPKGFeatureTable *) getFeatureTable{
+    return (GPKGFeatureTable *) self.table;
+}
+
+-(GPKGFeatureRow *) getFeatureRow: (GPKGResultSet *) results{
+    return (GPKGFeatureRow *) [self getRow:results];
+}
+
+-(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    return [[GPKGFeatureRow alloc] initWithFeatureTable:[self getFeatureTable] andColumnTypes:columnTypes andValues:values];
+}
+
 -(GPKGFeatureRow *) newRow{
     return [[GPKGFeatureRow alloc] initWithTable:self.table];
 }

@@ -7,9 +7,21 @@
 //
 
 #import "GPKGUserRow.h"
+#import "GPKGFeatureTable.h"
+#import "GPKGGeometryData.h"
 
 @interface GPKGFeatureRow : GPKGUserRow
 
-// TODO
+@property (nonatomic, strong) GPKGFeatureTable *featureTable;
+
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+-(int) getGeometryColumnIndex;
+
+-(GPKGFeatureColumn *) getGeometryColumn;
+
+-(GPKGGeometryData *) getGeometry;
+
+-(void) setGeometry: (GPKGGeometryData *) geometryData;
 
 @end

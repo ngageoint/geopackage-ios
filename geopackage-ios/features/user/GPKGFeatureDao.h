@@ -17,6 +17,12 @@
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
 
+-(GPKGFeatureTable *) getFeatureTable;
+
+-(GPKGFeatureRow *) getFeatureRow: (GPKGResultSet *) results;
+
+-(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
 -(GPKGFeatureRow *) newRow;
 
 -(NSString *) getGeometryColumnName;

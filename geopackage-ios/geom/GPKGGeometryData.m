@@ -12,4 +12,47 @@
 
 // TODO
 
+-(instancetype) initWithSrsId: (NSNumber *) srsId
+{
+    self = [super init];
+    if(self != nil){
+        self.srsId = srsId;
+    }
+    return self;
+}
+
+-(instancetype) initWithData: (NSData *) bytes
+{
+    self = [super init];
+    if(self != nil){
+        [self fromData:bytes];
+    }
+    return self;
+}
+
+-(void) fromData: (NSData *) bytes
+{
+    self.bytes = bytes;
+    
+    // TODO
+}
+
+-(NSData *) toData
+{
+    // TODO
+    return nil;
+}
+
+-(NSData *) getHeaderData
+{
+    // TODO
+    return nil;
+}
+
+-(NSData *) getWkbData
+{
+    // TODO
+    return nil;
+}
+
 @end

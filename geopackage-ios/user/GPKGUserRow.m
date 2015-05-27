@@ -40,6 +40,16 @@
     return self;
 }
 
+-(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 -(int) columnCount{
     return [self.table columnCount];
 }
@@ -57,11 +67,21 @@
 }
 
 -(NSObject *) getValueWithIndex: (int) index{
-    return [self.values objectAtIndex:index];
+    NSObject * value = [self.values objectAtIndex:index];
+    return [self toObjectValueWithIndex:index andValue:value];
 }
 
 -(NSObject *) getValueWithColumnName: (NSString *) columnName{
-    return [self.values objectAtIndex:[self.table getColumnIndexWithColumnName:columnName]];
+    return [self getValueWithIndex:[self.table getColumnIndexWithColumnName:columnName]];
+}
+
+-(NSObject *) getDatabaseValueWithIndex: (int) index{
+    NSObject * value = [self.values objectAtIndex:index];
+    return [self toDatabaseValueWithIndex:index andValue:value];
+}
+
+-(NSObject *) getDatabaseValueWithColumnName: (NSString *) columnName{
+    return [self getDatabaseValueWithIndex:[self.table getColumnIndexWithColumnName:columnName]];
 }
 
 -(int) getRowColumnTypeWithIndex: (int) index{

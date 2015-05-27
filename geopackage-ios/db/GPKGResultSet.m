@@ -41,13 +41,23 @@
 }
 
 -(NSArray *) getRow{
+     NSMutableArray *rowValues = [[NSMutableArray alloc] init];
+    [self getRowPopulateValues:rowValues andColumnTypes:nil];
+    return rowValues;
+}
+
+-(void) getRowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types{
     
-    NSMutableArray *rowValues = [[NSMutableArray alloc] init];
     NSUInteger totalColumns = [self.columns count];
     
     for (int i=0; i<totalColumns; i++){
         
         int type = sqlite3_column_type(self.statement, i);
+        
+        if(types != nil){
+            [types addObject:[NSNumber numberWithInt:type]];
+        }
+        
         switch (type) {
             case SQLITE_TEXT:;
                 
@@ -57,33 +67,33 @@
                 // If there are contents in the currenct column (field) then add them to the current row array.
                 if (dbDataAsChars != NULL) {
                     // Convert the characters to string.
-                    [rowValues addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
+                    [values addObject:[NSString  stringWithUTF8String:dbDataAsChars]];
                 }
                 break;
                 
             case SQLITE_INTEGER:;
                 
                 int intValue = sqlite3_column_int(self.statement, i);
-                [rowValues addObject:[NSNumber numberWithInt: intValue]];
+                [values addObject:[NSNumber numberWithInt: intValue]];
                 
                 break;
                 
             case SQLITE_FLOAT:;
                 
                 double floatValue = sqlite3_column_double(self.statement, i);
-                [rowValues addObject:[NSNumber numberWithDouble: floatValue]];
+                [values addObject:[NSNumber numberWithDouble: floatValue]];
                 
                 break;
                 
             case SQLITE_NULL:
                 
-                [rowValues addObject:nil];
+                [values addObject:nil];
                 break;
                 
             case SQLITE_BLOB:
                 {
                     NSData *blobValue = [[NSData alloc] initWithBytes:sqlite3_column_blob(self.statement, i) length:sqlite3_column_bytes(self.statement,  i)];
-                    [rowValues addObject:blobValue];
+                    [values addObject:blobValue];
                 }
                 break;
                 
@@ -92,8 +102,7 @@
         }
 
     }
-    
-    return rowValues;
+
 }
 
 @end

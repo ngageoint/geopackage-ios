@@ -36,13 +36,36 @@
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     GPKGUserRow *getObject = (GPKGUserRow*) object;
-    NSObject * value = [getObject getValueWithIndex:columnIndex];
+    NSObject * value = [getObject getDatabaseValueWithIndex:columnIndex];
 
     return value;
 }
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
     return self.projection;
+}
+
+-(GPKGUserRow *) getRow: (GPKGResultSet *) results{
+    
+    GPKGUserRow * row = nil;
+    
+    if(self.table != nil){
+        
+        int columns = [self.table columnCount];
+        
+        NSMutableArray *columnTypes = [[NSMutableArray alloc] initWithCapacity:columns];
+        NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:columns];
+        
+        [results getRowPopulateValues:values andColumnTypes:columnTypes];
+        
+        row = [self newRowWithColumnTypes:columnTypes andValues:values];
+    }
+    
+    return row;
+}
+
+-(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    return [[GPKGUserRow alloc] init];
 }
 
 @end

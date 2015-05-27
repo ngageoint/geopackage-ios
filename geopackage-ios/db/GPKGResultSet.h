@@ -25,4 +25,6 @@
 
 -(NSArray *) getRow;
 
+-(void) getRowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types;
+
 @end

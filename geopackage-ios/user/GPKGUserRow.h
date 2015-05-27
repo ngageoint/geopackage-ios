@@ -31,6 +31,10 @@
 
 -(NSObject *) getValueWithColumnName: (NSString *) columnName;
 
+-(NSObject *) getDatabaseValueWithIndex: (int) index;
+
+-(NSObject *) getDatabaseValueWithColumnName: (NSString *) columnName;
+
 -(int) getRowColumnTypeWithIndex: (int) index;
 
 -(int) getRowColumnTypeWithColumnName: (NSString *) columnName;
