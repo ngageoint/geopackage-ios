@@ -7,6 +7,7 @@
 //
 
 #import "GPKGDataTypes.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_DT_BOOLEAN_NAME = @"BOOLEAN";
 NSString * const GPKG_DT_TINYINT_NAME = @"TINYINT";
@@ -97,7 +98,7 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
                                [NSNumber numberWithInteger:GPKG_DT_GEOMETRY], GPKG_DT_GEOMETRY_NAME,
                                nil
                                ];
-        NSNumber *enumValue = [types objectForKey:name];
+        NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
         value = (enum GPKGDataType)[enumValue intValue];
     }
     

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGDataColumnConstraints.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_DCC_TABLE_NAME = @"gpkg_data_column_constraints";
 NSString * const GPKG_DCC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
@@ -34,7 +35,7 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
                                    [NSNumber numberWithInteger:GPKG_DCCT_GLOB], GPKG_DCCT_GLOB_NAME,
                                    nil
                                    ];
-        NSNumber *enumValue = [constraintTypes objectForKey:self.constraintType];
+        NSNumber *enumValue = [GPKGUtils objectForKey:self.constraintType inDictionary:constraintTypes];
         value = (enum GPKGDataColumnConstraintType)[enumValue intValue];
     }
     

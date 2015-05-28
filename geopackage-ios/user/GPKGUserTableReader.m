@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUserTableReader.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_UTR_CID = @"cid";
 NSString * const GPKG_UTR_NAME = @"name";
@@ -75,7 +76,7 @@ NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
             int defaultValueIndex = [result getColumnIndexWithName:GPKG_UTR_DFLT_VALUE];
             
             GPKGUserColumn * column = [self createColumnWithResults:result andIndex:index andName:name andType:type andMax:max andNotNull:notNull andDefaultValueIndex:defaultValueIndex andPrimaryKey:primarykey];
-            [columnList addObject:column];
+            [GPKGUtils addObject:column toArray:columnList];
         }
     }@finally{
         [result close];

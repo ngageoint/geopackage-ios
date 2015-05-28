@@ -7,6 +7,7 @@
 //
 
 #import "GPKGMetadata.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_M_TABLE_NAME = @"gpkg_metadata";
 NSString * const GPKG_M_COLUMN_PK = @"id";
@@ -64,7 +65,7 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
                                          [NSNumber numberWithInteger:GPKG_MST_DIMENSION_GROUP], GPKG_MST_DIMENSION_GROUP_NAME,
                                          nil
                                          ];
-        NSNumber *enumValue = [scopeTypes objectForKey:self.scope];
+        NSNumber *enumValue = [GPKGUtils objectForKey:self.scope inDictionary:scopeTypes];
         value = (enum GPKGMetadataScopeType)[enumValue intValue];
     }
     

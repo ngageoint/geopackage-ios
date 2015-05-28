@@ -7,6 +7,7 @@
 //
 
 #import "GPKGMetadataReferenceDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGMetadataReferenceDao
 
@@ -103,7 +104,7 @@
 -(int) removeMetadataParent: (NSNumber *) parentId{
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [values setObject:nil forKey:GPKG_MR_COLUMN_PARENT_ID];
+    [GPKGUtils setObject:nil forKey:GPKG_MR_COLUMN_PARENT_ID inDictionary:values];
 
     NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
     
@@ -114,8 +115,8 @@
 -(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId andParent: (NSNumber *) parentId{
     
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [values setObject:fileId forKey:GPKG_MR_COLUMN_FILE_ID];
-    [values setObject:parentId forKey:GPKG_MR_COLUMN_PARENT_ID];
+    [GPKGUtils setObject:fileId forKey:GPKG_MR_COLUMN_FILE_ID inDictionary:values];
+    [GPKGUtils setObject:parentId forKey:GPKG_MR_COLUMN_PARENT_ID inDictionary:values];
     
     return [self queryForFieldValues:values];
 }

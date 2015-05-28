@@ -59,6 +59,7 @@
 		0499E62E1AFD4CC100431FCF /* GPKGBaseDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E62D1AFD4CC100431FCF /* GPKGBaseDao.m */; };
 		04A1D8DF1B1616320006674B /* GPKGUserTableReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8DE1B1616320006674B /* GPKGUserTableReader.m */; };
 		04A1D8E21B16179E0006674B /* GPKGFeatureTableReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8E11B16179E0006674B /* GPKGFeatureTableReader.m */; };
+		04A1D8E51B173FC20006674B /* GPKGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8E41B173FC20006674B /* GPKGUtils.m */; };
 		04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FE049A1B01556A00B9308E /* GPKGResultSet.m */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +191,8 @@
 		04A1D8DE1B1616320006674B /* GPKGUserTableReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGUserTableReader.m; sourceTree = "<group>"; };
 		04A1D8E01B16179E0006674B /* GPKGFeatureTableReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTableReader.h; sourceTree = "<group>"; };
 		04A1D8E11B16179E0006674B /* GPKGFeatureTableReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTableReader.m; sourceTree = "<group>"; };
+		04A1D8E31B173FC20006674B /* GPKGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGUtils.h; sourceTree = "<group>"; };
+		04A1D8E41B173FC20006674B /* GPKGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGUtils.m; sourceTree = "<group>"; };
 		04FE04991B01556A00B9308E /* GPKGResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGResultSet.h; sourceTree = "<group>"; };
 		04FE049A1B01556A00B9308E /* GPKGResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGResultSet.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -256,6 +259,8 @@
 				040686891B0A859F00A1FF7A /* GPKGBoundingBox.m */,
 				040686EB1B14CE3A00A1FF7A /* WKBGeometryTypes.h */,
 				040686EC1B14CE3A00A1FF7A /* WKBGeometryTypes.m */,
+				04A1D8E31B173FC20006674B /* GPKGUtils.h */,
+				04A1D8E41B173FC20006674B /* GPKGUtils.m */,
 			);
 			path = "geopackage-ios";
 			sourceTree = "<group>";
@@ -655,6 +660,7 @@
 				040686DB1B0E8F7700A1FF7A /* GPKGProjectionTransform.m in Sources */,
 				040686DE1B0E91DD00A1FF7A /* GPKGProjectionFactory.m in Sources */,
 				040686CF1B0D1E6100A1FF7A /* GPKGUserRow.m in Sources */,
+				04A1D8E51B173FC20006674B /* GPKGUtils.m in Sources */,
 				040686D51B0E7EAF00A1FF7A /* GPKGFeatureDao.m in Sources */,
 				0406867A1B0A12A000A1FF7A /* GPKGContentsDao.m in Sources */,
 				0499E6221AFD330200431FCF /* GPKGGeoPackageFactory.m in Sources */,

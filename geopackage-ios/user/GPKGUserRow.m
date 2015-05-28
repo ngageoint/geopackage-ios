@@ -8,6 +8,7 @@
 
 #import "GPKGUserRow.h"
 #import <sqlite3.h>
+#import "GPKGUtils.h"
 
 @implementation GPKGUserRow
 
@@ -30,8 +31,8 @@
         NSMutableArray * tempColumnTypes = [[NSMutableArray alloc] initWithCapacity:columnCount];
         NSMutableArray * tempValues = [[NSMutableArray alloc] initWithCapacity:columnCount];
         for(int i = 0; i < columnCount; i++){
-            [tempColumnTypes addObject:[NSNumber numberWithInt:SQLITE_NULL]];
-            [tempValues addObject:nil];
+            [GPKGUtils addObject:[NSNumber numberWithInt:SQLITE_NULL] toArray:tempColumnTypes];
+            [GPKGUtils addObject:nil toArray:tempValues];
         }
         
         self.columnTypes = tempColumnTypes;
@@ -67,8 +68,11 @@
 }
 
 -(NSObject *) getValueWithIndex: (int) index{
-    NSObject * value = [self.values objectAtIndex:index];
-    return [self toObjectValueWithIndex:index andValue:value];
+    NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
+    if(value != nil){
+        value = [self toObjectValueWithIndex:index andValue:value];
+    }
+    return value;
 }
 
 -(NSObject *) getValueWithColumnName: (NSString *) columnName{
@@ -76,8 +80,11 @@
 }
 
 -(NSObject *) getDatabaseValueWithIndex: (int) index{
-    NSObject * value = [self.values objectAtIndex:index];
-    return [self toDatabaseValueWithIndex:index andValue:value];
+    NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
+    if(value != nil){
+        value =[self toDatabaseValueWithIndex:index andValue:value];
+    }
+    return value;
 }
 
 -(NSObject *) getDatabaseValueWithColumnName: (NSString *) columnName{
@@ -85,11 +92,11 @@
 }
 
 -(int) getRowColumnTypeWithIndex: (int) index{
-    return (int)[self.columnTypes objectAtIndex:index];
+    return (int)[GPKGUtils objectAtIndex:index inArray:self.columnTypes];
 }
 
 -(int) getRowColumnTypeWithColumnName: (NSString *) columnName{
-    return (int)[self.columnTypes objectAtIndex:[self.table getColumnIndexWithColumnName:columnName]];
+    return (int)[GPKGUtils objectAtIndex:[self.table getColumnIndexWithColumnName:columnName] inArray:self.columnTypes];
 }
 
 -(GPKGUserColumn *) getColumnWithIndex: (int) index{
@@ -127,7 +134,7 @@
     if(index == self.table.pkIndex){
         [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", self.table.tableName, index, [self.table getPkColumn].name];
     }
-    [self.values replaceObjectAtIndex:index withObject:value];
+    [GPKGUtils replaceObjectAtIndex:index withObject:value inArray:self.values];
 }
 
 -(void) setValueWithColumnName: (NSString *) columnName andValue: (NSObject *) value{
@@ -135,11 +142,11 @@
 }
 
 -(void) setId: (NSNumber *) id{
-    [self.values replaceObjectAtIndex:[self getPkColumnIndex] withObject:id];
+    [GPKGUtils replaceObjectAtIndex:[self getPkColumnIndex] withObject:id inArray:self.values];
 }
 
 -(void) resetId{
-    [self.values replaceObjectAtIndex:[self getPkColumnIndex] withObject:nil];
+    [GPKGUtils replaceObjectAtIndex:[self getPkColumnIndex] withObject:nil inArray:self.values];
 }
 
 -(void) validateValueWithColumn: (GPKGUserColumn *) column andValue: (NSObject *) value andValueTypes: (NSArray *) valueTypes{
@@ -156,7 +163,7 @@
     }
     
     if(!valid){
-        [NSException raise:@"Illegal Value" format:@"Column: %@, Value: %@, Expected Type: %@, Actual Type: %@", column.name, value, [dataTypeClass description], [[[valueTypes objectAtIndex:0] class] description]];
+        [NSException raise:@"Illegal Value" format:@"Column: %@, Value: %@, Expected Type: %@, Actual Type: %@", column.name, value, [dataTypeClass description], [[[GPKGUtils objectAtIndex:0 inArray:valueTypes] class] description]];
     }
 }
 

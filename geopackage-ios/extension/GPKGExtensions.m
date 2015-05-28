@@ -7,6 +7,7 @@
 //
 
 #import "GPKGExtensions.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_EX_EXTENSION_NAME_DIVIDER = @"_";
 NSString * const GPKG_EX_TABLE_NAME = @"gpkg_extensions";
@@ -30,7 +31,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
                                     [NSNumber numberWithInteger:GPKG_EST_WRITE_ONLY], GPKG_EST_WRITE_ONLY_NAME,
                                     nil
                                     ];
-        NSNumber *enumValue = [scopeTypes objectForKey:self.scope];
+        NSNumber *enumValue = [GPKGUtils objectForKey:self.scope inDictionary:scopeTypes];
         value = (enum GPKGExtensionScopeType)[enumValue intValue];
     }
     
@@ -64,7 +65,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 -(NSString *) getAuthor{
     NSString * author = nil;
     if(self.extensionName != nil){
-        author = [[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER] objectAtIndex:0];
+        author = [GPKGUtils objectAtIndex:0 inArray:[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
     }
     return author;
 }
@@ -72,7 +73,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 -(NSString *) getExtensionNameNoAuthor{
     NSString * value = nil;
     if(self.extensionName != nil){
-        value = [[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER] objectAtIndex:1];
+        value = [GPKGUtils objectAtIndex:1 inArray:[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
     }
     return value;
 }

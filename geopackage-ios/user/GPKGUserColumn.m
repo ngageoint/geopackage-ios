@@ -34,7 +34,7 @@
 
 -(NSString *) getTypeName{
     NSString * type = nil;
-    if(self.dataType && self.dataType != GPKG_DT_GEOMETRY){
+    if(self.dataType != GPKG_DT_GEOMETRY){
         type = [GPKGDataTypes name:self.dataType];
     }
     return type;

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUserUniqueConstraint.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGUserUniqueConstraint
 
@@ -23,7 +24,7 @@
 }
 
 -(void) add: (GPKGUserColumn *)column{
-    [self.columns addObject:column];
+    [GPKGUtils addObject:column toArray:self.columns];
 }
 
 @end

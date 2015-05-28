@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUserTable.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGUserTable
 
@@ -23,15 +24,15 @@
         
         // Verify the columns have ordered indices without gaps
         for(int i = 0; i < [columns count]; i++){
-            GPKGUserColumn * column = [columns objectAtIndex:i];
-            if(column == nil || column.index != i){
+            GPKGUserColumn * column = [GPKGUtils objectAtIndex:i inArray:columns];
+            if(column == nil){
                 [NSException raise:@"Missing Column" format:@"No column found at index: %d, Table Name: %@", i, tableName];
+            } else if(column.index != i){
+                [NSException raise:@"Invalid Column" format:@"Column has wrong index of %d, found at index: %d, Table Name: %@", column.index, i, tableName];
             }
         }
         
         NSNumber * pk = nil;
-    
-        NSMutableSet * indices = [[NSMutableSet alloc]init];
     
         // Build the column name array for queries, find the primary key and geometry
         NSMutableArray * tempColumnNames = [NSMutableArray arrayWithCapacity:[columns count]];
@@ -47,15 +48,9 @@
                 }
                 pk = indexNumber;
             }
-        
-            // Check for duplicate indices
-            if([indices containsObject:indexNumber]){
-                [NSException raise:@"Duplicate Index" format:@"Duplicate index: %d, Table Name: %@", index, tableName];
-            }
-            [indices addObject:indexNumber];
             
-            [tempColumnNames addObject:column.name];
-            [tempNameToIndex setObject:indexNumber forKey:column.name];
+            [GPKGUtils addObject:column.name toArray:tempColumnNames];
+            [GPKGUtils setObject:indexNumber forKey:column.name inDictionary:tempNameToIndex];
         }
         self.columnNames = tempColumnNames;
         self.nameToIndex = tempNameToIndex;
@@ -89,7 +84,7 @@
 }
 
 -(int) getColumnIndexWithColumnName: (NSString *) columnName{
-    NSNumber * index = [self.nameToIndex objectForKey:columnName];
+    NSNumber * index = [GPKGUtils objectForKey:columnName inDictionary:self.nameToIndex];
     if(index == nil){
         [NSException raise:@"No Column" format:@"Column does not exists in table '%@', column: %@", self.tableName, columnName];
     }
@@ -97,11 +92,11 @@
 }
 
 -(NSString *) getColumnNameWithIndex: (int) index{
-    return [self.columnNames objectAtIndex:index];
+    return [GPKGUtils objectAtIndex:index inArray:self.columnNames];
 }
 
 -(GPKGUserColumn *) getColumnWithIndex: (int) index{
-    return [self.columns objectAtIndex:index];
+    return [GPKGUtils objectAtIndex:index inArray:self.columns];
 }
 
 -(GPKGUserColumn *) getColumnWithColumnName: (NSString *) columnName{
@@ -113,11 +108,11 @@
 }
 
 -(GPKGUserColumn *) getPkColumn{
-    return [self.columns objectAtIndex:self.pkIndex];
+    return [GPKGUtils objectAtIndex:self.pkIndex inArray:self.columns];
 }
 
 -(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint{
-    [self.uniqueConstraints addObject:uniqueConstraint];
+    [GPKGUtils addObject:uniqueConstraint toArray:self.uniqueConstraints];
 }
 
 @end

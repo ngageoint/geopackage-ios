@@ -7,6 +7,7 @@
 //
 
 #import "GPKGMetadataReference.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_MR_TABLE_NAME = @"gpkg_metadata_reference";
 NSString * const GPKG_MR_COLUMN_REFERENCE_SCOPE = @"reference_scope";
@@ -37,7 +38,7 @@ NSString * const GPKG_RST_ROW_COL_NAME = @"row/col";
                                     [NSNumber numberWithInteger:GPKG_RST_ROW_COL], GPKG_RST_ROW_COL_NAME,
                                     nil
                                     ];
-        NSNumber *enumValue = [scopeTypes objectForKey:self.referenceScope];
+        NSNumber *enumValue = [GPKGUtils objectForKey:self.referenceScope inDictionary:scopeTypes];
         value = (enum GPKGReferenceScopeType)[enumValue intValue];
     }
     

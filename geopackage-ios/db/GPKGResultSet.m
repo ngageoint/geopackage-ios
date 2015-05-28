@@ -8,6 +8,7 @@
 
 #import "GPKGResultSet.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGResultSet
 
@@ -25,7 +26,7 @@
         for (int i=0; i<totalColumns; i++){
             char *columnName = (char *)sqlite3_column_name(statement, i);
             NSString * column = [NSString stringWithUTF8String:columnName];
-            [statementColumns addObject:column];
+            [GPKGUtils addObject:column toArray:statementColumns];
             [statementColumnIndex setValue:[NSNumber numberWithInt:i] forKey:column];
         }
         
@@ -70,14 +71,11 @@
     for (int i=0; i<totalColumns; i++){
 
         if(types != nil){
-            [types addObject:[NSNumber numberWithInt:[self getType:i]]];
+            [GPKGUtils addObject:[NSNumber numberWithInt:[self getType:i]] toArray:types];
         }
         
         NSObject * value = [self getValueWithIndex:i];
-        if(value == nil){
-            value = [NSNull null];
-        }
-        [values addObject:value];
+        [GPKGUtils addObject:value toArray:values];
     }
 
 }

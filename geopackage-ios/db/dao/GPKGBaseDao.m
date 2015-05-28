@@ -8,6 +8,7 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGBaseDao
 
@@ -52,7 +53,7 @@
     self.columnIndex = [[NSMutableDictionary alloc] init];
     NSInteger count = [self.columns count];
     for(int i = 0; i < count; i++){
-        [self.columnIndex setObject:[NSNumber numberWithInt:i] forKey:[self.columns objectAtIndex:i]];
+        [GPKGUtils setObject:[NSNumber numberWithInt:i] forKey:[GPKGUtils objectAtIndex:i inArray:self.columns] inDictionary:self.columnIndex];
     }
 }
 
@@ -109,7 +110,7 @@
     
     NSInteger count = [results.columns count];
     for(int i = 0; i < count; i++){
-        [self setValueInObject:objectResult withColumnName:[results.columns objectAtIndex:i] withValue:[result objectAtIndex:i]];
+        [self setValueInObject:objectResult withColumnName:[GPKGUtils objectAtIndex:i inArray:results.columns] withValue:[GPKGUtils objectAtIndex:i inArray:result]];
     }
     
     return objectResult;
@@ -135,7 +136,7 @@
     NSMutableArray *singleColumnResults = [[NSMutableArray alloc] init];
     while([results moveToNext]){
         NSArray *result = [results getRow];
-        [singleColumnResults addObject: [result objectAtIndex:(0)]];
+        [GPKGUtils addObject:[GPKGUtils objectAtIndex:0 inArray:result] toArray:singleColumnResults];
     }
     return singleColumnResults;
 }
@@ -216,7 +217,7 @@
     for(NSString * column in self.columns){
         if(![self.idColumns containsObject:column]){
             NSObject * value = [self getValueFromObject:object withColumnName:column];
-            [values setObject:value forKey:column];
+            [GPKGUtils setObject:value forKey:column inDictionary:values];
         }
     }
     NSString *where = [self buildPkWhereWithValues:[self getMultiId:object]];
@@ -256,7 +257,7 @@
     for(NSString * column in self.columns){
         NSObject * value = [self getValueFromObject:object withColumnName:column];
         if(value != nil){
-            [values setObject:value forKey:column];
+            [GPKGUtils setObject:value forKey:column inDictionary:values];
         }
     }
     long long id = [self.database insertWithTable:self.tableName andValues:values];
@@ -277,37 +278,37 @@
 }
 
 -(NSObject *) getId: (NSObject *) object{
-    return [self getValueFromObject:object withColumnName:[self.idColumns objectAtIndex:0]];
+    return [self getValueFromObject:object withColumnName:[GPKGUtils objectAtIndex:0 inArray:self.idColumns]];
 }
 
 -(NSArray *) getMultiId: (NSObject *) object{
     NSMutableArray *idValues = [[NSMutableArray alloc] init];
     for(NSString *idColumn in self.idColumns){
         NSObject* idValue = [self getValueFromObject:object withColumnName:idColumn];
-        [idValues addObject:idValue];
+        [GPKGUtils addObject:idValue toArray:idValues];
     }
     return idValues;
 }
 
 -(void) setId: (NSObject *) object withIdValue: (NSObject *) id{
-    [self setValueInObject:object withColumnName:[self.idColumns objectAtIndex:0] withValue:id];
+    [self setValueInObject:object withColumnName:[GPKGUtils objectAtIndex:0 inArray:self.idColumns] withValue:id];
 }
 
 -(void) setMultiId: (NSObject *) object withIdValues: (NSArray *) idValues{
     for(int i = 0; i < [idValues count]; i++){
-        [self setValueInObject:object withColumnName:[self.idColumns objectAtIndex:i] withValue:[idValues objectAtIndex:i]];
+        [self setValueInObject:object withColumnName:[GPKGUtils objectAtIndex:i inArray:self.idColumns] withValue:[GPKGUtils objectAtIndex:i inArray:idValues]];
     }
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
-    NSString * whereString = [self buildWhereWithField:[self.idColumns objectAtIndex:0] andValue:idValue];
+    NSString * whereString = [self buildWhereWithField:[GPKGUtils objectAtIndex:0 inArray:self.idColumns] andValue:idValue];
     return whereString;
 }
 
 -(NSString *) buildPkWhereWithValues: (NSArray *) idValues{
     NSMutableDictionary *idDictionary = [[NSMutableDictionary alloc] init];
     for(int i = 0; i < [idValues count]; i++){
-        [idDictionary setObject:[idValues objectAtIndex:i] forKey:[self.idColumns objectAtIndex:i]];
+        [GPKGUtils setObject:[GPKGUtils objectAtIndex:i inArray:idValues] forKey:[GPKGUtils objectAtIndex:i inArray:self.idColumns] inDictionary:idDictionary];
     }
     NSString * whereString = [self buildWhereWithFields:idDictionary];
     return whereString;
@@ -319,7 +320,7 @@
         if([whereString length] > 0){
             [whereString appendString:@" and "];
         }
-        [whereString appendString:[self buildWhereWithField:key andValue:[fields objectForKey:key]]];
+        [whereString appendString:[self buildWhereWithField:key andValue:[GPKGUtils objectForKey:key inDictionary:fields]]];
     }
     return whereString;
 }
@@ -330,7 +331,7 @@
         if([whereString length] > 0){
             [whereString appendString:@" and "];
         }
-        [whereString appendString:[self buildWhereWithField:key andColumnValue:[fields objectForKey:key]]];
+        [whereString appendString:[self buildWhereWithField:key andColumnValue:[GPKGUtils objectForKey:key inDictionary:fields]]];
     }
     return whereString;
 }

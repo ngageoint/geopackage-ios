@@ -7,6 +7,7 @@
 //
 
 #import "GPKGProjectionTransform.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGProjectionTransform
 
@@ -30,8 +31,8 @@
 -(NSArray *) transformWithX: (double) x andY: (double) y{
     //TODO
     NSMutableArray *coord = [[NSMutableArray alloc] initWithCapacity:2];
-    [coord addObject:[NSNumber numberWithDouble:x]];
-    [coord addObject:[NSNumber numberWithDouble:y]];
+    [GPKGUtils addObject:[NSNumber numberWithDouble:x] toArray:coord];
+    [GPKGUtils addObject:[NSNumber numberWithDouble:y] toArray:coord];
     return coord;
 }
 

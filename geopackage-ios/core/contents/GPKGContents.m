@@ -7,6 +7,7 @@
 //
 
 #import "GPKGContents.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_CON_TABLE_NAME = @"gpkg_contents";
 NSString * const GPKG_CON_COLUMN_PK = @"table_name";
@@ -35,7 +36,7 @@ NSString * const GPKG_CDT_TILES_NAME = @"tiles";
                             [NSNumber numberWithInteger:GPKG_CDT_TILES], GPKG_CDT_TILES_NAME,
                             nil
                             ];
-        NSNumber *enumValue = [dataTypes objectForKey:self.dataType];
+        NSNumber *enumValue = [GPKGUtils objectForKey:self.dataType inDictionary:dataTypes];
         value = (enum GPKGContentsDataType)[enumValue intValue];
     }
     

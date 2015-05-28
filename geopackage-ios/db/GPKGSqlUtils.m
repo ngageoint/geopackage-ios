@@ -8,6 +8,7 @@
 
 #import "GPKGSqlUtils.h"
 #import "GPKGSqlLiteQueryBuilder.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGSqlUtils
 
@@ -165,7 +166,7 @@
         }else{
             [insertStatement appendString:@","];
         }
-        [insertStatement appendString:[self getSqlValueString: [values objectForKey:key]]];
+        [insertStatement appendString:[self getSqlValueString: [GPKGUtils objectForKey:key inDictionary:values]]];
     }
     [insertStatement appendString:@")"];
     
@@ -195,7 +196,7 @@
         }
         [updateStatement appendString:key];
         [updateStatement appendString:@"="];
-        [updateStatement appendString:[self getSqlValueString: [values objectForKey:key]]];
+        [updateStatement appendString:[self getSqlValueString: [GPKGUtils objectForKey:key inDictionary:values]]];
 
     }
     
