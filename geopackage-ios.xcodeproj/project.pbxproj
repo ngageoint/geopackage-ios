@@ -48,7 +48,6 @@
 		040686E11B14C8F200A1FF7A /* GPKGFeatureRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686E01B14C8F200A1FF7A /* GPKGFeatureRow.m */; };
 		040686E41B14CCE000A1FF7A /* GPKGFeatureTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686E31B14CCE000A1FF7A /* GPKGFeatureTable.m */; };
 		040686E71B14CCFA00A1FF7A /* GPKGFeatureColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686E61B14CCFA00A1FF7A /* GPKGFeatureColumn.m */; };
-		040686ED1B14CE3A00A1FF7A /* WKBGeometryTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 040686EC1B14CE3A00A1FF7A /* WKBGeometryTypes.m */; };
 		048C21211AFB99D300EBC38B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C21201AFB99D300EBC38B /* libsqlite3.dylib */; };
 		048C21281AFBA5B300EBC38B /* GPKGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C21271AFBA5B300EBC38B /* GPKGConnection.m */; };
 		0499E61B1AFD22D700431FCF /* GPKGGeoPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E61A1AFD22D700431FCF /* GPKGGeoPackage.m */; };
@@ -61,6 +60,7 @@
 		04A1D8E21B16179E0006674B /* GPKGFeatureTableReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8E11B16179E0006674B /* GPKGFeatureTableReader.m */; };
 		04A1D8E51B173FC20006674B /* GPKGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8E41B173FC20006674B /* GPKGUtils.m */; };
 		04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FE049A1B01556A00B9308E /* GPKGResultSet.m */; };
+		BF24BB3C2460FC257B39FC81 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8408C01A5F6F7C31644B10 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,8 +169,6 @@
 		040686E31B14CCE000A1FF7A /* GPKGFeatureTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTable.m; sourceTree = "<group>"; };
 		040686E51B14CCFA00A1FF7A /* GPKGFeatureColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureColumn.h; sourceTree = "<group>"; };
 		040686E61B14CCFA00A1FF7A /* GPKGFeatureColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureColumn.m; sourceTree = "<group>"; };
-		040686EB1B14CE3A00A1FF7A /* WKBGeometryTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKBGeometryTypes.h; sourceTree = "<group>"; };
-		040686EC1B14CE3A00A1FF7A /* WKBGeometryTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKBGeometryTypes.m; sourceTree = "<group>"; };
 		048C21201AFB99D300EBC38B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		048C21261AFBA5B300EBC38B /* GPKGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnection.h; sourceTree = "<group>"; };
 		048C21271AFBA5B300EBC38B /* GPKGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnection.m; sourceTree = "<group>"; };
@@ -195,6 +193,9 @@
 		04A1D8E41B173FC20006674B /* GPKGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGUtils.m; sourceTree = "<group>"; };
 		04FE04991B01556A00B9308E /* GPKGResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGResultSet.h; sourceTree = "<group>"; };
 		04FE049A1B01556A00B9308E /* GPKGResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGResultSet.m; sourceTree = "<group>"; };
+		5C8408C01A5F6F7C31644B10 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB555C63FF5A413927CC07F0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F7EE5A3297FBEF856E6128EC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048C21211AFB99D300EBC38B /* libsqlite3.dylib in Frameworks */,
+				BF24BB3C2460FC257B39FC81 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +227,8 @@
 				040136191AF92C9300C92AFC /* geopackage-ios */,
 				040136261AF92C9300C92AFC /* geopackage-iosTests */,
 				040136181AF92C9300C92AFC /* Products */,
+				3918DADEC44E3EE696F7C299 /* Pods */,
+				A22AD363E90909C7C66D2E73 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,8 +261,6 @@
 				0406867C1B0A56D900A1FF7A /* GPKGGeoPackageConstants.m */,
 				040686881B0A859F00A1FF7A /* GPKGBoundingBox.h */,
 				040686891B0A859F00A1FF7A /* GPKGBoundingBox.m */,
-				040686EB1B14CE3A00A1FF7A /* WKBGeometryTypes.h */,
-				040686EC1B14CE3A00A1FF7A /* WKBGeometryTypes.m */,
 				04A1D8E31B173FC20006674B /* GPKGUtils.h */,
 				04A1D8E41B173FC20006674B /* GPKGUtils.m */,
 			);
@@ -540,6 +542,23 @@
 			path = dao;
 			sourceTree = "<group>";
 		};
+		3918DADEC44E3EE696F7C299 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F7EE5A3297FBEF856E6128EC /* Pods.debug.xcconfig */,
+				EB555C63FF5A413927CC07F0 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A22AD363E90909C7C66D2E73 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C8408C01A5F6F7C31644B10 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -547,9 +566,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0401362B1AF92C9300C92AFC /* Build configuration list for PBXNativeTarget "geopackage-ios" */;
 			buildPhases = (
+				7767052541E8F97385597BDA /* Check Pods Manifest.lock */,
 				040136131AF92C9300C92AFC /* Sources */,
 				040136141AF92C9300C92AFC /* Frameworks */,
 				040136151AF92C9300C92AFC /* CopyFiles */,
+				6B65257D7837B0E34B8BC785 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -623,6 +644,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6B65257D7837B0E34B8BC785 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7767052541E8F97385597BDA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		040136131AF92C9300C92AFC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -656,7 +710,6 @@
 				040686CC1B0D0F5A00A1FF7A /* GPKGUserUniqueConstraint.m in Sources */,
 				040686AD1B0BEF2400A1FF7A /* GPKGMetadataReference.m in Sources */,
 				04A1D8DF1B1616320006674B /* GPKGUserTableReader.m in Sources */,
-				040686ED1B14CE3A00A1FF7A /* WKBGeometryTypes.m in Sources */,
 				040686DB1B0E8F7700A1FF7A /* GPKGProjectionTransform.m in Sources */,
 				040686DE1B0E91DD00A1FF7A /* GPKGProjectionFactory.m in Sources */,
 				040686CF1B0D1E6100A1FF7A /* GPKGUserRow.m in Sources */,
@@ -781,8 +834,9 @@
 		};
 		0401362C1AF92C9300C92AFC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7EE5A3297FBEF856E6128EC /* Pods.debug.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -790,8 +844,9 @@
 		};
 		0401362D1AF92C9300C92AFC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB555C63FF5A413927CC07F0 /* Pods.release.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

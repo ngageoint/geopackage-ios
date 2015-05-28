@@ -23,4 +23,5 @@ Pod::Spec.new do |s|
   s.resource_bundle = { 'GeoPackage' => ['geopackage-ios/**/*.plist'] }
   s.resources = ['geopackage-ios/**/*.xcdatamodeld']
   s.frameworks = 'Foundation'
+  s.dependency 'wkb-ios', '~> 0.0.1'
 end
