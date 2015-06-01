@@ -7,20 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WKBGeometryEnvelope.h"
+#import "WKBGeometry.h"
 
 @interface GPKGGeometryData : NSObject
 
 @property (nonatomic, strong) NSData * bytes;
 @property (nonatomic) BOOL extended;
 @property (nonatomic) BOOL empty;
-//TODO
-//@property (nonatomic, strong) WKBByteOrder * byteOrder;
+@property (nonatomic) CFByteOrder byteOrder;
 @property (nonatomic, strong) NSNumber * srsId;
-//TODO
-//@property (nonatomic, strong) WKBEnvelope * envelope;
+@property (nonatomic, strong) WKBGeometryEnvelope * envelope;
 @property (nonatomic) int wkbGeometryIndex;
-//TODO
-//@property (nonatomic, strong) WKBGeometry * geometry;
+@property (nonatomic, strong) WKBGeometry * geometry;
 
 -(instancetype) initWithSrsId: (NSNumber *) srsId;
 
@@ -30,14 +29,12 @@
 
 -(NSData *) toData;
 
-//TODO
-//-(void) setGeometry:(WKBGeometry *) geometry;
+-(void) setGeometry:(WKBGeometry *) geometry;
 
 -(NSData *) getHeaderData;
 
 -(NSData *) getWkbData;
 
-//TODO
-//+(int) getIndicatorWithEnvelope: (WKBEnvelope *) envelope;
++(int) getIndicatorWithEnvelope: (WKBGeometryEnvelope *) envelope;
 
 @end

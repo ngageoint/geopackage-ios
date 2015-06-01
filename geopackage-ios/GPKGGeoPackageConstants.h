@@ -14,7 +14,7 @@ extern NSString * const GPKG_APPLICATION_ID;
 extern NSString * const GPKG_GEO_PACKAGE_EXTENSION_AUTHOR;
 extern NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX;
 extern NSString * const GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER;
-extern NSNumber * const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1;
+extern NSInteger const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1;
 
 @interface GPKGGeoPackageConstants : NSObject
 
