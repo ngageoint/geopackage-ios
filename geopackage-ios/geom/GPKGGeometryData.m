@@ -11,6 +11,8 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeometryExtensions.h"
 #import "WKBGeometryReader.h"
+#import "WKBByteWriter.h"
+#import "WKBGeometryWriter.h"
 
 @implementation GPKGGeometryData
 
@@ -76,8 +78,40 @@
 
 -(NSData *) toData
 {
-    // TODO
-    return nil;
+    WKBByteWriter * writer = [[WKBByteWriter alloc] init];
+    
+    // Write GP as the 2 byte magic number
+    [writer writeString:GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER];
+    
+    // Write a byte as the version, value of 0 = version 1
+    [writer writeByte:[NSNumber numberWithInteger:GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1]];
+    
+    // Build and write a flags byte
+    NSNumber * flags = [self buildFlagsByte];
+    [writer writeByte:flags];
+    [writer setByteOrder:self.byteOrder];
+    
+    // Write the 4 byte srs id int
+    [writer writeInt:self.srsId];
+    
+    // Write the envelope
+    [self writeEnvelopeWithByteWriter:writer];
+    
+    // Save off where the WKB bytes start
+    self.wkbGeometryIndex = [writer size];
+    
+    // Write the Well-Known Binary Geometry if not marked as empty
+    if (!self.empty) {
+        [WKBGeometryWriter writeGeometry:self.geometry withWriter:writer];
+    }
+    
+    // Get the bytes
+    self.bytes = [writer getData];
+    
+    // Close the writer
+    [writer close];
+    
+    return self.bytes;
 }
 
 -(int) readFlags: (NSNumber *) flags {
@@ -114,6 +148,32 @@
 				: CFByteOrderLittleEndian;
     
     return envelopeIndicator;
+}
+
+-(NSNumber *) buildFlagsByte{
+    
+    int flag = 0;
+    
+    // Add the binary type to bit 5, 0 for standard and 1 for extended
+    int binaryType = self.extended ? 1 : 0;
+    flag += (binaryType << 5);
+    
+    // Add the empty geometry flag to bit 4, 0 for non-empty and 1 for
+    // empty
+    int emptyValue = self.empty ? 1 : 0;
+    flag += (emptyValue << 4);
+    
+    // Add the envelope contents indicator code (3-bit unsigned integer to
+    // bits 3, 2, and 1)
+    int envelopeIndicator = self.envelope == nil ? 0 : [GPKGGeometryData getIndicatorWithEnvelope:self.envelope];
+    flag += (envelopeIndicator << 1);
+    
+    // Add the byte order to bit 0, 0 for Big Endian and 1 for Little
+    // Endian
+    int byteOrderValue = (self.byteOrder == CFByteOrderBigEndian) ? 0 : 1;
+    flag += byteOrderValue;
+    
+    return nil;
 }
 
 -(WKBGeometryEnvelope *) readEnvelopeWithIndicator: (int) envelopeIndicator andByteReader: (WKBByteReader *) reader{
@@ -170,6 +230,30 @@
     }
     
     return envelope;
+}
+
+-(void) writeEnvelopeWithByteWriter: (WKBByteWriter *) writer{
+    
+    if (self.envelope != nil) {
+        
+        // Write x and y values
+        [writer writeDouble:self.envelope.minX];
+        [writer writeDouble:self.envelope.maxX];
+        [writer writeDouble:self.envelope.minY];
+        [writer writeDouble:self.envelope.maxY];
+        
+        // Write z values
+        if (self.envelope.hasZ) {
+            [writer writeDouble:self.envelope.minZ];
+            [writer writeDouble:self.envelope.maxZ];
+        }
+        
+        // Write m values
+        if (self.envelope.hasM) {
+            [writer writeDouble:self.envelope.minM];
+            [writer writeDouble:self.envelope.maxM];
+        }
+    }
 }
 
 -(void) setGeometry:(WKBGeometry *) geometry{
