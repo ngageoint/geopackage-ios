@@ -71,7 +71,7 @@
     
     // Read the Well-Known Binary Geometry if not marked as empty
     if(!self.empty){
-        self.geometry = [WKBGeometryReader readGeometry:reader];
+        self.geometry = [WKBGeometryReader readGeometryWithReader:reader];
     }
     
 }
