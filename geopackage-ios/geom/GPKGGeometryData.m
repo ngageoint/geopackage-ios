@@ -173,7 +173,7 @@
     int byteOrderValue = (self.byteOrder == CFByteOrderBigEndian) ? 0 : 1;
     flag += byteOrderValue;
     
-    return nil;
+    return [NSNumber numberWithInt:flag];
 }
 
 -(WKBGeometryEnvelope *) readEnvelopeWithIndicator: (int) envelopeIndicator andByteReader: (WKBByteReader *) reader{
