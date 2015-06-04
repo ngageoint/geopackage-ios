@@ -16,6 +16,8 @@
 
 -(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
 
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table;
+
 -(int) getGeometryColumnIndex;
 
 -(GPKGFeatureColumn *) getGeometryColumn;

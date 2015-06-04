@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGResultSet.h"
+#import "GPKGContentValues.h"
 
 @interface GPKGConnection : NSObject
 
@@ -20,9 +21,12 @@
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement;
 
+-(GPKGResultSet *) rawQuery:(NSString *) statement andArgs: (NSArray *) args;
+
 -(GPKGResultSet *) queryWithTable: (NSString *) table
                        andColumns: (NSArray *) columns
                        andWhere: (NSString *) where
+                       andWhereArgs: (NSArray *) whereArgs
                        andGroupBy: (NSString *) groupBy
                        andHaving: (NSString *) having
                        andOrderBy: (NSString *) orderBy;
@@ -30,6 +34,7 @@
 -(GPKGResultSet *) queryWithTable: (NSString *) table
                        andColumns: (NSArray *) columns
                        andWhere: (NSString *) where
+                       andWhereArgs: (NSArray *) whereArgs
                        andGroupBy: (NSString *) groupBy
                        andHaving: (NSString *) having
                        andOrderBy: (NSString *) orderBy
@@ -37,19 +42,27 @@
 
 -(int) count:(NSString *) statement;
 
+-(int) count:(NSString *) statement andArgs: (NSArray *) args;
+
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where;
+
+-(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(long long) insert:(NSString *) statement;
 
 -(int) update:(NSString *) statement;
 
--(int) updateWithTable: (NSString *) table andValues: (NSDictionary *) values andWhere: (NSString *) where;
+-(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where;
 
--(long long) insertWithTable: (NSString *) table andValues: (NSDictionary *) values;
+-(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+-(long long) insertWithTable: (NSString *) table andValues: (GPKGContentValues *) values;
 
 -(int) delete:(NSString *) statement;
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where;
+
+-(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(void) exec:(NSString *) statement;
 

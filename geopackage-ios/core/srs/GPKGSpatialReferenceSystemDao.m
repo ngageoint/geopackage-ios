@@ -214,10 +214,10 @@
     return count;
 }
 
--(int) deleteCascadeWhere: (NSString *) where{
+-(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
-        GPKGResultSet *results = [self queryWhere:where];
+        GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[self getObject:results];
             count += [self deleteCascade:srs];

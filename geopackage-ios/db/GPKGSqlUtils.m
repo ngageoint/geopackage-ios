@@ -23,15 +23,16 @@
     }
 }
 
-+(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
++(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     GPKGResultSet *resultSet = nil;
     
-    int count = [self countWithDatabase:database andStatement:statement];
+    int count = [self countWithDatabase:database andStatement:statement andArgs:args];
     
     sqlite3_stmt *compiledStatement;
     int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
         resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
     } else{
         [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
@@ -45,6 +46,7 @@
                             andTable: (NSString *) table
                             andColumns: (NSArray *) columns
                             andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
                             andGroupBy: (NSString *) groupBy
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy
@@ -57,11 +59,11 @@
                                                              andHaving:having
                                                             andOrderBy:orderBy
                                                               andLimit:limit];
-    GPKGResultSet *resultSet = [self queryWithDatabase: database andStatement: query];
+    GPKGResultSet *resultSet = [self queryWithDatabase: database andStatement: query andArgs:whereArgs];
     return resultSet;
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
++(int) countWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     NSString *countStatement = [statement lowercaseString];
     
@@ -76,12 +78,16 @@
         countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
     }
     
-    int count = [self countWithDatabase: database andCountStatement:countStatement];
+    int count = [self countWithDatabase: database andCountStatement:countStatement andArgs:args];
     
     return count;
 }
 
 +(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where{
+    return [self countWithDatabase:database andTable:table andWhere:where andWhereArgs:nil];
+}
+
++(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *countStatement = [NSMutableString string];
     
@@ -89,22 +95,30 @@
     [countStatement appendString:table];
     
     if(where != nil){
-        [countStatement appendString:@" where "];
+        [countStatement appendString:@" "];
+        if(![where hasPrefix:@"where"]){
+            [countStatement appendString:@"where "];
+        }
         [countStatement appendString:where];
     }
     
-    int count = [self countWithDatabase: database andCountStatement:countStatement];
+    int count = [self countWithDatabase: database andCountStatement:countStatement andArgs:whereArgs];
     
     return count;
 }
 
 +(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement{
+    return [self countWithDatabase:database andCountStatement:countStatement andArgs:nil];
+}
+
++(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
     
     int count = 0;
     
     sqlite3_stmt *compiledStatement;
     int prepareStatementResult = sqlite3_prepare_v2(database, [countStatement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
         if(sqlite3_step(compiledStatement) == SQLITE_ROW){
             count = sqlite3_column_int(compiledStatement, 0);
         } else{
@@ -120,12 +134,50 @@
 }
 
 +(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
+    return [self insertWithDatabase:database andStatement:statement andArgs:nil];
+}
+
++(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values{
+    
+    NSMutableString *insertStatement = [NSMutableString string];
+    [insertStatement appendString:@"insert into "];
+    [insertStatement appendString:table];
+    [insertStatement appendString:@"("];
+    
+    int size = (values != nil) ? [values size] : 0;
+    NSMutableArray * args = [[NSMutableArray alloc] initWithCapacity:size];
+    
+    int i = 0;
+    for(NSString * colName in [values keySet]){
+        if(i > 0){
+            [insertStatement appendString:@","];
+        }
+        [insertStatement appendString:colName];
+        [args addObject:[values getValueForKey:colName]];
+        i++;
+    }
+    [insertStatement appendString:@") values ("];
+    for(i = 0; i < size; i++){
+        if(i > 0){
+            [insertStatement appendString:@","];
+        }
+        [insertStatement appendString:@"?"];
+    }
+    [insertStatement appendString:@")"];
+    
+    long long id = [self insertWithDatabase:database andStatement:insertStatement andArgs:args];
+    
+    return id;
+}
+
++(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     long long lastInsertRowId = -1;
     
     sqlite3_stmt *compiledStatement;
     int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
         int executeQueryResults = sqlite3_step(compiledStatement);
         if (executeQueryResults == SQLITE_DONE) {
             lastInsertRowId = sqlite3_last_insert_rowid(database);
@@ -141,80 +193,65 @@
     return lastInsertRowId;
 }
 
-+(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSDictionary *) values{
-    
-    NSMutableString *insertStatement = [NSMutableString string];
-    [insertStatement appendString:@"insert into "];
-    [insertStatement appendString:table];
-    [insertStatement appendString:@"("];
-    
-    BOOL first = true;
-    
-    for(id key in values){
-        if(first){
-            first = false;
-        }else{
-            [insertStatement appendString:@","];
-        }
-        [insertStatement appendString:key];
-    }
-    [insertStatement appendString:@") values ("];
-    first = true;
-    for(id key in values){
-        if(first){
-            first = false;
-        }else{
-            [insertStatement appendString:@","];
-        }
-        [insertStatement appendString:[self getSqlValueString: [GPKGUtils objectForKey:key inDictionary:values]]];
-    }
-    [insertStatement appendString:@")"];
-    
-    long long id = [self insertWithDatabase:database andStatement:insertStatement];
-    
-    return id;
-}
-
 +(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
-    return [self updateOrDeleteWithDatabase: database andStatement:statement];
+    return [self updateWithDatabase:database andStatement:statement andArgs:nil];
 }
 
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (NSDictionary *) values andWhere: (NSString *) where{
++(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    return [self updateOrDeleteWithDatabase: database andStatement:statement andArgs:args];
+}
+
++(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
+    return [self updateWithDatabase:database andTable:table andValues:values andWhere:where andWhereArgs:nil];
+}
+
++(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *updateStatement = [NSMutableString string];
     [updateStatement appendString:@"update "];
     [updateStatement appendString:table];
     [updateStatement appendString:@" set "];
     
-    BOOL first = true;
+    int setValuesSize = [values size];
+    int argsSize = (whereArgs == nil) ? setValuesSize : (setValuesSize + (int)[whereArgs count]);
+    NSMutableArray * args = [[NSMutableArray alloc] initWithCapacity:argsSize];
     
-    for(id key in values){
-        if(first){
-            first = false;
-        }else{
+    int i = 0;
+    for(NSString * colName in [values keySet]){
+        if(i > 0){
             [updateStatement appendString:@","];
         }
-        [updateStatement appendString:key];
-        [updateStatement appendString:@"="];
-        [updateStatement appendString:[self getSqlValueString: [GPKGUtils objectForKey:key inDictionary:values]]];
-
+        [updateStatement appendString:colName];
+        [args addObject:[values getValueForKey:colName]];
+        i++;
+        [updateStatement appendString:@"=?"];
     }
-    
+    if(whereArgs != nil){
+        [args addObjectsFromArray:whereArgs];
+    }
     if(where != nil){
         [updateStatement appendString:@" where "];
         [updateStatement appendString:where];
     }
     
-    int count = [self updateWithDatabase:database andStatement:updateStatement];
+    int count = [self updateWithDatabase:database andStatement:updateStatement andArgs:args];
     
     return count;
 }
 
 +(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
-    return [self updateOrDeleteWithDatabase: database andStatement:statement];
+    return [self deleteWithDatabase:database andStatement:statement andArgs:nil];
+}
+
++(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    return [self updateOrDeleteWithDatabase: database andStatement:statement andArgs:args];
 }
 
 +(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where{
+    return [self deleteWithDatabase:database andTable:table andWhere:where andWhereArgs:nil];
+}
+
++(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *deleteStatement = [NSMutableString string];
     
@@ -226,18 +263,19 @@
         [deleteStatement appendString:where];
     }
     
-    int count = [self deleteWithDatabase:database andStatement:deleteStatement];
+    int count = [self deleteWithDatabase:database andStatement:deleteStatement andArgs:whereArgs];
     
     return count;
 }
 
-+(int) updateOrDeleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
++(int) updateOrDeleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     int rowsModified = -1;
     
     sqlite3_stmt *compiledStatement;
     int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
         int executeQueryResults = sqlite3_step(compiledStatement);
         if (executeQueryResults == SQLITE_DONE) {
             rowsModified = sqlite3_changes(database);
@@ -251,6 +289,81 @@
     [self closeStatement:compiledStatement];
     
     return rowsModified;
+}
+
++(void) setArguments: (NSArray *) arguments inStatement: (sqlite3_stmt *) statement{
+    if(arguments != nil){
+        for(int i = 0; i < [arguments count]; i++){
+            NSObject * argument = [arguments objectAtIndex:i];
+            int index = i+1;
+            if([argument isKindOfClass:[NSData class]]){
+                NSData * data = (NSData *) argument;
+                int bindResult = sqlite3_bind_blob(statement, index, [data bytes], (int)[data length], SQLITE_TRANSIENT);
+                if(bindResult != SQLITE_OK){
+                    [NSException raise:@"Bind Blob" format:@"Failed to bind blob in SQL statement: %@, Error Code: %d", statement, bindResult];
+                }
+            }else if([argument isKindOfClass:[NSDate class]]){
+                NSDate * date = (NSDate *) argument;
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+                NSString *dateString=[dateFormat stringFromDate:date];
+                int bindResult = sqlite3_bind_text(statement, index, [dateString UTF8String], -1, SQLITE_TRANSIENT);
+                if(bindResult != SQLITE_OK){
+                    [NSException raise:@"Bind Date" format:@"Failed to bind date in SQL statement: %@, Error Code: %d", statement, bindResult];
+                }
+            }else if([argument isKindOfClass:[NSString class]]){
+                NSString * string = (NSString *) argument;
+                int bindResult = sqlite3_bind_text(statement, index, [string UTF8String], -1, SQLITE_TRANSIENT);
+                if(bindResult != SQLITE_OK){
+                    [NSException raise:@"Bind String" format:@"Failed to bind string in SQL statement: %@, Error Code: %d", statement, bindResult];
+                }
+            }else if([argument isKindOfClass:[NSDecimalNumber class]]){
+                NSDecimalNumber * decimal = (NSDecimalNumber *) argument;
+                NSString * decimalString = [decimal stringValue];
+                int bindResult = sqlite3_bind_text(statement, index, [decimalString UTF8String], -1, SQLITE_TRANSIENT);
+                if(bindResult != SQLITE_OK){
+                    [NSException raise:@"Bind Decimal" format:@"Failed to bind decimal in SQL statement: %@, Error Code: %d", statement, bindResult];
+                }
+            }else if([argument isKindOfClass:[NSNumber class]]){
+                NSNumber * number = (NSNumber *) argument;
+                CFNumberType numberType = CFNumberGetType((CFNumberRef)number);
+                
+                BOOL success = false;
+                
+                if (numberType == kCFNumberFloat32Type ||
+                    numberType == kCFNumberFloat64Type ||
+                    numberType == kCFNumberCGFloatType)
+                {
+                    double value;
+                    success = CFNumberGetValue((CFNumberRef)number, kCFNumberFloat64Type, &value);
+                    if (success) {
+                        success = (sqlite3_bind_double(statement, index, value) == SQLITE_OK);
+                    }
+                } else {
+                    SInt64 value;
+                    success = CFNumberGetValue((CFNumberRef)number, kCFNumberSInt64Type, &value);
+                    if (success) {
+                        success = (sqlite3_bind_int64(statement, index, value) == SQLITE_OK);
+                    }
+                }
+                
+                if(!success){
+                    NSString *numberString = [number stringValue];
+                    int bindResult = sqlite3_bind_text(statement, index, [numberString UTF8String], -1, SQLITE_TRANSIENT);
+                    if(bindResult != SQLITE_OK){
+                        [NSException raise:@"Bind Number" format:@"Failed to bind number in SQL statement: %@, Error Code: %d", statement, bindResult];
+                    }
+                }
+            }else if([argument isKindOfClass:[NSNull class]]){
+                int bindResult = sqlite3_bind_null(statement, index);
+                if(bindResult != SQLITE_OK){
+                    [NSException raise:@"Bind Null" format:@"Failed to bind null in SQL statement: %@, Error Code: %d", statement, bindResult];
+                }
+            } else{
+                [NSException raise:@"Unsupported Bind" format:@"Unsupported bind type: %@", NSStringFromClass([argument class])];
+            }
+        }
+    }
 }
 
 +(void) closeStatement: (sqlite3_stmt *) statment{

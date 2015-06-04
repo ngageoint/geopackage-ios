@@ -45,7 +45,7 @@
 }
 
 -(GPKGFeatureRow *) newRow{
-    return [[GPKGFeatureRow alloc] initWithTable:self.table];
+    return [[GPKGFeatureRow alloc] initWithFeatureTable:(GPKGFeatureTable *)self.table];
 }
 
 -(NSString *) getGeometryColumnName{

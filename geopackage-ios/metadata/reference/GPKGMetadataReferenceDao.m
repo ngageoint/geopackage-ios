@@ -8,6 +8,7 @@
 
 #import "GPKGMetadataReferenceDao.h"
 #import "GPKGUtils.h"
+#import "GPKGColumnValues.h"
 
 @implementation GPKGMetadataReferenceDao
 
@@ -97,26 +98,28 @@
 
 -(int) deleteByMetadata: (NSNumber *) fileId{
     NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_FILE_ID andValue:fileId];
-    int count = [self deleteWhere:where];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:fileId];
+    int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(int) removeMetadataParent: (NSNumber *) parentId{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:nil forKey:GPKG_MR_COLUMN_PARENT_ID inDictionary:values];
+    GPKGContentValues *values = [[GPKGContentValues alloc] init];
+    [values putKey:GPKG_MR_COLUMN_PARENT_ID withValue:nil];
 
     NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:parentId];
     
-    int count = [self updateWithValues:values andWhere:where];
+    int count = [self updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(GPKGResultSet *) queryByMetadata: (NSNumber *) fileId andParent: (NSNumber *) parentId{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:fileId forKey:GPKG_MR_COLUMN_FILE_ID inDictionary:values];
-    [GPKGUtils setObject:parentId forKey:GPKG_MR_COLUMN_PARENT_ID inDictionary:values];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_MR_COLUMN_FILE_ID withValue:fileId];
+    [values addColumn:GPKG_MR_COLUMN_PARENT_ID withValue:parentId];
     
     return [self queryForFieldValues:values];
 }

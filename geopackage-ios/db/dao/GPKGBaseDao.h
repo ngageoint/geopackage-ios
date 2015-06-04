@@ -9,20 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "GPKGConnection.h"
 #import "GPKGColumnValue.h"
+#import "GPKGColumnValues.h"
 #import "GPKGProjection.h"
 
 @interface GPKGBaseDao : NSObject
 
 @property (nonatomic, strong) NSString *databaseName;
-
 @property (nonatomic) GPKGConnection *database;
-
 @property (nonatomic, strong) NSArray *idColumns;
-
 @property (nonatomic, strong) NSArray *columns;
-
 @property (nonatomic, strong) NSString *tableName;
-
 @property (nonatomic, strong) NSMutableDictionary *columnIndex;
 
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
@@ -51,6 +47,8 @@
 
 -(GPKGResultSet *) rawQuery: (NSString *) query;
 
+-(GPKGResultSet *) rawQuery: (NSString *) query andArgs: (NSArray *) args;
+
 -(NSArray *) singleColumnResults: (GPKGResultSet *) results;
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andValue: (NSObject *) value;
@@ -63,18 +61,20 @@
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
--(GPKGResultSet *) queryForFieldValues: (NSDictionary *) fieldValues;
+-(GPKGResultSet *) queryForFieldValues: (GPKGColumnValues *) fieldValues;
 
--(GPKGResultSet *) queryForColumnValueFieldValues: (NSDictionary *) fieldValues;
+-(GPKGResultSet *) queryForColumnValueFieldValues: (GPKGColumnValues *) fieldValues;
 
--(GPKGResultSet *) queryWhere: (NSString *) where;
+-(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy;
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy
@@ -88,7 +88,7 @@
 
 -(int) update: (NSObject *) object;
 
--(int) updateWithValues: (NSDictionary *) values andWhere: (NSString *) where;
+-(int) updateWithValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(int) delete: (NSObject *) object;
 
@@ -96,7 +96,7 @@
 
 -(int) deleteByMultiId: (NSArray *) idValues;
 
--(int) deleteWhere: (NSString *) where;
+-(int) deleteWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(long long) create: (NSObject *) object;
 
@@ -114,11 +114,13 @@
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue;
 
+-(NSArray *) buildPkWhereArgsWithValue: (NSObject *) idValue;
+
 -(NSString *) buildPkWhereWithValues: (NSArray *) idValues;
 
--(NSString *) buildWhereWithFields: (NSDictionary *) fields;
+-(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields;
 
--(NSString *) buildWhereWithColumnValueFields: (NSDictionary *) fields;
+-(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields;
 
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value;
 
@@ -126,8 +128,18 @@
 
 -(NSString *) buildWhereWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
+-(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) fields;
+
+-(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) fields;
+
+-(NSArray *) buildWhereArgsWithValue: (NSObject *) value;
+
+-(NSArray *) buildWhereArgsWithColumnValue: (GPKGColumnValue *) value;
+
 -(int) count;
 
 -(int) countWhere: (NSString *) where;
+
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args;
 
 @end

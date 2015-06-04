@@ -12,9 +12,10 @@
 
 -(GPKGGeoPackage *)open:(NSString *) name{
     NSString *filename = @"gdal_sample.gpkg"; // TODO
+    BOOL writable = true; // TODO
     
     GPKGConnection *database = [[GPKGConnection alloc] initWithDatabaseFilename:filename];
-    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithConnection:database];
+    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithConnection:database andWritable:writable];
     return geoPackage;
 }
 

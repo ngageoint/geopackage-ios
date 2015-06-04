@@ -134,6 +134,10 @@
     if(index == self.table.pkIndex){
         [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", self.table.tableName, index, [self.table getPkColumn].name];
     }
+    [self setValueNoValidationWithIndex:index andValue:value];
+}
+
+-(void) setValueNoValidationWithIndex: (int) index andValue: (NSObject *) value{
     [GPKGUtils replaceObjectAtIndex:index withObject:value inArray:self.values];
 }
 

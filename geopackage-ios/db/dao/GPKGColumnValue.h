@@ -11,7 +11,6 @@
 @interface GPKGColumnValue : NSObject
 
 @property (nonatomic, strong) NSObject *value;
-
 @property (nonatomic) NSNumber *tolerance;
 
 @end

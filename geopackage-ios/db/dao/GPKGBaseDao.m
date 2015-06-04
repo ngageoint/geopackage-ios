@@ -73,7 +73,8 @@
 -(GPKGResultSet *) queryForId: (NSObject *) idValue{
     
     NSString * whereString = [self buildPkWhereWithValue:idValue];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:nil andHaving:nil andOrderBy:nil];
+    NSArray * whereArgs = [self buildPkWhereArgsWithValue:idValue];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
@@ -87,7 +88,8 @@
 -(GPKGResultSet *) queryForMultiId: (NSArray *) idValues{
     
     NSString * whereString = [self buildPkWhereWithValues:idValues];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:nil andHaving:nil andOrderBy:nil];
+    NSArray * whereArgs = [self buildPkWhereArgsWithValues:idValues];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
@@ -99,7 +101,7 @@
 }
 
 -(GPKGResultSet *) queryForAll{
-    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(NSObject *) getObject: (GPKGResultSet *) results{
@@ -128,7 +130,11 @@
 }
 
 -(GPKGResultSet *) rawQuery: (NSString *) query{
-    GPKGResultSet *results = [self.database rawQuery:query];
+    return [self rawQuery:query andArgs:nil];
+}
+
+-(GPKGResultSet *) rawQuery: (NSString *) query andArgs: (NSArray *) args{
+    GPKGResultSet *results = [self.database rawQuery:query andArgs:args];
     return results;
 }
 
@@ -151,45 +157,51 @@
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
     NSString *whereString = [self buildWhereWithField:field andValue:value];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:value];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
     return results;
 }
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereWithField:field andColumnValue:value];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:nil andHaving:nil andOrderBy:nil];
+    NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
--(GPKGResultSet *) queryForFieldValues:( NSDictionary *) fieldValues{
+-(GPKGResultSet *) queryForFieldValues:(GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:nil andHaving:nil andOrderBy:nil];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
--(GPKGResultSet *) queryForColumnValueFieldValues:( NSDictionary *) fieldValues{
+-(GPKGResultSet *) queryForColumnValueFieldValues:(GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithColumnValueFields:fieldValues];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andGroupBy:nil andHaving:nil andOrderBy:nil];
+    NSArray *whereArgs = [self buildWhereArgsWithColumnValues:fieldValues];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
--(GPKGResultSet *) queryWhere: (NSString *) where{
-    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andGroupBy:nil andHaving:nil andOrderBy:nil];
+-(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andWhereArgs: whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy{
-    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit{
-    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 -(BOOL) idExists: (NSObject *) id{
@@ -213,20 +225,22 @@
 -(int) update: (NSObject *) object{
     [self validateObject:object];
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    GPKGContentValues *values = [[GPKGContentValues alloc] init];
     for(NSString * column in self.columns){
         if(![self.idColumns containsObject:column]){
             NSObject * value = [self getValueFromObject:object withColumnName:column];
-            [GPKGUtils setObject:value forKey:column inDictionary:values];
+            [values putKey:column withValue:value];
         }
     }
-    NSString *where = [self buildPkWhereWithValues:[self getMultiId:object]];
-    int count = [self updateWithValues:values andWhere:where];
+    NSArray* multiId = [self getMultiId:object];
+    NSString *where = [self buildPkWhereWithValues:multiId];
+    NSArray *whereArgs = [self buildPkWhereArgsWithValues:multiId];
+    int count = [self updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
--(int) updateWithValues: (NSDictionary *) values andWhere: (NSString *) where{
-    int count = [self.database updateWithTable:self.tableName andValues:values andWhere:where];
+-(int) updateWithValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = [self.database updateWithTable:self.tableName andValues:values andWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
@@ -235,15 +249,15 @@
 }
 
 -(int) deleteById: (NSObject *) idValue{
-    return [self.database deleteWithTable:self.tableName andWhere:[self buildPkWhereWithValue:idValue]];
+    return [self.database deleteWithTable:self.tableName andWhere:[self buildPkWhereWithValue:idValue] andWhereArgs:[self buildPkWhereArgsWithValue:idValue]];
 }
 
 -(int) deleteByMultiId: (NSArray *) idValues{
-    return [self.database deleteWithTable:self.tableName andWhere:[self buildPkWhereWithValues:idValues]];
+    return [self.database deleteWithTable:self.tableName andWhere:[self buildPkWhereWithValues:idValues] andWhereArgs:[self buildPkWhereArgsWithValues:idValues]];
 }
 
--(int) deleteWhere: (NSString *) where{
-    return [self.database deleteWithTable:self.tableName andWhere:where];
+-(int) deleteWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.database deleteWithTable:self.tableName andWhere:where andWhereArgs:whereArgs];
 }
 
 -(long long) create: (NSObject *) object{
@@ -253,11 +267,11 @@
 -(long long) insert: (NSObject *) object{
     [self validateObject:object];
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    GPKGContentValues *values = [[GPKGContentValues alloc]init];
     for(NSString * column in self.columns){
         NSObject * value = [self getValueFromObject:object withColumnName:column];
         if(value != nil){
-            [GPKGUtils setObject:value forKey:column inDictionary:values];
+            [values putKey:column withValue:value];
         }
     }
     long long id = [self.database insertWithTable:self.tableName andValues:values];
@@ -301,37 +315,48 @@
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
-    NSString * whereString = [self buildWhereWithField:[GPKGUtils objectAtIndex:0 inArray:self.idColumns] andValue:idValue];
-    return whereString;
+    return [self buildWhereWithField:[GPKGUtils objectAtIndex:0 inArray:self.idColumns] andValue:idValue];
+}
+
+-(NSArray *) buildPkWhereArgsWithValue: (NSObject *) idValue{
+    return [self buildWhereArgsWithValue:idValue];
 }
 
 -(NSString *) buildPkWhereWithValues: (NSArray *) idValues{
-    NSMutableDictionary *idDictionary = [[NSMutableDictionary alloc] init];
+    GPKGColumnValues *idColumnValues = [[GPKGColumnValues alloc] init];
     for(int i = 0; i < [idValues count]; i++){
-        [GPKGUtils setObject:[GPKGUtils objectAtIndex:i inArray:idValues] forKey:[GPKGUtils objectAtIndex:i inArray:self.idColumns] inDictionary:idDictionary];
+        [idColumnValues addColumn:[GPKGUtils objectAtIndex:i inArray:self.idColumns] withValue:[GPKGUtils objectAtIndex:i inArray:idValues]];
     }
-    NSString * whereString = [self buildWhereWithFields:idDictionary];
+    NSString * whereString = [self buildWhereWithFields:idColumnValues];
     return whereString;
 }
 
--(NSString *) buildWhereWithFields: (NSDictionary *) fields{
+-(NSArray *) buildPkWhereArgsWithValues: (NSArray *) idValues{
+    NSMutableArray * values = [[NSMutableArray alloc] init];
+    for(NSObject * value in idValues){
+        [values addObjectsFromArray:[self buildWhereArgsWithValue:value]];
+    }
+    return values;
+}
+
+-(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields{
     NSMutableString *whereString = [NSMutableString string];
-    for(id key in fields){
+    for(NSString * column in fields.columns){
         if([whereString length] > 0){
             [whereString appendString:@" and "];
         }
-        [whereString appendString:[self buildWhereWithField:key andValue:[GPKGUtils objectForKey:key inDictionary:fields]]];
+        [whereString appendString:[self buildWhereWithField:column andValue:[fields getValue:column]]];
     }
     return whereString;
 }
 
--(NSString *) buildWhereWithColumnValueFields: (NSDictionary *) fields{
+-(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields{
     NSMutableString *whereString = [NSMutableString string];
-    for(id key in fields){
+    for(NSString * column in fields.columns){
         if([whereString length] > 0){
             [whereString appendString:@" and "];
         }
-        [whereString appendString:[self buildWhereWithField:key andColumnValue:[GPKGUtils objectForKey:key inDictionary:fields]]];
+        [whereString appendString:[self buildWhereWithField:column andColumnValue:(GPKGColumnValue *)[fields getValue:column]]];
     }
     return whereString;
 }
@@ -346,7 +371,7 @@
     if(value == nil){
         [whereString appendString:@"is null"];
     }else{
-        [whereString appendFormat:@"%@ %@", operation, [GPKGSqlUtils getSqlValueString:value]];
+        [whereString appendFormat:@"%@ ?", operation];
     }
     return whereString;
 }
@@ -357,9 +382,7 @@
     
     if(value != nil){
         if(value.value != nil && value.tolerance != nil){
-            double doubleValue = [(NSNumber *)value.value doubleValue];
-            double tolerance = [value.tolerance doubleValue];
-            [whereString appendFormat:@"%@ >= %f and %@ <= %f", field, doubleValue - tolerance, field, doubleValue + tolerance];
+            [whereString appendFormat:@"%@ >= ? and %@ <= ?", field, field];
         }else{
             [whereString appendString:[self buildWhereWithField:field andValue:value.value]];
         }
@@ -370,22 +393,69 @@
     return whereString;
 }
 
+-(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) fields{
+    NSMutableArray * args = [[NSMutableArray alloc] init];
+    for(NSString * column in fields.columns){
+        NSObject * value = [fields getValue:column];
+        if(value != nil){
+            [GPKGUtils addObject:value toArray:args];
+        }
+    }
+    return [args count] == 0 ? nil : args;
+}
+
+-(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) fields{
+    NSMutableArray * args = [[NSMutableArray alloc] init];
+    for(NSString * column in fields.columns){
+        GPKGColumnValue * value = (GPKGColumnValue *)[fields getValue:column];
+        if(value != nil && value.value != nil){
+            if(value.tolerance != nil){
+                [args addObjectsFromArray:[self getValueToleranceRange:value]];
+            }else{
+                [GPKGUtils addObject:value.value toArray:args];
+            }
+        }
+    }
+    return [args count] == 0 ? nil : args;
+}
+
+-(NSArray *) buildWhereArgsWithValue: (NSObject *) value{
+    NSMutableArray * args = nil;
+    if(value != nil){
+        args = [[NSMutableArray alloc] init];
+        [GPKGUtils addObject:value toArray:args];
+    }
+    return args;
+}
+
+-(NSArray *) buildWhereArgsWithColumnValue: (GPKGColumnValue *) value{
+    NSArray * args = nil;
+    if(value != nil){
+        if(value.value != nil && value.tolerance != nil){
+            args = [self getValueToleranceRange:value];
+        }else{
+            args = [self buildWhereArgsWithValue:value.value];
+        }
+    }
+    return args;
+}
+
 -(int) count{
-    return [self countWhere:nil];
+    return [self countWhere:nil andWhereArgs:nil];
 }
 
 -(int) countWhere: (NSString *) where{
-    NSMutableString *countString = [NSMutableString string];
-    NSString * tableName = self.tableName;
-    [countString appendFormat:@"select count(*) from %@", tableName];
-    if(where != nil){
-        [countString appendString:@" "];
-        if(![where hasPrefix:@"where"]){
-            [countString appendString:@"where "];
-        }
-        [countString appendString:where];
-    }
-    return [self.database count:countString];
+    return [self countWhere:where andWhereArgs:nil];
+}
+
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args{
+    return [self.database countWithTable:self.tableName andWhere:where andWhereArgs:args];
+}
+
+-(NSArray *) getValueToleranceRange: (GPKGColumnValue *) value{
+    double doubleValue = [(NSNumber *)value.value doubleValue];
+    double tolerance = [value.tolerance doubleValue];
+    return [NSArray arrayWithObjects:[[NSDecimalNumber alloc]initWithDouble:doubleValue - tolerance], [[NSDecimalNumber alloc]initWithDouble:doubleValue + tolerance], nil];
 }
 
 @end

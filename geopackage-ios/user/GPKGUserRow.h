@@ -51,6 +51,8 @@
 
 -(void) setValueWithIndex: (int) index andValue: (NSObject *) value;
 
+-(void) setValueNoValidationWithIndex: (int) index andValue: (NSObject *) value;
+
 -(void) setValueWithColumnName: (NSString *) columnName andValue: (NSObject *) value;
 
 -(void) setId: (NSNumber *) id;

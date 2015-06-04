@@ -16,7 +16,9 @@
 
 @interface GPKGGeoPackage : NSObject
 
--(instancetype) initWithConnection: (GPKGConnection *) database;
+@property (nonatomic) BOOL writable;
+
+-(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable;
 
 -(void)close;
 

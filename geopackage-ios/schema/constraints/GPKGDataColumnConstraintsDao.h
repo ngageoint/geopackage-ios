@@ -17,7 +17,7 @@
 
 -(int) deleteCascadeWithCollection: (NSArray *) constraintsCollection;
 
--(int) deleteCascadeWhere: (NSString *) where;
+-(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(int) deleteByIdCascade: (NSNumber *) id;
 

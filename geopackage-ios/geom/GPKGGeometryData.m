@@ -52,7 +52,7 @@
     
     NSNumber * version = [reader readByte];
     if([version intValue] != GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1){
-        [NSException raise:@"Invalid Version" format:@"Unexpected GeoPackage Geometry version: %@, Expected: %@", version, GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1];
+        [NSException raise:@"Invalid Version" format:@"Unexpected GeoPackage Geometry version: %@, Expected: %ld", version, (long)GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1];
     }
     
     // Get a flags byte and then read the flag values
@@ -271,7 +271,7 @@
 
 -(NSData *) getWkbData
 {
-    int wkbByteCount = [self.bytes length] - self.wkbGeometryIndex;
+    int wkbByteCount = (int)[self.bytes length] - self.wkbGeometryIndex;
     return [self.bytes subdataWithRange:NSMakeRange(self.wkbGeometryIndex, wkbByteCount)];
 }
 

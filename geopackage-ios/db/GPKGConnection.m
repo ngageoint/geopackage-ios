@@ -44,18 +44,24 @@
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement{
-    return [GPKGSqlUtils queryWithDatabase:self.database andStatement:statement];
+    return [self rawQuery:statement andArgs:nil];
+}
+
+-(GPKGResultSet *) rawQuery:(NSString *) statement andArgs: (NSArray *) args{
+    return [GPKGSqlUtils queryWithDatabase:self.database andStatement:statement andArgs:args];
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
                   andColumns: (NSArray *) columns
                     andWhere: (NSString *) where
+                  andWhereArgs: (NSArray *) whereArgs
                   andGroupBy: (NSString *) groupBy
                    andHaving: (NSString *) having
                   andOrderBy: (NSString *) orderBy{
     return [self queryWithTable:table
                      andColumns:columns
                      andWhere:where
+                     andWhereArgs:whereArgs
                      andGroupBy:groupBy
                      andHaving:having
                      andOrderBy:orderBy
@@ -65,6 +71,7 @@
 -(GPKGResultSet *) queryWithTable: (NSString *) table
                           andColumns: (NSArray *) columns
                             andWhere: (NSString *) where
+                          andWhereArgs: (NSArray *) whereArgs
                           andGroupBy: (NSString *) groupBy
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
@@ -73,6 +80,7 @@
                                andDistinct:false andTable:table
                                andColumns:columns
                                andWhere:where
+                               andWhereArgs:whereArgs
                                andGroupBy:groupBy
                                andHaving:having
                                andOrderBy:orderBy
@@ -80,11 +88,19 @@
 }
 
 -(int) count:(NSString *) statement{
-    return [GPKGSqlUtils countWithDatabase:self.database andStatement:statement];
+    return [self count:statement andArgs:nil];
+}
+
+-(int) count:(NSString *) statement andArgs: (NSArray *) args{
+    return [GPKGSqlUtils countWithDatabase:self.database andStatement:statement andArgs:args];
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
     return [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where];
+}
+
+-(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where andWhereArgs: whereArgs];
 }
 
 -(long long) insert:(NSString *) statement{
@@ -95,11 +111,15 @@
     return [GPKGSqlUtils updateWithDatabase:self.database andStatement:statement];
 }
 
--(int) updateWithTable: (NSString *) table andValues: (NSDictionary *) values andWhere: (NSString *) where{
+-(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
     return [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where];
 }
 
--(long long) insertWithTable: (NSString *) table andValues: (NSDictionary *) values{
+-(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where andWhereArgs:whereArgs];
+}
+
+-(long long) insertWithTable: (NSString *) table andValues: (GPKGContentValues *) values{
     return [GPKGSqlUtils insertWithDatabase:self.database andTable:table andValues:values];
 }
 
@@ -109,6 +129,10 @@
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where{
     return [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where];
+}
+
+-(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where andWhereArgs:whereArgs];
 }
 
 -(void) exec:(NSString *) statement{

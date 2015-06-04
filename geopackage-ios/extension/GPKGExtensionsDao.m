@@ -85,30 +85,33 @@
 
 -(int) deleteByExtension: (NSString *) extensionName{
     NSString * where = [self buildWhereWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
-    int count = [self deleteWhere:where];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:extensionName];
+    int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(int) deleteByExtension: (NSString *) extensionName andTable: (NSString *) tableName{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:extensionName forKey:GPKG_EX_COLUMN_EXTENSION_NAME inDictionary:values];
-    [GPKGUtils setObject:tableName forKey:GPKG_EX_COLUMN_TABLE_NAME inDictionary:values];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
+    [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     
     NSString * where = [self buildWhereWithFields:values];
-    int count = [self deleteWhere:where];
+    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(int) deleteByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:extensionName forKey:GPKG_EX_COLUMN_EXTENSION_NAME inDictionary:values];
-    [GPKGUtils setObject:tableName forKey:GPKG_EX_COLUMN_TABLE_NAME inDictionary:values];
-    [GPKGUtils setObject:columnName forKey:GPKG_EX_COLUMN_COLUMN_NAME inDictionary:values];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
+    [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
+    [values addColumn:GPKG_EX_COLUMN_COLUMN_NAME withValue:columnName];
     
     NSString * where = [self buildWhereWithFields:values];
-    int count = [self deleteWhere:where];
+    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
@@ -118,19 +121,19 @@
 
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:extensionName forKey:GPKG_EX_COLUMN_EXTENSION_NAME inDictionary:values];
-    [GPKGUtils setObject:tableName forKey:GPKG_EX_COLUMN_TABLE_NAME inDictionary:values];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
+    [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     
     return [self queryForFieldValues:values];
 }
 
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName{
     
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
-    [GPKGUtils setObject:extensionName forKey:GPKG_EX_COLUMN_EXTENSION_NAME inDictionary:values];
-    [GPKGUtils setObject:tableName forKey:GPKG_EX_COLUMN_TABLE_NAME inDictionary:values];
-    [GPKGUtils setObject:columnName forKey:GPKG_EX_COLUMN_COLUMN_NAME inDictionary:values];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
+    [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
+    [values addColumn:GPKG_EX_COLUMN_COLUMN_NAME withValue:columnName];
     
     return [self queryForFieldValues:values];
 }

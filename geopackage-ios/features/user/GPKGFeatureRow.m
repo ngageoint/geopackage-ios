@@ -18,6 +18,14 @@
     return self;
 }
 
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table{
+    self = [super initWithTable:table];
+    if(self != nil){
+        self.featureTable = table;
+    }
+    return self;
+}
+
 -(int) getGeometryColumnIndex{
     return self.featureTable.geometryIndex;
 }

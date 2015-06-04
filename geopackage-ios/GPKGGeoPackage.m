@@ -20,12 +20,13 @@
 
 @implementation GPKGGeoPackage
 
--(instancetype) initWithConnection: (GPKGConnection *) database{
+-(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable{
     self = [super init];
     if(self != nil){
         self.database = database;
         self.name = database.name;
         self.path = database.filename;
+        self.writable = writable;
     }
     return self;
 }
@@ -73,6 +74,12 @@
     GPKGFeatureTableReader * tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:geometryColumns];
     GPKGFeatureTable * featureTable = [tableReader readFeatureTableWithConnection:self.database];
     GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns];
+    
+    // TODO
+    // GeoPackages created with SQLite version 4.2.0+ with GeoPackage
+    // support are not fully supported in previous sqlite versions
+    [self dropSQLiteTriggers:geometryColumns];
+    
     return dao;
 }
 
@@ -92,6 +99,18 @@
         [NSException raise:@"No Feature Table" format:@"No Feature Table exists for table name: %@", tableName];
     }
     return [self getFeatureDaoWithGeometryColumns:geometryColumns];
+}
+
+-(void) dropSQLiteTriggers: (GPKGGeometryColumns *) geometryColumns{
+    
+    if (self.writable) {
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_insert", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update1", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update2", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update3", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update4", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_delete", geometryColumns.tableName, geometryColumns.columnName]];
+    }
 }
 
 @end

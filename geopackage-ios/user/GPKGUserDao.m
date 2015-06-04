@@ -30,7 +30,7 @@
 -(void) setValueInObject: (NSObject*) object withColumnIndex: (int) columnIndex withValue: (NSObject *) value{
     
     GPKGUserRow *setObject = (GPKGUserRow*) object;
-    [setObject setValueWithIndex:columnIndex andValue:value];
+    [setObject setValueNoValidationWithIndex:columnIndex andValue:value];
 }
 
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{

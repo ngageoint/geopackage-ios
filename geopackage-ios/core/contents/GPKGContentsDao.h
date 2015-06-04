@@ -24,9 +24,9 @@
 
 -(int) deleteCascadeWithCollection: (NSArray *) contentsCollection andUserTable: (BOOL) userTable;
 
--(int) deleteCascadeWhere: (NSString *) where;
+-(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
--(int) deleteCascadeWhere: (NSString *) where andUserTable: (BOOL) userTable;
+-(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andUserTable: (BOOL) userTable;
 
 -(int) deleteByIdCascade: (NSNumber *) id;
 

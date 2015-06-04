@@ -17,7 +17,7 @@
 
 -(int) deleteCascadeWithCollection: (NSArray *) metadataCollection;
 
--(int) deleteCascadeWhere: (NSString *) where;
+-(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 -(int) deleteByIdCascade: (NSNumber *) id;
 
