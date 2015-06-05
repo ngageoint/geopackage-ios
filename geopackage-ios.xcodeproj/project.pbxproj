@@ -182,6 +182,7 @@
 		0499A7A81B1F380800C161DD /* GPKGContentValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGContentValues.m; sourceTree = "<group>"; };
 		0499A7AA1B207EBB00C161DD /* GPKGColumnValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGColumnValues.h; sourceTree = "<group>"; };
 		0499A7AB1B207EBB00C161DD /* GPKGColumnValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGColumnValues.m; sourceTree = "<group>"; };
+		0499A7AD1B21CC8700C161DD /* tables.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tables.plist; sourceTree = "<group>"; };
 		0499E6191AFD22D600431FCF /* GPKGGeoPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackage.h; sourceTree = "<group>"; };
 		0499E61A1AFD22D700431FCF /* GPKGGeoPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackage.m; sourceTree = "<group>"; };
 		0499E61D1AFD2CBC00431FCF /* GPKGGeoPackageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackageManager.h; sourceTree = "<group>"; };
@@ -253,6 +254,7 @@
 		040136191AF92C9300C92AFC /* geopackage-ios */ = {
 			isa = PBXGroup;
 			children = (
+				0499A7AD1B21CC8700C161DD /* tables.plist */,
 				040686C01B0D085500A1FF7A /* user */,
 				040686BC1B0CD7A300A1FF7A /* geom */,
 				040686B11B0CC2BF00A1FF7A /* extension */,
@@ -666,6 +668,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/geopackage-ios/tables.plist",
 			);
 			name = "Copy Pods Resources";
 			outputPaths = (

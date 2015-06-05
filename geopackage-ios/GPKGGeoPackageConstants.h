@@ -15,6 +15,9 @@ extern NSString * const GPKG_GEO_PACKAGE_EXTENSION_AUTHOR;
 extern NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX;
 extern NSString * const GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER;
 extern NSInteger const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1;
+extern NSString * const GPKG_GEO_PACKAGE_BUNDLE_NAME;
+extern NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES;
+extern NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES_TYPE;
 
 @interface GPKGGeoPackageConstants : NSObject
 

@@ -7,9 +7,35 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGConnection.h"
+#import "GPKGUserTable.h"
 
 @interface GPKGTableCreator : NSObject
 
-//TODO
+-(instancetype)initWithDatabase:(GPKGConnection *) db;
+
+-(int) createSpatialReferenceSystem;
+
+-(int) createContents;
+
+-(int) createGeometryColumns;
+
+-(int) createTileMatrixSet;
+
+-(int) createTileMatrix;
+
+-(int) createDataColumns;
+
+-(int) createDataColumnConstraints;
+
+-(int) createMetadata;
+
+-(int) createMetadataReference;
+
+-(int) createExtensions;
+
+-(void) createUserTable: (GPKGUserTable *) table;
+
+-(void) createRequired;
 
 @end

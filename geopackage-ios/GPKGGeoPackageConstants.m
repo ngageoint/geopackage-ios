@@ -15,6 +15,9 @@ NSString * const GPKG_GEO_PACKAGE_EXTENSION_AUTHOR = @"gpkg";
 NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX = @"geom";
 NSString * const GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER = @"GP";
 NSInteger const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1 = 0;
+NSString * const GPKG_GEO_PACKAGE_BUNDLE_NAME = @"GeoPackage.bundle";
+NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES = @"tables";
+NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES_TYPE = @"plist";
 
 @implementation GPKGGeoPackageConstants
 
