@@ -248,11 +248,11 @@
     return count;
 }
 
--(int) deleteByIdCascade: (NSNumber *) id{
+-(int) deleteByIdCascade: (NSString *) id{
     return [self deleteByIdCascade:id andUserTable:false];
 }
 
--(int) deleteByIdCascade: (NSNumber *) id andUserTable: (BOOL) userTable{
+-(int) deleteByIdCascade: (NSString *) id andUserTable: (BOOL) userTable{
     int count = 0;
     if(id != nil){
         GPKGContents *contents = (GPKGContents *) [self queryForIdObject:id];
@@ -270,11 +270,15 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection andUserTable: (BOOL) userTable{
     int count = 0;
     if(idCollection != nil){
-        for(NSNumber * id in idCollection){
+        for(NSString * id in idCollection){
             count += [self deleteByIdCascade:id andUserTable:userTable];
         }
     }
     return count;
+}
+
+-(void) deleteTable: (NSString *) table{
+    [self deleteByIdCascade:table andUserTable:true];
 }
 
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents{

@@ -28,13 +28,15 @@
 
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andUserTable: (BOOL) userTable;
 
--(int) deleteByIdCascade: (NSNumber *) id;
+-(int) deleteByIdCascade: (NSString *) id;
 
--(int) deleteByIdCascade: (NSNumber *) id andUserTable: (BOOL) userTable;
+-(int) deleteByIdCascade: (NSString *) id andUserTable: (BOOL) userTable;
 
 -(int) deleteIdsCascade: (NSArray *) idCollection;
 
 -(int) deleteIdsCascade: (NSArray *) idCollection andUserTable: (BOOL) userTable;
+
+-(void) deleteTable: (NSString *) table;
 
 -(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents;
 
