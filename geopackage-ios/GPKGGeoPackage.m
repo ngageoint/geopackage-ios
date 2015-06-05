@@ -9,6 +9,13 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGFeatureTableReader.h"
+#import "GPKGTableCreator.h"
+
+@interface GPKGGeoPackage()
+
+@property (nonatomic, strong) GPKGTableCreator *tableCreator;
+
+@end
 
 @implementation GPKGGeoPackage
 
@@ -19,6 +26,7 @@
         self.name = database.name;
         self.path = database.filename;
         self.writable = writable;
+        self.tableCreator = [[GPKGTableCreator alloc] initWithDatabase:database];
     }
     return self;
 }
@@ -36,7 +44,11 @@
 }
 
 -(NSArray *)getTileTables{
-    return nil; // TODO
+    
+    GPKGTileMatrixSetDao *dao = [self getTileMatrixSetDao];
+    NSArray *tables = dao.getTileTables;
+    
+    return tables;
 }
 
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
@@ -52,11 +64,21 @@
 }
 
 -(BOOL) createGeometryColumnsTable{
-    return false; // TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createGeometryColumns] > 0;
+    }
+    
+    return created;
 }
 
 -(void) createFeatureTable: (GPKGFeatureTable *) table{
-    // TODO
+    [self verifyWritable];
+    
+    [self.tableCreator createUserTable:table];
 }
 
 -(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
@@ -70,7 +92,15 @@
 }
 
 -(BOOL) createTileMatrixSetTable{
-    return false; // TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createTileMatrixSet] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGTileMatrixDao *) getTileMatrixDao{
@@ -78,11 +108,21 @@
 }
 
 -(BOOL) createTileMatrixTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGTileMatrixDao * dao = [self getTileMatrixDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createTileMatrix] > 0;
+    }
+    
+    return created;
 }
 
 -(void) createTileTable: (GPKGTileTable *) table{
-    // TODO
+    [self verifyWritable];
+    
+    [self.tableCreator createUserTable:table];
 }
 
 -(GPKGTileMatrixSet *) createTileTableWithTableName: (NSString *) tableName
@@ -98,7 +138,15 @@
 }
 
 -(BOOL) createDataColumnsTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGDataColumnsDao * dao = [self getDataColumnsDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createDataColumns] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGDataColumnConstraintsDao *) getDataColumnConstraintsDao{
@@ -106,7 +154,15 @@
 }
 
 -(BOOL) createDataColumnConstraintsTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGDataColumnConstraintsDao * dao = [self getDataColumnConstraintsDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createDataColumnConstraints] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGMetadataDao *) getMetadataDao{
@@ -114,7 +170,15 @@
 }
 
 -(BOOL) createMetadataTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGMetadataDao * dao = [self getMetadataDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createMetadata] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGMetadataReferenceDao *) getMetadataReferenceDao{
@@ -122,7 +186,15 @@
 }
 
 -(BOOL) createMetadataReferenceTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGMetadataReferenceDao * dao = [self getMetadataReferenceDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createMetadataReference] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGExtensionsDao *) getExtensionsDao{
@@ -130,7 +202,15 @@
 }
 
 -(BOOL) createExtensionsTable{
-    return false; //TODO
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGExtensionsDao * dao = [self getExtensionsDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createExtensions] > 0;
+    }
+    
+    return created;
 }
 
 -(void) deleteUserTable: (NSString *) tableName{
