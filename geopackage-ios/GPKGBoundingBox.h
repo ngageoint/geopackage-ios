@@ -22,4 +22,9 @@
                       andMinLatitude: (NSDecimalNumber *) minLatitude
                       andMaxLatitude: (NSDecimalNumber *) maxLatitude;
 
+-(instancetype) initWithMinLongitudeDouble: (double) minLongitude
+                     andMaxLongitudeDouble: (double) maxLongitude
+                      andMinLatitudeDouble: (double) minLatitude
+                      andMaxLatitudeDouble: (double) maxLatitude;
+
 @end

@@ -9,6 +9,7 @@
 #import "GPKGUserTable.h"
 #import "GPKGFeatureColumn.h"
 
+
 @interface GPKGFeatureTable : GPKGUserTable
 
 @property (nonatomic) int geometryIndex;

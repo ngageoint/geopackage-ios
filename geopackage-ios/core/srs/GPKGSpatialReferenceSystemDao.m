@@ -95,7 +95,7 @@
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    GPKGProjection * projection = [GPKGProjectionFactory getProjection:projectionObject.organizationCoordsysId];
+    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithNumber:projectionObject.organizationCoordsysId];
     return projection;
 }
 

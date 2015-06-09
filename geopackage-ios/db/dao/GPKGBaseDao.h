@@ -130,6 +130,8 @@
 
 -(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) fields;
 
+-(NSArray *) buildWhereArgsWithValueArray: (NSArray *) values;
+
 -(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) fields;
 
 -(NSArray *) buildWhereArgsWithValue: (NSObject *) value;

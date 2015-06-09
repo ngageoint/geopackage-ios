@@ -52,7 +52,7 @@
     if(self != nil){
         self.geometryType = geometryType;
         if(geometryType == WKB_NONE && dataType == GPKG_DT_GEOMETRY){
-            [NSException raise:@"Illegal Column Index" format:@"Data or Geometry Type is required to create column: %@", name];
+            [NSException raise:@"Data or Geometry Type" format:@"Data or Geometry Type is required to create column: %@", name];
         }
     }
     return self;

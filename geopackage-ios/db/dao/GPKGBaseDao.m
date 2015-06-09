@@ -404,6 +404,16 @@
     return [args count] == 0 ? nil : args;
 }
 
+-(NSArray *) buildWhereArgsWithValueArray: (NSArray *) values{
+    NSMutableArray * args = [[NSMutableArray alloc] init];
+    for(NSObject * value in values){
+        if(value != nil){
+            [GPKGUtils addObject:value toArray:args];
+        }
+    }
+    return [args count] == 0 ? nil : args;
+}
+
 -(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) fields{
     NSMutableArray * args = [[NSMutableArray alloc] init];
     for(NSString * column in fields.columns){

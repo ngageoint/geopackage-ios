@@ -10,6 +10,35 @@
 
 @interface GPKGTileColumn : GPKGUserColumn
 
-//TODO
++(GPKGTileColumn *) createIdColumn: (int) index;
+
++(GPKGTileColumn *) createZoomLevelColumn: (int) index;
+
++(GPKGTileColumn *) createTileColumnColumn: (int) index;
+
++(GPKGTileColumn *) createTileRowColumn: (int) index;
+
++(GPKGTileColumn *) createTileDataColumn: (int) index;
+
++(GPKGTileColumn *) createColumnWithIndex: (int) index
+                                     andName: (NSString *) name
+                                 andDataType: (enum GPKGDataType) type
+                                  andNotNull: (BOOL) notNull
+                             andDefaultValue: (NSObject *) defaultValue;
+
++(GPKGTileColumn *) createColumnWithIndex: (int) index
+                                     andName: (NSString *) name
+                                 andDataType: (enum GPKGDataType) type
+                                      andMax: (NSNumber *) max
+                                  andNotNull: (BOOL) notNull
+                             andDefaultValue: (NSObject *) defaultValue;
+
+-(instancetype) initWithIndex: (int) index
+                      andName: (NSString *) name
+                  andDataType: (enum GPKGDataType) dataType
+                       andMax: (NSNumber *) max
+                   andNotNull: (BOOL) notNull
+              andDefaultValue: (NSObject *) defaultValue
+                andPrimaryKey: (BOOL) primaryKey;
 
 @end

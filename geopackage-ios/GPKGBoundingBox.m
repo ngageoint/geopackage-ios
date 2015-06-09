@@ -32,4 +32,14 @@
     return self;
 }
 
+-(instancetype) initWithMinLongitudeDouble: (double) minLongitude
+                     andMaxLongitudeDouble: (double) maxLongitude
+                      andMinLatitudeDouble: (double) minLatitude
+                      andMaxLatitudeDouble: (double) maxLatitude{
+    return [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithDouble:minLongitude]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
+                       andMinLatitude:[[NSDecimalNumber alloc] initWithDouble:minLatitude]
+                       andMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
+}
+
 @end

@@ -7,9 +7,15 @@
 //
 
 #import "GPKGUserTableReader.h"
+#import "GPKGTileMatrixSet.h"
+#import "GPKGTileTable.h"
 
 @interface GPKGTileTableReader : GPKGUserTableReader
 
-//TODO
+@property (nonatomic, strong) GPKGTileMatrixSet * tileMatrixSet;
+
+-(instancetype) initWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
+
+-(GPKGTileTable *) readTileTableWithConnection: (GPKGConnection *) db;
 
 @end

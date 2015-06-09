@@ -8,10 +8,11 @@
 
 #import "GPKGProjectionTransform.h"
 #import "GPKGUtils.h"
+#import "GPKGProjectionFactory.h"
 
 @implementation GPKGProjectionTransform
 
--(instancetype) initWithFrom: (GPKGProjection *) fromProjection andTo: (GPKGProjection *) toProjection{
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToProjection: (GPKGProjection *) toProjection{
     self = [super init];
     if(self != nil){
         self.fromProjection = fromProjection;
@@ -20,8 +21,32 @@
     return self;
 }
 
-// TODO
-//-(WKBPoint *) transformWithPoint: (WKBPoint *) from{}
+-(instancetype) initWithFromEpsg: (int) fromEpsg andToEpsg: (int) toEpsg{
+    
+    GPKGProjection * fromProjection = [GPKGProjectionFactory getProjectionWithInt:fromEpsg];
+    GPKGProjection * toProjection = [GPKGProjectionFactory getProjectionWithInt:toEpsg];
+    
+    return [self initWithFromProjection:fromProjection andToProjection:toProjection];
+}
+
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToEpsg: (int) toEpsg{
+    
+    GPKGProjection * toProjection = [GPKGProjectionFactory getProjectionWithInt:toEpsg];
+    
+    return [self initWithFromProjection:fromProjection andToProjection:toProjection];
+}
+
+-(instancetype) initWithFromEpsg: (int) fromEpsg andToProjection: (GPKGProjection *) toProjection{
+    
+    GPKGProjection * fromProjection = [GPKGProjectionFactory getProjectionWithInt:fromEpsg];
+    
+    return [self initWithFromProjection:fromProjection andToProjection:toProjection];
+}
+
+-(WKBPoint *) transformWithPoint: (WKBPoint *) from{
+    //TODO
+    return from;
+}
 
 -(GPKGBoundingBox *) transformWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     //TODO

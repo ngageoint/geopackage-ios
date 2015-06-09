@@ -10,10 +10,14 @@
 
 @implementation GPKGProjectionFactory
 
-+(GPKGProjection *) getProjection: (NSNumber *) epsg{
++(GPKGProjection *) getProjectionWithNumber: (NSNumber *) epsg{
     //TODO
     GPKGProjection *projection = [[GPKGProjection alloc] initWithEpsg:[NSNumber numberWithInt:3857]];
     return projection;
+}
+
++(GPKGProjection *) getProjectionWithInt: (int) epsg{
+    return [self getProjectionWithNumber:[NSNumber numberWithInt:epsg]];
 }
 
 @end

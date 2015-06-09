@@ -7,9 +7,47 @@
 //
 
 #import "GPKGUserRow.h"
+#import "GPKGTileTable.h"
+#import "GPKGTileColumn.h"
 
 @interface GPKGTileRow : GPKGUserRow
 
-//TODO
+@property (nonatomic, strong) GPKGTileTable *tileTable;
+
+-(instancetype) initWithTileTable: (GPKGTileTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+-(instancetype) initWithTileTable: (GPKGTileTable *) table;
+
+-(int) getZoomLevelColumnIndex;
+
+-(GPKGTileColumn *) getZoomLevelColumn;
+
+-(int) getZoomLevel;
+
+-(void) setZoomLevel: (int) zoomLevel;
+
+-(int) getTileColumnColumnIndex;
+
+-(GPKGTileColumn *) getTileColumnColumn;
+
+-(int) getTileColumn;
+
+-(void) setTileColumn: (int) tileColumn;
+
+-(int) getTileRowColumnIndex;
+
+-(GPKGTileColumn *) getTileRowColumn;
+
+-(int) getTileRow;
+
+-(void) setTileRow: (int) tileRow;
+
+-(int) getTileDataColumnIndex;
+
+-(GPKGTileColumn *) getTileDataColumn;
+
+-(NSData *) getTileData;
+
+-(void) setTileData: (NSData *) tileData;
 
 @end

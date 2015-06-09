@@ -11,6 +11,8 @@
 
 @interface GPKGProjectionFactory : NSObject
 
-+(GPKGProjection *) getProjection: (NSNumber *) epsg;
++(GPKGProjection *) getProjectionWithNumber: (NSNumber *) epsg;
+
++(GPKGProjection *) getProjectionWithInt: (int) epsg;
 
 @end

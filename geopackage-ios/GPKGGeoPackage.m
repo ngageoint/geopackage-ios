@@ -10,6 +10,8 @@
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGFeatureTableReader.h"
 #import "GPKGTableCreator.h"
+#import "GPKGTileTableReader.h"
+#import "GPKGUtils.h"
 
 @interface GPKGGeoPackage()
 
@@ -184,7 +186,7 @@
     [self createTileMatrixTable];
     
     // Create the user tile table
-    NSArray * columns = nil; //TODO: [GPKGTileTable createRequiredColumns];
+    NSArray * columns = [GPKGTileTable createRequiredColumns];
     GPKGTileTable * table = [[GPKGTileTable alloc] initWithTable:tableName andColumns:columns];
     [self createTileTable:table];
     
@@ -327,6 +329,8 @@
     if(geometryColumns == nil){
         [NSException raise:@"Illegal Argument" format:@"Non null Geometry Columns is required to create Feature DAO"];
     }
+    
+    // Read the existing table and create the dao
     GPKGFeatureTableReader * tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:geometryColumns];
     GPKGFeatureTable * featureTable = [tableReader readFeatureTableWithConnection:self.database];
     GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns];
@@ -358,13 +362,39 @@
 }
 
 -(GPKGTileDao *) getTileDaoWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
-    //TODO
-    return nil;
+    if(tileMatrixSet == nil){
+        [NSException raise:@"Illegal Argument" format:@"Non null Tile Matrix Set is required to create Tile DAO"];
+    }
+    
+    // Get the Tile Matrix collection, order by zoom level ascending & pixel
+    // size descending per requirement 51
+    NSMutableArray * tileMatrices = [[NSMutableArray alloc] init];
+    GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+    GPKGResultSet * results = [tileMatrixDao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:tileMatrixSet.tableName andGroupBy:nil andHaving:nil
+                  andOrderBy:[NSString stringWithFormat:@"%@ ASC, %@ DESC, %@ DESC", GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE]];
+    @try{
+        while([results moveToNext]){
+            GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:results];
+            [GPKGUtils addObject:tileMatrix toArray:tileMatrices];
+        }
+    }@finally{
+        [results close];
+    }
+    
+    // Read the existing table and create the dao
+    GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTableName:tileMatrixSet.tableName];
+    GPKGTileTable * tileTable = [tableReader readTileTableWithConnection:self.database];
+    GPKGTileDao * dao = [[GPKGTileDao alloc] initWithDatabase:self.database andTable:tileTable andTileMatrixSet:tileMatrixSet andTileMatrices:tileMatrices];
+    return dao;
 }
 
 -(GPKGTileDao *) getTileDaoWithContents: (GPKGContents *) contents{
-    //TODO
-    return nil;
+    if(contents == nil){
+        [NSException raise:@"Illegal Argument" format:@"Non null Contents is required to create Tile DAO"];
+    }
+    GPKGContentsDao * dao = [self getContentsDao];
+    GPKGTileMatrixSet * tileMatrixSet = [dao getTileMatrixSet:contents];
+    return [self getTileDaoWithTileMatrixSet:tileMatrixSet];
 }
 
 -(GPKGTileDao *) getTileDaoWithTableName: (NSString *) tableName{
