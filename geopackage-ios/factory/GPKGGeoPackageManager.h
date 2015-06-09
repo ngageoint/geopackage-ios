@@ -11,6 +11,12 @@
 
 @interface GPKGGeoPackageManager : NSObject
 
--(GPKGGeoPackage *)open:(NSString *) name;
+-(BOOL) delete: (NSString *) database;
+
+-(BOOL) create: (NSString *) database;
+
+-(BOOL) importGeoPackage: (NSString *) file;
+
+-(GPKGGeoPackage *) open: (NSString *) database;
 
 @end

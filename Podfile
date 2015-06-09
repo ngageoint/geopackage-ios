@@ -6,6 +6,8 @@ inhibit_all_warnings!
 #pod 'wkb-ios', :git => 'git@git.geointapps.org:geopackage/wkb-ios.git', :tag => '0.0.1'
 pod 'wkb-ios', :path => '../wkb-ios'
 
-target :"geopackage-iosTests" do
-
+target :"geopackage-iosTests", :exclusive => true do
+  pod 'geopackage-ios', :path => '.'
 end
+
+

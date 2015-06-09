@@ -26,11 +26,10 @@
         self.name = [[filename lastPathComponent] stringByDeletingPathExtension];
         
         // Open the database.
-        NSString *databasePath  = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.filename];
         sqlite3 *sqlite3Database;
-        int openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
+        int openDatabaseResult = sqlite3_open([filename UTF8String], &sqlite3Database);
         if(openDatabaseResult != SQLITE_OK){
-            [NSException raise:@"Open Database Failure" format:@"Failed to open database: %@, Error: %s", databasePath, sqlite3_errmsg(sqlite3Database)];
+            [NSException raise:@"Open Database Failure" format:@"Failed to open database: %@, Error: %s", filename, sqlite3_errmsg(sqlite3Database)];
         }else{
             self.database = sqlite3Database;
         }

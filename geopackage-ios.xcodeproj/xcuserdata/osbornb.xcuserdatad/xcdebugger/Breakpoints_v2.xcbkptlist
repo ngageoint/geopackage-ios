@@ -22,16 +22,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "geopackage-ios/db/GPKGConnection.m"
-            timestampString = "452801981.322239"
+            timestampString = "455576912.42285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-queryWithTable:andColumns:andWhere:andWhereArgs:andGroupBy:andHaving:andOrderBy:"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-rawQuery:andArgs:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "geopackage-ios/db/GPKGConnection.m"
-            timestampString = "453661728.080188"
+            timestampString = "455576912.42285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-setApplicationId"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-insertWithTable:andValues:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -118,7 +118,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "geopackage-ios/db/GPKGResultSet.m"
@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "140"
             endingLineNumber = "140"
-            landmarkName = "-getLong:"
+            landmarkName = "-getInt:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -7,15 +7,32 @@
 //
 
 #import "GPKGGeoPackageManager.h"
+#import "GPKGGeoPackageConstants.h"
 
 @implementation GPKGGeoPackageManager
 
--(GPKGGeoPackage *)open:(NSString *) name{
-    NSString *filename = @"gdal_sample.gpkg"; // TODO
+-(BOOL) delete: (NSString *) database{
+    // TODO
+    return true;
+}
+
+-(BOOL) create: (NSString *) database{
+    // TODO
+    return true;
+}
+
+-(BOOL) importGeoPackage: (NSString *) file{
+    // TODO
+    return true;
+}
+
+-(GPKGGeoPackage *) open: (NSString *) database{
+    // TODO
+    NSString *filename = database;
     BOOL writable = true; // TODO
     
-    GPKGConnection *database = [[GPKGConnection alloc] initWithDatabaseFilename:filename];
-    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithConnection:database andWritable:writable];
+    GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:filename];
+    GPKGGeoPackage *geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable];
     return geoPackage;
 }
 
