@@ -15,4 +15,14 @@
 
 -(void)assertNotNil:(id) value;
 
+-(void)assertTrue: (BOOL) value;
+
+-(void)assertFalse: (BOOL) value;
+
+-(void)assertEqualWithValue:(NSObject *) value andValue2: (NSObject *) value2;
+
+-(void)assertEqualBoolWithValue:(BOOL) value andValue2: (BOOL) value2;
+
+-(void)assertEqualIntWithValue:(int) value andValue2: (int) value2;
+
 @end

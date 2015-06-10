@@ -110,9 +110,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "11"
-            endingLineNumber = "11"
-            landmarkName = "@implementation GPKGGeometryData"
-            landmarkType = "3">
+            endingLineNumber = "11">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
