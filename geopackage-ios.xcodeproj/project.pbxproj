@@ -58,6 +58,7 @@
 		044FA53F1B2784C400E09D30 /* gdal_sample.gpkg in Resources */ = {isa = PBXBuildFile; fileRef = 048C21291AFBC24600EBC38B /* gdal_sample.gpkg */; };
 		044FA5431B278EC100E09D30 /* GPKGGeoPackageGeometryDataUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 044FA5421B278EC100E09D30 /* GPKGGeoPackageGeometryDataUtils.m */; };
 		044FA5461B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 044FA5451B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.m */; };
+		044FA5491B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 044FA5481B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.m */; };
 		048C21211AFB99D300EBC38B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C21201AFB99D300EBC38B /* libsqlite3.dylib */; };
 		048C21281AFBA5B300EBC38B /* GPKGConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C21271AFBA5B300EBC38B /* GPKGConnection.m */; };
 		0499A7671B1CDA8600C161DD /* GPKGGeometryExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499A7661B1CDA8600C161DD /* GPKGGeometryExtensions.m */; };
@@ -210,6 +211,8 @@
 		044FA5421B278EC100E09D30 /* GPKGGeoPackageGeometryDataUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackageGeometryDataUtils.m; sourceTree = "<group>"; };
 		044FA5441B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackageGeometryDataImportTest.h; sourceTree = "<group>"; };
 		044FA5451B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackageGeometryDataImportTest.m; sourceTree = "<group>"; };
+		044FA5471B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackageGeometryDataCreateTest.h; sourceTree = "<group>"; };
+		044FA5481B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackageGeometryDataCreateTest.m; sourceTree = "<group>"; };
 		048C21201AFB99D300EBC38B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		048C21261AFBA5B300EBC38B /* GPKGConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnection.h; sourceTree = "<group>"; };
 		048C21271AFBA5B300EBC38B /* GPKGConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnection.m; sourceTree = "<group>"; };
@@ -564,6 +567,8 @@
 				044FA5421B278EC100E09D30 /* GPKGGeoPackageGeometryDataUtils.m */,
 				044FA5441B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.h */,
 				044FA5451B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.m */,
+				044FA5471B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.h */,
+				044FA5481B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.m */,
 			);
 			path = geom;
 			sourceTree = "<group>";
@@ -929,6 +934,7 @@
 				044FA5261B275C3500E09D30 /* GPKGBaseTestCase.m in Sources */,
 				044FA5301B276CE800E09D30 /* GPKGCreateGeoPackageTestCase.m in Sources */,
 				044FA5271B275C3500E09D30 /* GPKGGeoPackageTestCase.m in Sources */,
+				044FA5491B28C61600E09D30 /* GPKGGeoPackageGeometryDataCreateTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
