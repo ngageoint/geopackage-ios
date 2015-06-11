@@ -75,7 +75,9 @@
     NSString *filePath  = [[[NSBundle bundleForClass:[GPKGTestSetupTeardown class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_DB_FILE_NAME];
     
     // Import
-    //[manager importGeoPackage:filePath];
+    //NSURL *url =  [NSURL URLWithString:@"http://www.geopackage.org/data/gdal_sample.gpkg"];
+    //NSURL *url =  [NSURL URLWithString:@"http://www.geopackage.org/data/haiti-vectors-split.gpkg"];
+    //[manager importGeoPackageFromUrl:url andDatabase:GPKG_TEST_IMPORT_DB_NAME];
     [manager importGeoPackageFromPath:filePath andDatabase:GPKG_TEST_IMPORT_DB_NAME];
     
     // Open
