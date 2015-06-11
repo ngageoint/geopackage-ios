@@ -12,6 +12,8 @@
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
 #import "GPKGProjectionFactory.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 @implementation GPKGSpatialReferenceSystemDao
 
@@ -102,7 +104,12 @@
 -(GPKGSpatialReferenceSystem *) createWgs84{
     
     GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
-    
+    [srs setSrsName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_NAME]];
+    [srs setSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_ID]];
+    [srs setOrganization:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_ORGANIZATION]];
+    [srs setOrganizationCoordsysId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID]];
+    [srs setDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION]];
+    [srs setTheDescription:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DESCRIPTION]];
     [self create:srs];
     
     return srs;
@@ -111,7 +118,12 @@
 -(GPKGSpatialReferenceSystem *) createUndefinedCartesian{
     
     GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
-    
+    [srs setSrsName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_NAME]];
+    [srs setSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_ID]];
+    [srs setOrganization:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_ORGANIZATION]];
+    [srs setOrganizationCoordsysId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID]];
+    [srs setDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION]];
+    [srs setTheDescription:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DESCRIPTION]];
     [self create:srs];
     
     return srs;
@@ -120,7 +132,12 @@
 -(GPKGSpatialReferenceSystem *) createUndefinedGeographic{
     
     GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
-    
+    [srs setSrsName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_NAME]];
+    [srs setSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_ID]];
+    [srs setOrganization:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_ORGANIZATION]];
+    [srs setOrganizationCoordsysId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID]];
+    [srs setDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION]];
+    [srs setTheDescription:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DESCRIPTION]];
     [self create:srs];
     
     return srs;
@@ -129,7 +146,12 @@
 -(GPKGSpatialReferenceSystem *) createWebMercator{
     
     GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
-    
+    [srs setSrsName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_NAME]];
+    [srs setSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_ID]];
+    [srs setOrganization:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_ORGANIZATION]];
+    [srs setOrganizationCoordsysId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID]];
+    [srs setDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_DEFINITION]];
+    [srs setTheDescription:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_DESCRIPTION]];
     [self create:srs];
     
     return srs;

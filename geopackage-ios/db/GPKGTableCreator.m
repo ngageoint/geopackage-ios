@@ -7,6 +7,7 @@
 //
 
 #import "GPKGTableCreator.h"
+#import "GPKGIOUtils.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGSpatialReferenceSystemDao.h"
 #import "GPKGSpatialReferenceSystem.h"
@@ -78,19 +79,12 @@
 
 -(int) createTable: (NSString *) tableName{
     
-    NSString * resource = [NSString stringWithFormat:@"%@/%@", GPKG_GEO_PACKAGE_BUNDLE_NAME, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
-    NSString *tablesPlistPath = [[NSBundle mainBundle] pathForResource:resource ofType:GPKG_GEO_PACKAGE_RESOURCES_TABLES_TYPE];
-    if(tablesPlistPath == nil){
-        resource = GPKG_GEO_PACKAGE_RESOURCES_TABLES;
-        tablesPlistPath = [[NSBundle mainBundle] pathForResource:resource ofType:GPKG_GEO_PACKAGE_RESOURCES_TABLES_TYPE];
-    }
-    if(tablesPlistPath == nil){
-        [NSException raise:@"Table Creation" format:@"Failed to read tables resource: %@, type: %@", GPKG_GEO_PACKAGE_RESOURCES_TABLES, GPKG_GEO_PACKAGE_RESOURCES_TABLES_TYPE];
-    }
-    NSDictionary *tables = [NSDictionary dictionaryWithContentsOfFile:tablesPlistPath];
+    NSString * tablesProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
+    
+    NSDictionary *tables = [NSDictionary dictionaryWithContentsOfFile:tablesProperties];
     NSArray *statements = [tables objectForKey:tableName];
     if(statements == nil){
-        [NSException raise:@"Table Creation" format:@"Failed to find table creation statements for table: %@, in resource: %@", tableName, resource];
+        [NSException raise:@"Table Creation" format:@"Failed to find table creation statements for table: %@, in resource: %@", tableName, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
     }
     
     for(NSString * statement in statements){

@@ -11,11 +11,21 @@
 
 @interface GPKGGeoPackageManager : NSObject
 
+-(NSArray *) databases;
+
+-(NSDictionary *) databasePaths;
+
+-(NSString *) pathForDatabase: (NSString *) database;
+
+-(BOOL) exists: (NSString *) database;
+
 -(BOOL) delete: (NSString *) database;
 
 -(BOOL) create: (NSString *) database;
 
--(BOOL) importGeoPackage: (NSString *) file;
+-(BOOL) importGeoPackageFromPath: (NSString *) path andDatabase: (NSString *) database;
+
+-(BOOL) importGeoPackageFromUrl: (NSURL *) url andDatabase: (NSString *) database;
 
 -(GPKGGeoPackage *) open: (NSString *) database;
 

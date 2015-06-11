@@ -75,10 +75,11 @@
     NSString *filePath  = [[[NSBundle bundleForClass:[GPKGTestSetupTeardown class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_DB_FILE_NAME];
     
     // Import
-    [manager importGeoPackage:filePath];
+    //[manager importGeoPackage:filePath];
+    [manager importGeoPackageFromPath:filePath andDatabase:GPKG_TEST_IMPORT_DB_NAME];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:filePath];
+    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_DB_NAME];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
     }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>geopackage.dir.geopackage</key>
+	<string>geopackage</string>
+	<key>geopackage.dir.geopackage.database</key>
+	<string>db</string>
+	<key>geopackage.srs.wgs84.srs_name</key>
+	<string>WGS 84 geodetic</string>
+	<key>geopackage.srs.wgs84.srs_id</key>
+	<string>4326</string>
+	<key>geopackage.srs.wgs84.organization</key>
+	<string>EPSG</string>
+	<key>geopackage.srs.wgs84.organization_coordsys_id</key>
+	<string>4326</string>
+	<key>geopackage.srs.wgs84.definition</key>
+	<string>GEOGCS[&quot;WGS 84&quot;,DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4326\u201D]]</string>
+	<key>geopackage.srs.wgs84.description</key>
+	<string>longitude/latitude coordinates in decimal degrees on the WGS 84 spheroid</string>
+	<key>geopackage.srs.undefined_cartesian.srs_name</key>
+	<string>Undefined cartesian SRS</string>
+	<key>geopackage.srs.undefined_cartesian.srs_id</key>
+	<string>-1</string>
+	<key>geopackage.srs.undefined_cartesian.organization</key>
+	<string>NONE</string>
+	<key>geopackage.srs.undefined_cartesian.organization_coordsys_id</key>
+	<string>-1</string>
+	<key>geopackage.srs.undefined_cartesian.definition</key>
+	<string>undefined</string>
+	<key>geopackage.srs.undefined_cartesian.description</key>
+	<string>undefined cartesian coordinate reference system</string>
+	<key>geopackage.srs.undefined_geographic.srs_name</key>
+	<string>Undefined geographic SRS</string>
+	<key>geopackage.srs.undefined_geographic.srs_id</key>
+	<string>0</string>
+	<key>geopackage.srs.undefined_geographic.organization</key>
+	<string>NONE</string>
+	<key>geopackage.srs.undefined_geographic.organization_coordsys_id</key>
+	<string>0</string>
+	<key>geopackage.srs.undefined_geographic.definition</key>
+	<string>undefined</string>
+	<key>geopackage.srs.undefined_geographic.description</key>
+	<string>undefined geographic coordinate reference system</string>
+	<key>geopackage.srs.web_mercator.srs_name</key>
+	<string>WGS 84 / Pseudo-Mercator</string>
+	<key>geopackage.srs.web_mercator.srs_id</key>
+	<string>3857</string>
+	<key>geopackage.srs.web_mercator.organization</key>
+	<string>EPSG</string>
+	<key>geopackage.srs.web_mercator.organization_coordsys_id</key>
+	<string>3857</string>
+	<key>geopackage.srs.web_mercator.definition</key>
+	<string>PROJCS[&quot;WGS 84 / Pseudo-Mercator&quot;,GEOGCS[&quot;Popular Visualisation CRS&quot;,DATUM[&quot;Popular_Visualisation_Datum&quot;,SPHEROID[&quot;Popular Visualisation Sphere&quot;,6378137,0,AUTHORITY[&quot;EPSG&quot;,&quot;7059&quot;]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY[&quot;EPSG&quot;,&quot;6055&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.01745329251994328,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4055&quot;]],UNIT[&quot;metre&quot;,1,AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],PROJECTION[&quot;Mercator_1SP&quot;],PARAMETER[&quot;central_meridian&quot;,0],PARAMETER[&quot;scale_factor&quot;,1],PARAMETER[&quot;false_easting&quot;,0],PARAMETER[&quot;false_northing&quot;,0],AUTHORITY[&quot;EPSG&quot;,&quot;3785&quot;],AXIS[&quot;X&quot;,EAST],AXIS[&quot;Y&quot;,NORTH]]</string>
+	<key>geopackage.srs.web_mercator.description</key>
+	<string>Spherical Mercator projection coordinate system</string>
+</dict>
+</plist>
