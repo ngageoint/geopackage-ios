@@ -12,6 +12,6 @@
 
 @interface GPKGGeoPackageGeometryDataUtils : NSObject
 
-+(void) testReadWriteBytesWithTestCase: (GPKGBaseTestCase *) testCase andGeoPackage: (GPKGGeoPackage *) geoPackage;
++(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 @end

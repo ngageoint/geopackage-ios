@@ -51,8 +51,12 @@ extern NSString * const GPKG_DCCT_GLOB_NAME;
 
 -(void) setMinIsInclusive:(NSNumber *)minIsInclusive;
 
+-(void) setMinIsInclusiveValue:(BOOL)minIsInclusive;
+
 -(void) setMax:(NSDecimalNumber *)max;
 
 -(void) setMaxIsInclusive:(NSNumber *)maxIsInclusive;
+
+-(void) setMaxIsInclusiveValue:(BOOL)maxIsInclusive;
 
 @end

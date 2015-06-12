@@ -51,25 +51,25 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 -(void) setDataColumnConstraintType: (enum GPKGDataColumnConstraintType) constraintType{
     switch(constraintType){
         case GPKG_DCCT_RANGE:
-            self.constraintType = GPKG_DCCT_RANGE_NAME;
+            _constraintType = GPKG_DCCT_RANGE_NAME;
             break;
         case GPKG_DCCT_ENUM:
-            self.constraintType = GPKG_DCCT_ENUM_NAME;
+            _constraintType = GPKG_DCCT_ENUM_NAME;
             break;
         case GPKG_DCCT_GLOB:
-            self.constraintType = GPKG_DCCT_GLOB_NAME;
+            _constraintType = GPKG_DCCT_GLOB_NAME;
             break;
     }
     switch(constraintType){
         case GPKG_DCCT_RANGE:
-            self.value = nil;
+            _value = nil;
             break;
         case GPKG_DCCT_ENUM:
         case GPKG_DCCT_GLOB:
-            self.min = nil;
-            self.max = nil;
-            self.minIsInclusive = nil;
-            self.maxIsInclusive = nil;
+            _min = nil;
+            _max = nil;
+            _minIsInclusive = nil;
+            _maxIsInclusive = nil;
             break;
     }
 }
@@ -91,6 +91,10 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
     _minIsInclusive = minIsInclusive;
 }
 
+-(void) setMinIsInclusiveValue:(BOOL)minIsInclusive{
+    [self setMinIsInclusive:[NSNumber numberWithBool:minIsInclusive]];
+}
+
 -(void) setMax:(NSDecimalNumber *)max{
     [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MAX andValue:max];
     _max = max;
@@ -99,6 +103,10 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 -(void) setMaxIsInclusive:(NSNumber *)maxIsInclusive{
     [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE andValue:maxIsInclusive];
     _maxIsInclusive = maxIsInclusive;
+}
+
+-(void) setMaxIsInclusiveValue:(BOOL)maxIsInclusive{
+    [self setMaxIsInclusive:[NSNumber numberWithBool:maxIsInclusive]];
 }
 
 -(void) validateRangeValueWithColumn: (NSString *) column andValue: (NSObject *) value{

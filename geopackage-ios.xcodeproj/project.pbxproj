@@ -85,6 +85,7 @@
 		04A1D8E51B173FC20006674B /* GPKGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1D8E41B173FC20006674B /* GPKGUtils.m */; };
 		04CF0DA61B29F97500021F6D /* GPKGProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF0DA51B29F97500021F6D /* GPKGProperties.m */; };
 		04CF0DA91B29F98500021F6D /* GPKGPropertyConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF0DA81B29F98500021F6D /* GPKGPropertyConstants.m */; };
+		04E0BC041B2B42AF00267E6A /* GPKGTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E0BC031B2B42AF00267E6A /* GPKGTestUtils.m */; };
 		04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FE049A1B01556A00B9308E /* GPKGResultSet.m */; };
 		15B15FEE58FBD4F2C943E19D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8408C01A5F6F7C31644B10 /* libPods.a */; };
 		9525C47203C05F929071FD3C /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22BB4373B9A2112435A0363 /* libPods-geopackage-iosTests.a */; };
@@ -268,6 +269,8 @@
 		04CF0DA71B29F98500021F6D /* GPKGPropertyConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGPropertyConstants.h; sourceTree = "<group>"; };
 		04CF0DA81B29F98500021F6D /* GPKGPropertyConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGPropertyConstants.m; sourceTree = "<group>"; };
 		04CF0DAA1B2A04C500021F6D /* geopackage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = geopackage.plist; sourceTree = "<group>"; };
+		04E0BC021B2B42AF00267E6A /* GPKGTestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTestUtils.h; sourceTree = "<group>"; };
+		04E0BC031B2B42AF00267E6A /* GPKGTestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGTestUtils.m; sourceTree = "<group>"; };
 		04FE04991B01556A00B9308E /* GPKGResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGResultSet.h; sourceTree = "<group>"; };
 		04FE049A1B01556A00B9308E /* GPKGResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGResultSet.m; sourceTree = "<group>"; };
 		39DF41138FD44961C4D38209 /* Pods-geopackage-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 				044FA5381B2771FF00E09D30 /* GPKGTestConstants.m */,
 				044FA53A1B277A5800E09D30 /* GPKGImportGeoPackageTestCase.h */,
 				044FA53B1B277A5800E09D30 /* GPKGImportGeoPackageTestCase.m */,
+				04E0BC021B2B42AF00267E6A /* GPKGTestUtils.h */,
+				04E0BC031B2B42AF00267E6A /* GPKGTestUtils.m */,
 			);
 			path = "geopackage-iosTests";
 			sourceTree = "<group>";
@@ -960,6 +965,7 @@
 			files = (
 				044FA5431B278EC100E09D30 /* GPKGGeoPackageGeometryDataUtils.m in Sources */,
 				044FA53C1B277A5800E09D30 /* GPKGImportGeoPackageTestCase.m in Sources */,
+				04E0BC041B2B42AF00267E6A /* GPKGTestUtils.m in Sources */,
 				044FA5461B278EEF00E09D30 /* GPKGGeoPackageGeometryDataImportTest.m in Sources */,
 				044FA5391B2771FF00E09D30 /* GPKGTestConstants.m in Sources */,
 				044FA5331B276D8700E09D30 /* GPKGTestSetupTeardown.m in Sources */,
