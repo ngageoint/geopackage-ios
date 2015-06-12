@@ -22,4 +22,6 @@
 
 +(void) createDirectoryIfNotExists: (NSString *) directory;
 
++(NSString *) formatBytes: (int) bytes;
+
 @end

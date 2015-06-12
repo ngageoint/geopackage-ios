@@ -63,4 +63,32 @@
     }
 }
 
++(NSString *) formatBytes: (int) bytes{
+    
+    double value = bytes;
+    NSString * unit = @"B";
+    
+    if (bytes >= 1024) {
+        int exponent = (int) (log(bytes) / log(1024));
+        exponent = MIN(exponent, 4);
+        switch (exponent) {
+            case 1:
+                unit = @"KB";
+                break;
+            case 2:
+                unit = @"MB";
+                break;
+            case 3:
+                unit = @"GB";
+                break;
+            case 4:
+                unit = @"TB";
+                break;
+        }
+        value = bytes / pow(1024, exponent);
+    }
+    
+    return [NSString stringWithFormat:@"%.02f %@", value, unit];
+}
+
 @end
