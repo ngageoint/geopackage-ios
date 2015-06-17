@@ -27,4 +27,6 @@
                       andMinLatitudeDouble: (double) minLatitude
                       andMaxLatitudeDouble: (double) maxLatitude;
 
+-(BOOL) equals: (GPKGBoundingBox *) boundingBox;
+
 @end

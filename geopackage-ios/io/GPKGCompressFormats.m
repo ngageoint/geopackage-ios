@@ -11,6 +11,7 @@
 
 NSString * const GPKG_CF_JPEG_NAME = @"jpeg";
 NSString * const GPKG_CF_PNG_NAME = @"png";
+NSString * const GPKG_CF_NONE_NAME = @"none";
 
 @implementation GPKGCompressFormats
 
@@ -23,6 +24,9 @@ NSString * const GPKG_CF_PNG_NAME = @"png";
             break;
         case GPKG_CF_PNG:
             name = GPKG_CF_PNG_NAME;
+            break;
+        case GPKG_CF_NONE:
+            name = GPKG_CF_NONE_NAME;
             break;
     }
     
@@ -37,6 +41,7 @@ NSString * const GPKG_CF_PNG_NAME = @"png";
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_CF_JPEG], GPKG_CF_JPEG_NAME,
                                [NSNumber numberWithInteger:GPKG_CF_PNG], GPKG_CF_PNG_NAME,
+                               [NSNumber numberWithInteger:GPKG_CF_NONE], GPKG_CF_NONE_NAME,
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];

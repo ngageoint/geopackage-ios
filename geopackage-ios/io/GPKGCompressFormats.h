@@ -10,11 +10,13 @@
 
 enum GPKGCompressFormat{
     GPKG_CF_JPEG,
-    GPKG_CF_PNG
+    GPKG_CF_PNG,
+    GPKG_CF_NONE
 };
 
 extern NSString * const GPKG_CF_JPEG_NAME;
 extern NSString * const GPKG_CF_PNG_NAME;
+extern NSString * const GPKG_CF_NONE_NAME;
 
 @interface GPKGCompressFormats : NSObject
 

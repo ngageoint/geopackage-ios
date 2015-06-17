@@ -42,4 +42,26 @@
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
 }
 
+-(BOOL) equals: (GPKGBoundingBox *) boundingBox{
+    if(self == boundingBox){
+        return true;
+    }
+    if(boundingBox == nil){
+        return false;
+    }
+    if([self.maxLatitude doubleValue] != [boundingBox.maxLatitude doubleValue]){
+        return false;
+    }
+    if([self.maxLongitude doubleValue] != [boundingBox.maxLongitude doubleValue]){
+        return false;
+    }
+    if([self.minLatitude doubleValue] != [boundingBox.minLatitude doubleValue]){
+        return false;
+    }
+    if([self.minLongitude doubleValue] != [boundingBox.minLongitude doubleValue]){
+        return false;
+    }
+    return true;
+}
+
 @end
