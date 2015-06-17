@@ -9,6 +9,8 @@
 #import "GPKGUserRow.h"
 #import "GPKGTileTable.h"
 #import "GPKGTileColumn.h"
+#import <UIKit/UIKit.h>
+#import "GPKGCompressFormats.h"
 
 @interface GPKGTileRow : GPKGUserRow
 
@@ -49,5 +51,13 @@
 -(NSData *) getTileData;
 
 -(void) setTileData: (NSData *) tileData;
+
+-(UIImage *) getTileDataImage;
+
+-(UIImage *) getTileDataImageWithScale: (CGFloat) scale;
+
+-(void) setTileDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format;
+
+-(void) setTileDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format andQuality: (CGFloat) quality;
 
 @end

@@ -139,7 +139,7 @@
         [sql appendString:@")"];
     }
 
-    [sql appendString:@"\n"];
+    [sql appendString:@"\n);"];
     
     // Create the table
     [self.db exec:sql];

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGTileRow.h"
+#import "GPKGImageConverter.h"
 
 @implementation GPKGTileRow
 
@@ -24,6 +25,14 @@
         self.tileTable = table;
     }
     return self;
+}
+
+-(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
+    return value;
+}
+
+-(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
+    return value;
 }
 
 -(int) getZoomLevelColumnIndex{
@@ -88,6 +97,22 @@
 
 -(void) setTileData: (NSData *) tileData{
     [self setValueWithIndex:[self getTileDataColumnIndex] andValue:tileData];
+}
+
+-(UIImage *) getTileDataImage{
+    return [GPKGImageConverter toImage:[self getTileData]];
+}
+
+-(UIImage *) getTileDataImageWithScale: (CGFloat) scale{
+    return [GPKGImageConverter toImage:[self getTileData] withScale:scale];
+}
+
+-(void) setTileDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format{
+    [self setTileData:[GPKGImageConverter toData:image andFormat:format]];
+}
+
+-(void) setTileDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format andQuality: (CGFloat) quality{
+    [self setTileData:[GPKGImageConverter toData:image andFormat:format andQuality:quality]];
 }
 
 @end
