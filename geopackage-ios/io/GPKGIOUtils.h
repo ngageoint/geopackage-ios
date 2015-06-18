@@ -24,4 +24,6 @@
 
 +(NSString *) formatBytes: (int) bytes;
 
++(NSString *) decodeUrl: (NSString *) url;
+
 @end

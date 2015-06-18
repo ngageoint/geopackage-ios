@@ -205,11 +205,11 @@
 }
 
 -(BOOL) idExists: (NSObject *) id{
-    return [self queryForId:id] != nil;
+    return [self queryForIdObject:id] != nil;
 }
 
 -(BOOL) multiIdExists: (NSArray *) idValues{
-    return [self queryForMultiId:idValues] != nil;
+    return [self queryForMultiIdObject:idValues] != nil;
 }
 
 -(NSObject *) queryForSameId: (NSObject *) object{

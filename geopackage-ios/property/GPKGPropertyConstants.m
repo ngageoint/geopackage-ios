@@ -21,6 +21,14 @@ NSString * const GPKG_PROP_SRS_ORGANIZATION = @"organization";
 NSString * const GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID = @"organization_coordsys_id";
 NSString * const GPKG_PROP_SRS_DEFINITION = @"definition";
 NSString * const GPKG_PROP_SRS_DESCRIPTION = @"description";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE = @"geopackage.tile_generator.variable";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_Z = @"z";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_X = @"x";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_Y = @"y";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LAT = @"min_lat";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LAT = @"max_lat";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LON = @"min_lon";
+NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LON = @"max_lon";
 
 @implementation GPKGPropertyConstants
 

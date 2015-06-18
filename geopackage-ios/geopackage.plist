@@ -54,5 +54,19 @@
 	<string>PROJCS[&quot;WGS 84 / Pseudo-Mercator&quot;,GEOGCS[&quot;Popular Visualisation CRS&quot;,DATUM[&quot;Popular_Visualisation_Datum&quot;,SPHEROID[&quot;Popular Visualisation Sphere&quot;,6378137,0,AUTHORITY[&quot;EPSG&quot;,&quot;7059&quot;]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY[&quot;EPSG&quot;,&quot;6055&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.01745329251994328,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4055&quot;]],UNIT[&quot;metre&quot;,1,AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],PROJECTION[&quot;Mercator_1SP&quot;],PARAMETER[&quot;central_meridian&quot;,0],PARAMETER[&quot;scale_factor&quot;,1],PARAMETER[&quot;false_easting&quot;,0],PARAMETER[&quot;false_northing&quot;,0],AUTHORITY[&quot;EPSG&quot;,&quot;3785&quot;],AXIS[&quot;X&quot;,EAST],AXIS[&quot;Y&quot;,NORTH]]</string>
 	<key>geopackage.srs.web_mercator.description</key>
 	<string>Spherical Mercator projection coordinate system</string>
+	<key>geopackage.tile_generator.variable.z</key>
+	<string>{z}</string>
+	<key>geopackage.tile_generator.variable.x</key>
+	<string>{x}</string>
+	<key>geopackage.tile_generator.variable.y</key>
+	<string>{y}</string>
+	<key>geopackage.tile_generator.variable.min_lat</key>
+	<string>{minLat}</string>
+	<key>geopackage.tile_generator.variable.max_lat</key>
+	<string>{maxLat}</string>
+	<key>geopackage.tile_generator.variable.min_lon</key>
+	<string>{minLon}</string>
+	<key>geopackage.tile_generator.variable.max_lon</key>
+	<string>{maxLon}</string>
 </dict>
 </plist>

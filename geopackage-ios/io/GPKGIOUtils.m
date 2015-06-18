@@ -91,4 +91,10 @@
     return [NSString stringWithFormat:@"%.02f %@", value, unit];
 }
 
++(NSString *) decodeUrl: (NSString *) url{
+    NSString *result = [url stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return result;
+}
+
 @end

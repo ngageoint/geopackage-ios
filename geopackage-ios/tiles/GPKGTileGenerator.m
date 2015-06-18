@@ -15,8 +15,8 @@
 
 @interface GPKGTileGenerator ()
 
-@property (nonatomic, retain) GPKGProjectionTransform * wgs84ToWebMercatorTransform;
-@property (nonatomic, retain) GPKGProjectionTransform * webMercatorToWgs84Transform;
+@property (nonatomic, strong) GPKGProjectionTransform * wgs84ToWebMercatorTransform;
+@property (nonatomic, strong) GPKGProjectionTransform * webMercatorToWgs84Transform;
 
 @end
 
@@ -81,7 +81,7 @@
     
     int totalCount = [self getTileCount];
     
-    // Set teh max progress count
+    // Set the max progress count
     if(self.progress != nil){
         [self.progress setMax:totalCount];
     }
