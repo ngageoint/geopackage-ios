@@ -56,8 +56,8 @@
 -(NSArray *) transformWithX: (double) x andY: (double) y{
     //TODO
     NSMutableArray *coord = [[NSMutableArray alloc] initWithCapacity:2];
-    [GPKGUtils addObject:[NSNumber numberWithDouble:x] toArray:coord];
-    [GPKGUtils addObject:[NSNumber numberWithDouble:y] toArray:coord];
+    [GPKGUtils addObject:[NSDecimalNumber numberWithDouble:x] toArray:coord];
+    [GPKGUtils addObject:[NSDecimalNumber numberWithDouble:y] toArray:coord];
     return coord;
 }
 

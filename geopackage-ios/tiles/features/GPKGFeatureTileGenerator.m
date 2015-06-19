@@ -8,8 +8,27 @@
 
 #import "GPKGFeatureTileGenerator.h"
 
+@interface GPKGFeatureTileGenerator ()
+
+@property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
+
+@end
+
 @implementation GPKGFeatureTileGenerator
 
-// TODO
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom];
+    if(self != nil){
+        self.featureTiles = featureTiles;
+    }
+    return self;
+}
+
+-(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
+    
+    NSData * tileData = [self.featureTiles drawTileDataWithX:x andY:y andZoom:z];
+    
+    return tileData;
+}
 
 @end

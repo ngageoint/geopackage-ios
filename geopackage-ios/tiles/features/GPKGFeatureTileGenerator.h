@@ -7,9 +7,10 @@
 //
 
 #import "GPKGTileGenerator.h"
+#import "GPKGFeatureTiles.h"
 
 @interface GPKGFeatureTileGenerator : GPKGTileGenerator
 
-// TODO
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
 
 @end

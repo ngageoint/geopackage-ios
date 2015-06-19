@@ -69,7 +69,6 @@ NSString * const GPKG_TG_URL_EPSG_PATTERN = @"EPSG:(\\d+)";
 
 -(NSString *) replaceXYZWithUrl: (NSString *) url andZ: (int) z andX: (int) x andY: (int) y{
     
-    NSString * temp = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Z];
     url = [url stringByReplacingOccurrencesOfString:
            [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Z]
                                          withString:[NSString stringWithFormat:@"%d",z]];

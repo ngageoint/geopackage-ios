@@ -45,7 +45,7 @@
         
         // Populate the zoom level to tile matrix and the sorted tile widths and
         // heights
-        for (int i = ((int)count)-1; i >= 0; i++) {
+        for (int i = ((int)count)-1; i >= 0; i--) {
             GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *) [tileMatrices objectAtIndex:i];
             [GPKGUtils setObject:tileMatrix forKey:tileMatrix.zoomLevel inDictionary:tempZoomLevelToTileMatrix];
             double width = [self.projection toMeters:([tileMatrix.pixelXSize doubleValue] * [tileMatrix.tileWidth intValue])];
