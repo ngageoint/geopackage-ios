@@ -10,6 +10,7 @@
 #import "GPKGShapePoints.h"
 #import "GPKGPolygonPoints.h"
 @import MapKit;
+#import "GPKGMapPoint.h"
 
 @class GPKGPolygonPoints;
 
@@ -20,7 +21,7 @@
 
 -(instancetype) initWithPolygonPoints: (GPKGPolygonPoints *) polygonPoints;
 
--(void) addPoint: (MKPointAnnotation *) point;
+-(void) addPoint: (GPKGMapPoint *) point;
 
 -(void) removeFromMapView: (MKMapView *) mapView;
 

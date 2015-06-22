@@ -10,14 +10,15 @@
 #define geopackage_ios_GPKGShapePoints_h
 
 @import MapKit;
+#import "GPKGMapPoint.h"
 
 @protocol GPKGShapePoints <NSObject>
 
 -(NSArray *) getPoints;
 
--(void) deletePoint: (MKPointAnnotation *) point fromMapView: (MKMapView * ) mapView;
+-(void) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView * ) mapView;
 
--(void) addNewPoint: (MKPointAnnotation *) point;
+-(void) addNewPoint: (GPKGMapPoint *) point;
 
 @end
 

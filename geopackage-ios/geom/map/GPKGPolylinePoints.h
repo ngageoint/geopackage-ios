@@ -10,6 +10,7 @@
 #import "GPKGShapePoints.h"
 #import "GPKGMapShapeConverter.h"
 @import MapKit;
+#import "GPKGMapPoint.h"
 
 @interface GPKGPolylinePoints : NSObject <GPKGShapePoints>
 
@@ -19,7 +20,7 @@
 
 -(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter;
 
--(void) addPoint: (MKPointAnnotation *) point;
+-(void) addPoint: (GPKGMapPoint *) point;
 
 -(void) updateWithMapView: (MKMapView *) mapView;
 

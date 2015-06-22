@@ -108,6 +108,7 @@
 		04E0BC481B348B7700267E6A /* GPKGPolylinePoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E0BC471B348B7700267E6A /* GPKGPolylinePoints.m */; };
 		04E0BC4B1B349A0300267E6A /* GPKGMultiPolylinePoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E0BC4A1B349A0300267E6A /* GPKGMultiPolylinePoints.m */; };
 		04E0BC4E1B349D6200267E6A /* GPKGMultiPolygonPoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E0BC4D1B349D6200267E6A /* GPKGMultiPolygonPoints.m */; };
+		04E0BC511B384C6D00267E6A /* GPKGMapPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E0BC501B384C6D00267E6A /* GPKGMapPoint.m */; };
 		04FE049B1B01556A00B9308E /* GPKGResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FE049A1B01556A00B9308E /* GPKGResultSet.m */; };
 		15B15FEE58FBD4F2C943E19D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8408C01A5F6F7C31644B10 /* libPods.a */; };
 		9525C47203C05F929071FD3C /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22BB4373B9A2112435A0363 /* libPods-geopackage-iosTests.a */; };
@@ -336,6 +337,8 @@
 		04E0BC4A1B349A0300267E6A /* GPKGMultiPolylinePoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGMultiPolylinePoints.m; sourceTree = "<group>"; };
 		04E0BC4C1B349D6200267E6A /* GPKGMultiPolygonPoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGMultiPolygonPoints.h; sourceTree = "<group>"; };
 		04E0BC4D1B349D6200267E6A /* GPKGMultiPolygonPoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGMultiPolygonPoints.m; sourceTree = "<group>"; };
+		04E0BC4F1B384C6D00267E6A /* GPKGMapPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGMapPoint.h; sourceTree = "<group>"; };
+		04E0BC501B384C6D00267E6A /* GPKGMapPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGMapPoint.m; sourceTree = "<group>"; };
 		04FE04991B01556A00B9308E /* GPKGResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGResultSet.h; sourceTree = "<group>"; };
 		04FE049A1B01556A00B9308E /* GPKGResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGResultSet.m; sourceTree = "<group>"; };
 		39DF41138FD44961C4D38209 /* Pods-geopackage-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -831,6 +834,8 @@
 				04E0BC4A1B349A0300267E6A /* GPKGMultiPolylinePoints.m */,
 				04E0BC4C1B349D6200267E6A /* GPKGMultiPolygonPoints.h */,
 				04E0BC4D1B349D6200267E6A /* GPKGMultiPolygonPoints.m */,
+				04E0BC4F1B384C6D00267E6A /* GPKGMapPoint.h */,
+				04E0BC501B384C6D00267E6A /* GPKGMapPoint.m */,
 			);
 			path = map;
 			sourceTree = "<group>";
@@ -1062,6 +1067,7 @@
 				04E0BC1F1B31BE4D00267E6A /* GPKGFeatureTileGenerator.m in Sources */,
 				040686AD1B0BEF2400A1FF7A /* GPKGMetadataReference.m in Sources */,
 				04A1D8DF1B1616320006674B /* GPKGUserTableReader.m in Sources */,
+				04E0BC511B384C6D00267E6A /* GPKGMapPoint.m in Sources */,
 				040686DB1B0E8F7700A1FF7A /* GPKGProjectionTransform.m in Sources */,
 				040686DE1B0E91DD00A1FF7A /* GPKGProjectionFactory.m in Sources */,
 				040686CF1B0D1E6100A1FF7A /* GPKGUserRow.m in Sources */,

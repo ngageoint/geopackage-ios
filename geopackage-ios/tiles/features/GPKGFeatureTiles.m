@@ -12,6 +12,7 @@
 @import MapKit;
 #import "WKBPoint.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGMapPoint.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -98,6 +99,7 @@
     UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    // TODO
    // CGContextFillEl
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -108,7 +110,7 @@
     return nil; // TODO
 }
 
--(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andPoint: (MKPointAnnotation *) point{
+-(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andPoint: (GPKGMapPoint *) point{
     
     WKBPoint * wkbPoint = [self getPointWithTransform:transform andPoint:point];
     double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[wkbPoint.x doubleValue]];
@@ -127,7 +129,7 @@
     }
 }
 
--(WKBPoint *) getPointWithTransform: (GPKGProjectionTransform *) transform andPoint: (MKPointAnnotation *) point{
+-(WKBPoint *) getPointWithTransform: (GPKGProjectionTransform *) transform andPoint: (GPKGMapPoint *) point{
     NSArray * lonLat = [transform transformWithX:point.coordinate.longitude andY:point.coordinate.latitude];
     return [[WKBPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
 }

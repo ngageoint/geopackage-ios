@@ -12,6 +12,7 @@
 #import "GPKGMapShapeConverter.h"
 @import MapKit;
 #import "GPKGPolygonHolePoints.h"
+#import "GPKGMapPoint.h"
 
 @class GPKGPolygonHolePoints;
 
@@ -24,7 +25,7 @@
 
 -(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter;
 
--(void) addPoint: (MKPointAnnotation *) point;
+-(void) addPoint: (GPKGMapPoint *) point;
 
 -(void) addHole: (GPKGPolygonHolePoints *) hole;
 

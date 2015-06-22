@@ -19,7 +19,7 @@
     return self;
 }
 
--(void) addPoint: (MKPointAnnotation *) point{
+-(void) addPoint: (GPKGMapPoint *) point{
     [GPKGUtils addObject:point toArray:self.points];
 }
 
@@ -31,14 +31,14 @@
     return self.points;
 }
 
--(void) deletePoint: (MKPointAnnotation *) point fromMapView: (MKMapView * ) mapView{
+-(void) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView * ) mapView{
     if([self.points containsObject:point]){
         [self.points removeObject:point];
         [mapView removeAnnotation:point];
     }
 }
 
--(void) addNewPoint: (MKPointAnnotation *) point{
+-(void) addNewPoint: (GPKGMapPoint *) point{
     [self addPoint:point];
 }
 

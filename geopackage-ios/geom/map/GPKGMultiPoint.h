@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 #import "GPKGShapePoints.h"
+#import "GPKGMapPoint.h"
 
 @interface GPKGMultiPoint : NSObject <GPKGShapePoints>
 
@@ -16,7 +17,7 @@
 
 -(instancetype) init;
 
--(void) addPoint: (MKPointAnnotation *) point;
+-(void) addPoint: (GPKGMapPoint *) point;
 
 -(void) removeFromMapView: (MKMapView *) mapView;
 

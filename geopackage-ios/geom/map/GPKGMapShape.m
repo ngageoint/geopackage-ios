@@ -14,6 +14,7 @@
 #import "GPKGPolygonPoints.h"
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
+#import "GPKGMapPoint.h"
 
 @implementation GPKGMapShape
 
@@ -31,7 +32,7 @@
     
     switch(self.shapeType){
         case GPKG_MST_POINT:
-            [mapView removeAnnotation:(MKPointAnnotation *)self.shape];
+            [mapView removeAnnotation:(GPKGMapPoint *)self.shape];
             break;
         case GPKG_MST_POLYGON:
             [mapView removeAnnotation:(MKPolygon *)self.shape];
@@ -140,7 +141,75 @@
 }
 
 -(void) expandBoundingBox: (GPKGBoundingBox *) boundingBox{
-    // TODO
+
+    switch(self.shapeType){
+        case GPKG_MST_POINT:
+            [self expandBoundingBox:boundingBox withPoint:(GPKGMapPoint *)self.shape];
+            break;
+        case GPKG_MST_POLYGON:
+            {
+                MKPolygon * polygon = (MKPolygon *) self.shape;
+                [self expandBoundingBox:boundingBox withMapPoints:[polygon points] andCount:(int)[polygon pointCount]];
+            }
+            break;
+        case GPKG_MST_POLYLINE:
+            {
+                MKPolyline * polyline = (MKPolyline *) self.shape;
+                [self expandBoundingBox:boundingBox withMapPoints:[polyline points] andCount:(int)[polyline pointCount]];
+            }
+            break;
+        case GPKG_MST_MULTI_POINT:
+            [self expandBoundingBox:boundingBox withPoints:[(GPKGMultiPoint *)self.shape points]];
+            break;
+        case GPKG_MST_MULTI_POLYLINE:
+            {
+                GPKGMultiPolyline * multiPolyline = (GPKGMultiPolyline *) self.shape;
+                for(MKPolyline * polyline in multiPolyline.polylines){
+                    [self expandBoundingBox:boundingBox withMapPoints:[polyline points] andCount:(int)[polyline pointCount]];
+                }
+            }
+            break;
+        case GPKG_MST_MULTI_POLYGON:
+            {
+                GPKGMultiPolygon * multiPolygon = (GPKGMultiPolygon *) self.shape;
+                for(MKPolygon * polygon in multiPolygon.polygons){
+                    [self expandBoundingBox:boundingBox withMapPoints:[polygon points] andCount:(int)[polygon pointCount]];
+                }
+            }
+            break;
+        case GPKG_MST_POLYLINE_POINTS:
+            [self expandBoundingBox:boundingBox withPoints:[(GPKGPolylinePoints *)self.shape points]];
+            break;
+        case GPKG_MST_POLYGON_POINTS:
+            [self expandBoundingBox:boundingBox withPoints:[(GPKGPolygonPoints *)self.shape points]];
+            break;
+        case GPKG_MST_MULTI_POLYLINE_POINTS:
+            {
+                GPKGMultiPolylinePoints * multiPolylinePoints = (GPKGMultiPolylinePoints *) self.shape;
+                for(GPKGPolylinePoints * polylinePoints in multiPolylinePoints.polylinePoints){
+                    [self expandBoundingBox:boundingBox withPoints:[polylinePoints points]];
+                }
+            }
+            break;
+        case GPKG_MST_MULTI_POLYGON_POINTS:
+            {
+                GPKGMultiPolygonPoints * multiPolygonPoints = (GPKGMultiPolygonPoints *) self.shape;
+                for(GPKGPolygonPoints * polygonPoints in multiPolygonPoints.polygonPoints){
+                    [self expandBoundingBox:boundingBox withPoints:[polygonPoints points]];
+                }
+            }
+            break;
+        case GPKG_MST_COLLECTION:{
+            NSArray * shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape * collectionShape in shapeCollection){
+                [collectionShape expandBoundingBox:boundingBox];
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withLatitude: (double) latitude andLongitude: (double) longitude{
@@ -160,13 +229,13 @@
     
 }
 
--(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withPointAnnotation: (MKPointAnnotation *) point{
+-(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withPoint: (GPKGMapPoint *) point{
     [self expandBoundingBox:boundingBox withLatitude:point.coordinate.latitude andLongitude:point.coordinate.longitude];
 }
 
--(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withPointAnnotations: (NSArray *) points{
-    for(MKPointAnnotation * point in points){
-        [self expandBoundingBox:boundingBox withPointAnnotation:point];
+-(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withPoints: (NSArray *) points{
+    for(GPKGMapPoint * point in points){
+        [self expandBoundingBox:boundingBox withPoint:point];
     }
 }
 
