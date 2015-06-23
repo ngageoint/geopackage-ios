@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
+#import "WKBPoint.h"
 
 @interface GPKGMapPoint : NSObject<MKAnnotation>
 
@@ -16,5 +17,9 @@
 @property (nonatomic) NSUInteger id;
 
 - (id)initWithLocation:(CLLocationCoordinate2D)coord;
+
+- (id)initWithLatitude: (double) latitude andLongitude: (double) longitude;
+
+- (id)initWithPoint: (WKBPoint *) point;
 
 @end

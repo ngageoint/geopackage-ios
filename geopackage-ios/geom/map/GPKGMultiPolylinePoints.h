@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GPKGPolylinePoints.h"
 
+@class GPKGPolylinePoints;
+
 @interface GPKGMultiPolylinePoints : NSObject
 
 @property (nonatomic, strong) NSMutableArray *polylinePoints;

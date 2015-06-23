@@ -21,4 +21,13 @@ static NSUInteger idCounter = 0;
     return self;
 }
 
+- (id)initWithLatitude: (double) latitude andLongitude: (double) longitude {
+    CLLocationCoordinate2D theCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
+    return [self initWithLocation:theCoordinate];
+}
+
+- (id)initWithPoint: (WKBPoint *) point {
+    return [self initWithLatitude:[point.y doubleValue] andLongitude:[point.x doubleValue]];
+}
+
 @end

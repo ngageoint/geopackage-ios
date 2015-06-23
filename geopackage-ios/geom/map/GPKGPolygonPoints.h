@@ -14,6 +14,7 @@
 #import "GPKGPolygonHolePoints.h"
 #import "GPKGMapPoint.h"
 
+@class GPKGMapShapeConverter;
 @class GPKGPolygonHolePoints;
 
 @interface GPKGPolygonPoints : NSObject <GPKGShapePoints, GPKGShapeWithChildrenPoints>

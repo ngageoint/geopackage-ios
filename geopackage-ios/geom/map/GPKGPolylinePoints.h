@@ -12,6 +12,8 @@
 @import MapKit;
 #import "GPKGMapPoint.h"
 
+@class GPKGMapShapeConverter;
+
 @interface GPKGPolylinePoints : NSObject <GPKGShapePoints>
 
 @property (nonatomic, strong) GPKGMapShapeConverter *converter;

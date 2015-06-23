@@ -24,6 +24,15 @@
 #import "WKBPolyhedralSurface.h"
 #import "GPKGMapShape.h"
 #import "WKBGeometry.h"
+#import "GPKGMapShapePoints.h"
+#import "GPKGPolylinePoints.h"
+#import "GPKGPolygonPoints.h"
+#import "GPKGMultiPolylinePoints.h"
+
+@class GPKGPolylinePoints;
+@class GPKGPolygonPoints;
+@class GPKGMultiPolylinePoints;
+@class GPKGMultiPolygonPoints;
 
 @interface GPKGMapShapeConverter : NSObject
 
@@ -37,9 +46,15 @@
 
 -(GPKGMapPoint *) toMapPointWithPoint: (WKBPoint *) point;
 
+-(MKMapPoint) toMKMapPointWithPoint: (WKBPoint *) point;
+
 -(WKBPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint;
 
 -(WKBPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
+-(WKBPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint;
+
+-(WKBPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 -(MKPolyline *) toMapPolylineWithLineString: (WKBLineString *) lineString;
 
@@ -47,13 +62,19 @@
 
 -(WKBLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
+-(WKBLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
+
+-(WKBLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
 -(WKBLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints;
 
 -(WKBLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
--(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) points;
+-(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints;
 
--(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) points andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
+-(void) populateLineString: (WKBLineString *) lineString withMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
 
 -(void) populateLineString: (WKBLineString *) lineString withMapPoints: (NSArray *) mapPoints;
 
@@ -62,6 +83,10 @@
 -(WKBPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon;
 
 -(WKBPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
+-(WKBPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes;
+
+-(WKBPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 -(WKBPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes;
 
@@ -135,18 +160,36 @@
 
 -(GPKGMapShape *) addGeometry: (WKBGeometry *) geometry toMapView: (MKMapView *) mapView;
 
-+(GPKGMapShape *) addShape: (GPKGMapShape *) shape toMapView: (MKMapView *) mapView;
++(GPKGMapShape *) addMapShape: (GPKGMapShape *) mapShape toMapView: (MKMapView *) mapView;
 
 +(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView;
 
-+(MKPolyline *) addMapPolyline: (MKPolyline *) polyline toMapView: (MKMapView *) mapView;
++(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView;
 
-+(MKPolygon *) addMapPolygon: (MKPolygon *) polylgon toMapView: (MKMapView *) mapView;
++(MKPolygon *) addMapPolygon: (MKPolygon *) mapPolylgon toMapView: (MKMapView *) mapView;
 
-// TODO line 1310
++(GPKGMultiPoint *) addMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint toMapView: (MKMapView *) mapView;
+
++(GPKGMultiPolyline *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline toMapView: (MKMapView *) mapView;
+
++(GPKGMultiPolygon *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon toMapView: (MKMapView *) mapView;
+
+-(GPKGMapShape *) addGeometryCollection: (WKBGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView;
+
+-(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView;
+
+-(NSArray *) addMapPoints: (NSArray *) mapPoints withPointCount: (NSUInteger) pointCount asPointsToMapView: (MKMapView *) mapView withIgnoreIdenticalEnds: (BOOL) ignoreIdenticalEnds;
+
+-(GPKGPolylinePoints *) addMapPolyline: (MKPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView;
+
+-(GPKGPolygonPoints *) addMapPolygon: (MKPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints;
+
+-(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints;
+
+-(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints;
 
 -(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points;
 
-//TODO
+-(WKBGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
 
 @end
