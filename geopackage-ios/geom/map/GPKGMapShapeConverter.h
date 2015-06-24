@@ -28,6 +28,9 @@
 #import "GPKGPolylinePoints.h"
 #import "GPKGPolygonPoints.h"
 #import "GPKGMultiPolylinePoints.h"
+#import "WKBTIN.h"
+#import "WKBTriangle.h"
+#import "GPKGMultiPolygonPoints.h"
 
 @class GPKGPolylinePoints;
 @class GPKGPolygonPoints;
@@ -164,6 +167,8 @@
 
 +(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView;
 
++(GPKGMapPoint *) addMKMapPoint: (MKMapPoint) mkMapPoint toMapView: (MKMapView *) mapView;
+
 +(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView;
 
 +(MKPolygon *) addMapPolygon: (MKPolygon *) mapPolylgon toMapView: (MKMapView *) mapView;
@@ -174,11 +179,11 @@
 
 +(GPKGMultiPolygon *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon toMapView: (MKMapView *) mapView;
 
--(GPKGMapShape *) addGeometryCollection: (WKBGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView;
+-(NSArray *) addGeometryCollection: (WKBGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView;
 
 -(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView;
 
--(NSArray *) addMapPoints: (NSArray *) mapPoints withPointCount: (NSUInteger) pointCount asPointsToMapView: (MKMapView *) mapView withIgnoreIdenticalEnds: (BOOL) ignoreIdenticalEnds;
+-(NSMutableArray *) addMKMapPoints: (MKMapPoint *) mapPoints withPointCount: (NSUInteger) pointCount asPointsToMapView: (MKMapView *) mapView withIgnoreIdenticalEnds: (BOOL) ignoreIdenticalEnds;
 
 -(GPKGPolylinePoints *) addMapPolyline: (MKPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView;
 

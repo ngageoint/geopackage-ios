@@ -30,4 +30,8 @@ static NSUInteger idCounter = 0;
     return [self initWithLatitude:[point.y doubleValue] andLongitude:[point.x doubleValue]];
 }
 
+- (id)initWithMKMapPoint: (MKMapPoint) point {
+    return [self initWithLatitude:point.y andLongitude:point.x];
+}
+
 @end

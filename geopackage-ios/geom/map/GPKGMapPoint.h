@@ -22,4 +22,6 @@
 
 - (id)initWithPoint: (WKBPoint *) point;
 
+- (id)initWithMKMapPoint: (MKMapPoint) point;
+
 @end
