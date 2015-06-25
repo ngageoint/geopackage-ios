@@ -187,5 +187,17 @@
   CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name)
 );</string>
 	</array>
+	<key>New item</key>
+	<array>
+		<string></string>
+	</array>
+	<key>New item - 2</key>
+	<array>
+		<string></string>
+	</array>
+	<key>New item - 3</key>
+	<array>
+		<string></string>
+	</array>
 </dict>
 </plist>

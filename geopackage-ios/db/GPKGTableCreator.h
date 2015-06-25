@@ -12,30 +12,10 @@
 
 @interface GPKGTableCreator : NSObject
 
+@property (nonatomic) GPKGConnection *db;
+
 -(instancetype)initWithDatabase:(GPKGConnection *) db;
 
--(int) createSpatialReferenceSystem;
-
--(int) createContents;
-
--(int) createGeometryColumns;
-
--(int) createTileMatrixSet;
-
--(int) createTileMatrix;
-
--(int) createDataColumns;
-
--(int) createDataColumnConstraints;
-
--(int) createMetadata;
-
--(int) createMetadataReference;
-
--(int) createExtensions;
-
--(void) createUserTable: (GPKGUserTable *) table;
-
--(void) createRequired;
+-(int) createTable: (NSString *) tableName;
 
 @end

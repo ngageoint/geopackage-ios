@@ -9,13 +9,13 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGFeatureTableReader.h"
-#import "GPKGTableCreator.h"
+#import "GPKGGeoPackageTableCreator.h"
 #import "GPKGTileTableReader.h"
 #import "GPKGUtils.h"
 
 @interface GPKGGeoPackage()
 
-@property (nonatomic, strong) GPKGTableCreator *tableCreator;
+@property (nonatomic, strong) GPKGGeoPackageTableCreator *tableCreator;
 
 @end
 
@@ -28,7 +28,7 @@
         self.name = database.name;
         self.path = database.filename;
         self.writable = writable;
-        self.tableCreator = [[GPKGTableCreator alloc] initWithDatabase:database];
+        self.tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:database];
     }
     return self;
 }

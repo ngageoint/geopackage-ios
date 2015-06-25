@@ -8,7 +8,7 @@
 
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGTableCreator.h"
+#import "GPKGGeoPackageTableCreator.h"
 #import "GPKGIOUtils.h"
 
 @implementation GPKGGeoPackageManager
@@ -106,7 +106,7 @@
         [connection setApplicationId];
         
         // Create the minimum required tables
-        GPKGTableCreator * tableCreator = [[GPKGTableCreator alloc] initWithDatabase:connection];
+        GPKGGeoPackageTableCreator * tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:connection];
         [tableCreator createRequired];
         
         created = true;
