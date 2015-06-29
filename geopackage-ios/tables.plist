@@ -187,17 +187,42 @@
   CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name)
 );</string>
 	</array>
-	<key>New item</key>
+	<key>geopackage</key>
 	<array>
-		<string></string>
+		<string>CREATE TABLE geopackage(
+  geopackage_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  path TEXT
+);</string>
 	</array>
-	<key>New item - 2</key>
+	<key>geopackage_table</key>
 	<array>
-		<string></string>
+		<string>CREATE TABLE geopackage_table(
+  geopackage_id INTEGER NOT NULL,
+  table_name TEXT NOT NULL,
+  last_indexed INTEGER,
+  CONSTRAINT pk_table_metadata PRIMARY KEY (geopackage_id, table_name),
+  CONSTRAINT fk_tm_gp FOREIGN KEY (geopackage_id) REFERENCES geopackage(geopackage_id)
+);</string>
 	</array>
-	<key>New item - 3</key>
+	<key>geom_metadata</key>
 	<array>
-		<string></string>
+		<string>CREATE TABLE geom_metadata(
+  geopackage_id INTEGER NOT NULL,
+  table_name TEXT NOT NULL,
+  geom_id INTEGER NOT NULL,
+  min_x DOUBLE NOT NULL,
+  max_x DOUBLE NOT NULL,
+  min_y DOUBLE NOT NULL,
+  max_y DOUBLE NOT NULL,
+  min_z DOUBLE,
+  max_z DOUBLE,
+  min_m DOUBLE,
+  max_m DOUBLE,
+  CONSTRAINT pk_geom_metadata PRIMARY KEY (geopackage_id, table_name, geom_id),
+  CONSTRAINT fk_gm_tm_gp FOREIGN KEY (geopackage_id) REFERENCES geopackage_table(geopackage_id),
+  CONSTRAINT fk_gm_tm FOREIGN KEY (table_name) REFERENCES geopackage_table(table_name)
+);</string>
 	</array>
 </dict>
 </plist>

@@ -43,9 +43,14 @@
     return documents;
 }
 
-+(NSString *) geoPackageDirectory{
++(NSString *) documentsDirectoryWithSubDirectory: (NSString *) subDirectory{
     NSString * documents = [self documentsDirectory];
-    NSString * geopackage = [documents stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_GEOPACKAGE]];
+    NSString * directory = [documents stringByAppendingPathComponent:subDirectory];
+    return directory;
+}
+
++(NSString *) geoPackageDirectory{
+    NSString * geopackage = [GPKGProperties getValueOfProperty:GPKG_PROP_DIR_GEOPACKAGE];
     [self createDirectoryIfNotExists:geopackage];
     return geopackage;
 }
@@ -57,9 +62,27 @@
     return database;
 }
 
++(NSString *) metadataDirectory{
+    NSString * geopackage = [self geoPackageDirectory];
+    NSString * metadata = [geopackage stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_METADATA]];
+    [self createDirectoryIfNotExists:metadata];
+    return metadata;
+}
+
++(NSString *) metadataDatabaseFile{
+    NSString * metadataDirectory = [self metadataDirectory];
+    NSString * metadataFile = [metadataDirectory stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_METADATA_FILE_DB]];
+    return metadataFile;
+}
+
 +(void) createDirectoryIfNotExists: (NSString *) directory{
-    if (![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+    NSString * documentsDirectory = [self documentsDirectoryWithSubDirectory:directory];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:documentsDirectory]) {
+        NSError *error = nil;
+        BOOL created = [[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectory withIntermediateDirectories:YES attributes:nil error:&error];
+        if(error || !created){
+            NSLog(@"Failed to create directory at path '%@' with error: %@", documentsDirectory, error);
+        }
     }
 }
 

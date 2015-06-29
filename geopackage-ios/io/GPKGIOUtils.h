@@ -16,9 +16,15 @@
 
 +(NSString *) documentsDirectory;
 
++(NSString *) documentsDirectoryWithSubDirectory: (NSString *) subDirectory;
+
 +(NSString *) geoPackageDirectory;
 
 +(NSString *) databaseDirectory;
+
++(NSString *) metadataDirectory;
+
++(NSString *) metadataDatabaseFile;
 
 +(void) createDirectoryIfNotExists: (NSString *) directory;
 

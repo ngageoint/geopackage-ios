@@ -11,6 +11,8 @@
 extern NSString * const GPKG_PROP_DIVIDER;
 extern NSString * const GPKG_PROP_DIR_GEOPACKAGE;
 extern NSString * const GPKG_PROP_DIR_DATABASE;
+extern NSString * const GPKG_PROP_DIR_METADATA;
+extern NSString * const GPKG_PROP_DIR_METADATA_FILE_DB;
 extern NSString * const GPKG_PROP_SRS_WGS_84;
 extern NSString * const GPKG_PROP_SRS_UNDEFINED_CARTESIAN;
 extern NSString * const GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC;

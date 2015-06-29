@@ -13,8 +13,6 @@
 
 -(NSArray *) databases;
 
--(NSDictionary *) databasePaths;
-
 -(int) count;
 
 -(NSString *) pathForDatabase: (NSString *) database;
@@ -27,16 +25,30 @@
 
 -(BOOL) delete: (NSString *) database;
 
+-(BOOL) deleteAll;
+
 -(BOOL) create: (NSString *) database;
+
+-(BOOL) create: (NSString *) database inDirectory: (NSString *) dbDirectory;
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path andDatabase: (NSString *) database;
 
+-(BOOL) importGeoPackageFromPath: (NSString *) path andDatabase: (NSString *) database inDirectory: (NSString *) dbDirectory;
+
 -(BOOL) importGeoPackageFromUrl: (NSURL *) url andDatabase: (NSString *) database;
+
+-(BOOL) importGeoPackageFromUrl: (NSURL *) url andDatabase: (NSString *) database inDirectory: (NSString *) dbDirectory;
 
 -(GPKGGeoPackage *) open: (NSString *) database;
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy;
 
+-(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy andSameDirectory: (BOOL) sameDirectory;
+
 -(BOOL) rename: (NSString *) database to: (NSString *) newDatabase;
+
+-(BOOL) rename: (NSString *) database to: (NSString *) newDatabase andRenameFile: (BOOL) renameFile;
+
+-(BOOL) move: (NSString *) database toDirectory: (NSString *) dbDirectory;
 
 @end

@@ -70,6 +70,8 @@
 
 -(void) setApplicationId;
 
+-(void) setApplicationId: (NSString *) applicationId;
+
 -(void) dropTable: (NSString *) table;
 
 -(void)close;

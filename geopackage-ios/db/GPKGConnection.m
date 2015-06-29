@@ -145,9 +145,13 @@
 }
 
 -(void) setApplicationId{
-    NSData *bytes = [GPKG_APPLICATION_ID dataUsingEncoding:NSUTF8StringEncoding];
-    int applicationId = CFSwapInt32BigToHost(*(int*)([bytes bytes]));
-    [self exec:[NSString stringWithFormat:@"PRAGMA application_id = %d", applicationId]];
+    [self setApplicationId:GPKG_APPLICATION_ID];
+}
+
+-(void) setApplicationId: (NSString *) applicationId{
+    NSData *bytes = [applicationId dataUsingEncoding:NSUTF8StringEncoding];
+    int applicationIdData = CFSwapInt32BigToHost(*(int*)([bytes bytes]));
+    [self exec:[NSString stringWithFormat:@"PRAGMA application_id = %d", applicationIdData]];
 }
 
 -(void) dropTable: (NSString *) table{

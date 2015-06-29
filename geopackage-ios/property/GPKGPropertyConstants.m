@@ -11,6 +11,8 @@
 NSString * const GPKG_PROP_DIVIDER = @".";
 NSString * const GPKG_PROP_DIR_GEOPACKAGE = @"geopackage.dir.geopackage";
 NSString * const GPKG_PROP_DIR_DATABASE = @"geopackage.dir.geopackage.database";
+NSString * const GPKG_PROP_DIR_METADATA = @"geopackage.dir.geopackage.metadata";
+NSString * const GPKG_PROP_DIR_METADATA_FILE_DB = @"geopackage.dir.geopackage.metadata.file.db";
 NSString * const GPKG_PROP_SRS_WGS_84 = @"geopackage.srs.wgs84";
 NSString * const GPKG_PROP_SRS_UNDEFINED_CARTESIAN = @"geopackage.srs.undefined_cartesian";
 NSString * const GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC = @"geopackage.srs.undefined_geographic";
