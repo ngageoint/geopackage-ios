@@ -66,4 +66,25 @@ static NSDictionary * properties;
     return [self getNumberValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
 }
 
++(BOOL) getBoolValueOfProperty: (NSString *) property{
+    return [self getBoolValueOfProperty:property andRequired:true];
+}
+
++(BOOL) getBoolValueOfProperty: (NSString *) property andRequired: (BOOL) required{
+    BOOL value = false;
+    NSString * stringValue = [self getValueOfProperty:property andRequired:required];
+    if(stringValue != nil){
+        value = [stringValue boolValue];
+    }
+    return value;
+}
+
++(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self getBoolValueOfBaseProperty:base andProperty:property andRequired:true];
+}
+
++(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self getBoolValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+}
+
 @end

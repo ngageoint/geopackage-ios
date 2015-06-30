@@ -31,6 +31,12 @@ NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LAT = @"min_lat";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LAT = @"max_lat";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LON = @"min_lon";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LON = @"max_lon";
+NSString * const GPKG_PROP_FEATURE_TILES = @"geopackage.feature_tiles";
+NSString * const GPKG_PROP_FEATURE_TILES_WIDTH = @"width";
+NSString * const GPKG_PROP_FEATURE_TILES_HEIGHT = @"height";
+NSString * const GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT = @"compress_format";
+NSString * const GPKG_PROP_FEATURE_POINT_RADIUS = @"point_radius";
+NSString * const GPKG_PROP_FEATURE_POLYGON_FILL = @"polygon_fill";
 
 @implementation GPKGPropertyConstants
 

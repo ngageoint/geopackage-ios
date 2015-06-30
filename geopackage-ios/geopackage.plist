@@ -72,5 +72,15 @@
 	<string>{minLon}</string>
 	<key>geopackage.tile_generator.variable.max_lon</key>
 	<string>{maxLon}</string>
+	<key>geopackage.feature_tiles.width</key>
+	<string>256</string>
+	<key>geopackage.feature_tiles.height</key>
+	<string>256</string>
+	<key>geopackage.feature_tiles.compress_format</key>
+	<string>PNG</string>
+	<key>geopackage.feature_tiles.point_radius</key>
+	<string>2.0</string>
+	<key>geopackage.feature_tiles.polygon_fill</key>
+	<string>false</string>
 </dict>
 </plist>

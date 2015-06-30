@@ -26,4 +26,12 @@
 
 +(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
++(BOOL) getBoolValueOfProperty: (NSString *) property;
+
++(BOOL) getBoolValueOfProperty: (NSString *) property andRequired: (BOOL) required;
+
++(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
+
++(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
+
 @end
