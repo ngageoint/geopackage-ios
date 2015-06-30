@@ -7,9 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGFeatureDao.h"
+#import "GPKGProgress.h"
 
 @interface GPKGFeatureIndexer : NSObject
 
-//TODO
+@property (nonatomic, strong)  GPKGFeatureDao * featureDao;
+@property (nonatomic, strong)  NSObject<GPKGProgress> * progress;
+
+-(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao;
+
+-(int) index;
+
+-(int) indexWithForce: (BOOL) force;
+
+-(void) indexFeatureRow: (GPKGFeatureRow *) row;
+
+-(BOOL) isIndexed;
 
 @end
