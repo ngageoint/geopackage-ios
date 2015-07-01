@@ -33,7 +33,7 @@
 
 -(GPKGTileRow *) newRow;
 
--(void) adjustTileMatrixLength;
+-(void) adjustTileMatrixLengths;
 
 -(GPKGTileMatrix *) getTileMatrixWithZoomLevel: (int) zoomLevel;
 

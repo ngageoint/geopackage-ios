@@ -32,11 +32,6 @@
     self.webMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:boundingBox];
 }
 
--(instancetype) init{
-    self = [super initWithURLTemplate:nil];
-    return self;
-}
-
 -(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
     return [NSURL URLWithString:@""];
 }
@@ -47,15 +42,16 @@
         return;
     }
     
+    NSData * tileData = nil;
+    
     // Check if generating tiles for the zoom level
     if([self isWithinZoom:path.z] && [self isWithinBoundsWithX:path.x andY:path.y andZoom:path.z]){
         
         // Draw the tile
-        NSData * tileData = [self.featureTiles drawTileDataWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
-        result(tileData, nil);
-    }else{
-        result(nil, nil);
+        tileData = [self.featureTiles drawTileDataWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
     }
+    
+    result(tileData, nil);
 }
 
 -(BOOL) isWithinZoom: (NSInteger) zoom{

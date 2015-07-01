@@ -140,6 +140,7 @@
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     return image;
 }
 
@@ -173,6 +174,7 @@
         }
         
         image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
     }@finally{
         [results close];
     }
@@ -193,6 +195,7 @@
     }
         
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     return image;
 }
 

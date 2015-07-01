@@ -89,7 +89,7 @@
     return [[GPKGTileRow alloc] initWithTileTable:(GPKGTileTable *)self.table];
 }
 
--(void) adjustTileMatrixLength{
+-(void) adjustTileMatrixLengths{
     [GPKGTileDaoUtils adjustTileMatrixLengthsWithTileMatrixSet:self.tileMatrixSet andTileMatrices:self.tileMatrices];
 }
 
