@@ -12,6 +12,7 @@
 #import "GPKGBoundingBox.h"
 #import "GPKGFeatureDao.h"
 #import "GPKGCompressFormats.h"
+#import "GPKGFeatureTilePointIcon.h"
 
 @interface GPKGFeatureTiles : NSObject
 
@@ -20,7 +21,14 @@
 @property (nonatomic) int tileHeight;
 @property (nonatomic) enum GPKGCompressFormat compressFormat;
 @property (nonatomic) double pointRadius;
+@property (nonatomic) CGColorRef pointColor;
+@property (nonatomic, strong) GPKGFeatureTilePointIcon * pointIcon;
+@property (nonatomic) double lineStrokeWidth;
+@property (nonatomic) CGColorRef lineColor;
+@property (nonatomic) double polygonStrokeWidth;
+@property (nonatomic) CGColorRef polygonColor;
 @property (nonatomic) BOOL fillPolygon;
+@property (nonatomic) CGColorRef polygonFillColor;
 @property (nonatomic) double heightOverlap;
 @property (nonatomic) double widthOverlap;
 

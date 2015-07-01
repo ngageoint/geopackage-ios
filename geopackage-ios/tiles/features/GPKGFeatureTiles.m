@@ -18,6 +18,8 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGMapShapeConverter.h"
 #import "GPKGMetadataDb.h"
+#import "GPKGMultiPolyline.h"
+#import "GPKGMultiPolygon.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -37,9 +39,11 @@
         
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
-        // TODO draw styles, color, anti alias, etc
-        
         self.pointRadius = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
+        
+        self.lineStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];;
+        
+        self.polygonStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];;
         
         self.fillPolygon = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
@@ -50,10 +54,21 @@
 
 -(void) calculateDrawOverlap{
     
-    //TODO
-    self.heightOverlap = self.pointRadius;
-    self.widthOverlap = self.widthOverlap;
+    if(self.pointIcon != nil){
+        self.heightOverlap = [self.pointIcon getHeight];
+        self.widthOverlap = [self.pointIcon getWidth];
+    }else{
+        self.heightOverlap = self.pointRadius;
+        self.widthOverlap = self.widthOverlap;
+    }
     
+    double lineHalfStroke = self.lineStrokeWidth / 2.0;
+    self.heightOverlap = MAX(self.heightOverlap, lineHalfStroke);
+    self.widthOverlap = MAX(self.widthOverlap, lineHalfStroke);
+    
+    double polygonHalfStroke = self.polygonStrokeWidth / 2.0;
+    self.heightOverlap = MAX(self.heightOverlap, polygonHalfStroke);
+    self.widthOverlap = MAX(self.widthOverlap, polygonHalfStroke);
 }
 
 -(void) setDrawOverlapsWithPixels: (double) pixels{
@@ -207,13 +222,17 @@
         case GPKG_MST_POLYLINE:
             {
                 MKPolyline * polyline = (MKPolyline *) shapeObject;
-                //TODO
+                CGMutablePathRef linePath = CGPathCreateMutable();
+                [self addPolyline:polyline toPath:linePath withBoundingBox:boundingBox andTransform:transform];
+                [self drawLinePath:linePath andContext:context];
             }
             break;
         case GPKG_MST_POLYGON:
             {
                 MKPolygon * polygon = (MKPolygon *) shapeObject;
-                //TODO
+                CGMutablePathRef polygonPath = CGPathCreateMutable();
+                [self addPolygon:polygon toPath:polygonPath withBoundingBox:boundingBox andTransform:transform];
+                [self drawPolygonPath:polygonPath andContext:context];
             }
             break;
         case GPKG_MST_MULTI_POINT:
@@ -225,13 +244,32 @@
             }
             break;
         case GPKG_MST_MULTI_POLYLINE:
-            //TODO
+            {
+                GPKGMultiPolyline * multiPolyline = (GPKGMultiPolyline *) shapeObject;
+                for(MKPolyline * polyline in multiPolyline.polylines){
+                    CGMutablePathRef multiLinePath = CGPathCreateMutable();
+                    [self addPolyline:polyline toPath:multiLinePath withBoundingBox:boundingBox andTransform:transform];
+                    [self drawLinePath:multiLinePath andContext:context];
+                }
+            }
             break;
         case GPKG_MST_MULTI_POLYGON:
-            //TODO
+            {
+                GPKGMultiPolygon * multiPolygon = (GPKGMultiPolygon *) shapeObject;
+                CGMutablePathRef multiPolygonPath = CGPathCreateMutable();
+                for(MKPolygon * polygon in multiPolygon.polygons){
+                    [self addPolygon:polygon toPath:multiPolygonPath withBoundingBox:boundingBox andTransform:transform];
+                }
+                [self drawPolygonPath:multiPolygonPath andContext:context];
+            }
             break;
         case GPKG_MST_COLLECTION:
-            //TODO
+            {
+                NSArray * shapes = (NSArray *) shapeObject;
+                for(GPKGMapShape * arrayShape in shapes){
+                    [self drawShapeWithBoundingBox:boundingBox andTransform:transform andContext:context andMapShape:arrayShape];
+                }
+            }
             break;
         default:
             [NSException raise:@"Shape Type" format:@"Unsupported shape type: %@", [GPKGMapShapeTypes name:shape.shapeType]];
@@ -239,9 +277,69 @@
     }
 }
 
-// TODO
+-(void) drawLinePath: (CGMutablePathRef) path andContext: (CGContextRef) context{
+    CGContextSetLineWidth(context, self.lineStrokeWidth);
+    CGContextSetStrokeColorWithColor(context, self.lineColor);
+    CGContextAddPath(context, path);
+    CGContextDrawPath(context, kCGPathStroke);
+}
 
-//-(void) addRingWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform
+-(void) drawPolygonPath: (CGMutablePathRef) path andContext: (CGContextRef) context{
+    CGContextSetLineWidth(context, self.polygonStrokeWidth);
+    CGContextSetStrokeColorWithColor(context, self.polygonColor);
+    CGContextSetFillColorWithColor(context, self.polygonFillColor);
+    CGContextAddPath(context, path);
+    CGPathDrawingMode mode;
+    if(self.fillPolygon){
+        mode = kCGPathEOFillStroke;
+    }else{
+        mode = kCGPathStroke;
+    }
+    CGContextDrawPath(context, mode);
+}
+
+-(void) addPolyline: (MKPolyline *) polyline toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+    
+    if(polyline.pointCount >= 2){
+        [self addMultiPoint:polyline toPath:path withBoundingBox:boundingBox andTransform:transform];
+    }
+}
+
+-(void) addPolygon: (MKPolygon *) polygon toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+
+    
+        if(polygon.pointCount >= 2){
+            [self addRing:polygon toPath:path withBoundingBox:boundingBox andTransform:transform];
+            
+            for(MKPolygon * hole in polygon.interiorPolygons){
+                if(hole.pointCount >= 2){
+                    [self addRing:hole toPath:path withBoundingBox:boundingBox andTransform:transform];
+                }
+            }
+        }
+}
+
+-(void) addRing: (MKPolygon *) ring toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+    
+    [self addMultiPoint:ring toPath:path withBoundingBox:boundingBox andTransform:transform];
+    CGPathCloseSubpath(path);
+}
+
+-(void) addMultiPoint: (MKMultiPoint *) multiPoint toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+
+    for(int i = 0; i < multiPoint.pointCount; i++){
+        MKMapPoint mkMapPoint = multiPoint.points[i];
+        GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
+        WKBPoint * wkbPoint = [self getPointWithTransform:transform andPoint:mapPoint];
+        double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[wkbPoint.x doubleValue]];
+        double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[wkbPoint.y doubleValue]];
+        if(i == 0){
+            CGPathMoveToPoint(path, NULL, x, y);
+        }else{
+            CGPathAddLineToPoint(path, NULL, x, y);
+        }
+    }
+}
 
 -(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andPoint: (GPKGMapPoint *) point{
     
@@ -249,16 +347,26 @@
     double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[wkbPoint.x doubleValue]];
     double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[wkbPoint.y doubleValue]];
     
-    // TODO point icon ?
+    if(self.pointIcon != nil){
+        int width = [self.pointIcon getWidth];
+        int height = [self.pointIcon getHeight];
+        if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
+            CGRect rect = CGRectMake(x - self.pointIcon.xOffset, y - self.pointIcon.yOffset, width, height);
+            CGContextDrawImage(context, rect, self.pointIcon.getIcon);
+        }
     
-    if(x >= 0 - self.pointRadius && x <= self.tileWidth + self.pointRadius && y >= 0 - self.pointRadius && y <= self.tileHeight + self.pointRadius){
-        // setup the circle size
-        CGRect circleRect = CGRectMake( 0, 0, self.pointRadius, self.pointRadius );
-        circleRect = CGRectInset(circleRect, x, y);
+    }else{
+        if(x >= 0 - self.pointRadius && x <= self.tileWidth + self.pointRadius && y >= 0 - self.pointRadius && y <= self.tileHeight + self.pointRadius){
+            // setup the circle size
+            CGRect circleRect = CGRectMake( 0, 0, self.pointRadius, self.pointRadius );
+            circleRect = CGRectInset(circleRect, x, y);
         
-        // Draw the Circle
-        CGContextFillEllipseInRect(context, circleRect);
-        CGContextStrokeEllipseInRect(context, circleRect);
+            // Draw the Circle
+            CGContextSetStrokeColorWithColor(context, self.pointColor);
+            CGContextSetFillColorWithColor(context, self.pointColor);
+            CGContextFillEllipseInRect(context, circleRect);
+            CGContextStrokeEllipseInRect(context, circleRect);
+        }
     }
 }
 

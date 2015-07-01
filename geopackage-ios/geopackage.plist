@@ -80,6 +80,10 @@
 	<string>PNG</string>
 	<key>geopackage.feature_tiles.point_radius</key>
 	<string>2.0</string>
+	<key>geopackage.feature_tiles.line_stroke_width</key>
+	<string>2.0</string>
+	<key>geopackage.feature_tiles.polygon_stroke_width</key>
+	<string>2.0</string>
 	<key>geopackage.feature_tiles.polygon_fill</key>
 	<string>false</string>
 </dict>

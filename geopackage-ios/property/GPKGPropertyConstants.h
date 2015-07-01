@@ -36,6 +36,8 @@ extern NSString * const GPKG_PROP_FEATURE_TILES_WIDTH;
 extern NSString * const GPKG_PROP_FEATURE_TILES_HEIGHT;
 extern NSString * const GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT;
 extern NSString * const GPKG_PROP_FEATURE_POINT_RADIUS;
+extern NSString * const GPKG_PROP_FEATURE_LINE_STROKE_WIDTH;
+extern NSString * const GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH;
 extern NSString * const GPKG_PROP_FEATURE_POLYGON_FILL;
 
 @interface GPKGPropertyConstants : NSObject
