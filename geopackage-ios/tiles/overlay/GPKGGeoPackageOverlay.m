@@ -114,8 +114,12 @@
                             // If the tile overlaps with the requested box
                             if(overlap != nil){
                                 
-                                // TODO figure out the x and y offest
-                                CGRect imageRect = CGRectMake(0, 0, tileDataImage.size.width, tileDataImage.size.height);
+                                // Find the offset of where to draw the tile
+                                double xOffset = [GPKGTileBoundingBoxUtils getXPixelWithWidth:tileWidth andBoundingBox:webMercatorBoundingBox andLongitude:[tileWebMercatorBoundingBox.minLongitude doubleValue]];
+                                double yOffset = [GPKGTileBoundingBoxUtils getYPixelWithHeight:tileHeight andBoundingBox:webMercatorBoundingBox andLatitude:[tileWebMercatorBoundingBox.maxLatitude doubleValue]];
+                                
+                                // Draw the image
+                                CGRect imageRect = CGRectMake(xOffset, yOffset, tileDataImage.size.width, tileDataImage.size.height);
                                 CGContextDrawImage(context, imageRect, tileDataImage.CGImage);
                             }
                         }
