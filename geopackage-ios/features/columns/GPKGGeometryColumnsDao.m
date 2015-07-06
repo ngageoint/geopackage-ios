@@ -113,7 +113,7 @@
 
 -(NSArray *) getFeatureTables{
     
-    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_TABLE_NAME];
+    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@ order by %@", GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_TABLE_NAME, GPKG_GC_COLUMN_TABLE_NAME];
     
     GPKGResultSet *results = [self rawQuery:queryString];
     NSArray *tables = [self singleColumnResults:results];

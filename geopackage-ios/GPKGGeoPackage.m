@@ -38,19 +38,55 @@
 }
 
 -(NSArray *)getFeatureTables{
-    
+    NSArray * tables = nil;
     GPKGGeometryColumnsDao *dao = [self getGeometryColumnsDao];
-    NSArray *tables = dao.getFeatureTables;
-    
+    if([dao tableExists]){
+        tables = [dao getFeatureTables];
+    }else{
+        tables = [[NSArray alloc] init];
+    }
     return tables;
 }
 
 -(NSArray *)getTileTables{
-    
+    NSArray * tables = nil;
     GPKGTileMatrixSetDao *dao = [self getTileMatrixSetDao];
-    NSArray *tables = dao.getTileTables;
-    
+    if([dao tableExists]){
+        tables = [dao getTileTables];
+    }else{
+        tables = [[NSArray alloc] init];
+    }
     return tables;
+}
+
+-(NSArray *)getTables{
+    NSMutableArray * tables = [[NSMutableArray alloc] init];
+    [tables addObjectsFromArray:[self getFeatureTables]];
+    [tables addObjectsFromArray:[self getTileTables]];
+    return tables;
+}
+
+-(int)getFeatureTableCount{
+    int count = 0;
+    GPKGGeometryColumnsDao *dao = [self getGeometryColumnsDao];
+    if([dao tableExists]){
+        count = [dao count];
+    }
+    return count;
+}
+
+-(int)getTileTableCount{
+    int count = 0;
+    GPKGTileMatrixSetDao *dao = [self getTileMatrixSetDao];
+    if([dao tableExists]){
+        count = [dao count];
+    }
+    return count;
+}
+
+-(int)getTableCount{
+    int count = [self getFeatureTableCount] + [self getTileTableCount];
+    return count;
 }
 
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{

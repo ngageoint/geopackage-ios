@@ -40,6 +40,14 @@
 
 -(NSArray *)getTileTables;
 
+-(NSArray *)getTables;
+
+-(int)getFeatureTableCount;
+
+-(int)getTileTableCount;
+
+-(int)getTableCount;
+
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao;
 
 -(GPKGContentsDao *) getContentsDao;

@@ -292,7 +292,7 @@
     GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
-        geometryColumns = (GPKGGeometryColumns *)[self getObject:results];
+        geometryColumns = (GPKGGeometryColumns *)[dao getObject:results];
     }
     [results close];
     return geometryColumns;
@@ -303,7 +303,7 @@
     GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
-        tileMatrixSet = (GPKGTileMatrixSet *)[self getObject:results];
+        tileMatrixSet = (GPKGTileMatrixSet *)[dao getObject:results];
     }
     [results close];
     return tileMatrixSet;
