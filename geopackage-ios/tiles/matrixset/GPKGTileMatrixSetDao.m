@@ -100,7 +100,7 @@
 
 -(NSArray *) getTileTables{
     
-    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@ order by %@", GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_TABLE_NAME, GPKG_TMS_COLUMN_TABLE_NAME];
+    NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_TABLE_NAME];
     
     GPKGResultSet *results = [self rawQuery:queryString];
     NSArray *tables = [self singleColumnResults:results];
