@@ -28,7 +28,7 @@ static NSDictionary * properties;
     
     NSString * value = [properties valueForKey:property];
     
-    if(value == nil){
+    if(value == nil && required){
         [NSException raise:@"Required Property" format:@"Required property not found: %@", property];
     }
     
