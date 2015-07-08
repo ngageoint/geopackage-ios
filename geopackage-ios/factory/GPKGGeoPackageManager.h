@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
+#import "GPKGProgress.h"
 
 @interface GPKGGeoPackageManager : NSObject
 
@@ -31,13 +32,39 @@
 
 -(BOOL) create: (NSString *) database inDirectory: (NSString *) dbDirectory;
 
--(BOOL) importGeoPackageFromPath: (NSString *) path andDatabase: (NSString *) database;
+-(BOOL) importGeoPackageFromPath: (NSString *) path;
 
--(BOOL) importGeoPackageFromPath: (NSString *) path andDatabase: (NSString *) database inDirectory: (NSString *) dbDirectory;
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name;
 
--(BOOL) importGeoPackageFromUrl: (NSURL *) url andDatabase: (NSString *) database;
+-(BOOL) importGeoPackageFromPath: (NSString *) path inDirectory: (NSString *) dbDirectory;
 
--(BOOL) importGeoPackageFromUrl: (NSURL *) url andDatabase: (NSString *) database inDirectory: (NSString *) dbDirectory;
+-(BOOL) importGeoPackageFromPath: (NSString *) path andOverride: (BOOL) override;
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name andOverride: (BOOL) override;
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory;
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andOverride: (BOOL) override;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andProgress: (NSObject<GPKGProgress> *) progress;
+
+-(void) exportGeoPackage: (NSString *) database toDirectory: (NSString *) directory;
+
+-(void) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory;
 
 -(GPKGGeoPackage *) open: (NSString *) database;
 

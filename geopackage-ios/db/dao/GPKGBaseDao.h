@@ -80,6 +80,21 @@
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit;
 
+-(GPKGResultSet *) queryColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                   andWhereArgs: (NSArray *) whereArgs
+                     andGroupBy: (NSString *) groupBy
+                      andHaving: (NSString *) having
+                     andOrderBy: (NSString *) orderBy;
+
+-(GPKGResultSet *) queryColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                   andWhereArgs: (NSArray *) whereArgs
+                     andGroupBy: (NSString *) groupBy
+                      andHaving: (NSString *) having
+                     andOrderBy: (NSString *) orderBy
+                       andLimit: (NSString *) limit;
+
 -(BOOL) idExists: (NSObject *) id;
 
 -(BOOL) multiIdExists: (NSArray *) idValues;

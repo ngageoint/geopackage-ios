@@ -3,6 +3,7 @@ platform :ios, '7.0'
 
 inhibit_all_warnings!
 
+pod "AFNetworking", "~> 2.5.4"
 #pod 'wkb-ios', :git => 'git@git.geointapps.org:geopackage/wkb-ios.git', :tag => '0.0.1'
 pod 'wkb-ios', :path => '../wkb-ios'
 

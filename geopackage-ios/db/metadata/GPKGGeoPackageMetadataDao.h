@@ -24,6 +24,10 @@
 
 -(NSArray *) getAll;
 
+-(NSArray *) getAllNames;
+
+-(NSArray *) getAllNamesSorted;
+
 -(GPKGGeoPackageMetadata *) getMetadataByName: (NSString *) name;
 
 -(GPKGGeoPackageMetadata *) getMetadataById: (NSNumber *) id;

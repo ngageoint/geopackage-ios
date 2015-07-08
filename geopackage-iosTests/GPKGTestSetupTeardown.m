@@ -390,7 +390,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 3;
     //NSURL *url =  [NSURL URLWithString:@"http://www.geopackage.org/data/gdal_sample.gpkg"];
     //NSURL *url =  [NSURL URLWithString:@"http://www.geopackage.org/data/haiti-vectors-split.gpkg"];
     //[manager importGeoPackageFromUrl:url andDatabase:GPKG_TEST_IMPORT_DB_NAME];
-    [manager importGeoPackageFromPath:filePath andDatabase:GPKG_TEST_IMPORT_DB_NAME];
+    [manager importGeoPackageFromPath:filePath withName:GPKG_TEST_IMPORT_DB_NAME];
     
     // Open
     GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_DB_NAME];

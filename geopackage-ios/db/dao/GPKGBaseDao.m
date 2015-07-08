@@ -204,6 +204,25 @@
     return [self.database queryWithTable:self.tableName andColumns:nil andWhere:where andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
+-(GPKGResultSet *) queryColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                   andWhereArgs: (NSArray *) whereArgs
+                     andGroupBy: (NSString *) groupBy
+                      andHaving: (NSString *) having
+                     andOrderBy: (NSString *) orderBy{
+    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryColumns: (NSArray *) columns
+                       andWhere: (NSString *) where
+                   andWhereArgs: (NSArray *) whereArgs
+                     andGroupBy: (NSString *) groupBy
+                      andHaving: (NSString *) having
+                     andOrderBy: (NSString *) orderBy
+                    andLimit: (NSString *) limit{
+    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
 -(BOOL) idExists: (NSObject *) id{
     return [self queryForIdObject:id] != nil;
 }

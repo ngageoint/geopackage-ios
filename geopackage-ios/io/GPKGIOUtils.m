@@ -86,6 +86,95 @@
     }
 }
 
++(void) copyFile: (NSString *) copyFrom toFile: (NSString *) copyTo{
+    
+    NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
+    NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    [to open];
+    
+    [self copyInputStream:from toOutputStream:to];
+    
+    [to close];
+}
+
++(void) copyInputStream: (NSInputStream *) copyFrom toFile: (NSString *) copyTo{
+    [self copyInputStream:copyFrom toFile:copyTo withProgress:nil];
+}
+
++(void) copyInputStream: (NSInputStream *) copyFrom toFile: (NSString *) copyTo withProgress: (NSObject<GPKGProgress> *) progress{
+    
+    NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    [outputStream open];
+    
+    [self copyInputStream:copyFrom toOutputStream:outputStream withProgress:progress];
+    
+    [outputStream close];
+    
+    // Try to delete the file if progress was cancelled
+    if(progress != nil && ![progress isActive] && [progress cleanupOnCancel]){
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSError *error = nil;
+        BOOL fileDeleted = [fileManager removeItemAtPath:copyTo error:&error];
+        if(error || !fileDeleted){
+            NSLog(@"Failed to delete file copied from stream at path '%@' with error: %@", copyTo, error);
+        }
+    }
+}
+
++(NSData *) fileData: (NSString *) file{
+    
+    NSInputStream * inputStream = [NSInputStream inputStreamWithFileAtPath:file];
+    
+    return [self streamData:inputStream];
+}
+
++(NSData *) streamData: (NSInputStream *) stream{
+    
+    NSOutputStream * outputStream = [NSOutputStream outputStreamToMemory];
+    [outputStream open];
+    
+    [self copyInputStream:stream toOutputStream:outputStream];
+    
+    NSData *data = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+    
+    [outputStream close];
+    
+    return data;
+}
+
++(void) copyInputStream: (NSInputStream *) copyFrom toOutputStream: (NSOutputStream *) copyTo{
+    [self copyInputStream:copyFrom toOutputStream:copyTo withProgress:nil];
+}
+
++(void) copyInputStream: (NSInputStream *) copyFrom toOutputStream: (NSOutputStream *) copyTo withProgress: (NSObject<GPKGProgress> *) progress{
+    NSInteger bufferSize = 1024;
+    NSInteger length;
+    uint8_t buffer[bufferSize];
+    while((progress == nil || [progress isActive])
+          && (length = [copyFrom read:buffer maxLength:bufferSize]) != 0) {
+        if(length > 0) {
+            [copyTo write:buffer maxLength:length];
+            if(progress != nil){
+                [progress addProgress:(int)length];
+            }
+        } else {
+            [NSException raise:@"Copy Stream Error" format:@"%@", [[copyFrom streamError] localizedDescription]];
+        }
+    }
+    
+    [copyFrom close];
+}
+
++(BOOL) deleteFile: (NSString *) file{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    BOOL fileDeleted = [fileManager removeItemAtPath:file error:&error];
+    if(error || !fileDeleted){
+        NSLog(@"Failed to delete GeoPackage file at '%@' with error: %@", file, error);
+    }
+    return fileDeleted;
+}
+
 +(NSString *) formatBytes: (int) bytes{
     
     double value = bytes;

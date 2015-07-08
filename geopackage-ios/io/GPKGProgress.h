@@ -19,6 +19,10 @@
 
 -(BOOL) cleanupOnCancel;
 
+-(void) completed;
+
+-(void) failureWithError: (NSString *) error;
+
 @end
 
 #endif
