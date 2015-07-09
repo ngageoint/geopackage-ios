@@ -325,20 +325,31 @@
         
         if(progress == nil || [progress isActive]){
             
-            // Validate the imported GeoPackage and create the metadata
-            [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath];
+            @try {
+                // Validate the imported GeoPackage and create the metadata
+                [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath];
             
+                if(progress != nil){
+                    [progress completed];
+                }
+            } @catch (NSException *e) {
+                NSLog(@"Download Validation Error for '%@' at url '%@' with error: %@", name, url, [e description]);
+                if(progress != nil){
+                    [progress failureWithError:[e description]];
+                }
+            }
         }else{
             [GPKGIOUtils deleteFile:documentsDatabasePath];
-        }
-        
-        if(progress != nil){
-            [progress completed];
+            [progress failureWithError:@"Operation was canceled"];
         }
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if(progress != nil){
-            [progress failureWithError:[error description]];
+            if([progress isActive]){
+                [progress failureWithError:[error description]];
+            }else{
+                [progress failureWithError:@"Operation was canceled"];
+            }
         }
         NSLog(@"Download Error for '%@' at url '%@' with error: %@", name, url, [error description]);
     }];
