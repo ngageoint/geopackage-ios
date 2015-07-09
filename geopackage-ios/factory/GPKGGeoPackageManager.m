@@ -464,7 +464,7 @@
         NSFileManager * fileManager = [NSFileManager defaultManager];
         NSError *error = nil;
         NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
-        BOOL copied = [fileManager copyItemAtPath:documentsPath toPath:documentsCopyPath error:&error];
+        copied = [fileManager copyItemAtPath:documentsPath toPath:documentsCopyPath error:&error];
         if(error || !copied){
             [NSException raise:@"Copy GeoPackage" format:@"Failed to copy GeoPackage '%@' at path '%@' to GeoPackage '%@' at path '%@' with error: %@", database, documentsPath, databaseCopy, documentsCopyPath, error];
         }
