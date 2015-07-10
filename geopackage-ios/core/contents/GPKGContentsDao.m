@@ -185,7 +185,7 @@
         if([tileMatrixDao tableExists]){
             GPKGResultSet * tileMatrixResults = [self getTileMatrix:contents];
             while([tileMatrixResults moveToNext]){
-                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[self getObject:tileMatrixResults];
+                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:tileMatrixResults];
                 [tileMatrixDao delete:tileMatrix];
             }
             [tileMatrixResults close];
