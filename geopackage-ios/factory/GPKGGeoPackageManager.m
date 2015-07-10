@@ -63,11 +63,25 @@
     return path;
 }
 
+-(NSString *) documentsPathForDatabase: (NSString *) database{
+    NSString * path = [self pathForDatabase:database];
+    if(path != nil){
+        path = [GPKGIOUtils documentsDirectoryWithSubDirectory:path];
+    }
+    return path;
+}
+
 -(NSString *) requiredPathForDatabase: (NSString *) database{
     NSString * path = [self pathForDatabase:database];
     if(path == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
+    return path;
+}
+
+-(NSString *) requiredDocumentsPathForDatabase: (NSString *) database{
+    NSString * path = [self requiredPathForDatabase:database];
+    path = [GPKGIOUtils documentsDirectoryWithSubDirectory:path];
     return path;
 }
 
@@ -85,8 +99,7 @@
 
 -(int) size: (NSString *) database{
     
-    NSString * filename = [self requiredPathForDatabase:database];
-    NSString * documentsFilename = [GPKGIOUtils documentsDirectoryWithSubDirectory:filename];
+    NSString * documentsFilename = [self requiredDocumentsPathForDatabase:database];
     NSError *error = nil;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:documentsFilename error:&error];
     if(error){
@@ -407,8 +420,7 @@
     }
     
     // Copy the geopackage database to the new file location
-    NSString * dbFile = [self requiredPathForDatabase:database];
-    NSString * documentsDbFile = [GPKGIOUtils documentsDirectoryWithSubDirectory:dbFile];
+    NSString * documentsDbFile = [self requiredDocumentsPathForDatabase:database];
     [GPKGIOUtils copyFile:documentsDbFile toFile:file];
 }
 
@@ -417,8 +429,7 @@
     GPKGGeoPackage * geoPackage = nil;
     
     if([self exists:database]){
-        NSString * path = [self requiredPathForDatabase:database];
-        NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:path];
+        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
     
         NSFileManager * fileManager = [NSFileManager defaultManager];
         

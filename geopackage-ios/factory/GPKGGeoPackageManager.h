@@ -18,6 +18,8 @@
 
 -(NSString *) pathForDatabase: (NSString *) database;
 
+-(NSString *) documentsPathForDatabase: (NSString *) database;
+
 -(BOOL) exists: (NSString *) database;
 
 -(int) size: (NSString *) database;
