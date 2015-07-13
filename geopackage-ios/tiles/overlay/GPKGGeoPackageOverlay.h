@@ -11,6 +11,11 @@
 
 @interface GPKGGeoPackageOverlay : MKTileOverlay
 
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+
+- (MKMapRect)boundingMapRect;
+- (CLLocationCoordinate2D)coordinate;
+
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao;
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height;

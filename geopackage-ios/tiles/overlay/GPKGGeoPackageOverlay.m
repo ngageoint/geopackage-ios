@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSNumber *width;
 @property (nonatomic, strong) NSNumber *height;
 @property (nonatomic, strong) GPKGBoundingBox * setWebMercatorBoundingBox;
+@property (nonatomic) MKMapRect mapRect;
+@property (nonatomic) CLLocationCoordinate2D center;
 
 @end
 
@@ -38,6 +40,11 @@
         GPKGTileMatrixSet * tileMatrixSet = tileDao.tileMatrixSet;
         GPKGBoundingBox * setProjectionBoundingBox = [tileMatrixSet getBoundingBox];
         self.setWebMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:setProjectionBoundingBox];
+        
+        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        GPKGBoundingBox * boundingBox = [transform transformWithBoundingBox:self.setWebMercatorBoundingBox];
+        self.mapRect = [boundingBox getMapRect];
+        self.center = [boundingBox getCenter];
     }
     return self;
 }
@@ -153,6 +160,16 @@
     }
     
     result(tileData, nil);
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+    return self.center;
+}
+
+- (MKMapRect)boundingMapRect
+{
+    return self.mapRect;
 }
 
 @end

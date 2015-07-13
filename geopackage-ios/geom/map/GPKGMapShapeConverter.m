@@ -63,7 +63,7 @@
 
 -(MKMapPoint) toMKMapPointWithPoint: (WKBPoint *) point{
     point = [self toWgs84WithPoint:point];
-    MKMapPoint mapPoint = MKMapPointMake([point.x doubleValue], [point.y doubleValue]);
+    MKMapPoint mapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]));
     return mapPoint;
 }
 
@@ -182,7 +182,7 @@
         NSMutableArray * holes = [[NSMutableArray alloc] initWithCapacity:ringCount-1];
         for(int i = 1; i < ringCount; i++){
             WKBLineString * hole = (WKBLineString *)[rings objectAtIndex:i];
-            int numHolePoints = [[polygonLineString numPoints] intValue];
+            int numHolePoints = [[hole numPoints] intValue];
             MKMapPoint holePoints[numHolePoints];
             for(int j = 0; j < numHolePoints; j++){
                 WKBPoint * point = (WKBPoint *)[hole.points objectAtIndex:j];
@@ -693,12 +693,12 @@
 }
 
 +(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView{
-    [mapView addAnnotation:mapPolyline];
+    [mapView addOverlay:mapPolyline];
     return mapPolyline;
 }
 
 +(MKPolygon *) addMapPolygon: (MKPolygon *) mapPolylgon toMapView: (MKMapView *) mapView{
-    [mapView addAnnotation:mapPolylgon];
+    [mapView addOverlay:mapPolylgon];
     return mapPolylgon;
 }
 

@@ -240,7 +240,8 @@
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withMapPoint: (MKMapPoint) point{
-    [self expandBoundingBox:boundingBox withLatitude:point.y andLongitude:point.x];
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(point);
+    [self expandBoundingBox:boundingBox withLatitude:coord.latitude andLongitude:coord.longitude];
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withMapPoints: (MKMapPoint *) points andCount: (int) count{

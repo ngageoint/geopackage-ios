@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@import MapKit;
 
 @interface GPKGBoundingBox : NSObject
 
@@ -28,5 +29,13 @@
                       andMaxLatitudeDouble: (double) maxLatitude;
 
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox;
+
+-(MKMapRect) getMapRect;
+
+-(MKCoordinateRegion) getCoordinateRegion;
+
+-(MKCoordinateSpan) getSpan;
+
+-(CLLocationCoordinate2D) getCenter;
 
 @end

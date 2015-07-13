@@ -64,4 +64,34 @@
     return true;
 }
 
+-(MKMapRect) getMapRect{
+    MKMapPoint lowerLeft = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]));
+    MKMapPoint upperRight = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]));
+    MKMapRect mapRect = MKMapRectMake(lowerLeft.x, lowerLeft.y, upperRight.x, upperRight.y);
+    return mapRect;
+}
+
+-(MKCoordinateRegion) getCoordinateRegion{
+    MKCoordinateSpan span = [self getSpan];
+    CLLocationCoordinate2D center = [self getCenterWithSpan:span];
+    MKCoordinateRegion coordRegion = MKCoordinateRegionMake(center, span);
+    return coordRegion;
+}
+
+-(MKCoordinateSpan) getSpan{
+    MKCoordinateSpan span = MKCoordinateSpanMake([self.maxLatitude doubleValue] - [self.minLatitude doubleValue], [self.maxLongitude doubleValue] - [self.minLongitude doubleValue]);
+    return span;
+}
+
+-(CLLocationCoordinate2D) getCenter{
+    MKCoordinateSpan span = [self getSpan];
+    CLLocationCoordinate2D center = [self getCenterWithSpan:span];
+    return center;
+}
+
+-(CLLocationCoordinate2D) getCenterWithSpan: (MKCoordinateSpan) span{
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(([self.maxLatitude doubleValue] - span.latitudeDelta / 2), [self.maxLongitude doubleValue] - span.longitudeDelta / 2);
+    return center;
+}
+
 @end
