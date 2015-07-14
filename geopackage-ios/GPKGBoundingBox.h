@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 
+struct GPKGBoundingBoxSize{
+    double width;
+    double height;
+};
+
 @interface GPKGBoundingBox : NSObject
 
 @property (nonatomic, strong) NSDecimalNumber *minLongitude;
@@ -28,6 +33,8 @@
                       andMinLatitudeDouble: (double) minLatitude
                       andMaxLatitudeDouble: (double) maxLatitude;
 
+-(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox;
 
 -(MKMapRect) getMapRect;
@@ -37,5 +44,7 @@
 -(MKCoordinateSpan) getSpan;
 
 -(CLLocationCoordinate2D) getCenter;
+
+-(struct GPKGBoundingBoxSize) sizeInMeters;
 
 @end

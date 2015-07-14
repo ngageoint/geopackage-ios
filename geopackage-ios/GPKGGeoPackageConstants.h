@@ -20,6 +20,7 @@ extern NSString * const GPKG_GEO_PACKAGE_BUNDLE_NAME;
 extern NSString * const GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE;
 extern NSString * const GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES;
 extern NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES;
+extern CGFloat const GPKG_GEO_PACKAGE_EARTH_RADIUS;
 
 @interface GPKGGeoPackageConstants : NSObject
 

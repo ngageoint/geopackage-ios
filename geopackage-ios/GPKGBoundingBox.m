@@ -7,6 +7,7 @@
 //
 
 #import "GPKGBoundingBox.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGBoundingBox
 
@@ -42,6 +43,10 @@
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
 }
 
+-(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self initWithMinLongitude:boundingBox.minLongitude andMaxLongitude:boundingBox.maxLongitude andMinLatitude:boundingBox.minLatitude andMaxLatitude:boundingBox.maxLatitude];
+}
+
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox{
     if(self == boundingBox){
         return true;
@@ -73,7 +78,7 @@
 
 -(MKCoordinateRegion) getCoordinateRegion{
     MKCoordinateSpan span = [self getSpan];
-    CLLocationCoordinate2D center = [self getCenterWithSpan:span];
+    CLLocationCoordinate2D center = [self getCenter];
     MKCoordinateRegion coordRegion = MKCoordinateRegionMake(center, span);
     return coordRegion;
 }
@@ -84,14 +89,26 @@
 }
 
 -(CLLocationCoordinate2D) getCenter{
-    MKCoordinateSpan span = [self getSpan];
-    CLLocationCoordinate2D center = [self getCenterWithSpan:span];
+    CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]);
+    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]);
+    CLLocationCoordinate2D center = [GPKGTileBoundingBoxUtils pointBetweenFromLocation:lowerLeft andToLocation:upperRight];
     return center;
 }
 
--(CLLocationCoordinate2D) getCenterWithSpan: (MKCoordinateSpan) span{
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(([self.maxLatitude doubleValue] - span.latitudeDelta / 2), [self.maxLongitude doubleValue] - span.longitudeDelta / 2);
-    return center;
+-(struct GPKGBoundingBoxSize) sizeInMeters{
+    CLLocation * lowerLeft = [[CLLocation alloc] initWithLatitude:[self.minLatitude doubleValue] longitude:[self.minLongitude doubleValue]];
+    CLLocation * upperLeft = [[CLLocation alloc] initWithLatitude:[self.maxLatitude doubleValue] longitude:[self.minLongitude doubleValue]];
+    CLLocation * lowerRight = [[CLLocation alloc] initWithLatitude:[self.minLatitude doubleValue] longitude:[self.maxLongitude doubleValue]];
+    CLLocation * upperRight = [[CLLocation alloc] initWithLatitude:[self.maxLatitude doubleValue] longitude:[self.maxLongitude doubleValue]];
+    
+    double width = MAX([lowerLeft distanceFromLocation:lowerRight], [upperLeft distanceFromLocation:upperRight]);
+    double height = MAX([lowerLeft distanceFromLocation:upperLeft], [lowerRight distanceFromLocation:upperRight]);
+    
+    struct GPKGBoundingBoxSize size;
+    size.width = width;
+    size.height = height;
+    
+    return size;
 }
 
 @end

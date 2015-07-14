@@ -20,6 +20,7 @@ NSString * const GPKG_GEO_PACKAGE_BUNDLE_NAME = @"GeoPackage.bundle";
 NSString * const GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE = @"plist";
 NSString * const GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES = @"geopackage";
 NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES = @"tables";
+CGFloat const GPKG_GEO_PACKAGE_EARTH_RADIUS = 6372797.6;
 
 @implementation GPKGGeoPackageConstants
 

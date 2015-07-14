@@ -10,6 +10,10 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGGeoPackageConstants.h"
+
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiansToDegrees(x) (x * 180.0 / M_PI)
 
 @implementation GPKGTileBoundingBoxUtils
 
@@ -361,6 +365,53 @@
     int zoom = [self zoomFromTilesPerSide:tilesPerSide];
     
     return zoom;
+}
+
++(CLLocationCoordinate2D) locationWithBearing: (double) bearing andDistance: (double) meters fromLocation: (CLLocationCoordinate2D) location{
+    
+    const double distRadians = meters / GPKG_GEO_PACKAGE_EARTH_RADIUS;
+    
+    double rbearing = degreesToRadians(bearing);
+    
+    float lat1 = degreesToRadians(location.latitude);
+    float lon1 = degreesToRadians(location.longitude);
+    
+    float lat2 = asin( sin(lat1) * cos(distRadians) + cos(lat1) * sin(distRadians) * cos(rbearing));
+    float lon2 = lon1 + atan2( sin(rbearing) * sin(distRadians) * cos(lat1),
+                              cos(distRadians) - sin(lat1) * sin(lat2) );
+    
+    CLLocationCoordinate2D newPoint = CLLocationCoordinate2DMake(radiansToDegrees(lat2), radiansToDegrees(lon2));
+    
+    return newPoint;
+}
+
++(double) bearingFromLocation: (CLLocationCoordinate2D) from andToLocation: (CLLocationCoordinate2D) to{
+    double fromLat = degreesToRadians(from.latitude);
+    double fromLong = degreesToRadians(from.longitude);
+    double toLat = degreesToRadians(to.latitude);
+    double toLong = degreesToRadians(to.longitude);
+    
+    double degree = radiansToDegrees(atan2(sin(toLong-fromLong)*cos(toLat), cos(fromLat)*sin(toLat)-sin(fromLat)*cos(toLat)*cos(toLong-fromLong)));
+    
+    if(degree < 0){
+        degree += 360;
+    }
+    
+    return degree;
+}
+
++(double) distanceBetweenLocation: (CLLocationCoordinate2D) location1 andLocation: (CLLocationCoordinate2D) location2{
+    CLLocation * loc1 = [[CLLocation alloc] initWithLatitude:location1.latitude longitude:location1.longitude];
+    CLLocation * loc2 = [[CLLocation alloc] initWithLatitude:location2.latitude longitude:location2.longitude];
+    double distance = [loc1 distanceFromLocation:loc2];
+    return distance;
+}
+
++(CLLocationCoordinate2D) pointBetweenFromLocation: (CLLocationCoordinate2D) from andToLocation: (CLLocationCoordinate2D) to{
+    double heading = [self bearingFromLocation:from andToLocation:to];
+    double distance = [self distanceBetweenLocation:from andLocation:to];
+    CLLocationCoordinate2D point = [self locationWithBearing:heading andDistance:(distance/2.0) fromLocation:from];
+    return point;
 }
 
 @end
