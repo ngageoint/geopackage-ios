@@ -29,13 +29,17 @@
         
         // For future upgrades, read the application id here and if populated and different, perform metadata database upgrades as needed
         
-        // Set the application id
-        [self.connection setApplicationId:GPKG_METADATA_APPLICATION_ID];
+        GPKGGeoPackageMetadataDao * dao = [self getGeoPackageMetadataDao];
+        if(![dao tableExists]){
         
-        // Create the tables
-        [self createGeoPackageMetadataTable];
-        [self createTableMetadataTable];
-        [self createGeometryMetadataTable];
+            // Set the application id
+            [self.connection setApplicationId:GPKG_METADATA_APPLICATION_ID];
+            
+            // Create the tables
+            [self createGeoPackageMetadataTable];
+            [self createTableMetadataTable];
+            [self createGeometryMetadataTable];
+        }
     }
     return self;
 }
