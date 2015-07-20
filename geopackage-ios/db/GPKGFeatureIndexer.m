@@ -85,6 +85,12 @@
         [db close];
     }
     
+    if(self.progress == nil || [self.progress isActive]){
+        [self.progress completed];
+    }else{
+        [self.progress failureWithError:@"Operation was canceled"];
+    }
+    
     return count;
 }
 
