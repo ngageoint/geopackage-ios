@@ -72,7 +72,9 @@
 -(MKMapRect) getMapRect{
     MKMapPoint lowerLeft = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]));
     MKMapPoint upperRight = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]));
-    MKMapRect mapRect = MKMapRectMake(lowerLeft.x, lowerLeft.y, upperRight.x, upperRight.y);
+    MKMapRect mapRect = MKMapRectNull;
+    mapRect = MKMapRectUnion(mapRect, MKMapRectMake(lowerLeft.x, lowerLeft.y, 0, 0));
+    mapRect= MKMapRectUnion(mapRect, MKMapRectMake(upperRight.x, upperRight.y, 0, 0));
     return mapRect;
 }
 

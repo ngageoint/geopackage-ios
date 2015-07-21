@@ -68,6 +68,14 @@
         return;
     }
     
+    //UIImage *yourimage = [UIImage imageNamed:@"0.png"];
+    //NSData *imgData = UIImageJPEGRepresentation(yourimage, 1.0);
+    //result(imgData, nil);
+    //return;
+    
+    //[self deleteMe:path result:result];
+    //return;
+    
     NSData * tileData = nil;
     
     // Get the bounding box of the requested tile
@@ -159,7 +167,29 @@
         }
     }
     
+    if(tileData == nil){
+        tileData = [[NSData alloc] init];
+    }
     result(tileData, nil);
+}
+
+-(void) deleteMe:(MKTileOverlayPath)path result:(void (^)(NSData *tileData, NSError *error))result{
+    
+    CGSize sz = self.tileSize;
+    CGRect rect = CGRectMake(0, 0, sz.width, sz.height);
+    
+    UIGraphicsBeginImageContext(sz);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [[UIColor blackColor] setStroke];
+    CGContextSetLineWidth(ctx, 1.0);
+    CGContextStrokeRect(ctx, CGRectMake(0, 0, sz.width, sz.height));
+    NSString *text = [NSString stringWithFormat:@"X=%d\nY=%d\nZ=%d",path.x,path.y,path.z];
+    [text drawInRect:rect withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0],
+                                           NSForegroundColorAttributeName:[UIColor blackColor]}];
+    UIImage *tileImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *tileData = UIImagePNGRepresentation(tileImage);
+    result(tileData,nil);
 }
 
 - (CLLocationCoordinate2D)coordinate

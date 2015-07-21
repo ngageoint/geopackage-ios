@@ -24,5 +24,6 @@ Pod::Spec.new do |s|
   s.resources = ['geopackage-ios/**/*.xcdatamodeld']
   s.frameworks = 'Foundation'
   s.dependency 'AFNetworking', '~> 2.5.4'
+  s.dependency 'proj4', '~> 4.8.0'
   s.dependency 'wkb-ios', '~> 0.0.1'
 end

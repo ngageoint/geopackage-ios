@@ -9,6 +9,7 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGUtils.h"
 #import "GPKGProjectionFactory.h"
+#import "GPKGSLocationCoordinate3D.h"
 
 @implementation GPKGProjectionTransform
 
@@ -43,22 +44,95 @@
     return [self initWithFromProjection:fromProjection andToProjection:toProjection];
 }
 
+-(CLLocationCoordinate2D) transform: (CLLocationCoordinate2D) from{
+    GPKGSLocationCoordinate3D * result = [self transform3d:[[GPKGSLocationCoordinate3D alloc] initWithCoordinate:from]];
+    return result.coordinate;
+}
+
+-(GPKGSLocationCoordinate3D *) transform3d: (GPKGSLocationCoordinate3D *) from{
+    
+    CLLocationCoordinate2D to = CLLocationCoordinate2DMake(from.coordinate.latitude, from.coordinate.longitude);
+    
+    if(self.fromProjection.isLatLong){
+        to.latitude *= DEG_TO_RAD;
+        to.longitude *= DEG_TO_RAD;
+    }
+    
+    double zValue = 0;
+    BOOL hasZ = [from hasZ];
+    if(hasZ){
+        zValue = [from.z doubleValue];
+    }
+    
+    int value = pj_transform(self.fromProjection.crs, self.toProjection.crs, 1, 0, &to.longitude, &to.latitude, hasZ ? &zValue : NULL);
+    
+    if(value != 0){
+        [NSException raise:@"Transform Error" format:@"Failed to transform EPSG %@ latitude: %f and longitude: %f to EPSG %@, Error: %d", self.fromProjection.epsg, from.coordinate.latitude, from.coordinate.longitude, self.toProjection.epsg, value];
+    }
+    
+    if(self.toProjection.isLatLong){
+        to.latitude *= RAD_TO_DEG;
+        to.longitude *= RAD_TO_DEG;
+    }
+    
+    NSDecimalNumber * toZ = nil;
+    if(hasZ){
+        toZ = [[NSDecimalNumber alloc] initWithDouble:zValue];
+    }
+    
+    return [[GPKGSLocationCoordinate3D alloc] initWithCoordinate:to andZ:toZ];
+}
+
 -(WKBPoint *) transformWithPoint: (WKBPoint *) from{
-    //TODO
-    return from;
+    
+    CLLocationCoordinate2D fromCoord2d = CLLocationCoordinate2DMake([from.y doubleValue], [from.x doubleValue]);
+    GPKGSLocationCoordinate3D * fromCoord = [[GPKGSLocationCoordinate3D alloc] initWithCoordinate:fromCoord2d];
+    if(from.hasZ){
+        [fromCoord setZ:from.z];
+    }
+    
+    GPKGSLocationCoordinate3D * toCoord = [self transform3d:fromCoord];
+    
+    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:toCoord.coordinate.longitude];
+    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:toCoord.coordinate.latitude];
+    WKBPoint * to = [[WKBPoint alloc] initWithHasZ:from.hasZ andHasM:from.hasM andX:x andY:y];
+    
+    if(from.hasZ){
+        [to setZ:toCoord.z];
+    }
+    if(from.hasM){
+        [to setM:from.m];
+    }
+    
+    return to;
 }
 
 -(GPKGBoundingBox *) transformWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    //TODO
-    return boundingBox;
+    
+    CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([boundingBox.minLatitude doubleValue], [boundingBox.minLongitude doubleValue]);
+    CLLocationCoordinate2D lowerRight = CLLocationCoordinate2DMake([boundingBox.minLatitude doubleValue], [boundingBox.maxLongitude doubleValue]);
+    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake([boundingBox.maxLatitude doubleValue], [boundingBox.maxLongitude doubleValue]);
+    CLLocationCoordinate2D upperLeft = CLLocationCoordinate2DMake([boundingBox.maxLatitude doubleValue], [boundingBox.minLongitude doubleValue]);
+
+    CLLocationCoordinate2D projectedLowerLeft = [self transform:lowerLeft];
+    CLLocationCoordinate2D projectedLowerRight = [self transform:lowerRight];
+    CLLocationCoordinate2D projectedUpperRight = [self transform:upperRight];
+    CLLocationCoordinate2D projectedUpperLeft = [self transform:upperLeft];
+    
+    double minX = MIN(projectedLowerLeft.longitude, projectedUpperLeft.longitude);
+    double maxX = MAX(projectedLowerRight.longitude, projectedUpperRight.longitude);
+    double minY = MIN(projectedLowerLeft.latitude, projectedLowerRight.latitude);
+    double maxY = MAX(projectedUpperLeft.latitude, projectedUpperRight.latitude);
+    
+    GPKGBoundingBox * projectedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minX andMaxLongitudeDouble:maxX andMinLatitudeDouble:minY andMaxLatitudeDouble:maxY];
+    
+    return projectedBoundingBox;
 }
 
 -(NSArray *) transformWithX: (double) x andY: (double) y{
-    //TODO
-    NSMutableArray *coord = [[NSMutableArray alloc] initWithCapacity:2];
-    [GPKGUtils addObject:[NSDecimalNumber numberWithDouble:x] toArray:coord];
-    [GPKGUtils addObject:[NSDecimalNumber numberWithDouble:y] toArray:coord];
-    return coord;
+    CLLocationCoordinate2D fromCoord = CLLocationCoordinate2DMake(y, x);
+    CLLocationCoordinate2D toCoord = [self transform:fromCoord];
+    return [[NSArray alloc] initWithObjects:[NSDecimalNumber numberWithDouble:toCoord.longitude], [NSDecimalNumber numberWithDouble:toCoord.latitude], nil];
 }
 
 @end

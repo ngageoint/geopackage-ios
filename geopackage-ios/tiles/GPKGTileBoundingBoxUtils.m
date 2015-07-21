@@ -411,6 +411,15 @@
     double heading = [self bearingFromLocation:from andToLocation:to];
     double distance = [self distanceBetweenLocation:from andLocation:to];
     CLLocationCoordinate2D point = [self locationWithBearing:heading andDistance:(distance/2.0) fromLocation:from];
+    if(heading == 0 || heading == 360){
+        double longitude = point.longitude;
+        if(longitude <= 0){
+            longitude += 180;
+        }else{
+            longitude -= 180;
+        }
+        point = CLLocationCoordinate2DMake(point.latitude, longitude);
+    }
     return point;
 }
 

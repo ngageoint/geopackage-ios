@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 extern NSString * const GPKG_GEOPACKAGE_EXTENSION;
 extern NSString * const GPKG_GEOPACKAGE_EXTENDED_EXTENSION;

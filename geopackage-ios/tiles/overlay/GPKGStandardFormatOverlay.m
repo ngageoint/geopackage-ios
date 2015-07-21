@@ -41,6 +41,9 @@
         tileData = [tileRow getTileData];
     }
     
+    if(tileData == nil){
+        tileData = [[NSData alloc] init];
+    }
     result(tileData, nil);
 }
 

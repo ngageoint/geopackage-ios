@@ -10,16 +10,23 @@
 
 @implementation GPKGProjection
 
--(instancetype) initWithEpsg: (NSNumber *) epsg{
+-(instancetype) initWithEpsg: (NSNumber *) epsg andCrs: (projPJ) crs andToMeters: (NSDecimalNumber *) toMeters{
     self = [super init];
     if(self != nil){
         self.epsg = epsg;
+        self.crs = crs;
+        self.toMeters = toMeters;
+        self.isLatLong = pj_is_latlong(crs);
     }
     return self;
 }
 
 -(double) toMeters: (double) value{
-    //TODO
+    if(self.toMeters != nil){
+        NSDecimalNumber * valueDecimalNumber = [[NSDecimalNumber alloc] initWithDouble:value];
+        NSDecimalNumber * metersValue = [self.toMeters decimalNumberByMultiplyingBy:valueDecimalNumber];
+        value = [metersValue doubleValue];
+    }
     return value;
 }
 
