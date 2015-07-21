@@ -320,6 +320,7 @@
 		04CCC8521B5E95A70001296D /* GPKGSLocationCoordinate3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGSLocationCoordinate3D.m; sourceTree = "<group>"; };
 		04CCC8541B5EA0220001296D /* GPKGProjectionRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGProjectionRetriever.h; sourceTree = "<group>"; };
 		04CCC8551B5EA0220001296D /* GPKGProjectionRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGProjectionRetriever.m; sourceTree = "<group>"; };
+		04CCC8591B5EF72A0001296D /* projections.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = projections.plist; sourceTree = "<group>"; };
 		04CF0DA41B29F97500021F6D /* GPKGProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGProperties.h; sourceTree = "<group>"; };
 		04CF0DA51B29F97500021F6D /* GPKGProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGProperties.m; sourceTree = "<group>"; };
 		04CF0DA71B29F98500021F6D /* GPKGPropertyConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGPropertyConstants.h; sourceTree = "<group>"; };
@@ -479,6 +480,7 @@
 				04A1D8E31B173FC20006674B /* GPKGUtils.h */,
 				04A1D8E41B173FC20006674B /* GPKGUtils.m */,
 				04CF0DAA1B2A04C500021F6D /* geopackage.plist */,
+				04CCC8591B5EF72A0001296D /* projections.plist */,
 			);
 			path = "geopackage-ios";
 			sourceTree = "<group>";

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const PROJ_PROPERTIES;
 extern int const PROJ_UNDEFINED_CARTESIAN;
 extern int const PROJ_UNDEFINED_GEOGRAPHIC;
 extern int const PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
