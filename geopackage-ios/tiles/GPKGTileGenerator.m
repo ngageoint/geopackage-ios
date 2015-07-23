@@ -59,7 +59,19 @@
     }
 }
 
+-(void) setCompressQualityAsIntPercentage: (int) percentage{
+    CGFloat value = [self getPercentageValueFromInt:percentage];
+    [self setCompressQuality:value];
+}
 
+-(void) setCompressScaleAsIntPercentage: (int) percentage{
+    CGFloat value = [self getPercentageValueFromInt:percentage];
+    [self setCompressScale:value];
+}
+
+-(CGFloat) getPercentageValueFromInt: (int) percentage{
+    return percentage / 100.0;
+}
 
 -(int) getTileCount{
     if(self.tileCount == nil){

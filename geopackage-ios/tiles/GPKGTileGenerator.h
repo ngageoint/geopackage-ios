@@ -24,7 +24,6 @@
 @property (nonatomic) enum GPKGCompressFormat compressFormat;
 @property (nonatomic) CGFloat compressQuality;
 @property (nonatomic, strong)  NSObject<GPKGProgress> * progress;
-@property (nonatomic, strong) NSDecimalNumber * scale;
 @property (nonatomic) BOOL standardWebMercatorFormat;
 @property (nonatomic) CGFloat compressScale;
 @property (nonatomic, strong) GPKGBoundingBox * webMercatorBoundingBox;
@@ -34,6 +33,10 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
 
 -(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+-(void) setCompressQualityAsIntPercentage: (int) percentage;
+
+-(void) setCompressScaleAsIntPercentage: (int) percentage;
 
 -(int) getTileCount;
 
