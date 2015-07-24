@@ -113,6 +113,10 @@
                         // Draw the resulting image with the matching tiles
                         UIGraphicsBeginImageContext(CGSizeMake(tileWidth, tileHeight));
                         CGContextRef context = UIGraphicsGetCurrentContext();
+                        
+                        // Draw from the top left
+                        CGContextTranslateCTM(context, 0, tileHeight);
+                        CGContextScaleCTM(context, 1.0, -1.0);
                     
                         while([tileResults moveToNext]){
                         

@@ -120,7 +120,7 @@
     }else{
         update = true;
         //Query to get the Tile Matrix Set
-        tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForId:self.tableName];
+        tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:self.tableName];
         
         // Update the tile bounds between the existing and this request
         [self updateTileBoundsWithTileMatrixSet:tileMatrixSet];
