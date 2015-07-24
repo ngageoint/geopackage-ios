@@ -163,15 +163,22 @@
             [self.geoPackage deleteUserTableQuietly:self.tableName];
             count = 0;
         } else{
-            // Update teh contents last modified date
+            // Update the contents last modified date
             [contents setLastChange:[NSDate date]];
             GPKGContentsDao * contentsDao = [self.geoPackage getContentsDao];
             [contentsDao update:contents];
         }
+        
+        if(self.progress == nil || [self.progress isActive]){
+            [self.progress completed];
+        }else{
+            [self.progress failureWithError:@"Operation was canceled"];
+        }
     }
     @catch (NSException *e) {
+        NSLog(@"Tile Generator Error: %@", [e description]);
         [self.geoPackage deleteUserTableQuietly:self.tableName];
-        @throw e;
+        [self.progress failureWithError:[e description]];
     }
     
     return count;
@@ -412,7 +419,7 @@
                  }
              }
              @catch (NSException *exception) {
-                 // Skip this tile, don'e increase count
+                 // Skip this tile, don't increase count
              }
              
              // Update the progress count, even on failures
