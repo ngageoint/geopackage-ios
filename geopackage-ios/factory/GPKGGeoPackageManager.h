@@ -42,6 +42,8 @@
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path andOverride: (BOOL) override;
 
+-(BOOL) importGeoPackageFromPath: (NSString *) path andOverride: (BOOL) override andMove: (BOOL) moveFile;
+
 -(BOOL) importGeoPackageFromPath: (NSString *) path inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name andOverride: (BOOL) override;
@@ -49,6 +51,10 @@
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory;
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andMove: (BOOL) moveFile;
+
+-(void) importGeoPackageFromUrl: (NSURL *) url;
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name;
 

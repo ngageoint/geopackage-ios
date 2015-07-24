@@ -232,6 +232,10 @@
     return [self importGeoPackageFromPath:path withName:nil inDirectory:nil andOverride:override];
 }
 
+-(BOOL) importGeoPackageFromPath: (NSString *) path andOverride: (BOOL) override andMove: (BOOL) moveFile{
+    return [self importGeoPackageFromPath:path withName:nil inDirectory:nil andOverride:override andMove:moveFile];
+}
+
 -(BOOL) importGeoPackageFromPath: (NSString *) path inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
     return [self importGeoPackageFromPath:path withName:nil inDirectory:dbDirectory andOverride:override];
 }
@@ -245,6 +249,10 @@
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
+    return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:override andMove:false];
+}
+
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andMove: (BOOL) moveFile{
     
     // Verify the file has the right extension
     [GPKGGeoPackageValidate validateGeoPackageExtension:path];
@@ -259,8 +267,13 @@
     
     BOOL imported = false;
     
-    if(!override && [self exists:name]){
-        [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", name];
+    BOOL exists = [self exists:database];
+    if(exists){
+        if(override){
+            [self delete:database];
+        }else{
+            [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", name];
+        }
     }
     
     NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -272,7 +285,11 @@
         if([fileManager isReadableFileAtPath:documentsDatabasePath]){
             [NSException raise:@"Import GeoPackage File" format:@"Failed to import GeoPackage '%@' at path '%@' to path '%@' because a file already exists with error: %@", database, path, documentsDatabasePath, error];
         }
-        imported = [fileManager copyItemAtPath:path toPath:documentsDatabasePath error:&error];
+        if(moveFile){
+            imported = [fileManager moveItemAtPath:path toPath:documentsDatabasePath error:&error];
+        }else{
+            imported = [fileManager copyItemAtPath:path toPath:documentsDatabasePath error:&error];
+        }
         if(error || !imported){
             [NSException raise:@"Import GeoPackage File" format:@"Failed to import GeoPackage '%@' at path '%@' with error: %@", database, path, error];
         }
@@ -282,6 +299,11 @@
     }
     
     return imported && [self exists:database];
+}
+
+-(void) importGeoPackageFromUrl: (NSURL *) url{
+    NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name{
