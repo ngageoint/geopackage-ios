@@ -408,17 +408,15 @@
 }
 
 +(CLLocationCoordinate2D) pointBetweenFromLocation: (CLLocationCoordinate2D) from andToLocation: (CLLocationCoordinate2D) to{
-    double heading = [self bearingFromLocation:from andToLocation:to];
+    
+    CLLocationCoordinate2D point;
+    
     double distance = [self distanceBetweenLocation:from andLocation:to];
-    CLLocationCoordinate2D point = [self locationWithBearing:heading andDistance:(distance/2.0) fromLocation:from];
-    if(heading == 0 || heading == 360){
-        double longitude = point.longitude;
-        if(longitude <= 0){
-            longitude += 180;
-        }else{
-            longitude -= 180;
-        }
-        point = CLLocationCoordinate2DMake(point.latitude, longitude);
+    if(distance == 0){
+        point = CLLocationCoordinate2DMake(from.latitude, from.longitude);
+    }else{
+        double heading = [self bearingFromLocation:from andToLocation:to];
+        point = [self locationWithBearing:heading andDistance:(distance/2.0) fromLocation:from];
     }
     return point;
 }

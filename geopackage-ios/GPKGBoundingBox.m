@@ -91,9 +91,14 @@
 }
 
 -(CLLocationCoordinate2D) getCenter{
-    CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]);
-    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]);
+    double minLongitude = [self.minLongitude doubleValue];
+    double maxLongitude = [self.maxLongitude doubleValue];
+    CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([self.minLatitude doubleValue], minLongitude);
+    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake([self.maxLatitude doubleValue], maxLongitude);
     CLLocationCoordinate2D center = [GPKGTileBoundingBoxUtils pointBetweenFromLocation:lowerLeft andToLocation:upperRight];
+    if(minLongitude + 360.0 == maxLongitude){
+        center = CLLocationCoordinate2DMake(center.latitude, maxLongitude - 180.0);
+    }
     return center;
 }
 
