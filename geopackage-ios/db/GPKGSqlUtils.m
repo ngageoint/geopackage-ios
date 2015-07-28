@@ -222,7 +222,11 @@
             [updateStatement appendString:@","];
         }
         [updateStatement appendString:colName];
-        [args addObject:[values getValueForKey:colName]];
+        NSObject * value = [values getValueForKey:colName];
+        if(value == nil){
+            value = [[NSNull alloc] init];
+        }
+        [args addObject:value];
         i++;
         [updateStatement appendString:@"=?"];
     }
