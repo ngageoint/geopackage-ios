@@ -7,20 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-@import CoreGraphics;
+#import <UIKit/UIKit.h>
 
 @interface GPKGFeatureTilePointIcon : NSObject
 
 @property (nonatomic) double xOffset;
 @property (nonatomic) double yOffset;
 
--(instancetype) initWithIcon: (CGImageRef) icon;
+-(instancetype) initWithIcon: (UIImage *) icon;
 
 -(void) pinIcon;
 
 -(void) centerIcon;
 
--(CGImageRef) getIcon;
+-(UIImage *) getIcon;
 
 -(int) getWidth;
 

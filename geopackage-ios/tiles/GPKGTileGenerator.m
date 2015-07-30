@@ -50,13 +50,7 @@
 }
 
 -(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox{
-    self.boundingBox = boundingBox;
-    if([self.boundingBox.minLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
-        [self.boundingBox setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];
-    }
-    if([self.boundingBox.maxLatitude doubleValue] > PROJ_WEB_MERCATOR_MAX_LAT_RANGE){
-        [self.boundingBox setMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE]];
-    }
+    self.boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
 }
 
 -(void) setCompressQualityAsIntPercentage: (int) percentage{

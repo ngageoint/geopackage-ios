@@ -59,7 +59,7 @@
         self.widthOverlap = [self.pointIcon getWidth];
     }else{
         self.heightOverlap = self.pointRadius;
-        self.widthOverlap = self.widthOverlap;
+        self.widthOverlap = self.pointRadius;
     }
     
     double lineHalfStroke = self.lineStrokeWidth / 2.0;
@@ -282,15 +282,15 @@
 
 -(void) drawLinePath: (CGMutablePathRef) path andContext: (CGContextRef) context{
     CGContextSetLineWidth(context, self.lineStrokeWidth);
-    CGContextSetStrokeColorWithColor(context, self.lineColor);
+    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
     CGContextAddPath(context, path);
     CGContextDrawPath(context, kCGPathStroke);
 }
 
 -(void) drawPolygonPath: (CGMutablePathRef) path andContext: (CGContextRef) context{
     CGContextSetLineWidth(context, self.polygonStrokeWidth);
-    CGContextSetStrokeColorWithColor(context, self.polygonColor);
-    CGContextSetFillColorWithColor(context, self.polygonFillColor);
+    CGContextSetStrokeColorWithColor(context, self.polygonColor.CGColor);
+    CGContextSetFillColorWithColor(context, self.polygonFillColor.CGColor);
     CGContextAddPath(context, path);
     CGPathDrawingMode mode;
     if(self.fillPolygon){
@@ -351,24 +351,23 @@
     double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[wkbPoint.y doubleValue]];
     
     if(self.pointIcon != nil){
+        
         int width = [self.pointIcon getWidth];
         int height = [self.pointIcon getHeight];
         if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
             CGRect rect = CGRectMake(x - self.pointIcon.xOffset, y - self.pointIcon.yOffset, width, height);
-            CGContextDrawImage(context, rect, self.pointIcon.getIcon);
+            [self.pointIcon.getIcon drawInRect:rect];
         }
     
     }else{
         if(x >= 0 - self.pointRadius && x <= self.tileWidth + self.pointRadius && y >= 0 - self.pointRadius && y <= self.tileHeight + self.pointRadius){
-            // setup the circle size
-            CGRect circleRect = CGRectMake( 0, 0, self.pointRadius, self.pointRadius );
-            circleRect = CGRectInset(circleRect, x, y);
+            
+            double pointDiameter = self.pointRadius * 2;
+            CGRect circleRect = CGRectMake(x - self.pointRadius, y - self.pointRadius, pointDiameter, pointDiameter);
         
             // Draw the Circle
-            CGContextSetStrokeColorWithColor(context, self.pointColor);
-            CGContextSetFillColorWithColor(context, self.pointColor);
+            CGContextSetFillColorWithColor(context, self.pointColor.CGColor);
             CGContextFillEllipseInRect(context, circleRect);
-            CGContextStrokeEllipseInRect(context, circleRect);
         }
     }
 }

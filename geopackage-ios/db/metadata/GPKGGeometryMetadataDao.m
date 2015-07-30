@@ -312,15 +312,38 @@
     [where appendString:@" and "];
     [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_TABLE_NAME andValue:tableName]];
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.minX andOperation:@"<="]];
+    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] == NSOrderedAscending;
+    if(minXLessThanMaxX){
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" and "];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+    }else{
+        [where appendString:@"("];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" or "];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@")"];
+    }
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.maxX andOperation:@">="]];
+    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Y andValue:envelope.maxY andOperation:@"<="]];
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Y andValue:envelope.minY andOperation:@"<="]];
-    [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Y andValue:envelope.maxY andOperation:@">="]];
+    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Y andValue:envelope.minY andOperation:@">="]];
     
-    NSMutableArray * whereArgs = [[NSMutableArray alloc] initWithObjects:geoPackageId, tableName, envelope.maxX, envelope.minX, envelope.maxY, envelope.minY, nil];
+    NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+    [whereArgs addObject:geoPackageId];
+    [whereArgs addObject:tableName];
+    [whereArgs addObject:envelope.maxX];
+    [whereArgs addObject:envelope.minX];
+    if(!minXLessThanMaxX){
+        [whereArgs addObject:envelope.minX];
+        [whereArgs addObject:envelope.maxX];
+    }
+    [whereArgs addObject:envelope.maxY];
+    [whereArgs addObject:envelope.minY];
     
     if(envelope.hasZ){
         [where appendString:@" and "];

@@ -31,7 +31,8 @@ static NSUInteger idCounter = 0;
 }
 
 - (id)initWithMKMapPoint: (MKMapPoint) point {
-    return [self initWithLatitude:point.y andLongitude:point.x];
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(point);
+    return [self initWithLocation:coord];
 }
 
 @end

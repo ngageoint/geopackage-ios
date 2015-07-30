@@ -10,7 +10,7 @@
 
 @interface GPKGFeatureTilePointIcon ()
 
-@property (nonatomic) CGImageRef icon;
+@property (nonatomic) UIImage * icon;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
 
@@ -18,12 +18,12 @@
 
 @implementation GPKGFeatureTilePointIcon
 
--(instancetype) initWithIcon: (CGImageRef) icon{
+-(instancetype) initWithIcon: (UIImage *) icon{
     self = [super init];
     if(self != nil){
         self.icon = icon;
-        self.width = (int) CGImageGetWidth(icon);
-        self.height = (int) CGImageGetHeight(icon);
+        self.width = icon.size.width;
+        self.height = icon.size.height;
     }
     return self;
 }
@@ -38,7 +38,7 @@
     self.yOffset = self.height / 2.0;
 }
 
--(CGImageRef) getIcon{
+-(UIImage *) getIcon{
     return self.icon;
 }
 

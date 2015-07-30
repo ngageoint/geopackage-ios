@@ -79,7 +79,7 @@
 	<key>geopackage.feature_tiles.compress_format</key>
 	<string>PNG</string>
 	<key>geopackage.feature_tiles.point_radius</key>
-	<string>2.0</string>
+	<string>4.0</string>
 	<key>geopackage.feature_tiles.line_stroke_width</key>
 	<string>2.0</string>
 	<key>geopackage.feature_tiles.polygon_stroke_width</key>

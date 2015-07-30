@@ -110,7 +110,7 @@
             }
         }
         
-        // Create teh new index row
+        // Create the new index row
         if(envelope != nil){
             GPKGGeometryMetadata * metadata = [geomDao populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row getId] andEnvelope:envelope];
             if(possibleUpdate){
