@@ -69,6 +69,7 @@ NSString * const GPKG_MST_COLLECTION_NAME = @"COLLECTION";
     enum GPKGMapShapeType value = -1;
     
     if(name != nil){
+        name = [name uppercaseString];
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_MST_POINT], GPKG_MST_POINT_NAME,
                                [NSNumber numberWithInteger:GPKG_MST_POLYLINE], GPKG_MST_POLYLINE_NAME,

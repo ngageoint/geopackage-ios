@@ -81,6 +81,7 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
     enum GPKGDataType value = -1;
     
     if(name != nil){
+        name = [name uppercaseString];
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_DT_BOOLEAN], GPKG_DT_BOOLEAN_NAME,
                                [NSNumber numberWithInteger:GPKG_DT_TINYINT], GPKG_DT_TINYINT_NAME,
