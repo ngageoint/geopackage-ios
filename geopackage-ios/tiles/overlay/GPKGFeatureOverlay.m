@@ -74,4 +74,14 @@
     return withinBounds;
 }
 
+-(void) setMinZoom:(NSNumber *)minZoom{
+    _minZoom = minZoom;
+    [self setMinimumZ:minZoom != nil ? [minZoom intValue] : 0];
+}
+
+-(void) setMaxZoom:(NSNumber *)maxZoom{
+    _maxZoom = maxZoom;
+    [self setMaximumZ:maxZoom != nil ? [maxZoom intValue] : 21];
+}
+
 @end

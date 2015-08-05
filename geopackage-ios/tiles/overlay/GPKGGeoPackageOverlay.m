@@ -45,6 +45,9 @@
         GPKGBoundingBox * boundingBox = [transform transformWithBoundingBox:self.setWebMercatorBoundingBox];
         self.mapRect = [boundingBox getMapRect];
         self.center = [boundingBox getCenter];
+        
+        //[self setMinimumZ:tileDao.minZoom];
+        //[self setMaximumZ:tileDao.maxZoom];
     }
     return self;
 }

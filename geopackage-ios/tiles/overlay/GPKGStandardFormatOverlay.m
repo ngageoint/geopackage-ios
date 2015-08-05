@@ -20,6 +20,9 @@
     self = [super initWithURLTemplate:nil];
     if(self != nil){
         self.tileDao = tileDao;
+        
+        [self setMinimumZ:tileDao.minZoom];
+        [self setMaximumZ:tileDao.maxZoom];
     }
     return self;
 }
