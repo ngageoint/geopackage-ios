@@ -83,6 +83,8 @@
     // Convert the image to bytes
     NSData * tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat];
     
+    CGImageRelease(image.CGImage);
+    
     return tileData;
 }
 
@@ -285,6 +287,7 @@
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
     CGContextAddPath(context, path);
     CGContextDrawPath(context, kCGPathStroke);
+    CGPathRelease(path);
 }
 
 -(void) drawPolygonPath: (CGMutablePathRef) path andContext: (CGContextRef) context{
@@ -299,6 +302,7 @@
         mode = kCGPathStroke;
     }
     CGContextDrawPath(context, mode);
+    CGPathRelease(path);
 }
 
 -(void) addPolyline: (MKPolyline *) polyline toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{

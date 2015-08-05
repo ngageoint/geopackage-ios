@@ -411,6 +411,10 @@
                          tileHeight = [NSNumber numberWithInt:image.size.height];
                      }
                  }
+                 
+                 if(image != nil){
+                     CGImageRelease(image.CGImage);
+                 }
              }
              @catch (NSException *exception) {
                  // Skip this tile, don't increase count
