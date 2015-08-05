@@ -83,8 +83,6 @@
     // Convert the image to bytes
     NSData * tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat];
     
-    CGImageRelease(image.CGImage);
-    
     return tileData;
 }
 

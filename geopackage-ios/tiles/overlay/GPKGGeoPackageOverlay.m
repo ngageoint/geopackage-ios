@@ -147,14 +147,11 @@
                                 CGSize scaledSize = CGSizeMake(scaledTileWidth, scaledTileHeight);
                                 UIGraphicsBeginImageContext(scaledSize);
                                 [tileImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-                                UIImage * scaledTileImage = UIGraphicsGetImageFromCurrentImageContext();
+                                tileImage = UIGraphicsGetImageFromCurrentImageContext();
                                 UIGraphicsEndImageContext();
-                                CGImageRelease(tileImage.CGImage);
-                                tileImage = scaledTileImage;
                             }
                             
                             tileData = [GPKGImageConverter toData:tileImage andFormat:GPKG_CF_PNG];
-                            CGImageRelease(tileImage.CGImage);
                         }
                     }
                     
