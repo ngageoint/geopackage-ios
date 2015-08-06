@@ -103,16 +103,20 @@
 }
 
 -(struct GPKGBoundingBoxSize) sizeInMeters{
-    CLLocation * lowerLeft = [[CLLocation alloc] initWithLatitude:[self.minLatitude doubleValue] longitude:[self.minLongitude doubleValue]];
-    CLLocation * upperLeft = [[CLLocation alloc] initWithLatitude:[self.maxLatitude doubleValue] longitude:[self.minLongitude doubleValue]];
-    CLLocation * lowerRight = [[CLLocation alloc] initWithLatitude:[self.minLatitude doubleValue] longitude:[self.maxLongitude doubleValue]];
-    CLLocation * upperRight = [[CLLocation alloc] initWithLatitude:[self.maxLatitude doubleValue] longitude:[self.maxLongitude doubleValue]];
     
-    double width = MAX([lowerLeft distanceFromLocation:lowerRight], [upperLeft distanceFromLocation:upperRight]);
-    double height = MAX([lowerLeft distanceFromLocation:upperLeft], [lowerRight distanceFromLocation:upperRight]);
+    CLLocationCoordinate2D center = [self getCenter];
+    
+    CLLocationCoordinate2D left = CLLocationCoordinate2DMake(center.latitude, [self.minLongitude doubleValue]);
+    CLLocationCoordinate2D right = CLLocationCoordinate2DMake(center.latitude, [self.maxLongitude doubleValue]);
+    double width1 = [GPKGTileBoundingBoxUtils distanceBetweenLocation:left andLocation:center];
+    double width2 = [GPKGTileBoundingBoxUtils distanceBetweenLocation:center andLocation:right];
+    
+    CLLocationCoordinate2D upper = CLLocationCoordinate2DMake([self.maxLatitude doubleValue], center.longitude);
+    CLLocationCoordinate2D lower = CLLocationCoordinate2DMake([self.minLatitude doubleValue], center.longitude);
+    double height = [GPKGTileBoundingBoxUtils distanceBetweenLocation:lower andLocation:upper];
     
     struct GPKGBoundingBoxSize size;
-    size.width = width;
+    size.width = width1 + width2;
     size.height = height;
     
     return size;
