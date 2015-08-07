@@ -1,6 +1,6 @@
-
+.DS_Store
+*.xcworkspace
 Podfile.lock
 Pods
-geopackage-ios.xcworkspace
-.DS_Store
-
+xcuserdata/
+*.swp

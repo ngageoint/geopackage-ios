@@ -348,8 +348,8 @@
     [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
         if(progress != nil){
             if([progress isActive]){
-                [progress setMax:totalBytesExpectedToRead];
-                [progress addProgress:bytesRead];
+                [progress setMax:(int)totalBytesExpectedToRead];
+                [progress addProgress:(int)bytesRead];
             }else{
                 [operation cancel];
             }
