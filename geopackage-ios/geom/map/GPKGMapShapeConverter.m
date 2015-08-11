@@ -84,8 +84,9 @@
 }
 
 -(WKBPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
-    double y = mapPoint.y;
-    double x = mapPoint.x;
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
+    double y = coord.latitude;
+    double x = coord.longitude;
     WKBPoint * point = [[WKBPoint alloc] initWithHasZ:hasZ andHasM:hasM andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
     point = [self toProjectionWithPoint:point];
     return point;
