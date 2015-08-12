@@ -15,6 +15,9 @@
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title, *subtitle;
 @property (nonatomic) NSUInteger id;
+@property (nonatomic) MKPinAnnotationColor pinColor;
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic) CGPoint imageCenterOffset;
 
 - (id)initWithLocation:(CLLocationCoordinate2D)coord;
 
@@ -23,5 +26,11 @@
 - (id)initWithPoint: (WKBPoint *) point;
 
 - (id)initWithMKMapPoint: (MKMapPoint) point;
+
+-(void) setImage:(UIImage *)image;
+
+-(void) pinImage;
+
+-(void) centerImage;
 
 @end

@@ -17,6 +17,7 @@ static NSUInteger idCounter = 0;
     if (self) {
         self.coordinate = coord;
         self.id = idCounter++;
+        self.pinColor = MKPinAnnotationColorPurple;
     }
     return self;
 }
@@ -33,6 +34,19 @@ static NSUInteger idCounter = 0;
 - (id)initWithMKMapPoint: (MKMapPoint) point {
     CLLocationCoordinate2D coord = MKCoordinateForMapPoint(point);
     return [self initWithLocation:coord];
+}
+
+-(void) setImage:(UIImage *)image{
+    _image = image;
+    [self pinImage];
+}
+
+-(void) pinImage{
+    self.imageCenterOffset = CGPointMake(0, -self.image.size.height / 2);
+}
+
+-(void) centerImage{
+    self.imageCenterOffset = CGPointMake(0, 0);
 }
 
 @end
