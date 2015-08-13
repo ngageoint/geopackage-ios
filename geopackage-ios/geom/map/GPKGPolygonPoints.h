@@ -9,22 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "GPKGShapePoints.h"
 #import "GPKGShapeWithChildrenPoints.h"
-#import "GPKGMapShapeConverter.h"
 @import MapKit;
 #import "GPKGPolygonHolePoints.h"
 #import "GPKGMapPoint.h"
 
-@class GPKGMapShapeConverter;
 @class GPKGPolygonHolePoints;
 
 @interface GPKGPolygonPoints : NSObject <GPKGShapePoints, GPKGShapeWithChildrenPoints>
 
-@property (nonatomic, strong) GPKGMapShapeConverter *converter;
 @property (nonatomic, strong) MKPolygon *polygon;
 @property (nonatomic, strong) NSMutableArray *points;
 @property (nonatomic, strong) NSMutableArray *holes;
 
--(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter;
+-(instancetype) init;
 
 -(void) addPoint: (GPKGMapPoint *) point;
 

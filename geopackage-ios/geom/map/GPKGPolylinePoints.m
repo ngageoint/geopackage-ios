@@ -9,13 +9,13 @@
 #import "GPKGPolylinePoints.h"
 #import "GPKGUtils.h"
 #import "GPKGMapShapePoints.h"
+#import "GPKGMapShapeConverter.h"
 
 @implementation GPKGPolylinePoints
 
--(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter{
+-(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.converter = converter;
         self.points = [[NSMutableArray alloc] init];
     }
     return self;
@@ -33,7 +33,7 @@
             
             [mapView removeAnnotation:self.polyline];
             
-            CLLocationCoordinate2D * points = [self.converter getLocationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             self.polyline = [MKPolyline polylineWithCoordinates:points count:[self.points count]];
         }
     }

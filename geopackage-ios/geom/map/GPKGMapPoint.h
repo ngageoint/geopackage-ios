@@ -18,6 +18,7 @@
 @property (nonatomic) MKPinAnnotationColor pinColor;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) CGPoint imageCenterOffset;
+@property (nonatomic) BOOL draggable;
 
 - (id)initWithLocation:(CLLocationCoordinate2D)coord;
 
@@ -27,10 +28,10 @@
 
 - (id)initWithMKMapPoint: (MKMapPoint) point;
 
--(void) setImage:(UIImage *)image;
-
 -(void) pinImage;
 
 -(void) centerImage;
+
+-(NSNumber *) getIdAsNumber;
 
 @end

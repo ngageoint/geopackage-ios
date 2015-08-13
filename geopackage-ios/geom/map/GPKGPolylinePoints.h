@@ -8,19 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGShapePoints.h"
-#import "GPKGMapShapeConverter.h"
 @import MapKit;
 #import "GPKGMapPoint.h"
 
-@class GPKGMapShapeConverter;
-
 @interface GPKGPolylinePoints : NSObject <GPKGShapePoints>
 
-@property (nonatomic, strong) GPKGMapShapeConverter *converter;
 @property (nonatomic, strong) MKPolyline *polyline;
 @property (nonatomic, strong) NSMutableArray *points;
 
--(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter;
+-(instancetype) init;
 
 -(void) addPoint: (GPKGMapPoint *) point;
 

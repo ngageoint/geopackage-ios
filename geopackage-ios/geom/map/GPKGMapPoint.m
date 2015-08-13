@@ -36,17 +36,18 @@ static NSUInteger idCounter = 0;
     return [self initWithLocation:coord];
 }
 
--(void) setImage:(UIImage *)image{
-    _image = image;
-    [self pinImage];
-}
-
 -(void) pinImage{
-    self.imageCenterOffset = CGPointMake(0, -self.image.size.height / 2);
+    if(self.image != nil){
+        self.imageCenterOffset = CGPointMake(0, -self.image.size.height / 2);
+    }
 }
 
 -(void) centerImage{
     self.imageCenterOffset = CGPointMake(0, 0);
+}
+
+-(NSNumber *) getIdAsNumber{
+    return [NSNumber numberWithInteger:self.id];
 }
 
 @end

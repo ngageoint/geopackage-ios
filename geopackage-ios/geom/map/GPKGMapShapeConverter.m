@@ -824,7 +824,7 @@
 
 -(GPKGPolylinePoints *) addMapPolyline: (MKPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView{
     
-    GPKGPolylinePoints * polylinePoints = [[GPKGPolylinePoints alloc] initWithConverter:self];
+    GPKGPolylinePoints * polylinePoints = [[GPKGPolylinePoints alloc] init];
     
     MKPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
     [polylinePoints setPolyline:polyline];
@@ -837,7 +837,7 @@
 
 -(GPKGPolygonPoints *) addMapPolygon: (MKPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints{
     
-    GPKGPolygonPoints * polygonPoints = [[GPKGPolygonPoints alloc] initWithConverter:self];
+    GPKGPolygonPoints * polygonPoints = [[GPKGPolygonPoints alloc] init];
     
     MKPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
     [polygonPoints setPolygon:polygon];
@@ -878,11 +878,20 @@
     return multiPolygonPoints;
 }
 
--(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points{
++(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points{
     CLLocationCoordinate2D *coordinates = calloc([points count], sizeof(CLLocationCoordinate2D));
     int index = 0;
     for(GPKGMapPoint * point in points){
         coordinates[index++] = point.coordinate;
+    }
+    return coordinates;
+}
+
++(CLLocationCoordinate2D *) getLocationCoordinatesFromLocations: (NSArray *) locations{
+    CLLocationCoordinate2D *coordinates = calloc([locations count], sizeof(CLLocationCoordinate2D));
+    int index = 0;
+    for(CLLocation * location in locations){
+        coordinates[index++] = location.coordinate;
     }
     return coordinates;
 }

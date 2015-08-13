@@ -193,7 +193,9 @@
 
 -(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints;
 
--(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points;
++(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points;
+
++(CLLocationCoordinate2D *) getLocationCoordinatesFromLocations: (NSArray *) locations;
 
 -(WKBGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
 

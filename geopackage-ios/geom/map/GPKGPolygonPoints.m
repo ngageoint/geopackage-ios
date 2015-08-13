@@ -9,13 +9,13 @@
 #import "GPKGPolygonPoints.h"
 #import "GPKGUtils.h"
 #import "GPKGMapShapePoints.h"
+#import "GPKGMapShapeConverter.h"
 
 @implementation GPKGPolygonPoints
 
--(instancetype) initWithConverter: (GPKGMapShapeConverter *) converter{
+-(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.converter = converter;
         self.points = [[NSMutableArray alloc] init];
         self.holes = [[NSMutableArray alloc] init];
     }
@@ -38,12 +38,12 @@
             
             [mapView removeAnnotation:self.polygon];
             
-            CLLocationCoordinate2D * points = [self.converter getLocationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             
             NSMutableArray * holePolygons = [[NSMutableArray alloc] init];
             for(GPKGPolygonHolePoints * hole in self.holes){
                 if(![hole isDeleted]){
-                    CLLocationCoordinate2D * holePoints = [self.converter getLocationCoordinatesFromPoints: [hole getPoints]];
+                    CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: [hole getPoints]];
                     MKPolygon * holePolygon = [MKPolygon polygonWithCoordinates:holePoints count:[[hole getPoints] count]];
                     [GPKGUtils addObject:holePolygon toArray:holePolygons];
                 }
