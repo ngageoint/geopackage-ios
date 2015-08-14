@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) CGPoint imageCenterOffset;
 @property (nonatomic) BOOL draggable;
+@property (nonatomic, strong) NSObject * data;
 
 - (id)initWithLocation:(CLLocationCoordinate2D)coord;
 
