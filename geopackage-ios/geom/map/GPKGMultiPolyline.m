@@ -24,7 +24,7 @@
 }
 
 -(void) removeFromMapView: (MKMapView *) mapView{
-    [mapView removeAnnotations:self.polylines];
+    [mapView removeOverlays:self.polylines];
 }
 
 @end

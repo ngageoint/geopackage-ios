@@ -36,7 +36,7 @@
             [self removeFromMapView:mapView];
         }else{
             
-            [mapView removeAnnotation:self.polygon];
+            [mapView removeOverlay:self.polygon];
             
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             
@@ -50,13 +50,15 @@
             }
             
             self.polygon = [MKPolygon polygonWithCoordinates:points count:[self.points count] interiorPolygons:holePolygons];
+            
+            [mapView addOverlay:self.polygon];
         }
     }
 }
 
 -(void) removeFromMapView: (MKMapView *) mapView{
     if(self.polygon != nil){
-        [mapView removeAnnotation:self.polygon];
+        [mapView removeOverlay:self.polygon];
         self.polygon = nil;
     }
     [mapView removeAnnotations:self.points];

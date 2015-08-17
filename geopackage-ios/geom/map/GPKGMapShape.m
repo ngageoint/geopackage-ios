@@ -35,10 +35,10 @@
             [mapView removeAnnotation:(GPKGMapPoint *)self.shape];
             break;
         case GPKG_MST_POLYGON:
-            [mapView removeAnnotation:(MKPolygon *)self.shape];
+            [mapView removeOverlay:(MKPolygon *)self.shape];
             break;
         case GPKG_MST_POLYLINE:
-            [mapView removeAnnotation:(MKPolyline *)self.shape];
+            [mapView removeOverlay:(MKPolyline *)self.shape];
             break;
         case GPKG_MST_MULTI_POINT:
             [(GPKGMultiPoint *)self.shape removeFromMapView:mapView];

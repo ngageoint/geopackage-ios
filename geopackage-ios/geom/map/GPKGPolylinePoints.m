@@ -31,17 +31,19 @@
             [self removeFromMapView:mapView];
         }else{
             
-            [mapView removeAnnotation:self.polyline];
+            [mapView removeOverlay:self.polyline];
             
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             self.polyline = [MKPolyline polylineWithCoordinates:points count:[self.points count]];
+            
+            [mapView addOverlay:self.polyline];
         }
     }
 }
 
 -(void) removeFromMapView: (MKMapView *) mapView{
     if(self.polyline != nil){
-        [mapView removeAnnotation:self.polyline];
+        [mapView removeOverlay:self.polyline];
         self.polyline = nil;
     }
     [mapView removeAnnotations:self.points];

@@ -24,7 +24,7 @@
 }
 
 -(void) removeFromMapView: (MKMapView *) mapView{
-    [mapView removeAnnotations:self.polygons];
+    [mapView removeOverlays:self.polygons];
 }
 
 @end
