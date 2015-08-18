@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGMapPointInitializer.h"
 @import MapKit;
 
 @interface GPKGMapPointOptions : NSObject
@@ -15,6 +16,7 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) CGPoint imageCenterOffset;
 @property (nonatomic) BOOL draggable;
+@property (nonatomic, strong) NSObject<GPKGMapPointInitializer> * initializer;
 
 - (id)init;
 

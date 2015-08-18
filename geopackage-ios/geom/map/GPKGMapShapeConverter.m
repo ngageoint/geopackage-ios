@@ -684,16 +684,23 @@
 }
 
 +(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView{
+    return [self addMapPoint:mapPoint toMapView:mapView withPointOptions:nil];
+}
+
++(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
+    if(pointOptions != nil){
+        mapPoint.options = pointOptions;
+        if(pointOptions.initializer != nil){
+            [pointOptions.initializer initializeAnnotation:mapPoint];
+        }
+    }
     [mapView addAnnotation:mapPoint];
     return mapPoint;
 }
 
 +(GPKGMapPoint *) addMKMapPoint: (MKMapPoint) mkMapPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
     GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
-    if(pointOptions != nil){
-        mapPoint.options = pointOptions;
-    }
-    return [self addMapPoint:mapPoint toMapView:mapView];
+    return [self addMapPoint:mapPoint toMapView:mapView withPointOptions:pointOptions];
 }
 
 +(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView{
@@ -707,8 +714,12 @@
 }
 
 +(GPKGMultiPoint *) addMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint toMapView: (MKMapView *) mapView{
+    return [self addMapMultiPoint:mapMultiPoint toMapView:mapView withPointOptions:nil];
+}
+
++(GPKGMultiPoint *) addMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
     for(GPKGMapPoint * point in mapMultiPoint.points){
-        [self addMapPoint:point toMapView:mapView];
+        [self addMapPoint:point toMapView:mapView withPointOptions:pointOptions];
     }
     return mapMultiPoint;
 }
@@ -749,10 +760,7 @@
         case GPKG_MST_POINT:
             {
                 GPKGMapPoint * point = (GPKGMapPoint *) mapShape.shape;
-                if(pointOptions != nil){
-                    point.options = pointOptions;
-                }
-                GPKGMapPoint * mapPoint = [GPKGMapShapeConverter addMapPoint:point toMapView:mapView];
+                GPKGMapPoint * mapPoint = [GPKGMapShapeConverter addMapPoint:point toMapView:mapView withPointOptions:pointOptions];
                 [shapePoints addPoint:mapPoint];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POINT andShape:mapPoint];
             }
@@ -773,7 +781,7 @@
             break;
         case GPKG_MST_MULTI_POINT:
             {
-                GPKGMultiPoint * multiPoint = [GPKGMapShapeConverter addMapMultiPoint:(GPKGMultiPoint *) mapShape.shape toMapView:mapView];
+                GPKGMultiPoint * multiPoint = [GPKGMapShapeConverter addMapMultiPoint:(GPKGMultiPoint *) mapShape.shape toMapView:mapView withPointOptions:pointOptions];
                 [shapePoints addShapePoints:multiPoint];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POINT andShape:multiPoint];
             }
