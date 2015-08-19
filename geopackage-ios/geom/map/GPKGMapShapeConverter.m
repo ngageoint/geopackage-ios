@@ -73,7 +73,7 @@
 
 -(WKBPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     double y = mapPoint.coordinate.latitude;
-    double x = mapPoint.coordinate.latitude;
+    double x = mapPoint.coordinate.longitude;
     WKBPoint * point = [[WKBPoint alloc] initWithHasZ:hasZ andHasM:hasM andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
     point = [self toProjectionWithPoint:point];
     return point;

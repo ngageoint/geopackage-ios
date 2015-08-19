@@ -70,7 +70,7 @@
         NSObject<GPKGShapePoints> * shapePoints = [self getShapePointsForPoint:point];
         [self.shapePoints removeObjectForKey:[NSNumber numberWithInteger:point.id]];
         if(shapePoints != nil){
-            [shapePoints delete:point];
+            [shapePoints deletePoint:point fromMapView:mapView];
         }
         [mapView removeAnnotation:point];
     }
