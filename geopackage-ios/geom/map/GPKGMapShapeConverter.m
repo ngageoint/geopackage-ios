@@ -435,7 +435,7 @@
 
 -(WKBMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    WKBMultiPolygon * multiPolygon = [[WKBMultiPolygon alloc] init];
+    WKBMultiPolygon * multiPolygon = [[WKBMultiPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     for(WKBPolygon * polygon in polygons){
         [multiPolygon addPolygon:polygon];
@@ -450,7 +450,7 @@
 
 -(WKBMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    WKBMultiPolygon * multiPolygon = [[WKBMultiPolygon alloc] init];
+    WKBMultiPolygon * multiPolygon = [[WKBMultiPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     for(MKPolygon * mapPolygon in mapMultiPolygon.polygons){
         WKBPolygon * polygon = [self toPolygonWithMapPolygon:mapPolygon];
