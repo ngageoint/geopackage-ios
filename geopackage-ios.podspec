@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "geopackage-ios"
-  s.version          = "0.0.1"
+  s.version          = "1.0.0"
   s.summary          = "iOS SDK for GeoPackage"
   s.description      = <<-DESC
                        iOS SDK for GeoPackage
@@ -25,5 +25,5 @@ Pod::Spec.new do |s|
   s.frameworks = 'Foundation'
   s.dependency 'AFNetworking', '~> 2.1'
   s.dependency 'proj4', '~> 4.8'
-  s.dependency 'wkb-ios', '~> 0.0.1'
+  s.dependency 'wkb-ios', '~> 1.0'
 end
