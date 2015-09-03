@@ -9,8 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackageManager.h"
 
+/**
+ *  GeoPackage Factory to get a GeoPackage Manager
+ */
 @interface GPKGGeoPackageFactory : NSObject
 
+/**
+ *  Get a GeoPackage Manager
+ *
+ *  @return GeoPackage Manager
+ */
 +(GPKGGeoPackageManager *) getManager;
 
 @end

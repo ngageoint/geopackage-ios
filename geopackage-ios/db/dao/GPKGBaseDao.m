@@ -412,10 +412,10 @@
     return whereString;
 }
 
--(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) fields{
+-(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) values{
     NSMutableArray * args = [[NSMutableArray alloc] init];
-    for(NSString * column in fields.columns){
-        NSObject * value = [fields getValue:column];
+    for(NSString * column in values.columns){
+        NSObject * value = [values getValue:column];
         if(value != nil){
             [GPKGUtils addObject:value toArray:args];
         }
@@ -433,10 +433,10 @@
     return [args count] == 0 ? nil : args;
 }
 
--(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) fields{
+-(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) values{
     NSMutableArray * args = [[NSMutableArray alloc] init];
-    for(NSString * column in fields.columns){
-        GPKGColumnValue * value = (GPKGColumnValue *)[fields getValue:column];
+    for(NSString * column in values.columns){
+        GPKGColumnValue * value = (GPKGColumnValue *)[values getValue:column];
         if(value != nil && value.value != nil){
             if(value.tolerance != nil){
                 [args addObjectsFromArray:[self getValueToleranceRange:value]];

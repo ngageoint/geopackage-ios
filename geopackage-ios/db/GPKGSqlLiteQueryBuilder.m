@@ -1,6 +1,6 @@
 //
 //  GPKGSqlLiteQueryBuilder.m
-//  Pods
+//  geopackage-ios
 //
 //  Created by Brian Osborn on 5/13/15.
 //
