@@ -210,12 +210,12 @@
     
     if([tileDao isStandardWebMercatorFormat]){
         if(!self.standardWebMercatorFormat){
-            // If adding GeoPackage tiles to a Google Tile format, add them as standard web mercator format tiles
+            // If adding GeoPackage tiles to a Standard Tile format, add them as standard web mercator format tiles
             self.standardWebMercatorFormat = true;
             [self adjustStandardWebMercatorFormatBounds];
         }
     } else if(self.standardWebMercatorFormat){
-        // Can't add Google formatted tiles to GeoPackage tiles
+        // Can't add Standard formatted tiles to GeoPackage tiles
         [NSException raise:@"Not Supported" format:@"Can not add Standard Web Mercator Formatted tiles to %@ which already contains GeoPackage formatted tiles", self.tableName];
     }
     

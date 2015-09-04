@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ Enumeration of map shape types
+ */
 enum GPKGMapShapeType{
     GPKG_MST_POINT,
     GPKG_MST_POLYLINE,
@@ -22,6 +25,9 @@ enum GPKGMapShapeType{
     GPKG_MST_COLLECTION
 };
 
+/**
+ *  Map shape type names
+ */
 extern NSString * const GPKG_MST_POINT_NAME;
 extern NSString * const GPKG_MST_POLYLINE_NAME;
 extern NSString * const GPKG_MST_POLYGON_NAME;
@@ -36,8 +42,22 @@ extern NSString * const GPKG_MST_COLLECTION_NAME;
 
 @interface GPKGMapShapeTypes : NSObject
 
+/**
+ *  Get the name of the shape type
+ *
+ *  @param shapeType shape type
+ *
+ *  @return shape type name
+ */
 +(NSString *) name: (enum GPKGMapShapeType) shapeType;
 
+/**
+ *  Get the map shape type of the name
+ *
+ *  @param name shape type name
+ *
+ *  @return shape type
+ */
 +(enum GPKGMapShapeType) fromName: (NSString *) name;
 
 @end

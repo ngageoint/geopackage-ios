@@ -10,10 +10,27 @@
 #import "GPKGTileMatrix.h"
 #import "GPKGContents.h"
 
+/**
+ *  Tile Matrix Data Access Object
+ */
 @interface GPKGTileMatrixDao : GPKGBaseDao
 
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new tile matrix dao
+ */
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
+/**
+ *  Get the Contents of the Tile Matrix
+ *
+ *  @param tileMatrix tile matrix
+ *
+ *  @return contents
+ */
 -(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix;
 
 @end

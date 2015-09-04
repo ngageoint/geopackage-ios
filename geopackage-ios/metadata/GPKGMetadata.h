@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "GPKGMetadataScope.h"
 
+/**
+ *  Metadata table constants
+ */
 extern NSString * const GPKG_M_TABLE_NAME;
 extern NSString * const GPKG_M_COLUMN_PK;
 extern NSString * const GPKG_M_COLUMN_ID;
@@ -17,6 +20,9 @@ extern NSString * const GPKG_M_COLUMN_STANDARD_URI;
 extern NSString * const GPKG_M_COLUMN_MIME_TYPE;
 extern NSString * const GPKG_M_COLUMN_METADATA;
 
+/**
+ *  Metadata Scope Type enumeration
+ */
 enum GPKGMetadataScopeType{
     GPKG_MST_UNDEFINED,
     GPKG_MST_FIELD_SESSION,
@@ -39,6 +45,9 @@ enum GPKGMetadataScopeType{
     GPKG_MST_DIMENSION_GROUP
 };
 
+/**
+ *  Metadata Scope Type enumeration names
+ */
 extern NSString * const GPKG_MST_UNDEFINED_NAME;
 extern NSString * const GPKG_MST_FIELD_SESSION_NAME;
 extern NSString * const GPKG_MST_COLLECTION_SESSION_NAME;
@@ -59,18 +68,59 @@ extern NSString * const GPKG_MST_COLLECTION_HARDWARE_NAME;
 extern NSString * const GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME;
 extern NSString * const GPKG_MST_DIMENSION_GROUP_NAME;
 
+/**
+ *  Contains metadata in MIME encodings structured in accordance with any
+ *  authoritative metadata specification
+ */
 @interface GPKGMetadata : NSObject
 
+/**
+ *  Metadata primary key
+ */
 @property (nonatomic, strong) NSNumber *id;
+
+/**
+ *  Case sensitive name of the data scope to which this metadata applies; see
+ *  Metadata Scopes below
+ */
 @property (nonatomic, strong) NSString *scope;
+
+/**
+ *  URI reference to the metadata structure definition authority
+ */
 @property (nonatomic, strong) NSString *standardUri;
+
+/**
+ *  MIME encoding of metadata
+ */
 @property (nonatomic, strong) NSString *mimeType;
+
+/**
+ *  metadata
+ */
 @property (nonatomic, strong) NSString *metadata;
 
+/**
+ *  Get the metadata scope type
+ *
+ *  @return metadata scope type
+ */
 -(enum GPKGMetadataScopeType) getMetadataScopeType;
 
+/**
+ *  Set the metadata scope type
+ *
+ *  @param scopeType metadata scope type
+ */
 -(void) setMetadataScopeType: (enum GPKGMetadataScopeType) scopeType;
 
+/**
+ *  Get the metadata scope from the metadata scope type
+ *
+ *  @param type metadata scope type
+ *
+ *  @return metadata scope
+ */
 +(GPKGMetadataScope *) fromScopeType: (enum GPKGMetadataScopeType) type;
 
 @end

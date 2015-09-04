@@ -69,9 +69,9 @@ extern NSString * const GPKG_DT_GEOMETRY_NAME;
 /**
  *  Get the object c class type of the data type
  *
- *  @param dataType <#dataType description#>
+ *  @param dataType data type
  *
- *  @return <#return value description#>
+ *  @return class type
  */
 +(Class) classType: (enum GPKGDataType) dataType;
 

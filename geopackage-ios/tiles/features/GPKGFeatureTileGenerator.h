@@ -9,8 +9,22 @@
 #import "GPKGTileGenerator.h"
 #import "GPKGFeatureTiles.h"
 
+/**
+ *  Creates a set of tiles within a GeoPackage by generating tiles from features
+ */
 @interface GPKGFeatureTileGenerator : GPKGTileGenerator
 
+/**
+ *  Initialize
+ *
+ *  @param geoPackage   GeoPackage
+ *  @param tableName    table name
+ *  @param featureTiles feature tiles
+ *  @param minZoom      min zoom
+ *  @param maxZoom      max zoom
+ *
+ *  @return new feature tile generator
+ */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
 
 @end

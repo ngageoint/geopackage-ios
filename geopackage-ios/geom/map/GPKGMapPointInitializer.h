@@ -11,8 +11,16 @@
 
 @import MapKit;
 
+/**
+ Map Point initializer protocol to perform point additional initialization when a point is added to a map view
+ */
 @protocol GPKGMapPointInitializer <NSObject>
 
+/**
+ *  Initialize the map annotation
+ *
+ *  @param annotation annotation
+ */
 -(void) initializeAnnotation: (NSObject<MKAnnotation> *) annotation;
 
 @end

@@ -11,14 +11,35 @@
 #import "GPKGShapePoints.h"
 #import "GPKGMapPoint.h"
 
+/**
+ *  Multi point shape
+ */
 @interface GPKGMultiPoint : NSObject <GPKGShapePoints>
 
+/**
+ *  Points
+ */
 @property (nonatomic, strong) NSMutableArray *points;
 
+/**
+ *  Initialize
+ *
+ *  @return new multi point
+ */
 -(instancetype) init;
 
+/**
+ *  Add a point
+ *
+ *  @param point point
+ */
 -(void) addPoint: (GPKGMapPoint *) point;
 
+/**
+ *  Remove the multi point from the map view
+ *
+ *  @param mapView map view
+ */
 -(void) removeFromMapView: (MKMapView *) mapView;
 
 @end

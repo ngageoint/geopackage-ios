@@ -11,8 +11,16 @@
 
 #import "GPKGShapePoints.h"
 
+/**
+ *  Shape with children protocol defining the interface for shapes with children points
+ */
 @protocol GPKGShapeWithChildrenPoints <NSObject>
 
+/**
+ *  Create a child shape points
+ *
+ *  @return shape points
+ */
 -(NSObject<GPKGShapePoints> *) createChild;
 
 @end
