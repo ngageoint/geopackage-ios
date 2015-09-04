@@ -119,6 +119,8 @@ Build this repository using Xcode and/or CocoaPods:
 
 Open geopackage-ios.xcworkspace in Xcode
 
+### Include Library ###
+
 Use this repository by specifying it in a Podfile using a supported option:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :branch => 'master'
