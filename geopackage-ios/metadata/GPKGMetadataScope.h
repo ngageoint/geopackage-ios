@@ -8,10 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Metadata Scopes as defined in spec Table 16. Metadata Scopes
+ */
 @interface GPKGMetadataScope : NSObject
 
+/**
+ *  Name (md_scope)
+ */
 @property (nonatomic, strong) NSString *name;
+
+/**
+ *  Scope code
+ */
 @property (nonatomic, strong) NSString *code;
+
+/**
+ *  Definition
+ */
 @property (nonatomic, strong) NSString *definition;
 
 @end

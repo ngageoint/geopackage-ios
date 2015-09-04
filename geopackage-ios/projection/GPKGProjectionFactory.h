@@ -9,10 +9,27 @@
 #import <Foundation/Foundation.h>
 #import "GPKGProjection.h"
 
+/**
+ *  Projection factory for coordinate projections and transformations
+ */
 @interface GPKGProjectionFactory : NSObject
 
+/**
+ *  Get the projection with the epsg number
+ *
+ *  @param epsg epsg code
+ *
+ *  @return projection
+ */
 +(GPKGProjection *) getProjectionWithNumber: (NSNumber *) epsg;
 
+/**
+ *  Get the projection with the epsg int
+ *
+ *  @param epsg epsg code
+ *
+ *  @return projection
+ */
 +(GPKGProjection *) getProjectionWithInt: (int) epsg;
 
 @end

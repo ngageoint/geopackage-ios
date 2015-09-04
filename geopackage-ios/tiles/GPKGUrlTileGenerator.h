@@ -8,10 +8,27 @@
 
 #import "GPKGTileGenerator.h"
 
+/**
+ *  URL EPSG pattern for finding the EPSG code in a url
+ */
 extern NSString * const GPKG_TG_URL_EPSG_PATTERN;
 
+/**
+ *  Creates a set of tiles within a GeoPackage by downloading the tiles from a URL
+ */
 @interface GPKGUrlTileGenerator : GPKGTileGenerator
 
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param tileUrl    tile URL
+ *  @param minZoom    min zoom
+ *  @param maxZoom    max zoom
+ *
+ *  @return new url tile generator
+ */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
 
 @end

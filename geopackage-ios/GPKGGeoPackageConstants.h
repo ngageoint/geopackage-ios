@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/**
+ *  GeoPackage constants
+ */
 extern NSString * const GPKG_GEOPACKAGE_EXTENSION;
 extern NSString * const GPKG_GEOPACKAGE_EXTENDED_EXTENSION;
 extern NSString * const GPKG_APPLICATION_ID;

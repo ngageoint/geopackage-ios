@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Projection constants
+ */
 extern NSString * const PROJ_PROPERTIES;
 extern int const PROJ_UNDEFINED_CARTESIAN;
 extern int const PROJ_UNDEFINED_GEOGRAPHIC;

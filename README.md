@@ -113,6 +113,22 @@ The [GeoPackage MapCache](https://git.geointapps.org/geopackage/geopackage-sampl
 The following repositories must be built first:
 * [GeoPackage WKB iOS] (https://git.geointapps.org/geopackage/wkb-ios)
 
+Build this repository using Xcode and/or CocoaPods:
+
+    pod install
+
+Open geopackage-ios.xcworkspace in Xcode
+
+### Include Library ###
+
+Use this repository by specifying it in a Podfile using a supported option:
+
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :branch => 'master'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :tag => '1.0.0'
+    pod 'geopackage-ios', :path => '../geopackage-ios'
+    pod 'wkb-ios', :path => '../wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
+    pod 'geopackage-ios', '~> 1.0' # Not yet supported, CocoaPod coming soon
+
 ### Remote Dependencies ###
 
 * [WKB](https://git.geointapps.org/geopackage/wkb-ios) (The MIT License (MIT)) - GeoPackage Well Known Binary Lib

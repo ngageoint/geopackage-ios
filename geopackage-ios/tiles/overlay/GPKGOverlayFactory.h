@@ -10,8 +10,18 @@
 @import MapKit;
 #import "GPKGTileDao.h"
 
+/**
+ *  Get a tile provider for the Tile DAO
+ */
 @interface GPKGOverlayFactory : NSObject
 
+/**
+ *  Get a Tile Overlay for the Tile DAO
+ *
+ *  @param tileDao tile dao
+ *
+ *  @return tile overlay
+ */
 +(MKTileOverlay *) getTileOverlayWithTileDao: (GPKGTileDao *) tileDao;
 
 @end

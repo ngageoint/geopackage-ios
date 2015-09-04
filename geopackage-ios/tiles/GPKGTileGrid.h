@@ -8,15 +8,48 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Tile grid with x and y ranges
+ */
 @interface GPKGTileGrid : NSObject
 
+/**
+ *  Min x
+ */
 @property (nonatomic) int minX;
+
+/**
+ *  Max x
+ */
 @property (nonatomic) int maxX;
+
+/**
+ *  Min y
+ */
 @property (nonatomic) int minY;
+
+/**
+ *  Max y
+ */
 @property (nonatomic) int maxY;
 
+/**
+ *  Initialize
+ *
+ *  @param minX min x
+ *  @param maxX max x
+ *  @param minY min y
+ *  @param maxY max y
+ *
+ *  @return new tile grid
+ */
 -(instancetype) initWithMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY;
 
+/**
+ *  Get the count of tiles in the grid
+ *
+ *  @return tile count
+ */
 -(int) count;
 
 @end

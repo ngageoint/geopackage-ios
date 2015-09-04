@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  GeoPackage property constants
+ */
 extern NSString * const GPKG_PROP_DIVIDER;
 extern NSString * const GPKG_PROP_DIR_GEOPACKAGE;
 extern NSString * const GPKG_PROP_DIR_DATABASE;
