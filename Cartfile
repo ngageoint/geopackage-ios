@@ -1,4 +1,4 @@
 # github "AFNetworking/AFNetworking" ~> 2.1
 # github "OSGeo/proj.4" ~> 4.8
 # github "ngageoint/geopackage-wkb-iOS" ~> 1.0
-git "~/git/dynamic2/wkb-ios" "dynamic"
+git "~/git/wkb-ios" "master"
