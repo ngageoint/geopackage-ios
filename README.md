@@ -2,7 +2,8 @@
 
 ### GeoPackage iOS Lib ####
 
-The GeoPackage Libraries were developed at the National Geospatial-Intelligence Agency (NGA) in collaboration with [BIT Systems](https://www.bit-sys.com/index.jsp). The government has "unlimited rights" and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the [MIT license](http://choosealicense.com/licenses/mit/).
+The [GeoPackage Libraries](http://ngageoint.github.io/GeoPackage/) were developed at the [National Geospatial-Intelligence Agency (NGA)](http://www.nga.mil/) in collaboration with [BIT Systems](http://www.bit-sys.com/). The government has "unlimited rights" and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the [MIT license](http://choosealicense.com/licenses/mit/).
+
 
 ### Pull Requests ###
 If you'd like to contribute to this project, please make a pull request. We'll review the pull request and discuss the changes. All pull request contributions to this project will be released under the MIT license.
@@ -11,15 +12,17 @@ Software source code previously released under an open source license and then m
 
 ### About ###
 
-GeoPackage iOS is a SDK Objective-C implementation of the Open Geospatial Consortium [GeoPackage](http://www.geopackage.org/) [spec](http://www.geopackage.org/spec/).
+[GeoPackage iOS](http://ngageoint.github.io/geopackage-ios/) is a [GeoPackage Library](http://ngageoint.github.io/GeoPackage/) Objective-C SDK implementation of the Open Geospatial Consortium [GeoPackage](http://www.geopackage.org/) [spec](http://www.geopackage.org/spec/).  It is listed as an [OGC GeoPackage Implementation](http://www.geopackage.org/#implementations) by the National Geospatial-Intelligence Agency.
 
 The GeoPackage SDK provides the ability to manage GeoPackage files providing read, write, import, export, share, and open support. Open GeoPackage files provide read and write access to features and tiles. Feature support includes Well-Known Binary and iOS Map shape translations. Tile generation supports creation by URL or features. Tile providers supporting GeoPackage format, standard tile API, and feature tile generation.
 
 ### Usage ###
 
-#### GeoPackage MapCache ####
+#### Implementations ####
 
-The [GeoPackage MapCache](https://git.geointapps.org/geopackage/geopackage-sample-ios) app provides an extensive standalone example on how to use the SDK.
+##### GeoPackage MapCache #####
+
+The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) app provides an extensive standalone example on how to use the SDK.
 
 #### Example ####
 
@@ -92,16 +95,16 @@ The [GeoPackage MapCache](https://git.geointapps.org/geopackage/geopackage-sampl
     tileOverlay.canReplaceMapContent = false
     [mapView addOverlay:tileOverlay];
     
-    // Feature Tile Overlay
+    // Feature Tile Overlay (dynamically draw tiles from features)
     GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
     GPKGFeatureOverlay * featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
     [self.mapView addOverlay:featureOverlay];
     
-    // URL Tile Generator
+    // URL Tile Generator (generate tiles from a URL)
     GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7];
     int urlTileCount = [urlTileGenerator generateTiles];
     
-    // Feature Tile Generator
+    // Feature Tile Generator (generate tiles from features)
     GPKGTileGenerator * featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:10 andMaxZoom:15];
     int featureTileCount = [featureTileGenerator generateTiles];
     
@@ -131,6 +134,6 @@ Use this repository by specifying it in a Podfile using a supported option:
 
 ### Remote Dependencies ###
 
-* [WKB](https://git.geointapps.org/geopackage/wkb-ios) (The MIT License (MIT)) - GeoPackage Well Known Binary Lib
+* [WKB](https://github.com/ngageoint/geopackage-wkb-ios) (The MIT License (MIT)) - GeoPackage Well Known Binary Lib
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking) (The MIT License (MIT)) - Networking framework
 * [proj4](https://trac.osgeo.org/proj/) (The MIT License (MIT)) - Cartographic projection software
