@@ -114,7 +114,7 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
 ### Build ###
 
 The following repositories must be built first:
-* [GeoPackage WKB iOS] (https://git.geointapps.org/geopackage/wkb-ios)
+* [GeoPackage WKB iOS] (https://github.com/ngageoint/geopackage-wkb-ios)
 
 Build this repository using Xcode and/or CocoaPods:
 
