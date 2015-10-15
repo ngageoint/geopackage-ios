@@ -17,6 +17,11 @@
 @interface GPKGMetadataDb : NSObject
 
 /**
+ *  Connection
+ */
+@property (nonatomic, strong) GPKGConnection *connection;
+
+/**
  *  Initialize
  *
  *  @return new metadata database

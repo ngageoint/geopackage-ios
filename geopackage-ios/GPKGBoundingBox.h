@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
+#import "WKBGeometryEnvelope.h"
 
 /**
  *  Bounding box width and height struct
@@ -79,6 +80,13 @@ struct GPKGBoundingBoxSize{
  *  @return new bounding box
  */
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Build a Geometry Envelope from the bounding box
+ *
+ * @return geometry envelope
+ */
+-(WKBGeometryEnvelope *) buildEnvelope;
 
 /**
  *  Determine if equal to the provided bounding box

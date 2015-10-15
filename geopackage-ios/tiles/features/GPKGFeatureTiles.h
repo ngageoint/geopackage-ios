@@ -13,6 +13,8 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGCompressFormats.h"
 #import "GPKGFeatureTilePointIcon.h"
+#import "GPKGFeatureIndexManager.h"
+#import "GPKGCustomFeaturesTile.h"
 
 /**
  *  Tiles generated from features
@@ -20,9 +22,9 @@
 @interface GPKGFeatureTiles : NSObject
 
 /**
- *  When true, features are retrieved from the geometry index. When false all geometries are queried
+ *  When not null, features are retrieved using a feature index
  */
-@property (nonatomic) BOOL indexQuery;
+@property (nonatomic, strong) GPKGFeatureIndexManager * indexManager;
 
 /**
  *  Tile width
@@ -95,6 +97,18 @@
 @property (nonatomic) double widthOverlap;
 
 /**
+ *  Optional max features per tile. When more features than this value exist for creating a
+ *  single tile, the tile is not created
+ */
+@property (nonatomic, strong) NSNumber * maxFeaturesPerTile;
+
+/**
+ *  When not null and the number of features is greater than the max features per tile,
+ *  used to draw tiles for those tiles with more features than the max
+ */
+@property (nonatomic, strong) NSObject<GPKGCustomFeaturesTile> * maxFeaturesTileDraw;
+
+/**
  *  Initialize
  *
  *  @param featureDao feature dao
@@ -102,6 +116,13 @@
  *  @return new feature tiles
  */
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao;
+
+/**
+ *  Get the feature dao
+ *
+ *  @return feature dao
+ */
+-(GPKGFeatureDao *) getFeatureDao;
 
 /**
  * Call after making changes to the point icon, point radius, or paint stroke widths.
@@ -117,13 +138,20 @@
 -(void) setDrawOverlapsWithPixels: (double) pixels;
 
 /**
+ *  Is index query
+ *
+ *  @return true if an index query
+ */
+-(BOOL) isIndexQuery;
+
+/**
  *  Draw the tile and get the tile data from the x, y, and zoom level
  *
  *  @param x    x
  *  @param y    y
  *  @param zoom zoom level
  *
- *  @return tile data
+ *  @return tile data, or nil
  */
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
@@ -134,22 +162,41 @@
  *  @param y    y
  *  @param zoom zoom level
  *
- *  @return tile image
+ *  @return tile image, or nil
  */
 -(UIImage *) drawTileWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
- *  Draw a tile image from the x, y, and zoom level by querying all features. This could
- *  be very slow if there are a lot of features
+ *  Draw a tile bitmap from the x, y, and zoom level by querying features in the tile location
  *
  *  @param x    x
  *  @param y    y
  *  @param zoom zoom level
  *
- *  @return tile image
+ *  @return tile image, or nil
  */
 -(UIImage *) drawTileQueryIndexWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
+/**
+ * Draw a tile bitmap from the x, y, and zoom level by querying features in the tile location
+ *
+ *  @param x
+ *  @param y
+ *  @param zoom
+ *
+ *  @return feature count
+ */
+-(int) queryIndexedFeaturesCountWithX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
+ *  Query for feature results in the x, y, and zoom level by querying features in the tile location
+ *
+ *  @param webMercatorBoundingBox web mercator bounding box
+ *
+ *  @return feature index results
+ */
+-(GPKGFeatureIndexResults *) queryIndexedFeaturesWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox;
+    
 /**
  *  Draw a tile image from the x, y, and zoom level by querying all features. This could
  *  be very slow if there are a lot of features
@@ -158,7 +205,7 @@
  *  @param y    y
  *  @param zoom zoom level
  *
- *  @return tile image
+ *  @return tile image, or nil
  */
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom;
 

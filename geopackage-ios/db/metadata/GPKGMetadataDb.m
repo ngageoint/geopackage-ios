@@ -12,12 +12,6 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeoPackageMetadataTableCreator.h"
 
-@interface GPKGMetadataDb()
-
-@property (nonatomic, strong) GPKGConnection *connection;
-
-@end
-
 @implementation GPKGMetadataDb
 
 -(instancetype)init{

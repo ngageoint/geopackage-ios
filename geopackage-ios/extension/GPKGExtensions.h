@@ -117,4 +117,29 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  */
 -(NSString *) getExtensionNameNoAuthor;
 
+/**
+ *  Build the extension name by combining the required parts
+ *
+ *  @param author        author
+ *  @param extensionName extension name
+ *  @return extension name
+ */
++(NSString *) buildExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName;
+
+/**
+ *  Get the author from the beginning of the extension name
+ *
+ *  @param extensionName extension name
+ *  @return author
+ */
++(NSString *) getAuthorWithExtensionName: (NSString *) extensionName;
+
+/**
+ *  Get the extension name with the author prefix removed
+ *
+ *  @param extensionName extension name
+ *  @return extension name, no author
+ */
++(NSString *) getExtensionNameNoAuthorWithExtensionName: (NSString *) extensionName;
+
 @end

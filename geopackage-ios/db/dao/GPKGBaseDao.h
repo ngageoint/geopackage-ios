@@ -424,6 +424,15 @@
 -(long long) createIfNotExists: (NSObject *) object;
 
 /**
+ *  Create if does not exist or update if it does
+ *
+ *  @param object object
+ *
+ *  @return insertion id if created
+ */
+-(long long) createOrUpdate: (NSObject *) object;
+
+/**
  *  Get the id of the object
  *
  *  @param object object

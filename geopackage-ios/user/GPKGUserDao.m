@@ -8,6 +8,9 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGUserRow.h"
+#import "GPKGProjectionTransform.h"
+#import "GPKGProjectionConstants.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGUserDao
 
@@ -66,6 +69,22 @@
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
     return [[GPKGUserRow alloc] init];
+}
+
+-(GPKGBoundingBox *) getBoundingBox{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(int) getZoomLevel{
+    if(self.projection == nil){
+        [NSException raise:@"No Projection" format:@"No projection was set which is required to determine the zoom level"];
+    }
+    GPKGBoundingBox * boundingBox = [self getBoundingBox];
+    GPKGProjectionTransform * webMercatorTransform = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    GPKGBoundingBox * webMercatorBoundingBox = [webMercatorTransform transformWithBoundingBox:boundingBox];
+    int zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
+    return zoomLevel;
 }
 
 @end

@@ -10,6 +10,8 @@
 	<string>metadata</string>
 	<key>geopackage.dir.geopackage.metadata.file.db</key>
 	<string>geopackage_metadata.db</string>
+	<key>geopackage.extensions.geometry_index</key>
+	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</string>
 	<key>geopackage.srs.wgs84.srs_name</key>
 	<string>WGS 84 geodetic</string>
 	<key>geopackage.srs.wgs84.srs_id</key>

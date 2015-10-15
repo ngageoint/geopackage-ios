@@ -355,6 +355,38 @@
     }
 }
 
+-(GPKGTableIndexDao *) getTableIndexDao{
+    return [[GPKGTableIndexDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createTableIndexTable{
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGTableIndexDao * dao = [self getTableIndexDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createTableIndex] > 0;
+    }
+    
+    return created;
+}
+
+-(GPKGGeometryIndexDao *) getGeometryIndexDao{
+    return [[GPKGGeometryIndexDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGGeometryIndexDao * dao = [self getGeometryIndexDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createGeometryIndex] > 0;
+    }
+    
+    return created;
+}
+
 -(void) verifyWritable{
     if(!self.writable){
         [NSException raise:@"Read Only" format:@"GeoPackage file is not writable. Name: %@%@", self.name, (self.path != nil ? [NSString stringWithFormat:@", Path: %@", self.path] : @"")];

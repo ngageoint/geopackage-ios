@@ -20,6 +20,8 @@
 #import "GPKGMetadata.h"
 #import "GPKGMetadataReference.h"
 #import "GPKGExtensions.h"
+#import "GPKGTableIndex.h"
+#import "GPKGGeometryIndex.h"
 
 @implementation GPKGGeoPackageTableCreator
 
@@ -66,6 +68,14 @@
 
 -(int) createExtensions{
     return [self createTable:GPKG_EX_TABLE_NAME];
+}
+
+-(int) createTableIndex{
+    return [self createTable:GPKG_TI_TABLE_NAME];
+}
+
+-(int) createGeometryIndex{
+    return [self createTable:GPKG_GI_TABLE_NAME];
 }
 
 -(int) createTable: (NSString *) tableName{
