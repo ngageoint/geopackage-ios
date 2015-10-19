@@ -271,6 +271,62 @@
  */
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection;
 
-// TODO
+/**
+ *  Get a max features information message
+ *
+ *  @param tileFeaturesCount tile features count
+ *
+ *  @return max features message
+ */
+-(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount;
+
+/**
+ *  Build a feature results information message and close the results
+ *
+ *  @param results feature index results
+ *
+ *  @return results message or null if no results
+ */
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results;
+
+/**
+ *  Build a feature results information message
+ *
+ *  @param results            feature index results
+ *  @param locationCoordinate location coordinate
+ *
+ *  @return results message or null if no results
+ */
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
+
+/**
+ *  Build a feature results information message
+ *
+ *  @param results feature index results
+ *  @param point   point
+ *
+ *  @return results message or null if no results
+ */
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
+ *  @param point   cg point
+ *  @param mapView map view
+ *
+ *  @return information message on what was clicked, or null
+ */
+-(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
+ *  @param locationCoordinate   location coordinate
+ *  @param mapView              map view
+ *
+ *  @return information message on what was clicked, or null
+ */
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView;
 
 @end

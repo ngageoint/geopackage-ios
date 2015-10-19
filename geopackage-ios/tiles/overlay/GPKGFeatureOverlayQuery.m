@@ -10,6 +10,7 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGProjectionFactory.h"
+#import "WKBGeometryPrinter.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
@@ -198,6 +199,132 @@
     return results;
 }
 
-// TODO
+-(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount{
+    return [NSString stringWithFormat:@"\n\t%d features", tileFeaturesCount];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:nil];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
+    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
+    WKBPoint * point = [[WKBPoint alloc] initWithX:x andY:y];
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:point];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point{
+    
+    NSMutableString * message = nil;
+    
+    int featureCount = results.count;
+    if(featureCount > 0){
+        
+        int maxFeatureInfo = 0;
+        if(self.geometryType == WKB_POINT){
+            maxFeatureInfo = self.maxPointDetailedInfo;
+        } else{
+            maxFeatureInfo = self.maxFeatureDetailedInfo;
+        }
+        
+        if(featureCount <= maxFeatureInfo){
+            message = [[NSMutableString alloc] init];
+            [message appendFormat:@"%@\n", self.name];
+            
+            int featureNumber = 0;
+            
+            BOOL printFeatures = false;
+            if(self.geometryType == WKB_POINT){
+                printFeatures = self.detailedInfoPrintPoints;
+            } else{
+                printFeatures = self.detailedInfoPrintFeatures;
+            }
+            
+            for(GPKGFeatureRow * featureRow in results){
+                
+                featureNumber++;
+                if(featureNumber > maxFeatureInfo){
+                    break;
+                }
+                
+                if(featureCount > 1){
+                    if(featureNumber > 1){
+                        [message appendString:@"\n"];
+                    }else{
+                        [message appendFormat:@"\n%d Features\n", featureCount];
+                    }
+                    [message appendFormat:@"\nFeature %d:\n", featureNumber];
+                }
+                
+                GPKGGeometryData * geomData = [featureRow getGeometry];
+                int geometryColumn = [featureRow getGeometryColumnIndex];
+                for(int i = 0; i < [featureRow columnCount]; i++){
+                    if(i != geometryColumn){
+                        NSObject * value = [featureRow getValueWithIndex:i];
+                        if(value != nil){
+                            [message appendFormat:@"\n%@: %@", [featureRow getColumnNameWithIndex:i], value];
+                        }
+                    }
+                }
+                
+                if(printFeatures){
+                    [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                }
+            }
+        }else{
+            [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
+            if(point != nil){
+                [message appendString:@" near location:\n"];
+                [message appendFormat:@"%@", [WKBGeometryPrinter getGeometryString:point]];
+            }
+        }
+    }
+    
+    return message;
+}
+
+-(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView{
+    CLLocationCoordinate2D locationCoordinate = [mapView convertPoint:point toCoordinateFromView:mapView];
+    return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andMapView:mapView];
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView{
+    
+    NSString * message = nil;
+    
+    if(self.maxFeaturesInfo || self.featuresInfo){
+        
+        // Get the current map zoom and verify it is within the overlays zoom range
+        double zoom = [self currentZoomWithMapView:mapView];
+        if([self onAtZoom:zoom]){
+            
+            // Get the number of features in the tile location
+            int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+            
+            // If more than a configured max features to draw
+            if([self moreThanMaxFeatures:tileFeatureCount]){
+                
+                // Build the max features message
+                if(self.maxFeaturesInfo){
+                    message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                }
+                
+            }
+            // Else, query for the features near the click
+            else if(self.featuresInfo){
+                
+                // Build a bounding box to represent the click location
+                GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+                
+                // Query for results and build the message
+                GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+            }
+        }
+    }
+    
+    return message;
+}
 
 @end
