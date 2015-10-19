@@ -187,7 +187,7 @@
   CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name)
 );</string>
 	</array>
-	<key>gpkg_table_index</key>
+	<key>nga_table_index</key>
 	<array>
 		<string>CREATE TABLE nga_table_index (
   table_name TEXT NOT NULL PRIMARY KEY,
@@ -195,7 +195,7 @@
   CONSTRAINT fk_nti_ge_tn FOREIGN KEY (table_name) REFERENCES gpkg_extensions(table_name)
 );</string>
 	</array>
-	<key>gpkg_geometry_index</key>
+	<key>nga_geometry_index</key>
 	<array>
 		<string>CREATE TABLE nga_geometry_index (
   table_name TEXT NOT NULL,
