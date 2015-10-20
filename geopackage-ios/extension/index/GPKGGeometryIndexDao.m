@@ -123,6 +123,18 @@
     return [[GPKGTableIndexDao alloc] initWithDatabase:self.database];
 }
 
+-(GPKGResultSet *) queryForTableName: (NSString *) tableName{
+    GPKGResultSet * results = [self queryForEqWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:tableName];
+    return results;
+}
+
+-(int) countByTableName: (NSString *) tableName{
+    GPKGResultSet * results = [self queryForTableName:tableName];
+    int count = results.count;
+    [results close];
+    return count;
+}
+
 -(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
     
     GPKGGeometryIndex * geometryIndex = [[GPKGGeometryIndex alloc] init];

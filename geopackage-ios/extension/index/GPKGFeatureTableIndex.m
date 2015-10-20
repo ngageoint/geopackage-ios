@@ -173,7 +173,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(int) deleteIndexWithGeomId: (int) geomId{
-    return [self.geometryIndexDao deleteByMultiId:[[NSArray alloc] initWithObjects:self.tableName, geomId, nil]];
+    return [self.geometryIndexDao deleteByMultiId:[[NSArray alloc] initWithObjects:self.tableName, [NSNumber numberWithInt:geomId], nil]];
 }
 
 -(int) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{

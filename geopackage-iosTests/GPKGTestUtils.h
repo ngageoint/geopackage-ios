@@ -33,6 +33,8 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void)assertEqualIntWithValue:(int) value andValue2: (int) value2;
 
++(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2;
+
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage;
 
 +(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType;
@@ -50,5 +52,15 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 +(WKBLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring;
 
 +(WKBPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
++(NSDecimalNumber *) roundDouble: (double) value;
+
++(NSDecimalNumber *) roundDouble: (double) value withScale: (int) scale;
+
++(int) randomIntLessThan: (int) max;
+
++(double) randomDouble;
+
++(double) randomDoubleLessThan: (double) max;
 
 @end

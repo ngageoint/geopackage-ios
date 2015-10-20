@@ -39,6 +39,7 @@ NSString * const GPKG_PROP_FEATURE_POINT_RADIUS = @"point_radius";
 NSString * const GPKG_PROP_FEATURE_LINE_STROKE_WIDTH = @"line_stroke_width";
 NSString * const GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH = @"polygon_stroke_width";
 NSString * const GPKG_PROP_FEATURE_POLYGON_FILL = @"polygon_fill";
+NSString * const GPKG_PROP_DATETIME_FORMATS = @"geopackage.datetime.formats";
 
 @implementation GPKGPropertyConstants
 

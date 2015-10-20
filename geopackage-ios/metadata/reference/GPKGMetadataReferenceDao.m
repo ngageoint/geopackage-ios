@@ -9,6 +9,7 @@
 #import "GPKGMetadataReferenceDao.h"
 #import "GPKGUtils.h"
 #import "GPKGColumnValues.h"
+#import "GPKGDateTimeUtils.h"
 
 @implementation GPKGMetadataReferenceDao
 
@@ -45,7 +46,7 @@
             setObject.rowIdValue = (NSNumber *) value;
             break;
         case 4:
-            setObject.timestamp = (NSDate *) value;
+            setObject.timestamp = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
             break;
         case 5:
             setObject.fileId = (NSNumber *) value;

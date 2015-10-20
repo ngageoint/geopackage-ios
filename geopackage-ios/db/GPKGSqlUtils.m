@@ -370,8 +370,10 @@
     }
 }
 
-+(void) closeStatement: (sqlite3_stmt *) statment{
-    sqlite3_finalize(statment);
++(void) closeStatement: (sqlite3_stmt *) statement{
+    if(sqlite3_stmt_busy(statement)){
+        sqlite3_finalize(statement);
+    }
 }
 
 +(void) closeResultSet: (GPKGResultSet *) resultSet{

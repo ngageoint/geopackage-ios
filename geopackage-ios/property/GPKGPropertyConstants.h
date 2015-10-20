@@ -42,6 +42,7 @@ extern NSString * const GPKG_PROP_FEATURE_POINT_RADIUS;
 extern NSString * const GPKG_PROP_FEATURE_LINE_STROKE_WIDTH;
 extern NSString * const GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH;
 extern NSString * const GPKG_PROP_FEATURE_POLYGON_FILL;
+extern NSString * const GPKG_PROP_DATETIME_FORMATS;
 
 @interface GPKGPropertyConstants : NSObject
 

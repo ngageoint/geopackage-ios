@@ -88,5 +88,14 @@
 	<string>2.0</string>
 	<key>geopackage.feature_tiles.polygon_fill</key>
 	<string>false</string>
+	<key>geopackage.datetime.formats</key>
+	<array>
+		<string>yyyy-MM-dd&apos;T&apos;HH:mm:ss&apos;Z&apos;</string>
+		<string>yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;</string>
+		<string>yyyy-MM-dd&apos;T&apos;HH:mm:ss</string>
+		<string>yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS</string>
+		<string>yyyy-MM-dd HH:mm:ss</string>
+		<string>yyyy-MM-dd HH:mm:ss.SSS</string>
+	</array>
 </dict>
 </plist>

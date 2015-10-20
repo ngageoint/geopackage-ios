@@ -8,8 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Provides DateTime utility methods
+ */
 @interface GPKGDateTimeUtils : NSObject
 
-//+(NSDate) convertToDateWithString: (NSString *);
+/**
+ *  Convert a datetime string to a date
+ *
+ *  @param dateTimeString datetime string
+ *
+ *  @return date, or nil if the dateTimeString is nil or empty
+ */
++(NSDate *) convertToDateWithString: (NSString *) dateTimeString;
 
 @end

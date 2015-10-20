@@ -9,6 +9,7 @@
 #import "GPKGTableMetadataDao.h"
 #import "GPKGGeometryMetadataDao.h"
 #import "GPKGGeoPackageMetadataDao.h"
+#import "GPKGDateTimeUtils.h"
 
 @implementation GPKGTableMetadataDao
 
@@ -39,7 +40,7 @@
             setObject.tableName = (NSString *) value;
             break;
         case 2:
-            setObject.lastIndexed = (NSDate *) value;
+            setObject.lastIndexed = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

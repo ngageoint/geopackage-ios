@@ -233,7 +233,7 @@
  *
  *  @param statment statement
  */
-+(void) closeStatement: (sqlite3_stmt *) statment;
++(void) closeStatement: (sqlite3_stmt *) statement;
 
 /**
  *  Close the result set

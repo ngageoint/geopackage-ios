@@ -133,4 +133,44 @@
  */
 +(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
+/**
+ *  Get the array value of the property
+ *
+ *  @param property property
+ *
+ *  @return array value
+ */
++(NSArray *) getArrayValueOfProperty: (NSString *) property;
+
+/**
+ *  Get the array value of the property with required option
+ *
+ *  @param property property
+ *  @param required true if required to exist
+ *
+ *  @return array value
+ */
++(NSArray *) getArrayValueOfProperty: (NSString *) property andRequired: (BOOL) required;
+
+/**
+ *  Get the array value of the property combined with the base
+ *
+ *  @param base     base property
+ *  @param property property
+ *
+ *  @return array value
+ */
++(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
+
+/**
+ *  Get the array value of the property combined with the base with required option
+ *
+ *  @param base     base property
+ *  @param property property
+ *  @param required true if required to exist
+ *
+ *  @return array value
+ */
++(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
+
 @end

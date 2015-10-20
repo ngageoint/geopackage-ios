@@ -35,6 +35,24 @@
 -(GPKGTableIndex *) getTableIndex: (GPKGGeometryIndex *) geometryIndex;
 
 /**
+ *  Query by table name
+ *
+ *  @param tableName table name
+ *
+ *  @return geometry index results
+ */
+-(GPKGResultSet *) queryForTableName: (NSString *) tableName;
+
+/**
+ *  Count by table name
+ *
+ *  @param tableName table name
+ *
+ *  @return count
+ */
+-(int) countByTableName: (NSString *) tableName;
+
+/**
  *  Populate a new geometry index from an envelope
  *
  *  @param tableIndex table index
