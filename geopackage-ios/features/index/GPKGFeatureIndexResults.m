@@ -13,6 +13,11 @@
 
 @property (nonatomic, strong) GPKGResultSet *results;
 
+/**
+ *  Used to keep the current feature row reference to preven loss of pointers within the unsafe unreatined feature row
+ */
+@property (nonatomic, strong) GPKGFeatureRow *featureRow;
+
 @end
 
 @implementation GPKGFeatureIndexResults
@@ -52,8 +57,9 @@
     }
     
     // Get and set the feature row
-    __unsafe_unretained GPKGFeatureRow * featureRow = [self getFeatureRow];
-    state->itemsPtr = &featureRow;
+    self.featureRow = [self getFeatureRow];
+    __unsafe_unretained GPKGFeatureRow * tempFeatureRow = self.featureRow;
+    state->itemsPtr = &tempFeatureRow;
     
     return 1;
 }

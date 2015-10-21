@@ -335,9 +335,22 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
     [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
-    [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] == NSOrderedAscending;
+    if(minXLessThanMaxX){
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+    }else{
+        [where appendString:@"("];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@")"];
+    }
     [where appendString:@" and "];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Y andValue:envelope.maxY andOperation:@"<="]];
     [where appendString:@" and "];
@@ -347,6 +360,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     [whereArgs addObject:self.tableName];
     [whereArgs addObject:envelope.maxX];
     [whereArgs addObject:envelope.minX];
+    if(!minXLessThanMaxX){
+        [whereArgs addObject:envelope.minX];
+        [whereArgs addObject:envelope.maxX];
+    }
     [whereArgs addObject:envelope.maxY];
     [whereArgs addObject:envelope.minY];
     

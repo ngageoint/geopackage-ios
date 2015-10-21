@@ -62,7 +62,6 @@
         [GPKGTestUtils assertEqualIntWithValue:featureDao.count andValue2:progress.progress];
         [GPKGTestUtils assertNotNil:[featureTableIndex getLastIndexed]];
         NSDate * lastIndexed = [featureTableIndex getLastIndexed];
-        NSComparisonResult result = [lastIndexed compare:currentDate];
         [GPKGTestUtils assertTrue:([lastIndexed compare:currentDate] == NSOrderedDescending)];
         
         [GPKGTestUtils assertTrue:[featureTableIndex isIndexed]];
@@ -91,17 +90,17 @@
         if(envelope == nil){
             envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometryData.geometry];
         }
-        [envelope setMinX:[NSDecimalNumber numberWithDouble:([envelope.minX doubleValue] - .000001)]];
-        [envelope setMaxX:[NSDecimalNumber numberWithDouble:([envelope.maxX doubleValue] + .000001)]];
-        [envelope setMinY:[NSDecimalNumber numberWithDouble:([envelope.minY doubleValue] - .000001)]];
-        [envelope setMaxY:[NSDecimalNumber numberWithDouble:([envelope.maxY doubleValue] + .000001)]];
+        [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - .000001)]];
+        [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + .000001)]];
+        [envelope setMinY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minY doubleValue] - .000001)]];
+        [envelope setMaxY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxY doubleValue] + .000001)]];
         if(envelope.hasZ){
-            [envelope setMinZ:[NSDecimalNumber numberWithDouble:([envelope.minZ doubleValue] - .000001)]];
-            [envelope setMaxZ:[NSDecimalNumber numberWithDouble:([envelope.maxZ doubleValue] + .000001)]];
+            [envelope setMinZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minZ doubleValue] - .000001)]];
+            [envelope setMaxZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxZ doubleValue] + .000001)]];
         }
         if(envelope.hasM){
-            [envelope setMinM:[NSDecimalNumber numberWithDouble:([envelope.minM doubleValue] - .000001)]];
-            [envelope setMaxM:[NSDecimalNumber numberWithDouble:([envelope.maxM doubleValue] + .000001)]];
+            [envelope setMinM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minM doubleValue] - .000001)]];
+            [envelope setMaxM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxM doubleValue] + .000001)]];
         }
         resultCount = 0;
         BOOL featureFound = false;
