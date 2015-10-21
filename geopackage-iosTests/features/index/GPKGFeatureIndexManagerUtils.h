@@ -1,15 +1,15 @@
 //
-//  GPKGFeatureTableIndexUtils.h
+//  GPKGFeatureIndexManagerUtils.h
 //  geopackage-ios
 //
-//  Created by Brian Osborn on 10/19/15.
+//  Created by Brian Osborn on 10/20/15.
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 
-@interface GPKGFeatureTableIndexUtils : NSObject
+@interface GPKGFeatureIndexManagerUtils : NSObject
 
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 

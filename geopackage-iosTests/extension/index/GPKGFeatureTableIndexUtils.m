@@ -18,7 +18,7 @@
 
 @implementation GPKGFeatureTableIndexUtils
 
-+(void) testIndexerWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
     // Test indexing each feature table
     NSArray * featureTables = [geoPackage getFeatureTables];

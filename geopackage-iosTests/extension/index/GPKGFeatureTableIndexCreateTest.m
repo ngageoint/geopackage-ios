@@ -12,7 +12,7 @@
 @implementation GPKGFeatureTableIndexCreateTest
 
 - (void)testIndexer {
-    [GPKGFeatureTableIndexUtils testIndexerWithGeoPackage:self.geoPackage];
+    [GPKGFeatureTableIndexUtils testIndexWithGeoPackage:self.geoPackage];
 }
 
 @end
