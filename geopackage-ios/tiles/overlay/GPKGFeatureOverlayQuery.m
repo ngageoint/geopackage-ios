@@ -11,6 +11,8 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGProjectionFactory.h"
 #import "WKBGeometryPrinter.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
@@ -33,16 +35,17 @@
         self.name = [NSString stringWithFormat:@"%@ - %@", featureDao.databaseName, featureDao.tableName];
         
         // Get the screen percentage to determine when a feature is clicked
-        self.screenClickPercentage = .03; // TODO configure
+        self.screenClickPercentage = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_SCREEN_CLICK_PERCENTAGE] floatValue];
         
-        self.maxFeaturesInfo = true; // TODO configure
-        self.featuresInfo = true; // TODO configure
+        self.maxFeaturesInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO];
+        self.featuresInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
         
-        self.maxPointDetailedInfo = 10; // TODO configure
-        self.maxFeatureDetailedInfo = 10; // TODO configure
+        self.maxPointDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO] intValue];
+        self.maxFeatureDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO] intValue];
         
-        self.detailedInfoPrintPoints = true; // TODO configure
-        self.detailedInfoPrintFeatures = false; // TODO configure
+        self.detailedInfoPrintPoints = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
+        self.detailedInfoPrintFeatures = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
+
     }
     return self;
 }

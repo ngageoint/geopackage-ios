@@ -97,5 +97,19 @@
 		<string>yyyy-MM-dd HH:mm:ss</string>
 		<string>yyyy-MM-dd HH:mm:ss.SSS</string>
 	</array>
+	<key>geopackage.feature_overlay_query.screen_click_percentage</key>
+	<string>.03</string>
+	<key>geopackage.feature_overlay_query.max_features_info</key>
+	<string>true</string>
+	<key>geopackage.feature_overlay_query.features_info</key>
+	<string>true</string>
+	<key>geopackage.feature_overlay_query.max_point_detailed_info</key>
+	<string>10</string>
+	<key>geopackage.feature_overlay_query.max_feature_detailed_info</key>
+	<string>10</string>
+	<key>geopackage.feature_overlay_query.detailed_info_print_points</key>
+	<string>true</string>
+	<key>geopackage.feature_overlay_query.detailed_info_print_features</key>
+	<string>false</string>
 </dict>
 </plist>

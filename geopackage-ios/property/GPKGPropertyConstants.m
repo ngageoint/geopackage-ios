@@ -40,6 +40,14 @@ NSString * const GPKG_PROP_FEATURE_LINE_STROKE_WIDTH = @"line_stroke_width";
 NSString * const GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH = @"polygon_stroke_width";
 NSString * const GPKG_PROP_FEATURE_POLYGON_FILL = @"polygon_fill";
 NSString * const GPKG_PROP_DATETIME_FORMATS = @"geopackage.datetime.formats";
+NSString * const GPKG_PROP_FEATURE_OVERLAY_QUERY = @"geopackage.feature_overlay_query";
+NSString * const GPKG_PROP_FEATURE_QUERY_SCREEN_CLICK_PERCENTAGE = @"screen_click_percentage";
+NSString * const GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO = @"max_features_info";
+NSString * const GPKG_PROP_FEATURE_QUERY_FEATURES_INFO = @"features_info";
+NSString * const GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO = @"max_point_detailed_info";
+NSString * const GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO = @"max_feature_detailed_info";
+NSString * const GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS = @"detailed_info_print_points";
+NSString * const GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES = @"detailed_info_print_features";
 
 @implementation GPKGPropertyConstants
 
