@@ -93,20 +93,26 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 -(int) indexTable: (GPKGTableIndex *) tableIndex{
     
     int count = 0;
-    GPKGResultSet * results = [self.featureDao queryForAll];
-    @try{
-        while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-            GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-            BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
-            if(indexed){
-                count++;
+    
+    // Autorelease to reduce memory footprint
+    @autoreleasepool {
+    
+        GPKGResultSet * results = [self.featureDao queryForAll];
+        @try{
+            while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
+                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+                if(indexed){
+                    count++;
+                }
+                if(self.progress != nil){
+                    [self.progress addProgress:1];
+                }
             }
-            if(self.progress != nil){
-                [self.progress addProgress:1];
-            }
+        }@finally{
+            [results close];
         }
-    }@finally{
-        [results close];
+    
     }
     
     // Update the last indexed time
