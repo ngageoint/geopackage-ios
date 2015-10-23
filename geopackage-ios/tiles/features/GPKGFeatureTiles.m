@@ -149,6 +149,9 @@
             image = [self.maxFeaturesTileDraw drawTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTileFeatureCount:[tileCount intValue] andFeatureIndexResults:results];
         }
     }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile querying indexed results. x: %@, y:%@, z: %@. Error: %@", x, y, zoom, [e description]);
+    }
     @finally {
         [results close];
     }
@@ -217,6 +220,9 @@
             // Draw the unindexed max features tile
             image = [self.maxFeaturesTileDraw drawUnindexedTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTotalFeatureCount:[totalCount intValue] andFeatureDao:self.featureDao andResults:results];
         }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile querying all results. x: %@, y:%@, z: %@. Error: %@", x, y, zoom, [e description]);
     }
     @finally {
         [results close];

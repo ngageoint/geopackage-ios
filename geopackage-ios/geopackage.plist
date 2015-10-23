@@ -111,5 +111,7 @@
 	<string>true</string>
 	<key>geopackage.feature_overlay_query.detailed_info_print_features</key>
 	<string>false</string>
+	<key>geopackage.max_zoom_level</key>
+	<string>22</string>
 </dict>
 </plist>

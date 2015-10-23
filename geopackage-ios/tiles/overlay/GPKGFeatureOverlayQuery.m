@@ -19,6 +19,7 @@
 @property (nonatomic, strong) GPKGFeatureOverlay *featureOverlay;
 @property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
 @property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic) int maxZoom;
 
 @end
 
@@ -46,6 +47,7 @@
         self.detailedInfoPrintPoints = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
         self.detailedInfoPrintFeatures = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
 
+        self.maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     }
     return self;
 }
@@ -70,12 +72,11 @@
 }
 
 -(double) currentZoomWithMapView: (MKMapView *) mapView{
-    double maxZoom = log2(MKMapSizeWorld.width / 256.0);
     CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
     CGFloat width = mapView.bounds.size.width;
     double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (180.0 * width);
-    double zoom = maxZoom - log2(scale);
-    if (maxZoom < 0){
+    double zoom = self.maxZoom - round(log2(scale));
+    if (self.maxZoom < 0){
         zoom = 0;
     }
     
@@ -203,7 +204,7 @@
 }
 
 -(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount{
-    return [NSString stringWithFormat:@"\n\t%d features", tileFeaturesCount];
+    return [NSString stringWithFormat:@"%@\n\t%d features", self.name, tileFeaturesCount];
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
@@ -276,6 +277,7 @@
                 }
             }
         }else{
+            message = [[NSMutableString alloc] init];
             [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
             if(point != nil){
                 [message appendString:@" near location:\n"];
