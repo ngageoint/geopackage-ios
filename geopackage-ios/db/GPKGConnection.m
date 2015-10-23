@@ -39,7 +39,9 @@
 }
 
 -(void)close{
-    [GPKGSqlUtils closeDatabase:self.database];
+    @synchronized(self) {
+        [GPKGSqlUtils closeDatabase:self.database];
+    }
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement{
@@ -47,7 +49,11 @@
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement andArgs: (NSArray *) args{
-    return [GPKGSqlUtils queryWithDatabase:self.database andStatement:statement andArgs:args];
+    GPKGResultSet * resultSet = nil;
+    @synchronized(self) {
+        resultSet = [GPKGSqlUtils queryWithDatabase:self.database andStatement:statement andArgs:args];
+    }
+    return resultSet;
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
@@ -75,15 +81,19 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    return [GPKGSqlUtils queryWithDatabase:self.database
-                               andDistinct:false andTable:table
-                               andColumns:columns
-                               andWhere:where
-                               andWhereArgs:whereArgs
-                               andGroupBy:groupBy
-                               andHaving:having
-                               andOrderBy:orderBy
-                               andLimit:limit];
+    GPKGResultSet * resultSet = nil;
+    @synchronized(self) {
+        resultSet = [GPKGSqlUtils queryWithDatabase:self.database
+                                        andDistinct:false andTable:table
+                                         andColumns:columns
+                                           andWhere:where
+                                       andWhereArgs:whereArgs
+                                         andGroupBy:groupBy
+                                          andHaving:having
+                                         andOrderBy:orderBy
+                                           andLimit:limit];
+    }
+    return resultSet;
 }
 
 -(int) count:(NSString *) statement{
@@ -91,51 +101,97 @@
 }
 
 -(int) count:(NSString *) statement andArgs: (NSArray *) args{
-    return [GPKGSqlUtils countWithDatabase:self.database andStatement:statement andArgs:args];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils countWithDatabase:self.database andStatement:statement andArgs:args];
+    }
+    return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
-    return [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where];
+    }
+    return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where andWhereArgs: whereArgs];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils countWithDatabase:self.database andTable:table andWhere:where andWhereArgs: whereArgs];
+    }
+    return count;
 }
 
 -(long long) insert:(NSString *) statement{
-    return [GPKGSqlUtils insertWithDatabase:self.database andStatement:statement];
+    long long id = -1;;
+    @synchronized(self) {
+        id = [GPKGSqlUtils insertWithDatabase:self.database andStatement:statement];
+    }
+    return id;
 }
 
 -(int) update:(NSString *) statement{
-    return [GPKGSqlUtils updateWithDatabase:self.database andStatement:statement];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils updateWithDatabase:self.database andStatement:statement];
+    }
+    return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
-    return [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where];
+    }
+    return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where andWhereArgs:whereArgs];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils updateWithDatabase:self.database andTable:table andValues:values andWhere:where andWhereArgs:whereArgs];
+    }
+    return count;
 }
 
 -(long long) insertWithTable: (NSString *) table andValues: (GPKGContentValues *) values{
-    return [GPKGSqlUtils insertWithDatabase:self.database andTable:table andValues:values];
+    long long id = -1;;
+    @synchronized(self) {
+        id = [GPKGSqlUtils insertWithDatabase:self.database andTable:table andValues:values];
+    }
+    return id;
 }
 
 -(int) delete:(NSString *) statement{
-    return [GPKGSqlUtils deleteWithDatabase:self.database andStatement:statement];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils deleteWithDatabase:self.database andStatement:statement];
+    }
+    return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where{
-    return [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where];
+    }
+    return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where andWhereArgs:whereArgs];
+    int count = 0;
+    @synchronized(self) {
+        count = [GPKGSqlUtils deleteWithDatabase:self.database andTable:table andWhere:where andWhereArgs:whereArgs];
+    }
+    return count;
 }
 
 -(void) exec:(NSString *) statement{
-    [GPKGSqlUtils execWithDatabase:self.database andStatement:statement];
+    @synchronized(self) {
+        [GPKGSqlUtils execWithDatabase:self.database andStatement:statement];
+    }
 }
 
 -(BOOL) tableExists: (NSString *) table{

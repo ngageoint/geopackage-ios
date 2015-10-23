@@ -101,10 +101,15 @@
 -(UIImage *) drawTileWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     UIImage * image = nil;
-    if([self isIndexQuery]){
-        image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
-    }else{
-        image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+    @try {
+        if([self isIndexQuery]){
+            image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
+        }else{
+            image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     return image;
 }
@@ -150,7 +155,7 @@
         }
     }
     @catch (NSException *e) {
-        NSLog(@"Failed to draw tile querying indexed results. x: %@, y:%@, z: %@. Error: %@", x, y, zoom, [e description]);
+        NSLog(@"Failed to draw tile from feature table %@ querying indexed results. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];
@@ -222,7 +227,7 @@
         }
     }
     @catch (NSException *e) {
-        NSLog(@"Failed to draw tile querying all results. x: %@, y:%@, z: %@. Error: %@", x, y, zoom, [e description]);
+        NSLog(@"Failed to draw tile from feature table %@ querying all results. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];

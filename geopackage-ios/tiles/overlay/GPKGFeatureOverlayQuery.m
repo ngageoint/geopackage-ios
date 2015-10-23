@@ -300,32 +300,39 @@
     
     if(self.maxFeaturesInfo || self.featuresInfo){
         
-        // Get the current map zoom and verify it is within the overlays zoom range
-        double zoom = [self currentZoomWithMapView:mapView];
-        if([self onAtZoom:zoom]){
-            
-            // Get the number of features in the tile location
-            int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
-            
-            // If more than a configured max features to draw
-            if([self moreThanMaxFeatures:tileFeatureCount]){
+        @try {
+        
+            // Get the current map zoom and verify it is within the overlays zoom range
+            double zoom = [self currentZoomWithMapView:mapView];
+            if([self onAtZoom:zoom]){
                 
-                // Build the max features message
-                if(self.maxFeaturesInfo){
-                    message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                // Get the number of features in the tile location
+                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+                
+                // If more than a configured max features to draw
+                if([self moreThanMaxFeatures:tileFeatureCount]){
+                    
+                    // Build the max features message
+                    if(self.maxFeaturesInfo){
+                        message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                    }
+                    
                 }
-                
+                // Else, query for the features near the click
+                else if(self.featuresInfo){
+                    
+                    // Build a bounding box to represent the click location
+                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+                    
+                    // Query for results and build the message
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+                }
             }
-            // Else, query for the features near the click
-            else if(self.featuresInfo){
-                
-                // Build a bounding box to represent the click location
-                GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
-                
-                // Query for results and build the message
-                GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
-                message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
-            }
+            
+        }
+        @catch (NSException *e) {
+            NSLog(@"Build Map Click Message Error: %@", [e description]);
         }
     }
     
