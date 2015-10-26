@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPKGSqlConnection.h"
+#import "GPKGDbConnection.h"
 
-@class GPKGSqlConnection;
+@class GPKGDbConnection;
 
 /**
  *  Connection pool to manage retrieving a sqlite3 connection to a database file. Connections should be released after the database operation has completed.
@@ -106,7 +106,21 @@
  *
  *  @return connection
  */
--(GPKGSqlConnection *) getConnection;
+-(GPKGDbConnection *) getConnection;
+
+/**
+ *  TODO
+ *
+ *  @return connection for result sets
+ */
+-(GPKGDbConnection *) getResultConnection;
+
+/**
+ *  TODO
+ *
+ *  @return connection for writing
+ */
+-(GPKGDbConnection *) getWriteConnection;
 
 /**
  *  Release a connection, either adding it back to available pool connections or closing it
@@ -115,7 +129,7 @@
  *
  *  @return true if released
  */
--(BOOL) releaseConnection: (GPKGSqlConnection *) connection;
+-(BOOL) releaseConnection: (GPKGDbConnection *) connection;
 
 /**
  *  Release a connection by id, either adding it back to available pool connections or closing it

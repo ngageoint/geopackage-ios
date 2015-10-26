@@ -13,10 +13,11 @@
 
 @implementation GPKGFeatureDao
 
--(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGFeatureTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns{
+-(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGFeatureTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andMetadataDb: (GPKGMetadataDb *) metadataDb{
     self = [super initWithDatabase:database andTable:table];
     if(self != nil){
         self.geometryColumns = geometryColumns;
+        self.metadataDb = metadataDb;
         GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
         if([dao getContents:geometryColumns] == nil){
             [NSException raise:@"Missing Contents" format:@"Geometry Columns %@ has null Contents", [dao getId:geometryColumns]];

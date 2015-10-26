@@ -12,7 +12,7 @@
 
 @implementation GPKGSqlUtils
 
-+(void) execWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement{
++(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     
     char * errInfo ;
     int result = sqlite3_exec([connection getConnection], [statement UTF8String], nil, nil, &errInfo);
@@ -23,7 +23,7 @@
     }
 }
 
-+(GPKGResultSet *) queryWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     GPKGResultSet *resultSet = nil;
     
@@ -41,7 +41,7 @@
     return resultSet;
 }
 
-+(GPKGResultSet *) queryWithDatabase: (GPKGSqlConnection *) connection
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection
                             andDistinct: (BOOL) distinct
                             andTable: (NSString *) table
                             andColumns: (NSArray *) columns
@@ -63,7 +63,7 @@
     return resultSet;
 }
 
-+(int) countWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) countWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     NSString *countStatement = [statement lowercaseString];
     
@@ -83,11 +83,11 @@
     return count;
 }
 
-+(int) countWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
     return [self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:nil];
 }
 
-+(int) countWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *countStatement = [NSMutableString string];
     
@@ -107,11 +107,11 @@
     return count;
 }
 
-+(int) countWithDatabase: (GPKGSqlConnection *) connection andCountStatement: (NSString *) countStatement{
++(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement{
     return [self countWithDatabase:connection andCountStatement:countStatement andArgs:nil];
 }
 
-+(int) countWithDatabase: (GPKGSqlConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
++(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
     
     int count = 0;
     
@@ -133,11 +133,11 @@
     return count;
 }
 
-+(long long) insertWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement{
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     return [self insertWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(long long) insertWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values{
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values{
     
     NSMutableString *insertStatement = [NSMutableString string];
     [insertStatement appendString:@"insert into "];
@@ -170,7 +170,7 @@
     return id;
 }
 
-+(long long) insertWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     long long lastInsertRowId = -1;
     
@@ -193,19 +193,19 @@
     return lastInsertRowId;
 }
 
-+(int) updateWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement{
++(int) updateWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     return [self updateWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(int) updateWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) updateWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     return [self updateOrDeleteWithDatabase: connection andStatement:statement andArgs:args];
 }
 
-+(int) updateWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
++(int) updateWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
     return [self updateWithDatabase:connection andTable:table andValues:values andWhere:where andWhereArgs:nil];
 }
 
-+(int) updateWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) updateWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *updateStatement = [NSMutableString string];
     [updateStatement appendString:@"update "];
@@ -243,19 +243,19 @@
     return count;
 }
 
-+(int) deleteWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement{
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     return [self deleteWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(int) deleteWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     return [self updateOrDeleteWithDatabase: connection andStatement:statement andArgs:args];
 }
 
-+(int) deleteWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
     return [self deleteWithDatabase:connection andTable:table andWhere:where andWhereArgs:nil];
 }
 
-+(int) deleteWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *deleteStatement = [NSMutableString string];
     
@@ -272,7 +272,7 @@
     return count;
 }
 
-+(int) updateOrDeleteWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) updateOrDeleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     int rowsModified = -1;
     
@@ -380,7 +380,7 @@
     [resultSet close];
 }
 
-+(void) closeDatabase: (GPKGSqlConnection *) connection{
++(void) closeDatabase: (GPKGSqliteConnection *) connection{
     sqlite3_close([connection getConnection]);
 }
 

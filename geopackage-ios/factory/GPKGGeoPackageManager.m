@@ -15,38 +15,32 @@
 #import "GPKGSqlUtils.h"
 #import "AFHTTPRequestOperation.h"
 
-@interface GPKGGeoPackageManager()
-
-@property (nonatomic, strong)  GPKGMetadataDb * db;
-
-@end
-
 @implementation GPKGGeoPackageManager
 
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.db = [[GPKGMetadataDb alloc] init];
+        self.metadataDb = [[GPKGMetadataDb alloc] init];
     }
     return self;
 }
 
 -(void) close{
-    [self.db close];
+    [self.metadataDb close];
 }
 
 -(NSArray *) databases{
     
     NSArray * databases = nil;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     databases = [geoPackageMetadataDao getAllNamesSorted];
 
     return databases;
 }
 
 -(int) count{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     int count = [geoPackageMetadataDao count];
     return count;
 }
@@ -55,7 +49,7 @@
     
     NSString * path = nil;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
 
     if(metadata != nil){
@@ -88,7 +82,7 @@
 }
 
 -(BOOL) exists: (NSString *) database{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     BOOL exists = [geoPackageMetadataDao existsByName:database];
     return exists;
 }
@@ -115,7 +109,7 @@
     BOOL deleted = false;
     
     // Get the metadata record
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
     if(metadata != nil){
         
@@ -132,7 +126,7 @@
 
 -(BOOL) deleteAll{
 
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     NSArray * allMetadata = [geoPackageMetadataDao getAll];
     
     if(allMetadata != nil){
@@ -450,7 +444,7 @@
         BOOL writable = [fileManager isWritableFileAtPath:documentsPath];
 
         GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:documentsPath];
-        geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable];
+        geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable andMetadataDb:self.metadataDb];
     }
 
     return geoPackage;
@@ -462,7 +456,7 @@
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy andSameDirectory: (BOOL) sameDirectory{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
@@ -500,7 +494,7 @@
     
     BOOL renamed = false;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
@@ -535,7 +529,7 @@
     
     BOOL moved = false;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
@@ -568,7 +562,7 @@
 }
 
 -(void) createMetadataWithName: (NSString *) name andPath: (NSString *) path{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.db getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     [self createMetadataWithDao:geoPackageMetadataDao andName:name andPath:path];
 }
 

@@ -1,5 +1,5 @@
 //
-//  GPKGSqlConnection.h
+//  GPKGSqliteConnection.h
 //  Pods
 //
 //  Created by Brian Osborn on 10/23/15.
@@ -15,7 +15,7 @@
 /**
  *  Single sqlite3 connection to a database file opened as part of a connection pool
  */
-@interface GPKGSqlConnection : NSObject
+@interface GPKGSqliteConnection : NSObject
 
 /**
  *  Initialize
@@ -49,12 +49,12 @@
 -(void) releaseConnection;
 
 /**
- *  Update the check out attributes using the current thread as the new owner. This is called by the connection pool automatically.
+ *  Update the check out attributes using the current thread as the new owner
  */
 -(void) checkOut;
 
 /**
- *  Clear the check out features upon check in. This is called by the connection pool automatically.
+ *  Clear the check out features upon check in
  */
 -(void) checkIn;
 
@@ -71,5 +71,12 @@
  *  @return date of checkout, nil if not checked out
  */
 -(NSDate *) getDateCheckedOut;
+
+/**
+ *  Determine if this connection is releasable
+ *
+ *  @return true if releasable
+ */
+-(BOOL) isReleasable;
 
 @end

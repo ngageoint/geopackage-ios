@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSMutableArray *availableConnections;
 @property (nonatomic, strong) NSMutableDictionary *usedConnections;
 @property (nonatomic) int idCounter;
-@property (nonatomic) NSDate * lastConnectionCheck;
+@property (nonatomic, strong) NSDate * lastConnectionCheck;
+@property (nonatomic, strong) NSMutableDictionary * resultConnections;
+@property (nonatomic, strong) GPKGSqliteConnection * writeConnection;
 
 @end
 
@@ -115,10 +117,11 @@ static BOOL maintainStackTraces = false;
         self.usedConnections = [[NSMutableDictionary alloc] init];
         self.idCounter = 1;
         self.lastConnectionCheck = [NSDate date];
+        self.resultConnections = [[NSMutableDictionary alloc] init];
         asl_add_log_file(NULL, STDERR_FILENO);
         
         // Open a database connection
-        GPKGSqlConnection * connection = [self openConnection];
+        GPKGSqliteConnection * connection = [self openConnection];
         [connection checkOut];
         [self.availableConnections addObject:connection];
     }
@@ -128,23 +131,28 @@ static BOOL maintainStackTraces = false;
 
 -(void) close{
     @synchronized(self) {
-        for(GPKGSqlConnection * connection in self.availableConnections){
+        for(GPKGSqliteConnection * connection in self.availableConnections){
             [GPKGSqlUtils closeDatabase:connection];
         }
         [self.availableConnections removeAllObjects];
-        for(GPKGSqlConnection * connection in [self.usedConnections allValues]){
+        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
             [GPKGSqlUtils closeDatabase:connection];
         }
         [self.usedConnections removeAllObjects];
     }
 }
 
--(GPKGSqlConnection *) getConnection{
-    GPKGSqlConnection * connection = nil;
+-(GPKGDbConnection *) getConnection{
+    GPKGSqliteConnection * connection = [self getSqliteConnection];
+    return [[GPKGDbConnection alloc] initWithConnection:connection andReleasable:true];
+}
+
+-(GPKGSqliteConnection *) getSqliteConnection{
+    GPKGSqliteConnection * connection = nil;
     @synchronized(self) {
         [self checkConnections];
         if(self.availableConnections.count > 0){
-            connection = (GPKGSqlConnection *)[self.availableConnections objectAtIndex:0];
+            connection = (GPKGSqliteConnection *)[self.availableConnections objectAtIndex:0];
             [self.availableConnections removeObjectAtIndex:0];
         }else{
             connection = [self openConnection];
@@ -156,14 +164,45 @@ static BOOL maintainStackTraces = false;
     return connection;
 }
 
--(BOOL) releaseConnection: (GPKGSqlConnection *) connection{
-    return [self releaseConnectionWithId:[connection getConnectionId]];
+-(GPKGDbConnection *) getResultConnection{
+    GPKGSqliteConnection * connection = nil;
+    @synchronized(self) {
+        connection = [self getSqliteConnection];
+        [self.resultConnections setObject:connection forKey:[connection getConnectionId]];
+    }
+    return [[GPKGDbConnection alloc] initWithConnection:connection andReleasable:true];
+}
+
+-(GPKGDbConnection *) getWriteConnection{
+    BOOL releasable = false;
+    GPKGSqliteConnection * connection = nil;
+    @synchronized(self) {
+        if(self.writeConnection != nil){
+            connection = self.writeConnection;
+        }else if(self.resultConnections.count > 0){
+            connection = [[self.resultConnections allValues] objectAtIndex:0]; // TODO
+            self.writeConnection = connection;
+        }else{
+            releasable = true;
+            connection = [self getSqliteConnection];
+            self.writeConnection = connection;
+        }
+    }
+    return [[GPKGDbConnection alloc] initWithConnection:connection andReleasable:releasable];
+}
+
+-(BOOL) releaseConnection: (GPKGDbConnection *) connection{
+    BOOL released = false;
+    if([connection isReleasable]){
+        released = [self releaseConnectionWithId:[connection getConnectionId]];
+    }
+    return released;
 }
 
 -(BOOL) releaseConnectionWithId: (NSNumber *) connectionId{
     BOOL released = false;
     @synchronized(self) {
-        GPKGSqlConnection * connection = [self.usedConnections objectForKey:connectionId];
+        GPKGSqliteConnection * connection = [self.usedConnections objectForKey:connectionId];
         if(connection != nil){
             [self.usedConnections removeObjectForKey:connectionId];
             released = true;
@@ -174,13 +213,21 @@ static BOOL maintainStackTraces = false;
                 [connection checkIn];
                 [self.availableConnections addObject:connection];
             }
+            
+            // Check if the write connection
+            if(self.writeConnection != nil && [[self.writeConnection getConnectionId] intValue] == [[connection getConnectionId] intValue]){
+                self.writeConnection = nil;
+            }
+            
+            // Remove if a result connection
+            [self.resultConnections removeObjectForKey:[connection getConnectionId]];
         }
         [self checkConnections];
     }
     return released;
 }
 
--(GPKGSqlConnection *) openConnection{
+-(GPKGSqliteConnection *) openConnection{
 
     sqlite3 *sqlite3Database;
     int openDatabaseResult = sqlite3_open([self.filename UTF8String], &sqlite3Database);
@@ -188,7 +235,7 @@ static BOOL maintainStackTraces = false;
         [NSException raise:@"Open Database Failure" format:@"Failed to open database: %@, Error: %s", self.filename, sqlite3_errmsg(sqlite3Database)];
     }
     
-    GPKGSqlConnection * connection = [[GPKGSqlConnection alloc] initWithId:self.idCounter++ andConnection:sqlite3Database andPool:self andStackTrace:(checkConnections && maintainStackTraces)];
+    GPKGSqliteConnection * connection = [[GPKGSqliteConnection alloc] initWithId:self.idCounter++ andConnection:sqlite3Database andPool:self andStackTrace:(checkConnections && maintainStackTraces)];
     
     return connection;
 }
@@ -200,7 +247,7 @@ static BOOL maintainStackTraces = false;
 -(void) checkConnections{
 
     if(checkConnections && ([self.lastConnectionCheck timeIntervalSinceNow] * -1) >= checkConnectionsFrequency){
-        for(GPKGSqlConnection * connection in [self.usedConnections allValues]){
+        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
             NSDate * dateCheckedOut = [connection getDateCheckedOut];
             if(dateCheckedOut != nil){
                 NSTimeInterval time = [dateCheckedOut timeIntervalSinceNow] * -1;

@@ -25,14 +25,14 @@
     self = [super init];
     if(self){
         self.featureDao = featureDao;
-        self.db = [[GPKGMetadataDb alloc] init];
+        self.db = featureDao.metadataDb;
         self.geometryMetadataDataSource = [self.db getGeometryMetadataDao];
     }
     return self;
 }
 
 -(void) close{
-    [self.db close];
+    
 }
 
 -(int) index{

@@ -12,7 +12,7 @@
 
 @implementation GPKGResultSet
 
--(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGSqlConnection *) connection{
+-(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection{
     self = [super init];
     if(self){
         self.statement = statement;

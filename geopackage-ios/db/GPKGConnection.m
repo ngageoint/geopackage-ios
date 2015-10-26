@@ -8,9 +8,10 @@
 
 #import "GPKGConnection.h"
 #import <sqlite3.h>
-#import "GPKGSqlUtils.h"
+#import "GPKGDbConnection.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGConnectionPool.h"
+#import "GPKGSqlUtils.h"
 
 @interface GPKGConnection()
 
@@ -40,7 +41,7 @@
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement andArgs: (NSArray *) args{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getResultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection andStatement:statement andArgs:args];
     return resultSet;
 }
@@ -70,7 +71,7 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getResultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection
                                         andDistinct:false andTable:table
                                          andColumns:columns
@@ -88,84 +89,84 @@
 }
 
 -(int) count:(NSString *) statement andArgs: (NSArray *) args{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getConnection];
     int count = [GPKGSqlUtils countWithDatabase:connection andStatement:statement andArgs:args];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getConnection];
     int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getConnection];
     int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(long long) insert:(NSString *) statement{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return id;
 }
 
 -(int) update:(NSString *) statement{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andTable:table andValues:values andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andTable:table andValues:values andWhere:where andWhereArgs:whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(long long) insertWithTable: (NSString *) table andValues: (GPKGContentValues *) values{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andTable:table andValues:values];
     [self.connectionPool releaseConnection:connection];
     return id;
 }
 
 -(int) delete:(NSString *) statement{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andTable:table andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(void) exec:(NSString *) statement{
-    GPKGSqlConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     [GPKGSqlUtils execWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
 }

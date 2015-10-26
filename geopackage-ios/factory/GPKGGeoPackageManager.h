@@ -16,6 +16,11 @@
 @interface GPKGGeoPackageManager : NSObject
 
 /**
+ *  Metadata database connection
+ */
+@property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
+
+/**
  *  Initialize
  *
  *  @return manager

@@ -1,14 +1,14 @@
 //
-//  GPKGSqlConnection.m
+//  GPKGSqliteConnection.m
 //  Pods
 //
 //  Created by Brian Osborn on 10/23/15.
 //
 //
 
-#import "GPKGSqlConnection.h"
+#import "GPKGSqliteConnection.h"
 
-@interface GPKGSqlConnection()
+@interface GPKGSqliteConnection()
 
 @property (nonatomic, strong) NSNumber * connectionId;
 @property (nonatomic) sqlite3 *connection;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation GPKGSqlConnection
+@implementation GPKGSqliteConnection
 
 -(instancetype)initWithId: (int) connectionId andConnection: (sqlite3 *) connection andPool: (GPKGConnectionPool *) connectionPool andStackTrace: (BOOL) stackTrace{
     self = [super init];
@@ -42,7 +42,7 @@
 }
 
 -(void) releaseConnection{
-    [self.connectionPool releaseConnection:self];
+    [self.connectionPool releaseConnectionWithId:[self getConnectionId]];
 }
 
 -(void) checkOut{
@@ -63,6 +63,10 @@
 
 -(NSDate *) getDateCheckedOut{
     return self.dateCheckedOut;
+}
+
+-(BOOL) isReleasable{
+    return true;
 }
 
 @end
