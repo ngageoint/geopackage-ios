@@ -10,6 +10,7 @@
 #import "GPKGResultSet.h"
 #import <sqlite3.h>
 #import "GPKGContentValues.h"
+#import "GPKGSqlConnection.h"
 
 /**
  *  SQL utility methods
@@ -19,26 +20,26 @@
 /**
  *  Execute statement on the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement statement
  */
-+(void) execWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
++(void) execWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement;
 
 /**
  *  Query statement on the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement statement
  *  @param args      statement args
  *
  *  @return result set
  */
-+(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(GPKGResultSet *) queryWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
 
 /**
  *  Query on the database
  *
- *  @param database  databaes
+ *  @param connection  connection
  *  @param distinct  distinct flag
  *  @param table     table
  *  @param columns   columns
@@ -51,7 +52,7 @@
  *
  *  @return result set
  */
-+(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database
++(GPKGResultSet *) queryWithDatabase: (GPKGSqlConnection *) connection
                             andDistinct: (BOOL) distinct
                             andTable: (NSString *) table
                             andColumns: (NSArray *) columns
@@ -65,36 +66,36 @@
 /**
  *  Count on the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement count statement
  *  @param args      statement args
  *
  *  @return count
  */
-+(int) countWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(int) countWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
 
 /**
  *  Count on the database table where
  *
- *  @param database database
+ *  @param connection  connection
  *  @param table    table
  *  @param where    where clause
  *
  *  @return count
  */
-+(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where;
++(int) countWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where;
 
 /**
  *  Count on the database table where
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param table     table
  *  @param where     where clause
  *  @param whereArgs where args
  *
  *  @return count
  */
-+(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
++(int) countWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Count on the database
@@ -104,77 +105,77 @@
  *
  *  @return count
  */
-+(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement;
++(int) countWithDatabase: (GPKGSqlConnection *) connection andCountStatement: (NSString *) countStatement;
 
 /**
  *  Count on the database
  *
- *  @param database       database
+ *  @param connection  connection
  *  @param countStatement count statement
  *  @param args           statement args
  *
  *  @return count
  */
-+(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
++(int) countWithDatabase: (GPKGSqlConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
 
 /**
  *  Insert into database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement insert statement
  *
  *  @return insertion id
  */
-+(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
++(long long) insertWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement;
 
 /**
  *  Insert into database
  *
- *  @param database database
+ *  @param connection  connection
  *  @param table    table
  *  @param values   values
  *
  *  @return insertion id
  */
-+(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values;
++(long long) insertWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values;
 
 /**
  *  Update in the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement update statement
  *
  *  @return updated rows
  */
-+(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
++(int) updateWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement;
 
 /**
  *  Update in the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement update statement
  *  @param args      statement args
  *
  *  @return updated rows
  */
-+(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(int) updateWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
 
 /**
  *  Update in the database
  *
- *  @param database database
+ *  @param connection  connection
  *  @param table    table
  *  @param values   content values
  *  @param where    where clause
  *
  *  @return updated rows
  */
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where;
++(int) updateWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where;
 
 /**
  *  Update in the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param table     table
  *  @param values    content values
  *  @param where     where clause
@@ -182,51 +183,51 @@
  *
  *  @return updated rows
  */
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
++(int) updateWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Delete from the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement statement
  *
  *  @return deleted rows
  */
-+(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement;
++(int) deleteWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement;
 
 /**
  *  Delete from the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param statement statement
  *  @param args      statement args
  *
  *  @return deleted rows
  */
-+(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(int) deleteWithDatabase: (GPKGSqlConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
 
 /**
  *  Delete from the database
  *
- *  @param database database
+ *  @param connection  connection
  *  @param table    table
  *  @param where    where clause
  *
  *  @return deleted rows
  */
-+(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where;
++(int) deleteWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where;
 
 /**
  *  Delete from the database
  *
- *  @param database  database
+ *  @param connection  connection
  *  @param table     table
  *  @param where     where clause
  *  @param whereArgs where args
  *
  *  @return deleted rows
  */
-+(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
++(int) deleteWithDatabase: (GPKGSqlConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Close the statement
@@ -245,9 +246,9 @@
 /**
  *  Close the database
  *
- *  @param database database
+ *  @param connection  connection
  */
-+(void) closeDatabase: (sqlite3 *) database;
++(void) closeDatabase: (GPKGSqlConnection *) connection;
 
 /**
  *  Get the sql string for the value

@@ -109,7 +109,7 @@
         }
     }
     @catch (NSException *e) {
-        NSLog(@"Failed to draw tile from feature table %@. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
+        NSLog(@"Failed to draw tile from feature table %@. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     return image;
 }
@@ -155,7 +155,7 @@
         }
     }
     @catch (NSException *e) {
-        NSLog(@"Failed to draw tile from feature table %@ querying indexed results. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
+        NSLog(@"Failed to draw tile from feature table %@ querying indexed results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];
@@ -227,7 +227,7 @@
         }
     }
     @catch (NSException *e) {
-        NSLog(@"Failed to draw tile from feature table %@ querying all results. x: %@, y:%@, z: %@. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
+        NSLog(@"Failed to draw tile from feature table %@ querying all results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];

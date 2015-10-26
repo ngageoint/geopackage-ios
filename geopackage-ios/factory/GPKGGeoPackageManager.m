@@ -397,7 +397,7 @@
     // Verify the database is valid
     sqlite3 *sqlite3Database;
     int openDatabaseResult = sqlite3_open([documentsPath UTF8String], &sqlite3Database);
-    [GPKGSqlUtils closeDatabase:sqlite3Database];
+    sqlite3_close(sqlite3Database);
     if(openDatabaseResult != SQLITE_OK){
         // Delete the file
         [GPKGIOUtils deleteFile:documentsPath];

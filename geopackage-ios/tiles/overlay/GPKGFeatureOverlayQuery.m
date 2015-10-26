@@ -286,6 +286,8 @@
         }
     }
     
+    [results close];
+    
     return message;
 }
 

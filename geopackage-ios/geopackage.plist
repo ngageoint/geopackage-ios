@@ -113,5 +113,15 @@
 	<string>false</string>
 	<key>geopackage.max_zoom_level</key>
 	<string>22</string>
+	<key>geopackage.connection_pool.open_connections_per_pool</key>
+	<string>10</string>
+	<key>geopackage.connection_pool.check_connections</key>
+	<string>true</string>
+	<key>geopackage.connection_pool.check_connections_frequency</key>
+	<string>120</string>
+	<key>geopackage.connection_pool.check_connections_warning_time</key>
+	<string>300</string>
+	<key>geopackage.connection_pool.maintain_stack_traces</key>
+	<string>true</string>
 </dict>
 </plist>
