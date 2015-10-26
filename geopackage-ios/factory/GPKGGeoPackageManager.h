@@ -11,9 +11,21 @@
 #import "GPKGProgress.h"
 
 /**
- *  GeoPackage Database management
+ *  GeoPackage Database management. Maintains an active connection to the metadata database, close when done.
  */
 @interface GPKGGeoPackageManager : NSObject
+
+/**
+ *  Initialize
+ *
+ *  @return manager
+ */
+-(instancetype) init;
+
+/**
+ *  Close the manager connection
+ */
+-(void) close;
 
 /**
  *  List all GeoPackage databases sorted alphabetically

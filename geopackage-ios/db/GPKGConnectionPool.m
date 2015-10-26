@@ -39,6 +39,7 @@ static BOOL maintainStackTraces = false;
 +(void) setOpenConnectionsPerPool: (int) connections{
     [self initializeDefaults];
     openConnectionsPerPool = connections;
+    [self logProperties];
 }
 
 +(BOOL) getCheckConnections{
@@ -49,6 +50,7 @@ static BOOL maintainStackTraces = false;
 +(void) setCheckConnections: (BOOL) check{
     [self initializeDefaults];
     checkConnections = check;
+    [self logProperties];
 }
 
 +(int) getCheckConnectionsFrequency{
@@ -59,6 +61,7 @@ static BOOL maintainStackTraces = false;
 +(void) setCheckConnectionsFrequency: (int) frequency{
     [self initializeDefaults];
     checkConnectionsFrequency = frequency;
+    [self logProperties];
 }
 
 +(int) getCheckConnectionsWarningTime{
@@ -69,6 +72,7 @@ static BOOL maintainStackTraces = false;
 +(void) setCheckConnectionsWarningTime: (int) time{
     [self initializeDefaults];
     checkConnectionsWarningTime = time;
+    [self logProperties];
 }
 
 +(BOOL) getMaintainStackTraces{
@@ -79,6 +83,7 @@ static BOOL maintainStackTraces = false;
 +(void) setMaintainStackTraces: (BOOL) maintain{
     [self initializeDefaults];
     maintainStackTraces = maintain;
+    [self logProperties];
 }
 
 +(void) initializeDefaults{
@@ -89,7 +94,14 @@ static BOOL maintainStackTraces = false;
         checkConnectionsFrequency = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_CONNECTION_POOL andProperty:GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_FREQUENCY] floatValue];
         checkConnectionsWarningTime = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_CONNECTION_POOL andProperty:GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_WARNING_TIME] floatValue];
         maintainStackTraces = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_CONNECTION_POOL andProperty:GPKG_PROP_CONNECTION_POOL_MAINTAIN_STACK_TRACES];
+        
+        [self logProperties];
     }
+}
+
++(void) logProperties{
+    NSLog(@"Open connections per pool: %d, Check connections: %s%@", openConnectionsPerPool, checkConnections ? "true" : "false",
+          !checkConnections ? @"" : [NSString stringWithFormat:@" (frequency: %d, warning time: %d, stack traces: %s)", checkConnectionsFrequency, checkConnectionsWarningTime, maintainStackTraces ? "true" : "false"]);
 }
 
 -(instancetype)initWithDatabaseFilename:(NSString *) filename{
@@ -136,7 +148,7 @@ static BOOL maintainStackTraces = false;
             [self.availableConnections removeObjectAtIndex:0];
         }else{
             connection = [self openConnection];
-            NSLog(@"Opened a connection to %@, open connections: %lu", self.filename, (unsigned long)[self connectionCount]);
+            NSLog(@"Opened a connection to %@, open connections: %lu", self.filename, 1 + (unsigned long)[self connectionCount]);
         }
         [connection checkOut];
         [self.usedConnections setObject:connection forKey:[connection getConnectionId]];
