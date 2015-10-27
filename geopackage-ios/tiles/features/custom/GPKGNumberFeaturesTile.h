@@ -18,6 +18,81 @@
  */
 @interface GPKGNumberFeaturesTile : NSObject<GPKGCustomFeaturesTile>
 
-// TODO
+/**
+ *  Text font size used for the drawn number
+ */
+@property (nonatomic) double textFontSize;
+
+/**
+ *  Text color
+ */
+@property (nonatomic) UIColor * textColor;
+
+/**
+ *  When true, circle is drawn
+ */
+@property (nonatomic) BOOL drawCircle;
+
+/**
+ *  Circle stroke width
+ */
+@property (nonatomic) double circleStrokeWidth;
+
+/**
+ *  Circle color
+ */
+@property (nonatomic) UIColor * circleColor;
+
+/**
+ *  When true, circle is filled with color
+ */
+@property (nonatomic) BOOL fillCircle;
+
+/**
+ *  Circle fill color
+ */
+@property (nonatomic) UIColor * circleFillColor;
+
+/**
+ *  When true, tile border is drawn
+ */
+@property (nonatomic) BOOL drawTileBorder;
+
+/**
+ *  Tile Border stroke width
+ */
+@property (nonatomic) double tileBorderStrokeWidth;
+
+/**
+ *  Tile Border color
+ */
+@property (nonatomic) UIColor * tileBorderColor;
+
+/**
+ *  When true, tile is filled with color
+ */
+@property (nonatomic) BOOL fillTile;
+
+/**
+ *  Tile fill color
+ */
+@property (nonatomic) UIColor * tileFillColor;
+
+/**
+ *  The percentage of border to include around the edges of the text in the circle
+ */
+@property (nonatomic) float circlePaddingPercentage;
+
+/**
+ *  Flag indicating whether tiles should be drawn for feature tables that are not indexed
+ */
+@property (nonatomic) BOOL drawUnindexedTiles;
+
+/**
+ *  Initialize
+ *
+ *  @return new number feature tile
+ */
+-(instancetype) init;
 
 @end
