@@ -26,11 +26,29 @@
 
 @implementation GPKGConnectionPool
 
-// Static default settings
+/**
+ *  Number of connection to keep open per pool, connections released above this number are closed
+ */
 static int openConnectionsPerPool = -1;
+
+/**
+ *  Flag indicating to check for connections that remain open for long periods of time
+ */
 static BOOL checkConnections = false;
+
+/**
+ *  Frequency in seconds to check for long opened connections
+ */
 static int checkConnectionsFrequency = -1;
+
+/**
+ *  Time in seconds that makes a connection considered as open for a long time
+ */
 static int checkConnectionsWarningTime = -1;
+
+/**
+ *  Flag indicating whether to save the stack trace of the connection checkout caller
+ */
 static BOOL maintainStackTraces = false;
 
 +(int) getOpenConnectionsPerPool{
@@ -88,6 +106,9 @@ static BOOL maintainStackTraces = false;
     [self logProperties];
 }
 
+/**
+ *  Initialize the default connection pool settings
+ */
 +(void) initializeDefaults{
     // Initialize static defaults
     if(openConnectionsPerPool == -1){
@@ -101,6 +122,9 @@ static BOOL maintainStackTraces = false;
     }
 }
 
+/**
+ *  Log the default connection pool settings
+ */
 +(void) logProperties{
     NSLog(@"Open connections per pool: %d, Check connections: %s%@", openConnectionsPerPool, checkConnections ? "true" : "false",
           !checkConnections ? @"" : [NSString stringWithFormat:@" (frequency: %d, warning time: %d, stack traces: %s)", checkConnectionsFrequency, checkConnectionsWarningTime, maintainStackTraces ? "true" : "false"]);
@@ -147,6 +171,11 @@ static BOOL maintainStackTraces = false;
     return [[GPKGDbConnection alloc] initWithConnection:connection andReleasable:true];
 }
 
+/**
+ *  Get an available connection or open a new one
+ *
+ *  @return connection
+ */
 -(GPKGSqliteConnection *) getSqliteConnection{
     GPKGSqliteConnection * connection = nil;
     @synchronized(self) {
@@ -232,6 +261,11 @@ static BOOL maintainStackTraces = false;
     return released;
 }
 
+/**
+ *  Open a new sqlite connection to the database file
+ *
+ *  @return <#return value description#>
+ */
 -(GPKGSqliteConnection *) openConnection{
 
     sqlite3 *sqlite3Database;
@@ -249,9 +283,15 @@ static BOOL maintainStackTraces = false;
     return self.availableConnections.count + self.usedConnections.count;
 }
 
+/**
+ *  Check for connections that have been checked out for long periods of time and warn
+ */
 -(void) checkConnections{
 
+    // If checking connections and time to check
     if(checkConnections && ([self.lastConnectionCheck timeIntervalSinceNow] * -1) >= checkConnectionsFrequency){
+        
+        // Check each used connection
         for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
             NSDate * dateCheckedOut = [connection getDateCheckedOut];
             if(dateCheckedOut != nil){

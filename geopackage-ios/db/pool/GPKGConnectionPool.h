@@ -102,21 +102,21 @@
 -(void) close;
 
 /**
- *  Get a connection, either an open available or new. The connection must be released when done.
+ *  Get a connection for single database reads (do not maintain open result sets), such as counts. The connection must be released when done.
  *
  *  @return connection
  */
 -(GPKGDbConnection *) getConnection;
 
 /**
- *  TODO
+ *  Get a connection for database reads that maintain open result sets, such as row queries. The connection must be released when done.
  *
  *  @return connection for result sets
  */
 -(GPKGDbConnection *) getResultConnection;
 
 /**
- *  TODO
+ *  Get a connection for database updates. The connection must be released when done.
  *
  *  @return connection for writing
  */
@@ -139,5 +139,12 @@
  *  @return true if released
  */
 -(BOOL) releaseConnectionWithId: (NSNumber *) connectionId;
+
+/**
+ *  Total connection count of open available and used connections
+ *
+ *  @return connection count
+ */
+-(NSUInteger) connectionCount;
 
 @end
