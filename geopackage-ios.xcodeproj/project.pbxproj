@@ -283,6 +283,7 @@
 		04DD109E1BDE9D4C00CC59A0 /* GPKGSqliteConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD109A1BDE9D4C00CC59A0 /* GPKGSqliteConnection.m */; settings = {ASSET_TAGS = (); }; };
 		04DD10A91BDEBFDC00CC59A0 /* GPKGDbConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10A71BDEBFDC00CC59A0 /* GPKGDbConnection.h */; settings = {ASSET_TAGS = (); }; };
 		04DD10AA1BDEBFDC00CC59A0 /* GPKGDbConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10A81BDEBFDC00CC59A0 /* GPKGDbConnection.m */; settings = {ASSET_TAGS = (); }; };
+		04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */; settings = {ASSET_TAGS = (); }; };
 		6903C385D41142932E5D29BE /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */; };
 		B16EA3BC364185079F6FC3EA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA26FA59BD87DC4A9A30A36 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -595,6 +596,8 @@
 		04DD109A1BDE9D4C00CC59A0 /* GPKGSqliteConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGSqliteConnection.m; sourceTree = "<group>"; };
 		04DD10A71BDEBFDC00CC59A0 /* GPKGDbConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDbConnection.h; sourceTree = "<group>"; };
 		04DD10A81BDEBFDC00CC59A0 /* GPKGDbConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDbConnection.m; sourceTree = "<group>"; };
+		04DD10AE1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnectionPoolTestCase.h; sourceTree = "<group>"; };
+		04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionPoolTestCase.m; sourceTree = "<group>"; };
 		311A6D7DA91DB9C729B57458 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-geopackage-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA26FA59BD87DC4A9A30A36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1163,6 +1166,7 @@
 		042FC8C51B964DA200549A4B /* db */ = {
 			isa = PBXGroup;
 			children = (
+				04DD10AD1BDFB10600CC59A0 /* pool */,
 				042FC8C61B964DA200549A4B /* GPKGFeatureIndexerTest.h */,
 				042FC8C71B964DA200549A4B /* GPKGFeatureIndexerTest.m */,
 			);
@@ -1310,6 +1314,15 @@
 				04DD109A1BDE9D4C00CC59A0 /* GPKGSqliteConnection.m */,
 				04DD10A71BDEBFDC00CC59A0 /* GPKGDbConnection.h */,
 				04DD10A81BDEBFDC00CC59A0 /* GPKGDbConnection.m */,
+			);
+			path = pool;
+			sourceTree = "<group>";
+		};
+		04DD10AD1BDFB10600CC59A0 /* pool */ = {
+			isa = PBXGroup;
+			children = (
+				04DD10AE1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.h */,
+				04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */,
 			);
 			path = pool;
 			sourceTree = "<group>";
@@ -1775,6 +1788,7 @@
 				042FC8F11B964DA200549A4B /* GPKGTestSetupTeardown.m in Sources */,
 				042FC8ED1B964DA200549A4B /* GPKGCreateGeoPackageTestCase.m in Sources */,
 				042FC8F21B964DA200549A4B /* GPKGTestUtils.m in Sources */,
+				04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */,
 				0480CD151BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m in Sources */,
 				042FC8EC1B964DA200549A4B /* GPKGBaseTestCase.m in Sources */,
 				042FC8EB1B964DA200549A4B /* GPKGGeoPackageGeometryDataUtils.m in Sources */,

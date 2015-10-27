@@ -180,7 +180,12 @@ static BOOL maintainStackTraces = false;
         if(self.writeConnection != nil){
             connection = self.writeConnection;
         }else if(self.resultConnections.count > 0){
-            connection = [[self.resultConnections allValues] objectAtIndex:0]; // TODO
+            if(self.resultConnections.count > 1){
+                // Multiple open result connections causes a database locked error when trying to use the connection, regardless of which connection is used
+                [NSException raise:@"Connection State Not Writable" format:@"%lu result connections are open, locking the database and preventing writes. A max of one result connection can be open to while updating the database. File: %@",
+                 (unsigned long)self.resultConnections.count, self.filename];
+            }
+            connection = [[self.resultConnections allValues] objectAtIndex:0];
             self.writeConnection = connection;
         }else{
             releasable = true;
