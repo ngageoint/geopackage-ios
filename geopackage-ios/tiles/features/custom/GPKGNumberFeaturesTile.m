@@ -8,6 +8,9 @@
 
 #import "GPKGNumberFeaturesTile.h"
 #import <CoreText/CoreText.h>
+#import "GPKGUtils.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 @implementation GPKGNumberFeaturesTile
 
@@ -16,32 +19,34 @@
     if(self != nil){
         
         // Set the default text paint values
-        self.textFontSize = 7.0 * [[UIScreen mainScreen] scale]; // TODO
-        self.textColor = [UIColor magentaColor]; // TODO
+        self.textFont = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT];
+        self.textFontSize = [[UIScreen mainScreen] scale] * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE] floatValue];
+        self.textColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR]];
         
         // Set the default circle values
-        self.drawCircle = true; // TODO
-        self.circleColor = [UIColor redColor]; // TODO
-        self.circleStrokeWidth = 5.0; // TODO
+        self.drawCircle = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE];
+        self.circleColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR]];
+        self.circleStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH] floatValue];
         
         // Set the default circle fill values
-        self.fillCircle = true; // TODO
-        self.circleFillColor = [UIColor darkGrayColor]; // TODO
+        self.fillCircle = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE];
+        self.circleFillColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR]];
         
         // Set the default tile border values
-        self.drawTileBorder = true; // TODO
-        self.tileBorderColor = [UIColor blueColor]; // TODO
-        self.tileBorderStrokeWidth = 2.0; // TODO
+        self.drawTileBorder = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER];
+        self.tileBorderColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR]];
+        self.tileBorderStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH] floatValue];
         
         // Set the default tile fill values
-        self.fillTile = true; // TODO
-        self.tileFillColor = [UIColor yellowColor]; // TODO
+        self.fillTile = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE];
+        self.tileFillColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR]];
         
         // Set the default circle padding percentage
-        self.circlePaddingPercentage = .1; // TODO
+        self.circlePaddingPercentage = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE] floatValue];
         
         // Set the default draw unindexed tiles value
-        self.drawUnindexedTiles = true; // TODO
+        self.drawUnindexedTiles = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES];
+        self.unindexedText = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_UNINDEXED_TEXT];
     }
     return self;
 }
@@ -61,7 +66,7 @@
     if(self.drawUnindexedTiles){
         // Draw a tile indicating we have no idea if there are features inside.
         // The table is not indexed and more features exist than the max feature count set.
-        image = [self drawTileWithTileWidth:tileWidth andTileHeight:tileHeight andText:@"?"];
+        image = [self drawTileWithTileWidth:tileWidth andTileHeight:tileHeight andText:self.unindexedText];
     }
     
     return image;
@@ -106,7 +111,7 @@
     }
     
     // Determine the text bounds
-    UIFont * font = [UIFont boldSystemFontOfSize:self.textFontSize];
+    UIFont * font = [UIFont fontWithName:self.textFont size:self.textFontSize];
     CGSize textSize = [text sizeWithFont:font];
     
     // Determine the center of the tile

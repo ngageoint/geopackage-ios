@@ -19,6 +19,11 @@
 @interface GPKGNumberFeaturesTile : NSObject<GPKGCustomFeaturesTile>
 
 /**
+ *  Text font used for the drawn number
+ */
+@property (nonatomic, strong) NSString * textFont;
+
+/**
  *  Text font size used for the drawn number
  */
 @property (nonatomic) double textFontSize;
@@ -41,7 +46,7 @@
 /**
  *  Circle color
  */
-@property (nonatomic) UIColor * circleColor;
+@property (nonatomic, strong) UIColor * circleColor;
 
 /**
  *  When true, circle is filled with color
@@ -51,7 +56,7 @@
 /**
  *  Circle fill color
  */
-@property (nonatomic) UIColor * circleFillColor;
+@property (nonatomic, strong) UIColor * circleFillColor;
 
 /**
  *  When true, tile border is drawn
@@ -66,7 +71,7 @@
 /**
  *  Tile Border color
  */
-@property (nonatomic) UIColor * tileBorderColor;
+@property (nonatomic, strong) UIColor * tileBorderColor;
 
 /**
  *  When true, tile is filled with color
@@ -76,7 +81,7 @@
 /**
  *  Tile fill color
  */
-@property (nonatomic) UIColor * tileFillColor;
+@property (nonatomic, strong) UIColor * tileFillColor;
 
 /**
  *  The percentage of border to include around the edges of the text in the circle
@@ -87,6 +92,11 @@
  *  Flag indicating whether tiles should be drawn for feature tables that are not indexed
  */
 @property (nonatomic) BOOL drawUnindexedTiles;
+
+/**
+ *  Text used when drawing tiles for feature tables that are not indexed
+ */
+@property (nonatomic, strong) NSString * unindexedText;
 
 /**
  *  Initialize

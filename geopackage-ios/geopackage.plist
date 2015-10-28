@@ -123,5 +123,62 @@
 	<string>300</string>
 	<key>geopackage.connection_pool.maintain_stack_traces</key>
 	<string>true</string>
+	<key>geopackage.number_feature_tiles.text_font</key>
+	<string>Helvetica</string>
+	<key>geopackage.number_feature_tiles.text_font_size</key>
+	<string>7.0</string>
+	<key>geopackage.number_feature_tiles.text_color</key>
+	<dict>
+		<key>white</key>
+		<string>1</string>
+		<key>alpha</key>
+		<string>1</string>
+	</dict>
+	<key>geopackage.number_feature_tiles.draw_circle</key>
+	<string>true</string>
+	<key>geopackage.number_feature_tiles.circle_color</key>
+	<dict>
+		<key>white</key>
+		<string>0</string>
+		<key>alpha</key>
+		<string>.25098</string>
+	</dict>
+	<key>geopackage.number_feature_tiles.circle_stroke_width</key>
+	<string>5.0</string>
+	<key>geopackage.number_feature_tiles.fill_circle</key>
+	<string>true</string>
+	<key>geopackage.number_feature_tiles.circle_fill_color</key>
+	<dict>
+		<key>white</key>
+		<string>0</string>
+		<key>alpha</key>
+		<string>1</string>
+	</dict>
+	<key>geopackage.number_feature_tiles.draw_tile_border</key>
+	<string>true</string>
+	<key>geopackage.number_feature_tiles.tile_border_color</key>
+	<dict>
+		<key>white</key>
+		<string>0</string>
+		<key>alpha</key>
+		<string>1</string>
+	</dict>
+	<key>geopackage.number_feature_tiles.tile_border_stroke_width</key>
+	<string>5.0</string>
+	<key>geopackage.number_feature_tiles.fill_tile</key>
+	<string>true</string>
+	<key>geopackage.number_feature_tiles.tile_fill_color</key>
+	<dict>
+		<key>white</key>
+		<string>0</string>
+		<key>alpha</key>
+		<string>.062745</string>
+	</dict>
+	<key>geopackage.number_feature_tiles.circle_padding_percentage</key>
+	<string>.1</string>
+	<key>geopackage.number_feature_tiles.draw_unindexed_tiles</key>
+	<string>true</string>
+	<key>geopackage.number_feature_tiles.unindexed_text</key>
+	<string>?</string>
 </dict>
 </plist>

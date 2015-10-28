@@ -109,6 +109,31 @@ static NSDictionary * properties;
     return [self getArrayValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
 }
 
++(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property{
+    return [self getDictionaryValueOfProperty:property andRequired:true];
+}
+
++(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
+    
+    [self initializeProperties];
+    
+    NSDictionary * value = [properties objectForKey:property];
+    
+    if(value == nil && required){
+        [NSException raise:@"Required Property" format:@"Required property not found: %@", property];
+    }
+    
+    return value;
+}
+
++(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self getDictionaryValueOfBaseProperty:base andProperty:property andRequired:true];
+}
+
++(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self getDictionaryValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+}
+
 +(void) initializeProperties{
     if(properties == nil){
         NSString * propertiesPath = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES];

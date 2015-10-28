@@ -55,6 +55,28 @@ NSString * const GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS = @"check_connectio
 NSString * const GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_FREQUENCY = @"check_connections_frequency";
 NSString * const GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_WARNING_TIME = @"check_connections_warning_time";
 NSString * const GPKG_PROP_CONNECTION_POOL_MAINTAIN_STACK_TRACES = @"maintain_stack_traces";
+NSString * const GPKG_PROP_COLORS_RED = @"red";
+NSString * const GPKG_PROP_COLORS_GREEN = @"green";
+NSString * const GPKG_PROP_COLORS_BLUE = @"blue";
+NSString * const GPKG_PROP_COLORS_ALPHA = @"alpha";
+NSString * const GPKG_PROP_COLORS_WHITE = @"white";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES = @"geopackage.number_feature_tiles";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT = @"text_font";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE = @"text_font_size";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR = @"text_color";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE = @"draw_circle";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR = @"circle_color";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH = @"circle_stroke_width";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE = @"fill_circle";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR = @"circle_fill_color";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER = @"draw_tile_border";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR = @"tile_border_color";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH = @"tile_border_stroke_width";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE = @"fill_tile";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR = @"tile_fill_color";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE = @"circle_padding_percentage";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES = @"draw_unindexed_tiles";
+NSString * const GPKG_PROP_NUMBER_FEATURE_TILES_UNINDEXED_TEXT = @"unindexed_text";
 
 @implementation GPKGPropertyConstants
 
