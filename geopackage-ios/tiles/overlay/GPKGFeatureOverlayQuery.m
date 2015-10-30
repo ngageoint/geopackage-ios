@@ -11,12 +11,15 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGProjectionFactory.h"
 #import "WKBGeometryPrinter.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
 @property (nonatomic, strong) GPKGFeatureOverlay *featureOverlay;
 @property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
 @property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic) int maxZoom;
 
 @end
 
@@ -33,16 +36,18 @@
         self.name = [NSString stringWithFormat:@"%@ - %@", featureDao.databaseName, featureDao.tableName];
         
         // Get the screen percentage to determine when a feature is clicked
-        self.screenClickPercentage = .03; // TODO configure
+        self.screenClickPercentage = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_SCREEN_CLICK_PERCENTAGE] floatValue];
         
-        self.maxFeaturesInfo = true; // TODO configure
-        self.featuresInfo = true; // TODO configure
+        self.maxFeaturesInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO];
+        self.featuresInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
         
-        self.maxPointDetailedInfo = 10; // TODO configure
-        self.maxFeatureDetailedInfo = 10; // TODO configure
+        self.maxPointDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO] intValue];
+        self.maxFeatureDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO] intValue];
         
-        self.detailedInfoPrintPoints = true; // TODO configure
-        self.detailedInfoPrintFeatures = false; // TODO configure
+        self.detailedInfoPrintPoints = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
+        self.detailedInfoPrintFeatures = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
+
+        self.maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     }
     return self;
 }
@@ -67,12 +72,11 @@
 }
 
 -(double) currentZoomWithMapView: (MKMapView *) mapView{
-    double maxZoom = log2(MKMapSizeWorld.width / 256.0);
     CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
     CGFloat width = mapView.bounds.size.width;
     double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (180.0 * width);
-    double zoom = maxZoom - log2(scale);
-    if (maxZoom < 0){
+    double zoom = self.maxZoom - round(log2(scale));
+    if (self.maxZoom < 0){
         zoom = 0;
     }
     
@@ -200,7 +204,7 @@
 }
 
 -(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount{
-    return [NSString stringWithFormat:@"\n\t%d features", tileFeaturesCount];
+    return [NSString stringWithFormat:@"%@\n\t%d features", self.name, tileFeaturesCount];
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
@@ -273,6 +277,7 @@
                 }
             }
         }else{
+            message = [[NSMutableString alloc] init];
             [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
             if(point != nil){
                 [message appendString:@" near location:\n"];
@@ -280,6 +285,8 @@
             }
         }
     }
+    
+    [results close];
     
     return message;
 }
@@ -295,32 +302,39 @@
     
     if(self.maxFeaturesInfo || self.featuresInfo){
         
-        // Get the current map zoom and verify it is within the overlays zoom range
-        double zoom = [self currentZoomWithMapView:mapView];
-        if([self onAtZoom:zoom]){
-            
-            // Get the number of features in the tile location
-            int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
-            
-            // If more than a configured max features to draw
-            if([self moreThanMaxFeatures:tileFeatureCount]){
+        @try {
+        
+            // Get the current map zoom and verify it is within the overlays zoom range
+            double zoom = [self currentZoomWithMapView:mapView];
+            if([self onAtZoom:zoom]){
                 
-                // Build the max features message
-                if(self.maxFeaturesInfo){
-                    message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                // Get the number of features in the tile location
+                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+                
+                // If more than a configured max features to draw
+                if([self moreThanMaxFeatures:tileFeatureCount]){
+                    
+                    // Build the max features message
+                    if(self.maxFeaturesInfo){
+                        message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                    }
+                    
                 }
-                
+                // Else, query for the features near the click
+                else if(self.featuresInfo){
+                    
+                    // Build a bounding box to represent the click location
+                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+                    
+                    // Query for results and build the message
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+                }
             }
-            // Else, query for the features near the click
-            else if(self.featuresInfo){
-                
-                // Build a bounding box to represent the click location
-                GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
-                
-                // Query for results and build the message
-                GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
-                message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
-            }
+            
+        }
+        @catch (NSException *e) {
+            NSLog(@"Build Map Click Message Error: %@", [e description]);
         }
     }
     

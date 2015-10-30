@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+#import "GPKGDbConnection.h"
 
 /**
  *  Result set from a database query
@@ -23,6 +24,11 @@
  *  Result count
  */
 @property (nonatomic) int count;
+
+/**
+ *  SQL Connection
+ */
+@property (nonatomic, strong) GPKGDbConnection *connection;
 
 /**
  *  Columns
@@ -42,7 +48,7 @@
  *
  *  @return new result set
  */
--(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count;
+-(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection;
 
 /**
  *  Move to the next result if one exists

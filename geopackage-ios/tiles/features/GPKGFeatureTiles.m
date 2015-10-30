@@ -101,10 +101,15 @@
 -(UIImage *) drawTileWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     UIImage * image = nil;
-    if([self isIndexQuery]){
-        image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
-    }else{
-        image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+    @try {
+        if([self isIndexQuery]){
+            image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
+        }else{
+            image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     return image;
 }
@@ -148,6 +153,9 @@
             // Draw the max features tile
             image = [self.maxFeaturesTileDraw drawTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTileFeatureCount:[tileCount intValue] andFeatureIndexResults:results];
         }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@ querying indexed results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];
@@ -217,6 +225,9 @@
             // Draw the unindexed max features tile
             image = [self.maxFeaturesTileDraw drawUnindexedTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTotalFeatureCount:[totalCount intValue] andFeatureDao:self.featureDao andResults:results];
         }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@ querying all results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     @finally {
         [results close];

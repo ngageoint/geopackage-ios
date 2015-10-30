@@ -12,11 +12,12 @@
 
 @implementation GPKGResultSet
 
--(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count{
+-(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection{
     self = [super init];
     if(self){
         self.statement = statement;
         self.count = count;
+        self.connection = connection;
     
         int totalColumns = sqlite3_column_count(statement);
 
@@ -56,6 +57,7 @@
 
 -(void) close{
     [GPKGSqlUtils closeStatement:self.statement];
+    [self.connection releaseConnection];
 }
 
 -(NSArray *) getRow{

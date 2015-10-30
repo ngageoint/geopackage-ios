@@ -120,11 +120,13 @@
 
 -(NSObject *) getFirstObject: (GPKGResultSet *)results{
     NSObject *objectResult = nil;
-    if([results moveToNext]){
-        objectResult = [self getObject: results];
+    @try{
+        if([results moveToNext]){
+            objectResult = [self getObject: results];
+        }
+    }@finally{
+        [results close];
     }
-    
-    [results close];
     
     return objectResult;
 }

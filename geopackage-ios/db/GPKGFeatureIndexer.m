@@ -25,14 +25,14 @@
     self = [super init];
     if(self){
         self.featureDao = featureDao;
-        self.db = [[GPKGMetadataDb alloc] init];
+        self.db = featureDao.metadataDb;
         self.geometryMetadataDataSource = [self.db getGeometryMetadataDao];
     }
     return self;
 }
 
 -(void) close{
-    [self.db close];
+    
 }
 
 -(int) index{
@@ -68,24 +68,29 @@
         
     // Delete existing index rows
     [self.geometryMetadataDataSource deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
-        
-    // Index all features
-    GPKGResultSet * results = [self.featureDao queryForAll];
-    @try{
-        while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-            GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-            BOOL indexed = [self indexWithGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
-            if(indexed){
-                count++;
+    
+    // Autorelease to reduce memory footprint
+    @autoreleasepool {
+    
+        // Index all features
+        GPKGResultSet * results = [self.featureDao queryForAll];
+        @try{
+            while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
+                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                BOOL indexed = [self indexWithGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
+                if(indexed){
+                    count++;
+                }
+                if(self.progress != nil){
+                    [self.progress addProgress:1];
+                }
             }
-            if(self.progress != nil){
-                [self.progress addProgress:1];
-            }
+        }@finally{
+            [results close];
         }
-    }@finally{
-        [results close];
-    }
         
+    }
+    
     // Update the last indexed time
     if(self.progress == nil || [self.progress isActive]){
         [self updateLastIndexedWithGeoPackageId:metadata.geoPackageId];

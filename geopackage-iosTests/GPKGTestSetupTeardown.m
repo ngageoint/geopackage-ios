@@ -41,6 +41,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 3;
     
     // Open
     GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_DB_NAME];
+    [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
     }
@@ -375,6 +376,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 3;
     // Delete
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     [manager delete:GPKG_TEST_DB_NAME];
+    [manager close];
 }
 
 +(GPKGGeoPackage *) setUpImport{
@@ -394,6 +396,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 3;
     
     // Open
     GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_DB_NAME];
+    [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
     }
@@ -411,6 +414,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 3;
     // Delete
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     [manager delete:GPKG_TEST_IMPORT_DB_NAME];
+    [manager close];
 }
 
 @end

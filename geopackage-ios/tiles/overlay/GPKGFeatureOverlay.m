@@ -45,9 +45,10 @@
         tileData = [self.featureTiles drawTileDataWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
     }
     
-    if(tileData != nil){
-        result(tileData, nil);
+    if(tileData == nil){
+        tileData = [[NSData alloc] init];
     }
+    result(tileData, nil);
 }
 
 -(BOOL) isWithinZoom: (NSInteger) zoom{

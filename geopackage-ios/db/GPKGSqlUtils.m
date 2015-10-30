@@ -12,10 +12,10 @@
 
 @implementation GPKGSqlUtils
 
-+(void) execWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
++(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     
     char * errInfo ;
-    int result = sqlite3_exec(database, [statement UTF8String], nil, nil, &errInfo);
+    int result = sqlite3_exec([connection getConnection], [statement UTF8String], nil, nil, &errInfo);
     
     if (SQLITE_OK != result) {
         NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
@@ -23,25 +23,25 @@
     }
 }
 
-+(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     GPKGResultSet *resultSet = nil;
     
-    int count = [self countWithDatabase:database andStatement:statement andArgs:args];
+    int count = [self countWithDatabase:connection andStatement:statement andArgs:args];
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
-        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count];
+        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count andConnection:connection];
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
     }
     
     return resultSet;
 }
 
-+(GPKGResultSet *) queryWithDatabase: (sqlite3 *) database
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection
                             andDistinct: (BOOL) distinct
                             andTable: (NSString *) table
                             andColumns: (NSArray *) columns
@@ -59,11 +59,11 @@
                                                              andHaving:having
                                                             andOrderBy:orderBy
                                                               andLimit:limit];
-    GPKGResultSet *resultSet = [self queryWithDatabase: database andStatement: query andArgs:whereArgs];
+    GPKGResultSet *resultSet = [self queryWithDatabase: connection andStatement: query andArgs:whereArgs];
     return resultSet;
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) countWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     NSString *countStatement = [statement lowercaseString];
     
@@ -78,16 +78,16 @@
         countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
     }
     
-    int count = [self countWithDatabase: database andCountStatement:countStatement andArgs:args];
+    int count = [self countWithDatabase: connection andCountStatement:countStatement andArgs:args];
     
     return count;
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where{
-    return [self countWithDatabase:database andTable:table andWhere:where andWhereArgs:nil];
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
+    return [self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:nil];
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *countStatement = [NSMutableString string];
     
@@ -102,30 +102,30 @@
         [countStatement appendString:where];
     }
     
-    int count = [self countWithDatabase: database andCountStatement:countStatement andArgs:whereArgs];
+    int count = [self countWithDatabase: connection andCountStatement:countStatement andArgs:whereArgs];
     
     return count;
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement{
-    return [self countWithDatabase:database andCountStatement:countStatement andArgs:nil];
++(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement{
+    return [self countWithDatabase:connection andCountStatement:countStatement andArgs:nil];
 }
 
-+(int) countWithDatabase: (sqlite3 *) database andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
++(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
     
     int count = 0;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2(database, [countStatement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [countStatement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
         if(sqlite3_step(compiledStatement) == SQLITE_ROW){
             count = sqlite3_column_int(compiledStatement, 0);
         } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to get count: %@, Error: %s", countStatement, sqlite3_errmsg(database)];
+            [NSException raise:@"SQL Failed" format:@"Failed to get count: %@, Error: %s", countStatement, sqlite3_errmsg([connection getConnection])];
         }
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute count SQL: %@, Error: %s", countStatement, sqlite3_errmsg(database)];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute count SQL: %@, Error: %s", countStatement, sqlite3_errmsg([connection getConnection])];
     }
     
     [self closeStatement:compiledStatement];
@@ -133,11 +133,11 @@
     return count;
 }
 
-+(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
-    return [self insertWithDatabase:database andStatement:statement andArgs:nil];
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
+    return [self insertWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(long long) insertWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values{
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values{
     
     NSMutableString *insertStatement = [NSMutableString string];
     [insertStatement appendString:@"insert into "];
@@ -165,27 +165,27 @@
     }
     [insertStatement appendString:@")"];
     
-    long long id = [self insertWithDatabase:database andStatement:insertStatement andArgs:args];
+    long long id = [self insertWithDatabase:connection andStatement:insertStatement andArgs:args];
     
     return id;
 }
 
-+(long long) insertWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(long long) insertWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     long long lastInsertRowId = -1;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
         int executeQueryResults = sqlite3_step(compiledStatement);
         if (executeQueryResults == SQLITE_DONE) {
-            lastInsertRowId = sqlite3_last_insert_rowid(database);
+            lastInsertRowId = sqlite3_last_insert_rowid([connection getConnection]);
         }else{
-            [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+            [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
         }
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
     }
     
     [self closeStatement:compiledStatement];
@@ -193,19 +193,19 @@
     return lastInsertRowId;
 }
 
-+(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
-    return [self updateWithDatabase:database andStatement:statement andArgs:nil];
++(int) updateWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
+    return [self updateWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(int) updateWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
-    return [self updateOrDeleteWithDatabase: database andStatement:statement andArgs:args];
++(int) updateWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    return [self updateOrDeleteWithDatabase: connection andStatement:statement andArgs:args];
 }
 
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
-    return [self updateWithDatabase:database andTable:table andValues:values andWhere:where andWhereArgs:nil];
++(int) updateWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
+    return [self updateWithDatabase:connection andTable:table andValues:values andWhere:where andWhereArgs:nil];
 }
 
-+(int) updateWithDatabase: (sqlite3 *) database andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) updateWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *updateStatement = [NSMutableString string];
     [updateStatement appendString:@"update "];
@@ -238,24 +238,24 @@
         [updateStatement appendString:where];
     }
     
-    int count = [self updateWithDatabase:database andStatement:updateStatement andArgs:args];
+    int count = [self updateWithDatabase:connection andStatement:updateStatement andArgs:args];
     
     return count;
 }
 
-+(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement{
-    return [self deleteWithDatabase:database andStatement:statement andArgs:nil];
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
+    return [self deleteWithDatabase:connection andStatement:statement andArgs:nil];
 }
 
-+(int) deleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
-    return [self updateOrDeleteWithDatabase: database andStatement:statement andArgs:args];
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    return [self updateOrDeleteWithDatabase: connection andStatement:statement andArgs:args];
 }
 
-+(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where{
-    return [self deleteWithDatabase:database andTable:table andWhere:where andWhereArgs:nil];
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
+    return [self deleteWithDatabase:connection andTable:table andWhere:where andWhereArgs:nil];
 }
 
-+(int) deleteWithDatabase: (sqlite3 *) database andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
++(int) deleteWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *deleteStatement = [NSMutableString string];
     
@@ -267,27 +267,27 @@
         [deleteStatement appendString:where];
     }
     
-    int count = [self deleteWithDatabase:database andStatement:deleteStatement andArgs:whereArgs];
+    int count = [self deleteWithDatabase:connection andStatement:deleteStatement andArgs:whereArgs];
     
     return count;
 }
 
-+(int) updateOrDeleteWithDatabase: (sqlite3 *) database andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) updateOrDeleteWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     int rowsModified = -1;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2(database, [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
         int executeQueryResults = sqlite3_step(compiledStatement);
         if (executeQueryResults == SQLITE_DONE) {
-            rowsModified = sqlite3_changes(database);
+            rowsModified = sqlite3_changes([connection getConnection]);
         }else{
-            [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+            [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
         }
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg(database)];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
     }
     
     [self closeStatement:compiledStatement];
@@ -370,16 +370,18 @@
     }
 }
 
-+(void) closeStatement: (sqlite3_stmt *) statment{
-    sqlite3_finalize(statment);
++(void) closeStatement: (sqlite3_stmt *) statement{
+    if(sqlite3_stmt_busy(statement)){
+        sqlite3_finalize(statement);
+    }
 }
 
 +(void) closeResultSet: (GPKGResultSet *) resultSet{
     [resultSet close];
 }
 
-+(void) closeDatabase: (sqlite3 *) database{
-    sqlite3_close(database);
++(void) closeDatabase: (GPKGSqliteConnection *) connection{
+    sqlite3_close([connection getConnection]);
 }
 
 +(NSString *) getSqlValueString: (NSObject *) value{

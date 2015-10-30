@@ -86,4 +86,13 @@
  */
 -(GPKGResultSet *) getGeometryIndices: (GPKGTableIndex *) tableIndex;
 
+/**
+ *  Get the count of Geometry Index results
+ *
+ *  @param tableIndex table index
+ *
+ *  @return count
+ */
+-(int) getGeometryIndexCount: (GPKGTableIndex *) tableIndex;
+
 @end

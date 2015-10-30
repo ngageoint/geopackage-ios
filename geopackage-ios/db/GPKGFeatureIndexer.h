@@ -10,6 +10,7 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGProgress.h"
 #import "GPKGGeometryMetadata.h"
+#import "GPKGMetadataDb.h"
 
 /**
  *  Feature Indexer, indexes feature geometries into a table for searching

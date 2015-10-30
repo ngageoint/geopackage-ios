@@ -63,6 +63,15 @@
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName;
 
 /**
+ *  Count by extension name
+ *
+ *  @param extensionName extension name
+ *
+ *  @return count
+ */
+-(int) countByExtension: (NSString *) extensionName;
+
+/**
  *  Query by extension name and table name
  *
  *  @param extensionName extension name
@@ -71,6 +80,16 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName;
+
+/**
+ *  Count by extension name and table name
+ *
+ *  @param extensionName extension name
+ *  @param tableName     table name
+ *
+ *  @return count
+ */
+-(int) countByExtension: (NSString *) extensionName andTable: (NSString *) tableName;
 
 /**
  *  Query by extension name, table name, and column name

@@ -21,13 +21,14 @@
 
 @implementation GPKGGeoPackage
 
--(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable{
+-(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable andMetadataDb: (GPKGMetadataDb *) metadataDb{
     self = [super init];
     if(self != nil){
         self.database = database;
         self.name = database.name;
         self.path = database.filename;
         self.writable = writable;
+        self.metadataDb = metadataDb;
         self.tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:database];
     }
     return self;
@@ -401,7 +402,7 @@
     // Read the existing table and create the dao
     GPKGFeatureTableReader * tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:geometryColumns];
     GPKGFeatureTable * featureTable = [tableReader readFeatureTableWithConnection:self.database];
-    GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns];
+    GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns andMetadataDb:self.metadataDb];
     
     // TODO
     // GeoPackages created with SQLite version 4.2.0+ with GeoPackage

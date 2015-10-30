@@ -26,6 +26,7 @@
 #import "GPKGExtensionsDao.h"
 #import "GPKGTableIndexDao.h"
 #import "GPKGGeometryIndexDao.h"
+#import "GPKGMetadataDb.h"
 
 /**
  *  A single GeoPackage database connection
@@ -53,6 +54,11 @@
 @property (nonatomic) BOOL writable;
 
 /**
+ *  Metadata db
+ */
+@property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
+
+/**
  *  Initialize
  *
  *  @param database database connection
@@ -60,7 +66,7 @@
  *
  *  @return new GeoPackage
  */
--(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable;
+-(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable andMetadataDb: (GPKGMetadataDb *) metadataDb;
 
 /**
  *  Close the GeoPackage connection

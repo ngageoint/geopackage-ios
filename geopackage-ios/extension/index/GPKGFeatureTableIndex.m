@@ -93,20 +93,26 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 -(int) indexTable: (GPKGTableIndex *) tableIndex{
     
     int count = 0;
-    GPKGResultSet * results = [self.featureDao queryForAll];
-    @try{
-        while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-            GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-            BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
-            if(indexed){
-                count++;
+    
+    // Autorelease to reduce memory footprint
+    @autoreleasepool {
+    
+        GPKGResultSet * results = [self.featureDao queryForAll];
+        @try{
+            while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
+                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+                if(indexed){
+                    count++;
+                }
+                if(self.progress != nil){
+                    [self.progress addProgress:1];
+                }
             }
-            if(self.progress != nil){
-                [self.progress addProgress:1];
-            }
+        }@finally{
+            [results close];
         }
-    }@finally{
-        [results close];
+    
     }
     
     // Update the last indexed time
@@ -173,7 +179,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(int) deleteIndexWithGeomId: (int) geomId{
-    return [self.geometryIndexDao deleteByMultiId:[[NSArray alloc] initWithObjects:self.tableName, geomId, nil]];
+    return [self.geometryIndexDao deleteByMultiId:[[NSArray alloc] initWithObjects:self.tableName, [NSNumber numberWithInt:geomId], nil]];
 }
 
 -(int) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{
@@ -335,9 +341,22 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
     [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
-    [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] == NSOrderedAscending;
+    if(minXLessThanMaxX){
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+    }else{
+        [where appendString:@"("];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:@")"];
+    }
     [where appendString:@" and "];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Y andValue:envelope.maxY andOperation:@"<="]];
     [where appendString:@" and "];
@@ -347,6 +366,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     [whereArgs addObject:self.tableName];
     [whereArgs addObject:envelope.maxX];
     [whereArgs addObject:envelope.minX];
+    if(!minXLessThanMaxX){
+        [whereArgs addObject:envelope.minX];
+        [whereArgs addObject:envelope.maxX];
+    }
     [whereArgs addObject:envelope.maxY];
     [whereArgs addObject:envelope.minY];
     

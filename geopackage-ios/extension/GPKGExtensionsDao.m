@@ -119,6 +119,13 @@
     return [self queryForEqWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
 }
 
+-(int) countByExtension: (NSString *) extensionName{
+    GPKGResultSet * extensions = [self queryByExtension:extensionName];
+    int count = extensions.count;
+    [extensions close];
+    return count;
+}
+
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName{
     
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
@@ -126,6 +133,13 @@
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     
     return [self queryForFieldValues:values];
+}
+
+-(int) countByExtension: (NSString *) extensionName andTable: (NSString *) tableName{
+    GPKGResultSet * extensions = [self queryByExtension:extensionName andTable:tableName];
+    int count = extensions.count;
+    [extensions close];
+    return count;
 }
 
 -(GPKGExtensions *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName{
@@ -143,6 +157,8 @@
     } else if([extensions moveToNext]){
         extension = (GPKGExtensions *)[self getObject:extensions];
     }
+    
+    [extensions close];
     
     return extension;
 }
