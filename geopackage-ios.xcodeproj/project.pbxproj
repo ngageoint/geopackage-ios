@@ -1274,6 +1274,7 @@
 				042FC6E81B964BC800549A4B /* Frameworks */,
 				042FC6E91B964BC800549A4B /* Resources */,
 				C0A452B14E727E90113AC7AA /* Copy Pods Resources */,
+				FA8C8037376FB0EC2CA11293 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1403,6 +1404,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA8C8037376FB0EC2CA11293 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
