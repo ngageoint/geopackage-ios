@@ -81,6 +81,6 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName;
+-(GPKGExtensions *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName;
 
 @end

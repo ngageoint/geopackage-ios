@@ -47,6 +47,15 @@
     return [self initWithMinLongitude:boundingBox.minLongitude andMaxLongitude:boundingBox.maxLongitude andMinLatitude:boundingBox.minLatitude andMaxLatitude:boundingBox.maxLatitude];
 }
 
+-(WKBGeometryEnvelope *) buildEnvelope{
+    WKBGeometryEnvelope * envelope = [[WKBGeometryEnvelope alloc] init];
+    [envelope setMinX:self.minLongitude];
+    [envelope setMaxX:self.maxLongitude];
+    [envelope setMinY:self.minLatitude];
+    [envelope setMaxY:self.maxLatitude];
+    return envelope;
+}
+
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox{
     if(self == boundingBox){
         return true;

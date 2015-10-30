@@ -8,6 +8,8 @@
 
 #import "GPKGFeatureDao.h"
 #import "GPKGGeometryColumnsDao.h"
+#import "GPKGContentsDao.h"
+#import "GPKGProjectionTransform.h"
 
 @implementation GPKGFeatureDao
 
@@ -58,6 +60,25 @@
 
 -(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
+}
+
+-(GPKGContentsDao *) getContentsDao{
+    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
+}
+
+-(GPKGBoundingBox *) getBoundingBox{
+    GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
+    GPKGContents * contents = [geometryColumnsDao getContents:self.geometryColumns];
+    GPKGContentsDao * contentsDao = [self getContentsDao];
+    GPKGProjection * contentsProjection = [contentsDao getProjection:contents];
+    
+    GPKGBoundingBox * boundingBox = [contents getBoundingBox];
+    if([self.projection.epsg compare:contentsProjection.epsg] != NSOrderedSame){
+        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
+        boundingBox = [transform transformWithBoundingBox:boundingBox];
+    }
+    
+    return boundingBox;
 }
 
 @end

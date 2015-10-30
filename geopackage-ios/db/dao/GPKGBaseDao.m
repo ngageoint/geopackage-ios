@@ -310,6 +310,21 @@
     return id;
 }
 
+-(long long) createOrUpdate: (NSObject *) object{
+    
+     NSObject * existingObject = [self queryForSameId:object];
+    
+    long long id = -1;
+    
+    if(existingObject == nil){
+        id = [self create:object];
+    } else{
+        [self update:object];
+    }
+    
+    return id;
+}
+
 -(NSObject *) getId: (NSObject *) object{
     return [self getValueFromObject:object withColumnName:[GPKGUtils objectAtIndex:0 inArray:self.idColumns]];
 }

@@ -128,14 +128,23 @@
     return [self queryForFieldValues:values];
 }
 
--(GPKGResultSet *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName{
+-(GPKGExtensions *) queryByExtension: (NSString *) extensionName andTable: (NSString *) tableName andColumnName: (NSString *) columnName{
     
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
     [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     [values addColumn:GPKG_EX_COLUMN_COLUMN_NAME withValue:columnName];
     
-    return [self queryForFieldValues:values];
+    GPKGResultSet * extensions = [self queryForFieldValues:values];
+    
+    GPKGExtensions * extension = nil;
+    if(extensions.count > 1){
+        [NSException raise:@"Too Many Results" format:@"More than one Extenion existed for unique combination of Extension Name: %@, Table Name: %@, Column Name: %@", extensionName, tableName, columnName];
+    } else if([extensions moveToNext]){
+        extension = (GPKGExtensions *)[self getObject:extensions];
+    }
+    
+    return extension;
 }
 
 @end

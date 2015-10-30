@@ -93,6 +93,20 @@
 -(int) createExtensions;
 
 /**
+ *  Create Table Index table
+ *
+ *  @return tables created
+ */
+-(int) createTableIndex;
+
+/**
+ *  Create Geometry Index table
+ *
+ *  @return tables created
+ */
+-(int) createGeometryIndex;
+
+/**
  *  Create the user table
  *
  *  @param table user table
