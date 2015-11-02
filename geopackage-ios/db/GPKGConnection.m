@@ -109,6 +109,18 @@
     return count;
 }
 
+-(void) beginTransaction{
+    [self.connectionPool beginTransaction];
+}
+
+-(void) commitTransaction{
+    [self.connectionPool commitTransaction];
+}
+
+-(void) rollbackTransaction{
+    [self.connectionPool rollbackTransaction];
+}
+
 -(long long) insert:(NSString *) statement{
     GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andStatement:statement];

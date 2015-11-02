@@ -243,6 +243,18 @@
     return sameIdObject;
 }
 
+-(void) beginTransaction{
+    [self.database beginTransaction];
+}
+
+-(void) commitTransaction{
+    [self.database commitTransaction];
+}
+
+-(void) rollbackTransaction{
+    [self.database rollbackTransaction];
+}
+
 -(int) update: (NSObject *) object{
     [self validateObject:object];
     

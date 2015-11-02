@@ -19,12 +19,44 @@
 /**
  *  Initialize
  *
- *  @param connection connection
+ *  @param connection sql connection
  *  @param releasable true if a releasable version of the connection
  *
  *  @return db connection
  */
 -(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable;
+
+/**
+ *  Initialize
+ *
+ *  @param connection      sql connection
+ *  @param releasable      true if a releasable version of the connection
+ *  @param writeReleasable true if writable lock is releasable, regardless of it releasable
+ *
+ *  @return db connection
+ */
+-(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
+
+/**
+ *  Initialize
+ *
+ *  @param connection      db connection
+ *  @param releasable true if a releasable version of the connection
+ *
+ *  @return db connection
+ */
+-(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable;
+
+/**
+ *  Initialize
+ *
+ *  @param connection      db connection
+ *  @param releasable      true if a releasable version of the connection
+ *  @param writeReleasable true if writable lock is releasable, regardless of it releasable
+ *
+ *  @return db connection
+ */
+-(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
 
 /**
  *  Get the connection id
@@ -66,5 +98,13 @@
  *  @return true if releasable
  */
 -(BOOL) isReleasable;
+
+/**
+ *  Determine if write access is releasable. This is always true when also releasable. This may be true when not releasable
+ *  if another connection has the releasable lock but this connection has the write lock.
+ *
+ *  @return true if write releasable
+ */
+-(BOOL) isWriteReleasable;
 
 @end

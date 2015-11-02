@@ -123,6 +123,21 @@
 -(GPKGDbConnection *) getWriteConnection;
 
 /**
+ *  Begin an exclusive transaction on the database
+ */
+-(void) beginTransaction;
+
+/**
+ *  Commit an active transaction
+ */
+-(void) commitTransaction;
+
+/**
+ *  Rollback an active transaction
+ */
+-(void) rollbackTransaction;
+
+/**
  *  Release a connection, either adding it back to available pool connections or closing it
  *
  *  @param connection connection

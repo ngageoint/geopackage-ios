@@ -12,18 +12,32 @@
 
 @property (nonatomic, strong) GPKGSqliteConnection * connection;
 @property (nonatomic) BOOL releasable;
+@property (nonatomic) BOOL writeReleasable;
 
 @end
 
 @implementation GPKGDbConnection
 
 -(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable{
+    return [self initWithConnection:connection andReleasable:releasable andWriteReleasable:releasable];
+}
+
+-(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
     self = [super init];
     if(self){
         self.connection = connection;
         self.releasable = releasable;
+        self.writeReleasable = writeReleasable;
     }
     return self;
+}
+
+-(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable{
+    return [self initWithDbConnection:connection andReleasable:releasable andWriteReleasable:releasable];
+}
+
+-(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
+    return [self initWithConnection:connection.connection andReleasable:releasable andWriteReleasable:writeReleasable];
 }
 
 -(NSNumber *) getConnectionId{
@@ -50,6 +64,10 @@
 
 -(BOOL) isReleasable{
     return self.releasable;
+}
+
+-(BOOL) isWriteReleasable{
+    return self.writeReleasable;
 }
 
 @end
