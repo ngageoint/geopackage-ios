@@ -12,7 +12,7 @@ Software source code previously released under an open source license and then m
 
 ### About ###
 
-[GeoPackage iOS](http://ngageoint.github.io/geopackage-ios/) is a [GeoPackage Library](http://ngageoint.github.io/GeoPackage/) Objective-C SDK implementation of the Open Geospatial Consortium [GeoPackage](http://www.geopackage.org/) [spec](http://www.geopackage.org/spec/).  It is listed as an [OGC GeoPackage Implementation](http://www.geopackage.org/#implementations) by the National Geospatial-Intelligence Agency.
+[GeoPackage iOS](http://ngageoint.github.io/geopackage-ios/) is a [GeoPackage Library](http://ngageoint.github.io/GeoPackage/) Objective-C SDK implementation of the Open Geospatial Consortium [GeoPackage](http://www.geopackage.org/) [spec](http://www.geopackage.org/spec/).  It is listed as an [OGC GeoPackage Implementation](http://www.geopackage.org/#implementations_nga) by the National Geospatial-Intelligence Agency.
 
 The GeoPackage SDK provides the ability to manage GeoPackage files providing read, write, import, export, share, and open support. Open GeoPackage files provide read and write access to features and tiles. Feature support includes Well-Known Binary and iOS Map shape translations. Tile generation supports creation by URL or features. Tile providers supporting GeoPackage format, standard tile API, and feature tile generation.
 
@@ -110,6 +110,9 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
     
     // Close database when done
     [geoPackage close];
+    
+    // Close manager when done
+    [manager close];
 
 ### Build ###
 
@@ -129,7 +132,7 @@ Use this repository by specifying it in a Podfile using a supported option:
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :branch => 'master'
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :tag => '1.0.0'
     pod 'geopackage-ios', :path => '../geopackage-ios'
-    pod 'wkb-ios', :path => '../wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
+    pod 'wkb-ios', :path => '../geopackage-wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
     pod 'geopackage-ios', '~> 1.0' # Not yet supported, CocoaPod coming soon
 
 ### Remote Dependencies ###
