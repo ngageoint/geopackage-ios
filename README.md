@@ -110,6 +110,9 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
     
     // Close database when done
     [geoPackage close];
+    
+    // Close manager when done
+    [manager close];
 
 ### Build ###
 
@@ -129,7 +132,7 @@ Use this repository by specifying it in a Podfile using a supported option:
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :branch => 'master'
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :tag => '1.0.0'
     pod 'geopackage-ios', :path => '../geopackage-ios'
-    pod 'wkb-ios', :path => '../wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
+    pod 'wkb-ios', :path => '../geopackage-wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
     pod 'geopackage-ios', '~> 1.0' # Not yet supported, CocoaPod coming soon
 
 ### Remote Dependencies ###
