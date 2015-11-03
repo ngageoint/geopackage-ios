@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /**
  *  GeoPackage utility methods
@@ -67,5 +68,18 @@
  *  @return object
  */
 +(id) objectForKey: (id) key inDictionary: (NSDictionary *) dictionary;
+
+/**
+ *  Get the color for the color dictionary. The dictionary should contain the keys for:
+ *
+ *       red, green, blue, alpha     OR    white, alpha
+ *
+ *  Each value should be a float between 0.0 and 1.0
+ *
+ *  @param color color dictionary
+ *
+ *  @return color
+ */
++(UIColor *) getColor: (NSDictionary *) color;
 
 @end

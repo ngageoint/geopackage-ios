@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "geopackage-ios"
-  s.version          = "1.0.0"
+  s.version          = "1.1.0"
   s.summary          = "iOS SDK for GeoPackage"
   s.description      = <<-DESC
                        iOS SDK for GeoPackage

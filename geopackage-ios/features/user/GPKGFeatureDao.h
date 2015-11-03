@@ -10,6 +10,7 @@
 #import "GPKGGeometryColumns.h"
 #import "GPKGFeatureRow.h"
 #import "WKBGeometryTypes.h"
+#import "GPKGMetadataDb.h"
 
 /**
  *  Feature DAO for reading feature user data tables
@@ -22,6 +23,11 @@
 @property (nonatomic, strong) GPKGGeometryColumns * geometryColumns;
 
 /**
+ *  Metadata db
+ */
+@property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
+
+/**
  *  Initialize
  *
  *  @param database        database connection
@@ -30,7 +36,7 @@
  *
  *  @return new feature dao
  */
--(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGFeatureTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
+-(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGFeatureTable *) table andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andMetadataDb: (GPKGMetadataDb *) metadataDb;
 
 /**
  *  Get the feature table

@@ -59,21 +59,34 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 }
 
 -(void) setExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName{
-    [self setExtensionName:[NSString stringWithFormat:@"%@%@%@", author, GPKG_EX_EXTENSION_NAME_DIVIDER, extensionName]];
+    [self setExtensionName:[GPKGExtensions buildExtensionNameWithAuthor:author andExtensionName:extensionName]];
 }
 
 -(NSString *) getAuthor{
+    return [GPKGExtensions getAuthorWithExtensionName:self.extensionName];
+}
+
+-(NSString *) getExtensionNameNoAuthor{
+    return [GPKGExtensions getExtensionNameNoAuthorWithExtensionName:self.extensionName];
+}
+
++(NSString *) buildExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName{
+    return [NSString stringWithFormat:@"%@%@%@", author, GPKG_EX_EXTENSION_NAME_DIVIDER, extensionName];
+}
+
++(NSString *) getAuthorWithExtensionName: (NSString *) extensionName{
     NSString * author = nil;
-    if(self.extensionName != nil){
-        author = [GPKGUtils objectAtIndex:0 inArray:[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
+    if(extensionName != nil){
+        author = [GPKGUtils objectAtIndex:0 inArray:[extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
     }
     return author;
 }
 
--(NSString *) getExtensionNameNoAuthor{
++(NSString *) getExtensionNameNoAuthorWithExtensionName: (NSString *) extensionName{
     NSString * value = nil;
-    if(self.extensionName != nil){
-        value = [GPKGUtils objectAtIndex:1 inArray:[self.extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
+    if(extensionName != nil){
+        NSRange range = [extensionName rangeOfString:GPKG_EX_EXTENSION_NAME_DIVIDER];
+        value = [extensionName substringFromIndex:NSMaxRange(range)];
     }
     return value;
 }

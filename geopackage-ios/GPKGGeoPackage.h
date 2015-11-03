@@ -24,6 +24,9 @@
 #import "GPKGMetadataDao.h"
 #import "GPKGMetadataReferenceDao.h"
 #import "GPKGExtensionsDao.h"
+#import "GPKGTableIndexDao.h"
+#import "GPKGGeometryIndexDao.h"
+#import "GPKGMetadataDb.h"
 
 /**
  *  A single GeoPackage database connection
@@ -51,6 +54,11 @@
 @property (nonatomic) BOOL writable;
 
 /**
+ *  Metadata db
+ */
+@property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
+
+/**
  *  Initialize
  *
  *  @param database database connection
@@ -58,7 +66,7 @@
  *
  *  @return new GeoPackage
  */
--(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable;
+-(instancetype) initWithConnection: (GPKGConnection *) database andWritable: (BOOL) writable andMetadataDb: (GPKGMetadataDb *) metadataDb;
 
 /**
  *  Close the GeoPackage connection
@@ -290,6 +298,34 @@
  *  @param tableName table name
  */
 -(void) deleteUserTableQuietly: (NSString *) tableName;
+
+/**
+ * Get a Table Index DAO
+ *
+ * @return table index dao
+ */
+-(GPKGTableIndexDao *) getTableIndexDao;
+
+/**
+ * Create the Table Index Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createTableIndexTable;
+
+/**
+ * Get a Geometry Index DAO
+ *
+ * @return geometry index dao
+ */
+-(GPKGGeometryIndexDao *) getGeometryIndexDao;
+
+/**
+ * Create Geometry Index Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createGeometryIndexTable;
 
 /**
  *  Verify the GeoPackage is writable and throw an exception if it is not

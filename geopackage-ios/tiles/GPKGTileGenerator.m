@@ -366,55 +366,58 @@
              @autoreleasepool {
              
                  @try {
-                     // Create the tile
-                     NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
-                     
-                     UIImage * image = nil;
-                     
-                     // Compress the image
-                     if(self.compressFormat != GPKG_CF_NONE){
-                         image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
-                         if(image != nil){
-                             tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat andQuality:self.compressQuality];
-                         }
-                     }
                      
                      // If an update, delete an existing row
                      if(update){
                          [tileDao deleteTileWithColumn:x andRow:y andZoomLevel:zoomLevel];
                      }
                      
-                     // Create a new tile row
-                     GPKGTileRow * newRow = [tileDao newRow];
-                     [newRow setZoomLevel:zoomLevel];
+                     // Create the tile
+                     NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
                      
-                     int tileColumn = x;
-                     int tileRow = y;
+                     if(tileData != nil){
                      
-                     // Update the column and row to the local tile grid location
-                     if (localTileGrid != nil) {
-                         tileColumn = (x - tileGrid.minX) + localTileGrid.minX;
-                         tileRow = (y - tileGrid.minY) + localTileGrid.minY;
-                     }
-                     
-                     [newRow setTileColumn:tileColumn];
-                     [newRow setTileRow:tileRow];
-                     [newRow setTileData:tileData];
-                     [tileDao create:newRow];
-                     
-                     count++;
-                     
-                     // Determine the tile width and height
-                     if (tileWidth == nil) {
-                         if (image == nil) {
+                         UIImage * image = nil;
+                         
+                         // Compress the image
+                         if(self.compressFormat != GPKG_CF_NONE){
                              image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
+                             if(image != nil){
+                                 tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat andQuality:self.compressQuality];
+                             }
                          }
-                         if (image != nil) {
-                             tileWidth = [NSNumber numberWithInt:image.size.width];
-                             tileHeight = [NSNumber numberWithInt:image.size.height];
+                         
+                         // Create a new tile row
+                         GPKGTileRow * newRow = [tileDao newRow];
+                         [newRow setZoomLevel:zoomLevel];
+                         
+                         int tileColumn = x;
+                         int tileRow = y;
+                         
+                         // Update the column and row to the local tile grid location
+                         if (localTileGrid != nil) {
+                             tileColumn = (x - tileGrid.minX) + localTileGrid.minX;
+                             tileRow = (y - tileGrid.minY) + localTileGrid.minY;
+                         }
+                         
+                         [newRow setTileColumn:tileColumn];
+                         [newRow setTileRow:tileRow];
+                         [newRow setTileData:tileData];
+                         [tileDao create:newRow];
+                         
+                         count++;
+                         
+                         // Determine the tile width and height
+                         if (tileWidth == nil) {
+                             if (image == nil) {
+                                 image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
+                             }
+                             if (image != nil) {
+                                 tileWidth = [NSNumber numberWithInt:image.size.width];
+                                 tileHeight = [NSNumber numberWithInt:image.size.height];
+                             }
                          }
                      }
-                     
                  }
                  @catch (NSException *exception) {
                      // Skip this tile, don't increase count

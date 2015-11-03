@@ -17,6 +17,11 @@
 @interface GPKGFeatureOverlay : MKTileOverlay
 
 /**
+ *  Feature tiles
+ */
+@property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
+
+/**
  *  Min zoom
  */
 @property (nonatomic, strong) NSNumber * minZoom;

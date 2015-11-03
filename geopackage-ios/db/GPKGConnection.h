@@ -35,6 +35,11 @@
 -(instancetype)initWithDatabaseFilename:(NSString *) filename;
 
 /**
+ *  Close the connection
+ */
+-(void)close;
+
+/**
  *  Raw query
  *
  *  @param statement query statement
@@ -136,6 +141,21 @@
  *  @return count
  */
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ *  Begin an exclusive transaction on the database
+ */
+-(void) beginTransaction;
+
+/**
+ *  Commit an active transaction
+ */
+-(void) commitTransaction;
+
+/**
+ *  Rollback an active transaction
+ */
+-(void) rollbackTransaction;
 
 /**
  *  Insert statement
@@ -252,10 +272,5 @@
  *  @param table table name
  */
 -(void) dropTable: (NSString *) table;
-
-/**
- *  Close the connection
- */
--(void)close;
 
 @end

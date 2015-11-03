@@ -17,9 +17,9 @@
 #import "GPKGPropertyConstants.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGMapShapeConverter.h"
-#import "GPKGMetadataDb.h"
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
+#import "GPKGProjectionFactory.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -52,6 +52,10 @@
     return self;
 }
 
+-(GPKGFeatureDao *) getFeatureDao{
+    return self.featureDao;
+}
+
 -(void) calculateDrawOverlap{
     
     if(self.pointIcon != nil){
@@ -76,12 +80,20 @@
     [self setHeightOverlap:pixels];
 }
 
+-(BOOL) isIndexQuery{
+    return self.indexManager != nil && [self.indexManager isIndexed];
+}
+
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     UIImage * image = [self drawTileWithX:x andY:y andZoom:zoom];
     
+    NSData * tileData = nil;
+    
     // Convert the image to bytes
-    NSData * tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat];
+    if(image != nil){
+        tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat];
+    }
     
     return tileData;
 }
@@ -89,10 +101,15 @@
 -(UIImage *) drawTileWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     UIImage * image = nil;
-    if(self.indexQuery){
-        image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
-    }else{
-        image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+    @try {
+        if([self isIndexQuery]){
+            image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
+        }else{
+            image = [self drawTileQueryAllWithX:x andY:y andZoom:zoom];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
     }
     return image;
 }
@@ -102,6 +119,73 @@
     // Get the web mercator bounding box
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
+    UIImage *image = nil;
+    
+    // Query for geometries matching the bounds in the index
+    GPKGFeatureIndexResults * results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
+    
+    @try {
+        
+        NSNumber * tileCount = nil;
+        if(self.maxFeaturesPerTile != nil){
+            tileCount = [NSNumber numberWithInt:results.count];
+        }
+        
+        if(self.maxFeaturesPerTile == nil || [tileCount intValue] <= [self.maxFeaturesPerTile intValue]){
+            
+            // Create image
+            UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            
+            // WGS84 to web mercator projection and shape converter
+            GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+            GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
+            
+            for(GPKGFeatureRow * featureRow in results){
+                [self drawFeatureWithBoundingBox:webMercatorBoundingBox andTransform:wgs84ToWebMercatorTransform andContext:context andRow:featureRow andShapeConverter:converter];
+            }
+            
+            image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+        } else if(self.maxFeaturesTileDraw != nil){
+            
+            // Draw the max features tile
+            image = [self.maxFeaturesTileDraw drawTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTileFeatureCount:[tileCount intValue] andFeatureIndexResults:results];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@ querying indexed results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
+    }
+    @finally {
+        [results close];
+    }
+
+    return image;
+}
+
+-(int) queryIndexedFeaturesCountWithX: (int) x andY: (int) y andZoom: (int) zoom{
+    
+    // Get the web mercator bounding box
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    
+    // Query for geometries matching the bounds in the index
+    GPKGFeatureIndexResults * results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
+    
+    int count = 0;
+    
+    @try {
+        count = [results count];
+    }
+    @finally {
+        [results close];
+    }
+    
+    return count;
+}
+
+-(GPKGFeatureIndexResults *) queryIndexedFeaturesWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
+    
     // Create an expanded bounding box to handle features outside the tile that overlap
     double minLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andPixel:(0 - self.widthOverlap)];
     double maxLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
@@ -109,50 +193,45 @@
     double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
     GPKGBoundingBox * expandedQueryBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
-    // Convert to the projection bounding box to query the index
-    GPKGProjectionTransform * webMercatorToProjectionTransform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:self.featureDao.projection];
-    GPKGBoundingBox * projectionBoundingBox = [webMercatorToProjectionTransform transformWithBoundingBox:expandedQueryBoundingBox];
+    // Query for geometries matching the bounds in the index
+    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    // Create image
-    UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // WGS84 to web mercator projection and shape converter
-    GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
-    
-    GPKGMetadataDb * db = [[GPKGMetadataDb alloc] init];
-    @try{
-        // Query for geometries matching the bounds in the index
-        GPKGGeometryMetadataDao * dao = [db getGeometryMetadataDao];
-        GPKGResultSet * results = [dao queryByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andBoundingBox:projectionBoundingBox];
-        @try{
-            while([results moveToNext]){
-                GPKGGeometryMetadata * metadata = (GPKGGeometryMetadata *) [dao getObject:results];
-                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao queryForIdObject:metadata.id];
-                [self drawFeatureWithBoundingBox:webMercatorBoundingBox andTransform:wgs84ToWebMercatorTransform andContext:context andRow:row andShapeConverter:converter];
-            }
-        }@finally{
-            [results close];
-        }
-    }@finally{
-        [db close];
-    }
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+    return results;
 }
 
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
+    UIImage * image = nil;
+    
     // Query for all features
     GPKGResultSet * results = [self.featureDao queryForAll];
     
-    // Draw the tile image
-    UIImage * image = [self drawTileWithBoundingBox:boundingBox andResults:results];
+    @try {
+        
+        NSNumber * totalCount = nil;
+        if(self.maxFeaturesPerTile != nil){
+            totalCount = [NSNumber numberWithInt:results.count];
+        }
+        
+        if(self.maxFeaturesPerTile == nil || [totalCount intValue] <= [self.maxFeaturesPerTile intValue]){
+            
+            // Draw the tile bitmap
+            image = [self drawTileWithBoundingBox:boundingBox andResults:results];
+            
+        } else if(self.maxFeaturesTileDraw != nil){
+            
+            // Draw the unindexed max features tile
+            image = [self.maxFeaturesTileDraw drawUnindexedTileWithTileWidth:self.tileWidth andTileHeight:self.tileHeight andTotalFeatureCount:[totalCount intValue] andFeatureDao:self.featureDao andResults:results];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to draw tile from feature table %@ querying all results. x: %d, y: %d, z: %d. Error: %@", self.featureDao.tableName, x, y, zoom, [e description]);
+    }
+    @finally {
+        [results close];
+    }
     
     return image;
 }

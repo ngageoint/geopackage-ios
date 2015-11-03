@@ -187,6 +187,31 @@
   CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name)
 );</string>
 	</array>
+	<key>nga_table_index</key>
+	<array>
+		<string>CREATE TABLE nga_table_index (
+  table_name TEXT NOT NULL PRIMARY KEY,
+  last_indexed DATETIME,
+  CONSTRAINT fk_nti_ge_tn FOREIGN KEY (table_name) REFERENCES gpkg_extensions(table_name)
+);</string>
+	</array>
+	<key>nga_geometry_index</key>
+	<array>
+		<string>CREATE TABLE nga_geometry_index (
+  table_name TEXT NOT NULL,
+  geom_id INTEGER NOT NULL,
+  min_x DOUBLE NOT NULL,
+  max_x DOUBLE NOT NULL,
+  min_y DOUBLE NOT NULL,
+  max_y DOUBLE NOT NULL,
+  min_z DOUBLE,
+  max_z DOUBLE,
+  min_m DOUBLE,
+  max_m DOUBLE,
+  CONSTRAINT pk_ngi PRIMARY KEY (table_name, geom_id),
+  CONSTRAINT fk_ngi_nti_tn FOREIGN KEY (table_name) REFERENCES nga_table_index(table_name)
+);</string>
+	</array>
 	<key>geopackage</key>
 	<array>
 		<string>CREATE TABLE geopackage(

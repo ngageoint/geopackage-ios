@@ -340,6 +340,21 @@
 -(NSObject *) queryForSameId: (NSObject *) object;
 
 /**
+ *  Begin an exclusive transaction on the database
+ */
+-(void) beginTransaction;
+
+/**
+ *  Commit an active transaction
+ */
+-(void) commitTransaction;
+
+/**
+ *  Rollback an active transaction
+ */
+-(void) rollbackTransaction;
+
+/**
  *  Update the object
  *
  *  @param object object
@@ -422,6 +437,15 @@
  *  @return insertion id if created
  */
 -(long long) createIfNotExists: (NSObject *) object;
+
+/**
+ *  Create if does not exist or update if it does
+ *
+ *  @param object object
+ *
+ *  @return insertion id if created
+ */
+-(long long) createOrUpdate: (NSObject *) object;
 
 /**
  *  Get the id of the object

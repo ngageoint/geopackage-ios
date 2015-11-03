@@ -11,6 +11,7 @@
 #import "GPKGTileGrid.h"
 #import "GPKGProjection.h"
 #import "GPKGTileMatrix.h"
+#import "WKBPoint.h"
 
 /**
  *  Tile Bounding Box utility methods
@@ -165,6 +166,27 @@
  *  @return bounding box
  */
 +(GPKGBoundingBox *) getProjectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
+ *  Get the tile grid for the location specified as WGS84
+ *
+ *  @param point  WGS84 point
+ *  @param zoom   zoom level
+ *
+ *  @return tile grid
+ */
++(GPKGTileGrid *) getTileGridFromWGS84Point: (WKBPoint *) point andZoom: (int) zoom;
+
+/**
+ *  Get the tile grid for the location specified as the projection
+ *
+ *  @param point        point
+ *  @param zoom         zoom level
+ *  @param projection   point projection
+ *
+ *  @return tile grid
+ */
++(GPKGTileGrid *) getTileGridFromPoint: (WKBPoint *) point andZoom: (int) zoom andProjection: (GPKGProjection *) projection;
 
 /**
  *  Get the tile grid that includes the entire tile bounding box

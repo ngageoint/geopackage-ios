@@ -10,6 +10,14 @@
 #import "GPKGMetadataDb.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "WKBGeometryEnvelopeBuilder.h"
+#import "GPKGProjectionTransform.h"
+
+@interface GPKGFeatureIndexer()
+
+@property (nonatomic, strong)  GPKGMetadataDb * db;
+@property (nonatomic, strong)  GPKGGeometryMetadataDao * geometryMetadataDataSource;
+
+@end
 
 @implementation GPKGFeatureIndexer
 
@@ -17,8 +25,14 @@
     self = [super init];
     if(self){
         self.featureDao = featureDao;
+        self.db = featureDao.metadataDb;
+        self.geometryMetadataDataSource = [self.db getGeometryMetadataDao];
     }
     return self;
+}
+
+-(void) close{
+    
 }
 
 -(int) index{
@@ -33,42 +47,40 @@
     return count;
 }
 
--(void) indexFeatureRow: (GPKGFeatureRow *) row{
+-(BOOL) indexFeatureRow: (GPKGFeatureRow *) row{
     
-    GPKGMetadataDb * db = [[GPKGMetadataDb alloc] init];
-    @try{
-        GPKGGeometryMetadataDao * geomDao = [db getGeometryMetadataDao];
-        NSNumber * geoPackageId = [geomDao getGeoPackageIdForGeoPackageName:self.featureDao.databaseName];
-        [self indexWithDataSource:geomDao andGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:true];
-        
-        // Update the last indexed time
-        [self updateLastIndexedWithDatabase:db andGeoPackageId:geoPackageId];
-    }@finally{
-        [db close];
-    }
+    NSNumber * geoPackageId = [self.geometryMetadataDataSource getGeoPackageIdForGeoPackageName:self.featureDao.databaseName];
+    BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:true];
+    
+    // Update the last indexed time
+    [self updateLastIndexedWithGeoPackageId:geoPackageId];
+    
+    return indexed;
 }
 
 -(int) indexTable{
     
     int count = 0;
     
-    GPKGMetadataDb * db = [[GPKGMetadataDb alloc] init];
-    @try{
-        // Get or create the table metadata
-        GPKGTableMetadataDao * tableDao = [db getTableMetadataDao];
-        GPKGTableMetadata * metadata = [tableDao getOrCreateMetadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    // Get or create the table metadata
+    GPKGTableMetadataDao * tableDao = [self.db getTableMetadataDao];
+    GPKGTableMetadata * metadata = [tableDao getOrCreateMetadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
         
-        // Delete existing index rows
-        GPKGGeometryMetadataDao * geomDao = [db getGeometryMetadataDao];
-        [geomDao deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
-        
+    // Delete existing index rows
+    [self.geometryMetadataDataSource deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    
+    // Autorelease to reduce memory footprint
+    @autoreleasepool {
+    
         // Index all features
         GPKGResultSet * results = [self.featureDao queryForAll];
         @try{
             while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-                count++;
                 GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                [self indexWithDataSource:geomDao andGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
+                BOOL indexed = [self indexWithGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
+                if(indexed){
+                    count++;
+                }
                 if(self.progress != nil){
                     [self.progress addProgress:1];
                 }
@@ -77,24 +89,27 @@
             [results close];
         }
         
-        // Update the last indexed time
-        if(self.progress == nil || [self.progress isActive]){
-            [self updateLastIndexedWithDatabase:db andGeoPackageId:metadata.geoPackageId];
-        }
-    }@finally{
-        [db close];
     }
     
+    // Update the last indexed time
     if(self.progress == nil || [self.progress isActive]){
-        [self.progress completed];
-    }else{
-        [self.progress failureWithError:@"Operation was canceled"];
+        [self updateLastIndexedWithGeoPackageId:metadata.geoPackageId];
+    }
+    
+    if(self.progress != nil){
+        if([self.progress isActive]){
+            [self.progress completed];
+        }else{
+            [self.progress failureWithError:@"Operation was canceled"];
+        }
     }
     
     return count;
 }
 
--(void) indexWithDataSource: (GPKGGeometryMetadataDao *) geomDao andGeoPackageId: (NSNumber *) geoPackageId andFeatureRow: (GPKGFeatureRow *) row andPossibleUpdate: (BOOL) possibleUpdate{
+-(BOOL) indexWithGeoPackageId: (NSNumber *) geoPackageId andFeatureRow: (GPKGFeatureRow *) row andPossibleUpdate: (BOOL) possibleUpdate{
+    
+    BOOL indexed = false;
     
     GPKGGeometryData * geomData = [row getGeometry];
     if(geomData != nil){
@@ -112,48 +127,132 @@
         
         // Create the new index row
         if(envelope != nil){
-            GPKGGeometryMetadata * metadata = [geomDao populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row getId] andEnvelope:envelope];
+            GPKGGeometryMetadata * metadata = [self.geometryMetadataDataSource populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row getId] andEnvelope:envelope];
             if(possibleUpdate){
-                [geomDao createOrUpdateMetadata:metadata];
+                [self.geometryMetadataDataSource createOrUpdateMetadata:metadata];
             }else{
-                [geomDao create:metadata];
+                [self.geometryMetadataDataSource create:metadata];
             }
+            indexed = true;
         }
     }
+    
+    return indexed;
 }
 
--(void) updateLastIndexedWithDatabase: (GPKGMetadataDb *) db andGeoPackageId: (NSNumber *) geoPackageId{
+-(void) updateLastIndexedWithGeoPackageId: (NSNumber *) geoPackageId{
     
     NSDate * indexedTime = [NSDate date];
     
-    GPKGTableMetadataDao * dao = [db getTableMetadataDao];
+    GPKGTableMetadataDao * dao = [self.db getTableMetadataDao];
     if(![dao updateLastIndexed:indexedTime withGeoPackageId:geoPackageId andTableName:self.featureDao.tableName]){
         [NSException raise:@"Last Indexed Time" format:@"Failed to update last indexed time. GeoPackage Id: %@, Table: %@, Last Indexed: %@", geoPackageId, self.featureDao.tableName, indexedTime];
     }
 
 }
 
+-(BOOL) deleteIndex{
+    GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
+    BOOL deleted = [tableMetadataDao deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    return deleted;
+}
+
+-(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{
+    return [self deleteIndexWithGeomId:[row getId]];
+}
+
+-(BOOL) deleteIndexWithGeomId: (NSNumber *) geomId{
+    BOOL deleted = [self.geometryMetadataDataSource deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andId:geomId];
+    return deleted;
+}
+
 -(BOOL) isIndexed{
     
     BOOL indexed = false;
     
-    GPKGGeometryColumnsDao * geometryColumnsDao = [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.featureDao.database];
-    GPKGContents * contents = [geometryColumnsDao getContents:self.featureDao.geometryColumns];
-    NSDate * lastChange = contents.lastChange;
-    
-    GPKGMetadataDb * db = [[GPKGMetadataDb alloc] init];
-    @try{
-        GPKGTableMetadataDao * dao = [db getTableMetadataDao];
-        GPKGTableMetadata * metadata = [dao getMetadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
-        if(metadata != nil){
-            NSDate * lastIndexed = metadata.lastIndexed;
-            indexed = lastIndexed != nil && [lastIndexed compare:lastChange] != NSOrderedAscending;
-        }
-    }@finally{
-        [db close];
+    NSDate * lastIndexed = [self getLastIndexed];
+    if(lastIndexed != nil){
+        GPKGGeometryColumnsDao * geometryColumnsDao = [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.featureDao.database];
+        GPKGContents * contents = [geometryColumnsDao getContents:self.featureDao.geometryColumns];
+        NSDate * lastChange = contents.lastChange;
+        indexed = [lastIndexed compare:lastChange] != NSOrderedAscending;
     }
     
     return indexed;
+}
+
+-(NSDate *) getLastIndexed{
+    NSDate * date = nil;
+    GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
+    GPKGTableMetadata * metadata = [tableMetadataDao getMetadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    if(metadata != nil){
+        date = metadata.lastIndexed;
+    }
+    return date;
+}
+
+-(GPKGResultSet *) query{
+    GPKGResultSet * results = [self.geometryMetadataDataSource queryByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    return results;
+}
+
+-(int) count{
+    int count = [self.geometryMetadataDataSource countByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    return count;
+}
+
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    GPKGResultSet * results = [self.geometryMetadataDataSource queryByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andBoundingBox:boundingBox];
+    return results;
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    int count = [self.geometryMetadataDataSource countByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andBoundingBox:boundingBox];
+    return count;
+}
+
+-(GPKGResultSet *) queryWithEnvelope: (WKBGeometryEnvelope *) envelope{
+    GPKGResultSet * results = [self.geometryMetadataDataSource queryByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andEnvelope:envelope];
+    return results;
+}
+
+-(int) countWithEnvelope: (WKBGeometryEnvelope *) envelope{
+    int count = [self.geometryMetadataDataSource countByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andEnvelope:envelope];
+    return count;
+}
+
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+    GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
+    GPKGResultSet * results = [self queryWithBoundingBox:featureBoundingBox];
+    return results;
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+    GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
+    int count = [self countWithBoundingBox:featureBoundingBox];
+    return count;
+}
+
+-(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+    GPKGProjectionTransform * projectionTransform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
+    GPKGBoundingBox * featureBoundingBox = [projectionTransform transformWithBoundingBox:boundingBox];
+    return featureBoundingBox;
+}
+
+-(GPKGGeometryMetadata *) getGeometryMetadataWithResultSet: (GPKGResultSet *) resultSet{
+    GPKGGeometryMetadata * geometryMetadata = (GPKGGeometryMetadata *) [self.geometryMetadataDataSource getObject:resultSet];
+    return geometryMetadata;
+}
+
+-(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet{
+    GPKGGeometryMetadata * geometryMetadata = [self getGeometryMetadataWithResultSet:resultSet];
+    GPKGFeatureRow * featureRow = [self getFeatureRowWithGeometryMetadata:geometryMetadata];
+    return featureRow;
+}
+
+-(GPKGFeatureRow *) getFeatureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata{
+    GPKGFeatureRow * featureRow = (GPKGFeatureRow *)[self.featureDao queryForIdObject:geometryMetadata.id];
+    return featureRow;
 }
 
 @end

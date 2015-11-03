@@ -11,12 +11,6 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
-@interface GPKGFeatureOverlay ()
-
-@property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
-
-@end
-
 @implementation GPKGFeatureOverlay
 
 -(instancetype) initWithFeatureTiles: (GPKGFeatureTiles *) featureTiles{
@@ -51,6 +45,9 @@
         tileData = [self.featureTiles drawTileDataWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
     }
     
+    if(tileData == nil){
+        tileData = [[NSData alloc] init];
+    }
     result(tileData, nil);
 }
 

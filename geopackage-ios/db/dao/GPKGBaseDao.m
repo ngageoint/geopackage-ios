@@ -120,11 +120,13 @@
 
 -(NSObject *) getFirstObject: (GPKGResultSet *)results{
     NSObject *objectResult = nil;
-    if([results moveToNext]){
-        objectResult = [self getObject: results];
+    @try{
+        if([results moveToNext]){
+            objectResult = [self getObject: results];
+        }
+    }@finally{
+        [results close];
     }
-    
-    [results close];
     
     return objectResult;
 }
@@ -241,6 +243,18 @@
     return sameIdObject;
 }
 
+-(void) beginTransaction{
+    [self.database beginTransaction];
+}
+
+-(void) commitTransaction{
+    [self.database commitTransaction];
+}
+
+-(void) rollbackTransaction{
+    [self.database rollbackTransaction];
+}
+
 -(int) update: (NSObject *) object{
     [self validateObject:object];
     
@@ -305,6 +319,21 @@
     
     if(existingObject == nil){
         id = [self create:object];
+    }
+    
+    return id;
+}
+
+-(long long) createOrUpdate: (NSObject *) object{
+    
+     NSObject * existingObject = [self queryForSameId:object];
+    
+    long long id = -1;
+    
+    if(existingObject == nil){
+        id = [self create:object];
+    } else{
+        [self update:object];
     }
     
     return id;

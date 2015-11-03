@@ -250,4 +250,8 @@
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 
+-(GPKGBoundingBox *) getBoundingBox{
+    return [self.tileMatrixSet getBoundingBox];
+}
+
 @end

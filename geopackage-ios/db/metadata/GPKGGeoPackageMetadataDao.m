@@ -138,8 +138,12 @@
 -(NSArray *) getAllNamesSortedBy: (NSString *) column{
     NSMutableArray * names = [[NSMutableArray alloc] init];
     GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:column];
-    while([results moveToNext]){
-        [names addObject:[results getString:0]];
+    @try{
+        while([results moveToNext]){
+            [names addObject:[results getString:0]];
+        }
+    }@finally{
+        [results close];
     }
     return names;
 }

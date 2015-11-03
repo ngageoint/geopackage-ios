@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUtils.h"
+#import "GPKGPropertyConstants.h"
 
 @implementation GPKGUtils
 
@@ -46,6 +47,24 @@
         object = nil;
     }
     return object;
+}
+
++(UIColor *) getColor: (NSDictionary *) color{
+    
+    UIColor * createdColor = nil;
+    
+    NSNumber * alpha = [color objectForKey:GPKG_PROP_COLORS_ALPHA];
+    NSNumber * white = [color objectForKey:GPKG_PROP_COLORS_WHITE];
+    if(white != nil){
+        createdColor = [UIColor colorWithWhite:[white doubleValue] alpha:[alpha doubleValue]];
+    }else{
+        NSNumber * red = [color objectForKey:GPKG_PROP_COLORS_RED];
+        NSNumber * green = [color objectForKey:GPKG_PROP_COLORS_GREEN];
+        NSNumber * blue = [color objectForKey:GPKG_PROP_COLORS_BLUE];
+        createdColor = [UIColor colorWithRed:[red doubleValue] green:[green doubleValue] blue:[blue doubleValue] alpha:[alpha doubleValue]];
+    }
+    
+    return createdColor;
 }
 
 @end
