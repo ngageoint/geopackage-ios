@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## [1.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.0) (TBD)
+## [1.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.0) (11-04-2015)
 
 * NGA Table Index Extension implementation - http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html
 * Feature Index Manager to combine existing metadata indexing with the NGA Table Index Extension
