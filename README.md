@@ -18,6 +18,8 @@ The GeoPackage SDK provides the ability to manage GeoPackage files providing rea
 
 ### Usage ###
 
+View the latest [Appledoc on CocoaDocs](http://cocoadocs.org/docsets/geopackage-ios)
+
 #### Implementations ####
 
 ##### GeoPackage MapCache #####
@@ -116,9 +118,6 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
 
 ### Build ###
 
-The following repositories must be built first:
-* [GeoPackage WKB iOS] (https://github.com/ngageoint/geopackage-wkb-ios)
-
 Build this repository using Xcode and/or CocoaPods:
 
     pod install
@@ -127,13 +126,20 @@ Open geopackage-ios.xcworkspace in Xcode
 
 ### Include Library ###
 
-Use this repository by specifying it in a Podfile using a supported option:
+Include this repository by specifying it in a Podfile using a supported option.
 
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-iOS.git', :tag => '1.0.0'
+Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
+
+    pod 'geopackage-ios', '~> 1.1'
+
+Pull from GitHub:
+
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.0'
+
+Include as local project:
+
     pod 'geopackage-ios', :path => '../geopackage-ios'
-    pod 'wkb-ios', :path => '../geopackage-wkb-ios' # Inherited dependency to wkb-ios may need to be declared until published as a pod
-    pod 'geopackage-ios', '~> 1.0' # Not yet supported, CocoaPod coming soon
 
 ### Remote Dependencies ###
 
