@@ -242,7 +242,7 @@
 }
 
 -(BOOL) existsByMetadata: (GPKGGeometryMetadata *) metadata{
-    return [self getMetadataByMetadata:metadata];
+    return [self getMetadataByMetadata:metadata] != nil;
 }
 
 -(GPKGGeometryMetadata *) getMetadataByMetadata: (GPKGGeometryMetadata *) metadata{

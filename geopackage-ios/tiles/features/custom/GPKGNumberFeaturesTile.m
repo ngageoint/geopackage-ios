@@ -112,7 +112,8 @@
     
     // Determine the text bounds
     UIFont * font = [UIFont fontWithName:self.textFont size:self.textFontSize];
-    CGSize textSize = [text sizeWithFont:font];
+    CGSize textSize = [text sizeWithAttributes:@{ NSFontAttributeName : font }];
+    textSize = CGSizeMake(ceil(textSize.width), ceil(textSize.height));
     
     // Determine the center of the tile
     double centerX = tileWidth / 2.0;
