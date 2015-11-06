@@ -272,6 +272,13 @@
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection;
 
 /**
+ *  Check if the features are indexed
+ *
+ *  @return true if indexed
+ */
+-(BOOL) isIndexed;
+
+/**
  *  Get a max features information message
  *
  *  @param tileFeaturesCount tile features count

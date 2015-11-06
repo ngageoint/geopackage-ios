@@ -203,6 +203,10 @@
     return results;
 }
 
+-(BOOL) isIndexed{
+    return [self.featureTiles isIndexQuery];
+}
+
 -(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount{
     return [NSString stringWithFormat:@"%@\n\t%d features", self.name, tileFeaturesCount];
 }
@@ -300,7 +304,8 @@
     
     NSString * message = nil;
     
-    if(self.maxFeaturesInfo || self.featuresInfo){
+    // Verify the features are indexed and we are getting information
+    if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
         
         @try {
         
