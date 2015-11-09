@@ -42,4 +42,6 @@
  */
 -(GPKGResultSet *) queryByConstraintName: (NSString *) constraintName;
 
+-(GPKGDataColumns *) getDataColumnByTableName: tableName andColumnName: columnName;
+
 @end

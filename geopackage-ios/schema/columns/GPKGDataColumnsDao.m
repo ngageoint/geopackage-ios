@@ -119,4 +119,14 @@
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 
+-(GPKGDataColumns *) getDataColumnByTableName: tableName andColumnName: columnName {
+    if (![self tableExists]) return nil;
+    NSString * whereClause = [NSString stringWithFormat:@"%@ and %@",
+                              [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName],
+                              [self buildWhereWithField:GPKG_DC_COLUMN_COLUMN_NAME andValue:columnName]];
+    NSArray * values = [NSArray arrayWithObjects:tableName, columnName, nil];
+                        
+    return (GPKGDataColumns *)[self getFirstObject:[self queryWhere: whereClause andWhereArgs: values]];
+}
+
 @end
