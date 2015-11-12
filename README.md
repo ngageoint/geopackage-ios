@@ -124,11 +124,11 @@ Build this repository using Xcode and/or CocoaPods:
 
 Open geopackage-ios.xcworkspace in Xcode or build from command line:
 
-    xcodebuild -scheme geopackage-ios build
+    xcodebuild -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios build
 
 Run tests from Xcode or from command line:
 
-    xcodebuild test -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
+    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
 
 ### Include Library ###
 
