@@ -609,8 +609,8 @@
 		9A6D855F8340B3698EA6418C /* Pods-geopackage-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB0B2D43B57C53B91B15E6F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ED7BD96C5C8B5744CA3F89CF /* Pods-geopackage-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
-		F7882C451BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPKGDataColumnsDaoTest.h; path = schema/columns/GPKGDataColumnsDaoTest.h; sourceTree = "<group>"; };
-		F7882C461BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GPKGDataColumnsDaoTest.m; path = schema/columns/GPKGDataColumnsDaoTest.m; sourceTree = "<group>"; };
+		F7882C451BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDataColumnsDaoTest.h; sourceTree = "<group>"; };
+		F7882C461BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDataColumnsDaoTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1363,7 +1363,7 @@
 			children = (
 				F7882C441BF146BA00DC6BB0 /* columns */,
 			);
-			name = schema;
+			path = schema;
 			sourceTree = "<group>";
 		};
 		F7882C441BF146BA00DC6BB0 /* columns */ = {
@@ -1372,7 +1372,7 @@
 				F7882C451BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.h */,
 				F7882C461BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m */,
 			);
-			name = columns;
+			path = columns;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
