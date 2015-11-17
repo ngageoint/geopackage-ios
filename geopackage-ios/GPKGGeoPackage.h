@@ -151,7 +151,12 @@
 -(void) createFeatureTable: (GPKGFeatureTable *) table;
 
 /**
- *  Create a new feature table with GeoPackage metadata
+ *  Create a new feature table with GeoPackage metadata. Create the Geometry
+ *  Columns table if needed, create a user feature table, create a new
+ *  Contents, insert the new Geometry Columns.
+ *
+ *  The user feature table will be created with 2 columns, an id column named
+ *  "id" and a geometry column using GPKGGeometryColumns columnName.
  *
  *  @param geometryColumns geometry columns
  *  @param boundingBox     bounding box
@@ -162,6 +167,94 @@
 -(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
                                                 andBoundingBox: (GPKGBoundingBox *) boundingBox
                                                 andSrsId: (NSNumber *) srsId;
+
+/**
+ *  Create a new feature table with GeoPackage metadata. Create the Geometry
+ *  Columns table if needed, create a user feature table, create a new
+ *  Contents, insert the new Geometry Columns.
+ *
+ *
+ * The user feature table will be created with 2 columns, an id column with
+ * the provided name and a geometry column using GPKGGeometryColumns columnName.
+ *
+ *  @param geometryColumns geometry columns
+ *  @param idColumnName    id column name
+ *  @param boundingBox     bounding box
+ *  @param srsId           Spatial Reference System Id
+ *
+ *  @return Geometry Columns
+ */
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                               andIdColumnName: (NSString *) idColumnName
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId;
+
+/**
+ *  Create a new feature table with GeoPackage metadata. Create the Geometry
+ *  Columns table if needed, create a user feature table, create a new
+ *  Contents, insert the new Geometry Columns.
+ *
+ *  The user feature table will be created with 2 + [additionalColumns count]
+ *  columns, an id column named "id", a geometry column using
+ *  GPKGGeometryColumns columnName, and the provided additional
+ *  columns.
+ *
+ *  @param geometryColumns   geometry columns
+ *  @param additionalColumns additional user feature table columns to create in addition to id and geometry columns
+ *  @param boundingBox       bounding box
+ *  @param srsId             Spatial Reference System Id
+ *
+ *  @return Geometry Columns
+ */
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                          andAdditionalColumns: (NSArray *) additionalColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId;
+
+/**
+ *  Create a new feature table with GeoPackage metadata. Create the Geometry
+ *  Columns table if needed, create a user feature table, create a new
+ *  Contents, insert the new Geometry Columns.
+ *
+ *  The user feature table will be created with 2 + [additionalColumns count]
+ *  columns, an id column with the provided name, a geometry column using
+ *  GPKGGeometryColumns columnName, and the provided additional
+ *  columns.
+ *
+ *  @param geometryColumns   geometry columns
+ *  @param idColumnName      id column name
+ *  @param additionalColumns additional user feature table columns to create in addition to id and geometry columns
+ *  @param boundingBox       bounding box
+ *  @param srsId             Spatial Reference System Id
+ *
+ *  @return Geometry Columns
+ */
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                               andIdColumnName: (NSString *) idColumnName
+                                          andAdditionalColumns: (NSArray *) additionalColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId;
+
+/**
+ *  Create a new feature table with GeoPackage metadata. Create the Geometry
+ *  Columns table if needed, create a user feature table, create a new
+ *  Contents, insert the new Geometry Columns.
+ *
+ *  The user feature table will be created using only the provided columns.
+ *  These should include the id column and the geometry column defined in
+ *  GPKGGeometryColumns columnName
+ *
+ *  @param geometryColumns geometry columns
+ *  @param boundingBox     bounding box
+ *  @param srsId           Spatial Reference System Id
+ *  @param columns         user feature table columns to create
+ *
+ *  @return Geometry Columns
+ */
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId
+                                                    andColumns: (NSArray *) columns;
 
 /**
  *  Get a Tile Matrix Set DAO
