@@ -16,7 +16,6 @@
     if(self != nil){
     
         self.tableName = tableName;
-        self.columns = columns;
     
         // Sort the columns by index
         NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
@@ -52,6 +51,7 @@
             [GPKGUtils addObject:column.name toArray:tempColumnNames];
             [GPKGUtils setObject:indexNumber forKey:column.name inDictionary:tempNameToIndex];
         }
+        self.columns = columns;
         self.columnNames = tempColumnNames;
         self.nameToIndex = tempNameToIndex;
         
