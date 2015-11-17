@@ -15,6 +15,8 @@ extern NSString * const GPKG_TEST_IMPORT_URL;
 extern NSString * const GPKG_TEST_IMPORT_DB_FILE_NAME;
 extern NSString * const GPKG_TEST_TILE_FILE_NAME_EXTENSION;
 extern NSString * const GPKG_TEST_TILE_FILE_NAME;
+extern NSString * const GPKG_TEST_IMPORT_CORRUPT_DB_NAME;
+extern NSString * const GPKG_TEST_IMPORT_CORRUPT_DB_FILE_NAME;
 
 @interface GPKGTestConstants : NSObject
 
