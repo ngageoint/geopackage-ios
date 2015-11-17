@@ -123,6 +123,14 @@
 	<string>300</string>
 	<key>geopackage.connection_pool.maintain_stack_traces</key>
 	<string>true</string>
+	<key>geopackage.manager.validation.import_header</key>
+	<string>true</string>
+	<key>geopackage.manager.validation.import_integrity</key>
+	<string>false</string>
+	<key>geopackage.manager.validation.open_header</key>
+	<string>false</string>
+	<key>geopackage.manager.validation.open_integrity</key>
+	<string>false</string>
 	<key>geopackage.number_feature_tiles.text_font</key>
 	<string>Helvetica</string>
 	<key>geopackage.number_feature_tiles.text_font_size</key>
