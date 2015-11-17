@@ -7,13 +7,13 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.1.1 (TBD)
 
 * Feature Overlay Query message builder, check if features are indexed first
-* Data Columns Dao get data column by table and column names method
-* Additional GeoPackage createFeatureTableWithMetadata methods
-* min and max column query methods
-* Determine bounding box from Tile Grid methods
-* TileDao methods, query for tile grid or bounding box at zoom level
-* Database header and integrity validation options and methods. Validate externally linked GeoPackage headers by default.
-* User Table column ordering fix when created user table columns are not presorted by column index
+* Data Columns Dao get data column by table and column names method - [Issue #4](https://github.com/ngageoint/geopackage-ios/issues/4)
+* Additional GeoPackage createFeatureTableWithMetadata methods - [Issue #8](https://github.com/ngageoint/geopackage-ios/issues/8)
+* min and max column query methods - [Issue #5](https://github.com/ngageoint/geopackage-ios/issues/5)
+* Determine bounding box from Tile Grid methods - [Issue #7](https://github.com/ngageoint/geopackage-ios/issues/7)
+* TileDao methods, query for tile grid or bounding box at zoom level - [Issue #6](https://github.com/ngageoint/geopackage-ios/issues/6)
+* Database header and integrity validation options and methods. Validate externally linked GeoPackage headers by default. - [Issue #9](https://github.com/ngageoint/geopackage-ios/issues/9)
+* User Table column ordering fix when created user table columns are not presorted by column index - [Issue #10](https://github.com/ngageoint/geopackage-ios/issues/10)
 * TBD
 
 ## [1.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.0) (11-04-2015)
