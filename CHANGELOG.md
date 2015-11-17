@@ -7,6 +7,12 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.1.1 (TBD)
 
 * Feature Overlay Query message builder, check if features are indexed first
+* Additional GeoPackage createFeatureTableWithMetadata methods
+* min and max column query methods
+* Determine bounding box from Tile Grid methods
+* TileDao methods, query for tile grid or bounding box at zoom level
+* Database header and integrity validation options and methods. Validate externally linked GeoPackage headers by default.
+* User Table column ordering fix when created user table columns are not presorted by column index
 * TBD
 
 ## [1.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.0) (11-04-2015)
