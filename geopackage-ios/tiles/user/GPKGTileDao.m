@@ -73,6 +73,28 @@
     return [self newRow];
 }
 
+-(GPKGBoundingBox *) getBoundingBoxWithZoomLevel: (int) zoomLevel{
+    GPKGBoundingBox * boundingBox = nil;
+    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithZoomLevel:zoomLevel];
+    if(tileMatrix != nil){
+        GPKGTileGrid * tileGrid = [self queryForTileGridWithZoomLevel:zoomLevel];
+        if(tileGrid != nil){
+            GPKGBoundingBox * matrixSetBoundingBox = [self getBoundingBox];
+            boundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
+        }
+    }
+    return boundingBox;
+}
+
+-(GPKGTileGrid *) getTileGridWithZoomLevel: (int) zoomLevel{
+    GPKGTileGrid * tileGrid = nil;
+    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithZoomLevel:zoomLevel];
+    if(tileMatrix != nil){
+        tileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMaxX:[tileMatrix.matrixWidth intValue] - 1 andMinY:0 andMaxY:[tileMatrix.matrixHeight intValue] - 1];
+    }
+    return tileGrid;
+}
+
 -(GPKGTileTable *) getTileTable{
     return (GPKGTileTable *) self.table;
 }
@@ -182,6 +204,25 @@
         results = [self queryWhere:where andWhereArgs:whereArgs];
     }
     return results;
+}
+
+-(GPKGTileGrid *) queryForTileGridWithZoomLevel: (int) zoomLevel{
+    
+    NSNumber * zoomLevelNumber = [NSNumber numberWithInt:zoomLevel];
+    NSString * where = [self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoomLevelNumber];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:zoomLevelNumber];
+    
+    NSNumber * minX = [self minOfColumn:GPKG_TT_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber * maxX = [self maxOfColumn:GPKG_TT_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber * minY = [self minOfColumn:GPKG_TT_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    NSNumber * maxY = [self maxOfColumn:GPKG_TT_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    
+    GPKGTileGrid * tileGrid = nil;
+    if(minX != nil && maxX != nil && minY != nil && maxY != nil){
+        tileGrid = [[GPKGTileGrid alloc] initWithMinX:[minX intValue] andMaxX:[maxX intValue] andMinY:[minY intValue] andMaxY:[maxY intValue]];
+    }
+    
+    return tileGrid;
 }
 
 -(int) deleteTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{

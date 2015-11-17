@@ -66,6 +66,24 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGTileTable *) table andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray *) tileMatrices;
 
 /**
+ *  Get the bounding box of tiles at the zoom level
+ *
+ *  @param zoomLevel zoom level
+ *
+ *  @return bounding box of zoom level, or nil if no tiles
+ */
+-(GPKGBoundingBox *) getBoundingBoxWithZoomLevel: (int) zoomLevel;
+
+/**
+ *  Get the tile grid of the zoom level
+ *
+ *  @param zoomLevel zoom level
+ *
+ *  @return tile grid at zoom level, nil if no tile matrix at zoom level
+ */
+-(GPKGTileGrid *) getTileGridWithZoomLevel: (int) zoomLevel;
+
+/**
  *  Get the tile table
  *
  *  @return tile table
@@ -181,6 +199,15 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel;
+
+/**
+ *  Query for the bounding tile grid with tiles at the zoom level
+ *
+ *  @param zoomLevel zoom level
+ *
+ *  @return tile grid of tiles at the zoom level
+ */
+-(GPKGTileGrid *) queryForTileGridWithZoomLevel: (int) zoomLevel;
 
 /**
  *  Delete a Tile
