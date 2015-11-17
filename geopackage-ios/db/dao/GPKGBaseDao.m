@@ -510,6 +510,14 @@
     return [self.database countWithTable:self.tableName andWhere:where andWhereArgs:args];
 }
 
+-(NSNumber *) minOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
+    return [self.database minWithTable:self.tableName andColumn:column andWhere:where andWhereArgs:args];
+}
+
+-(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
+    return [self.database maxWithTable:self.tableName andColumn:column andWhere:where andWhereArgs:args];
+}
+
 -(NSArray *) getValueToleranceRange: (GPKGColumnValue *) value{
     double doubleValue = [(NSNumber *)value.value doubleValue];
     double tolerance = [value.tolerance doubleValue];

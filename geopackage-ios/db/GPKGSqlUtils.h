@@ -120,6 +120,32 @@
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
 
 /**
+ *  Min on the database table column where
+ *
+ *  @param connection  connection
+ *  @param table     table
+ *  @param column    column
+ *  @param where     where clause
+ *  @param whereArgs where args
+ *
+ *  @return min or nil
+ */
++(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ *  Max on the database table column where
+ *
+ *  @param connection  connection
+ *  @param table     table
+ *  @param column    column
+ *  @param where     where clause
+ *  @param whereArgs where args
+ *
+ *  @return max or nil
+ */
++(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  *  Insert into database
  *
  *  @param connection  connection

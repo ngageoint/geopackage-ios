@@ -109,6 +109,20 @@
     return count;
 }
 
+-(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    NSNumber * min = [GPKGSqlUtils minWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
+    [self.connectionPool releaseConnection:connection];
+    return min;
+}
+
+-(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    NSNumber * max = [GPKGSqlUtils maxWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
+    [self.connectionPool releaseConnection:connection];
+    return max;
+}
+
 -(void) beginTransaction{
     [self.connectionPool beginTransaction];
 }

@@ -628,4 +628,26 @@
  */
 -(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args;
 
+/**
+ *  Get the min result of the column
+ *
+ *  @param column column
+ *  @param where  where clause
+ *  @param args   where args
+ *
+ *  @return min or nil
+ */
+-(NSNumber *) minOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
+/**
+ *  Get the max result of the column
+ *
+ *  @param column column
+ *  @param where  where clause
+ *  @param args   where args
+ *
+ *  @return max or nil
+ */
+-(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
 @end
