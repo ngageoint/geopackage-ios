@@ -7,6 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.1.1 (TBD)
 
 * Feature Overlay Query message builder, check if features are indexed first
+* Data Columns Dao get data column by table and column names method
 * Additional GeoPackage createFeatureTableWithMetadata methods
 * min and max column query methods
 * Determine bounding box from Tile Grid methods
