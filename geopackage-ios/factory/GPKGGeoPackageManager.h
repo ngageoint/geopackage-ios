@@ -21,6 +21,26 @@
 @property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
 
 /**
+ *  Validate the database header of an imported database
+ */
+@property (nonatomic)  BOOL importHeaderValidation;
+
+/**
+ *  Validate the database integrity of a imported database
+ */
+@property (nonatomic)  BOOL importIntegrityValidation;
+
+/**
+ *  Validate the database header when opening a database
+ */
+@property (nonatomic)  BOOL openHeaderValidation;
+
+/**
+ *  Validate the database integrity when opening a database
+ */
+@property (nonatomic)  BOOL openIntegrityValidation;
+
+/**
  *  Initialize
  *
  *  @return manager
@@ -332,6 +352,33 @@
  *  @return GeoPackage
  */
 -(GPKGGeoPackage *) open: (NSString *) database;
+
+/**
+ *  Validate the database header and integrity.
+ *
+ *  @param database database name
+ *
+ *  @return true if valid, false if not
+ */
+-(BOOL) validate: (NSString *) database;
+
+/**
+ *  Validate the database header. Checks the beginning bytes for the SQLite header string.
+ *
+ *  @param database database name
+ *
+ *  @return true if valid, false if not
+ */
+-(BOOL) validateHeader: (NSString *) database;
+
+/**
+ *  Validate the database integrity. Performs a database integrity ok check.
+ *
+ *  @param database database name
+ *
+ *  @return true if valid, false if not
+ */
+-(BOOL) validateIntegrity: (NSString *) database;
 
 /**
  *  Copy a GeoPackage into the same directory

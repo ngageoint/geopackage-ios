@@ -14,6 +14,9 @@
 #import "GPKGGeoPackageValidate.h"
 #import "GPKGSqlUtils.h"
 #import "AFHTTPRequestOperation.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
+#import "WKBByteReader.h"
 
 @implementation GPKGGeoPackageManager
 
@@ -21,6 +24,11 @@
     self = [super init];
     if(self != nil){
         self.metadataDb = [[GPKGMetadataDb alloc] init];
+        
+        self.importHeaderValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_HEADER];
+        self.importIntegrityValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_INTEGRITY];
+        self.openHeaderValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_HEADER];
+        self.openIntegrityValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_INTEGRITY];
     }
     return self;
 }
@@ -376,12 +384,19 @@
     
     // Verify the database is valid
     sqlite3 *sqlite3Database;
-    int openDatabaseResult = sqlite3_open([documentsPath UTF8String], &sqlite3Database);
-    sqlite3_close(sqlite3Database);
-    if(openDatabaseResult != SQLITE_OK){
+    @try {
+        int openDatabaseResult = sqlite3_open([documentsPath UTF8String], &sqlite3Database);
+        if(openDatabaseResult != SQLITE_OK){
+            [NSException raise:@"Invalid GeoPackage database file" format:@"Invalid GeoPackage database file: %@, Error: %s", documentsPath, sqlite3_errmsg(sqlite3Database)];
+        }
+        [self validateDatabase:sqlite3Database andDatabaseFile:documentsPath andValidateHeader:self.importHeaderValidation andValidateIntegrity:self.importIntegrityValidation];
+        sqlite3_close(sqlite3Database);
+    }
+    @catch (NSException *e) {
+        sqlite3_close(sqlite3Database);
         // Delete the file
         [GPKGIOUtils deleteFile:documentsPath];
-        [NSException raise:@"Invalid GeoPackage database file: %@" format:@"Invalid GeoPackage database file: %@, Error: %s", documentsPath, sqlite3_errmsg(sqlite3Database)];
+        @throw e;
     }
     
     // Create the metadata record
@@ -443,11 +458,60 @@
         }
         BOOL writable = [fileManager isWritableFileAtPath:documentsPath];
 
+        // Validate the database if validation is enabled
+        [self validateDatabaseFile:documentsPath andValidateHeader:self.openHeaderValidation andValidateIntegrity:self.openIntegrityValidation];
+        
         GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:documentsPath];
         geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable andMetadataDb:self.metadataDb];
     }
 
     return geoPackage;
+}
+
+-(BOOL) validate: (NSString *) database{
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:true andValidateIntegrity:true];
+    return valid;
+}
+
+-(BOOL) validateHeader: (NSString *) database{
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:true andValidateIntegrity:false];
+    return valid;
+}
+
+-(BOOL) validateIntegrity: (NSString *) database{
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:false andValidateIntegrity:true];
+    return valid;
+}
+
+/**
+ *  Validate the GeoPackage database
+ *
+ *  @param database          database name
+ *  @param validateHeader    true to validate header
+ *  @param validateIntegrity true to validate integrity
+ *
+ *  @return true if valid
+ */
+-(BOOL) isValidWithDatabase: (NSString *) database andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
+    
+    BOOL valid = false;
+    
+    if([self exists:database]){
+        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
+        
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        
+        @try {
+            valid = [fileManager fileExistsAtPath:documentsPath]
+                && [fileManager isReadableFileAtPath:documentsPath]
+                && [self isDatabaseFileValid:documentsPath andValidateHeader:validateHeader andValidateIntegrity:validateIntegrity];
+        }
+        @catch (NSException *e) {
+            NSLog(@"Failed to validate database '%@', file '%@' with error: %@", database, documentsPath, [e description]);
+        }
+    }
+    
+    return valid;
 }
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy{
@@ -552,6 +616,177 @@
     }
     
     return moved && [self exists:database];
+}
+
+/**
+ *  Validate the database file
+ *
+ *  @param databaseFile      database file
+ *  @param validateHeader    true to validate database header
+ *  @param validateIntegrity true to validate integrity
+ */
+-(void) validateDatabaseFile: (NSString *) databaseFile andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
+    sqlite3 *sqlite3Database;
+    int openDatabaseResult = sqlite3_open([databaseFile UTF8String], &sqlite3Database);
+    @try {
+        if(openDatabaseResult != SQLITE_OK){
+            [NSException raise:@"Invalid GeoPackage database file" format:@"Invalid GeoPackage database file: %@, Error: %s", databaseFile, sqlite3_errmsg(sqlite3Database)];
+        }
+        [self validateDatabase:sqlite3Database andDatabaseFile:databaseFile andValidateHeader:validateHeader andValidateIntegrity:validateIntegrity];
+    }
+    @finally {
+        sqlite3_close(sqlite3Database);
+    }
+
+}
+
+/**
+ *  Check if the database file is valid
+ *
+ *  @param databaseFile      database file
+ *  @param validateHeader    true to validate database header
+ *  @param validateIntegrity true to validate integrity
+ *  @return true if valid
+ */
+-(BOOL) isDatabaseFileValid: (NSString *) databaseFile andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
+    BOOL valid = false;
+    sqlite3 *sqlite3Database;
+    int openDatabaseResult = sqlite3_open([databaseFile UTF8String], &sqlite3Database);
+    @try {
+        valid = openDatabaseResult == SQLITE_OK
+            && [self isDatabaseValid:sqlite3Database andDatabaseFile:databaseFile andValidateHeader:validateHeader andValidateIntegrity:validateIntegrity];
+    }
+    @finally {
+        sqlite3_close(sqlite3Database);
+    }
+    return valid;
+}
+
+/**
+ *  Validate the database connection
+ *
+ *  @param sqlite3Database   database connection
+ *  @param databaseFile      database file
+ *  @param validateHeader    true to validate database header
+ *  @param validateIntegrity true to validate integrity
+ */
+-(void) validateDatabase: (sqlite3 *) sqlite3Database andDatabaseFile: (NSString *) databaseFile andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
+    
+    if(validateHeader){
+        [self validateDatabaseHeader:sqlite3Database andDatabaseFile:databaseFile];
+    }
+    if(validateIntegrity){
+        [self validateDatabaseIntegrity:sqlite3Database andDatabaseFile:databaseFile];
+    }
+    
+}
+
+/**
+ *  Check if the database connection is valid
+ *
+ *  @param sqlite3Database   database connection
+ *  @param databaseFile      database file
+ *  @param validateHeader    true to validate database header
+ *  @param validateIntegrity true to validate integrity
+ *  @return true if valid
+ */
+-(BOOL) isDatabaseValid: (sqlite3 *) sqlite3Database andDatabaseFile: (NSString *) databaseFile andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
+    BOOL valid = (!validateHeader || [self isDatabaseHeaderValid:databaseFile])
+        && (!validateIntegrity || [self isDatabaseIntegrityValid:sqlite3Database]);
+    return valid;
+}
+
+/**
+ *  Validate the database header
+ *
+ *  @param sqlite3Database database connection
+ *  @param databaseFile    database file
+ */
+-(void) validateDatabaseHeader: (sqlite3 *) sqlite3Database andDatabaseFile: (NSString *) databaseFile{
+
+    BOOL validHeader = [self isDatabaseHeaderValid:databaseFile];
+    if(!validHeader){
+        [NSException raise:@"GeoPackage SQLite Header" format:@"GeoPackage SQLite header is not valid: %@", databaseFile];
+    }
+}
+
+/**
+ *  Check if the database header is valid
+ *
+ *  @param databaseFile    database file
+ *
+ *  @return true if valid
+ */
+-(BOOL) isDatabaseHeaderValid: (NSString *) databaseFile{
+    
+    BOOL validHeader = false;
+    NSInputStream * is = nil;
+    @try {
+        is = [NSInputStream inputStreamWithFileAtPath:databaseFile];
+        [is open];
+        NSInteger bufferSize = 16;
+        uint8_t buffer[bufferSize];
+        if([is read:buffer maxLength:bufferSize] == bufferSize){
+            NSData * data = [[NSData alloc] initWithBytes:buffer length:bufferSize];
+            WKBByteReader * byteReader = [[WKBByteReader alloc] initWithData:data];
+            NSString * header = [byteReader readString:(int)bufferSize];
+            NSString * headerPrefix = [header substringToIndex:[GPKG_SQLITE_HEADER_PREFIX length]];
+            validHeader = [headerPrefix caseInsensitiveCompare:GPKG_SQLITE_HEADER_PREFIX] == NSOrderedSame;
+        }
+    }
+    @catch (NSException *e) {
+        NSLog(@"Failed to retrieve database header from file '%@' with error: %@", databaseFile, [e description]);
+    }
+    @finally {
+        if(is != nil){
+            [is close];
+        }
+    }
+    
+    return validHeader;
+}
+
+/**
+ *  Validate the database integrity
+ *
+ *  @param sqlite3Database database connection
+ *  @param databaseFile    database file
+ */
+-(void) validateDatabaseIntegrity: (sqlite3 *) sqlite3Database andDatabaseFile: (NSString *) databaseFile{
+    
+    BOOL validHeader = [self isDatabaseIntegrityValid:sqlite3Database];
+    if(!validHeader){
+        [NSException raise:@"GeoPackage SQLite Integrity" format:@"GeoPackage SQLite file integrity failed: %@", databaseFile];
+    }
+}
+
+/**
+ *  Check if the database integrity is valid
+ *
+ *  @param sqlite3Database database connection
+ *
+ *  @return true if valid
+ */
+-(BOOL) isDatabaseIntegrityValid: (sqlite3 *) sqlite3Database{
+    
+    BOOL validIntegrity = false;
+    
+    sqlite3_stmt *integrity = NULL;
+    
+    if ( sqlite3_prepare_v2( sqlite3Database, "PRAGMA integrity_check;", -1, &integrity, NULL ) == SQLITE_OK ) {
+        
+        while ( sqlite3_step( integrity ) == SQLITE_ROW ) {
+            const unsigned char *result = sqlite3_column_text( integrity, 0 );
+            if ( result && strcmp( ( const char * )result, (const char *)"ok" ) == 0 ) {
+                validIntegrity = true;
+                break;
+            }
+        }
+        
+        sqlite3_finalize( integrity );
+    }
+    
+    return validIntegrity;
 }
 
 -(void) createMetadataWithDao: (GPKGGeoPackageMetadataDao *) dao andName: (NSString *) name andPath: (NSString *) path{

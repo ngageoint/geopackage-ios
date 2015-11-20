@@ -122,7 +122,53 @@
 
 -(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
                                                 andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                andSrsId: (NSNumber *) srsId{
+                                                      andSrsId: (NSNumber *) srsId{
+    return [self createFeatureTableWithGeometryColumns:geometryColumns andIdColumnName:nil andAdditionalColumns:nil andBoundingBox:boundingBox andSrsId:srsId];
+}
+
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                               andIdColumnName: (NSString *) idColumnName
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId{
+    return [self createFeatureTableWithGeometryColumns:geometryColumns andIdColumnName:idColumnName andAdditionalColumns:nil andBoundingBox:boundingBox andSrsId:srsId];
+}
+
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                          andAdditionalColumns: (NSArray *) additionalColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId{
+    return [self createFeatureTableWithGeometryColumns:geometryColumns andIdColumnName:nil andAdditionalColumns:additionalColumns andBoundingBox:boundingBox andSrsId:srsId];
+}
+
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                               andIdColumnName: (NSString *) idColumnName
+                                          andAdditionalColumns: (NSArray *) additionalColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId{
+    
+    if(idColumnName == nil){
+        idColumnName = @"id";
+    }
+    
+    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:idColumnName]];
+    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithIndex:1
+                                                                andName:geometryColumns.columnName
+                                                        andGeometryType:[geometryColumns getGeometryType]
+                                                             andNotNull:false
+                                                        andDefaultValue:nil]];
+    
+    if(additionalColumns != nil){
+        [columns addObjectsFromArray:additionalColumns];
+    }
+    
+    return [self createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srsId andColumns:columns];
+}
+
+-(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
+                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
+                                                      andSrsId: (NSNumber *) srsId
+                                                    andColumns: (NSArray *) columns{
     
     // Get the SRS
     GPKGSpatialReferenceSystem * srs = [self getSrs:srsId];
@@ -131,13 +177,6 @@
     [self createGeometryColumnsTable];
     
     // Create the user feature table
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:@"id"]];
-    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithIndex:1
-                                                                andName:geometryColumns.columnName
-                                                        andGeometryType:[geometryColumns getGeometryType]
-                                                             andNotNull:false
-                                                        andDefaultValue:nil]];
     GPKGFeatureTable * table = [[GPKGFeatureTable alloc] initWithTable:geometryColumns.tableName andColumns:columns];
     [self createFeatureTable:table];
     

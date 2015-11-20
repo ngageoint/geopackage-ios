@@ -122,7 +122,13 @@ Build this repository using Xcode and/or CocoaPods:
 
     pod install
 
-Open geopackage-ios.xcworkspace in Xcode
+Open geopackage-ios.xcworkspace in Xcode or build from command line:
+
+    xcodebuild -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios build
+
+Run tests from Xcode or from command line:
+
+    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
 
 ### Include Library ###
 
@@ -135,7 +141,7 @@ Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 Pull from GitHub:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.0'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.1'
 
 Include as local project:
 

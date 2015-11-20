@@ -287,8 +287,8 @@
 +(int) getTileRowWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude;
 
 /**
- * Get the web mercator bounding box of the Tile Row from the Tile Matrix
- * zoom level
+ *  Get the web mercator bounding box of the tile column and row in the tile
+ *  matrix using the total bounding box
  *
  *  @param webMercatorTotalBox web mercator total bounding box
  *  @param tileMatrix          tile matrix
@@ -298,6 +298,45 @@
  *  @return web mercator bounding box
  */
 +(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
+
+/**
+ *  Get the web mercator bounding box of the tile column and row in the tile
+ *  width and height bounds using the total bounding box
+ *
+ *  @param webMercatorTotalBox web mercator total bounding box
+ *  @param tileMatrixWidth     matrix width
+ *  @param tileMatrixHeight    matrix height
+ *  @param tileColumn          tile column
+ *  @param tileRow             tile row
+ *
+ *  @return web mercator bounding box
+ */
++(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
+
+/**
+ *  Get the web mercator bounding box of the tile grid in the tile matrix
+ *  using the total bounding box
+ *
+ *  @param webMercatorTotalBox web mercator total bounding box
+ *  @param tileMatrix          tile matrix
+ *  @param tileGrid            tile grid
+ *
+ *  @return web mercator bounding box
+ */
++(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid;
+
+/**
+ *  Get the web mercator bounding box of the tile grid in the tile width and
+ *  height bounds using the total bounding box
+ *
+ *  @param webMercatorTotalBox web mercator total bounding box
+ *  @param tileMatrixWidth     matrix width
+ *  @param tileMatrixHeight    matrix height
+ *  @param tileGrid            tile grid
+ *
+ *  @return web mercator bounding box
+ */
++(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid;
 
 /**
  * Get the zoom level of where the web mercator bounding box fits into the

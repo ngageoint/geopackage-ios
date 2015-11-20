@@ -15,6 +15,8 @@ NSString * const GPKG_TEST_IMPORT_URL = @"http://www.geopackage.org/data/gdal_sa
 NSString * const GPKG_TEST_IMPORT_DB_FILE_NAME = @"import_db.gpkg";
 NSString * const GPKG_TEST_TILE_FILE_NAME_EXTENSION = @"png";
 NSString * const GPKG_TEST_TILE_FILE_NAME = @"tile.png";
+NSString * const GPKG_TEST_IMPORT_CORRUPT_DB_NAME = @"import_db_corrupt";
+NSString * const GPKG_TEST_IMPORT_CORRUPT_DB_FILE_NAME = @"import_db_corrupt.gpkg";
 
 @implementation GPKGTestConstants
 

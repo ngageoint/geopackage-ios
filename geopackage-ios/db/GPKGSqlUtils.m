@@ -112,25 +112,73 @@
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
+    return [self singleResultQueryWithDatabase:connection andStatement:countStatement andArgs:args];
+}
+
++(int) singleResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
-    int count = 0;
+    int result = 0;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [countStatement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
         if(sqlite3_step(compiledStatement) == SQLITE_ROW){
-            count = sqlite3_column_int(compiledStatement, 0);
+            result = sqlite3_column_int(compiledStatement, 0);
         } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to get count: %@, Error: %s", countStatement, sqlite3_errmsg([connection getConnection])];
+            [NSException raise:@"SQL Failed" format:@"Failed to query for single result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
         }
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute count SQL: %@, Error: %s", countStatement, sqlite3_errmsg([connection getConnection])];
+        [NSException raise:@"SQL Failed" format:@"Failed to query for single result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
     }
     
     [self closeStatement:compiledStatement];
     
-    return count;
+    return result;
+}
+
++(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    
+    NSNumber * min = nil;
+    if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
+        NSMutableString *minStatement = [NSMutableString string];
+        
+        [minStatement appendFormat:@"select min(%@) from %@", column, table];
+        
+        if(where != nil){
+            [minStatement appendString:@" "];
+            if(![where hasPrefix:@"where"]){
+                [minStatement appendString:@"where "];
+            }
+            [minStatement appendString:where];
+        }
+        
+        min = [NSNumber numberWithInt:[self singleResultQueryWithDatabase:connection andStatement:minStatement andArgs:whereArgs]];
+    }
+    
+    return min;
+}
+
++(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    
+    NSNumber * max = nil;
+    if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
+        NSMutableString *maxStatement = [NSMutableString string];
+        
+        [maxStatement appendFormat:@"select max(%@) from %@", column, table];
+        
+        if(where != nil){
+            [maxStatement appendString:@" "];
+            if(![where hasPrefix:@"where"]){
+                [maxStatement appendString:@"where "];
+            }
+            [maxStatement appendString:where];
+        }
+        
+        max = [NSNumber numberWithInt:[self singleResultQueryWithDatabase:connection andStatement:maxStatement andArgs:whereArgs]];
+    }
+    
+    return max;
 }
 
 +(long long) insertWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{

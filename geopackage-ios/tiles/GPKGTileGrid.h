@@ -52,4 +52,13 @@
  */
 -(int) count;
 
+/**
+ *  Determine if equal to the provided tile grid
+ *
+ *  @param tileGrid tile grid
+ *
+ *  @return true if equal, false if not
+ */
+-(BOOL) equals: (GPKGTileGrid *) tileGrid;
+
 @end

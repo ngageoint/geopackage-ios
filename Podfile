@@ -8,5 +8,5 @@ pod 'proj4', '~> 4.8'
 pod 'wkb-ios', '~> 1.0'
 
 target :"geopackage-iosTests", :exclusive => true do
-  pod 'geopackage-ios', :path => '.'
+  podspec :path => './geopackage-ios.podspec'
 end

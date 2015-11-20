@@ -143,6 +143,30 @@
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ *  Get the min result of the column
+ *
+ *  @param table     table
+ *  @param column    column
+ *  @param where     where
+ *  @param whereArgs where args
+ *
+ *  @return min or nil
+ */
+-(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ *  Get the max result of the column
+ *
+ *  @param table     table
+ *  @param column    column
+ *  @param where     where
+ *  @param whereArgs where args
+ *
+ *  @return max or nil
+ */
+-(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  *  Begin an exclusive transaction on the database
  */
 -(void) beginTransaction;
