@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.1.2  (TBD)
+
+* TBD
+
 ## [1.1.1] (https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.1) (11-20-2015)
 
 * Feature Overlay Query message builder, check if features are indexed first
