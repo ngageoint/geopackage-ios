@@ -1,5 +1,5 @@
 //
-//  GPGKGeoPackageCache.h
+//  GPKGGeoPackageCache.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/3/15.
@@ -12,7 +12,7 @@
 /**
  *  GeoPackage Cache to maintain opened GeoPackages
  */
-@interface GPGKGeoPackageCache : NSObject
+@interface GPKGGeoPackageCache : NSObject
 
 /**
  *  Initialize

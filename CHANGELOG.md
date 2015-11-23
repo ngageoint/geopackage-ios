@@ -7,6 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## [1.1.2](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.2) (11-23-2015)
 
 * Bridging Header for Swift
+* Fixing file prefix typo on GeoPackage Cache
 
 ## [1.1.1](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.1) (11-20-2015)
 

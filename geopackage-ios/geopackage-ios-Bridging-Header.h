@@ -10,10 +10,10 @@
 #define geopackage_ios_Bridging_Header_h
 
 #import "wkb-ios-Bridging-Header.h"
-#import "GPGKGeoPackageCache.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGDateTimeUtils.h"
 #import "GPKGGeoPackage.h"
+#import "GPKGGeoPackageCache.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGUtils.h"
 #import "geopackage_ios.h"

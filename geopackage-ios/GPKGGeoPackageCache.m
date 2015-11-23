@@ -1,21 +1,21 @@
 //
-//  GPGKGeoPackageCache.m
+//  GPKGGeoPackageCache.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/3/15.
 //  Copyright © 2015 NGA. All rights reserved.
 //
 
-#import "GPGKGeoPackageCache.h"
+#import "GPKGGeoPackageCache.h"
 
-@interface GPGKGeoPackageCache()
+@interface GPKGGeoPackageCache()
 
 @property (nonatomic, strong) GPKGGeoPackageManager *manager;
 @property (nonatomic, strong) NSMutableDictionary<NSString*,GPKGGeoPackage*> *cache;
 
 @end
 
-@implementation GPGKGeoPackageCache
+@implementation GPKGGeoPackageCache
 
 -(instancetype) initWithManager: (GPKGGeoPackageManager *) manager{
     self = [super init];
