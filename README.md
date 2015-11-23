@@ -141,11 +141,17 @@ Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 Pull from GitHub:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.1'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.2'
 
 Include as local project:
 
     pod 'geopackage-ios', :path => '../geopackage-ios'
+
+### Swift ###
+
+To use from Swift, import the geopackage-ios bridging header from the Swift project's bridging header
+
+    #import "geopackage-ios-Bridging-Header.h"
 
 ### Remote Dependencies ###
 
