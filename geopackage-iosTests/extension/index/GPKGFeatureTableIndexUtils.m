@@ -54,10 +54,14 @@
         
         [NSThread sleepForTimeInterval:1];
         
+        [GPKGTestUtils validateGeoPackage:geoPackage];
+        
         // Test indexing
         GPKGTestGeoPackageProgress * progress = [[GPKGTestGeoPackageProgress alloc] init];
         [featureTableIndex setProgress:progress];
         int indexCount = [featureTableIndex index];
+        [GPKGTestUtils validateGeoPackage:geoPackage];
+        
         [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:indexCount];
         [GPKGTestUtils assertEqualIntWithValue:featureDao.count andValue2:progress.progress];
         [GPKGTestUtils assertNotNil:[featureTableIndex getLastIndexed]];

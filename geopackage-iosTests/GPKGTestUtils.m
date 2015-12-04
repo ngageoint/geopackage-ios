@@ -372,4 +372,10 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     return [self randomDouble] * max;
 }
 
++(void) validateGeoPackage: (GPKGGeoPackage *) geoPackage{
+    [self assertNil:[geoPackage foreignKeyCheck]];
+    [self assertNil:[geoPackage integrityCheck]];
+    [self assertNil:[geoPackage quickCheck]];
+}
+
 @end

@@ -191,8 +191,7 @@
 	<array>
 		<string>CREATE TABLE nga_table_index (
   table_name TEXT NOT NULL PRIMARY KEY,
-  last_indexed DATETIME,
-  CONSTRAINT fk_nti_ge_tn FOREIGN KEY (table_name) REFERENCES gpkg_extensions(table_name)
+  last_indexed DATETIME
 );</string>
 	</array>
 	<key>nga_geometry_index</key>

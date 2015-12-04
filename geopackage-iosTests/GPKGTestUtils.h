@@ -63,4 +63,6 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(double) randomDoubleLessThan: (double) max;
 
++(void) validateGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

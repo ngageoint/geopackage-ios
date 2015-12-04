@@ -533,6 +533,49 @@
     return [self getTileDaoWithTileMatrixSet:tileMatrixSet];
 }
 
+-(void) execSQL: (NSString *) sql{
+    [self.database exec:sql];
+}
+
+-(GPKGResultSet *) rawQuery: (NSString *) sql andArgs: (NSArray *) args{
+    return [self.database rawQuery:sql andArgs:args];
+}
+
+-(GPKGResultSet *) foreignKeyCheck{
+    GPKGResultSet * resultSet = [self rawQuery:@"PRAGMA foreign_key_check" andArgs:nil];
+    if(![resultSet moveToNext]){
+        [resultSet close];
+        resultSet = nil;
+    }
+    return resultSet;
+}
+
+-(GPKGResultSet *) integrityCheck{
+    return [self integrityCheck:[self rawQuery:@"PRAGMA integrity_check" andArgs:nil]];
+}
+
+-(GPKGResultSet *) quickCheck{
+    return [self integrityCheck:[self rawQuery:@"PRAGMA quick_check" andArgs:nil]];
+}
+
+/**
+ *  Check the result set returned from the integrity check to see if things are "ok"
+ *
+ *  @param resultSet result set
+ *
+ *  @return nil if ok, else the open result set
+ */
+-(GPKGResultSet *) integrityCheck: (GPKGResultSet *) resultSet{
+    if([resultSet moveToNext]){
+        NSString * value = [resultSet getString:0];
+        if([value isEqualToString:@"ok"]){
+            [resultSet close];
+            resultSet = nil;
+        }
+    }
+    return resultSet;
+}
+
 -(void) dropSQLiteTriggers: (GPKGGeometryColumns *) geometryColumns{
     
     if (self.writable) {

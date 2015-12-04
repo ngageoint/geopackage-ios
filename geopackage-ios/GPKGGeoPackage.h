@@ -479,4 +479,42 @@
  */
 -(GPKGTileDao *) getTileDaoWithTableName: (NSString *) tableName;
 
+/**
+ *  Execute the sql on the GeoPackage database
+ *
+ *  @param sql sql
+ */
+-(void) execSQL: (NSString *) sql;
+
+/**
+ *  Perform a raw query on the database
+ *
+ *  @param sql  sql
+ *  @param args sql args
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) rawQuery: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ *  Perform a foreign key check on the database
+ *
+ *  @return nil if check passed, open result set with results if failed
+ */
+-(GPKGResultSet *) foreignKeyCheck;
+
+/**
+ *  Perform an integrity check on the database
+ *
+ *  @return nil if check passed, open result set with results if failed
+ */
+-(GPKGResultSet *) integrityCheck;
+
+/**
+ *  Perform a quick integrity check on the database
+ *
+ *  @return nil if check passed, open result set with results if failed
+ */
+-(GPKGResultSet *) quickCheck;
+
 @end
