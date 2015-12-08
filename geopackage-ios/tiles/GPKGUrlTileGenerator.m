@@ -122,7 +122,14 @@ NSString * const GPKG_TG_URL_EPSG_PATTERN = @"EPSG:(\\d+)";
     
     // Replace x, y, and z
     if(self.urlHasXYZ){
-        zoomUrl = [self replaceXYZWithUrl:zoomUrl andZ:z andX:x andY:y];
+        int yRequest = y;
+        
+        // If TMS, flip the y value
+        if(self.tms){
+            yRequest = [GPKGTileBoundingBoxUtils getYAsOppositeTileFormatWithZoom:z andY:y];
+        }
+        
+        zoomUrl = [self replaceXYZWithUrl:zoomUrl andZ:z andX:x andY:yRequest];
     }
     
     // Replace bounding box
