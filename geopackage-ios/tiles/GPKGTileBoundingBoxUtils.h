@@ -244,6 +244,16 @@
 +(int) tilesPerSideWithZoom: (int) zoom;
 
 /**
+ *  Get the standard y tile location as TMS or a TMS y location as standard
+ *
+ *  @param zoom zoom
+ *  @param y    y
+ *
+ *  @return opposite y format
+ */
++(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y;
+
+/**
  *  Get the zoom level from the tiles per side
  *
  *  @param tilesPerSide tiles per side

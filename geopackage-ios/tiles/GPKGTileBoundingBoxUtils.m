@@ -264,6 +264,12 @@
     return (int) pow(2, zoom);
 }
 
++(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{
+    int tilesPerSide = [self tilesPerSideWithZoom:zoom];
+    int oppositeY = tilesPerSide - y - 1;
+    return oppositeY;
+}
+
 +(int) zoomFromTilesPerSide: (int) tilesPerSide{
     return (int) (log(tilesPerSide) / log(2));
 }

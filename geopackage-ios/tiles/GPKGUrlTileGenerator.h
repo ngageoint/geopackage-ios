@@ -19,6 +19,11 @@ extern NSString * const GPKG_TG_URL_EPSG_PATTERN;
 @interface GPKGUrlTileGenerator : GPKGTileGenerator
 
 /**
+ *  TMS URL flag, when true x,y,z converted to TMS when requesting the tile
+ */
+@property (nonatomic) BOOL tms;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
