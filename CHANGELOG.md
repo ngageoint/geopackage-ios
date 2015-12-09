@@ -9,6 +9,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Table Index Extension invalid foreign key fix - [Issue #13](https://github.com/ngageoint/geopackage-ios/issues/13)
 * GeoPackage methods: execute SQL, query, foreign key check, integrity check, quick integrity check
 * URL Tile Generator TMS support
+* Tile Generator fix for updating a GeoPackage and replacing an existing tile
 
 ## [1.1.2](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.2) (11-23-2015)
 

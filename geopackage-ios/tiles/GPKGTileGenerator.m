@@ -367,11 +367,6 @@
              
                  @try {
                      
-                     // If an update, delete an existing row
-                     if(update){
-                         [tileDao deleteTileWithColumn:x andRow:y andZoomLevel:zoomLevel];
-                     }
-                     
                      // Create the tile
                      NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
                      
@@ -398,6 +393,11 @@
                          if (localTileGrid != nil) {
                              tileColumn = (x - tileGrid.minX) + localTileGrid.minX;
                              tileRow = (y - tileGrid.minY) + localTileGrid.minY;
+                         }
+                         
+                         // If an update, delete an existing row
+                         if(update){
+                             [tileDao deleteTileWithColumn:tileColumn andRow:tileRow andZoomLevel:zoomLevel];
                          }
                          
                          [newRow setTileColumn:tileColumn];
