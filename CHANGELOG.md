@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.1.3 (TBD)
+## [1.1.3](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.3) (12-14-2015)
 
 * Table Index Extension invalid foreign key fix - [Issue #13](https://github.com/ngageoint/geopackage-ios/issues/13)
 * GeoPackage methods: execute SQL, query, foreign key check, integrity check, quick integrity check
