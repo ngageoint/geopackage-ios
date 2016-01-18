@@ -9,7 +9,7 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGUtils.h"
 #import "GPKGProjectionFactory.h"
-#import "GPKGSLocationCoordinate3D.h"
+#import "GPKGGeometryProjectionTransform.h"
 
 @implementation GPKGProjectionTransform
 
@@ -85,24 +85,16 @@
 
 -(WKBPoint *) transformWithPoint: (WKBPoint *) from{
     
-    CLLocationCoordinate2D fromCoord2d = CLLocationCoordinate2DMake([from.y doubleValue], [from.x doubleValue]);
-    GPKGSLocationCoordinate3D * fromCoord = [[GPKGSLocationCoordinate3D alloc] initWithCoordinate:fromCoord2d];
-    if(from.hasZ){
-        [fromCoord setZ:from.z];
-    }
+    GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
+    WKBPoint * to = [geometryTransform transformPoint:from];
     
-    GPKGSLocationCoordinate3D * toCoord = [self transform3d:fromCoord];
+    return to;
+}
+
+-(WKBGeometry *) transformWithGeometry: (WKBGeometry *) from{
     
-    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:toCoord.coordinate.longitude];
-    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:toCoord.coordinate.latitude];
-    WKBPoint * to = [[WKBPoint alloc] initWithHasZ:from.hasZ andHasM:from.hasM andX:x andY:y];
-    
-    if(from.hasZ){
-        [to setZ:toCoord.z];
-    }
-    if(from.hasM){
-        [to setM:from.m];
-    }
+    GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
+    WKBGeometry * to = [geometryTransform transformGeometry:from];
     
     return to;
 }

@@ -10,6 +10,7 @@
 #import "GPKGProjection.h"
 #import "GPKGBoundingBox.h"
 #import "WKBPoint.h"
+#import "GPKGSLocationCoordinate3D.h"
 
 /**
  *  Projection transformation between a from and to projection
@@ -67,6 +68,24 @@
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToProjection: (GPKGProjection *) toProjection;
 
 /**
+ *  Transform a location coordinate
+ *
+ *  @param from location coordinate
+ *
+ *  @return transformed location coordinate
+ */
+-(CLLocationCoordinate2D) transform: (CLLocationCoordinate2D) from;
+
+/**
+ *  Transform a 3d location coordinate
+ *
+ *  @param from 3d location coordinate
+ *
+ *  @return transformed 3d location coordinate
+ */
+-(GPKGSLocationCoordinate3D *) transform3d: (GPKGSLocationCoordinate3D *) from;
+
+/**
  *  Transform a point
  *
  *  @param from point to transform
@@ -74,6 +93,15 @@
  *  @return transformed point
  */
 -(WKBPoint *) transformWithPoint: (WKBPoint *) from;
+
+/**
+ *  Transform a geometry
+ *
+ *  @param from geometry
+ *
+ *  @return projected geometry
+ */
+-(WKBGeometry *) transformWithGeometry: (WKBGeometry *) from;
 
 /**
  *  Transform a bounding box
