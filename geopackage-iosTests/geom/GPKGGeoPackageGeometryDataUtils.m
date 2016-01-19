@@ -22,6 +22,9 @@
 #import "WKBPolyhedralSurface.h"
 #import "WKBTIN.h"
 #import "WKBTriangle.h"
+#import "GPKGProjectionFactory.h"
+#import "GPKGProjectionConstants.h"
+#import "GPKGProjectionTransform.h"
 
 @implementation GPKGGeoPackageGeometryDataUtils
 
@@ -96,6 +99,73 @@
     }
 }
 
++(void) testGeometryProjectionTransform: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    
+    if([geometryColumnsDao tableExists]){
+        GPKGResultSet * results = [geometryColumnsDao queryForAll];
+        
+        while([results moveToNext]){
+            
+            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:results];
+            
+            GPKGFeatureDao * dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            [GPKGTestUtils assertNotNil:dao];
+            
+            GPKGResultSet * featureResults = [dao queryForAll];
+            
+            while([featureResults moveToNext]){
+                
+                GPKGFeatureRow * featureRow = [dao getFeatureRow:featureResults];
+                GPKGGeometryData * geometryData = [featureRow getGeometry];
+                
+                if(geometryData != nil){
+                    
+                    WKBGeometry * geometry = geometryData.geometry;
+                    
+                    if(geometry != nil){
+                        
+                        GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+                        NSNumber * srsId = geometryData.srsId;
+                        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
+                        
+                        NSNumber * epsg = srs.organizationCoordsysId;
+                        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithNumber:epsg];
+                        int toEpsg = -1;
+                        if([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
+                            toEpsg = PROJ_EPSG_WEB_MERCATOR;
+                        }else{
+                            toEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
+                        }
+                        GPKGProjectionTransform * transformTo = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToEpsg:toEpsg];
+                        GPKGProjectionTransform * transformFrom = [[GPKGProjectionTransform alloc] initWithFromProjection:transformTo.toProjection andToProjection:projection];
+
+                        NSData * bytes = [geometryData getWkbData];
+                        
+                        WKBGeometry * projectedGeometry = [transformTo transformWithGeometry:geometry];
+                        GPKGGeometryData * projectedGeometryData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:-1]];
+                        [projectedGeometryData setGeometry:projectedGeometry];
+                        [projectedGeometryData toData];
+                        NSData * projectedBytes = [projectedGeometryData getWkbData];
+                        
+                        if([epsg intValue] > 0){
+                            [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
+                        }
+                        
+                        WKBGeometry * restoredGeometry = [transformFrom transformWithGeometry:projectedGeometry];
+                        [self compareGeometriesWithExpected:geometry andActual:restoredGeometry andDelta:.001];
+                    }
+                }
+            }
+            
+            [featureResults close];
+        }
+        
+        [results close];
+    }
+}
+
 +(void) compareGeometryDataWithExpected: (GPKGGeometryData *) expected andActual: (GPKGGeometryData *) actual{
     
     // Compare geometry data attributes
@@ -142,6 +212,10 @@
 }
 
 +(void) compareGeometriesWithExpected: (WKBGeometry *) expected andActual: (WKBGeometry *) actual{
+    [self compareGeometriesWithExpected:expected andActual:actual andDelta:0.0];
+}
+
++(void) compareGeometriesWithExpected: (WKBGeometry *) expected andActual: (WKBGeometry *) actual andDelta: (double) delta{
     if(expected == nil){
         [GPKGTestUtils assertNil:actual];
     }else{
@@ -152,34 +226,34 @@
             case WKB_GEOMETRY:
                 [NSException raise:@"Unexpected Geometry Type" format:@"Unexpected Geometry Type of %@ which is abstract", [WKBGeometryTypes name:geometryType]];
             case WKB_POINT:
-                [self comparePointWithExpected:(WKBPoint *)expected andActual:(WKBPoint *)actual];
+                [self comparePointWithExpected:(WKBPoint *)expected andActual:(WKBPoint *)actual andDelta:delta];
                 break;
             case WKB_LINESTRING:
-                [self compareLineStringWithExpected:(WKBLineString *)expected andActual:(WKBLineString *)actual];
+                [self compareLineStringWithExpected:(WKBLineString *)expected andActual:(WKBLineString *)actual andDelta:delta];
                 break;
             case WKB_POLYGON:
-                [self comparePolygonWithExpected:(WKBPolygon *)expected andActual:(WKBPolygon *)actual];
+                [self comparePolygonWithExpected:(WKBPolygon *)expected andActual:(WKBPolygon *)actual andDelta:delta];
                 break;
             case WKB_MULTIPOINT:
-                [self compareMultiPointWithExpected:(WKBMultiPoint *)expected andActual:(WKBMultiPoint *)actual];
+                [self compareMultiPointWithExpected:(WKBMultiPoint *)expected andActual:(WKBMultiPoint *)actual andDelta:delta];
                 break;
             case WKB_MULTILINESTRING:
-                [self compareMultiLineStringWithExpected:(WKBMultiLineString *)expected andActual:(WKBMultiLineString *)actual];
+                [self compareMultiLineStringWithExpected:(WKBMultiLineString *)expected andActual:(WKBMultiLineString *)actual andDelta:delta];
                 break;
             case WKB_MULTIPOLYGON:
-                [self compareMultiPolygonWithExpected:(WKBMultiPolygon *)expected andActual:(WKBMultiPolygon *)actual];
+                [self compareMultiPolygonWithExpected:(WKBMultiPolygon *)expected andActual:(WKBMultiPolygon *)actual andDelta:delta];
                 break;
             case WKB_GEOMETRYCOLLECTION:
-                [self compareGeometryCollectionWithExpected:(WKBGeometryCollection *)expected andActual:(WKBGeometryCollection *)actual];
+                [self compareGeometryCollectionWithExpected:(WKBGeometryCollection *)expected andActual:(WKBGeometryCollection *)actual andDelta:delta];
                 break;
             case WKB_CIRCULARSTRING:
-                [self compareCircularStringWithExpected:(WKBCircularString *)expected andActual:(WKBCircularString *)actual];
+                [self compareCircularStringWithExpected:(WKBCircularString *)expected andActual:(WKBCircularString *)actual andDelta:delta];
                 break;
             case WKB_COMPOUNDCURVE:
-                [self compareCompoundCurveWithExpected:(WKBCompoundCurve *)expected andActual:(WKBCompoundCurve *)actual];
+                [self compareCompoundCurveWithExpected:(WKBCompoundCurve *)expected andActual:(WKBCompoundCurve *)actual andDelta:delta];
                 break;
             case WKB_CURVEPOLYGON:
-                [self compareCurvePolygonWithExpected:(WKBCurvePolygon *)expected andActual:(WKBCurvePolygon *)actual];
+                [self compareCurvePolygonWithExpected:(WKBCurvePolygon *)expected andActual:(WKBCurvePolygon *)actual andDelta:delta];
                 break;
             case WKB_MULTICURVE:
                 [NSException raise:@"Unexpected Geometry Type" format:@"Unexpected Geometry Type of %@ which is abstract", [WKBGeometryTypes name:geometryType]];
@@ -194,13 +268,13 @@
                 [NSException raise:@"Unexpected Geometry Type" format:@"Unexpected Geometry Type of %@ which is abstract", [WKBGeometryTypes name:geometryType]];
                 break;
             case WKB_POLYHEDRALSURFACE:
-                [self comparePolyhedralSurfaceWithExpected:(WKBPolyhedralSurface *)expected andActual:(WKBPolyhedralSurface *)actual];
+                [self comparePolyhedralSurfaceWithExpected:(WKBPolyhedralSurface *)expected andActual:(WKBPolyhedralSurface *)actual andDelta:delta];
                 break;
             case WKB_TIN:
-                [self compareTINWithExpected:(WKBTIN *)expected andActual:(WKBTIN *)actual];
+                [self compareTINWithExpected:(WKBTIN *)expected andActual:(WKBTIN *)actual andDelta:delta];
                 break;
             case WKB_TRIANGLE:
-                [self compareTriangleWithExpected:(WKBTriangle *)expected andActual:(WKBTriangle *)actual];
+                [self compareTriangleWithExpected:(WKBTriangle *)expected andActual:(WKBTriangle *)actual andDelta:delta];
                 break;
             default:
                 [NSException raise:@"Geometry Type Not Supported" format:@"Geometry Type not supported: %d", geometryType];
@@ -215,79 +289,87 @@
     [GPKGTestUtils assertEqualIntWithValue:[expected getWkbCode] andValue2:[actual getWkbCode]];
 }
 
-+(void) comparePointWithExpected: (WKBPoint *) expected andActual: (WKBPoint *) actual{
++(void) comparePointWithExpected: (WKBPoint *) expected andActual: (WKBPoint *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:expected.x andValue2:actual.x];
-    [GPKGTestUtils assertEqualWithValue:expected.y andValue2:actual.y];
-    [GPKGTestUtils assertEqualWithValue:expected.z andValue2:actual.z];
-    [GPKGTestUtils assertEqualWithValue:expected.m andValue2:actual.m];
-}
-
-+(void) compareLineStringWithExpected: (WKBLineString *) expected andActual: (WKBLineString *) actual{
-    [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
-    for(int i = 0; i < [[expected numPoints] intValue]; i++){
-        [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[expected.x doubleValue] andValue2:[actual.x doubleValue] andDelta: delta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[expected.y doubleValue] andValue2:[actual.y doubleValue] andDelta: delta];
+    if(expected.z == nil){
+        [GPKGTestUtils assertEqualWithValue:expected.z andValue2:actual.z];
+    }else{
+        [GPKGTestUtils assertEqualDoubleWithValue:[expected.z doubleValue] andValue2:[actual.z doubleValue] andDelta: delta];
+    }
+    if(expected.m == nil){
+        [GPKGTestUtils assertEqualWithValue:expected.m andValue2:actual.m];
+    }else{
+        [GPKGTestUtils assertEqualDoubleWithValue:[expected.m doubleValue] andValue2:[actual.m doubleValue] andDelta: delta];
     }
 }
 
-+(void) comparePolygonWithExpected: (WKBPolygon *) expected andActual: (WKBPolygon *) actual{
++(void) compareLineStringWithExpected: (WKBLineString *) expected andActual: (WKBLineString *) actual andDelta: (double) delta{
+    [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
+    [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
+    for(int i = 0; i < [[expected numPoints] intValue]; i++){
+        [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i] andDelta:delta];
+    }
+}
+
++(void) comparePolygonWithExpected: (WKBPolygon *) expected andActual: (WKBPolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
     for(int i = 0; i < [[expected numRings] intValue]; i++){
-        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i]];
+        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareMultiPointWithExpected: (WKBMultiPoint *) expected andActual: (WKBMultiPoint *) actual{
++(void) compareMultiPointWithExpected: (WKBMultiPoint *) expected andActual: (WKBMultiPoint *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
     for(int i = 0; i < [[expected numPoints] intValue]; i++){
-        [self comparePointWithExpected:[[expected getPoints] objectAtIndex:i] andActual:[[actual getPoints] objectAtIndex:i]];
+        [self comparePointWithExpected:[[expected getPoints] objectAtIndex:i] andActual:[[actual getPoints] objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareMultiLineStringWithExpected: (WKBMultiLineString *) expected andActual: (WKBMultiLineString *) actual{
++(void) compareMultiLineStringWithExpected: (WKBMultiLineString *) expected andActual: (WKBMultiLineString *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
     for(int i = 0; i < [[expected numLineStrings] intValue]; i++){
-        [self compareLineStringWithExpected:[[expected getLineStrings] objectAtIndex:i] andActual:[[actual getLineStrings] objectAtIndex:i]];
+        [self compareLineStringWithExpected:[[expected getLineStrings] objectAtIndex:i] andActual:[[actual getLineStrings] objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareMultiPolygonWithExpected: (WKBMultiPolygon *) expected andActual: (WKBMultiPolygon *) actual{
++(void) compareMultiPolygonWithExpected: (WKBMultiPolygon *) expected andActual: (WKBMultiPolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
     for(int i = 0; i < [[expected numPolygons] intValue]; i++){
-        [self comparePolygonWithExpected:[[expected getPolygons] objectAtIndex:i] andActual:[[actual getPolygons] objectAtIndex:i]];
+        [self comparePolygonWithExpected:[[expected getPolygons] objectAtIndex:i] andActual:[[actual getPolygons] objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareGeometryCollectionWithExpected: (WKBGeometryCollection *) expected andActual: (WKBGeometryCollection *) actual{
++(void) compareGeometryCollectionWithExpected: (WKBGeometryCollection *) expected andActual: (WKBGeometryCollection *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numGeometries] andValue2:[actual numGeometries]];
     for(int i = 0; i < [[expected numGeometries] intValue]; i++){
-        [self compareGeometriesWithExpected:[expected.geometries objectAtIndex:i] andActual:[actual.geometries objectAtIndex:i]];
+        [self compareGeometriesWithExpected:[expected.geometries objectAtIndex:i] andActual:[actual.geometries objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareCircularStringWithExpected: (WKBCircularString *) expected andActual: (WKBCircularString *) actual{
++(void) compareCircularStringWithExpected: (WKBCircularString *) expected andActual: (WKBCircularString *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
     for(int i = 0; i < [[expected numPoints] intValue]; i++){
-        [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i]];
+        [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareCompoundCurveWithExpected: (WKBCompoundCurve *) expected andActual: (WKBCompoundCurve *) actual{
++(void) compareCompoundCurveWithExpected: (WKBCompoundCurve *) expected andActual: (WKBCompoundCurve *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
     for(int i = 0; i < [[expected numLineStrings] intValue]; i++){
-        [self compareLineStringWithExpected:[expected.lineStrings objectAtIndex:i] andActual:[actual.lineStrings objectAtIndex:i]];
+        [self compareLineStringWithExpected:[expected.lineStrings objectAtIndex:i] andActual:[actual.lineStrings objectAtIndex:i] andDelta:delta];
     }
 }
 
-+(void) compareCurvePolygonWithExpected: (WKBCurvePolygon *) expected andActual: (WKBCurvePolygon *) actual{
++(void) compareCurvePolygonWithExpected: (WKBCurvePolygon *) expected andActual: (WKBCurvePolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
     for(int i = 0; i < [[expected numRings] intValue]; i++){
@@ -295,7 +377,7 @@
     }
 }
 
-+(void) comparePolyhedralSurfaceWithExpected: (WKBPolyhedralSurface *) expected andActual: (WKBPolyhedralSurface *) actual{
++(void) comparePolyhedralSurfaceWithExpected: (WKBPolyhedralSurface *) expected andActual: (WKBPolyhedralSurface *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
     for(int i = 0; i < [[expected numPolygons] intValue]; i++){
@@ -303,7 +385,7 @@
     }
 }
 
-+(void) compareTINWithExpected: (WKBTIN *) expected andActual: (WKBTIN *) actual{
++(void) compareTINWithExpected: (WKBTIN *) expected andActual: (WKBTIN *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
     for(int i = 0; i < [[expected numPolygons] intValue]; i++){
@@ -311,11 +393,11 @@
     }
 }
 
-+(void) compareTriangleWithExpected: (WKBTriangle *) expected andActual: (WKBTriangle *) actual{
++(void) compareTriangleWithExpected: (WKBTriangle *) expected andActual: (WKBTriangle *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
     for(int i = 0; i < [[expected numRings] intValue]; i++){
-        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i]];
+        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i] andDelta:delta];
     }
 }
 

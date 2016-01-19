@@ -15,4 +15,8 @@
     [GPKGGeoPackageGeometryDataUtils testReadWriteBytesWithGeoPackage:self.geoPackage];
 }
 
+-(void) testGeometryProjectionTransform {
+    [GPKGGeoPackageGeometryDataUtils testGeometryProjectionTransform:self.geoPackage];
+}
+
 @end
