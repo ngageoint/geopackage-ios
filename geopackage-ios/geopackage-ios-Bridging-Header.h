@@ -99,6 +99,7 @@
 #import "GPKGProjectionRetriever.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGSLocationCoordinate3D.h"
+#import "GPKGGeometryProjectionTransform.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGDataColumns.h"
