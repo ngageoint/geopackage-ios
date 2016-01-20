@@ -35,6 +35,8 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2;
 
++(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta;
+
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage;
 
 +(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType;

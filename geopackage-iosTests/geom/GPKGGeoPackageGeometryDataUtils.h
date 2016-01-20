@@ -14,4 +14,6 @@
 
 +(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
++(void) testGeometryProjectionTransform: (GPKGGeoPackage *) geoPackage;
+
 @end

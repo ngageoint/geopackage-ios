@@ -66,7 +66,13 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2{
     if(value != value2){
-        [NSException raise:@"Assert Equal double" format:@"Value 1: '%d' is not equal to Value 2: '%d'", value, value2];
+        [NSException raise:@"Assert Equal double" format:@"Value 1: '%f' is not equal to Value 2: '%f'", value, value2];
+    }
+}
+
++(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta{
+    if(fabsl(value - value2) > delta){
+        [NSException raise:@"Assert Equal double" format:@"Value 1: '%f' is not equal to Value 2: '%f' within delta: '%f'", value, value2, delta];
     }
 }
 
