@@ -28,7 +28,7 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
 
 ##### MAGE #####
 
-The [Mobile Awareness GEOINT Environment (MAGE)](https://github.com/ngageoint/mage-ios) app provides mobile situational awareness capabilities. It uses the SDK (currently on the develop branch) to provide GeoPackage functionality.
+The [Mobile Awareness GEOINT Environment (MAGE)](https://github.com/ngageoint/mage-ios) app provides mobile situational awareness capabilities. It uses the SDK (currently on the [develop branch](https://github.com/ngageoint/mage-ios/tree/develop)) to provide GeoPackage functionality.
 
 #### Example ####
 
