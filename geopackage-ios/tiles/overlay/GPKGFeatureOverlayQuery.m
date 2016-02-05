@@ -16,7 +16,7 @@
 
 @interface GPKGFeatureOverlayQuery ()
 
-@property (nonatomic, strong) GPKGFeatureOverlay *featureOverlay;
+@property (nonatomic, strong) GPKGBoundedOverlay *boundedOverlay;
 @property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
 @property (nonatomic) enum WKBGeometryType geometryType;
 @property (nonatomic) int maxZoom;
@@ -26,10 +26,14 @@
 @implementation GPKGFeatureOverlayQuery
 
 -(instancetype) initWithFeatureOverlay: (GPKGFeatureOverlay *) featureOverlay{
+    return [self initWithFeatureOverlay:featureOverlay andFeatureTiles:featureOverlay.featureTiles];
+}
+
+-(instancetype) initWithFeatureOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles{
     self = [super init];
     if(self != nil){
-        self.featureOverlay = featureOverlay;
-        self.featureTiles = featureOverlay.featureTiles;
+        self.boundedOverlay = boundedOverlay;
+        self.featureTiles = featureTiles;
         
         GPKGFeatureDao * featureDao = [self.featureTiles getFeatureDao];
         self.geometryType = [featureDao getGeometryType];
@@ -52,8 +56,8 @@
     return self;
 }
 
--(GPKGFeatureOverlay *) getFeatureOverlay{
-    return self.featureOverlay;
+-(GPKGBoundedOverlay *) getBoundedOverlay{
+    return self.boundedOverlay;
 }
 
 -(GPKGFeatureTiles *) getFeatureTiles{
@@ -90,9 +94,7 @@
 }
 
 -(BOOL) onAtZoom: (double) zoom{
-    BOOL on = (self.featureOverlay.minZoom == nil || zoom >= [self.featureOverlay.minZoom doubleValue])
-    && (self.featureOverlay.maxZoom == nil || zoom <= [self.featureOverlay.maxZoom doubleValue]);
-    return on;
+    return [self.boundedOverlay isWithinZoom:zoom];
 }
 
 -(int) tileFeatureCountWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{

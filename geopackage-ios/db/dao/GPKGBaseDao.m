@@ -293,6 +293,10 @@
     return [self.database deleteWithTable:self.tableName andWhere:where andWhereArgs:whereArgs];
 }
 
+-(int) deleteAll{
+    return[self.database deleteWithTable:self.tableName andWhere:nil];
+}
+
 -(long long) create: (NSObject *) object{
     return [self insert:object];
 }
@@ -388,10 +392,14 @@
 }
 
 -(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields{
+    return [self buildWhereWithFields:fields andOperation:@"and"];
+}
+
+-(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
     for(NSString * column in fields.columns){
         if([whereString length] > 0){
-            [whereString appendString:@" and "];
+            [whereString appendFormat:@" %@ ", operation];
         }
         [whereString appendString:[self buildWhereWithField:column andValue:[fields getValue:column]]];
     }
@@ -399,10 +407,14 @@
 }
 
 -(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields{
+    return [self buildWhereWithColumnValueFields:fields andOperation:@"and"];
+}
+
+-(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
     for(NSString * column in fields.columns){
         if([whereString length] > 0){
-            [whereString appendString:@" and "];
+            [whereString appendFormat:@" %@ ", operation];
         }
         [whereString appendString:[self buildWhereWithField:column andColumnValue:(GPKGColumnValue *)[fields getValue:column]]];
     }

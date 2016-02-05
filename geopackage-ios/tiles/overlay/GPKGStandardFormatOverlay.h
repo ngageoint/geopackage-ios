@@ -8,11 +8,12 @@
 
 #import <MapKit/MapKit.h>
 #import "GPKGTileDao.h"
+#import "GPKGBoundedOverlay.h"
 
 /**
  * Standard Map Tile Overlay, assumes the Standard Maps API zoom level and z,x,y grid
  */
-@interface GPKGStandardFormatOverlay : MKTileOverlay
+@interface GPKGStandardFormatOverlay : GPKGBoundedOverlay
 
 /**
  *  Initialize

@@ -138,5 +138,9 @@
 #import "GPKGUserTableReader.h"
 #import "GPKGUserUniqueConstraint.h"
 #import "GPKGGeoPackageValidate.h"
+#import "GPKGFeatureTileLink.h"
+#import "GPKGFeatureTileLinkDao.h"
+#import "GPKGFeatureTileTableLinker.h"
+#import "GPKGBoundedOverlay.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

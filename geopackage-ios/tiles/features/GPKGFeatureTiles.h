@@ -17,7 +17,8 @@
 #import "GPKGCustomFeaturesTile.h"
 
 /**
- *  Tiles generated from features
+ *  Tiles drawn from or linked to features. Used to query features and optionally draw tiles
+ *  from those features.
  */
 @interface GPKGFeatureTiles : NSObject
 

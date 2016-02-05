@@ -40,6 +40,13 @@
 -(void) close;
 
 /**
+ *  Get the feature DAO
+ *
+ *  @return feature DAO
+ */
+-(GPKGFeatureDao *) getFeatureDao;
+
+/**
  *  Get the feature table index, used to index inside the GeoPackage as an extension
  *
  *  @return feature table index

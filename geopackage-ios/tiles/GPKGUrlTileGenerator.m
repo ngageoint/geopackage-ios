@@ -116,6 +116,10 @@ NSString * const GPKG_TG_URL_EPSG_PATTERN = @"EPSG:(\\d+)";
     return url;
 }
 
+-(void) preTileGeneration{
+
+}
+
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     
     NSString * zoomUrl = self.tileUrl;

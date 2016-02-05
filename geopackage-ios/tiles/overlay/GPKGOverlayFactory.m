@@ -13,8 +13,12 @@
 @implementation GPKGOverlayFactory
 
 +(MKTileOverlay *) getTileOverlayWithTileDao: (GPKGTileDao *) tileDao{
+    return [self getBoundedOverlay:tileDao];
+}
+
++(GPKGBoundedOverlay *) getBoundedOverlay: (GPKGTileDao *) tileDao{
     
-    MKTileOverlay * overlay = nil;
+    GPKGBoundedOverlay * overlay = nil;
     
     if([tileDao isStandardWebMercatorFormat]){
         overlay = [[GPKGStandardFormatOverlay alloc] initWithTileDao:tileDao];

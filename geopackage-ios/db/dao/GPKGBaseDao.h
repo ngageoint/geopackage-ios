@@ -412,6 +412,13 @@
 -(int) deleteWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ *  Delete all rows
+ *
+ *  @return rows deleted
+ */
+-(int) deleteAll;
+
+/**
  *  Create object, same as calling insert
  *
  *  @param object object
@@ -518,6 +525,16 @@
 -(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields;
 
 /**
+ *  Build where clause with fields
+ *
+ *  @param fields column values
+ *  @param operation combining operation
+ *
+ *  @return where clause
+ */
+-(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation;
+
+/**
  *  Build where clause with column value fields
  *
  *  @param fields column values
@@ -525,6 +542,16 @@
  *  @return where clause
  */
 -(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields;
+
+/**
+ *  Build where clause with column value fields
+ *
+ *  @param fields column values
+ *  @param operation combining operation
+ *
+ *  @return where clause
+ */
+-(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation;
 
 /**
  *  Build where clause with field and value

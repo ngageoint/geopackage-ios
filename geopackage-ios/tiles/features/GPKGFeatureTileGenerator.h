@@ -15,6 +15,11 @@
 @interface GPKGFeatureTileGenerator : GPKGTileGenerator
 
 /**
+ *  Flag indicating whether the feature and tile tables should be linked
+ */
+@property (nonatomic) BOOL linkTables;
+
+/**
  *  Initialize
  *
  *  @param geoPackage   GeoPackage

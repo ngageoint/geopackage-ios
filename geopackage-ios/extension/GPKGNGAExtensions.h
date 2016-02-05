@@ -31,4 +31,36 @@
  */
 +(void) deleteExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ *  Delete the Geometry Index extension for the table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table      table name
+ */
++(void) deleteGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ *  Delete the Geometry Index extension including the extension entries and
+ *  custom tables
+ *
+ *  @param geoPackage GeoPackage
+ */
++(void) deleteGeometryIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ *  Delete the Feature Tile Link extensions for the table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table      table name
+ */
++(void) deleteFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ *  Delete the Feature Tile Link extension including the extension entries
+ *  and custom tables
+ *
+ *  @param geoPackage GeoPackage
+ */
++(void) deleteFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

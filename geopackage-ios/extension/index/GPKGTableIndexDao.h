@@ -95,4 +95,11 @@
  */
 -(int) getGeometryIndexCount: (GPKGTableIndex *) tableIndex;
 
+/**
+ *  Delete all table indices, cascading to geometry indices
+ *
+ *  @return rows deleted
+ */
+-(int) deleteAllCascade;
+
 @end

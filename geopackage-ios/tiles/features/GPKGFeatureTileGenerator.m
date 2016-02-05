@@ -7,6 +7,7 @@
 //
 
 #import "GPKGFeatureTileGenerator.h"
+#import "GPKGFeatureTileTableLinker.h"
 
 @interface GPKGFeatureTileGenerator ()
 
@@ -20,8 +21,19 @@
     self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom];
     if(self != nil){
         self.featureTiles = featureTiles;
+        self.linkTables = true;
     }
     return self;
+}
+
+-(void) preTileGeneration{
+    
+    // Link the feature and tile table
+    if (self.linkTables) {
+        GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:self.geoPackage];
+        [linker linkWithFeatureTable:[self.featureTiles getFeatureDao].tableName andTileTable:self.tableName];
+    }
+    
 }
 
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{

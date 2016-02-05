@@ -27,6 +27,7 @@
 #import "GPKGTableIndexDao.h"
 #import "GPKGGeometryIndexDao.h"
 #import "GPKGMetadataDb.h"
+#import "GPKGFeatureTileLinkDao.h"
 
 /**
  *  A single GeoPackage database connection
@@ -379,14 +380,14 @@
 -(BOOL) createExtensionsTable;
 
 /**
- *  Delete the user table and all GeoPackage metadata
+ *  Delete the user table (a feature or tile table) and all GeoPackage metadata
  *
  *  @param tableName table name
  */
 -(void) deleteUserTable: (NSString *) tableName;
 
 /**
- *  Attempt to delete the user table and all GeoPackage metadata quietly
+ *  Attempt to delete the user table (a feature or tile table) and all GeoPackage metadata quietly
  *
  *  @param tableName table name
  */
@@ -419,6 +420,20 @@
  * @return true if created
  */
 -(BOOL) createGeometryIndexTable;
+
+/**
+ * Get a Feature Tile Link DAO
+ *
+ * @return feature tile link dao
+ */
+-(GPKGFeatureTileLinkDao *) getFeatureTileLinkDao;
+
+/**
+ * Create the Feature Tile Link Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createFeatureTileLinkTable;
 
 /**
  *  Verify the GeoPackage is writable and throw an exception if it is not
@@ -485,6 +500,14 @@
  *  @param sql sql
  */
 -(void) execSQL: (NSString *) sql;
+
+/**
+ *  Drop the table if it exists. Drops the table with the table name, not
+ +	limited to GeoPackage specific tables.
+ *
+ *  @param table table to drop
+ */
+-(void) dropTable: (NSString *) table;
 
 /**
  *  Perform a raw query on the database
