@@ -118,6 +118,23 @@
 -(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
+ *  Set the tile bounding box specified in the provided projection
+ *
+ *  @param boundingBox bounding box
+ *  @param projection bounding box projection
+ */
+-(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection;
+
+/**
+ *  Get the tile bounding box in specified projection
+ *
+ *  @param projection returned bounding box projection
+ *
+ *  @return bounding in projection
+ */
+-(GPKGBoundingBox *) getTileBoundingBoxWithProjection: (GPKGProjection *) projection;
+
+/**
  *  Set the compress quality as an integer percentage, 0 to 100
  *
  *  @param percentage integer percentage

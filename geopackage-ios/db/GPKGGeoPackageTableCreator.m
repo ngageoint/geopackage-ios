@@ -22,6 +22,7 @@
 #import "GPKGExtensions.h"
 #import "GPKGTableIndex.h"
 #import "GPKGGeometryIndex.h"
+#import "GPKGFeatureTileLink.h"
 
 @implementation GPKGGeoPackageTableCreator
 
@@ -76,6 +77,10 @@
 
 -(int) createGeometryIndex{
     return [self createTable:GPKG_GI_TABLE_NAME];
+}
+
+-(int) createFeatureTileLink{
+    return [self createTable:GPKG_FTL_TABLE_NAME];
 }
 
 -(int) createTable: (NSString *) tableName{
@@ -161,6 +166,10 @@
     [dao createUndefinedCartesian];
     [dao createUndefinedGeographic];
     
+}
+
+-(void) dropTable: (NSString *) table{
+    [self.db exec:[NSString stringWithFormat:@"drop table if exists %@", table]];
 }
 
 @end

@@ -8,11 +8,12 @@
 
 #import <MapKit/MapKit.h>
 #import "GPKGTileDao.h"
+#import "GPKGBoundedOverlay.h"
 
 /**
  *  GeoPackage Tile Overlay
  */
-@interface GPKGGeoPackageOverlay : MKTileOverlay
+@interface GPKGGeoPackageOverlay : GPKGBoundedOverlay
 
 /**
  *  Coordinate

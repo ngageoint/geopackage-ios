@@ -211,6 +211,14 @@
   CONSTRAINT fk_ngi_nti_tn FOREIGN KEY (table_name) REFERENCES nga_table_index(table_name)
 );</string>
 	</array>
+	<key>nga_feature_tile_link</key>
+	<array>
+		<string>CREATE TABLE nga_feature_tile_link (
+  feature_table_name TEXT NOT NULL,
+  tile_table_name TEXT NOT NULL,
+  CONSTRAINT pk_nftl PRIMARY KEY (feature_table_name, tile_table_name)
+);</string>
+	</array>
 	<key>geopackage</key>
 	<array>
 		<string>CREATE TABLE geopackage(

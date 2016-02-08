@@ -27,7 +27,7 @@
 @implementation GPKGGeoPackageOverlay
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
-    self = [super initWithURLTemplate:nil];
+    self = [super init];
     if(self != nil){
         self.tileDao = tileDao;
         [tileDao adjustTileMatrixLengths];
@@ -61,20 +61,12 @@
     return self;
 }
 
--(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
-    return [NSURL URLWithString:@""];
-}
-
--(void)loadTileAtPath:(MKTileOverlayPath)path result:(void (^)(NSData *tileData, NSError *error))result{
-    
-    if(!result){
-        return;
-    }
+-(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData * tileData = nil;
     
     // Get the bounding box of the requested tile
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
     // Check if the request overlaps the tile matrix set
     if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:webMercatorBoundingBox andBoundingBox:self.setWebMercatorBoundingBox] != nil){
@@ -166,10 +158,7 @@
         }
     }
     
-    if(tileData == nil){
-        tileData = [[NSData alloc] init];
-    }
-    result(tileData, nil);
+    return tileData;
 }
 
 - (CLLocationCoordinate2D)coordinate

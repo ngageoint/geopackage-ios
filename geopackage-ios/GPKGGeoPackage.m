@@ -12,6 +12,7 @@
 #import "GPKGGeoPackageTableCreator.h"
 #import "GPKGTileTableReader.h"
 #import "GPKGUtils.h"
+#import "GPKGNGAExtensions.h"
 
 @interface GPKGGeoPackage()
 
@@ -381,6 +382,8 @@
 -(void) deleteUserTable: (NSString *) tableName{
     [self verifyWritable];
     
+    [GPKGNGAExtensions deleteTableExtensionsWithGeoPackage:self andTable:tableName];
+    
     GPKGContentsDao * contentsDao = [self getContentsDao];
     [contentsDao deleteTable:tableName];
 }
@@ -422,6 +425,22 @@
     GPKGGeometryIndexDao * dao = [self getGeometryIndexDao];
     if(![dao tableExists]){
         created = [self.tableCreator createGeometryIndex] > 0;
+    }
+    
+    return created;
+}
+
+-(GPKGFeatureTileLinkDao *) getFeatureTileLinkDao{
+    return [[GPKGFeatureTileLinkDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createFeatureTileLinkTable{
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGFeatureTileLinkDao * dao = [self getFeatureTileLinkDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createFeatureTileLink] > 0;
     }
     
     return created;
@@ -535,6 +554,10 @@
 
 -(void) execSQL: (NSString *) sql{
     [self.database exec:sql];
+}
+
+-(void) dropTable: (NSString *) table{
+    [self.tableCreator dropTable:table];
 }
 
 -(GPKGResultSet *) rawQuery: (NSString *) sql andArgs: (NSArray *) args{

@@ -155,4 +155,15 @@
     return geometryIndex;
 }
 
+-(int) deleteAll{
+    
+    int count = 0;
+    
+    if([self tableExists]){
+        count = [super deleteAll];
+    }
+    
+    return count;
+}
+
 @end

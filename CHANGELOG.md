@@ -6,7 +6,14 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.1.5 (TBD)
 
-* TBD
+* Feature Tile Link Extension implementation - http://ngageoint.github.io/GeoPackage/docs/extensions/feature-tile-link.html
+* Feature Tile Generator linking between feature and tile tables
+* Feature Overlay Query updates to support linked feature and tile tables
+* GeoPackage drop table method
+* Added delete all methods to base data access object
+* Delete extensions when deleting a user table
+* Removed CFBundleExecutable key from bundle
+* wkb-ios version updated to 1.0.4
 
 ## [1.1.4](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.4) (01-20-2016)
 

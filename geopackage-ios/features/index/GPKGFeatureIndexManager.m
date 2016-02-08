@@ -12,6 +12,7 @@
 
 @interface GPKGFeatureIndexManager ()
 
+@property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic, strong) GPKGFeatureTableIndex *featureTableIndex;
 @property (nonatomic, strong) GPKGFeatureIndexer *featureIndexer;
 @property (nonatomic, strong) NSMutableArray *indexLocationQueryOrder;
@@ -23,6 +24,7 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
     self = [super init];
     if(self != nil){
+        self.featureDao = featureDao;
         self.featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         self.featureIndexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
 
@@ -38,6 +40,10 @@
 -(void) close{
     [self.featureTableIndex close];
     [self.featureIndexer close];
+}
+
+-(GPKGFeatureDao *) getFeatureDao{
+    return self.featureDao;
 }
 
 -(GPKGFeatureTableIndex *) getFeatureTableIndex{

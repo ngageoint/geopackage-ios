@@ -17,7 +17,7 @@
 @implementation GPKGStandardFormatOverlay
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
-    self = [super initWithURLTemplate:nil];
+    self = [super init];
     if(self != nil){
         self.tileDao = tileDao;
         
@@ -27,27 +27,16 @@
     return self;
 }
 
--(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
-    return [NSURL URLWithString:@""];
-}
-
--(void)loadTileAtPath:(MKTileOverlayPath)path result:(void (^)(NSData *tileData, NSError *error))result{
-    
-    if(!result){
-        return;
-    }
+-(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData * tileData = nil;
     
-    GPKGTileRow * tileRow = [self.tileDao queryForTileWithColumn:(int)path.x andRow:(int)path.y andZoomLevel:(int)path.z];
+    GPKGTileRow * tileRow = [self.tileDao queryForTileWithColumn:(int)x andRow:(int)y andZoomLevel:(int)zoom];
     if(tileRow != nil){
         tileData = [tileRow getTileData];
     }
     
-    if(tileData == nil){
-        tileData = [[NSData alloc] init];
-    }
-    result(tileData, nil);
+    return tileData;
 }
 
 @end

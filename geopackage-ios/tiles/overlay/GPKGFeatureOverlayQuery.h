@@ -11,7 +11,7 @@
 #import "GPKGMapPoint.h"
 
 /**
- * Used to query the features represented by the tiles drawn in a FeatureOverlay
+ * Used to query the features represented by tiles, either being drawn from or linked to the features
  */
 @interface GPKGFeatureOverlayQuery : NSObject
 
@@ -66,11 +66,21 @@
 -(instancetype) initWithFeatureOverlay: (GPKGFeatureOverlay *) featureOverlay;
 
 /**
- *  Get the feature overlay
+ *  Initialize
  *
- *  @return feature overlay
+ *  @param boundedOverlay bounded overlay
+ *  @param featureTiles feature tiles
+ *
+ *  @return new feature overlay query
  */
--(GPKGFeatureOverlay *) getFeatureOverlay;
+-(instancetype) initWithFeatureOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles;
+
+/**
+ *  Get the bounded overlay
+ *
+ *  @return bounded overlay
+ */
+-(GPKGBoundedOverlay *) getBoundedOverlay;
 
 /**
  *  Get the feature tiles

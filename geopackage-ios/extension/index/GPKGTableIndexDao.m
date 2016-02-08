@@ -157,4 +157,25 @@
     return [[GPKGGeometryIndexDao alloc] initWithDatabase:self.database];
 }
 
+-(int) deleteAllCascade{
+    
+    // Delete Geometry Indices
+    [[self getGeometryIndexDao] deleteAll];
+    
+    int count = [self deleteAll];
+    
+    return count;
+}
+
+-(int) deleteAll{
+    
+    int count = 0;
+    
+    if([self tableExists]){
+        count = [super deleteAll];
+    }
+    
+    return count;
+}
+
 @end

@@ -107,6 +107,13 @@
 -(int) createGeometryIndex;
 
 /**
+ *  Create Feature Tile Link table
+ *
+ *  @return tables created
+ */
+-(int) createFeatureTileLink;
+
+/**
  *  Create the user table
  *
  *  @param table user table
@@ -117,5 +124,12 @@
  *  Create the minimum required GeoPackage tables
  */
 -(void) createRequired;
+
+/**
+ *  Drop the table if it exists
+ *
+ *  @param table table name
+ */
+-(void) dropTable: (NSString *) table;
 
 @end

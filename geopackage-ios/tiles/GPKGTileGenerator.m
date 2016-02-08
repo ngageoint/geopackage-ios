@@ -44,6 +44,10 @@
     return self;
 }
 
+-(void) preTileGeneration{
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -51,6 +55,22 @@
 
 -(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox{
     self.boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
+}
+
+-(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection{
+    GPKGBoundingBox * bbox = nil;
+    if(projection != nil){
+        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        bbox = [transform transformWithBoundingBox:boundingBox];
+    }else{
+        bbox = boundingBox;
+    }
+    [self setTileBoundingBox:bbox];
+}
+
+-(GPKGBoundingBox *) getTileBoundingBoxWithProjection: (GPKGProjection *) projection{
+    GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
+    return [transform transformWithBoundingBox:self.boundingBox];
 }
 
 -(void) setCompressQualityAsIntPercentage: (int) percentage{
@@ -119,6 +139,8 @@
         // Update the tile bounds between the existing and this request
         [self updateTileBoundsWithTileMatrixSet:tileMatrixSet];
     }
+    
+    [self preTileGeneration];
     
     // Create the tiles
     @try {

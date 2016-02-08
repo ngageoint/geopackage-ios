@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 #import "GPKGTileDao.h"
+#import "GPKGBoundedOverlay.h"
 
 /**
  *  Get a tile provider for the Tile DAO
@@ -23,5 +24,14 @@
  *  @return tile overlay
  */
 +(MKTileOverlay *) getTileOverlayWithTileDao: (GPKGTileDao *) tileDao;
+
+/**
+ *  Get a Bounded Overlay Tile Provider for the Tile DAO
+ *
+ *  @param tileDao tile dao
+ *
+ *  @return bounded overlay
+ */
++(GPKGBoundedOverlay *) getBoundedOverlay: (GPKGTileDao *) tileDao;
 
 @end
