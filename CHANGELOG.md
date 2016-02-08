@@ -13,6 +13,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Added delete all methods to base data access object
 * Delete extensions when deleting a user table
 * Removed CFBundleExecutable key from bundle
+* wkb-ios version updated to 1.0.4
 
 ## [1.1.4](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.4) (01-20-2016)
 
