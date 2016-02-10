@@ -73,7 +73,7 @@
  *
  *  @return new feature overlay query
  */
--(instancetype) initWithFeatureOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles;
+-(instancetype) initWithBoundedOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles;
 
 /**
  *  Get the bounded overlay
@@ -106,22 +106,24 @@
 -(double) currentZoomWithMapView: (MKMapView *) mapView;
 
 /**
- *  Determine if the the feature overlay is on for the current zoom level of the map view
+ *  Determine if the the feature overlay is on for the current zoom level of the map view at the location coordinate
  *
  *  @param mapView map view
+ *  @param locationCoordinate location coordinate
  *
  *  @return true if on
  */
--(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView;
+-(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
 
 /**
- *  Determine if the feature overlay is on for the provided zoom level
+ *  Determine if the the feature overlay is on for the provided zoom level at the location coordinate
  *
  *  @param zoom zoom level
+ *  @param locationCoordinate location coordinate
  *
- *  @return true if one
+ *  @return true if on
  */
--(BOOL) onAtZoom: (double) zoom;
+-(BOOL) onAtZoom: (double) zoom andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
 
 /**
  *  Get the count of features in the tile at the map point and zoom level

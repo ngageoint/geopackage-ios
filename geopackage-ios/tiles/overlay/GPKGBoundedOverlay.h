@@ -55,6 +55,17 @@
 -(GPKGBoundingBox *) getBoundingBoxWithProjection: (GPKGProjection *) projection;
 
 /**
+ *  Determine if there is a tile for the x, y, and zoom
+ *
+ *  @param x x coordinate
+ *  @param y y coordinate
+ *  @param zoom zoom value
+ *
+ *  @return true if there is a tile
+ */
+-(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
+
+/**
  *  Is the tile within the zoom and bounding box bounds
  *
  *  @param x x coordinate
