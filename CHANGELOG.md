@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.1.7 (TBD)
+
+* TBD
+
 ## [1.1.6](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.6) (02-10-2016)
 
 * Additional Feature Tile Table Linker methods for retrieving table names and data access objects
