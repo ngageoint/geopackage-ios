@@ -133,4 +133,40 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
  */
 -(GPKGFeatureTileLink *) getLinkFromResultSet: (GPKGResultSet *) results;
 
+/**
+ *  Query for the tile table names linked to a feature table
+ *
+ *  @param featureTable feature table
+ *
+ *  @return tiles tables
+ */
+-(NSArray<NSString *> *) getTileTablesForFeatureTable: (NSString *) featureTable;
+
+/**
+ *  Query for the feature table names linked to a tile table
+ *
+ *  @param tileTable tile table
+ *
+ *  @return feature tables
+ */
+-(NSArray<NSString *> *) getFeatureTablesForTileTable: (NSString *) tileTable;
+
+/**
+ *  Query for the tile tables linked to a feature table and return tile DAOs to those tables
+ *
+ *  @param featureTable feature table
+ *
+ *  @return tiles DAOs
+ */
+-(NSArray<GPKGTileDao *> *) getTileDaosForFeatureTable: (NSString *) featureTable;
+
+/**
+ *  Query for the feature tables linked to a tile table and return feature DAOs to those tables
+ *
+ *  @param tileTable tile table
+ *
+ *  @return feature DAOs
+ */
+-(NSArray<GPKGFeatureDao *> *) getFeatureDaosForTileTable: (NSString *) tileTable;
+
 @end

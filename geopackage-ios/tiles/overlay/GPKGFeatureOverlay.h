@@ -31,4 +31,24 @@
  */
 -(instancetype) initWithFeatureTiles: (GPKGFeatureTiles *) featureTiles;
 
+/**
+ *  Ignore drawing tiles if they exist in the tile tables represented by the tile daos
+ *
+ *  @param tileDaos
+ */
+-(void) ignoreTileDaos: (NSArray<GPKGTileDao *> *) tileDaos;
+
+/**
+ *  Ignore drawing tiles if they exist in the tile table represented by the tile dao
+ *
+ *  @param tileDao
+ */
+-(void) ignoreTileDao: (GPKGTileDao *) tileDao;
+
+/**
+ *  Clear all ignored tile tables
+ */
+-(void) clearIgnored;
+
+
 @end

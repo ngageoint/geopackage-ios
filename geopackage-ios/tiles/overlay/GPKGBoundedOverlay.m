@@ -40,8 +40,8 @@
     
     NSData * tileData = nil;
     
-    // Check if generating tiles for the zoom level and is within the bounding box
-    if([self isWithinBoundsWithX:path.x andY:path.y andZoom:path.z]){
+    // Check if there is a tile
+    if([self hasTileWithX:path.x andY:path.y andZoom:path.z]){
         
         // Retrieve the tile
         tileData = [self retrieveTileWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
@@ -51,6 +51,23 @@
         tileData = [[NSData alloc] init];
     }
     result(tileData, nil);
+}
+
+-(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+    
+    // Check if generating tiles for the zoom level and is within the bounding box
+    BOOL hasTile = [self isWithinBoundsWithX:x andY:y andZoom:zoom];
+    if(hasTile){
+        // Check if there is a tile to retrieve
+        hasTile = [self hasTileToRetrieveWithX:x andY:y andZoom:zoom];
+    }
+    
+    return hasTile;
+}
+
+-(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{

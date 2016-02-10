@@ -27,6 +27,10 @@
     return self;
 }
 
+-(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+    return true;
+}
+
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData * tileData = nil;

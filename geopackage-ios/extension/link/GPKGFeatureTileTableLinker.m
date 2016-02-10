@@ -176,4 +176,66 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     return (GPKGFeatureTileLink *)[self.featureTileLinkDao getObject:results];
 }
 
+-(NSArray<NSString *> *) getTileTablesForFeatureTable: (NSString *) featureTable{
+    
+    NSMutableArray<NSString *> * tileTables = [[NSMutableArray alloc] init];
+    
+    GPKGResultSet * results = [self queryForFeatureTable:featureTable];
+    @try {
+        while([results moveToNext]){
+            GPKGFeatureTileLink * link = [self getLinkFromResultSet:results];
+            [tileTables addObject:link.tileTableName];
+        }
+    }
+    @finally {
+        [results close];
+    }
+    
+    return tileTables;
+}
+
+-(NSArray<NSString *> *) getFeatureTablesForTileTable: (NSString *) tileTable{
+    
+    NSMutableArray<NSString *> * featureTables = [[NSMutableArray alloc] init];
+    
+    GPKGResultSet * results = [self queryForTileTable:tileTable];
+    @try {
+        while([results moveToNext]){
+            GPKGFeatureTileLink * link = [self getLinkFromResultSet:results];
+            [featureTables addObject:link.featureTableName];
+        }
+    }
+    @finally {
+        [results close];
+    }
+    
+    return featureTables;
+}
+
+-(NSArray<GPKGTileDao *> *) getTileDaosForFeatureTable: (NSString *) featureTable{
+    
+    NSMutableArray<GPKGTileDao *> * tileDaos = [[NSMutableArray alloc] init];
+    
+    NSArray<NSString *> * tileTables = [self getTileTablesForFeatureTable:featureTable];
+    for(NSString * tileTable in tileTables){
+        GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
+        [tileDaos addObject:tileDao];
+    }
+    
+    return tileDaos;
+}
+
+-(NSArray<GPKGFeatureDao *> *) getFeatureDaosForTileTable: (NSString *) tileTable{
+    
+    NSMutableArray<GPKGFeatureDao *> * featureDaos = [[NSMutableArray alloc] init];
+    
+    NSArray<NSString *> * featureTables = [self getFeatureTablesForTileTable:tileTable];
+    for(NSString * featureTable in featureTables){
+        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        [featureDaos addObject:featureDao];
+    }
+    
+    return featureDaos;
+}
+
 @end

@@ -26,10 +26,10 @@
 @implementation GPKGFeatureOverlayQuery
 
 -(instancetype) initWithFeatureOverlay: (GPKGFeatureOverlay *) featureOverlay{
-    return [self initWithFeatureOverlay:featureOverlay andFeatureTiles:featureOverlay.featureTiles];
+    return [self initWithBoundedOverlay:featureOverlay andFeatureTiles:featureOverlay.featureTiles];
 }
 
--(instancetype) initWithFeatureOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles{
+-(instancetype) initWithBoundedOverlay: (GPKGBoundedOverlay *) boundedOverlay andFeatureTiles: (GPKGFeatureTiles *) featureTiles{
     self = [super init];
     if(self != nil){
         self.boundedOverlay = boundedOverlay;
@@ -87,14 +87,21 @@
     return zoom;
 }
 
--(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView{
+-(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
     double zoom = [self currentZoomWithMapView:mapView];
-    BOOL on = [self onAtZoom:zoom];
+    BOOL on = [self onAtZoom:zoom andLocationCoordinate:locationCoordinate];
     return on;
 }
 
--(BOOL) onAtZoom: (double) zoom{
-    return [self.boundedOverlay isWithinZoom:zoom];
+-(BOOL) onAtZoom: (double) zoom andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+    
+    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
+    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
+    WKBPoint * point = [[WKBPoint alloc] initWithX:x andY:y];
+    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridFromWGS84Point:point andZoom:zoom];
+    
+    BOOL on = [self.boundedOverlay hasTileWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
+    return on;
 }
 
 -(int) tileFeatureCountWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
@@ -310,10 +317,10 @@
     if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
         
         @try {
-        
-            // Get the current map zoom and verify it is within the overlays zoom range
+            
             double zoom = [self currentZoomWithMapView:mapView];
-            if([self onAtZoom:zoom]){
+            
+            if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
                 
                 // Get the number of features in the tile location
                 int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];

@@ -6,7 +6,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.1.6 (TBD)
 
-* TBD
+* Additional Feature Tile Table Linker methods for retrieving table names and data access objects
+* Bounded Overlay check if a specified tile exists
+* Feature Overlay ignore drawing tiles that already exist in a linked tile table
+* Feature Overlay Query improved determination if a tile exists before querying features
 
 ## [1.1.5](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.5) (02-09-2016)
 
