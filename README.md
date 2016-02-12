@@ -145,7 +145,7 @@ Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 Pull from GitHub:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.6'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.1.7'
 
 Include as local project:
 
