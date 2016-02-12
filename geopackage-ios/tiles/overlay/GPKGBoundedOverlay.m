@@ -67,7 +67,7 @@
 
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     [self doesNotRecognizeSelector:_cmd];
-    return nil;
+    return false;
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
