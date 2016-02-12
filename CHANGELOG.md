@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.1.7 (TBD)
 
-* TBD
+* Standard Format Overlay has tile to retrieve implementation
 
 ## [1.1.6](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.6) (02-10-2016)
 

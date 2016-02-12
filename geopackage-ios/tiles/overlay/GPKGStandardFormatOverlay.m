@@ -28,19 +28,23 @@
 }
 
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
-    return true;
+    return [self retrieveTileRowWithX:x andY:y andZoom:zoom] != nil;
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     NSData * tileData = nil;
     
-    GPKGTileRow * tileRow = [self.tileDao queryForTileWithColumn:(int)x andRow:(int)y andZoomLevel:(int)zoom];
+    GPKGTileRow * tileRow = [self retrieveTileRowWithX:x andY:y andZoom:zoom];
     if(tileRow != nil){
         tileData = [tileRow getTileData];
     }
     
     return tileData;
+}
+
+-(GPKGTileRow *) retrieveTileRowWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+    return [self.tileDao queryForTileWithColumn:(int)x andRow:(int)y andZoomLevel:(int)zoom];
 }
 
 @end
