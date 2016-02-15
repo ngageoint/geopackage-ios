@@ -68,9 +68,9 @@
     // Get the bounding box of the requested tile
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
-    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithWebMercatorBoundingBox:webMercatorBoundingBox andX:x andY:y andZoom:zoom];
+    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithWebMercatorBoundingBox:webMercatorBoundingBox];
     
-    GPKGResultSet * tileResults = [self retrieveTileResultsWithWebMercatorBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix andX:x andY:y andZoom:zoom];
+    GPKGResultSet * tileResults = [self retrieveTileResultsWithWebMercatorBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix];
     if(tileResults != nil){
         
         @try{
@@ -91,9 +91,9 @@
     // Get the bounding box of the requested tile
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
-    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithWebMercatorBoundingBox:webMercatorBoundingBox andX:x andY:y andZoom:zoom];
+    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithWebMercatorBoundingBox:webMercatorBoundingBox];
     
-    GPKGResultSet * tileResults = [self retrieveTileResultsWithWebMercatorBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix andX:x andY:y andZoom:zoom];
+    GPKGResultSet * tileResults = [self retrieveTileResultsWithWebMercatorBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix];
     if(tileResults != nil){
         
         @try{
@@ -166,7 +166,7 @@
     return tileData;
 }
 
--(GPKGTileMatrix *) getTileMatrixWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+-(GPKGTileMatrix *) getTileMatrixWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
     
     GPKGTileMatrix * tileMatrix = nil;
     
@@ -188,7 +188,7 @@
     return tileMatrix;
 }
 
--(GPKGResultSet *) retrieveTileResultsWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+-(GPKGResultSet *) retrieveTileResultsWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
     
     GPKGResultSet * tileResults = nil;
     
