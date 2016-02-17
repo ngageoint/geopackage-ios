@@ -357,7 +357,7 @@
             }else if([argument isKindOfClass:[NSDate class]]){
                 NSDate * date = (NSDate *) argument;
                 NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+                [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
                 NSString *dateString=[dateFormat stringFromDate:date];
                 int bindResult = sqlite3_bind_text(statement, index, [dateString UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
