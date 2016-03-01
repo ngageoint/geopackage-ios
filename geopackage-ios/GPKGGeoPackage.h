@@ -96,6 +96,33 @@
 -(NSArray *)getTables;
 
 /**
+ *  Check if the table is a feature table
+ *
+ *  @param table table name
+ *
+ *  @return true if a feature table
+ */
+-(BOOL) isFeatureTable: (NSString *) table;
+
+/**
+ *  Check if the table is a tile table
+ *
+ *  @param table table name
+ *
+ *  @return true if a tile table
+ */
+-(BOOL) isTileTable: (NSString *) table;
+
+/**
+ *  Check if the table exists as a feature or tile table
+ *
+ *  @param table table name
+ *
+ *  @return true if a feature or tile table
+ */
+-(BOOL) isFeatureOrTileTable: (NSString *) table;
+
+/**
  *  Get the feature table count
  *
  *  @return number of feature tables

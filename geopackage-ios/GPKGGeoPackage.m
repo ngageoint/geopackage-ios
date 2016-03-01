@@ -68,6 +68,21 @@
     return tables;
 }
 
+-(BOOL) isFeatureTable: (NSString *) table{
+    NSSet * featureTables = [[NSSet alloc] initWithArray:[self getFeatureTables]];
+    return [featureTables containsObject:table];
+}
+
+-(BOOL) isTileTable: (NSString *) table{
+    NSSet * tileTables = [[NSSet alloc] initWithArray:[self getTileTables]];
+    return [tileTables containsObject:table];
+}
+
+-(BOOL) isFeatureOrTileTable: (NSString *) table{
+    NSSet * tables = [[NSSet alloc] initWithArray:[self getTables]];
+    return [tables containsObject:table];
+}
+
 -(int)getFeatureTableCount{
     int count = 0;
     GPKGGeometryColumnsDao *dao = [self getGeometryColumnsDao];

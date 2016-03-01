@@ -240,6 +240,10 @@
     return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:override andMove:false];
 }
 
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name andOverride: (BOOL) override andMove: (BOOL) moveFile{
+    return [self importGeoPackageFromPath:path withName:name inDirectory:nil andOverride:override andMove:moveFile];
+}
+
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andMove: (BOOL) moveFile{
     
     // Verify the file has the right extension
