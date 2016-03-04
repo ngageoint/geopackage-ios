@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.1.9 (TBD)
+## [1.1.9](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.9) (03-04-2016)
 
 * GeoPackage validate has GeoPackage extension bug fix
 * Additional GeoPackage manager import GeoPackage from path method
