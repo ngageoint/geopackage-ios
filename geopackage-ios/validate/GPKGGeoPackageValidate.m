@@ -14,8 +14,8 @@
 +(BOOL) hasGeoPackageExtension: (NSString *) file{
     NSString * extension = [file pathExtension];
     BOOL isGeoPackage = extension != nil
-        && ([extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENSION]
-            || [extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENDED_EXTENSION]);
+        && ([extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENSION] == NSOrderedSame
+            || [extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENDED_EXTENSION] == NSOrderedSame);
     return isGeoPackage;
 }
 

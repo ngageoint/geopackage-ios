@@ -242,6 +242,18 @@
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
 
 /**
+ *  Import a GeoPackage file from a path and name it with existing file overide and move instead of copy option
+ *
+ *  @param path        GeoPackage path
+ *  @param name        creation name
+ *  @param override    true to override an existing GeoPackage
+ *  @param moveFile    true to move GeoPackage instead of copying
+ *
+ *  @return true if imported
+ */
+-(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name andOverride: (BOOL) override andMove: (BOOL) moveFile;
+
+/**
  *  Import a GeoPackage file from a path and name it into a directory with existing file overide and move instead of copy option
  *
  *  @param path        GeoPackage path
