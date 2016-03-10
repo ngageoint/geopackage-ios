@@ -86,6 +86,15 @@
     }
 }
 
++(NSString *) localDocumentsDirectoryPath: (NSString *) directory{
+    NSString * documents = [NSString stringWithFormat:@"%@/", [self documentsDirectory]];
+    NSString * path = directory;
+    if([directory hasPrefix:documents]){
+        path = [directory substringFromIndex:[documents length]];
+    }
+    return path;
+}
+
 +(void) copyFile: (NSString *) copyFrom toFile: (NSString *) copyTo{
     
     NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];

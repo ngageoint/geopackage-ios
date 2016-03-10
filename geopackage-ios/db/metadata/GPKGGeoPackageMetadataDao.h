@@ -119,4 +119,13 @@
  */
 -(BOOL) existsByName: (NSString *) name;
 
+/**
+ *  Get metadata where the name is like
+ *
+ *  @param like like argument
+ *
+ *  @return metadata names
+ */
+-(NSArray *) getMetadataWhereNameLike: (NSString *) like;
+
 @end

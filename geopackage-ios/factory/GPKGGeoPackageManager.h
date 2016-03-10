@@ -60,6 +60,15 @@
 -(NSArray *) databases;
 
 /**
+ *  List GeoPackage databases that match the provided like argument
+ *
+ *  @param like like argument, using % as a wild card
+ *
+ *  @return database names
+ */
+-(NSArray *) databasesLike: (NSString *) like;
+
+/**
  *  Get the count of GeoPackage databases
  *
  *  @return database count
@@ -121,11 +130,30 @@
 -(BOOL) delete: (NSString *) database;
 
 /**
+ *  Delete a database and optionally the backing file
+ *
+ *  @param database   database name
+ *  @param deleteFile true to delete the GeoPackage file
+ *
+ *  @return true if deleted
+ */
+-(BOOL) delete: (NSString *) database andFile: (BOOL) deleteFile;
+
+/**
  *  Delete all databases
  *
  *  @return true if deleted
  */
 -(BOOL) deleteAll;
+
+/**
+ *  Delete all databases and optionally the backing files
+ *
+ *  @param deleteFiles true to delete the backing GeoPackage files
+ *
+ *  @return true if deleted
+ */
+-(BOOL) deleteAllAndFiles: (BOOL) deleteFiles;
 
 /**
  *  Create a new GeoPackage database
@@ -443,5 +471,15 @@
  *  @return true if moved
  */
 -(BOOL) move: (NSString *) database toDirectory: (NSString *) dbDirectory;
+
+/**
+ *  Import a GeoPackage linking to an existing file
+ *
+ *  @param path GeoPackage path
+ *  @param name name to reference the database
+ *
+ *  @return true if imported successfully
+ */
+-(BOOL) importGeoPackageAsLinkToPath: (NSString *) path withName: (NSString *) name;
 
 @end

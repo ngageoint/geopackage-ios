@@ -82,6 +82,15 @@
 +(void) createDirectoryIfNotExists: (NSString *) directory;
 
 /**
+ *  Get the local path within the provided directory by removing the documents directory
+ *
+ *  @param directory full directory path
+ *
+ *  @return sub path
+ */
++(NSString *) localDocumentsDirectoryPath: (NSString *) directory;
+
+/**
  *  Copy a file
  *
  *  @param copyFrom file to copy

@@ -47,6 +47,16 @@
     return databases;
 }
 
+-(NSArray *) databasesLike: (NSString *) like{
+    
+    NSArray * databases = nil;
+    
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
+    databases = [geoPackageMetadataDao getMetadataWhereNameLike:like];
+    
+    return databases;
+}
+
 -(int) count{
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     int count = [geoPackageMetadataDao count];
@@ -114,6 +124,10 @@
 }
 
 -(BOOL) delete: (NSString *) database{
+    return [self delete:database andFile:YES];
+}
+
+-(BOOL) delete: (NSString *) database andFile: (BOOL) deleteFile{
     BOOL deleted = false;
     
     // Get the metadata record
@@ -122,8 +136,10 @@
     if(metadata != nil){
         
         // Delete the file
-        NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
-        [GPKGIOUtils deleteFile:documentsPath];
+        if(deleteFile){
+            NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
+            [GPKGIOUtils deleteFile:documentsPath];
+        }
         
         // Delete the metadata record
         deleted = [geoPackageMetadataDao deleteMetadata:metadata];
@@ -133,13 +149,17 @@
 }
 
 -(BOOL) deleteAll{
+    return [self deleteAllAndFiles:YES];
+}
+
+-(BOOL) deleteAllAndFiles: (BOOL) deleteFiles{
 
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
     NSArray * allMetadata = [geoPackageMetadataDao getAll];
     
     if(allMetadata != nil){
         for(GPKGGeoPackageMetadata * metadata in allMetadata){
-            [self delete:metadata.name];
+            [self delete:metadata.name andFile:deleteFiles];
         }
     }
     
@@ -620,6 +640,26 @@
     }
     
     return moved && [self exists:database];
+}
+
+-(BOOL) importGeoPackageAsLinkToPath: (NSString *) path withName: (NSString *) name{
+    
+    if([self exists:name]){
+        [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", name];
+    }
+    
+    // Verify the file has the right extension
+    [GPKGGeoPackageValidate validateGeoPackageExtension:path];
+    
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    
+    if([fileManager isReadableFileAtPath:path]){
+        // Validate the imported GeoPackage and create the metadata
+        NSString * subPath = [GPKGIOUtils localDocumentsDirectoryPath:path];
+        [self validateAndCreateImportGeoPackageWithName:name andPath:subPath andDocumentsPath:path];
+    }
+    
+    return [self exists:name];
 }
 
 /**

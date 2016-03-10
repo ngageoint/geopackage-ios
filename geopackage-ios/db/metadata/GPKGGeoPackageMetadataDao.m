@@ -173,4 +173,19 @@
     return [self getMetadataByName:name] != nil;
 }
 
+-(NSArray *) getMetadataWhereNameLike: (NSString *) like{
+    NSMutableArray * names = [[NSMutableArray alloc] init];
+    NSString * where = [NSString stringWithFormat:@"%@ like ?", GPKG_GPM_COLUMN_NAME];
+    NSArray * whereArgs = [[NSArray alloc] initWithObjects:like, nil];
+    GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    @try{
+        while([results moveToNext]){
+            [names addObject:[results getString:0]];
+        }
+    }@finally{
+        [results close];
+    }
+    return names;
+}
+
 @end
