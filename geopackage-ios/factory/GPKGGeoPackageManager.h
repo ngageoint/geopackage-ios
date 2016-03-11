@@ -69,6 +69,15 @@
 -(NSArray *) databasesLike: (NSString *) like;
 
 /**
+ *  List GeoPackage databases that do not match the provided like argument
+ *
+ *  @param notLike not like argument, using % as a wild card
+ *
+ *  @return database names
+ */
+-(NSArray *) databasesNotLike: (NSString *) notLike;
+
+/**
  *  Get the count of GeoPackage databases
  *
  *  @return database count

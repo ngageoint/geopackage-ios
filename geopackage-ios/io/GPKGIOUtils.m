@@ -91,6 +91,11 @@
     NSString * path = directory;
     if([directory hasPrefix:documents]){
         path = [directory substringFromIndex:[documents length]];
+    } else{
+        documents = [NSString stringWithFormat:@"/private%@", documents];
+        if([directory hasPrefix:documents]){
+            path = [directory substringFromIndex:[documents length]];
+        }
     }
     return path;
 }

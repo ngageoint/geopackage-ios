@@ -123,9 +123,20 @@
  *  Get metadata where the name is like
  *
  *  @param like like argument
+ *  @param column sort by column
  *
  *  @return metadata names
  */
--(NSArray *) getMetadataWhereNameLike: (NSString *) like;
+-(NSArray *) getMetadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column;
+
+/**
+ *  Get metadata where the name is not like
+ *
+ *  @param notLike not like argument
+ *  @param column sort by column
+ *
+ *  @return metadata names
+ */
+-(NSArray *) getMetadataWhereNameNotLike: (NSString *) notLike sortedBy: (NSString *) column;
 
 @end

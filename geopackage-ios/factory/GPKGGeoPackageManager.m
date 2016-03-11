@@ -39,22 +39,43 @@
 
 -(NSArray *) databases{
     
-    NSArray * databases = nil;
-    
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    databases = [geoPackageMetadataDao getAllNamesSorted];
+    NSArray * databases = [geoPackageMetadataDao getAllNamesSorted];
 
+    databases = [self deleteMissingDatabases:databases];
+    
     return databases;
 }
 
 -(NSArray *) databasesLike: (NSString *) like{
     
-    NSArray * databases = nil;
-    
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    databases = [geoPackageMetadataDao getMetadataWhereNameLike:like];
+    NSArray * databases = [geoPackageMetadataDao getMetadataWhereNameLike:like sortedBy:GPKG_GPM_COLUMN_NAME];
+    
+    databases = [self deleteMissingDatabases:databases];
     
     return databases;
+}
+
+-(NSArray *) databasesNotLike: (NSString *) notLike{
+    
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
+    NSArray * databases = [geoPackageMetadataDao getMetadataWhereNameNotLike:notLike sortedBy:GPKG_GPM_COLUMN_NAME];
+    
+    databases = [self deleteMissingDatabases:databases];
+    
+    return databases;
+}
+
+-(NSArray *) deleteMissingDatabases: (NSArray *) databases{
+    
+    NSMutableArray * filesExist = [[NSMutableArray alloc] init];
+    for(NSString * database in databases){
+        if([self exists:database]){
+            [filesExist addObject:database];
+        }
+    }
+    return filesExist;
 }
 
 -(int) count{
@@ -100,8 +121,18 @@
 }
 
 -(BOOL) exists: (NSString *) database{
+    BOOL exists = NO;
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    BOOL exists = [geoPackageMetadataDao existsByName:database];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    if(metadata != nil){
+        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        if([fileManager fileExistsAtPath:documentsPath]){
+            exists = YES;
+        }else{
+            [self delete:database];
+        }
+    }
     return exists;
 }
 
