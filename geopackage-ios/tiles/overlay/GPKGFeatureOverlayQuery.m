@@ -13,6 +13,7 @@
 #import "WKBGeometryPrinter.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
+#import "GPKGFeatureRowData.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
@@ -324,6 +325,65 @@
     return message;
 }
 
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
+    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
+    WKBPoint * point = [[WKBPoint alloc] initWithX:x andY:y];
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andPoint:point];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point{
+    
+    GPKGFeatureTableData * tableData = nil;
+    
+    int featureCount = results.count;
+    if(featureCount > 0){
+        
+        int maxFeatureInfo = 0;
+        if(self.geometryType == WKB_POINT){
+            maxFeatureInfo = self.maxPointDetailedInfo;
+        } else{
+            maxFeatureInfo = self.maxFeatureDetailedInfo;
+        }
+        
+        if(featureCount <= maxFeatureInfo){
+            
+            NSMutableArray<GPKGFeatureRowData *> * rows = [[NSMutableArray alloc] init];
+            
+            for(GPKGFeatureRow * featureRow in results){
+                
+                NSMutableDictionary * values = [[NSMutableDictionary alloc] init];
+                NSString * geometryColumnName = nil;
+                
+                int geometryColumn = [featureRow getGeometryColumnIndex];
+                for(int i = 0; i < [featureRow columnCount]; i++){
+                    
+                    NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                    if(i == geometryColumn){
+                        geometryColumnName = columnName;
+                    }
+                    
+                    NSObject * value = [featureRow getValueWithIndex:i];
+                    if(value != nil){
+                        [values setObject:value forKey:columnName];
+                    }
+                }
+                
+                GPKGFeatureRowData * featureRowData = [[GPKGFeatureRowData alloc] initWithValues:values andGeometryColumnName:geometryColumnName];
+                [rows addObject:featureRowData];
+            }
+            
+            tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName  andCount:featureCount andRows:rows];
+        }else{
+            tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName  andCount:featureCount];
+        }
+    }
+    
+    [results close];
+    
+    return tableData;
+}
+
 -(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView{
     CLLocationCoordinate2D locationCoordinate = [mapView convertPoint:point toCoordinateFromView:mapView];
     return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andMapView:mapView];
@@ -391,6 +451,70 @@
     }
     
     return message;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView{
+    
+    // Get the zoom level
+    double zoom = [self currentZoomWithMapView:mapView];
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+    
+    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox];
+    
+    return tableData;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds{
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
+    
+    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox];
+    
+    return tableData;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox{
+    
+    GPKGFeatureTableData * tableData = nil;
+    
+    // Verify the features are indexed and we are getting information
+    if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
+        
+        @try {
+            
+            if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
+                
+                // Get the number of features in the tile location
+                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+                
+                // If more than a configured max features to draw
+                if([self moreThanMaxFeatures:tileFeatureCount]){
+                    
+                    // Build the max features message
+                    if(self.maxFeaturesInfo){
+                        tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName andCount:tileFeatureCount];
+                    }
+                    
+                }
+                // Else, query for the features near the click
+                else if(self.featuresInfo){
+                    
+                    // Query for results and build the message
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    tableData = [self buildTableDataAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+                }
+            }
+            
+        }
+        @catch (NSException *e) {
+            NSLog(@"Build Map Click Message Error: %@", [e description]);
+        }
+    }
+    
+    return tableData;
 }
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGFeatureOverlay.h"
 #import "GPKGMapPoint.h"
+#import "GPKGFeatureTableData.h"
 
 /**
  * Used to query the features represented by tiles, either being drawn from or linked to the features
@@ -339,12 +340,32 @@
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point;
 
 /**
+ *  Build feature table data results
+ *
+ *  @param results            feature index results
+ *  @param locationCoordinate location coordinate
+ *
+ *  @return table data or nil if not results
+ */
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
+
+/**
+ *  Build feature table data results
+ *
+ *  @param results feature index results
+ *  @param point   point
+ *
+ *  @return feature table data or nil if not results
+ */
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point;
+
+/**
  *  Perform a query based upon the map click location and build a info message
  *
  *  @param point   cg point
  *  @param mapView map view
  *
- *  @return information message on what was clicked, or null
+ *  @return information message on what was clicked, or nil
  */
 -(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView;
 
@@ -354,7 +375,7 @@
  *  @param locationCoordinate   location coordinate
  *  @param mapView              map view
  *
- *  @return information message on what was clicked, or null
+ *  @return information message on what was clicked, or nil
  */
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView;
 
@@ -365,8 +386,29 @@
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
  *
- *  @return information message on what was clicked, or null
+ *  @return information message on what was clicked, or nil
  */
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
+
+/**
+ *  Perform a query based upon the map click location and build feature table data
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param mapView            map view
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView;
+
+/**
+ *  Perform a query based upon the map click location and build feature table data
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
 
 @end
