@@ -331,52 +331,29 @@
 
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView{
     
-    NSString * message = nil;
+    // Get the zoom level
+    double zoom = [self currentZoomWithMapView:mapView];
     
-    // Verify the features are indexed and we are getting information
-    if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
-        
-        @try {
-            
-            double zoom = [self currentZoomWithMapView:mapView];
-            
-            if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
-                
-                // Get the number of features in the tile location
-                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
-                
-                // If more than a configured max features to draw
-                if([self moreThanMaxFeatures:tileFeatureCount]){
-                    
-                    // Build the max features message
-                    if(self.maxFeaturesInfo){
-                        message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
-                    }
-                    
-                }
-                // Else, query for the features near the click
-                else if(self.featuresInfo){
-                    
-                    // Build a bounding box to represent the click location
-                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
-                    
-                    // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
-                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
-                }
-            }
-            
-        }
-        @catch (NSException *e) {
-            NSLog(@"Build Map Click Message Error: %@", [e description]);
-        }
-    }
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+    
+    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox];
     
     return message;
 }
 
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds{
     
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
+    
+    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox];
+    
+    return message;
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox{
+    
     NSString * message = nil;
     
     // Verify the features are indexed and we are getting information
@@ -400,9 +377,6 @@
                 }
                 // Else, query for the features near the click
                 else if(self.featuresInfo){
-                    
-                    // Build a bounding box to represent the click location
-                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
                     
                     // Query for results and build the message
                     GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
