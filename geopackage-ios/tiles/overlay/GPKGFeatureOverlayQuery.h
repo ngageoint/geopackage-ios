@@ -265,6 +265,16 @@
 -(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView;
 
 /**
+ *  Build a bounding box using the location coordinate click location and map view bounds
+ *
+ *  @param location  location coordinate
+ *  @param mapBounds map bounds
+ *
+ *  @return bounding box
+ */
+-(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds;
+
+/**
  *  Query for features in the WGS84 projected bounding box
  *
  *  @param boundingBox query bounding box in WGS84 projection
@@ -347,5 +357,16 @@
  *  @return information message on what was clicked, or null
  */
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *
+ *  @return information message on what was clicked, or null
+ */
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
 
 @end

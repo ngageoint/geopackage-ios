@@ -196,6 +196,26 @@
     return boundingBox;
 }
 
+-(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds{
+    
+    // Get the screen width and height a click occurs from a feature
+    struct GPKGBoundingBoxSize size = [mapBounds sizeInMeters];
+    double width = size.width * self.screenClickPercentage;
+    double height = size.height * self.screenClickPercentage;
+    
+    CLLocationCoordinate2D leftCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:270 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D upCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:0 andDistance:height fromLocation:location];
+    CLLocationCoordinate2D rightCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:90 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D downCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:180 andDistance:height fromLocation:location];
+    
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:leftCoordinate.longitude
+                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
+                                                                   andMinLatitudeDouble:downCoordinate.latitude
+                                                                   andMaxLatitudeDouble:upCoordinate.latitude];
+    
+    return boundingBox;
+}
+
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
@@ -339,6 +359,50 @@
                     
                     // Build a bounding box to represent the click location
                     GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+                    
+                    // Query for results and build the message
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+                }
+            }
+            
+        }
+        @catch (NSException *e) {
+            NSLog(@"Build Map Click Message Error: %@", [e description]);
+        }
+    }
+    
+    return message;
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds{
+    
+    NSString * message = nil;
+    
+    // Verify the features are indexed and we are getting information
+    if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
+        
+        @try {
+            
+            if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
+                
+                // Get the number of features in the tile location
+                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+                
+                // If more than a configured max features to draw
+                if([self moreThanMaxFeatures:tileFeatureCount]){
+                    
+                    // Build the max features message
+                    if(self.maxFeaturesInfo){
+                        message = [self buildMaxFeaturesInfoMessageWithTileFeaturesCount:tileFeatureCount];
+                    }
+                    
+                }
+                // Else, query for the features near the click
+                else if(self.featuresInfo){
+                    
+                    // Build a bounding box to represent the click location
+                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
                     
                     // Query for results and build the message
                     GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
