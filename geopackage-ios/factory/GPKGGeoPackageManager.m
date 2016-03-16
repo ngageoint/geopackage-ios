@@ -338,7 +338,7 @@
         }
         
         // Validate the imported GeoPackage and create the metadata
-        [self validateAndCreateImportGeoPackageWithName:database andPath:databasePath andDocumentsPath:documentsDatabasePath];
+        [self validateAndCreateImportGeoPackageWithName:database andPath:databasePath andDocumentsPath:documentsDatabasePath andDeleteOnError:YES];
     }
     
     return imported && [self exists:database];
@@ -405,7 +405,7 @@
             
             @try {
                 // Validate the imported GeoPackage and create the metadata
-                [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath];
+                [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath andDeleteOnError:YES];
             
                 if(progress != nil){
                     [progress completed];
@@ -435,7 +435,7 @@
     [operation start];
 }
 
--(void) validateAndCreateImportGeoPackageWithName: (NSString *) name andPath: (NSString *) path andDocumentsPath: (NSString *) documentsPath{
+-(void) validateAndCreateImportGeoPackageWithName: (NSString *) name andPath: (NSString *) path andDocumentsPath: (NSString *) documentsPath andDeleteOnError: (BOOL) deleteOnError{
     
     // Verify the database is valid
     sqlite3 *sqlite3Database;
@@ -450,7 +450,9 @@
     @catch (NSException *e) {
         sqlite3_close(sqlite3Database);
         // Delete the file
-        [GPKGIOUtils deleteFile:documentsPath];
+        if(deleteOnError){
+            [GPKGIOUtils deleteFile:documentsPath];
+        }
         @throw e;
     }
     
@@ -473,7 +475,9 @@
             [geoPackage close];
         }
     }else{
-        [GPKGIOUtils deleteFile:documentsPath];
+        if(deleteOnError){
+            [GPKGIOUtils deleteFile:documentsPath];
+        }
         [NSException raise:@"Failed to Open" format:@"Unable to open GeoPackage database. Database: %@", name];
     }
 }
@@ -687,7 +691,7 @@
     if([fileManager isReadableFileAtPath:path]){
         // Validate the imported GeoPackage and create the metadata
         NSString * subPath = [GPKGIOUtils localDocumentsDirectoryPath:path];
-        [self validateAndCreateImportGeoPackageWithName:name andPath:subPath andDocumentsPath:path];
+        [self validateAndCreateImportGeoPackageWithName:name andPath:subPath andDocumentsPath:path andDeleteOnError:NO];
     }
     
     return [self exists:name];
