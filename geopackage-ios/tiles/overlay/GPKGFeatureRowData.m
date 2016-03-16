@@ -7,6 +7,7 @@
 //
 
 #import "GPKGFeatureRowData.h"
+#import "WKBGeometryJSONCompatible.h"
 
 @interface GPKGFeatureRowData ()
 
@@ -51,11 +52,15 @@
         NSObject * value = [self.values objectForKey:key];
         if([key isEqualToString:self.geometryColumn]){
             GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
-            jsonValue = @"TODO"; // TODO get the json value of the geometry
+            if(geometryData.geometry != nil){
+                jsonValue = [WKBGeometryJSONCompatible getJSONCompatibleGeometry:geometryData.geometry];
+            }
         }else{
             jsonValue = value;
         }
-        [jsonValues setObject:jsonValue forKey:key];
+        if(jsonValue != nil){
+            [jsonValues setObject:jsonValue forKey:key];
+        }
     }
     
     return jsonValues;
