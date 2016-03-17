@@ -44,6 +44,18 @@
 }
 
 -(NSObject *) jsonCompatible{
+    return [self jsonCompatibleWithPoints:YES andGeometries:YES];
+}
+
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints{
+    return [self jsonCompatibleWithPoints:includePoints andGeometries:NO];
+}
+
+-(NSObject *) jsonCompatibleWithGeometries: (BOOL) includeGeometries{
+    return [self jsonCompatibleWithPoints:includeGeometries andGeometries:includeGeometries];
+}
+
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints andGeometries: (BOOL) includeGeometries{
     
     NSMutableDictionary * jsonValues = [[NSMutableDictionary alloc] init];
     
@@ -53,7 +65,9 @@
         if([key isEqualToString:self.geometryColumn]){
             GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
             if(geometryData.geometry != nil){
-                jsonValue = [WKBGeometryJSONCompatible getJSONCompatibleGeometry:geometryData.geometry];
+                if(includeGeometries || (includePoints && geometryData.geometry.geometryType == WKB_POINT)){
+                    jsonValue = [WKBGeometryJSONCompatible getJSONCompatibleGeometry:geometryData.geometry];
+                }
             }
         }else{
             jsonValue = value;

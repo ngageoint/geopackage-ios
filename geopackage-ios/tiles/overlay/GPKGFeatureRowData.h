@@ -59,4 +59,32 @@
  */
 -(NSObject *) jsonCompatible;
 
+/**
+ *  Build a JSON compatible object
+ *
+ *  @param includePoints true to include point geometries, but no other geometry types
+ *
+ *  @return JSON compatiable object
+ */
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints;
+
+/**
+ *  Build a JSON compatible object
+ *
+ *  @param includeGeometries true to include all geometries, false for no geometries
+ *
+ *  @return JSON compatiable object
+ */
+-(NSObject *) jsonCompatibleWithGeometries: (BOOL) includeGeometries;
+
+/**
+ *  Build a JSON compatible object
+ *
+ *  @param includePoints     true to include point geometries, ignored if includeGeometries is true
+ *  @param includeGeometries true to include all geometry types
+ *
+ *  @return JSON compatiable object
+ */
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints andGeometries: (BOOL) includeGeometries;
+
 @end

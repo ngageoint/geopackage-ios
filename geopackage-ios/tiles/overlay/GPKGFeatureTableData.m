@@ -45,13 +45,25 @@
 }
 
 -(NSObject *) jsonCompatible{
+    return [self jsonCompatibleWithPoints:YES andGeometries:YES];
+}
+
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints{
+    return [self jsonCompatibleWithPoints:includePoints andGeometries:NO];
+}
+
+-(NSObject *) jsonCompatibleWithGeometries: (BOOL) includeGeometries{
+    return [self jsonCompatibleWithPoints:includeGeometries andGeometries:includeGeometries];
+}
+
+-(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints andGeometries: (BOOL) includeGeometries{
     NSObject *jsonObject = nil;
     if(self.rows == nil || self.rows.count == 0){
         jsonObject = [NSNumber numberWithInt:self.count];
     }else{
         NSMutableArray * jsonRows = [[NSMutableArray alloc] init];
         for(GPKGFeatureRowData * row in self.rows){
-            [jsonRows addObject:[row jsonCompatible]];
+            [jsonRows addObject:[row jsonCompatibleWithPoints:includePoints andGeometries:includeGeometries]];
         }
         jsonObject = jsonRows;
     }

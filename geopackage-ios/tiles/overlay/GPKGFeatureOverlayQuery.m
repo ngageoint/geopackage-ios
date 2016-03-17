@@ -289,13 +289,6 @@
             
             int featureNumber = 0;
             
-            BOOL printFeatures = false;
-            if(self.geometryType == WKB_POINT){
-                printFeatures = self.detailedInfoPrintPoints;
-            } else{
-                printFeatures = self.detailedInfoPrintFeatures;
-            }
-            
             for(GPKGFeatureRow * featureRow in results){
                 
                 featureNumber++;
@@ -312,7 +305,6 @@
                     [message appendFormat:@"\nFeature %d:\n", featureNumber];
                 }
                 
-                GPKGGeometryData * geomData = [featureRow getGeometry];
                 int geometryColumn = [featureRow getGeometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     if(i != geometryColumn){
@@ -323,11 +315,22 @@
                     }
                 }
                 
-                if(printFeatures){
-                    if(projection != nil){
-                        [self projectGeometry:geomData withProjection:projection];
+                GPKGGeometryData * geomData = [featureRow getGeometry];
+                if(geomData != nil && geomData.geometry != nil){
+                
+                    BOOL printFeatures = false;
+                    if(geomData.geometry.geometryType == WKB_POINT){
+                        printFeatures = self.detailedInfoPrintPoints;
+                    } else{
+                        printFeatures = self.detailedInfoPrintFeatures;
                     }
-                    [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                    
+                    if(printFeatures){
+                        if(projection != nil){
+                            [self projectGeometry:geomData withProjection:projection];
+                        }
+                        [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                    }
                 }
             }
         }else{
@@ -392,7 +395,10 @@
                     if(i == geometryColumn){
                         geometryColumnName = columnName;
                         if(projection != nil){
-                            [self projectGeometry:(GPKGGeometryData *) value withProjection:projection];
+                            GPKGGeometryData * geomData = (GPKGGeometryData *) value;
+                            if(geomData != nil){
+                                [self projectGeometry:geomData withProjection:projection];
+                            }
                         }
                     }
                     
