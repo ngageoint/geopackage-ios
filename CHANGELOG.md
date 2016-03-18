@@ -4,9 +4,16 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.1.10 (TBD)
+## [1.1.10](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.10) (03-18-2016)
 
-* TBD
+* wkb-ios version updated to 1.0.6
+* GeoPackage like and not like name queries
+* Import GeoPackage as link to existing file
+* Delete a GeoPackage without deleting the database file
+* Automatic deletion of GeoPackages with missing database files
+* Map click query improvements including projections, feature table data responses, and additional supported input parameters
+* Feature table data to JSON compatible object conversions
+* Tile Retriever standalone logic extracted from GeoPackage Overlay
 
 ## [1.1.9](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.9) (03-04-2016)
 
