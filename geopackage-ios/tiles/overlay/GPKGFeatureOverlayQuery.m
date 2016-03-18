@@ -13,6 +13,8 @@
 #import "WKBGeometryPrinter.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
+#import "GPKGFeatureRowData.h"
+#import "GPKGProjectionTransform.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
@@ -196,13 +198,37 @@
     return boundingBox;
 }
 
+-(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds{
+    
+    // Get the screen width and height a click occurs from a feature
+    struct GPKGBoundingBoxSize size = [mapBounds sizeInMeters];
+    double width = size.width * self.screenClickPercentage;
+    double height = size.height * self.screenClickPercentage;
+    
+    CLLocationCoordinate2D leftCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:270 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D upCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:0 andDistance:height fromLocation:location];
+    CLLocationCoordinate2D rightCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:90 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D downCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:180 andDistance:height fromLocation:location];
+    
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:leftCoordinate.longitude
+                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
+                                                                   andMinLatitudeDouble:downCoordinate.latitude
+                                                                   andMaxLatitudeDouble:upCoordinate.latitude];
+    
+    return boundingBox;
+}
+
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
+    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:nil];
     return results;
 }
 
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection{
+    
+    if(projection == nil){
+        projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    }
+    
     // Query for features
     GPKGFeatureIndexManager * indexManager = self.featureTiles.indexManager;
     if(indexManager == nil){
@@ -221,17 +247,29 @@
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
-    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:nil];
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andProjection:nil];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (GPKGProjection *) projection{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:nil andProjection:projection];
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:nil];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
     NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
     NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
     WKBPoint * point = [[WKBPoint alloc] initWithX:x andY:y];
-    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:point];
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:point andProjection:projection];
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andPoint:point andProjection:nil];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
     
     NSMutableString * message = nil;
     
@@ -251,13 +289,6 @@
             
             int featureNumber = 0;
             
-            BOOL printFeatures = false;
-            if(self.geometryType == WKB_POINT){
-                printFeatures = self.detailedInfoPrintPoints;
-            } else{
-                printFeatures = self.detailedInfoPrintFeatures;
-            }
-            
             for(GPKGFeatureRow * featureRow in results){
                 
                 featureNumber++;
@@ -274,7 +305,6 @@
                     [message appendFormat:@"\nFeature %d:\n", featureNumber];
                 }
                 
-                GPKGGeometryData * geomData = [featureRow getGeometry];
                 int geometryColumn = [featureRow getGeometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     if(i != geometryColumn){
@@ -285,8 +315,22 @@
                     }
                 }
                 
-                if(printFeatures){
-                    [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                GPKGGeometryData * geomData = [featureRow getGeometry];
+                if(geomData != nil && geomData.geometry != nil){
+                
+                    BOOL printFeatures = false;
+                    if(geomData.geometry.geometryType == WKB_POINT){
+                        printFeatures = self.detailedInfoPrintPoints;
+                    } else{
+                        printFeatures = self.detailedInfoPrintFeatures;
+                    }
+                    
+                    if(printFeatures){
+                        if(projection != nil){
+                            [self projectGeometry:geomData withProjection:projection];
+                        }
+                        [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                    }
                 }
             }
         }else{
@@ -304,12 +348,140 @@
     return message;
 }
 
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:nil];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
+    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
+    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
+    WKBPoint * point = [[WKBPoint alloc] initWithX:x andY:y];
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andPoint:point andProjection:projection];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point{
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andPoint:point andProjection:nil];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
+    
+    GPKGFeatureTableData * tableData = nil;
+    
+    int featureCount = results.count;
+    if(featureCount > 0){
+        
+        int maxFeatureInfo = 0;
+        if(self.geometryType == WKB_POINT){
+            maxFeatureInfo = self.maxPointDetailedInfo;
+        } else{
+            maxFeatureInfo = self.maxFeatureDetailedInfo;
+        }
+        
+        if(featureCount <= maxFeatureInfo){
+            
+            NSMutableArray<GPKGFeatureRowData *> * rows = [[NSMutableArray alloc] init];
+            
+            for(GPKGFeatureRow * featureRow in results){
+                
+                NSMutableDictionary * values = [[NSMutableDictionary alloc] init];
+                NSString * geometryColumnName = nil;
+                
+                int geometryColumn = [featureRow getGeometryColumnIndex];
+                for(int i = 0; i < [featureRow columnCount]; i++){
+                    
+                    NSObject * value = [featureRow getValueWithIndex:i];
+                    
+                    NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                    if(i == geometryColumn){
+                        geometryColumnName = columnName;
+                        if(projection != nil){
+                            GPKGGeometryData * geomData = (GPKGGeometryData *) value;
+                            if(geomData != nil){
+                                [self projectGeometry:geomData withProjection:projection];
+                            }
+                        }
+                    }
+                    
+                    if(value != nil){
+                        [values setObject:value forKey:columnName];
+                    }
+                }
+                
+                GPKGFeatureRowData * featureRowData = [[GPKGFeatureRowData alloc] initWithValues:values andGeometryColumnName:geometryColumnName];
+                [rows addObject:featureRowData];
+            }
+            
+            tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName  andCount:featureCount andRows:rows];
+        }else{
+            tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName  andCount:featureCount];
+        }
+    }
+    
+    [results close];
+    
+    return tableData;
+}
+
+-(void) projectGeometry: (GPKGGeometryData *) geometryData withProjection: (GPKGProjection *) projection{
+    
+    if(geometryData.geometry != nil){
+    
+        GPKGSpatialReferenceSystemDao * srsDao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:[self.featureTiles getFeatureDao].database];
+        NSNumber * srsId = geometryData.srsId;
+        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
+        
+        NSNumber * epsg = srs.organizationCoordsysId;
+        
+        if ([projection.epsg compare:epsg] != NSOrderedSame){
+            
+            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithNumber:epsg];
+            GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
+            
+            WKBGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
+            [geometryData setGeometry:projectedGeometry];
+            [geometryData setSrsId:projection.epsg];
+        }
+   
+    }
+}
+
 -(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView{
     CLLocationCoordinate2D locationCoordinate = [mapView convertPoint:point toCoordinateFromView:mapView];
     return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andMapView:mapView];
 }
 
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView{
+    return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andMapView:mapView andProjection:nil];
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
+    
+    // Get the zoom level
+    double zoom = [self currentZoomWithMapView:mapView];
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+    
+    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andProjection:projection];
+    
+    return message;
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds{
+    return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andMapBounds:mapBounds andProjection:nil];
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (GPKGProjection *) projection{
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
+    
+    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andProjection:projection];
+    
+    return message;
+}
+
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
     
     NSString * message = nil;
     
@@ -317,8 +489,6 @@
     if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
         
         @try {
-            
-            double zoom = [self currentZoomWithMapView:mapView];
             
             if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
                 
@@ -337,12 +507,9 @@
                 // Else, query for the features near the click
                 else if(self.featuresInfo){
                     
-                    // Build a bounding box to represent the click location
-                    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
-                    
                     // Query for results and build the message
                     GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
-                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate];
+                    message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }
             
@@ -353,6 +520,78 @@
     }
     
     return message;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView{
+    return [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andMapView:mapView andProjection:nil];
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
+    
+    // Get the zoom level
+    double zoom = [self currentZoomWithMapView:mapView];
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
+    
+    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andProjection:projection];
+    
+    return tableData;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds{
+    return [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andMapBounds:mapBounds andProjection:nil];
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (GPKGProjection *) projection{
+    
+    // Build a bounding box to represent the click location
+    GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds];
+    
+    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andProjection:projection];
+    
+    return tableData;
+}
+
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+    
+    GPKGFeatureTableData * tableData = nil;
+    
+    // Verify the features are indexed and we are getting information
+    if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
+        
+        @try {
+            
+            if([self onAtZoom:zoom andLocationCoordinate:locationCoordinate]){
+                
+                // Get the number of features in the tile location
+                int tileFeatureCount = [self tileFeatureCountWithLocationCoordinate:locationCoordinate andDoubleZoom:zoom];
+                
+                // If more than a configured max features to draw
+                if([self moreThanMaxFeatures:tileFeatureCount]){
+                    
+                    // Build the max features message
+                    if(self.maxFeaturesInfo){
+                        tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName andCount:tileFeatureCount];
+                    }
+                    
+                }
+                // Else, query for the features near the click
+                else if(self.featuresInfo){
+                    
+                    // Query for results and build the message
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
+                    tableData = [self buildTableDataAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:projection];
+                }
+            }
+            
+        }
+        @catch (NSException *e) {
+            NSLog(@"Build Map Click Message Error: %@", [e description]);
+        }
+    }
+    
+    return tableData;
 }
 
 @end
