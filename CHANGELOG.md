@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.1.11 (TBD)
+
+* TBD
+
 ## [1.1.10](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.10) (03-18-2016)
 
 * wkb-ios version updated to 1.0.6
