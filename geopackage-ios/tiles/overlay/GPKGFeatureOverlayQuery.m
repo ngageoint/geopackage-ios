@@ -508,7 +508,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
                     message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }
