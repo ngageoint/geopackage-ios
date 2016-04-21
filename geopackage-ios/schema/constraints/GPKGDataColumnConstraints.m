@@ -14,9 +14,9 @@ NSString * const GPKG_DCC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
 NSString * const GPKG_DCC_COLUMN_CONSTRAINT_TYPE = @"constraint_type";
 NSString * const GPKG_DCC_COLUMN_VALUE = @"value";
 NSString * const GPKG_DCC_COLUMN_MIN = @"min";
-NSString * const GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE = @"minIsInclusive";
+NSString * const GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE = @"min_is_inclusive";
 NSString * const GPKG_DCC_COLUMN_MAX = @"max";
-NSString * const GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE = @"maxIsInclusive";
+NSString * const GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE = @"max_is_inclusive";
 NSString * const GPKG_DCC_COLUMN_DESCRIPTION = @"description";
 
 NSString * const GPKG_DCCT_RANGE_NAME =@"range";

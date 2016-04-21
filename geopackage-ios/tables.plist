@@ -145,9 +145,9 @@
   constraint_type TEXT NOT NULL, /* &apos;range&apos; | &apos;enum&apos; | &apos;glob&apos; */
   value TEXT,
   min NUMERIC,
-  minIsInclusive BOOLEAN, /* 0 = false, 1 = true */
+  min_is_inclusive BOOLEAN, /* 0 = false, 1 = true */
   max NUMERIC,
-  maxIsInclusive BOOLEAN, /* 0 = false, 1 = true */
+  max_is_inclusive BOOLEAN, /* 0 = false, 1 = true */
   description TEXT,
   CONSTRAINT gdcc_ntv UNIQUE (constraint_name, constraint_type, value)
 );</string>
