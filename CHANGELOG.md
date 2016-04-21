@@ -8,6 +8,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * GeoPackage application id updated to GP11
 * Include projection when building Feature Overlay Query map click messages
+* Feature Overlay Query use of Data Column names in place of the column name when available
 
 ## [1.1.10](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.10) (03-18-2016)
 
