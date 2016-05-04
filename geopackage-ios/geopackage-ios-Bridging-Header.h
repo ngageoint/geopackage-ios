@@ -148,5 +148,8 @@
 #import "GPKGGeoPackageTileRetriever.h"
 #import "GPKGFeatureRowData.h"
 #import "GPKGFeatureTableData.h"
+#import "GPKGBaseExtension.h"
+#import "GPKGCrsWktExtension.h"
+#import "GPKGGeoPackageExtensions.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

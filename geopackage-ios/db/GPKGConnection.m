@@ -203,6 +203,38 @@
     return found;
 }
 
+-(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
+    
+    BOOL exists = false;
+    
+    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName]];
+    @try{
+        while ([result moveToNext]){
+            NSString * name = [result getString:[result getColumnIndexWithName:@"name"]];
+            if([columnName isEqualToString:name]){
+                exists = true;
+                break;
+            }
+        }
+    }@finally{
+        [result close];
+    }
+    
+    
+    return exists;
+}
+
+-(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef{
+    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", tableName, columnName, columndef]];
+}
+
+-(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    NSString * result = [GPKGSqlUtils singleStringResultQueryWithDatabase:connection andStatement:sql andArgs:args];
+    [self.connectionPool releaseConnection:connection];
+    return result;
+}
+
 -(void) setApplicationId{
     [self setApplicationId:GPKG_APPLICATION_ID];
 }

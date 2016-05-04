@@ -23,6 +23,7 @@ NSString * const GPKG_PROP_SRS_ORGANIZATION = @"organization";
 NSString * const GPKG_PROP_SRS_ORGANIZATION_COORDSYS_ID = @"organization_coordsys_id";
 NSString * const GPKG_PROP_SRS_DEFINITION = @"definition";
 NSString * const GPKG_PROP_SRS_DESCRIPTION = @"description";
+NSString * const GPKG_PROP_SRS_DEFINITION_12_163 = @"definition_12_163";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE = @"geopackage.tile_generator.variable";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_Z = @"z";
 NSString * const GPKG_PROP_TILE_GENERATOR_VARIABLE_X = @"x";

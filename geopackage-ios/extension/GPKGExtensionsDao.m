@@ -115,6 +115,22 @@
     return count;
 }
 
+-(int) deleteByTableName: (NSString *) tableName{
+    
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
+    
+    NSString * where = [self buildWhereWithFields:values];
+    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    int count = [self deleteWhere:where andWhereArgs:whereArgs];
+    return count;
+}
+
+-(int) deleteAll{
+    int count = [self deleteAll];
+    return count;
+}
+
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName{
     return [self queryForEqWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
 }

@@ -12,7 +12,8 @@
 #import "GPKGGeoPackageTableCreator.h"
 #import "GPKGTileTableReader.h"
 #import "GPKGUtils.h"
-#import "GPKGNGAExtensions.h"
+#import "GPKGGeoPackageExtensions.h"
+#import "GPKGCrsWktExtension.h"
 
 @interface GPKGGeoPackage()
 
@@ -107,7 +108,9 @@
 }
 
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
-    return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+    GPKGSpatialReferenceSystemDao * dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+    [dao setCrsWktExtension:[[GPKGCrsWktExtension alloc] initWithGeoPackage:self]];
+    return dao;
 }
 
 -(GPKGContentsDao *) getContentsDao{
@@ -341,6 +344,11 @@
     GPKGDataColumnConstraintsDao * dao = [self getDataColumnConstraintsDao];
     if(![dao tableExists]){
         created = [self.tableCreator createDataColumnConstraints] > 0;
+        if(created){
+            // TODO
+            // GPKGSchemaExtension * schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:this];
+            // [schemaExtension getOrCreate];
+        }
     }
     
     return created;
@@ -357,6 +365,11 @@
     GPKGMetadataDao * dao = [self getMetadataDao];
     if(![dao tableExists]){
         created = [self.tableCreator createMetadata] > 0;
+        if(created){
+            // TODO
+            // GPKGMetadataExtension * metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:this];
+            // [metadataExtension getOrCreate];
+        }
     }
     
     return created;
@@ -397,7 +410,7 @@
 -(void) deleteUserTable: (NSString *) tableName{
     [self verifyWritable];
     
-    [GPKGNGAExtensions deleteTableExtensionsWithGeoPackage:self andTable:tableName];
+    [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:self andTable:tableName];
     
     GPKGContentsDao * contentsDao = [self getContentsDao];
     [contentsDao deleteTable:tableName];

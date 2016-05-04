@@ -16,10 +16,8 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 @interface GPKGFeatureTileTableLinker ()
 
-@property (nonatomic, strong) GPKGGeoPackage *geoPackage;
 @property (nonatomic, strong) NSString *extensionName;
 @property (nonatomic, strong) NSString *extensionDefinition;
-@property (nonatomic, strong) GPKGExtensionsDao *extensionsDao;
 @property (nonatomic, strong) GPKGFeatureTileLinkDao *featureTileLinkDao;
 
 @end
@@ -27,12 +25,10 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 @implementation GPKGFeatureTileTableLinker
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    self = [super init];
+    self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.geoPackage = geoPackage;
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION];
-        self.extensionsDao = [geoPackage getExtensionsDao];
         self.featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
     }
     return self;
@@ -132,32 +128,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 }
 
 -(GPKGExtensions *) getOrCreateExtension{
-    GPKGExtensions * extension = [self getExtension];
-    
-    if(extension == nil){
-        if(![self.extensionsDao tableExists]){
-            [self.geoPackage createExtensionsTable];
-        }
-        
-        extension = [[GPKGExtensions alloc] init];
-        [extension setTableName:nil];
-        [extension setColumnName:nil];
-        [extension setExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
-        [extension setDefinition:self.extensionDefinition];
-        [extension setExtensionScopeType:GPKG_EST_READ_WRITE];
-        
-        [self.extensionsDao create:extension];
-    }
-    
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:nil andColumnName:nil andDescription:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 
 -(GPKGExtensions *) getExtension{
-    
-    GPKGExtensions * extension = nil;
-    if([self.extensionsDao tableExists]){
-        extension = [self.extensionsDao queryByExtension:self.extensionName andTable:nil andColumnName:nil];
-    }
+    GPKGExtensions * extension = [self getWithExtensionName:self.extensionName andTableName:nil  andColumnName:nil];
     return extension;
 }
 

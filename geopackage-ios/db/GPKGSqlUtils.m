@@ -137,6 +137,31 @@
     return result;
 }
 
++(NSString *) singleStringResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    
+    NSString * result = nil;
+    
+    sqlite3_stmt *compiledStatement;
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+    if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
+        if(sqlite3_step(compiledStatement) == SQLITE_ROW){
+            char* resultChars = (char *)sqlite3_column_text(compiledStatement, 0);
+            if (resultChars != nil){
+                result = [NSString stringWithCString:resultChars encoding:NSUTF8StringEncoding];
+            }
+        } else{
+            [NSException raise:@"SQL Failed" format:@"Failed to query for single string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+        }
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to query for single string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    }
+    
+    [self closeStatement:compiledStatement];
+    
+    return result;
+}
+
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * min = nil;

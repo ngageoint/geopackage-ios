@@ -26,6 +26,21 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 /**
+ *  CRS WKT Extension
+ *
+ *  @param crsWktExtension CRS WKT Extension
+ */
+-(void) setCrsWktExtension: (NSObject *) crsWktExtension;
+
+/**
+ *  Determine if the SRS table contains the extension definition 12 163
+ *  column for CRS WKT
+ *
+ *  @return true if has extension
+ */
+-(BOOL) hasDefinition_12_163;
+
+/**
  * Creates the required EPSG WGS84 Spatial Reference System (spec
  * Requirement 11)
  *
@@ -56,6 +71,46 @@
  *  @return web mercator srs
  */
 -(GPKGSpatialReferenceSystem *) createWebMercator;
+
+/**
+ *  Query to get the definition 12 163 value if the extension exists
+ *
+ *  @param srsId srs id
+ *
+ *  @return definition or null
+ */
+-(NSString *) getDefinition_12_163WithSrsId: (NSNumber *) srsId;
+
+/**
+ *  Query and set the definition 12 163 in the srs object if the extension
+ *  exists
+ *
+ *  @param srs spatial reference system
+ */
+-(void) setDefinition_12_163WithSrs: (GPKGSpatialReferenceSystem *) srs;
+
+/**
+ *  Query and set the definition 12 163 in the srs objects if the extension
+ *  exists
+ *
+ *  @param srsArray spatial reference system array
+ */
+-(void) setDefinition_12_163WithSrsArray: (NSArray *) srsArray;
+
+/**
+ *  Update the definition 12 163 in the database if the extension exists
+ *
+ *  @param srsId      srs id
+ *  @param definition definition
+ */
+-(void) updateDefinition_12_163WithSrsId: (NSNumber *) srsId andDefinition: (NSString *) definition;
+
+/**
+ *  Update the definition 12 163 in the database if the extension exists
+ *
+ *  @param srs      spatial reference system
+ */
+-(void) updateDefinition_12_163WithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 /**
  *  Get or Create the Spatial Reference System for the provided id

@@ -120,6 +120,17 @@
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
 
 /**
+ *  Query the SQL for a single result string
+ *
+ *  @param connection connection
+ *  @param statement  sql statement
+ *  @param args       sql args
+ *
+ *  @return single result string or nil
+ */
++(NSString *) singleStringResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
+
+/**
  *  Min on the database table column where
  *
  *  @param connection  connection
