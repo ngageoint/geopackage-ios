@@ -151,5 +151,9 @@
 #import "GPKGBaseExtension.h"
 #import "GPKGCrsWktExtension.h"
 #import "GPKGGeoPackageExtensions.h"
+#import "GPKGMetadataExtension.h"
+#import "GPKGSchemaExtension.h"
+#import "GPKGWebPExtension.h"
+#import "GPKGZoomOtherExtension.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

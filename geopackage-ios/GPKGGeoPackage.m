@@ -14,6 +14,8 @@
 #import "GPKGUtils.h"
 #import "GPKGGeoPackageExtensions.h"
 #import "GPKGCrsWktExtension.h"
+#import "GPKGSchemaExtension.h"
+#import "GPKGMetadataExtension.h"
 
 @interface GPKGGeoPackage()
 
@@ -345,9 +347,8 @@
     if(![dao tableExists]){
         created = [self.tableCreator createDataColumnConstraints] > 0;
         if(created){
-            // TODO
-            // GPKGSchemaExtension * schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:this];
-            // [schemaExtension getOrCreate];
+            GPKGSchemaExtension * schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:self];
+            [schemaExtension getOrCreate];
         }
     }
     
@@ -366,9 +367,8 @@
     if(![dao tableExists]){
         created = [self.tableCreator createMetadata] > 0;
         if(created){
-            // TODO
-            // GPKGMetadataExtension * metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:this];
-            // [metadataExtension getOrCreate];
+            GPKGMetadataExtension * metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:self];
+            [metadataExtension getOrCreate];
         }
     }
     

@@ -439,11 +439,9 @@
         NSNumber * srsId = geometryData.srsId;
         GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
         
-        NSNumber * epsg = srs.organizationCoordsysId;
-        
-        if ([projection.epsg compare:epsg] != NSOrderedSame){
+        if ([projection.epsg compare:srs.organizationCoordsysId] != NSOrderedSame){
             
-            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithNumber:epsg];
+            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithSrs:srs];
             GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
             
             WKBGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];

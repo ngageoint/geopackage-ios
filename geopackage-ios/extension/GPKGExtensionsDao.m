@@ -126,11 +126,6 @@
     return count;
 }
 
--(int) deleteAll{
-    int count = [self deleteAll];
-    return count;
-}
-
 -(GPKGResultSet *) queryByExtension: (NSString *) extensionName{
     return [self queryForEqWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
 }

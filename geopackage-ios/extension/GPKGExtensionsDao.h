@@ -63,13 +63,6 @@
 -(int) deleteByTableName: (NSString *) tableName;
 
 /**
- *  Delete all extensions
- *
- *  @return rows deleted
- */
--(int) deleteAll;
-
-/**
  *  Query by extension name
  *
  *  @param extensionName extension name

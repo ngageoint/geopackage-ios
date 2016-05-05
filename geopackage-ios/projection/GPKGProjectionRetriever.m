@@ -23,10 +23,6 @@ static NSDictionary * projections;
     
     NSString * parameters = [projections valueForKey:[epsg stringValue]];
     
-    if(parameters == nil){
-        parameters = [projections valueForKey:[NSString stringWithFormat:@"%d", PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    }
-    
     return parameters;
 }
 

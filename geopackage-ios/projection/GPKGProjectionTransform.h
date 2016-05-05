@@ -11,6 +11,7 @@
 #import "GPKGBoundingBox.h"
 #import "WKBPoint.h"
 #import "GPKGSLocationCoordinate3D.h"
+#import "GPKGSpatialReferenceSystem.h"
 
 /**
  *  Projection transformation between a from and to projection
@@ -66,6 +67,56 @@
  *  @return new projection transform
  */
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToProjection: (GPKGProjection *) toProjection;
+
+/**
+ *  Initialize
+ *
+ *  @param fromSrs from spatial reference system
+ *  @param toSrs   to spatial reference system
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToSrs: (GPKGSpatialReferenceSystem *) toSrs;
+
+/**
+ *  Initialize
+ *
+ *  @param fromSrs      from spatial reference system
+ *  @param toProjection to projection
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToProjection: (GPKGProjection *) toProjection;
+
+/**
+ *  Initialize
+ *
+ *  @param fromProjection from projection
+ *  @param toSrs          to spatial reference system
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToSrs: (GPKGSpatialReferenceSystem *) toSrs;
+
+/**
+ *  Initialize
+ *
+ *  @param fromSrs from spatial reference system
+ *  @param toEpsg  to epsg
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToEpsg: (int) toEpsg;
+
+/**
+ *  Initialize
+ *
+ *  @param fromEpsg from epsg
+ *  @param toSrs    to spatial reference system
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromEpsg: (int) fromEpsg andToSrs: (GPKGSpatialReferenceSystem *) toSrs;
 
 /**
  *  Transform a location coordinate

@@ -130,10 +130,9 @@
                         NSNumber * srsId = geometryData.srsId;
                         GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
                         
-                        NSNumber * epsg = srs.organizationCoordsysId;
-                        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithNumber:epsg];
+                        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:srs];
                         int toEpsg = -1;
-                        if([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
+                        if([srs.organizationCoordsysId intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
                             toEpsg = PROJ_EPSG_WEB_MERCATOR;
                         }else{
                             toEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
@@ -149,7 +148,7 @@
                         [projectedGeometryData toData];
                         NSData * projectedBytes = [projectedGeometryData getWkbData];
                         
-                        if([epsg intValue] > 0){
+                        if([srs.organizationCoordsysId intValue] > 0){
                             [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
                         }
                         

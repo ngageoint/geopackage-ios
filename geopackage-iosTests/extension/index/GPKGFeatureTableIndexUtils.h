@@ -13,4 +13,6 @@
 
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
++(void) testDeleteAllWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

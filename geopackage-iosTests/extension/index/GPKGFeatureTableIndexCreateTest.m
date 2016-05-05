@@ -15,4 +15,8 @@
     [GPKGFeatureTableIndexUtils testIndexWithGeoPackage:self.geoPackage];
 }
 
+- (void)testDeleteAll {
+    [GPKGFeatureTableIndexUtils testDeleteAllWithGeoPackage:self.geoPackage];
+}
+
 @end

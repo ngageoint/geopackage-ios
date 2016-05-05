@@ -112,7 +112,7 @@
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithNumber:projectionObject.organizationCoordsysId];
+    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:projectionObject];
     return projection;
 }
 
@@ -226,7 +226,67 @@
     }
 }
 
-// TODO override methods to set and update definition?
+-(NSObject *) queryForIdObject: (NSObject *) idValue{
+    NSObject * result = [super queryForIdObject:idValue];
+    [self setDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) result];
+    return result;
+}
+
+-(NSObject *) queryForMultiIdObject: (NSArray *) idValues{
+    NSObject * result = [super queryForMultiIdObject:idValues];
+    [self setDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) result];
+    return result;
+}
+
+-(NSObject *) getObject: (GPKGResultSet *) results{
+    NSObject * result = [super getObject:results];
+    [self setDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) result];
+    return result;
+}
+
+-(NSObject *) getFirstObject: (GPKGResultSet *)results{
+    NSObject * result = [super getFirstObject:results];
+    [self setDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) result];
+    return result;
+}
+
+-(NSObject *) queryForSameId: (NSObject *) object{
+    NSObject * result = [super queryForSameId:object];
+    [self setDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) result];
+    return result;
+}
+
+-(int) update: (NSObject *) object{
+    int result = [super update:object];
+    [self updateDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) object];
+    return result;
+}
+
+-(long long) create: (NSObject *) object{
+    long long result = [super create:object];
+    [self updateDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) object];
+    return result;
+}
+
+-(long long) insert: (NSObject *) object{
+    long long result = [super insert:object];
+    [self updateDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) object];
+    return result;
+}
+
+-(long long) createIfNotExists: (NSObject *) object{
+    long long result = [super createIfNotExists:object];
+    if(result != -1){
+        [self updateDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) object];
+    }
+    return result;
+}
+
+-(long long) createOrUpdate: (NSObject *) object{
+    long long result = [super createOrUpdate:object];
+    [self updateDefinition_12_163WithSrs:(GPKGSpatialReferenceSystem *) object];
+    return result;
+}
 
 -(GPKGSpatialReferenceSystem *) getOrCreateWithSrsId: (NSNumber*) srsId{
     

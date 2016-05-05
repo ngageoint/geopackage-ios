@@ -38,7 +38,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
 
 -(GPKGExtensions *) getOrCreate{
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:GPKG_CRS_WKT_EXTENSION_NAME andTableName:nil andColumnName:nil andDescription:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:nil andColumnName:nil andDescription:self.definition andScope:GPKG_EST_READ_WRITE];
     
     if(![self hasColumn]){
         [self createColumn];
@@ -49,7 +49,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
 
 -(BOOL) has{
     
-    BOOL exists = [self hasWithExtensionName:GPKG_CRS_WKT_EXTENSION_NAME andTableName:nil andColumnName:nil];
+    BOOL exists = [self hasWithExtensionName:self.extensionName andTableName:nil andColumnName:nil];
     
     if(exists){
         exists = [self hasColumn];
