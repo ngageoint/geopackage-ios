@@ -6,7 +6,13 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.1.11 (TBD)
 
+* GeoPackage 1.1.0 spec updates
 * GeoPackage application id updated to GP11
+* OGC Well known text representation of Coordinate Reference Systems extension support
+* GeoPackage Connection column exists, add column, and query single result methods
+* Base extension with implementations and support for: CRS WKT, Geometries, Metadata, Schema, WebP, and Zoom Other
+* Projection creations from Spatial Reference Systems
+* Data Column Constraint column name changes per spec
 * Include projection when building Feature Overlay Query map click messages
 * Feature Overlay Query use of Data Column names in place of the column name when available
 
