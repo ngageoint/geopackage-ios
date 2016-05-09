@@ -76,6 +76,10 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     }
 }
 
++(void)fail:(NSString *) message{
+    [NSException raise:@"Test Failure" format:@"%@", message];
+}
+
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage{
     
     [geoPackage createDataColumnConstraintsTable];
