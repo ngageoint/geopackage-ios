@@ -6,6 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.1.11](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.11) (05-10-2016)
 
+* AFNetworking version updated to 3.1 with GeoPackage Manager code adaptations
 * GeoPackage 1.1.0 spec updates
 * GeoPackage application id updated to GP11
 * OGC Well known text representation of Coordinate Reference Systems extension support
