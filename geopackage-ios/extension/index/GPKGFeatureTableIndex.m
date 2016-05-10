@@ -17,13 +17,11 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 @interface GPKGFeatureTableIndex ()
 
-@property (nonatomic, strong) GPKGGeoPackage *geoPackage;
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic, strong) NSString *extensionName;
 @property (nonatomic, strong) NSString *extensionDefinition;
 @property (nonatomic, strong) NSString *tableName;
 @property (nonatomic, strong) NSString *columnName;
-@property (nonatomic, strong) GPKGExtensionsDao *extensionsDao;
 @property (nonatomic, strong) GPKGTableIndexDao *tableIndexDao;
 @property (nonatomic, strong) GPKGGeometryIndexDao *geometryIndexDao;
 
@@ -32,15 +30,13 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 @implementation GPKGFeatureTableIndex
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
-    self = [super init];
+    self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.geoPackage = geoPackage;
         self.featureDao = featureDao;
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
         self.columnName = featureDao.getGeometryColumnName;
-        self.extensionsDao = [geoPackage getExtensionsDao];
         self.tableIndexDao = [geoPackage getTableIndexDao];
         self.geometryIndexDao = [geoPackage getGeometryIndexDao];
     }
@@ -277,32 +273,12 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGExtensions *) getOrCreateExtension{
-    GPKGExtensions * extension = [self getExtension];
-    
-    if(extension == nil){
-        if(![self.extensionsDao tableExists]){
-            [self.geoPackage createExtensionsTable];
-        }
-        
-        extension = [[GPKGExtensions alloc] init];
-        [extension setTableName:self.tableName];
-        [extension setColumnName:self.columnName];
-        [extension setExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
-        [extension setDefinition:self.extensionDefinition];
-        [extension setExtensionScopeType:GPKG_EST_READ_WRITE];
-        
-        [self.extensionsDao create:extension];
-    }
-    
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDescription:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 
 -(GPKGExtensions *) getExtension{
-    
-    GPKGExtensions * extension = nil;
-    if([self.extensionsDao tableExists]){
-        extension = [self.extensionsDao queryByExtension:self.extensionName andTable:self.tableName andColumnName:self.columnName];
-    }
+    GPKGExtensions * extension = [self getWithExtensionName:self.extensionName andTableName:self.tableName  andColumnName:self.columnName];
     return extension;
 }
 

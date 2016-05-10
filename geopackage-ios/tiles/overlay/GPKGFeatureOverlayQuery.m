@@ -289,6 +289,8 @@
             
             int featureNumber = 0;
             
+            GPKGDataColumnsDao * dataColumnsDao = [self getDataColumnsDao];
+            
             for(GPKGFeatureRow * featureRow in results){
                 
                 featureNumber++;
@@ -310,7 +312,9 @@
                     if(i != geometryColumn){
                         NSObject * value = [featureRow getValueWithIndex:i];
                         if(value != nil){
-                            [message appendFormat:@"\n%@: %@", [featureRow getColumnNameWithIndex:i], value];
+                            NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                            columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
+                            [message appendFormat:@"\n%@: %@", columnName, value];
                         }
                     }
                 }
@@ -379,6 +383,8 @@
         
         if(featureCount <= maxFeatureInfo){
             
+            GPKGDataColumnsDao * dataColumnsDao = [self getDataColumnsDao];
+            
             NSMutableArray<GPKGFeatureRowData *> * rows = [[NSMutableArray alloc] init];
             
             for(GPKGFeatureRow * featureRow in results){
@@ -392,6 +398,9 @@
                     NSObject * value = [featureRow getValueWithIndex:i];
                     
                     NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                    
+                    columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
+                    
                     if(i == geometryColumn){
                         geometryColumnName = columnName;
                         if(projection != nil){
@@ -430,11 +439,9 @@
         NSNumber * srsId = geometryData.srsId;
         GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
         
-        NSNumber * epsg = srs.organizationCoordsysId;
-        
-        if ([projection.epsg compare:epsg] != NSOrderedSame){
+        if ([projection.epsg compare:srs.organizationCoordsysId] != NSOrderedSame){
             
-            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithNumber:epsg];
+            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithSrs:srs];
             GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
             
             WKBGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
@@ -508,7 +515,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox];
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
                     message = [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }
@@ -592,6 +599,31 @@
     }
     
     return tableData;
+}
+
+-(GPKGDataColumnsDao *) getDataColumnsDao{
+    
+    GPKGDataColumnsDao * dataColumnsDao = [[GPKGDataColumnsDao alloc] initWithDatabase:[self.featureTiles getFeatureDao].database];
+    
+    if(![dataColumnsDao tableExists]){
+        dataColumnsDao = nil;
+    }
+    
+    return dataColumnsDao;
+}
+
+-(NSString *) getColumnNameWithDataColumnsDao: (GPKGDataColumnsDao *) dataColumnsDao andFeatureRow: (GPKGFeatureRow *) featureRow andColumnName: (NSString *) columnName{
+    
+    NSString * newColumnName = columnName;
+    
+    if(dataColumnsDao != nil){
+        GPKGDataColumns * dataColumn = [dataColumnsDao getDataColumnByTableName:featureRow.table.tableName andColumnName:columnName];
+        if(dataColumn != nil){
+            newColumnName = dataColumn.name;
+        }
+    }
+    
+    return newColumnName;
 }
 
 @end

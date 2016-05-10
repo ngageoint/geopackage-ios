@@ -44,6 +44,42 @@
     return [self initWithFromProjection:fromProjection andToProjection:toProjection];
 }
 
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
+    
+    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
+    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    
+    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+}
+
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToProjection: (GPKGProjection *) toProjection{
+    
+    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
+    
+    return [self initWithFromEpsg:fromEpsg andToProjection:toProjection];
+}
+
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
+    
+    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    
+    return [self initWithFromProjection:fromProjection andToEpsg:toEpsg];
+}
+
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToEpsg: (int) toEpsg{
+    
+    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
+    
+    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+}
+
+-(instancetype) initWithFromEpsg: (int) fromEpsg andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
+    
+    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    
+    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+}
+
 -(CLLocationCoordinate2D) transform: (CLLocationCoordinate2D) from{
     GPKGSLocationCoordinate3D * result = [self transform3d:[[GPKGSLocationCoordinate3D alloc] initWithCoordinate:from]];
     return result.coordinate;

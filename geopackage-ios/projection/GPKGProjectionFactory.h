@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGProjection.h"
+#import "GPKGSpatialReferenceSystem.h"
 
 /**
  *  Projection factory for coordinate projections and transformations
@@ -31,5 +32,14 @@
  *  @return projection
  */
 +(GPKGProjection *) getProjectionWithInt: (int) epsg;
+
+/**
+ *  Get the projection for the Spatial Reference System
+ *
+ *  @param srs spatial reference system
+ *
+ *  @return projection
+ */
++(GPKGProjection *) getProjectionWithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 @end

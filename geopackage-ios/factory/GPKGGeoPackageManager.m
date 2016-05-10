@@ -13,10 +13,10 @@
 #import "GPKGMetadataDb.h"
 #import "GPKGGeoPackageValidate.h"
 #import "GPKGSqlUtils.h"
-#import "AFHTTPRequestOperation.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "WKBByteReader.h"
+#import "AFURLSessionManager.h"
 
 @implementation GPKGGeoPackageManager
 
@@ -381,32 +381,33 @@
     
     NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:name];
     NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
-    NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:documentsDatabasePath append:false];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
-    [operation setOutputStream:outputStream];
-    
-    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        if(progress != nil){
-            if([progress isActive]){
-                [progress setMax:(int)totalBytesExpectedToRead];
-                [progress addProgress:(int)bytesRead];
-            }else{
-                [operation cancel];
-            }
-        }
-    }];
-    
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        return [NSURL fileURLWithPath :documentsDatabasePath];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         
-        if(progress == nil || [progress isActive]){
+        if(error || (progress != nil && ![progress isActive])){
+            [GPKGIOUtils deleteFile:documentsDatabasePath];
+            if(progress != nil){
+                NSString * errorString = nil;
+                if(error == nil || ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled)){
+                    errorString = @"Operation was canceled";
+                }else{
+                    errorString = [error description];
+                }
+                [progress failureWithError:errorString];
+            }
+        } else{
             
             @try {
                 // Validate the imported GeoPackage and create the metadata
                 [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath andDeleteOnError:YES];
-            
+                
                 if(progress != nil){
                     [progress completed];
                 }
@@ -416,23 +417,24 @@
                     [progress failureWithError:[e description]];
                 }
             }
-        }else{
-            [GPKGIOUtils deleteFile:documentsDatabasePath];
-            [progress failureWithError:@"Operation was canceled"];
         }
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if(progress != nil){
-            if([progress isActive]){
-                [progress failureWithError:[error description]];
-            }else{
-                [progress failureWithError:@"Operation was canceled"];
-            }
-        }
-        NSLog(@"Download Error for '%@' at url '%@' with error: %@", name, url, [error description]);
     }];
     
-    [operation start];
+    [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+        if(progress != nil){
+            if([progress isActive]){
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [progress setMax:(int)totalBytesExpectedToWrite];
+                    [progress addProgress:(int)bytesWritten];
+                });
+            }else{
+                [downloadTask cancel];
+            }
+        }
+    }];
+    
+    [downloadTask resume];
+
 }
 
 -(void) validateAndCreateImportGeoPackageWithName: (NSString *) name andPath: (NSString *) path andDocumentsPath: (NSString *) documentsPath andDeleteOnError: (BOOL) deleteOnError{

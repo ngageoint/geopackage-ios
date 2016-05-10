@@ -279,6 +279,35 @@
 -(BOOL) tableExists: (NSString *) table;
 
 /**
+ *  Check if the table column exists
+ *
+ *  @param tableName  table name
+ *  @param columnName column name
+ *
+ *  @return true if column exists
+ */
+-(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
+
+/**
+ *  Add a new column to the table
+ *
+ *  @param tableName  table name
+ *  @param columnName column name
+ *  @param columndef  column definition
+ */
+-(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef;
+
+/**
+ *  Query for a single result string
+ *
+ *  @param sql  sql statement
+ *  @param args sql arguments
+ *
+ *  @return single result object
+ */
+-(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
  *  Set the GeoPackage application id
  */
 -(void) setApplicationId;

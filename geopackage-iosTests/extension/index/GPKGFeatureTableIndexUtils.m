@@ -14,7 +14,7 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionTransform.h"
-#import "GPKGNGAExtensions.h"
+#import "GPKGGeoPackageExtensions.h"
 
 @implementation GPKGFeatureTableIndexUtils
 
@@ -227,7 +227,7 @@
             [featureResults close];
         }
         
-        [GPKGNGAExtensions deleteTableExtensionsWithGeoPackage:geoPackage andTable:featureTable];
+        [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:geoPackage andTable:featureTable];
         
         [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[geometryIndexDao countByTableName:featureTable]];
@@ -243,11 +243,53 @@
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
      // Test deleting all NGA extensions
-     [GPKGNGAExtensions deleteExtensionsWithGeoPackage:geoPackage];
+     [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
      
      [GPKGTestUtils assertFalse:[geometryIndexDao tableExists]];
      [GPKGTestUtils assertFalse:[tableIndexDao tableExists]];
      [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extensionsDao countByExtension:extensionName]];
+}
+
++(void) testDeleteAllWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    // Test indexing each feature table
+    NSArray * featureTables = [geoPackage getFeatureTables];
+    for(NSString * featureTable in featureTables){
+        
+        GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureTableIndex * featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        
+        [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
+        
+        [GPKGTestUtils validateGeoPackage:geoPackage];
+        
+        // Test indexing
+        [featureTableIndex index];
+        [GPKGTestUtils validateGeoPackage:geoPackage];
+        
+        [GPKGTestUtils assertTrue:[featureTableIndex isIndexed]];
+        
+    }
+    
+    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGGeometryIndexDao * geometryIndexDao = [geoPackage getGeometryIndexDao];
+    GPKGTableIndexDao * tableIndexDao = [geoPackage getTableIndexDao];
+
+    [GPKGTestUtils assertTrue:[geometryIndexDao tableExists]];
+    [GPKGTestUtils assertTrue:[tableIndexDao tableExists]];
+    NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+    [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
+
+    [GPKGTestUtils assertTrue:[geometryIndexDao count] > 0];
+    int count = [tableIndexDao count];
+    [GPKGTestUtils assertTrue:count > 0];
+    
+    int deleteCount = [tableIndexDao deleteAllCascade];
+    [GPKGTestUtils assertEqualIntWithValue:count andValue2:deleteCount];
+    
+    [GPKGTestUtils assertTrue:[geometryIndexDao count] == 0];
+    [GPKGTestUtils assertTrue:[tableIndexDao count] == 0];
+
 }
 
 +(void) validateGeometryIndexWithFeatureTableIndex: (GPKGFeatureTableIndex *) featureTableIndex andGeometryIndex: (GPKGGeometryIndex *) geometryIndex{

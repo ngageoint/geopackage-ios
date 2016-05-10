@@ -9,6 +9,7 @@
 #import "GPKGProjectionFactory.h"
 #import "proj_api.h"
 #import "GPKGProjectionRetriever.h"
+#import "GPKGProjectionConstants.h"
 
 NSString * const GPKG_PROJ_TO_METER_PATTERN = @"\\+to_meter=(\\S+)";
 
@@ -26,7 +27,14 @@ static NSMutableDictionary * projections;
     
     if(projection == nil){
         
-        NSString * parameters = [GPKGProjectionRetriever getProjectionWithNumber:epsg];
+        // Get the projection parameters from the properties
+        NSString * parameters = nil;
+        int epsgInt = [epsg intValue];
+        if(epsgInt == -1 || epsgInt == 0){
+            parameters = [GPKGProjectionRetriever getProjectionWithNumber:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+        }else{
+            parameters = [GPKGProjectionRetriever getProjectionWithNumber:epsg];
+        }
         
         projPJ crs = pj_init_plus([parameters UTF8String]);
         if(crs == nil){
@@ -45,6 +53,14 @@ static NSMutableDictionary * projections;
 
 +(GPKGProjection *) getProjectionWithInt: (int) epsg{
     return [self getProjectionWithNumber:[NSNumber numberWithInt:epsg]];
+}
+
++(GPKGProjection *) getProjectionWithSrs: (GPKGSpatialReferenceSystem *) srs{
+    
+    NSNumber * epsg = srs.organizationCoordsysId;
+    GPKGProjection * projection = [self getProjectionWithNumber:epsg];
+    
+    return projection;
 }
 
 +(NSDecimalNumber *) getToMetersFromParameters: (NSString *) parameters{
