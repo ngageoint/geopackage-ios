@@ -252,6 +252,12 @@
 				/ tilesPerSide;
 }
 
++(double) zoomLevelOfTileSize: (double) tileSize{
+    double tilesPerSide = (2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH) / tileSize;
+    double zoom = log(tilesPerSide) / log(2);
+    return zoom;
+}
+
 +(double) tileWidthDegreesWithTilesPerSide: (int) tilesPerSide{
     return 360.0 / tilesPerSide;
 }
@@ -274,10 +280,10 @@
     return (int) (log(tilesPerSide) / log(2));
 }
 
-+(GPKGTileGrid *) getTileGridWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
++(GPKGTileGrid *) getTileGridWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andBoundingBox: (GPKGBoundingBox *) boundingBox{
     
-    int minColumn = [self getTileColumnWithWebMercatorTotalBoundingBox:webMercatorTotalBox andMatrixWidth:matrixWidth andLongitude:[webMercatorBoundingBox.minLongitude doubleValue]];
-    int maxColumn = [self getTileColumnWithWebMercatorTotalBoundingBox:webMercatorTotalBox andMatrixWidth:matrixWidth andLongitude:[webMercatorBoundingBox.maxLongitude doubleValue]];
+    int minColumn = [self getTileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.minLongitude doubleValue]];
+    int maxColumn = [self getTileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.maxLongitude doubleValue]];
     
     if(minColumn < matrixWidth && maxColumn >= 0){
         if(minColumn < 0){
@@ -288,8 +294,8 @@
         }
     }
     
-    int maxRow = [self getTileRowWithWebMercatorTotalBoundingBox:webMercatorTotalBox andMatrixHeight:matrixHeight andLatitude:[webMercatorBoundingBox.minLatitude doubleValue]];
-    int minRow = [self getTileRowWithWebMercatorTotalBoundingBox:webMercatorTotalBox andMatrixHeight:matrixHeight andLatitude:[webMercatorBoundingBox.maxLatitude doubleValue]];
+    int maxRow = [self getTileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.minLatitude doubleValue]];
+    int minRow = [self getTileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.maxLatitude doubleValue]];
     
     if(minRow < matrixHeight && maxRow >= 0){
         if(minRow < 0){
@@ -305,10 +311,10 @@
     return tileGrid;
 }
 
-+(int) getTileColumnWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude{
++(int) getTileColumnWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude{
     
-    double minX = [webMercatorTotalBox.minLongitude doubleValue];
-    double maxX = [webMercatorTotalBox.maxLongitude doubleValue];
+    double minX = [totalBox.minLongitude doubleValue];
+    double maxX = [totalBox.maxLongitude doubleValue];
     
     int tileId;
     if(longitude < minX){
@@ -324,10 +330,10 @@
     return tileId;
 }
 
-+(int) getTileRowWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude{
++(int) getTileRowWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude{
     
-    double minY = [webMercatorTotalBox.minLatitude doubleValue];
-    double maxY = [webMercatorTotalBox.maxLatitude doubleValue];
+    double minY = [totalBox.minLatitude doubleValue];
+    double maxY = [totalBox.maxLatitude doubleValue];
     
     int tileId;
     if(latitude < minY){
@@ -343,24 +349,24 @@
     return tileId;
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
-    return [self getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:webMercatorTotalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileColumn:tileColumn andTileRow:tileRow];
++(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
+    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileColumn:tileColumn andTileRow:tileRow];
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
++(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
     GPKGTileGrid * tileGrid = [[GPKGTileGrid alloc] initWithMinX:tileColumn andMaxX:tileColumn andMinY:tileRow andMaxY:tileRow];
-    return [self getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:webMercatorTotalBox andTileMatrixWidth:tileMatrixWidth andTileMatrixHeight:tileMatrixHeight andTileGrid:tileGrid];
+    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:tileMatrixWidth andTileMatrixHeight:tileMatrixHeight andTileGrid:tileGrid];
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid{
-    return [self getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:webMercatorTotalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileGrid:tileGrid];
++(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid{
+    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileGrid:tileGrid];
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox: (GPKGBoundingBox *) webMercatorTotalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid{
++(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid{
     
     // Get the tile width
-    double matrixMinX = [webMercatorTotalBox.minLongitude doubleValue];
-    double matrixMaxX = [webMercatorTotalBox.maxLongitude doubleValue];
+    double matrixMinX = [totalBox.minLongitude doubleValue];
+    double matrixMaxX = [totalBox.maxLongitude doubleValue];
     double matrixWidth = matrixMaxX - matrixMinX;
     double tileWidth = matrixWidth / tileMatrixWidth;
     
@@ -369,8 +375,8 @@
     double maxLon = minLon + (tileWidth * (tileGrid.maxX + 1 - tileGrid.minX));
     
     // Get the tile height
-    double matrixMinY = [webMercatorTotalBox.minLatitude doubleValue];
-    double matrixMaxY = [webMercatorTotalBox.maxLatitude doubleValue];
+    double matrixMinY = [totalBox.minLatitude doubleValue];
+    double matrixMaxY = [totalBox.maxLatitude doubleValue];
     double matrixHeight = matrixMaxY - matrixMinY;
     double tileHeight = matrixHeight / tileMatrixHeight;
     

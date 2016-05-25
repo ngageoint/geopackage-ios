@@ -54,4 +54,6 @@
  */
 -(double) toMeters: (double) value;
 
+// TODO getUnit
+
 @end

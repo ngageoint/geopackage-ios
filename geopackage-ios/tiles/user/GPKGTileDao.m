@@ -80,7 +80,7 @@
         GPKGTileGrid * tileGrid = [self queryForTileGridWithZoomLevel:zoomLevel];
         if(tileGrid != nil){
             GPKGBoundingBox * matrixSetBoundingBox = [self getBoundingBox];
-            boundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
+            boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
         }
     }
     return boundingBox;

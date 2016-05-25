@@ -30,10 +30,30 @@
  *  @param widths       widths
  *  @param heights      heights
  *  @param tileMatrices tile matrices
- *  @param length       length
+ *  @param length       length in default units
  *
  *  @return zoom level
  */
 +(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
+
+/**
+ *  Get the max distance length that matches the tile widths and heights
+ *
+ *  @param widths  sorted tile matrix widths
+ *  @param heights sorted tile matrix heights
+ *
+ *  @return max length
+ */
++(double) getMaxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights;
+
+/**
+ *  Get the min distance length that matches the tile widths and heights
+ *
+ *  @param widths  sorted tile matrix widths
+ *  @param heights sorted tile matrix heights
+ *
+ *  @return min length
+ */
++(double) getMinLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights;
 
 @end

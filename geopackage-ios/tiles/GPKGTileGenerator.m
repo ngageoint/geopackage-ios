@@ -160,7 +160,7 @@
             }
             // Get the local tile grid for GeoPackage format of where the tiles belong
             else{
-                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorTotalBoundingBox:self.webMercatorBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andWebMercatorBoundingBox:requestWebMercatorBoundingBox];
+                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.webMercatorBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:requestWebMercatorBoundingBox];
             }
             
             // Generate the tiles for the zoom level
@@ -306,7 +306,7 @@
                         GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
                         
                         // Get the bounding box of the existing tile
-                        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:previousTileMatrixSetWebMercatorBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+                        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:previousTileMatrixSetWebMercatorBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
                         
                         // Get the mid lat and lon to find the new tile row
                         // and column
@@ -317,8 +317,8 @@
                         
                         // Get the new tile row and column with regards to
                         // the new bounding box
-                        int newTileRow = [GPKGTileBoundingBoxUtils getTileRowWithWebMercatorTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixHeight:zoomMatrixHeight andLatitude:midLatitude];
-                        int newTileColumn = [GPKGTileBoundingBoxUtils getTileColumnWithWebMercatorTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixWidth:zoomMatrixWidth andLongitude:midLongitude];
+                        int newTileRow = [GPKGTileBoundingBoxUtils getTileRowWithTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixHeight:zoomMatrixHeight andLatitude:midLatitude];
+                        int newTileColumn = [GPKGTileBoundingBoxUtils getTileColumnWithTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixWidth:zoomMatrixWidth andLongitude:midLongitude];
                         
                         // Update the tile row
                         [tileRow setTileRow:newTileRow];

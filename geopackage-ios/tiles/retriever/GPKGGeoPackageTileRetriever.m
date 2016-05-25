@@ -114,7 +114,7 @@
                     UIImage * tileDataImage = [tileRow getTileDataImage];
                     
                     // Get the bounding box of the tile
-                    GPKGBoundingBox * tileWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:self.setWebMercatorBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+                    GPKGBoundingBox * tileWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.setWebMercatorBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
                     
                     // Get the bounding box where the requested image and tile overlap
                     GPKGBoundingBox * overlap = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:webMercatorBoundingBox andBoundingBox:tileWebMercatorBoundingBox];
@@ -191,7 +191,7 @@
     if(tileMatrix != nil){
         
         // Get the grid
-        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorTotalBoundingBox:self.setWebMercatorBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andWebMercatorBoundingBox:webMercatorBoundingBox];
+        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.setWebMercatorBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:webMercatorBoundingBox];
         
         // Query for matching tiles in the tile grid
         tileResults = [self.tileDao queryByTileGrid:tileGrid andZoomLevel:[tileMatrix.zoomLevel intValue]];

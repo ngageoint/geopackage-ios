@@ -292,20 +292,49 @@
     
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *) [self queryForIdObject:srsId];
     
+    srs = [self createIfNeededSrs:srs andId:srsId];
+    
+    return srs;
+}
+
+-(GPKGSpatialReferenceSystem *) getOrCreateWithEpsg: (NSNumber*) epsg{
+    
+    GPKGSpatialReferenceSystem * srs = [self queryForOrganizationCoordsysId:epsg];
+    
+    srs = [self createIfNeededSrs:srs andId:epsg];
+    
+    return srs;
+}
+
+-(GPKGSpatialReferenceSystem *) queryForOrganizationCoordsysId: (NSNumber *) organizationCoordsysId{
+    GPKGSpatialReferenceSystem * srs = nil;
+    GPKGResultSet * results = [super queryForEqWithField:GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID andValue:organizationCoordsysId];
+    if(results.count > 0){
+        if(results.count > 1){
+            [NSException raise:@"Unexpected Result" format:@"More than one SpatialReferenceSystem returned for Organization Coordsys Id: %@", organizationCoordsysId];
+        }
+        srs = (GPKGSpatialReferenceSystem *) [self getFirstObject:results];
+    }
+    [results close];
+    return srs;
+}
+
+-(GPKGSpatialReferenceSystem *) createIfNeededSrs: (GPKGSpatialReferenceSystem *) srs andId: (NSNumber *) id{
+    
     if(srs == nil){
         
-        long id = [srsId integerValue];
+        long idValue = [id integerValue];
         
-        if(id == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
+        if(idValue == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
             srs = [self createWgs84];
-        } else if(id == PROJ_UNDEFINED_CARTESIAN){
+        } else if(idValue == PROJ_UNDEFINED_CARTESIAN){
             srs = [self createUndefinedCartesian];
-        } else if(id == PROJ_UNDEFINED_GEOGRAPHIC){
+        } else if(idValue == PROJ_UNDEFINED_GEOGRAPHIC){
             srs = [self createUndefinedGeographic];
-        } else if(id == PROJ_EPSG_WEB_MERCATOR){
+        } else if(idValue == PROJ_EPSG_WEB_MERCATOR){
             srs = [self createWebMercator];
         } else{
-            [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: %@", srsId];
+            [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: %@", id];
         }
         
     }else{

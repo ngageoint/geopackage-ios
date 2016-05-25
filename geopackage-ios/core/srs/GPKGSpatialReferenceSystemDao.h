@@ -122,6 +122,24 @@
 -(GPKGSpatialReferenceSystem *) getOrCreateWithSrsId: (NSNumber*) srsId;
 
 /**
+ *  Get or Create the Spatial Reference System for the provided epsg
+ *
+ *  @param epsg epsg
+ *
+ *  @return srs
+ */
+-(GPKGSpatialReferenceSystem *) getOrCreateWithEpsg: (NSNumber*) epsg;
+
+/**
+ *  Query for the organization coordsys id
+ *
+ *  @param organizationCoordsysId organization coordinate system id
+ *
+ *  @return srs
+ */
+-(GPKGSpatialReferenceSystem *) queryForOrganizationCoordsysId: (NSNumber *) organizationCoordsysId;
+
+/**
  *  Delete the Spatial Reference System, cascading
  *
  *  @param srs srs
