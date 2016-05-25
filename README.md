@@ -30,6 +30,10 @@ The [GeoPackage MapCache](https://github.com/ngageoint/geopackage-mapcache-ios) 
 
 The [Mobile Awareness GEOINT Environment (MAGE)](https://github.com/ngageoint/mage-ios) app provides mobile situational awareness capabilities. It [uses the SDK](https://github.com/ngageoint/mage-ios/search?q=GeoPackage&type=Code) to provide GeoPackage functionality.
 
+##### DICE #####
+
+The [Disconnected Interactive Content Explorer (DICE)](https://github.com/ngageoint/disconnected-content-explorer-iOS) app allows users to load and display interactive content without a network connection. It [uses the SDK](https://github.com/ngageoint/disconnected-content-explorer-iOS/search?q=GeoPackage&type=Code) to provide GeoPackage functionality on the map and within reports.
+
 #### Example ####
 
     // NSString * geoPackageFile = ...;
