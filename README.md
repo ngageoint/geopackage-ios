@@ -35,94 +35,97 @@ The [Mobile Awareness GEOINT Environment (MAGE)](https://github.com/ngageoint/ma
 The [Disconnected Interactive Content Explorer (DICE)](https://github.com/ngageoint/disconnected-content-explorer-iOS) app allows users to load and display interactive content without a network connection. It [uses the SDK](https://github.com/ngageoint/disconnected-content-explorer-iOS/search?q=GeoPackage&type=Code) to provide GeoPackage functionality on the map and within reports.
 
 #### Example ####
+```objectivec
 
-    // NSString * geoPackageFile = ...;
-    // MKMapView *mapView = ...;
-    
-    // Get a manager
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
-    
-    // Available databases
-    NSArray * databases = [self.manager databases];
-    
-    // Import database
-    BOOL imported = [manager importGeoPackageFromPath:geoPackageFile];
-    
-    // Open database
-    GPKGGeoPackage * geoPackage = [manager open:[databases objectAtIndex:0]);
-    
-    // GeoPackage Table DAOs
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGContentsDao * contentsDao =  [geoPackage getContentsDao];
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
-    GPKGDataColumnsDao *dataColumnsDao = [self getDataColumnsDao];
-    GPKGDataColumnConstraintsDao * dataColumnConstraintsDao = [self getDataColumnConstraintsDao];
-    GPKGMetadataDao * metadataDao = [self getMetadataDao];
-    GPKGMetadataReferenceDao * metadataReferenceDao = [self getMetadataReferenceDao];
-    GPKGExtensionsDao * extensionsDao = [self getExtensionsDao];
-    
-    // Feature and tile tables
-    NSArray * features = [geopackage getFeatureTables];
-    NSArray * tiles = [geopackage getTileTables];
-    
-    // Query Features
-    NSString * featureTable = [features objectAtIndex:0];
-    GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
-    GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:featureDao.projection];
-    GPKGResultSet * featureResults = [featureDao queryForAll];
-    @try {
-        while([featureResults moveToNext]){
-            GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
-            GPKGGeometryData * geometryData = [featureRow getGeometry];
-            WKBGeometry * geometry = geometryData.geometry;
-            GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
-            GPKGMapShape * mapShape = [GPKGMapShapeConverter addMapShape:shape toMapView:mapView];
-            // ...
-        }
-    }@finally {
-        [featureResults close];
+// NSString * geoPackageFile = ...;
+// MKMapView *mapView = ...;
+
+// Get a manager
+GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+
+// Available databases
+NSArray * databases = [self.manager databases];
+
+// Import database
+BOOL imported = [manager importGeoPackageFromPath:geoPackageFile];
+
+// Open database
+GPKGGeoPackage * geoPackage = [manager open:[databases objectAtIndex:0]);
+
+// GeoPackage Table DAOs
+GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+GPKGContentsDao * contentsDao =  [geoPackage getContentsDao];
+GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+GPKGDataColumnsDao *dataColumnsDao = [self getDataColumnsDao];
+GPKGDataColumnConstraintsDao * dataColumnConstraintsDao = [self getDataColumnConstraintsDao];
+GPKGMetadataDao * metadataDao = [self getMetadataDao];
+GPKGMetadataReferenceDao * metadataReferenceDao = [self getMetadataReferenceDao];
+GPKGExtensionsDao * extensionsDao = [self getExtensionsDao];
+
+// Feature and tile tables
+NSArray * features = [geopackage getFeatureTables];
+NSArray * tiles = [geopackage getTileTables];
+
+// Query Features
+NSString * featureTable = [features objectAtIndex:0];
+GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:featureDao.projection];
+GPKGResultSet * featureResults = [featureDao queryForAll];
+@try {
+    while([featureResults moveToNext]){
+        GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+        GPKGGeometryData * geometryData = [featureRow getGeometry];
+        WKBGeometry * geometry = geometryData.geometry;
+        GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
+        GPKGMapShape * mapShape = [GPKGMapShapeConverter addMapShape:shape toMapView:mapView];
+        // ...
     }
-    
-    // Query Tiles
-    NSString * tileTable = [tiles objectAtIndex:0];
-    GPKGTileDao * tileDao = [geoPackage getTileDaoWithTableName:tileTable];
-    GPKGResultSet * tileResults = [tileDao queryForAll];
-    @try {
-        while([tileResults moveToNext]){
-            GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
-            NSData * tileBytes = [tileRow getTileData];
-            UIImage * tileImage = [tileRow getTileDataImage];
-            // ...
-        }
-    }@finally {
-        [tileResults close];
+}@finally {
+    [featureResults close];
+}
+
+// Query Tiles
+NSString * tileTable = [tiles objectAtIndex:0];
+GPKGTileDao * tileDao = [geoPackage getTileDaoWithTableName:tileTable];
+GPKGResultSet * tileResults = [tileDao queryForAll];
+@try {
+    while([tileResults moveToNext]){
+        GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+        NSData * tileBytes = [tileRow getTileData];
+        UIImage * tileImage = [tileRow getTileDataImage];
+        // ...
     }
+}@finally {
+    [tileResults close];
+}
+
+// Tile Overlay (GeoPackage or Standard API)
+MKTileOverlay * tileOverlay = [GPKGOverlayFactory getTileOverlayWithTileDao:tileDao];
+tileOverlay.canReplaceMapContent = false
+[mapView addOverlay:tileOverlay];
+
+// Feature Tile Overlay (dynamically draw tiles from features)
+GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+GPKGFeatureOverlay * featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
+[self.mapView addOverlay:featureOverlay];
+
+// URL Tile Generator (generate tiles from a URL)
+GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7];
+int urlTileCount = [urlTileGenerator generateTiles];
+
+// Feature Tile Generator (generate tiles from features)
+GPKGTileGenerator * featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:10 andMaxZoom:15];
+int featureTileCount = [featureTileGenerator generateTiles];
+
+// Close database when done
+[geoPackage close];
+
+// Close manager when done
+[manager close];
     
-    // Tile Overlay (GeoPackage or Standard API)
-    MKTileOverlay * tileOverlay = [GPKGOverlayFactory getTileOverlayWithTileDao:tileDao];
-    tileOverlay.canReplaceMapContent = false
-    [mapView addOverlay:tileOverlay];
-    
-    // Feature Tile Overlay (dynamically draw tiles from features)
-    GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
-    GPKGFeatureOverlay * featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
-    [self.mapView addOverlay:featureOverlay];
-    
-    // URL Tile Generator (generate tiles from a URL)
-    GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7];
-    int urlTileCount = [urlTileGenerator generateTiles];
-    
-    // Feature Tile Generator (generate tiles from features)
-    GPKGTileGenerator * featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:10 andMaxZoom:15];
-    int featureTileCount = [featureTileGenerator generateTiles];
-    
-    // Close database when done
-    [geoPackage close];
-    
-    // Close manager when done
-    [manager close];
+```
 
 ### Build ###
 
@@ -162,88 +165,90 @@ To use from Swift, import the geopackage-ios bridging header from the Swift proj
     #import "geopackage-ios-Bridging-Header.h"
 
 #### Example ####
+```swift
 
-    // let geoPackageFile: String = ...;
-    // let mapView: MKMapView = ...;
-    
-    // Get a manager
-    let manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.getManager();
-    
-    // Available databases
-    let databases: NSArray = manager.databases();
-    
-    // Import database
-    let imported: Bool = manager.importGeoPackageFromPath(geoPackageFile);
-    
-    // Open database
-    let geoPackage: GPKGGeoPackage = manager.open(databases.objectAtIndex(0) as! String);
-    
-    // GeoPackage Table DAOs
-    let srsDao: GPKGSpatialReferenceSystemDao = geoPackage.getSpatialReferenceSystemDao();
-    let contentsDao: GPKGContentsDao = geoPackage.getContentsDao();
-    let geometryColumnsDao: GPKGGeometryColumnsDao = geoPackage.getGeometryColumnsDao();
-    let tileMatrixSetDao: GPKGTileMatrixSetDao = geoPackage.getTileMatrixSetDao();
-    let tileMatrixDao: GPKGTileMatrixDao = geoPackage.getTileMatrixDao();
-    let dataColumnsDao: GPKGDataColumnsDao = geoPackage.getDataColumnsDao();
-    let dataColumnConstraintsDao: GPKGDataColumnConstraintsDao = geoPackage.getDataColumnConstraintsDao();
-    let metadataDao: GPKGMetadataDao = geoPackage.getMetadataDao();
-    let metadataReferenceDao: GPKGMetadataReferenceDao = geoPackage.getMetadataReferenceDao();
-    let extensionsDao: GPKGExtensionsDao = geoPackage.getExtensionsDao();
-    
-    // Feature and tile tables
-    let features: NSArray = geoPackage.getFeatureTables();
-    let tiles: NSArray = geoPackage.getTileTables();
-    
-    // Query Features
-    let featureTable: String = features.objectAtIndex(0) as! String;
-    let featureDao: GPKGFeatureDao = geoPackage.getFeatureDaoWithTableName(featureTable);
-    let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
-    let featureResults: GPKGResultSet = featureDao.queryForAll();
-    while(featureResults.moveToNext()){
-        let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
-        let geometryData: GPKGGeometryData = featureRow.getGeometry();
-        let geometry: WKBGeometry = geometryData.geometry;
-        let shape: GPKGMapShape = converter.toShapeWithGeometry(geometry);
-        let mapShape = GPKGMapShapeConverter.addMapShape(shape, toMapView: mapView);
-        // ...
-    }
-    featureResults.close();
-    
-    // Query Tiles
-    let tileTable: String = tiles.objectAtIndex(0) as! String;
-    let tileDao: GPKGTileDao = geoPackage.getTileDaoWithTableName(tileTable);
-    let tileResults: GPKGResultSet = tileDao.queryForAll();
-    while(tileResults.moveToNext()){
-        let tileRow: GPKGTileRow = tileDao.getTileRow(tileResults);
-        let tileBytes: NSData = tileRow.getTileData();
-        let tileImage: UIImage = tileRow.getTileDataImage();
-        // ...
-    }
-    tileResults.close();
-    
-    // Tile Overlay (GeoPackage or Standard API)
-    let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlayWithTileDao(tileDao);
-    tileOverlay.canReplaceMapContent = false;
-    mapView.addOverlay(tileOverlay);
-    
-    // Feature Tile Overlay (dynamically draw tiles from features)
-    let featureTiles: GPKGFeatureTiles = GPKGFeatureTiles(featureDao: featureDao);
-    let featureOverlay = GPKGFeatureOverlay(featureTiles: featureTiles);
-    mapView.addOverlay(featureOverlay);
-    
-    // URL Tile Generator (generate tiles from a URL)
-    let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7);
-    let urlTileCount: Int32 = urlTileGenerator.generateTiles();
-    
-    // Feature Tile Generator (generate tiles from features)
-    let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15);
-    let featureTileCount: Int32 = featureTileGenerator.generateTiles();
-    
-    // Close database when done
-    geoPackage.close();
-    
-    // Close manager when done
-    manager.close();
+// let geoPackageFile: String = ...;
+// let mapView: MKMapView = ...;
+
+// Get a manager
+let manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.getManager();
+
+// Available databases
+let databases: NSArray = manager.databases();
+
+// Import database
+let imported: Bool = manager.importGeoPackageFromPath(geoPackageFile);
+
+// Open database
+let geoPackage: GPKGGeoPackage = manager.open(databases.objectAtIndex(0) as! String);
+
+// GeoPackage Table DAOs
+let srsDao: GPKGSpatialReferenceSystemDao = geoPackage.getSpatialReferenceSystemDao();
+let contentsDao: GPKGContentsDao = geoPackage.getContentsDao();
+let geometryColumnsDao: GPKGGeometryColumnsDao = geoPackage.getGeometryColumnsDao();
+let tileMatrixSetDao: GPKGTileMatrixSetDao = geoPackage.getTileMatrixSetDao();
+let tileMatrixDao: GPKGTileMatrixDao = geoPackage.getTileMatrixDao();
+let dataColumnsDao: GPKGDataColumnsDao = geoPackage.getDataColumnsDao();
+let dataColumnConstraintsDao: GPKGDataColumnConstraintsDao = geoPackage.getDataColumnConstraintsDao();
+let metadataDao: GPKGMetadataDao = geoPackage.getMetadataDao();
+let metadataReferenceDao: GPKGMetadataReferenceDao = geoPackage.getMetadataReferenceDao();
+let extensionsDao: GPKGExtensionsDao = geoPackage.getExtensionsDao();
+
+// Feature and tile tables
+let features: NSArray = geoPackage.getFeatureTables();
+let tiles: NSArray = geoPackage.getTileTables();
+
+// Query Features
+let featureTable: String = features.objectAtIndex(0) as! String;
+let featureDao: GPKGFeatureDao = geoPackage.getFeatureDaoWithTableName(featureTable);
+let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
+let featureResults: GPKGResultSet = featureDao.queryForAll();
+while(featureResults.moveToNext()){
+    let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
+    let geometryData: GPKGGeometryData = featureRow.getGeometry();
+    let geometry: WKBGeometry = geometryData.geometry;
+    let shape: GPKGMapShape = converter.toShapeWithGeometry(geometry);
+    let mapShape = GPKGMapShapeConverter.addMapShape(shape, toMapView: mapView);
+    // ...
+}
+featureResults.close();
+
+// Query Tiles
+let tileTable: String = tiles.objectAtIndex(0) as! String;
+let tileDao: GPKGTileDao = geoPackage.getTileDaoWithTableName(tileTable);
+let tileResults: GPKGResultSet = tileDao.queryForAll();
+while(tileResults.moveToNext()){
+    let tileRow: GPKGTileRow = tileDao.getTileRow(tileResults);
+    let tileBytes: NSData = tileRow.getTileData();
+    let tileImage: UIImage = tileRow.getTileDataImage();
+    // ...
+}
+tileResults.close();
+
+// Tile Overlay (GeoPackage or Standard API)
+let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlayWithTileDao(tileDao);
+tileOverlay.canReplaceMapContent = false;
+mapView.addOverlay(tileOverlay);
+
+// Feature Tile Overlay (dynamically draw tiles from features)
+let featureTiles: GPKGFeatureTiles = GPKGFeatureTiles(featureDao: featureDao);
+let featureOverlay = GPKGFeatureOverlay(featureTiles: featureTiles);
+mapView.addOverlay(featureOverlay);
+
+// URL Tile Generator (generate tiles from a URL)
+let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7);
+let urlTileCount: Int32 = urlTileGenerator.generateTiles();
+
+// Feature Tile Generator (generate tiles from features)
+let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15);
+let featureTileCount: Int32 = featureTileGenerator.generateTiles();
+
+// Close database when done
+geoPackage.close();
+
+// Close manager when done
+manager.close();
+```
 
 ### Remote Dependencies ###
 
