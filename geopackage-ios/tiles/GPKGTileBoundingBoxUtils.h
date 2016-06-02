@@ -417,4 +417,31 @@
  */
 +(GPKGBoundingBox *) boundWgs84BoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox;
 
+/**
+ *  Get a rectangle using the tile width, height, bounding box, and the
+ *  bounding box section within the outer box to build the rectangle from
+ *
+ *  @param width              width
+ *  @param height             height
+ *  @param boundingBox        full bounding box
+ *  @param boundingBoxSection rectangle bounding box section
+ *
+ *  @return rectangle
+ */
++(CGRect) getRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
+
+/**
+ *  Get a rectangle with rounded point boundaries using the tile
+ *  width, height, bounding box, and the bounding box section within the
+ *  outer box to build the rectangle from
+ *
+ *  @param width              width
+ *  @param height             height
+ *  @param boundingBox        full bounding box
+ *  @param boundingBoxSection rectangle bounding box section
+ *
+ *  @return rectangle
+ */
++(CGRect) getRoundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
+
 @end

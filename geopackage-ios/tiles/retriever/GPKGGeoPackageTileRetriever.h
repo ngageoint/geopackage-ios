@@ -33,7 +33,7 @@
  *
  *  @return new instance
  */
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height;
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
 
 /**
  *  Get the web mercator bounding box

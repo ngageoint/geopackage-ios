@@ -469,4 +469,33 @@
     return bounded;
 }
 
++(CGRect) getRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
+    
+    double left = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
+    double right = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
+    double top = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
+    double bottom = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
+    
+    CGRect rect = CGRectMake(left, top, right - left, bottom - top);
+    
+    return rect;
+}
+
++(CGRect) getRoundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
+    
+    double left = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
+    double right = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
+    double top = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
+    double bottom = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
+    
+    double leftRounded = round(left);
+    double rightRounded = round(right);
+    double topRounded = round(top);
+    double bottomRounded = round(bottom);
+    
+    CGRect rect = CGRectMake(leftRounded, topRounded, rightRounded - leftRounded, bottomRounded - topRounded);
+    
+    return rect;
+}
+
 @end

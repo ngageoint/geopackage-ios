@@ -127,7 +127,7 @@
     if(![tileMatrixSetDao tableExists] || ![tileMatrixSetDao idExists:self.tableName]){
         // Create the web mercator srs if needed
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
-        [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+        [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
         // Create the tile table
         tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM] andTileMatrixSetBoundingBox:self.webMercatorBoundingBox andTileMatrixSetSrsId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
         

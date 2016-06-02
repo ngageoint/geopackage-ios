@@ -48,8 +48,8 @@
         for (int i = ((int)count)-1; i >= 0; i--) {
             GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *) [tileMatrices objectAtIndex:i];
             [GPKGUtils setObject:tileMatrix forKey:tileMatrix.zoomLevel inDictionary:tempZoomLevelToTileMatrix];
-            double width = [self.projection toMeters:([tileMatrix.pixelXSize doubleValue] * [tileMatrix.tileWidth intValue])];
-            double height = [self.projection toMeters:([tileMatrix.pixelYSize doubleValue] * [tileMatrix.tileHeight intValue])];
+            double width = [tileMatrix.pixelXSize doubleValue] * [tileMatrix.tileWidth intValue];
+            double height = [tileMatrix.pixelYSize doubleValue] * [tileMatrix.tileHeight intValue];
             [GPKGUtils addObject:[[NSDecimalNumber alloc] initWithDouble:width] toArray:tempWidths];
             [GPKGUtils addObject:[[NSDecimalNumber alloc] initWithDouble:height] toArray:tempHeights];
         }
@@ -254,6 +254,14 @@
     NSString * where = [self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoom];
     NSArray * whereArgs = [self buildWhereArgsWithValue:zoom];
     return [self countWhere:where andWhereArgs:whereArgs];
+}
+
+-(double) getMaxLength{
+    return [GPKGTileDaoUtils getMaxLengthWithWidths:self.widths andHeights:self.heights];
+}
+
+-(double) getMinLength{
+    return [GPKGTileDaoUtils getMinLengthWithWidths:self.widths andHeights:self.heights];
 }
 
 -(BOOL) isStandardWebMercatorFormat{
