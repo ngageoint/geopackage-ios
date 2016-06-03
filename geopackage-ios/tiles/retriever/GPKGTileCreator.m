@@ -45,7 +45,7 @@
         self.tileSetBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units
-        self.sameProjection = false; //TODO
+        self.sameProjection = [self.requestProjection getUnit] == [self.tilesProjection getUnit];
     }
     return self;
 }

@@ -30,4 +30,17 @@
     return value;
 }
 
+-(enum GPKGUnit) getUnit{
+    
+    enum GPKGUnit unit = GPKG_UNIT_NONE;
+    
+    if(self.isLatLong){
+        unit = GPKG_UNIT_DEGREES;
+    }else{
+        unit = GPKG_UNIT_METERS;
+    }
+    
+    return unit;
+}
+
 @end
