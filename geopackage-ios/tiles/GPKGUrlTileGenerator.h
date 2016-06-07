@@ -31,9 +31,11 @@ extern NSString * const GPKG_TG_URL_EPSG_PATTERN;
  *  @param tileUrl    tile URL
  *  @param minZoom    min zoom
  *  @param maxZoom    max zoom
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
  *
  *  @return new url tile generator
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
 
 @end

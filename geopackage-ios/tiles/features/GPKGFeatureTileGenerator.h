@@ -27,9 +27,11 @@
  *  @param featureTiles feature tiles
  *  @param minZoom      min zoom
  *  @param maxZoom      max zoom
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
  *
  *  @return new feature tile generator
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
 
 @end

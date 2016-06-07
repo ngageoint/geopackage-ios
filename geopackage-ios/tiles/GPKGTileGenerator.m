@@ -13,16 +13,9 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGImageConverter.h"
 
-@interface GPKGTileGenerator ()
-
-@property (nonatomic, strong) GPKGProjectionTransform * wgs84ToWebMercatorTransform;
-@property (nonatomic, strong) GPKGProjectionTransform * webMercatorToWgs84Transform;
-
-@end
-
 @implementation GPKGTileGenerator
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
     self = [super init];
     if(self != nil){
         [geoPackage verifyWritable];
@@ -30,16 +23,15 @@
         self.tableName = tableName;
         self.minZoom = minZoom;
         self.maxZoom = maxZoom;
+        self.boundingBox = boundingBox;
+        self.projection = projection;
         self.tileGrids = [[NSMutableDictionary alloc] init];
-        self.boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMaxLongitudeDouble:180.0 andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
         self.compressFormat = GPKG_CF_NONE;
         self.compressQuality = 1.0;
         self.compressScale = 1.0;
         self.standardWebMercatorFormat = false;
         self.matrixHeight = 0;
         self.matrixWidth = 0;
-        self.wgs84ToWebMercatorTransform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-        self.webMercatorToWgs84Transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     }
     return self;
 }
@@ -51,26 +43,6 @@
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
-}
-
--(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox{
-    self.boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
-}
-
--(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection{
-    GPKGBoundingBox * bbox = nil;
-    if(projection != nil){
-        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        bbox = [transform transformWithBoundingBox:boundingBox];
-    }else{
-        bbox = boundingBox;
-    }
-    [self setTileBoundingBox:bbox];
-}
-
--(GPKGBoundingBox *) getTileBoundingBoxWithProjection: (GPKGProjection *) projection{
-    GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
-    return [transform transformWithBoundingBox:self.boundingBox];
 }
 
 -(void) setCompressQualityAsIntPercentage: (int) percentage{
@@ -90,10 +62,22 @@
 -(int) getTileCount{
     if(self.tileCount == nil){
         int count = 0;
-        GPKGBoundingBox * requestWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils toWebMercatorWithBoundingBox:self.boundingBox];
+        GPKGBoundingBox * requestBoundingBox = nil;
+        if([self.projection getUnit] == GPKG_UNIT_DEGREES){
+            requestBoundingBox = self.boundingBox;
+        }else{
+            GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+            requestBoundingBox = [transform transformWithBoundingBox:self.boundingBox];
+        }
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
             // Get the tile grid that includes the entire bounding box
-            GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:requestWebMercatorBoundingBox andZoom:zoom];
+            GPKGTileGrid * tileGrid = nil;
+            if([self.projection getUnit] == GPKG_UNIT_DEGREES){
+                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWgs84BoundingBox:requestBoundingBox andZoom:zoom];
+            }else{
+                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:requestBoundingBox andZoom:zoom];
+            }
+
             count += [tileGrid count];
             [GPKGUtils setObject:tileGrid forKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileGrids];
         }
@@ -115,22 +99,18 @@
     int count = 0;
     BOOL update = false;
     
-    // Get the web mercator projection of the requested bounding box
-    GPKGBoundingBox * requestWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils toWebMercatorWithBoundingBox:self.boundingBox];
-    
-    // Adjust the tile matrix set and web mercator bounds
-    [self adjustBoundsWithWebMercatorBoundingBox:requestWebMercatorBoundingBox andZoom:self.minZoom];
+    // Adjust the tile matrix set and  bounds
+    [self adjustBoundsWithBoundingBox:self.boundingBox andZoom:self.minZoom];
     
     // Create a new tile matrix or update an existing
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage getTileMatrixSetDao];
     GPKGTileMatrixSet * tileMatrixSet = nil;
     if(![tileMatrixSetDao tableExists] || ![tileMatrixSetDao idExists:self.tableName]){
-        // Create the web mercator srs if needed
+        // Create the srs if needed
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
-        GPKGSpatialReferenceSystem * webMercatorSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
-        GPKGSpatialReferenceSystem * wgs84Srs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithEpsg:self.projection.epsg];
         // Create the tile table
-        tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:wgs84Srs.srsId andTileMatrixSetBoundingBox:self.webMercatorBoundingBox andTileMatrixSetSrsId:webMercatorSrs.srsId];
+        tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.tileGridBoundingBox andContentsSrsId:srs.srsId andTileMatrixSetBoundingBox:self.tileGridBoundingBox andTileMatrixSetSrsId:srs.srsId];
         
     }else{
         update = true;
@@ -161,7 +141,7 @@
             }
             // Get the local tile grid for GeoPackage format of where the tiles belong
             else{
-                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.webMercatorBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:requestWebMercatorBoundingBox];
+                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:self.boundingBox];
             }
             
             // Generate the tiles for the zoom level
@@ -201,28 +181,36 @@
     return count;
 }
 
--(void) adjustBoundsWithWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
+-(void) adjustBoundsWithBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     
     if(self.standardWebMercatorFormat){
         [self adjustStandardWebMercatorFormatBounds];
-    }
-    // GeoPackage Tile Format
-    else{
+    } else if([self.projection getUnit] == GPKG_UNIT_DEGREES){
+        [self adjustGeoPackageBoundsWithWgs84BoundingBox:boundingBox andZoom:zoom];
+    } else{
         [self adjustGeoPackageBoundsWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
     }
 }
 
 -(void) adjustStandardWebMercatorFormatBounds{
     // Set the tile matrix set bounding box to be the world
-    self.tileMatrixSetBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMaxLongitudeDouble:180.0 andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
-    self.webMercatorBoundingBox = [self.wgs84ToWebMercatorTransform transformWithBoundingBox:self.tileMatrixSetBoundingBox];
+    GPKGBoundingBox * standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMaxLongitudeDouble:180.0 andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
+    GPKGProjectionTransform * wgs84ToWebMercatorTransform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    self.tileGridBoundingBox = [wgs84ToWebMercatorTransform transformWithBoundingBox:standardWgs84Box];
 }
- 
+
+-(void) adjustGeoPackageBoundsWithWgs84BoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
+    // Get the fitting tile grid and determine the bounding box that fits it
+    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
+    self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils getWgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    self.matrixWidth = tileGrid.maxX + 1 - tileGrid.minX;
+    self.matrixHeight = tileGrid.maxY + 1 - tileGrid.minY;
+}
+
 -(void) adjustGeoPackageBoundsWithWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     // Get the fitting tile grid and determine the bounding box that fits it
     GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
-    self.webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
-    self.tileMatrixSetBoundingBox = [self.webMercatorToWgs84Transform transformWithBoundingBox:self.webMercatorBoundingBox];
+    self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     self.matrixWidth = tileGrid.maxX + 1 - tileGrid.minX;
     self.matrixHeight = tileGrid.maxY + 1 - tileGrid.minY;
 }
@@ -243,19 +231,23 @@
     }
     
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage getTileMatrixSetDao];
+    GPKGProjection * tileMatrixProjection = [tileMatrixSetDao getProjection:tileMatrixSet];
+    if([tileMatrixProjection.epsg intValue] != [self.projection.epsg intValue]){
+        [NSException raise:@"Projection Mismatch" format:@"Can not update tiles projected at %@ with tiles projected at %@", tileMatrixProjection.epsg, self.projection.epsg];
+    }
+    
     GPKGContents * contents = [tileMatrixSetDao getContents:tileMatrixSet];
     
     GPKGContentsDao * contentsDao = [self.geoPackage getContentsDao];
-    GPKGProjectionTransform * transformContentsToWgs84 = [[GPKGProjectionTransform alloc] initWithFromProjection:[contentsDao getProjection:contents] andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    // Combine the existing content and request bounding boxes
-    GPKGBoundingBox * contentsBoundingBox = [transformContentsToWgs84 transformWithBoundingBox:[contents getBoundingBox]];
-    self.boundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:self.boundingBox];
+    GPKGBoundingBox * previousContentsBoundingBox = [contents getBoundingBox];
+    GPKGProjectionTransform * transformProjectionToContents = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao getProjection:contents]];
+    GPKGBoundingBox * contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:self.boundingBox];
+    contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
     
     // Update the contents if modified
-    if(![contentsBoundingBox equals:self.boundingBox]){
-        GPKGProjectionTransform * transformContentsToProjection = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:[contentsDao getProjection:contents]];
-        [contents setBoundingBox:[transformContentsToProjection transformWithBoundingBox:self.boundingBox]];
+    if(![contentsBoundingBox equals:previousContentsBoundingBox]){
+        [contents setBoundingBox:contentsBoundingBox];
         [contentsDao update:contents];
     }
     
@@ -263,26 +255,22 @@
     // rows needs to be adjusted
     if(!self.standardWebMercatorFormat){
         
-        GPKGProjectionTransform * transformTileMatrixSetToWgs84 = [[GPKGProjectionTransform alloc] initWithFromProjection:[tileMatrixSetDao getProjection:tileMatrixSet] andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        GPKGBoundingBox * previousTileMatrixSetBoundingBox = [transformTileMatrixSetToWgs84 transformWithBoundingBox:[tileMatrixSet getBoundingBox]];
+        GPKGBoundingBox * previousTileMatrixSetBoundingBox = [tileMatrixSet getBoundingBox];
         
         // Adjust the bounds to include the request and existing bounds
-        GPKGBoundingBox * totalBoundingBox = [GPKGTileBoundingBoxUtils toWebMercatorWithBoundingBox:self.boundingBox];
+        GPKGProjectionTransform * transformProjectionToTileMatrixSet = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:tileMatrixProjection];
+        GPKGBoundingBox * updateBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:self.boundingBox];
         int minNewOrUpdateZoom = MIN(self.minZoom, tileDao.minZoom);
-        [self adjustGeoPackageBoundsWithWebMercatorBoundingBox:totalBoundingBox andZoom:minNewOrUpdateZoom];
+        [self adjustBoundsWithBoundingBox:updateBoundingBox andZoom:minNewOrUpdateZoom];
         
         // Update the tile matrix set if modified
-        if(![previousTileMatrixSetBoundingBox equals:self.tileMatrixSetBoundingBox]){
-            GPKGProjectionTransform * transformTileMatrixSetToProjection = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:[tileMatrixSetDao getProjection:tileMatrixSet]];
-            [tileMatrixSet setBoundingBox:[transformTileMatrixSetToProjection transformWithBoundingBox:self.tileMatrixSetBoundingBox]];
+        GPKGBoundingBox * updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:self.tileGridBoundingBox];
+        if(![previousTileMatrixSetBoundingBox equals:updateTileGridBoundingBox]){
+            updateTileGridBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:updateTileGridBoundingBox andBoundingBox:previousTileMatrixSetBoundingBox];
+            [tileMatrixSet setBoundingBox:updateTileGridBoundingBox];
             [tileMatrixSetDao update:tileMatrixSet];
+            [self adjustBoundsWithBoundingBox:updateTileGridBoundingBox andZoom:minNewOrUpdateZoom];
         }
-        
-        // Get the previous bounding box and new bounding box in web
-        // mercator
-        GPKGProjectionTransform * transformWgs84ToWebMercator = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-        GPKGBoundingBox * previousTileMatrixSetWebMercatorBoundingBox = [transformWgs84ToWebMercator transformWithBoundingBox:previousTileMatrixSetBoundingBox];
-        GPKGBoundingBox * tileMatrixSetWebMercatorBoundingBox = [transformWgs84ToWebMercator transformWithBoundingBox:self.tileMatrixSetBoundingBox];
         
         GPKGTileMatrixDao * tileMatrixDao = [self.geoPackage getTileMatrixDao];
         
@@ -307,7 +295,7 @@
                         GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
                         
                         // Get the bounding box of the existing tile
-                        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:previousTileMatrixSetWebMercatorBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+                        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:previousTileMatrixSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
                         
                         // Get the mid lat and lon to find the new tile row
                         // and column
@@ -318,8 +306,8 @@
                         
                         // Get the new tile row and column with regards to
                         // the new bounding box
-                        int newTileRow = [GPKGTileBoundingBoxUtils getTileRowWithTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixHeight:zoomMatrixHeight andLatitude:midLatitude];
-                        int newTileColumn = [GPKGTileBoundingBoxUtils getTileColumnWithTotalBoundingBox:tileMatrixSetWebMercatorBoundingBox andMatrixWidth:zoomMatrixWidth andLongitude:midLongitude];
+                        int newTileRow = [GPKGTileBoundingBoxUtils getTileRowWithTotalBoundingBox:self.tileGridBoundingBox andMatrixHeight:zoomMatrixHeight andLatitude:midLatitude];
+                        int newTileColumn = [GPKGTileBoundingBoxUtils getTileColumnWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:zoomMatrixWidth andLongitude:midLongitude];
                         
                         // Update the tile row
                         [tileRow setTileRow:newTileRow];
@@ -332,9 +320,9 @@
                 }
                 
                 // Calculate the pixel size
-                double pixelXSize = ([self.webMercatorBoundingBox.maxLongitude doubleValue] - [self.webMercatorBoundingBox.minLongitude doubleValue])
+                double pixelXSize = ([self.tileGridBoundingBox.maxLongitude doubleValue] - [self.tileGridBoundingBox.minLongitude doubleValue])
                     / zoomMatrixWidth / [tileMatrix.tileWidth intValue];
-                double pixelYSize = ([self.webMercatorBoundingBox.maxLatitude doubleValue] - [self.webMercatorBoundingBox.minLatitude doubleValue])
+                double pixelYSize = ([self.tileGridBoundingBox.maxLatitude doubleValue] - [self.tileGridBoundingBox.minLatitude doubleValue])
                     / zoomMatrixHeight / [tileMatrix.tileHeight intValue];
                 
                 // Update the tile matrix
@@ -500,8 +488,8 @@
         if (create) {
             
             // Calculate meters per pixel
-            double pixelXSize = ([self.webMercatorBoundingBox.maxLongitude doubleValue] - [self.webMercatorBoundingBox.minLongitude doubleValue]) / matrixWidth / [tileWidth intValue];
-            double pixelYSize = ([self.webMercatorBoundingBox.maxLatitude doubleValue] - [self.webMercatorBoundingBox.minLatitude doubleValue]) / matrixHeight / [tileHeight intValue];
+            double pixelXSize = ([self.tileGridBoundingBox.maxLongitude doubleValue] - [self.tileGridBoundingBox.minLongitude doubleValue]) / matrixWidth / [tileWidth intValue];
+            double pixelYSize = ([self.tileGridBoundingBox.maxLatitude doubleValue] - [self.tileGridBoundingBox.minLatitude doubleValue]) / matrixHeight / [tileHeight intValue];
             
             // Create the tile matrix for this zoom level
             GPKGTileMatrix * tileMatrix = [[GPKGTileMatrix alloc] init];

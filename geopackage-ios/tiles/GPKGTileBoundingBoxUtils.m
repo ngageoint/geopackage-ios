@@ -498,4 +498,73 @@
     return rect;
 }
 
++(GPKGTileGrid *) getTileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom{
+    
+    int tilesPerLat = [self tilesPerWgs84LatSideWithZoom:zoom];
+    int tilesPerLon = [self tilesPerWgs84LonSideWithZoom:zoom];
+    
+    double tileSizeLat = [self tileSizeLatWithWgs84TilesPerSide:tilesPerLat];
+    double tileSizeLon = [self tileSizeLonWithWgs84TilesPerSide:tilesPerLon];
+    
+    int minX = (int) (([wgs84BoundingBox.minLongitude doubleValue] + PROJ_WGS84_HALF_WORLD_LON_WIDTH) / tileSizeLon);
+    double tempMaxX = ([wgs84BoundingBox.maxLongitude doubleValue] + PROJ_WGS84_HALF_WORLD_LON_WIDTH) / tileSizeLon;
+    int maxX = (int) tempMaxX;
+    if(fmod(tempMaxX, 1) == 0) {
+        maxX--;
+    }
+    maxX = MIN(maxX, tilesPerLon - 1);
+    
+    int minY = (int) ((([wgs84BoundingBox.maxLatitude doubleValue] - PROJ_WGS84_HALF_WORLD_LAT_HEIGHT) * -1) / tileSizeLat);
+    double tempMaxY = (([wgs84BoundingBox.minLatitude doubleValue] - PROJ_WGS84_HALF_WORLD_LAT_HEIGHT) * -1) / tileSizeLat;
+    int maxY = (int) tempMaxY;
+    if(fmod(tempMaxY, 1) == 0) {
+        maxY--;
+    }
+    maxY = MIN(maxY, tilesPerLat - 1);
+    
+    GPKGTileGrid * grid = [[GPKGTileGrid alloc] initWithMinX:minX andMaxX:maxX andMinY:minY andMaxY:maxY];
+    
+    return grid;
+}
+
++(GPKGBoundingBox *) getWgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    
+    int tilesPerLat = [self tilesPerWgs84LatSideWithZoom:zoom];
+    int tilesPerLon = [self tilesPerWgs84LonSideWithZoom:zoom];
+    
+    double tileSizeLat = [self tileSizeLatWithWgs84TilesPerSide:tilesPerLat];
+    double tileSizeLon = [self tileSizeLonWithWgs84TilesPerSide:tilesPerLon];
+    
+    double minLon = (-1 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)
+				+ (tileGrid.minX * tileSizeLon);
+    double maxLon = (-1 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)
+				+ ((tileGrid.maxX + 1) * tileSizeLon);
+    double minLat = PROJ_WGS84_HALF_WORLD_LAT_HEIGHT
+				- ((tileGrid.maxY + 1) * tileSizeLat);
+    double maxLat = PROJ_WGS84_HALF_WORLD_LAT_HEIGHT
+				- (tileGrid.minY * tileSizeLat);
+    
+    GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMaxLongitudeDouble:maxLon andMinLatitudeDouble:minLat andMaxLatitudeDouble:maxLat];
+    
+    return box;
+}
+
++(int) tilesPerWgs84LatSideWithZoom: (int) zoom{
+    return [self tilesPerSideWithZoom:zoom];
+}
+
++(int) tilesPerWgs84LonSideWithZoom: (int) zoom{
+    return 2 * [self tilesPerSideWithZoom:zoom];
+}
+
++(double) tileSizeLatWithWgs84TilesPerSide: (int) tilesPerLat{
+    return (2 * PROJ_WGS84_HALF_WORLD_LAT_HEIGHT)
+				/ tilesPerLat;
+}
+
++(double) tileSizeLonWithWgs84TilesPerSide: (int) tilesPerLon{
+    return (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)
+				/ tilesPerLon;
+}
+
 @end

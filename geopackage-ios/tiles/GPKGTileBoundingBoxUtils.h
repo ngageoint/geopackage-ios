@@ -444,4 +444,60 @@
  */
 +(CGRect) getRoundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
 
+/**
+ *  Get the tile grid that includes the entire tile bounding box
+ *
+ *  @param wgs84BoundingBox    wgs84 bounding box
+ *  @param zoom                zoom level
+ *
+ *  @return tile grid
+ */
++(GPKGTileGrid *) getTileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 tile bounding box from the tile grid and zoom level
+ *
+ *  @param tileGrid tile grid
+ *  @param zoom     zoom
+ *
+ *  @return wgs84 bounding box
+ */
++(GPKGBoundingBox *) getWgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
+ *  Get the tiles per latitude side at the zoom level
+ *
+ *  @param zoom zoom level
+ *
+ *  @return tiles per latitude side
+ */
++(int) tilesPerWgs84LatSideWithZoom: (int) zoom;
+
+/**
+ *  Get the tiles per longitude side at the zoom level
+ *
+ *  @param zoom zoom level
+ *
+ *  @return tiles per longitude side
+ */
++(int) tilesPerWgs84LonSideWithZoom: (int) zoom;
+
+/**
+ *  Get the tile height in degrees latitude
+ *
+ *  @param tilesPerLat tiles per latitude side
+ *
+ *  @return degrees
+ */
++(double) tileSizeLatWithWgs84TilesPerSide: (int) tilesPerLat;
+
+/**
+ *  Get the tile height in degrees longitude
+ *
+ *  @param tilesPerLon tiles per longitude side
+ *
+ *  @return degrees
+ */
++(double) tileSizeLonWithWgs84TilesPerSide: (int) tilesPerLon;
+
 @end

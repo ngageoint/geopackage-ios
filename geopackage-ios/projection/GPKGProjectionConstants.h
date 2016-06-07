@@ -20,6 +20,8 @@ extern double const PROJ_WEB_MERCATOR_MAX_LAT_RANGE;
 extern double const PROJ_WEB_MERCATOR_MIN_LAT_RANGE;
 extern double const PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH;
 extern double const PROJ_MERCATOR_RADIUS;
+extern double const PROJ_WGS84_HALF_WORLD_LON_WIDTH;
+extern double const PROJ_WGS84_HALF_WORLD_LAT_HEIGHT;
 
 @interface GPKGProjectionConstants : NSObject
 
