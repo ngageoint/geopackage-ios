@@ -36,6 +36,10 @@ static NSMutableDictionary * projections;
             parameters = [GPKGProjectionRetriever getProjectionWithNumber:epsg];
         }
         
+        if(parameters == nil){
+            [NSException raise:@"Invalid Projection" format:@"Could not find projection for EPSG: %@", epsg];
+        }
+        
         projPJ crs = pj_init_plus([parameters UTF8String]);
         if(crs == nil){
             [NSException raise:@"Projection Creation Failed" format:@"Failed to create projection for EPSG %@ with parameters: '%@'. Error: %d", epsg, parameters, pj_errno];
