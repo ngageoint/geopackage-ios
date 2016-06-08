@@ -6,7 +6,18 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.2.0 (TBD)
 
-* TBD
+* Spatial Reference System DAO create from EPSG code in addition to SRS id
+* Projection unit retrieval
+* Dropped web mercator terminology from method names that only require consistent units per pixel
+* Zoom level from tile size in meters method
+* Image rectangle from bounding box methods
+* WGS84 tile grid, bounding box, tiles per side, and tile size methods
+* Tile Generator support for multiple projections, such as WGS84 in addition to Web Mercator
+* Improved tile drawing on bounds for tiles not lining up with requests
+* Tile Creator providing common tile generation functionality
+* Tile reprojections between different unit types (ex. WGS84 GeoPackage tiles)
+* Tile DAO changed to work with any projection units
+* Tile DAO utility methods
 
 ## [1.1.11](https://github.com/ngageoint/geopackage-ios/releases/tag/1.1.11) (05-10-2016)
 
