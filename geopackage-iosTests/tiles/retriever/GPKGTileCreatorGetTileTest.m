@@ -13,6 +13,8 @@
 #import "GPKGProjectionFactory.h"
 #import "GPKGTileCreator.h"
 #import "GPKGBoundingBox.h"
+#import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGImageConverter.h"
 
 @implementation GPKGTileCreatorGetTileTest
 
@@ -39,8 +41,75 @@
     GPKGTileCreator * tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:wgs84];
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
+    boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
+    [GPKGTestUtils assertFalse:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
-    // TODO
+    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMaxLongitudeDouble:0.0 andMinLatitudeDouble:0.0 andMaxLatitudeDouble:90.0];
+    boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
+    [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
+    
+    GPKGGeoPackageTile * tile = [tileCreator getTileWithBoundingBox:boundingBox];
+    
+    [GPKGTestUtils assertNotNil:tile];
+    [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];
+    [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:tile.height];
+    
+    NSData * tileData = tile.data;
+    [GPKGTestUtils assertNotNil:tileData];
+    UIImage * image = [GPKGImageConverter toImage:tileData];
+    
+    [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:image.size.width];
+    [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:image.size.height];
+    [self validateImage:image];
+    
+    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMaxLongitudeDouble:0.0 andMinLatitudeDouble:0.0 andMaxLatitudeDouble:45.0];
+    [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
+    
+    tile = [tileCreator getTileWithBoundingBox:boundingBox];
+    
+    [GPKGTestUtils assertNotNil:tile];
+    [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];
+    [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:tile.height];
+    
+    tileData = tile.data;
+    [GPKGTestUtils assertNotNil:tileData];
+    image = [GPKGImageConverter toImage:tileData];
+    
+    [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:image.size.width];
+    [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:image.size.height];
+    [self validateImage:image];
+
+}
+
+-(void) validateImage: (UIImage *) image{
+    
+    int width = (int) image.size.width;
+    int height = (int) image.size.height;
+    
+    CGImageRef tileImageRef = [image CGImage];
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char *pixels = (unsigned char*) calloc(height * width * 4, sizeof(unsigned char));
+    CGContextRef context = CGBitmapContextCreate(pixels, width, height,
+                                                 8, 4 * width, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), tileImageRef);
+    CGContextRelease(context);
+    
+    for (int x = 0; x < image.size.width; x++) {
+        for (int y = 0; y < image.size.height; y++) {
+            
+            int red = pixels[((y * width) + x) * 4];
+            int green = pixels[(((y * width) + x) * 4) + 1];
+            int blue = pixels[(((y * width) + x) * 4) + 2];
+            int alpha = pixels[(((y * width) + x) * 4) + 3];
+            
+            [GPKGTestUtils assertTrue:red > 0];
+            [GPKGTestUtils assertTrue:green > 0];
+            [GPKGTestUtils assertTrue:blue > 0];
+            [GPKGTestUtils assertTrue:alpha > 0];
+        }
+    }
 }
 
 @end
