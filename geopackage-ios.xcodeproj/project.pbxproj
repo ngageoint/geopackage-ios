@@ -345,6 +345,8 @@
 		04DD10A91BDEBFDC00CC59A0 /* GPKGDbConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10A71BDEBFDC00CC59A0 /* GPKGDbConnection.h */; };
 		04DD10AA1BDEBFDC00CC59A0 /* GPKGDbConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10A81BDEBFDC00CC59A0 /* GPKGDbConnection.m */; };
 		04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */; };
+		04FEE5761D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */; };
+		04FEE5791D131380004B8113 /* GPKGFeatureTilesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */; };
 		6903C385D41142932E5D29BE /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */; };
 		B16EA3BC364185079F6FC3EA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA26FA59BD87DC4A9A30A36 /* libPods.a */; };
 		F7882C471BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7882C461BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m */; };
@@ -738,6 +740,10 @@
 		04DD10A81BDEBFDC00CC59A0 /* GPKGDbConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDbConnection.m; sourceTree = "<group>"; };
 		04DD10AE1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnectionPoolTestCase.h; sourceTree = "<group>"; };
 		04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionPoolTestCase.m; sourceTree = "<group>"; };
+		04FEE5741D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTileGeneratorTest.h; sourceTree = "<group>"; };
+		04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTileGeneratorTest.m; sourceTree = "<group>"; };
+		04FEE5771D131380004B8113 /* GPKGFeatureTilesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTilesTest.h; sourceTree = "<group>"; };
+		04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTilesTest.m; sourceTree = "<group>"; };
 		311A6D7DA91DB9C729B57458 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-geopackage-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA26FA59BD87DC4A9A30A36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1393,6 +1399,10 @@
 			children = (
 				042FC8E51B964DA200549A4B /* GPKGFeatureTileUtils.h */,
 				042FC8E61B964DA200549A4B /* GPKGFeatureTileUtils.m */,
+				04FEE5741D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.h */,
+				04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */,
+				04FEE5771D131380004B8113 /* GPKGFeatureTilesTest.h */,
+				04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */,
 			);
 			path = features;
 			sourceTree = "<group>";
@@ -2133,6 +2143,7 @@
 				042FC8ED1B964DA200549A4B /* GPKGCreateGeoPackageTestCase.m in Sources */,
 				0447FA351CDBFC1000418104 /* GPKGFeatureTileTableLinkerUtils.m in Sources */,
 				042FC8F21B964DA200549A4B /* GPKGTestUtils.m in Sources */,
+				04FEE5761D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m in Sources */,
 				0447FA251CDBFA6200418104 /* GPKGGeometryExtensionsTest.m in Sources */,
 				0447FA281CDBFAC400418104 /* GPKGWebPExtensionTest.m in Sources */,
 				04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */,
@@ -2150,6 +2161,7 @@
 				048EC1761BD54FD4008426A7 /* GPKGFeatureTableIndexCreateTest.m in Sources */,
 				048EC1711BD54C6D008426A7 /* GPKGTestGeoPackageProgress.m in Sources */,
 				042FC8EA1B964DA200549A4B /* GPKGGeoPackageGeometryDataImportTest.m in Sources */,
+				04FEE5791D131380004B8113 /* GPKGFeatureTilesTest.m in Sources */,
 				042FC8F61B964DA200549A4B /* GPKGFeatureTileUtils.m in Sources */,
 				045BCA041BFA8FA50080B967 /* GPKGGeoPackageTestUtils.m in Sources */,
 				0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */,

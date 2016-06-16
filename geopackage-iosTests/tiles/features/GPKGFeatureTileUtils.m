@@ -9,6 +9,7 @@
 #import "GPKGFeatureTileUtils.h"
 #import "GPKGProjectionConstants.h"
 #import "WKBPolygon.h"
+#import "GPKGFeatureTiles.h"
 
 @implementation GPKGFeatureTileUtils
 
@@ -71,6 +72,21 @@
     [self insertFourPolygonsWithFeatureDao:featureDao andLines:lines];
     
     return count;
+}
+
++(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
+    
+    GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+    
+    [featureTiles setPointColor:[UIColor yellowColor]];
+    [featureTiles setLineColor:[UIColor greenColor]];
+    [featureTiles setPolygonColor:[UIColor redColor]];
+    [featureTiles setFillPolygon:[UIColor redColor]];
+    [featureTiles setPolygonFillColor:[UIColor redColor]];
+    
+    [featureTiles calculateDrawOverlap];
+    
+    return featureTiles;
 }
 
 +(void) insertFourPointsWithFeatureDao: (GPKGFeatureDao *) featureDao andX: (double) x andY: (double) y{
