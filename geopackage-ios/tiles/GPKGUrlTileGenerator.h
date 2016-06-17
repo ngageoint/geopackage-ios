@@ -9,11 +9,6 @@
 #import "GPKGTileGenerator.h"
 
 /**
- *  URL EPSG pattern for finding the EPSG code in a url
- */
-extern NSString * const GPKG_TG_URL_EPSG_PATTERN;
-
-/**
  *  Creates a set of tiles within a GeoPackage by downloading the tiles from a URL
  */
 @interface GPKGUrlTileGenerator : GPKGTileGenerator

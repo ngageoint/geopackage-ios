@@ -13,6 +13,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Image rectangle from bounding box methods
 * WGS84 tile grid, bounding box, tiles per side, and tile size methods
 * Tile Generator support for multiple projections, such as WGS84 in addition to Web Mercator
+* URL Tile Generator changed to use provided projection in place of parsing URL
 * Improved tile drawing on bounds for tiles not lining up with requests
 * Tile Creator providing common tile generation functionality
 * Tile reprojections between different unit types (ex. WGS84 GeoPackage tiles)
