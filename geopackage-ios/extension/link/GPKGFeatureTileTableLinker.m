@@ -194,8 +194,10 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     
     NSArray<NSString *> * tileTables = [self getTileTablesForFeatureTable:featureTable];
     for(NSString * tileTable in tileTables){
-        GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
-        [tileDaos addObject:tileDao];
+        if ([self.geoPackage isTileTable:tileTable]) {
+            GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
+            [tileDaos addObject:tileDao];
+        }
     }
     
     return tileDaos;
@@ -207,8 +209,10 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     
     NSArray<NSString *> * featureTables = [self getFeatureTablesForTileTable:tileTable];
     for(NSString * featureTable in featureTables){
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
-        [featureDaos addObject:featureDao];
+        if ([self.geoPackage isFeatureTable:featureTable]) {
+            GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+            [featureDaos addObject:featureDao];
+        }
     }
     
     return featureDaos;
