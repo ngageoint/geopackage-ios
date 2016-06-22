@@ -28,10 +28,12 @@
 
 -(void) preTileGeneration{
     
-    // Link the feature and tile table
-    if (self.linkTables) {
+    // Link the feature and tile table if they are in the same GeoPackage
+    NSString * featureTable = [self.featureTiles getFeatureDao].tableName;
+    NSString * tileTable = self.tableName;
+    if (self.linkTables && [self.geoPackage isFeatureTable:featureTable] && [self.geoPackage isTileTable:tileTable]) {
         GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:self.geoPackage];
-        [linker linkWithFeatureTable:[self.featureTiles getFeatureDao].tableName andTileTable:self.tableName];
+        [linker linkWithFeatureTable:featureTable andTileTable:tileTable];
     }
     
 }
