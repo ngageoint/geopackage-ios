@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "proj_api.h"
+#import "GPKGUnits.h"
 
 /**
  *  Single EPSG Projection
@@ -53,5 +54,12 @@
  *  @return meters
  */
 -(double) toMeters: (double) value;
+
+/**
+ *  Get the projection unit
+ *
+ *  @return unit
+ */
+-(enum GPKGUnit) getUnit;
 
 @end

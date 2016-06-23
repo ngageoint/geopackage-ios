@@ -51,11 +51,11 @@
     
     // Find the closest width or verify it isn't too small or large
     if (widthIndex == 0) {
-        if (length < [(NSDecimalNumber *)[widths objectAtIndex:widthIndex] doubleValue] * .51) {
+        if (length < [self getMinLength:widths]) {
             widthIndex = -1;
         }
     } else if (widthIndex == [widths count]) {
-        if (length >= [(NSDecimalNumber *)[widths objectAtIndex:widthIndex-1] doubleValue] / .51) {
+        if (length >= [self getMaxLength:widths]) {
             widthIndex = -1;
         } else {
             widthIndex = widthIndex - 1;
@@ -67,11 +67,11 @@
     
     // Find the closest height or verify it isn't too small or large
     if (heightIndex == 0) {
-        if (length < [(NSDecimalNumber *)[heights objectAtIndex:heightIndex] doubleValue] * .51) {
+        if (length < [self getMinLength:heights]) {
             heightIndex = -1;
         }
     } else if (heightIndex == [heights count]) {
-        if (length >= [(NSDecimalNumber *)[heights objectAtIndex:heightIndex-1] doubleValue] / .51) {
+        if (length >= [self getMaxLength:heights]) {
             heightIndex = -1;
         } else {
             heightIndex = heightIndex - 1;
@@ -95,6 +95,42 @@
     }
     
     return zoomLevel;
+}
+
++(double) getMaxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
+    double maxWidth = [self getMaxLength:widths];
+    double maxHeight = [self getMaxLength:heights];
+    double maxLength = MIN(maxWidth, maxHeight);
+    return maxLength;
+}
+
++(double) getMinLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
+    double minWidth = [self getMinLength:widths];
+    double minHeight = [self getMinLength:heights];
+    double minLength = MAX(minWidth, minHeight);
+    return minLength;
+}
+
+/**
+ *  Get the max length distance value from the sorted array of lengths
+ *
+ *  @param lengths sorted tile matrix lengths
+ *
+ *  @return max length
+ */
++(double) getMaxLength: (NSArray *) lengths{
+    return [(NSDecimalNumber *)lengths[lengths.count - 1] doubleValue] / .51;
+}
+
+/**
+ *  Get the min length distance value from the sorted array of lengths
+ *
+ *  @param lengths sorted tile matrix lengths
+ *
+ *  @return min length
+ */
++(double) getMinLength: (NSArray *) lengths{
+    return [(NSDecimalNumber *)lengths[0] doubleValue] * .51;
 }
 
 @end

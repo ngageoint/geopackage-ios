@@ -37,6 +37,11 @@
 @property (nonatomic) int maxZoom;
 
 /**
+ *  Tiles projection
+ */
+@property (nonatomic, strong) GPKGProjection * projection;
+
+/**
  *  Total tile count
  */
 @property (nonatomic, strong) NSNumber * tileCount;
@@ -50,11 +55,6 @@
  *  Tile bounding box
  */
 @property (nonatomic, strong) GPKGBoundingBox * boundingBox;
-
-/**
- *  Tile matrix set bounding box
- */
-@property (nonatomic, strong) GPKGBoundingBox * tileMatrixSetBoundingBox;
 
 /**
  *  Compress format
@@ -84,9 +84,9 @@
 @property (nonatomic) CGFloat compressScale;
 
 /**
- *  Web mercator bounding box
+ *  Tile grid bounding box
  */
-@property (nonatomic, strong) GPKGBoundingBox * webMercatorBoundingBox;
+@property (nonatomic, strong) GPKGBoundingBox * tileGridBoundingBox;
 
 /**
  *  Matrix height when GeoPackage tile format
@@ -105,34 +105,12 @@
  *  @param tableName  table name
  *  @param minZoom    min zoom
  *  @param maxZoom    max zoom
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
  *
  *  @return new tile generator
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
-
-/**
- *  Set the tile bounding box
- *
- *  @param boundingBox bounding box
- */
--(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox;
-
-/**
- *  Set the tile bounding box specified in the provided projection
- *
- *  @param boundingBox bounding box
- *  @param projection bounding box projection
- */
--(void) setTileBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection;
-
-/**
- *  Get the tile bounding box in specified projection
- *
- *  @param projection returned bounding box projection
- *
- *  @return bounding in projection
- */
--(GPKGBoundingBox *) getTileBoundingBoxWithProjection: (GPKGProjection *) projection;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
 
 /**
  *  Set the compress quality as an integer percentage, 0 to 100

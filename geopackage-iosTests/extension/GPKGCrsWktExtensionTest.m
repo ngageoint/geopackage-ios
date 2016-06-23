@@ -91,7 +91,7 @@
     [GPKGTestUtils assertEqualWithValue:newSrs.definition_12_163 andValue2:@"undefined"];
     
     // Test the get or create auto set
-    wgs84Srs = [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    wgs84Srs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTestUtils assertNotNil:wgs84Srs];
     [GPKGTestUtils assertNotNil:wgs84Srs.definition_12_163];
     [GPKGTestUtils assertEqualWithValue:wgs84Srs.definition_12_163 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_163]];
@@ -106,11 +106,11 @@
     [GPKGTestUtils assertEqualWithValue:undefinedGeographicSrs.definition_12_163 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_163]];
     
     // Create the web mercator srs and test
-    GPKGSpatialReferenceSystem * webMercator = [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem * webMercator = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     [GPKGTestUtils assertNotNil:webMercator.definition_12_163];
     
     // Read the web mercator srs and test
-    GPKGSpatialReferenceSystem * webMercator2 = [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem * webMercator2 = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     [GPKGTestUtils assertNotNil:webMercator2.definition_12_163];
     [GPKGTestUtils assertEqualWithValue:webMercator.definition_12_163 andValue2:webMercator2.definition_12_163];
     

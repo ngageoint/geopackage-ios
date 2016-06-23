@@ -83,7 +83,7 @@
                     [GPKGTestUtils assertEqualIntWithValue:(tileGrid.minY + 1) andValue2:updatedTileGrid.minY];
                     [GPKGTestUtils assertEqualIntWithValue:(tileGrid.maxY - 1) andValue2:updatedTileGrid.maxY];
                     
-                    GPKGBoundingBox * tileGridBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithWebMercatorTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
+                    GPKGBoundingBox * tileGridBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
                     [GPKGTestUtils assertTrue:[tileGridBoundingBox equals:updatedBoundingBox]];
                 }
             }

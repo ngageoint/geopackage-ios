@@ -44,12 +44,12 @@
 @property (nonatomic) int maxZoom;
 
 /**
- *  Array of widths of the tiles at each zoom level in meters
+ *  Array of widths of the tiles at each zoom level in default units
  */
 @property (nonatomic, strong) NSArray * widths;
 
 /**
- *  Array of heights of the tiles at each zoom level in meters
+ *  Array of heights of the tiles at each zoom level in default units
  */
 @property (nonatomic, strong) NSArray * heights;
 
@@ -184,7 +184,7 @@
 /**
  *  Get the zoom level for the provided width and height in the default units
  *
- *  @param length length in meters
+ *  @param length length in default units
  *
  *  @return zoom level
  */
@@ -228,6 +228,20 @@
  *  @return count
  */
 -(int) countWithZoomLevel: (int) zoomLevel;
+
+/**
+ *  Get the max length in default units that contains tiles
+ *
+ *  @return max distance length with tiles
+ */
+-(double) getMaxLength;
+
+/**
+ *  Get the min length in default units that contains tiles
+ *
+ *  @return min distance length with tiles
+ */
+-(double) getMinLength;
 
 /**
  *  Determine if the tiles are in the standard web mercator coordinate tile format

@@ -13,45 +13,25 @@
 #import "GPKGIOUtils.h"
 #import "GPKGProjectionFactory.h"
 
-NSString * const GPKG_TG_URL_EPSG_PATTERN = @"EPSG:(\\d+)";
-
 @interface GPKGUrlTileGenerator ()
 
 @property (nonatomic, strong) NSString *tileUrl;
 @property (nonatomic) BOOL urlHasXYZ;
 @property (nonatomic) BOOL urlHasBoundingBox;
-@property (nonatomic, strong) GPKGProjection *urlProjection;
 
 @end
 
 @implementation GPKGUrlTileGenerator
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom{
-    self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom];
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:projection];
     if(self != nil){
         
         self.tileUrl = [GPKGIOUtils decodeUrl:tileUrl];
         
         self.urlHasXYZ = [self hasXYZ:tileUrl];
         self.urlHasBoundingBox = [self hasBoundingBox:tileUrl];
-        if(self.urlHasBoundingBox){
-            NSError  *error = nil;
-            NSRegularExpression *regExp = [NSRegularExpression regularExpressionWithPattern:GPKG_TG_URL_EPSG_PATTERN options:NSRegularExpressionCaseInsensitive error:&error];
-            if(error){
-                [NSException raise:@"EPSG Regular Expression" format:@"Failed to create EPSG regular epxression with error: %@", error];
-            }
-            NSArray * matches = [regExp matchesInString:self.tileUrl options:0 range:NSMakeRange(0, [self.tileUrl length])];
-            if([matches count] > 0){
-                NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
-                if([match numberOfRanges] > 0){
-                    NSRange epsgGroup = [match rangeAtIndex:1];
-                    NSString * epsgString = [self.tileUrl substringWithRange:epsgGroup];
-                    int epsg = [epsgString intValue];
-                    self.urlProjection = [GPKGProjectionFactory getProjectionWithInt:epsg];
-                }
-            }
-        }
-        
+
         if(!self.urlHasXYZ && !self.urlHasBoundingBox){
             [NSException raise:@"Invalid URL" format:@"URL does not contain x,y,z or bounding box variables: %@", tileUrl];
         }
@@ -91,7 +71,7 @@ NSString * const GPKG_TG_URL_EPSG_PATTERN = @"EPSG:(\\d+)";
 
 -(NSString *) replaceBoundingBoxWithUrl: (NSString *) url andZ: (int) z andX: (int) x andY: (int) y{
     
-    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getProjectedBoundingBoxWithProjection:self.urlProjection andX:x andY:y andZoom:z];
+    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getProjectedBoundingBoxWithProjection:self.projection andX:x andY:y andZoom:z];
     
     url = [self replaceBoundingBoxWithUrl:url andBoundingBox:boundingBox];
     
