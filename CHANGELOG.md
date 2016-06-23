@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.2.1 (TBD)
+
+* TBD
+
 ## [1.2.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.0) (06-23-2016)
 
 * Spatial Reference System DAO create from EPSG code in addition to SRS id
