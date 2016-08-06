@@ -57,7 +57,9 @@
 
 -(void) close{
     [GPKGSqlUtils closeStatement:self.statement];
+    self.statement = nil;
     [self.connection releaseConnection];
+    self.connection = nil;
 }
 
 -(NSArray *) getRow{
