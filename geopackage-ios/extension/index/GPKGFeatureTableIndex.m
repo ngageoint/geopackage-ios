@@ -267,9 +267,29 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     // Create the geometry index table if needed as well
     if(![self.geometryIndexDao tableExists]){
         created = [self.geoPackage createGeometryIndexTable];
+        [self createOrIgnoreIndexes];
     }
     
     return created;
+}
+
+-(void) createOrIgnoreIndexForColumnName:(NSString *)columnName {
+    [self.geometryIndexDao.database exec:[NSString stringWithFormat:@"CREATE INDEX IF NOT EXISTS idx_%@_%@ ON %@ ( %@ );", GPKG_GI_TABLE_NAME, columnName, GPKG_GI_TABLE_NAME, columnName]];
+    
+}
+
+-(void) createOrIgnoreIndexes {
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MIN_X];
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MAX_X];
+
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MIN_Y];
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MAX_Y];
+
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MIN_Z];
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MAX_Z];
+
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MIN_M];
+    [self createOrIgnoreIndexForColumnName:GPKG_GI_COLUMN_MAX_M];
 }
 
 -(GPKGExtensions *) getOrCreateExtension{
