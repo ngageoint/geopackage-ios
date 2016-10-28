@@ -444,10 +444,9 @@
 }
 
 +(void) closeStatement: (sqlite3_stmt *) statement{
-//    if(sqlite3_stmt_busy(statement)){
-        if (statement != NULL)
-            sqlite3_finalize(statement);
-//    }
+    if (statement != NULL){
+        sqlite3_finalize(statement);
+    }
 }
 
 +(void) closeResultSet: (GPKGResultSet *) resultSet{
