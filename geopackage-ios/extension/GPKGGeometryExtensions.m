@@ -29,7 +29,7 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
 -(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum WKBGeometryType) geometryType{
     
     NSString * extensionName = [GPKGGeometryExtensions getExtensionName:geometryType];
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDescription:self.geometryTypesDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDefinition:self.geometryTypesDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
@@ -37,23 +37,6 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
 -(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum WKBGeometryType) geometryType{
     
     NSString * extensionName = [GPKGGeometryExtensions getExtensionName:geometryType];
-    BOOL exists = [self hasWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
-    
-    return exists;
-}
-
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType{
-    
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
-    NSString * description = [GPKGGeometryExtensions isGeoPackageExtension:geometryType] ? self.geometryTypesDefinition : self.userGeometryTypesDefinition;
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDescription:description andScope:GPKG_EST_READ_WRITE];
-    
-    return extension;
-}
-
--(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType{
-    
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
     BOOL exists = [self hasWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
     
     return exists;
@@ -85,6 +68,23 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
                                 GPKG_EX_EXTENSION_NAME_DIVIDER,
                                 [WKBGeometryTypes name:geometryType]];
     return extensionName;
+}
+
+-(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType{
+    
+    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
+    NSString * description = [GPKGGeometryExtensions isGeoPackageExtension:geometryType] ? self.geometryTypesDefinition : self.userGeometryTypesDefinition;
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDefinition:description andScope:GPKG_EST_READ_WRITE];
+    
+    return extension;
+}
+
+-(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType{
+    
+    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
+    BOOL exists = [self hasWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
+    
+    return exists;
 }
 
 +(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType{

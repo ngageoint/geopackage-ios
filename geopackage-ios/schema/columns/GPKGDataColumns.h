@@ -57,7 +57,7 @@ extern NSString * const GPKG_DC_COLUMN_CONSTRAINT_NAME;
 @property (nonatomic, strong) NSString *title;
 
 /**
- *  A human-readable description for the table_name content
+ *  A human-readable description for the column_name content
  */
 @property (nonatomic, strong) NSString *theDescription;
 

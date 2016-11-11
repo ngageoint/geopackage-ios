@@ -8,6 +8,7 @@
 
 #import "GPKGContents.h"
 #import "GPKGUtils.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_CON_TABLE_NAME = @"gpkg_contents";
 NSString * const GPKG_CON_COLUMN_PK = @"table_name";
@@ -22,37 +23,20 @@ NSString * const GPKG_CON_COLUMN_MAX_X = @"max_x";
 NSString * const GPKG_CON_COLUMN_MAX_Y = @"max_y";
 NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
 
-NSString * const GPKG_CDT_FEATURES_NAME = @"features";
-NSString * const GPKG_CDT_TILES_NAME = @"tiles";
-
 @implementation GPKGContents
 
 -(enum GPKGContentsDataType) getContentsDataType{
     enum GPKGContentsDataType value = -1;
     
     if(self.dataType != nil){
-        NSDictionary *dataTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSNumber numberWithInteger:GPKG_CDT_FEATURES], GPKG_CDT_FEATURES_NAME,
-                            [NSNumber numberWithInteger:GPKG_CDT_TILES], GPKG_CDT_TILES_NAME,
-                            nil
-                            ];
-        NSNumber *enumValue = [GPKGUtils objectForKey:self.dataType inDictionary:dataTypes];
-        value = (enum GPKGContentsDataType)[enumValue intValue];
+        value = [GPKGContentsDataTypes fromName:self.dataType];
     }
     
     return value;
-    
 }
 
 -(void) setContentsDataType: (enum GPKGContentsDataType) dataType{
-    switch(dataType){
-        case GPKG_CDT_FEATURES:
-            self.dataType = GPKG_CDT_FEATURES_NAME;
-            break;
-        case GPKG_CDT_TILES:
-            self.dataType = GPKG_CDT_TILES_NAME;
-            break;
-    }
+    self.dataType = [GPKGContentsDataTypes name:dataType];
 }
 
 -(void) setSrs: (GPKGSpatialReferenceSystem *) srs{

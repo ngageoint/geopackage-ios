@@ -8,6 +8,7 @@
 
 #import "GPKGUserTableReader.h"
 #import "GPKGUtils.h"
+#import "GPKGSqlUtils.h"
 
 NSString * const GPKG_UTR_CID = @"cid";
 NSString * const GPKG_UTR_NAME = @"name";
@@ -47,7 +48,7 @@ NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
     
     NSMutableArray * columnList = [[NSMutableArray alloc] init];
     
-    GPKGResultSet * result = [db rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", self.tableName]];
+    GPKGResultSet * result = [db rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", [GPKGSqlUtils quoteWrapName:self.tableName]]];
     @try{
         while ([result moveToNext]){
             int index = [[result getInt:[result getColumnIndexWithName:GPKG_UTR_CID]] intValue];

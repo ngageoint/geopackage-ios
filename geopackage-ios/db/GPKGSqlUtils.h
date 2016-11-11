@@ -297,4 +297,22 @@
  */
 +(NSString *) getSqlValueString: (NSObject *) value;
 
+/**
+ * Wrap the name in double quotes
+ *
+ * @param name
+ *            name
+ * @return quoted name
+ */
++(NSString *) quoteWrapName: (NSString *) name;
+
+/**
+ * Wrap the names in double quotes
+ *
+ * @param names
+ *            names
+ * @return quoted names
+ */
++(NSArray *) quoteWrapNames: (NSArray *) names;
+
 @end

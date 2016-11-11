@@ -7,6 +7,7 @@
 //
 
 #import "GPKGDataColumns.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_DC_TABLE_NAME = @"gpkg_data_columns";
 NSString * const GPKG_DC_COLUMN_PK1 = @"table_name";

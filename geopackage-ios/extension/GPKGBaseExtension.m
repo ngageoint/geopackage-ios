@@ -19,7 +19,7 @@
     return self;
 }
 
--(GPKGExtensions *) getOrCreateWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDescription: (NSString *) description andScope: (enum GPKGExtensionScopeType) scopeType{
+-(GPKGExtensions *) getOrCreateWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDefinition: (NSString *) definition andScope: (enum GPKGExtensionScopeType) scopeType{
     
     GPKGExtensions * extension = [self getWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
     
@@ -32,7 +32,7 @@
         [extension setTableName:tableName];
         [extension setColumnName:columnName];
         [extension setExtensionName:extensionName];
-        [extension setDefinition:description];
+        [extension setDefinition:definition];
         [extension setExtensionScopeType:scopeType];
         
         [self.extensionsDao create:extension];

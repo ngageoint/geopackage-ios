@@ -470,4 +470,23 @@
     return sqlString;
 }
 
++(NSString *) quoteWrapName: (NSString *) name{
+    NSString * quoteName = nil;
+    if(name != nil){
+        quoteName = [NSString stringWithFormat:@"\"%@\"", name];
+    }
+    return quoteName;
+}
+
++(NSArray *) quoteWrapNames: (NSArray *) names{
+    NSMutableArray * quoteNames = nil;
+    if(names != nil){
+        quoteNames = [[NSMutableArray alloc] init];
+        for(NSString * name in names){
+            [quoteNames addObject:[self quoteWrapName:name]];
+        }
+    }
+    return quoteNames;
+}
+
 @end

@@ -207,7 +207,7 @@
     
     BOOL exists = false;
     
-    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName]];
+    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", [GPKGSqlUtils quoteWrapName:tableName]]];
     @try{
         while ([result moveToNext]){
             NSString * name = [result getString:[result getColumnIndexWithName:@"name"]];
@@ -225,7 +225,7 @@
 }
 
 -(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef{
-    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", tableName, columnName, columndef]];
+    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", [GPKGSqlUtils quoteWrapName:tableName], [GPKGSqlUtils quoteWrapName:columnName], columndef]];
 }
 
 -(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{

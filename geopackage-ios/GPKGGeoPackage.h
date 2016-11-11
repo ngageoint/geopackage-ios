@@ -28,6 +28,9 @@
 #import "GPKGGeometryIndexDao.h"
 #import "GPKGMetadataDb.h"
 #import "GPKGFeatureTileLinkDao.h"
+#import "GPKGGriddedCoverageDao.h"
+#import "GPKGGriddedTileDao.h"
+#import "GPKGAttributesTable.h"
 
 /**
  *  A single GeoPackage database connection
@@ -89,6 +92,29 @@
 -(NSArray *)getTileTables;
 
 /**
+ *  Get the attributes tables
+ *
+ *  @return attributes table names
+ */
+-(NSArray *)getAttributesTables;
+
+/**
+ * Get the tables for the contents data type
+ *
+ * @param type
+ *            data type
+ * @return table names
+ */
+-(NSArray *)getTablesByType: (enum GPKGContentsDataType) type;
+
+/**
+ *  Get the feature and tile tables
+ *
+ *  @return table names
+ */
+-(NSArray *)getFeatureAndTileTables;
+
+/**
  *  Get the feature and tile tables
  *
  *  @return feature and tile table names
@@ -114,6 +140,16 @@
 -(BOOL) isTileTable: (NSString *) table;
 
 /**
+ *  Check if the table is the provided type
+ *
+ *  @param table table name
+ *  @param type contents data type
+ *
+ *  @return true if the type of table
+ */
+-(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type;
+
+/**
  *  Check if the table exists as a feature or tile table
  *
  *  @param table table name
@@ -121,6 +157,15 @@
  *  @return true if a feature or tile table
  */
 -(BOOL) isFeatureOrTileTable: (NSString *) table;
+
+/**
+ * Check if the table exists as a user table
+ *
+ * @param table
+ *            table name
+ * @return true if a user table
+ */
+-(BOOL) isTable: (NSString *) table;
 
 /**
  *  Get the feature table count
@@ -335,6 +380,25 @@
                                                 andContentsSrsId: (NSNumber *) contentsSrsId
                                                 andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
                                                 andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
+
+/**
+ *  Create a new tile table of the specified type and the GeoPackage metadata
+ *
+ *  @param type                     contents data type
+ *  @param tableName                table name
+ *  @param contentsBoundingBox      Contents table bounding box
+ *  @param contentsSrsId            Contents table Spatial Reference System Id
+ *  @param tileMatrixSetBoundingBox Tile Matrix Set table bounding box
+ *  @param tileMatrixSetSrsId       Tile Matrix Set table Spatial Reference System Id
+ *
+ *  @return Tile Matrix Set
+ */
+-(GPKGTileMatrixSet *) createTileTableWithType: (enum GPKGContentsDataType) type
+                                     andTableName: (NSString *) tableName
+                             andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
+                                   andContentsSrsId: (NSNumber *) contentsSrsId
+                        andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
+                              andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
 
 /**
  *  Get a Data Columns DAO
@@ -566,5 +630,92 @@
  *  @return nil if check passed, open result set with results if failed
  */
 -(GPKGResultSet *) quickCheck;
+
+/**
+ * Get a 2D Gridded Coverage DAO
+ *
+ * @return 2d gridded coverage dao
+ */
+-(GPKGGriddedCoverageDao *) getGriddedCoverageDao;
+
+/**
+ * Create the 2D Gridded Coverage Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createGriddedCoverageTable;
+
+/**
+ * Get a 2D Gridded Tile DAO
+ *
+ * @return 2d gridded tile dao
+ */
+-(GPKGGriddedTileDao *) getGriddedTileDao;
+
+/**
+ * Create the 2D Gridded Tile Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createGriddedTileTable;
+
+/**
+ * Create a new attributes table
+ *
+ * @param table
+ *            attributes table
+ */
+-(void) createAttributesTable: (GPKGAttributesTable *) table;
+
+/**
+ * Create a new attributes table.
+ *
+ * The attributes table will be created with 1 + additionalColumns.size()
+ * columns, an id column named "id" and the provided additional columns.
+ *
+ * @param tableName
+ *            table name
+ * @param additionalColumns
+ *            additional attributes table columns to create in addition to
+ *            id
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns;
+
+/**
+ * Create a new attributes table.
+ *
+ * The attributes table will be created with 1 + additionalColumns.size()
+ * columns, an id column with the provided name and the provided additional
+ * columns.
+ *
+ * @param tableName
+ *            table name
+ * @param idColumnName
+ *            id column name
+ * @param additionalColumns
+ *            additional attributes table columns to create in addition to
+ *            id
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns;
+
+/**
+ * Create a new attributes table.
+ *
+ * The attributes table will be created with columns.size() columns and must
+ * include an integer id column
+ *
+ * @param tableName
+ *            table name
+ * @param columns
+ *            table columns to create
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andColumns: (NSArray *) columns;
 
 @end

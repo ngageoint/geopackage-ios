@@ -273,7 +273,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGExtensions *) getOrCreateExtension{
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDescription:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 

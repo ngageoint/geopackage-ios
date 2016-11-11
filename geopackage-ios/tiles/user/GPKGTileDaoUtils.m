@@ -28,20 +28,40 @@
 }
 
 +(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:true];
+}
+
++(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:true];
+}
+
++(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:false];
+}
+
++(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:false];
+}
+
++(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length andLengthChecks: (BOOL) lengthChecks{
+    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:length andHeight:length andLengthChecks:lengthChecks];
+}
+
++(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height andLengthChecks: (BOOL) lengthChecks{
     
     NSNumber * zoomLevel = nil;
     
-    NSDecimalNumber * lengthNumber = [[NSDecimalNumber alloc] initWithDouble:length];
-    
     // Find where the width and height fit in
-    int widthIndex = (int)[widths indexOfObject:lengthNumber
+    NSDecimalNumber * widthNumber = [[NSDecimalNumber alloc] initWithDouble:width];
+    int widthIndex = (int)[widths indexOfObject:widthNumber
                                         inSortedRange:NSMakeRange(0, [widths count])
                                               options:NSBinarySearchingInsertionIndex
                                       usingComparator:^(id obj1, id obj2)
                             {
                                 return [obj1 compare:obj2];
                             }];
-    int heightIndex = (int)[heights indexOfObject:lengthNumber
+    NSDecimalNumber * heightNumber = [[NSDecimalNumber alloc] initWithDouble:height];
+    int heightIndex = (int)[heights indexOfObject:heightNumber
                                     inSortedRange:NSMakeRange(0, [heights count])
                                           options:NSBinarySearchingInsertionIndex
                                   usingComparator:^(id obj1, id obj2)
@@ -51,47 +71,51 @@
     
     // Find the closest width or verify it isn't too small or large
     if (widthIndex == 0) {
-        if (length < [self getMinLength:widths]) {
+        if (lengthChecks && width < [self getMinLength:widths]) {
             widthIndex = -1;
         }
     } else if (widthIndex == [widths count]) {
-        if (length >= [self getMaxLength:widths]) {
+        if (lengthChecks && width >= [self getMaxLength:widths]) {
             widthIndex = -1;
         } else {
             widthIndex = widthIndex - 1;
         }
-    } else if (length - [(NSDecimalNumber *)[widths objectAtIndex:widthIndex-1] doubleValue] <
-               [(NSDecimalNumber *)[widths objectAtIndex:widthIndex] doubleValue] - length) {
+    } else if (width - [(NSDecimalNumber *)[widths objectAtIndex:widthIndex-1] doubleValue] <
+               [(NSDecimalNumber *)[widths objectAtIndex:widthIndex] doubleValue] - width) {
         widthIndex--;
     }
     
     // Find the closest height or verify it isn't too small or large
     if (heightIndex == 0) {
-        if (length < [self getMinLength:heights]) {
+        if (lengthChecks && height < [self getMinLength:heights]) {
             heightIndex = -1;
         }
     } else if (heightIndex == [heights count]) {
-        if (length >= [self getMaxLength:heights]) {
+        if (lengthChecks && height >= [self getMaxLength:heights]) {
             heightIndex = -1;
         } else {
             heightIndex = heightIndex - 1;
         }
-    } else if (length - [(NSDecimalNumber *)[heights objectAtIndex:heightIndex-1] doubleValue] <
-               [(NSDecimalNumber *)[heights objectAtIndex:heightIndex] doubleValue] - length) {
+    } else if (height - [(NSDecimalNumber *)[heights objectAtIndex:heightIndex-1] doubleValue] <
+               [(NSDecimalNumber *)[heights objectAtIndex:heightIndex] doubleValue] - height) {
         heightIndex--;
     }
     
-    if(widthIndex >= 0 && heightIndex >= 0){
+    if(widthIndex >= 0 || heightIndex >= 0){
         
         // Use one zoom size smaller if possible
-        
-        int index = widthIndex < heightIndex ? widthIndex : heightIndex;
-        if (index >= 0) {
-            
-            GPKGTileMatrix * tileMatrix = [tileMatrices objectAtIndex:[tileMatrices count]
-                                                     - index - 1];
-            zoomLevel = tileMatrix.zoomLevel;
+        int index;
+        if (widthIndex < 0) {
+            index = heightIndex;
+        } else if (heightIndex < 0) {
+            index = widthIndex;
+        } else {
+            index = widthIndex < heightIndex ? widthIndex : heightIndex;
         }
+        
+        GPKGTileMatrix * tileMatrix = [tileMatrices objectAtIndex:[tileMatrices count]
+                                       - index - 1];
+        zoomLevel = tileMatrix.zoomLevel;
     }
     
     return zoomLevel;

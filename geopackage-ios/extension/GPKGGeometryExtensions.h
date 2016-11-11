@@ -21,8 +21,11 @@
 
 /**
  *  User Geometry Types Extension definition URL
+ *  @deprecated as of 1.2.1, On August 15, 2016 the GeoPackage SWG voted to
+ *             remove this extension from the standard due to
+ *             interoperability concerns. (GeoPackage version 1.2)
  */
-@property (nonatomic, strong) NSString *userGeometryTypesDefinition;
+@property (nonatomic, strong) NSString *userGeometryTypesDefinition __attribute__((deprecated));
 
 /**
  *  Initialize
@@ -56,30 +59,6 @@
 -(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum WKBGeometryType) geometryType;
 
 /**
- *  Get or create the extension, user defined geometry type
- *
- *  @param tableName    table name
- *  @param columnName   column name
- *  @param author       extension author
- *  @param geometryType geometry type
- *
- *  @return extension
- */
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType;
-
-/**
- *  Determine if the GeoPackage has the extension, user defined geometry type
- *
- *  @param tableName    table name
- *  @param columnName   column name
- *  @param author       extension author
- *  @param geometryType geometry type
- *
- *  @return true if has extension
- */
--(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType;
-
-/**
  *  Determine if the geometry type is an extension
  *
  *  @param geometryType geometry type
@@ -107,6 +86,36 @@
 +(NSString *) getExtensionName: (enum WKBGeometryType) geometryType;
 
 /**
+ *  Get or create the extension, user defined geometry type
+ *
+ *  @param tableName    table name
+ *  @param columnName   column name
+ *  @param author       extension author
+ *  @param geometryType geometry type
+ *
+ *  @return extension
+ *  @deprecated as of 1.2.1, On August 15, 2016 the GeoPackage SWG voted to
+ *             remove this extension from the standard due to
+ *             interoperability concerns. (GeoPackage version 1.2)
+ */
+-(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
+
+/**
+ *  Determine if the GeoPackage has the extension, user defined geometry type
+ *
+ *  @param tableName    table name
+ *  @param columnName   column name
+ *  @param author       extension author
+ *  @param geometryType geometry type
+ *
+ *  @return true if has extension
+ *  @deprecated as of 1.2.1, On August 15, 2016 the GeoPackage SWG voted to
+ *             remove this extension from the standard due to
+ *             interoperability concerns. (GeoPackage version 1.2)
+ */
+-(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
+
+/**
  *  Get the extension name of an extension Geometry, either user-defined or
  *  GeoPackage extension
  *
@@ -114,7 +123,10 @@
  *  @param geometryType geometry type
  *
  *  @return extension name
+ *  @deprecated as of 1.2.1, On August 15, 2016 the GeoPackage SWG voted to
+ *             remove this extension from the standard due to
+ *             interoperability concerns. (GeoPackage version 1.2)
  */
-+(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType;
++(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
 
 @end

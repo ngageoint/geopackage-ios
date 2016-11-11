@@ -37,6 +37,57 @@
 +(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
 
 /**
+ * Get the zoom level for the provided width and height in the default units
+ *
+ * @param widths
+ *            sorted widths
+ * @param heights
+ *            sorted heights
+ * @param tileMatrices
+ *            tile matrices
+ * @param width
+ *            in default units
+ * @param height
+ *            in default units
+ * @return tile matrix zoom level
+ */
++(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
+
+/**
+ * Get the closest zoom level for the provided width and height in the
+ * default units
+ *
+ * @param widths
+ *            sorted widths
+ * @param heights
+ *            sorted heights
+ * @param tileMatrices
+ *            tile matrices
+ * @param length
+ *            in default units
+ * @return tile matrix zoom level
+ */
++(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
+
+/**
+ * Get the closest zoom level for the provided width and height in the
+ * default units
+ *
+ * @param widths
+ *            sorted widths
+ * @param heights
+ *            sorted heights
+ * @param tileMatrices
+ *            tile matrices
+ * @param width
+ *            in default units
+ * @param height
+ *            in default units
+ * @return tile matrix zoom level
+ */
++(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
+
+/**
  *  Get the max distance length that matches the tile widths and heights
  *
  *  @param widths  sorted tile matrix widths
