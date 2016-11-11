@@ -29,6 +29,8 @@
 		0422BB021DD6311C002709B6 /* GPKGGriddedTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB001DD6311C002709B6 /* GPKGGriddedTile.m */; };
 		0422BB061DD6474B002709B6 /* GPKGGriddedTileDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB041DD6474B002709B6 /* GPKGGriddedTileDao.h */; };
 		0422BB071DD6474B002709B6 /* GPKGGriddedTileDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB051DD6474B002709B6 /* GPKGGriddedTileDao.m */; };
+		0422BB0A1DD66D21002709B6 /* GPKGElevationTilesCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB081DD66D21002709B6 /* GPKGElevationTilesCommon.h */; };
+		0422BB0B1DD66D21002709B6 /* GPKGElevationTilesCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB091DD66D21002709B6 /* GPKGElevationTilesCommon.m */; };
 		042FC6E61B964BC800549A4B /* geopackage_ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6E51B964BC800549A4B /* geopackage_ios.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		042FC6EC1B964BC800549A4B /* geopackage_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FC6E01B964BC800549A4B /* geopackage_ios.framework */; };
 		042FC7EF1B964D8C00549A4B /* GPKGContents.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6FE1B964D8C00549A4B /* GPKGContents.h */; };
@@ -409,6 +411,8 @@
 		0422BB001DD6311C002709B6 /* GPKGGriddedTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGriddedTile.m; sourceTree = "<group>"; };
 		0422BB041DD6474B002709B6 /* GPKGGriddedTileDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGriddedTileDao.h; sourceTree = "<group>"; };
 		0422BB051DD6474B002709B6 /* GPKGGriddedTileDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGriddedTileDao.m; sourceTree = "<group>"; };
+		0422BB081DD66D21002709B6 /* GPKGElevationTilesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTilesCommon.h; sourceTree = "<group>"; };
+		0422BB091DD66D21002709B6 /* GPKGElevationTilesCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTilesCommon.m; sourceTree = "<group>"; };
 		042FC6E01B964BC800549A4B /* geopackage_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = geopackage_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		042FC6E41B964BC800549A4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042FC6E51B964BC800549A4B /* geopackage_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geopackage_ios.h; sourceTree = "<group>"; };
@@ -857,6 +861,8 @@
 				0422BB001DD6311C002709B6 /* GPKGGriddedTile.m */,
 				0422BB041DD6474B002709B6 /* GPKGGriddedTileDao.h */,
 				0422BB051DD6474B002709B6 /* GPKGGriddedTileDao.m */,
+				0422BB081DD66D21002709B6 /* GPKGElevationTilesCommon.h */,
+				0422BB091DD66D21002709B6 /* GPKGElevationTilesCommon.m */,
 			);
 			path = elevation;
 			sourceTree = "<group>";
@@ -1761,6 +1767,7 @@
 				042FC8821B964D8C00549A4B /* GPKGDataColumns.h in Headers */,
 				042FC8841B964D8C00549A4B /* GPKGDataColumnsDao.h in Headers */,
 				046417EB1BCC5837007624D4 /* GPKGCustomFeaturesTile.h in Headers */,
+				0422BB0A1DD66D21002709B6 /* GPKGElevationTilesCommon.h in Headers */,
 				042FC8B11B964D8C00549A4B /* GPKGTileTable.h in Headers */,
 				042FC8AD1B964D8C00549A4B /* GPKGTileDaoUtils.h in Headers */,
 				042FC8621B964D8C00549A4B /* GPKGImageConverter.h in Headers */,
@@ -2203,6 +2210,7 @@
 				0488E4BE1CF757DF0026DD1B /* GPKGTileCreator.m in Sources */,
 				042FC82A1B964D8C00549A4B /* GPKGGeometryColumnsDao.m in Sources */,
 				048EC16D1BCFDEF1008426A7 /* GPKGFeatureIndexResults.m in Sources */,
+				0422BB0B1DD66D21002709B6 /* GPKGElevationTilesCommon.m in Sources */,
 				042FC8201B964D8C00549A4B /* GPKGExtensionsDao.m in Sources */,
 				0422BAEE1DD3BCF8002709B6 /* GPKGElevationTileResults.m in Sources */,
 				0422BAF21DD4EC3F002709B6 /* GPKGElevationTilesAlgorithms.m in Sources */,
