@@ -58,7 +58,7 @@
  *            column index
  * @return elevation
  */
--(NSNumber *) elevationAtRow: (int) row andColumn: (int) column;
+-(NSDecimalNumber *) elevationAtRow: (int) row andColumn: (int) column;
 
 /**
  * Get the zoom level of the results

@@ -61,8 +61,8 @@
     return _width;
 }
 
--(NSNumber *) elevationAtRow: (int) row andColumn: (int) column{
-    return (NSNumber *)[((NSArray *)[self.elevations objectAtIndex:row]) objectAtIndex:column];
+-(NSDecimalNumber *) elevationAtRow: (int) row andColumn: (int) column{
+    return (NSDecimalNumber *)[((NSArray *)[self.elevations objectAtIndex:row]) objectAtIndex:column];
 }
 
 -(NSNumber *) zoomLevel{
