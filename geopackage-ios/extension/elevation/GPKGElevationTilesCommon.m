@@ -743,8 +743,8 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return paddedBoundingBox;
 }
 
--(unsigned short) pixelValueWithValues:(unsigned short[]) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
-    return pixelValues[(y * width) + x];
+-(unsigned short) pixelValueWithValues:(NSArray *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
+    return [((NSNumber *)[pixelValues objectAtIndex:(y * width) + x]) unsignedShortValue];
 }
 
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue{
@@ -787,6 +787,109 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return elevation;
 }
 
+-(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues{
+    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    for(int i = 0; i < pixelValues.count; i++){
+        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]]];
+    }
+    return elevations;
+}
 
++(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
+    
+    GPKGTileMatrixSet * tileMatrixSet = [geoPackage createTileTableWithType:GPKG_CDT_ELEVATION_TILES andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
+    return tileMatrixSet;
+}
+
+-(unsigned short) pixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation{
+    
+    unsigned short pixelValue = 0;
+    
+    if(elevation == nil){
+        if(self.griddedCoverage != nil){
+            pixelValue = [self.griddedCoverage.dataNull unsignedShortValue];
+        }
+    }else{
+        double value = [self elevationToPixelValueWithGriddedTile:griddedTile andElevation: [elevation doubleValue]];
+        pixelValue = (unsigned short) round(value);
+    }
+    
+    return pixelValue;
+}
+
+/**
+ * Convert integer coverage typed elevation value to a pixel value through
+ * offsets and scales
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param elevation
+ *            elevation value
+ * @return pixel value
+ */
+-(double) elevationToPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (double) elevation{
+    
+    double pixelValue = elevation;
+    
+    if (self.griddedCoverage != nil
+        && [self.griddedCoverage getGriddedCoverageDataType] == GPKG_GCDT_INTEGER) {
+        
+        if (self.griddedCoverage.offset != nil) {
+            pixelValue -= [self.griddedCoverage.offset doubleValue];
+        }
+        if (self.griddedCoverage.scale != nil) {
+            pixelValue /= [self.griddedCoverage.scale doubleValue];
+        }
+        if (griddedTile != nil) {
+            if (griddedTile.offset != nil) {
+                pixelValue -= [griddedTile.offset doubleValue];
+            }
+            if (griddedTile.scale != nil) {
+                pixelValue /= [griddedTile.scale doubleValue];
+            }
+        }
+        
+    }
+    
+    return pixelValue;
+}
+
+-(float) pixelValueWithFloatValues: (NSArray *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
+    return [((NSDecimalNumber *)[pixelValues objectAtIndex:(y * width) + x]) floatValue];
+}
+
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValue: (float) pixelValue{
+    
+    NSDecimalNumber * elevation = nil;
+    if(![self isDataNull:pixelValue]){
+        elevation = [self pixelValueToElevationWithGriddedTile:griddedTile andPixelValue:[[NSDecimalNumber alloc] initWithFloat:pixelValue]];
+    }
+    
+    return elevation;
+}
+
+-(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues{
+    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    for (int i = 0; i < pixelValues.count; i++) {
+        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]]];
+    }
+    return elevations;
+}
+
+-(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation{
+    
+    double value = 0;
+    if (elevation == nil) {
+        if (self.griddedCoverage != nil) {
+            value = [self.griddedCoverage.dataNull doubleValue];
+        }
+    } else {
+        value = [self elevationToPixelValueWithGriddedTile:griddedTile andElevation:[elevation doubleValue]];
+    }
+    
+    float pixelValue = (float) value;
+    
+    return pixelValue;
+}
 
 @end
