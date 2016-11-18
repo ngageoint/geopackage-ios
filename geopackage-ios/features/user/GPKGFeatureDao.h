@@ -33,6 +33,7 @@
  *  @param database        database connection
  *  @param table           feature table
  *  @param geometryColumns geometry columns
+ *  @param metadataDb      metadata db
  *
  *  @return new feature dao
  */

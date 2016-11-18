@@ -7,11 +7,24 @@
 //
 
 #import "GPKGSqlLiteQueryBuilder.h"
+#import "GPKGSqlUtils.h"
 
 @implementation GPKGSqlLiteQueryBuilder
 
 +(NSString *) buildQueryWithDistinct: (BOOL) distinct
-                           andTables: (NSString *) tables
+                           andTable: (NSString *) table
+                          andColumns: (NSArray *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [self buildQueryWithDistinct:distinct andTables:[[NSArray alloc] initWithObjects:table, nil] andColumns:columns andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+
++(NSString *) buildQueryWithDistinct: (BOOL) distinct
+                           andTables: (NSArray *) tables
                           andColumns: (NSArray *) columns
                             andWhere: (NSString *) where
                           andGroupBy: (NSString *) groupBy
@@ -36,7 +49,13 @@
     }
     
     [query appendString:@"from "];
-    [query appendString:tables];
+    for (int i = 0; i < tables.count; i++) {
+        NSString * table = [tables objectAtIndex:i];
+        if (i > 0) {
+            [query appendString:@", "];
+        }
+        [query appendString:[GPKGSqlUtils quoteWrapName:table]];
+    }
     [self appendClauseToString:query withName:@" where " andClause:where];
     [self appendClauseToString:query withName:@" group by " andClause:groupBy];
     [self appendClauseToString:query withName:@" having " andClause:having];
@@ -65,7 +84,7 @@
                 [string appendString:@", "];
             }
         }
-        [string appendString:column];
+        [string appendString:[GPKGSqlUtils quoteWrapName:column]];
     }
     [string appendString:@" "];
 }

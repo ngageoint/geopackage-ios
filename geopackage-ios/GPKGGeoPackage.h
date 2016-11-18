@@ -31,6 +31,7 @@
 #import "GPKGGriddedCoverageDao.h"
 #import "GPKGGriddedTileDao.h"
 #import "GPKGAttributesTable.h"
+#import "GPKGAttributesDao.h"
 
 /**
  *  A single GeoPackage database connection
@@ -584,6 +585,24 @@
  *  @return Tile DAO
  */
 -(GPKGTileDao *) getTileDaoWithTableName: (NSString *) tableName;
+
+/**
+ * Get an Attributes DAO from Contents
+ *
+ * @param contents
+ *            contents
+ * @return attributes dao
+ */
+-(GPKGAttributesDao *) getAttributesDaoWithContents: (GPKGContents *) contents;
+
+/**
+ * Get an Attributes DAO from a table name
+ *
+ * @param tableName
+ *            table name
+ * @return attributes dao
+ */
+-(GPKGAttributesDao *) getAttributesDaoWithTableName: (NSString *) tableName;
 
 /**
  *  Execute the sql on the GeoPackage database

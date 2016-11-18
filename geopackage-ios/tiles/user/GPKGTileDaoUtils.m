@@ -27,27 +27,27 @@
     }
 }
 
-+(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
-    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:true];
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self zoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:true];
 }
 
-+(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
-    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:true];
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    return [self zoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:true];
 }
 
-+(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
-    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:false];
++(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self zoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andLength:length andLengthChecks:false];
 }
 
-+(NSNumber *) getClosestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
-    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:false];
++(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    return [self zoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:width andHeight:height andLengthChecks:false];
 }
 
-+(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length andLengthChecks: (BOOL) lengthChecks{
-    return [self getZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:length andHeight:length andLengthChecks:lengthChecks];
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length andLengthChecks: (BOOL) lengthChecks{
+    return [self zoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:length andHeight:length andLengthChecks:lengthChecks];
 }
 
-+(NSNumber *) getZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height andLengthChecks: (BOOL) lengthChecks{
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height andLengthChecks: (BOOL) lengthChecks{
     
     NSNumber * zoomLevel = nil;
     
@@ -71,11 +71,11 @@
     
     // Find the closest width or verify it isn't too small or large
     if (widthIndex == 0) {
-        if (lengthChecks && width < [self getMinLength:widths]) {
+        if (lengthChecks && width < [self minLength:widths]) {
             widthIndex = -1;
         }
     } else if (widthIndex == [widths count]) {
-        if (lengthChecks && width >= [self getMaxLength:widths]) {
+        if (lengthChecks && width >= [self maxLength:widths]) {
             widthIndex = -1;
         } else {
             widthIndex = widthIndex - 1;
@@ -87,11 +87,11 @@
     
     // Find the closest height or verify it isn't too small or large
     if (heightIndex == 0) {
-        if (lengthChecks && height < [self getMinLength:heights]) {
+        if (lengthChecks && height < [self minLength:heights]) {
             heightIndex = -1;
         }
     } else if (heightIndex == [heights count]) {
-        if (lengthChecks && height >= [self getMaxLength:heights]) {
+        if (lengthChecks && height >= [self maxLength:heights]) {
             heightIndex = -1;
         } else {
             heightIndex = heightIndex - 1;
@@ -121,16 +121,16 @@
     return zoomLevel;
 }
 
-+(double) getMaxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
-    double maxWidth = [self getMaxLength:widths];
-    double maxHeight = [self getMaxLength:heights];
++(double) maxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
+    double maxWidth = [self maxLength:widths];
+    double maxHeight = [self maxLength:heights];
     double maxLength = MIN(maxWidth, maxHeight);
     return maxLength;
 }
 
-+(double) getMinLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
-    double minWidth = [self getMinLength:widths];
-    double minHeight = [self getMinLength:heights];
++(double) minLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
+    double minWidth = [self minLength:widths];
+    double minHeight = [self minLength:heights];
     double minLength = MAX(minWidth, minHeight);
     return minLength;
 }
@@ -142,7 +142,7 @@
  *
  *  @return max length
  */
-+(double) getMaxLength: (NSArray *) lengths{
++(double) maxLength: (NSArray *) lengths{
     return [(NSDecimalNumber *)lengths[lengths.count - 1] doubleValue] / .51;
 }
 
@@ -153,7 +153,7 @@
  *
  *  @return min length
  */
-+(double) getMinLength: (NSArray *) lengths{
++(double) minLength: (NSArray *) lengths{
     return [(NSDecimalNumber *)lengths[0] doubleValue] * .51;
 }
 

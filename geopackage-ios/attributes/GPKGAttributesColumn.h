@@ -8,6 +8,9 @@
 
 #import "GPKGUserColumn.h"
 
+/**
+ * Attributes column
+ */
 @interface GPKGAttributesColumn : GPKGUserColumn
 
 /**

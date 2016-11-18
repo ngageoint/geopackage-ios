@@ -164,11 +164,27 @@
     return [self queryForFieldValues:fieldValues];
 }
 
--(NSNumber *) getZoomLevelWithLength: (double) length{
-    return [GPKGTileDaoUtils getZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andLength:length];
+-(NSNumber *) zoomLevelWithLength: (double) length{
+    return [GPKGTileDaoUtils zoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andLength:length];
+}
+
+-(NSNumber *) zoomLevelWithWidth: (double) width andHeight: (double) height{
+    return [GPKGTileDaoUtils zoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andWidth:width andHeight:height];
+}
+
+-(NSNumber *) closestZoomLevelWithLength: (double) length{
+    return [GPKGTileDaoUtils closestZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andLength:length];
+}
+
+-(NSNumber *) closestZoomLevelWithWidth: (double) width andHeight: (double) height{
+    return [GPKGTileDaoUtils closestZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andWidth:width andHeight:height];
 }
 
 -(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel{
+    return [self queryByTileGrid:tileGrid andZoomLevel:zoomLevel andOrderBy:nil];
+}
+
+-(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel andOrderBy: (NSString *) orderBy{
     GPKGResultSet * results = nil;
     
     if(tileGrid != nil){
@@ -201,7 +217,7 @@
                                minY,
                                maxY, nil]];
         
-        results = [self queryWhere:where andWhereArgs:whereArgs];
+        results = [self queryWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy];
     }
     return results;
 }
@@ -257,11 +273,11 @@
 }
 
 -(double) getMaxLength{
-    return [GPKGTileDaoUtils getMaxLengthWithWidths:self.widths andHeights:self.heights];
+    return [GPKGTileDaoUtils maxLengthWithWidths:self.widths andHeights:self.heights];
 }
 
 -(double) getMinLength{
-    return [GPKGTileDaoUtils getMinLengthWithWidths:self.widths andHeights:self.heights];
+    return [GPKGTileDaoUtils minLengthWithWidths:self.widths andHeights:self.heights];
 }
 
 -(BOOL) isStandardWebMercatorFormat{

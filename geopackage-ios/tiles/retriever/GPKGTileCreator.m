@@ -305,11 +305,13 @@
     if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:projectedRequestBoundingBox andBoundingBox:self.tileSetBoundingBox] != nil){
         
         // Get the tile distance
-        double distance = [projectedRequestBoundingBox.maxLongitude doubleValue]
+        double distanceWidth = [projectedRequestBoundingBox.maxLongitude doubleValue]
             - [projectedRequestBoundingBox.minLongitude doubleValue];
+        double distanceHeight = [projectedRequestBoundingBox.maxLatitude doubleValue]
+        - [projectedRequestBoundingBox.minLatitude doubleValue];
         
         // Get the zoom level to request based upon the tile size
-        NSNumber * zoomLevel = [self.tileDao getZoomLevelWithLength:distance];
+        NSNumber * zoomLevel = [self.tileDao zoomLevelWithWidth: distanceWidth andHeight: distanceHeight];
         
         // If there is a matching zoom level
         if (zoomLevel != nil) {

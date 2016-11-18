@@ -17,6 +17,29 @@
  *  Build SQL query
  *
  *  @param distinct true if distinct
+ *  @param table    table
+ *  @param columns  columns
+ *  @param where    where clause
+ *  @param groupBy  group by
+ *  @param having   having
+ *  @param orderBy  order by
+ *  @param limit    limit
+ *
+ *  @return query sql
+ */
++(NSString *) buildQueryWithDistinct: (BOOL) distinct
+                           andTable: (NSString *) table
+                          andColumns: (NSArray *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
+/**
+ *  Build SQL query
+ *
+ *  @param distinct true if distinct
  *  @param tables   tables
  *  @param columns  columns
  *  @param where    where clause
@@ -28,7 +51,7 @@
  *  @return query sql
  */
 +(NSString *) buildQueryWithDistinct: (BOOL) distinct
-                            andTables: (NSString *) tables
+                            andTables: (NSArray *) tables
                             andColumns: (NSArray *) columns
                             andWhere: (NSString *) where
                             andGroupBy: (NSString *) groupBy

@@ -188,7 +188,40 @@
  *
  *  @return zoom level
  */
--(NSNumber *) getZoomLevelWithLength: (double) length;
+-(NSNumber *) zoomLevelWithLength: (double) length;
+
+/**
+ * Get the zoom level for the provided width and height in the default units
+ *
+ * @param width
+ *            in default units
+ * @param height
+ *            in default units
+ * @return zoom level
+ */
+-(NSNumber *) zoomLevelWithWidth: (double) width andHeight: (double) height;
+
+/**
+ * Get the closest zoom level for the provided width and height in the
+ * default units
+ *
+ * @param length
+ *            in default units
+ * @return zoom level
+ */
+-(NSNumber *) closestZoomLevelWithLength: (double) length;
+
+/**
+ * Get the closest zoom level for the provided width and height in the
+ * default units
+ *
+ * @param width
+ *            in default units
+ * @param height
+ *            in default units
+ * @return zoom level
+ */
+-(NSNumber *) closestZoomLevelWithWidth: (double) width andHeight: (double) height;
 
 /**
  *  Query by tile grid and zoom level
@@ -199,6 +232,17 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel;
+
+/**
+ *  Query by tile grid and zoom level
+ *
+ *  @param tileGrid  tile grid
+ *  @param zoomLevel zoom level
+ *  @param orderBy   order by
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel andOrderBy: (NSString *) orderBy;
 
 /**
  *  Query for the bounding tile grid with tiles at the zoom level

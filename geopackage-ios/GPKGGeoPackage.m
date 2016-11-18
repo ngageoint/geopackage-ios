@@ -17,6 +17,7 @@
 #import "GPKGSchemaExtension.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGAttributesTableReader.h"
 
 @interface GPKGGeoPackage()
 
@@ -603,6 +604,33 @@
     }
     
     return [self getTileDaoWithTileMatrixSet:tileMatrixSet];
+}
+
+-(GPKGAttributesDao *) getAttributesDaoWithContents: (GPKGContents *) contents{
+    if(contents == nil){
+        [NSException raise:@"Illegal Argument" format:@"Non null Contents is required to create Attributes DAO"];
+    }
+    if([contents getContentsDataType] != GPKG_CDT_ATTRIBUTES){
+        [NSException raise:@"Illegal Argument" format:@"Contents is required to be of type Attributes. Actual: %@", contents.dataType];
+    }
+    
+    // Read the existing table and create the dao
+    GPKGAttributesTableReader * tableReader = [[GPKGAttributesTableReader alloc] initWithTableName:contents.tableName];
+    GPKGAttributesTable * attributesTable = [tableReader readAttributesTableWithConnection:self.database];
+    [attributesTable setContents:contents];
+    GPKGAttributesDao * dao = [[GPKGAttributesDao alloc] initWithDatabase:self.database andTable:attributesTable];
+    
+    return dao;
+}
+
+-(GPKGAttributesDao *) getAttributesDaoWithTableName: (NSString *) tableName{
+
+    GPKGContentsDao * dao = [self getContentsDao];
+    GPKGContents * contents = (GPKGContents *)[dao queryForIdObject:tableName];
+    if(contents == nil){
+        [NSException raise:@"No Contents" format:@"No Contents Table entry exists for table name: %@", tableName];
+    }
+    return [self getAttributesDaoWithContents:contents];
 }
 
 -(void) execSQL: (NSString *) sql{
