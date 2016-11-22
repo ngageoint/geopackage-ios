@@ -1,23 +1,24 @@
 //
-//  GPKGElevationTilesCommon.m
+//  GPKGElevationTilesCore.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/11/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGElevationTilesCommon.h"
+#import "GPKGElevationTilesCore.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGElevationTilesAlgorithms.h"
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGElevationSourcePixel.h"
+#import "GPKGElevationTileMatrixResults.h"
 
 NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME = @"elevation_tiles";
 NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.extensions.elevation_tiles";
 
-@interface GPKGElevationTilesCommon ()
+@interface GPKGElevationTilesCore ()
 
 @property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
 @property (nonatomic, strong) GPKGGriddedCoverageDao *griddedCoverageDao;
@@ -30,9 +31,9 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 
 @end
 
-@implementation GPKGElevationTilesCommon
+@implementation GPKGElevationTilesCore
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_ELEVATION_TILES_EXTENSION_NAME];
@@ -42,7 +43,8 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         self.zoomInBeforeOut = true;
         self.algorithm = GPKG_ETA_NEAREST_NEIGHBOR;
         
-        self.tileMatrixSet = tileMatrixSet;
+        self.tileDao = tileDao;
+        self.tileMatrixSet = tileDao.tileMatrixSet;
         self.griddedCoverageDao = [geoPackage getGriddedCoverageDao];
         self.griddedTileDao = [geoPackage getGriddedTileDao];
         [self queryGriddedCoverage];
@@ -50,8 +52,8 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         self.width = width;
         self.height = height;
         self.requestProjection = requestProjection;
-        self.elevationProjection = [GPKGProjectionFactory getProjectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileMatrixSet]];
-        self.elevationBoundingBox = [tileMatrixSet getBoundingBox];
+        self.elevationProjection = [GPKGProjectionFactory getProjectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
+        self.elevationBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units
         if(requestProjection != nil){
@@ -61,10 +63,6 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         }
     }
     return self;
-}
-
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
-    return [self initWithGeoPackage:geoPackage andTileMatrixSet:tileMatrixSet andWidth:nil andHeight:nil andProjection:nil];
 }
 
 -(GPKGTileMatrixSet *) tileMatrixSet{
@@ -271,7 +269,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         
         // If only one tile result, use the elevations as the result
         if (tileCount == 1) {
-            elevations = [self getElevationsFromDictionary:rowsDictionary atRow:minRow andColumn:minColumn];
+            elevations = (NSMutableArray *)[self getElevationsFromDictionary:rowsDictionary atRow:minRow andColumn:minColumn];
         } else {
             
             // Else, combine all results into a single elevations result
@@ -891,5 +889,571 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     
     return pixelValue;
 }
+
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    return nil;
+}
+
+-(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    return 0;
+}
+
+
+-(GPKGTileDao *) tileDao{
+    return _tileDao;
+}
+
+-(NSDecimalNumber *) elevationWithLatitude: (double) latitude andLongitude: (double) longitude{
+    GPKGElevationRequest * request = [[GPKGElevationRequest alloc] initWithLatitude:latitude andLongitude:longitude];
+    GPKGElevationTileResults * elevations = [self elevationsWithElevationRequest:request andWidth:[NSNumber numberWithInt:1] andHeight:[NSNumber numberWithInt:1]];
+    NSDecimalNumber * elevation = nil;
+    if(elevations != nil){
+        elevation = [elevations elevationAtRow:0 andColumn:0];
+    }
+    return elevation;
+}
+
+
+-(GPKGElevationTileResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
+    GPKGElevationRequest * request = [[GPKGElevationRequest alloc] initWithBoundingBox:requestBoundingBox];
+    GPKGElevationTileResults * elevations = [self elevationsWithElevationRequest:request];
+    return elevations;
+}
+
+-(GPKGElevationTileResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andWidth: (NSNumber *) width andHeight: (NSNumber *) height{
+    GPKGElevationRequest * request = [[GPKGElevationRequest alloc] initWithBoundingBox:requestBoundingBox];
+    GPKGElevationTileResults * elevations = [self elevationsWithElevationRequest:request andWidth:width andHeight:height];
+    return elevations;
+}
+
+-(GPKGElevationTileResults *) elevationsWithElevationRequest: (GPKGElevationRequest *) request{
+    GPKGElevationTileResults * elevations = [self elevationsWithElevationRequest:request andWidth:self.width andHeight:self.height];
+    return elevations;
+}
+
+-(GPKGElevationTileResults *) elevationsWithElevationRequest: (GPKGElevationRequest *) request andWidth: (NSNumber *) width andHeight: (NSNumber *) height{
+    
+    GPKGElevationTileResults * elevationResults = nil;
+    
+    // Transform to the projection of the elevation tiles
+    GPKGProjectionTransform * transformRequestToElevation = nil;
+    GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
+    if (!self.sameProjection) {
+        transformRequestToElevation = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.elevationProjection];
+        requestProjectedBoundingBox = [transformRequestToElevation transformWithBoundingBox:requestProjectedBoundingBox];
+    }
+    [request setProjectedBoundingBox:requestProjectedBoundingBox];
+    
+    // Determine how many overlapping pixels to store based upon the
+    // algorithm
+    int overlappingPixels;
+    switch (self.algorithm) {
+        case GPKG_ETA_BICUBIC:
+            overlappingPixels = 3;
+            break;
+        default:
+            overlappingPixels = 1;
+    }
+    
+    // Find the tile matrix and results
+    GPKGElevationTileMatrixResults * results = [self resultsWithElevationRequest: request andBoundingBox: requestProjectedBoundingBox andOverlappingPixels: overlappingPixels];
+    
+    if(results != nil){
+        
+        GPKGTileMatrix * tileMatrix = [results tileMatrix];
+        GPKGResultSet * tileResults = [results tileResults];
+        
+        @try {
+            
+            // Determine the requested elevation dimensions, or use the
+            // dimensions of a single tile matrix elevation tile
+            int requestedElevationsWidth = width != nil ? [width intValue] : [tileMatrix.tileWidth intValue];
+            int requestedElevationsHeight = height != nil ? [height intValue] : [tileMatrix.tileHeight intValue];
+            
+            // Determine the size of the non projected elevation results
+            int tileWidth = requestedElevationsWidth;
+            int tileHeight = requestedElevationsHeight;
+            if (!self.sameProjection) {
+                int projectedWidth = (int) round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
+                if (projectedWidth > 0) {
+                    tileWidth = projectedWidth;
+                }
+                int projectedHeight = (int) round(([requestProjectedBoundingBox.maxLatitude doubleValue] - [requestProjectedBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
+                if (projectedHeight > 0) {
+                    tileHeight = projectedHeight;
+                }
+            }
+            
+            // Retrieve the elevations from the results
+            NSArray * elevations = [self elevationsWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request andTileWidth: tileWidth andTileHeight: tileHeight andOverlappingPixels: overlappingPixels];
+            
+            // Project the elevations if needed
+            if (elevations != nil && !self.sameProjection && !request.isPoint) {
+                elevations = [self reprojectElevations:elevations withWidth:requestedElevationsWidth andHeight:requestedElevationsHeight andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andElevationBoundingBox:requestProjectedBoundingBox];
+            }
+            
+            // Create the results
+            if (elevations != nil) {
+                elevationResults = [[GPKGElevationTileResults alloc] initWithElevations:elevations andTileMatrix:tileMatrix];
+            }
+        } @finally {
+            [tileResults close];
+        }
+    }
+    
+    return elevationResults;
+}
+
+-(GPKGElevationTileResults *) elevationsUnboundedWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
+    GPKGElevationRequest * request = [[GPKGElevationRequest alloc] initWithBoundingBox:requestBoundingBox];
+    return [self elevationsUnboundedWithElevationRequest: request];
+}
+
+-(GPKGElevationTileResults *) elevationsUnboundedWithElevationRequest: (GPKGElevationRequest *) request{
+    
+    GPKGElevationTileResults * elevationResults = nil;
+    
+    // Transform to the projection of the elevation tiles
+    GPKGProjectionTransform * transformRequestToElevation = nil;
+    GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
+    if (!self.sameProjection) {
+        transformRequestToElevation = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.elevationProjection];
+        requestProjectedBoundingBox = [transformRequestToElevation transformWithBoundingBox:requestProjectedBoundingBox];
+    }
+    [request setProjectedBoundingBox:requestProjectedBoundingBox];
+    
+    // Find the tile matrix and results
+    GPKGElevationTileMatrixResults * results = [self resultsWithElevationRequest: request andBoundingBox: requestProjectedBoundingBox];
+    
+    if(results != nil){
+        
+        GPKGTileMatrix * tileMatrix = [results tileMatrix];
+        GPKGResultSet * tileResults = [results tileResults];
+        
+        @try {
+            
+            // Retrieve the elevations from the results
+            NSArray * elevations = [self elevationsUnboundedWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request];
+            
+            // Project the elevations if needed
+            if (elevations != nil && !self.sameProjection && !request.isPoint) {
+                elevations = [self reprojectElevations:elevations withWidth:(int)((NSArray *)[elevations objectAtIndex:0]).count andHeight:(int)elevations.count andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andElevationBoundingBox:requestProjectedBoundingBox];
+            }
+            
+            // Create the results
+            if (elevations != nil) {
+                elevationResults = [[GPKGElevationTileResults alloc] initWithElevations:elevations andTileMatrix:tileMatrix];
+            }
+            
+        } @finally {
+            [tileResults close];
+        }
+    }
+    
+    return elevationResults;
+}
+
+/**
+ * Get the elevation tile results by finding the tile matrix with values
+ *
+ * @param request
+ *            elevation request
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsWithElevationRequest: (GPKGElevationRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox{
+    return [self resultsWithElevationRequest:request andBoundingBox:requestProjectedBoundingBox andOverlappingPixels:0];
+}
+
+/**
+ * Get the elevation tile results by finding the tile matrix with values
+ *
+ * @param request
+ *            elevation request
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @param overlappingPixels
+ *            overlapping request pixels
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsWithElevationRequest: (GPKGElevationRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andOverlappingPixels: (int) overlappingPixels{
+    // Try to get the elevation from the current zoom level
+    GPKGTileMatrix * tileMatrix = [self tileMatrixWithRequest: request];
+    GPKGElevationTileMatrixResults * results = nil;
+    if (tileMatrix != nil) {
+        results = [self resultsWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
+        
+        // Try to zoom in or out to find a matching elevation
+        if (results == nil) {
+            results = [self resultsZoomWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
+        }
+    }
+    return results;
+}
+
+/**
+ * Get the elevation tile results for a specified tile matrix
+ *
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @param tileMatrix
+ *            tile matrix
+ * @param overlappingPixels
+ *            number of overlapping pixels used by the algorithm
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsWithBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andOverlappingPixels: (int) overlappingPixels{
+    GPKGElevationTileMatrixResults * results = nil;
+    GPKGBoundingBox * paddedBoundingBox = [self padBoundingBoxWithTileMatrix:tileMatrix andBoundingBox:requestProjectedBoundingBox andOverlap:overlappingPixels];
+    GPKGResultSet * tileResults = [self retrieveSortedTileResultsWithBoundingBox: paddedBoundingBox andTileMatrix: tileMatrix];
+    if(tileResults != nil){
+        if(tileResults.count > 0){
+            results = [[GPKGElevationTileMatrixResults alloc] initWithTileMatrix:tileMatrix andTileResults:tileResults];
+        }else{
+            [tileResults close];
+        }
+    }
+    return results;
+}
+
+/**
+ * Get the elevation tile results by zooming in or out as needed from the
+ * provided tile matrix to find values
+ *
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @param tileMatrix
+ *            tile matrix
+ * @param overlappingPixels
+ *            overlapping request pixels
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsZoomWithBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andOverlappingPixels: (int) overlappingPixels{
+    
+    GPKGElevationTileMatrixResults * results = nil;
+    
+    if (self.zoomIn && self.zoomInBeforeOut) {
+        results = [self resultsZoomInWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
+    }
+    if (results == nil && self.zoomOut) {
+        results = [self resultsZoomOutWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
+    }
+    if (results == nil && self.zoomIn && !self.zoomInBeforeOut) {
+        results = [self resultsZoomInWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
+    }
+    
+    return results;
+}
+
+/**
+ * Get the elevation tile results by zooming in from the provided tile
+ * matrix
+ *
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @param tileMatrix
+ *            tile matrix
+ * @param overlappingPixels
+ *            overlapping request pixels
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsZoomInWithBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andOverlappingPixels: (int) overlappingPixels{
+    
+    GPKGElevationTileMatrixResults * results = nil;
+    for (int zoomLevel = [tileMatrix.zoomLevel intValue] + 1; zoomLevel <= self.tileDao
+         .maxZoom; zoomLevel++) {
+        GPKGTileMatrix * zoomTileMatrix = [self.tileDao getTileMatrixWithZoomLevel:zoomLevel];
+        if (zoomTileMatrix != nil) {
+            results = [self resultsWithBoundingBox:requestProjectedBoundingBox andTileMatrix:zoomTileMatrix andOverlappingPixels:overlappingPixels];
+            if (results != nil) {
+                break;
+            }
+        }
+    }
+    return results;
+}
+
+/**
+ * Get the elevation tile results by zooming out from the provided tile
+ * matrix
+ *
+ * @param requestProjectedBoundingBox
+ *            request projected bounding box
+ * @param tileMatrix
+ *            tile matrix
+ * @param overlappingPixels
+ *            overlapping request pixels
+ * @return tile matrix results
+ */
+-(GPKGElevationTileMatrixResults *) resultsZoomOutWithBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andOverlappingPixels: (int) overlappingPixels{
+    
+    GPKGElevationTileMatrixResults * results = nil;
+    for (int zoomLevel = [tileMatrix.zoomLevel intValue] - 1; zoomLevel >= self.tileDao
+         .minZoom; zoomLevel--) {
+        GPKGTileMatrix * zoomTileMatrix = [self.tileDao getTileMatrixWithZoomLevel:zoomLevel];
+        if (zoomTileMatrix != nil) {
+            results = [self resultsWithBoundingBox:requestProjectedBoundingBox andTileMatrix:zoomTileMatrix andOverlappingPixels:overlappingPixels];
+            if (results != nil) {
+                break;
+            }
+        }
+    }
+    return results;
+}
+
+/**
+ * Get the elevation values from the tile results scaled to the provided
+ * dimensions
+ *
+ * @param tileMatrix
+ *            tile matrix
+ * @param tileResults
+ *            tile results
+ * @param request
+ *            elevation request
+ * @param tileWidth
+ *            tile width
+ * @param tileHeight
+ *            tile height
+ * @param overlappingPixels
+ *            overlapping request pixels
+ * @return elevation values
+ */
+-(NSArray *) elevationsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGElevationRequest *) request andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andOverlappingPixels: (int) overlappingPixels{
+    return nil; // TODO
+}
+
+/**
+ * Get the bilinear interpolation elevation
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param y
+ *            y coordinate
+ * @param x
+ *            x coordinate
+ * @param widthRatio
+ *            width source over destination ratio
+ * @param heightRatio
+ *            height source over destination ratio
+ * @param destTop
+ *            destination top most pixel
+ * @param destLeft
+ *            destination left most pixel
+ * @param srcTop
+ *            source top most pixel
+ * @param srcLeft
+ *            source left most pixel
+ * @return bilinear elevation
+ */
+-(NSDecimalNumber *) bilinearInterpolationElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+    return nil; //TODO
+}
+
+/**
+ * Get the bicubic interpolation elevation
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param y
+ *            y coordinate
+ * @param x
+ *            x coordinate
+ * @param widthRatio
+ *            width source over destination ratio
+ * @param heightRatio
+ *            height source over destination ratio
+ * @param destTop
+ *            destination top most pixel
+ * @param destLeft
+ *            destination left most pixel
+ * @param srcTop
+ *            source top most pixel
+ * @param srcLeft
+ *            source left most pixel
+ * @return bicubic elevation
+ */
+-(NSDecimalNumber *) bicubicInterpolationElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+    return nil; //TODO
+}
+
+/**
+ * Populate the elevation values
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param pixelX
+ *            source x pixel
+ * @param pixelY
+ *            source y pixel
+ * @param values
+ *            values to populate
+ */
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andPixelX: (GPKGElevationSourcePixel *) pixelX andPixelY: (GPKGElevationSourcePixel *) pixelY andValues: (NSArray *) values{
+    //TODO
+}
+
+/**
+ * Populate the elevation values
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param minX
+ *            min x coordinate
+ * @param maxX
+ *            max x coordinate
+ * @param minY
+ *            min y coordinate
+ * @param maxY
+ *            max y coordinate
+ * @param values
+ *            values to populate
+ */
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY andValues: (NSArray *) values{
+    //TODO
+}
+
+/**
+ * Get the nearest neighbor elevation
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param y
+ *            y coordinate
+ * @param x
+ *            x coordinate
+ * @param widthRatio
+ *            width source over destination ratio
+ * @param heightRatio
+ *            height source over destination ratio
+ * @param destTop
+ *            destination top most pixel
+ * @param destLeft
+ *            destination left most pixel
+ * @param srcTop
+ *            source top most pixel
+ * @param srcLeft
+ *            source left most pixel
+ * @return nearest neighbor elevation
+ */
+-(NSDecimalNumber *) nearestNeighborElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+    return nil; //TODO
+}
+
+/**
+ * Get the elevation value from the coordinate location. If the coordinate
+ * crosses the left, top, or top left tile, attempts to get the elevation
+ * from previously processed border elevations.
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            image
+ * @param leftLastColumns
+ *            last columns in the tile to the left
+ * @param topLeftRows
+ *            last rows of the tile to the top left
+ * @param topRows
+ *            last rows of the tile to the top
+ * @param y
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return elevation value
+ */
+-(NSDecimalNumber *) elevationValueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x{
+    return nil; //TODO
+}
+
+/**
+ * Get the elevation values from the tile results unbounded in result size
+ *
+ * @param tileMatrix
+ *            tile matrix
+ * @param tileResults
+ *            tile results
+ * @param request
+ *            elevation request
+ * @return elevation values
+ */
+-(NSArray *) elevationsUnboundedWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGElevationRequest *) request{
+    return nil; //TODO
+}
+
+/**
+ * Get the tile matrix for the zoom level as defined by the area of the
+ * request
+ *
+ * @param request
+ *            elevation request
+ * @return tile matrix or null
+ */
+-(GPKGTileMatrix *) tileMatrixWithRequest: (GPKGElevationRequest *) request{
+    return nil; //TODO
+}
+
+/**
+ * Get the tile row results of elevation tiles needed to create the
+ * requested bounding box elevations, sorted by row and then column
+ *
+ * @param projectedRequestBoundingBox
+ *            bounding box projected to the elevations
+ * @param tileMatrix
+ *            tile matrix
+ * @return tile results or null
+ */
+-(GPKGResultSet *) retrieveSortedTileResultsWithBoundingBox: (GPKGBoundingBox *) projectedRequestBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
+    return nil; //TODO
+}
+
+-(double) elevationValueWithTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
+    GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
+    double elevation = [self elevationValueWithGriddedTile:griddedTile andTileRow:tileRow andX:x andY:y];
+    return elevation;
+}
+
 
 @end

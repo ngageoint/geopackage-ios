@@ -1,5 +1,5 @@
 //
-//  GPKGElevationTilesCommon.h
+//  GPKGElevationTilesCore.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/11/16.
@@ -8,10 +8,14 @@
 
 #import "GPKGBaseExtension.h"
 #import "GPKGGriddedCoverageDao.h"
+#import "GPKGTileDao.h"
+#import "GPKGElevationImage.h"
+#import "GPKGElevationRequest.h"
+#import "GPKGElevationTileResults.h"
 
 extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 
-@interface GPKGElevationTilesCommon : GPKGBaseExtension
+@interface GPKGElevationTilesCore : GPKGBaseExtension
 
 /**
  *  Extension name
@@ -56,27 +60,22 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 @property (nonatomic) enum GPKGElevationTilesAlgorithm algorithm;
 
 /**
+ * Tile DAO
+ */
+@property (nonatomic, strong) GPKGTileDao *tileDao;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
- *  @param tileMatrixSet tile matrix set
+ *  @param tileDao tile dao
  *  @param width specified results width
  *  @param height specified results height
  *  @param requestProjection request projection
  *
  *  @return new instance
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection;
-
-/**
- *  Initialize
- *
- *  @param geoPackage GeoPackage
- *  @param tileMatrixSet tile matrix set
- *
- *  @return new instance
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection;
 
 /**
  *  Get the tile matrix set
@@ -304,5 +303,133 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
  * @return pixel value
  */
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
+
+/**
+ * Get the elevation value from the image at the coordinate
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            elevation image
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return elevation
+ */
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y;
+
+/**
+ * Get the elevation value of the pixel in the tile row image
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param tileRow
+ *            tile row
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return elevation value
+ */
+-(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
+
+/**
+ * Get the tile dao
+ *
+ * @return tile dao
+ */
+-(GPKGTileDao *) tileDao;
+
+/**
+ * Get the elevation at the coordinate
+ *
+ * @param latitude
+ *            latitude
+ * @param longitude
+ *            longitude
+ * @return elevation value
+ */
+-(NSDecimalNumber *) elevationWithLatitude: (double) latitude andLongitude: (double) longitude;
+
+/**
+ * Get the elevation values within the bounding box
+ *
+ * @param requestBoundingBox
+ *            request bounding box
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
+
+/**
+ * Get the elevation values within the bounding box with the requested width
+ * and height result size
+ *
+ * @param requestBoundingBox
+ *            request bounding box
+ * @param width
+ *            elevation request width
+ * @param height
+ *            elevation request height
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
+
+/**
+ * Get the requested elevation values
+ *
+ * @param request
+ *            elevation request
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsWithElevationRequest: (GPKGElevationRequest *) request;
+
+/**
+ * Get the requested elevation values with the requested width and height
+ *
+ * @param request
+ *            elevation request
+ * @param width
+ *            elevation request width
+ * @param height
+ *            elevation request height
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsWithElevationRequest: (GPKGElevationRequest *) request andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
+
+/**
+ * Get the unbounded elevation values within the bounding box. Unbounded
+ * results retrieves and returns each elevation pixel. The results size
+ * equals the width and height of all matching pixels.
+ *
+ * @param requestBoundingBox
+ *            request bounding box
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsUnboundedWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
+
+/**
+ * Get the requested unbounded elevation values. Unbounded results retrieves
+ * and returns each elevation pixel. The results size equals the width and
+ * height of all matching pixels.
+ *
+ * @param request
+ *            elevation request
+ * @return elevation results
+ */
+-(GPKGElevationTileResults *) elevationsUnboundedWithElevationRequest: (GPKGElevationRequest *) request;
+
+/**
+ * Get the elevation value of the pixel in the tile row image
+ *
+ * @param tileRow
+ *            tile row
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return elevation value
+ */
+-(double) elevationValueWithTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
 
 @end
