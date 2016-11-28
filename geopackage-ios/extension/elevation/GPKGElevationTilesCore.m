@@ -14,6 +14,7 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGElevationSourcePixel.h"
 #import "GPKGElevationTileMatrixResults.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME = @"elevation_tiles";
 NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.extensions.elevation_tiles";
@@ -189,7 +190,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     double tilesDistanceWidth = [elevationBoundingBox.maxLongitude doubleValue] - [elevationBoundingBox.minLongitude doubleValue];
     double tilesDistanceHeight = [elevationBoundingBox.maxLatitude doubleValue] - [elevationBoundingBox.minLatitude doubleValue];
     
-    int width = (int) ((NSArray *)[elevations objectAtIndex:0]).count;
+    int width = [self countInDoubleArray:elevations atIndex1:0];
     int height = (int) elevations.count;
     
     NSMutableArray * projectedElevations = [[NSMutableArray alloc] initWithCapacity:requestedElevationsHeight];
@@ -220,7 +221,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             yPixel = MAX(0, yPixel);
             yPixel = MIN(height - 1, yPixel);
             
-            NSDecimalNumber * elevation = (NSDecimalNumber *)[((NSArray *)[elevations objectAtIndex:yPixel]) objectAtIndex:xPixel];
+            NSDecimalNumber * elevation = (NSDecimalNumber *)[self objectInDoubleArray:elevations atIndex1:yPixel andIndex2:xPixel];
             [elevationsRow addObject:elevation];
         }
     }
@@ -279,14 +280,14 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             NSArray * bottomRight = [self getElevationsFromDictionary:rowsDictionary atRow:maxRow andColumn:maxColumn];
             
             // Determine the width and height of the top left elevation results
-            int firstWidth = (int)((NSArray *)[topLeft objectAtIndex:0]).count;
+            int firstWidth = [self countInDoubleArray:topLeft atIndex1:0];
             int firstHeight = (int) topLeft.count;
             
             // Determine the final result width and height
             int width = firstWidth;
             int height = firstHeight;
             if (minColumn < maxColumn) {
-                width += ((NSArray *)[bottomRight objectAtIndex:0]).count;
+                width += [self countInDoubleArray:bottomRight atIndex1:0];
                 int middleColumns = maxColumn - minColumn - 1;
                 if (middleColumns > 0) {
                     width += (middleColumns * [tileMatrix.tileWidth intValue]);
@@ -301,14 +302,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             }
             
             // Create the elevation result array
-            elevations = [[NSMutableArray alloc] initWithCapacity:height];
-            for(int i = 0; i < height; i++){
-                NSMutableArray * initialRow = [[NSMutableArray alloc] initWithCapacity:width];
-                for(int j = 0; j < width; j++){
-                    [initialRow addObject:[NSNull null]];
-                }
-                [elevations addObject:initialRow];
-            }
+            elevations = [self createNullFilledDoubleArrayWithSize1:height andSize2:width];
             
             // Copy the elevation values from each tile results into the
             // final result arrays
@@ -1039,7 +1033,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             
             // Project the elevations if needed
             if (elevations != nil && !self.sameProjection && !request.isPoint) {
-                elevations = [self reprojectElevations:elevations withWidth:(int)((NSArray *)[elevations objectAtIndex:0]).count andHeight:(int)elevations.count andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andElevationBoundingBox:requestProjectedBoundingBox];
+                elevations = [self reprojectElevations:elevations withWidth:[self countInDoubleArray:elevations atIndex1:0] andHeight:(int)elevations.count andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andElevationBoundingBox:requestProjectedBoundingBox];
             }
             
             // Create the results
@@ -1223,7 +1217,208 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return elevation values
  */
 -(NSArray *) elevationsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGElevationRequest *) request andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andOverlappingPixels: (int) overlappingPixels{
-    return nil; // TODO
+
+    NSMutableArray * elevations = nil;
+    
+    // Tiles are ordered by rows and then columns. Track the last column
+    // elevations of the tile to the left and the last rows of the tiles in
+    // the row above
+    NSMutableArray * leftLastColumns = nil;
+    NSMutableDictionary * lastRowsByColumn = nil;
+    NSMutableDictionary * previousLastRowsByColumn = nil;
+    
+    int previousRow = -1;
+    int previousColumn = INT_MAX;
+    
+    // Process each elevation tile
+    GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileMatrix.tableName];
+    while ([tileResults moveToNext]) {
+        
+        // Get the next elevation tile
+        GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+        
+        int currentRow = [tileRow getTileRow];
+        int currentColumn = [tileRow getTileColumn];
+        
+        // If the row has changed, save off the previous last rows and begin
+        // tracking this row. Clear the left last columns.
+        if (currentRow > previousRow) {
+            previousLastRowsByColumn = lastRowsByColumn;
+            lastRowsByColumn = [[NSMutableDictionary alloc] init];
+            leftLastColumns = nil;
+        }
+        
+        // If there was a previous row, retrieve the top left and top
+        // overlapping rows
+        NSMutableArray * topLeftRows = nil;
+        NSMutableArray * topRows = nil;
+        if (previousLastRowsByColumn != nil) {
+            topLeftRows = [previousLastRowsByColumn objectForKey:[NSNumber numberWithInt:currentColumn - 1]];
+            topRows = [previousLastRowsByColumn objectForKey:[NSNumber numberWithInt:currentColumn]];
+        }
+        
+        // If the current column is not the column after the previous clear
+        // the left values
+        if (currentColumn < previousColumn
+            || currentColumn != previousColumn + 1) {
+            leftLastColumns = nil;
+        }
+        
+        // Get the bounding box of the elevation
+        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.elevationBoundingBox andTileMatrix:tileMatrix andTileColumn:currentColumn andTileRow:currentRow];
+        
+        // Get the bounding box where the request and elevation tile overlap
+        GPKGBoundingBox * overlap = [request overlapWithBoundingBox:tileBoundingBox];
+        
+        // Get the gridded tile value for the tile
+        GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
+        
+        // Get the elevation tile image
+        GPKGElevationImage * image = [[GPKGElevationImage alloc] initWithTileRow:tileRow];
+        
+        // If the tile overlaps with the requested box
+        if (overlap != nil) {
+            
+            // Get the rectangle of the tile elevation with matching values
+            CGRect src = [GPKGTileBoundingBoxUtils getRectangleWithWidth:[tileMatrix.tileWidth intValue] andHeight:[tileMatrix.tileHeight intValue] andBoundingBox:tileBoundingBox andSection:overlap];
+            
+            // Get the rectangle of where to store the results
+            CGRect dest;
+            if ([request.projectedBoundingBox equals:overlap]) {
+                if ([request isPoint]) {
+                    // For single points request only a single destination
+                    // pixel
+                    dest = CGRectMake(0, 0, 0, 0);
+                } else {
+                    // The overlap is equal to the request, set as the full
+                    // destination size
+                    dest = CGRectMake(0, 0, tileWidth, tileHeight);
+                }
+            } else {
+                dest = [GPKGTileBoundingBoxUtils getRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:request.projectedBoundingBox andSection:overlap];
+            }
+            
+            if (src.origin.x <= src.size.width && src.origin.y <= src.size.height
+                && dest.origin.x <= dest.size.width && dest.origin.y <= dest.size.height) {
+                
+                // Create the elevations array first time through
+                if (elevations == nil) {
+                    elevations = [self createNullFilledDoubleArrayWithSize1:tileHeight andSize2:tileWidth];
+                }
+                
+                // Get the destination widths
+                float destWidth = dest.size.width - dest.origin.x;
+                float destHeight = dest.size.height - dest.origin.y;
+                
+                // Get the destination heights
+                float srcWidth = src.size.width - src.origin.x;
+                float srcHeight = src.size.height - src.origin.y;
+                
+                // Determine the source to destination ratio and how many
+                // destination pixels equal half a source pixel
+                float widthRatio;
+                float halfDestWidthPixel;
+                if (destWidth == 0) {
+                    widthRatio = 0.0f;
+                    halfDestWidthPixel = 0.0f;
+                } else {
+                    widthRatio = srcWidth / destWidth;
+                    halfDestWidthPixel = 0.5f / widthRatio;
+                }
+                float heightRatio;
+                float halfDestHeightPixel;
+                if (destHeight == 0) {
+                    heightRatio = 0.0f;
+                    halfDestHeightPixel = 0.0f;
+                } else {
+                    heightRatio = srcHeight / destHeight;
+                    halfDestHeightPixel = 0.5f / heightRatio;
+                }
+                
+                float algorithmDestWidthPixelOverlap = halfDestWidthPixel
+                    * overlappingPixels;
+                float algorithmDestHeightPixelOverlap = halfDestHeightPixel
+                    * overlappingPixels;
+                
+                // Determine the range of destination values to set
+                int minDestY = (int) floor(dest.origin.y
+                                                - algorithmDestHeightPixelOverlap);
+                int maxDestY = (int) ceil(dest.size.height
+                                               + algorithmDestHeightPixelOverlap);
+                int minDestX = (int) floor(dest.origin.x
+                                                - algorithmDestWidthPixelOverlap);
+                int maxDestX = (int) ceil(dest.size.width
+                                               + algorithmDestWidthPixelOverlap);
+                minDestY = MAX(minDestY, 0);
+                minDestX = MAX(minDestX, 0);
+                maxDestY = MIN(maxDestY, tileHeight - 1);
+                maxDestX = MIN(maxDestX, tileWidth - 1);
+                
+                // Read and set the elevation values
+                for (int y = minDestY; y <= maxDestY; y++) {
+                    for (int x = minDestX; x <= maxDestX; x++) {
+                        
+                        // Determine the elevation based upon the
+                        // selected algorithm
+                        NSDecimalNumber * elevation = nil;
+                        switch (self.algorithm) {
+                            case GPKG_ETA_NEAREST_NEIGHBOR:
+                                elevation = [self nearestNeighborElevation:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                break;
+                            case GPKG_ETA_BILINEAR:
+                                elevation = [self bilinearInterpolationElevationWithGriddedTile:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                break;
+                            case GPKG_ETA_BICUBIC:
+                                elevation = [self bicubicInterpolationElevation:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                break;
+                            default:
+                                [NSException raise:@"Unsupported Algorithm" format:@"Algorithm is not supported: %u", self.algorithm];
+                        }
+                        
+                        if (elevation != nil) {
+                            [self replaceObjectInDoubleArray:elevations atIndex1:y andIndex2:x withValue:elevation];
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+        
+        // Determine and store the elevations of the last columns and rows
+        leftLastColumns = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
+        NSMutableArray * lastRows = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
+        [lastRowsByColumn setObject:lastRows forKey:[NSNumber numberWithInt:currentColumn]];
+        
+        // For each overlapping pixel
+        for (int lastIndex = 0; lastIndex < overlappingPixels; lastIndex++) {
+            
+            // Store the last column row elevation values
+            NSMutableArray * leftLastColumnsRow = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileHeight intValue]];
+            [leftLastColumns addObject:leftLastColumnsRow];
+            int lastColumnIndex = [tileMatrix.tileWidth intValue] - lastIndex - 1;
+            for (int row = 0; row < [tileMatrix.tileHeight intValue]; row++) {
+                NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:lastColumnIndex andY:row];
+                [leftLastColumnsRow addObject:elevation];
+            }
+            
+            // Store the last row column elevation values
+            NSMutableArray * lastRowsColumn = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileWidth intValue]];
+            [lastRows addObject:lastRowsColumn];
+            int lastRowIndex = [tileMatrix.tileHeight intValue] - lastIndex - 1;
+            for (int column = 0; column < [tileMatrix.tileWidth intValue]; column++) {
+                NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:column andY:lastRowIndex];
+                [lastRowsColumn addObject:elevation];
+            }
+            
+        }
+        
+        // Update the previous row and column
+        previousRow = currentRow;
+        previousColumn = currentColumn;
+    }
+    
+    return elevations;
 }
 
 /**
@@ -1258,7 +1453,24 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return bilinear elevation
  */
 -(NSDecimalNumber *) bilinearInterpolationElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
-    return nil; //TODO
+
+    // Determine which source pixel to use
+    float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
+    float ySource =[self ySourceWithY:y andDestTop:destTop andSrcTop:srcTop andHeightRatio:heightRatio];
+    
+    GPKGElevationSourcePixel * sourcePixelX = [self minAndMaxOfSource:xSource];
+    GPKGElevationSourcePixel * sourcePixelY = [self minAndMaxOfSource:ySource];
+    
+    NSMutableArray * values = [self createNullFilledDoubleArrayWithSize1:2 andSize2:2];
+    [self populateElevationValues:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andPixelX:sourcePixelX andPixelY:sourcePixelY andValues:values];
+    
+    NSDecimalNumber * elevation = nil;
+    
+    if (values != nil) {
+        elevation = [self bilinearInterpolationElevationWithSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY andValues:values];
+    }
+    
+    return elevation;
 }
 
 /**
@@ -1293,7 +1505,29 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return bicubic elevation
  */
 -(NSDecimalNumber *) bicubicInterpolationElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
-    return nil; //TODO
+
+    // Determine which source pixel to use
+    float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
+    float ySource =[self ySourceWithY:y andDestTop:destTop andSrcTop:srcTop andHeightRatio:heightRatio];
+    
+    GPKGElevationSourcePixel * sourcePixelX = [self minAndMaxOfSource:xSource];
+    [sourcePixelX setMin:sourcePixelX.min - 1];
+    [sourcePixelX setMax:sourcePixelX.max + 1];
+    
+    GPKGElevationSourcePixel * sourcePixelY = [self minAndMaxOfSource:ySource];
+    [sourcePixelY setMin:sourcePixelY.min - 1];
+    [sourcePixelY setMax:sourcePixelY.max + 1];
+    
+    NSMutableArray * values = [self createNullFilledDoubleArrayWithSize1:4 andSize2:4];
+    [self populateElevationValues:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andPixelX:sourcePixelX andPixelY:sourcePixelY andValues:values];
+    
+    NSDecimalNumber * elevation = nil;
+    
+    if (values != nil) {
+        elevation = [self bicubicInterpolationElevationWithValues:values andSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY];
+    }
+    
+    return elevation;
 }
 
 /**
@@ -1316,8 +1550,9 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @param values
  *            values to populate
  */
--(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andPixelX: (GPKGElevationSourcePixel *) pixelX andPixelY: (GPKGElevationSourcePixel *) pixelY andValues: (NSArray *) values{
-    //TODO
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andPixelX: (GPKGElevationSourcePixel *) pixelX andPixelY: (GPKGElevationSourcePixel *) pixelY andValues: (NSMutableArray *) values{
+    
+    [self populateElevationValues:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andMinX:pixelX.min andMaxX:pixelX.max andMinY:pixelY.min andMaxY:pixelY.max andValues:values];
 }
 
 /**
@@ -1344,8 +1579,20 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @param values
  *            values to populate
  */
--(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY andValues: (NSArray *) values{
-    //TODO
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY andValues: (NSMutableArray *) values{
+    
+    for (int yLocation = maxY; values != nil && yLocation >= minY; yLocation--) {
+        for (int xLocation = maxX; xLocation >= minX; xLocation--) {
+            NSDecimalNumber * value = [self elevationValueOverBordersWithGriddedTile:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andX:xLocation andY:yLocation];
+
+            if (value == nil) {
+                values = nil;
+                break;
+            } else {
+                [self replaceObjectInDoubleArray:values atIndex1:yLocation - minY andIndex2:xLocation - minX withValue:value];
+            }
+        }
+    }
 }
 
 /**
@@ -1380,7 +1627,25 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return nearest neighbor elevation
  */
 -(NSDecimalNumber *) nearestNeighborElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
-    return nil; //TODO
+
+    // Determine which source pixel to use
+    float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
+    float ySource =[self ySourceWithY:y andDestTop:destTop andSrcTop:srcTop andHeightRatio:heightRatio];
+    
+    // Get the closest nearest neighbors
+    NSArray * nearestNeighbors = [self nearestNeighborsWithXSource:xSource andYSource:ySource];
+    
+    // Get the elevation value from the source pixel nearest neighbors until
+    // one is found
+    NSDecimalNumber * elevation = nil;
+    for (NSArray * nearestNeighbor in nearestNeighbors) {
+        elevation = [self elevationValueOverBordersWithGriddedTile:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andX:[((NSNumber *)[nearestNeighbor objectAtIndex:0]) intValue] andY:[((NSNumber *)[nearestNeighbor objectAtIndex:1]) intValue]];
+        if (elevation != nil) {
+            break;
+        }
+    }
+    
+    return elevation;
 }
 
 /**
@@ -1398,14 +1663,62 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            last rows of the tile to the top left
  * @param topRows
  *            last rows of the tile to the top
- * @param y
+ * @param x
  *            x coordinate
  * @param y
  *            y coordinate
  * @return elevation value
  */
--(NSDecimalNumber *) elevationValueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x{
-    return nil; //TODO
+-(NSDecimalNumber *) elevationValueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andX: (int) x andY: (int) y{
+
+    NSDecimalNumber * elevation = nil;
+    
+    // Only handle locations in the current tile, to the left, top left, or
+    // top tiles. Tiles are processed sorted by rows and columns, so values
+    // to the top right, right, or any below tiles will be handled later if
+    // those tiles exist
+    if (x < [image width] && y < [image height]) {
+        
+        if (x >= 0 && y >= 0) {
+            elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:x andY:y];
+        } else if (x < 0 && y < 0) {
+            // Try to get the elevation from the top left tile values
+            if (topLeftRows != nil) {
+                int row = (-1 * y) - 1;
+                if (row < topLeftRows.count) {
+                    int column = x + [self countInDoubleArray:topLeftRows atIndex1:row];
+                    if (column >= 0) {
+                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:topLeftRows atIndex1:row andIndex2:column];
+                    }
+                }
+            }
+        } else if (x < 0) {
+            // Try to get the elevation from the left tile values
+            if (leftLastColumns != nil) {
+                int column = (-1 * x) - 1;
+                if (column < leftLastColumns.count) {
+                    int row = y;
+                    if (row < [self countInDoubleArray:leftLastColumns atIndex1:column]) {
+                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:leftLastColumns atIndex1:column andIndex2:row];
+                    }
+                }
+            }
+        } else {
+            // Try to get the elevation from the top tile values
+            if (topRows != nil) {
+                int row = (-1 * y) - 1;
+                if (row < topRows.count) {
+                    int column = x;
+                    if (column < [self countInDoubleArray:topRows atIndex1:row]) {
+                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:topRows atIndex1:row andIndex2:column];
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    return elevation;
 }
 
 /**
@@ -1421,6 +1734,112 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  */
 -(NSArray *) elevationsUnboundedWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGElevationRequest *) request{
     return nil; //TODO
+    
+    /*
+     
+     // Build a map of rows to maps of columns and values
+     Map<Long, Map<Long, Double[][]>> rowsMap = new TreeMap<>();
+     
+     // Track the min and max row and column
+     Long minRow = null;
+     Long maxRow = null;
+     Long minColumn = null;
+     Long maxColumn = null;
+     
+     // Track count of tiles involved in the results
+     int tileCount = 0;
+     
+     // Process each elevation tile row
+     while (tileResults.moveToNext()) {
+     
+     // Get the next elevation tile
+     TileRow tileRow = tileResults.getRow();
+     
+     // Get the bounding box of the elevation
+     BoundingBox tileBoundingBox = TileBoundingBoxUtils.getBoundingBox(
+					elevationBoundingBox, tileMatrix, tileRow.getTileColumn(),
+					tileRow.getTileRow());
+     
+     // Get the bounding box where the request and elevation tile overlap
+     BoundingBox overlap = request.overlap(tileBoundingBox);
+     
+     // If the elevation tile overlaps with the requested box
+     if (overlap != null) {
+     
+     // Get the rectangle of the tile elevation with matching values
+     ImageRectangle src = TileBoundingBoxJavaUtils.getRectangle(
+     tileMatrix.getTileWidth(), tileMatrix.getTileHeight(),
+     tileBoundingBox, overlap);
+     
+     if (src.isValidAllowEmpty()) {
+     
+					// Get the source dimensions
+					int srcTop = Math.min(src.getTop(),
+     (int) tileMatrix.getTileHeight() - 1);
+					int srcBottom = Math.min(src.getBottom(),
+     (int) tileMatrix.getTileHeight() - 1);
+					int srcLeft = Math.min(src.getLeft(),
+     (int) tileMatrix.getTileWidth() - 1);
+					int srcRight = Math.min(src.getRight(),
+     (int) tileMatrix.getTileWidth() - 1);
+     
+					// Get the gridded tile value for the tile
+					GriddedTile griddedTile = getGriddedTile(tileRow.getId());
+     
+					// Get the elevation tile image
+					ElevationImage image = new ElevationImage(tileRow);
+     
+					// Create the elevation results for this tile
+					Double[][] elevations = new Double[srcBottom - srcTop + 1][srcRight
+     - srcLeft + 1];
+     
+					// Get or add the columns map to the rows map
+					Map<Long, Double[][]> columnsMap = rowsMap.get(tileRow
+     .getTileRow());
+					if (columnsMap == null) {
+     columnsMap = new TreeMap<Long, Double[][]>();
+     rowsMap.put(tileRow.getTileRow(), columnsMap);
+					}
+     
+					// Read and set the elevation values
+					for (int y = srcTop; y <= srcBottom; y++) {
+     
+     for (int x = srcLeft; x <= srcRight; x++) {
+     
+     // Get the elevation value from the source pixel
+     Double elevation = getElevationValue(griddedTile,
+     image, x, y);
+     
+     elevations[y - srcTop][x - srcLeft] = elevation;
+     }
+					}
+     
+					// Set the elevations in the results map
+					columnsMap.put(tileRow.getTileColumn(), elevations);
+     
+					// Increase the contributing tiles count
+					tileCount++;
+     
+					// Track the min and max row and column
+					minRow = minRow == null ? tileRow.getTileRow() : Math.min(
+     minRow, tileRow.getTileRow());
+					maxRow = maxRow == null ? tileRow.getTileRow() : Math.max(
+     maxRow, tileRow.getTileRow());
+					minColumn = minColumn == null ? tileRow.getTileColumn()
+     : Math.min(minColumn, tileRow.getTileColumn());
+					maxColumn = maxColumn == null ? tileRow.getTileColumn()
+     : Math.max(maxColumn, tileRow.getTileColumn());
+     }
+     }
+     }
+     
+     // Handle formatting the results
+     Double[][] elevations = formatUnboundedResults(tileMatrix, rowsMap,
+     tileCount, minRow, maxRow, minColumn, maxColumn);
+     
+     return elevations;
+     
+     */
 }
 
 /**
@@ -1432,7 +1851,27 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return tile matrix or null
  */
 -(GPKGTileMatrix *) tileMatrixWithRequest: (GPKGElevationRequest *) request{
-    return nil; //TODO
+
+    GPKGTileMatrix * tileMatrix = nil;
+    
+    // Check if the request overlaps elevation bounding box
+    if([request overlapWithBoundingBox:self.elevationBoundingBox] != nil){
+        
+        // Get the tile distance
+        GPKGBoundingBox * projectedBoundingBox = request.projectedBoundingBox;
+        double distanceWidth = [projectedBoundingBox.maxLongitude doubleValue] - [projectedBoundingBox.minLongitude doubleValue];
+        double distanceHeight = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];
+        
+        // Get the zoom level to request based upon the tile size
+        NSNumber * zoomLevel = [self.tileDao closestZoomLevelWithWidth:distanceWidth andHeight:distanceHeight];
+        
+        // If there is a matching zoom level
+        if (zoomLevel != nil) {
+            tileMatrix = [self.tileDao getTileMatrixWithZoomLevel:[zoomLevel intValue]];
+        }
+    }
+    
+    return tileMatrix;
 }
 
 /**
@@ -1446,7 +1885,85 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return tile results or null
  */
 -(GPKGResultSet *) retrieveSortedTileResultsWithBoundingBox: (GPKGBoundingBox *) projectedRequestBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
-    return nil; //TODO
+
+    GPKGResultSet * tileResults = nil;
+    
+    if (tileMatrix != nil) {
+        
+        // Get the tile grid
+        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.elevationBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:projectedRequestBoundingBox];
+        
+        // Query for matching tiles in the tile grid
+        tileResults = [self.tileDao queryByTileGrid:tileGrid andZoomLevel:[tileMatrix.zoomLevel intValue] andOrderBy:[NSString stringWithFormat:@"%@,%@", GPKG_TT_COLUMN_TILE_ROW, GPKG_TT_COLUMN_TILE_COLUMN]];
+
+    }
+    
+    return tileResults;
+}
+
+/**
+ * Create a new array using the provided sizes filled with NSNull values
+ *
+ * @param size
+ *            array size
+ * @param subSize
+ *            sub array size
+ * @return NSNull filled double array
+ */
+-(NSMutableArray *) createNullFilledDoubleArrayWithSize1: (int) size1 andSize2: (int) size2{
+    NSMutableArray * array = [[NSMutableArray alloc] initWithCapacity:size1];
+    for(int i = 0; i < size1; i++){
+        NSMutableArray * subArray = [[NSMutableArray alloc] initWithCapacity:size2];
+        for(int j = 0; j < size2; j++){
+            [subArray addObject:[NSNull null]];
+        }
+        [array addObject:subArray];
+    }
+    return array;
+}
+
+/**
+ * Replace an object in the double array at index 1 & 2 with the provided value
+ *
+ * @param array
+ *            double array
+ * @param index1
+ *            index 1
+ * @param index2
+ *            index 2
+ * @param value
+ *            object value
+ */
+-(void) replaceObjectInDoubleArray: (NSMutableArray *) array atIndex1: (int) index1 andIndex2: (int) index2 withValue: (NSObject *) value{
+     [((NSMutableArray *)[array objectAtIndex:index1]) replaceObjectAtIndex:index2 withObject:value];
+}
+
+/**
+ * Get an object value in the double array at index 1 & 2
+ *
+ * @param array
+ *            double array
+ * @param index1
+ *            index 1
+ * @param index2
+ *            index 2
+ * @return object value
+ */
+-(NSObject *) objectInDoubleArray: (NSArray *) array atIndex1: (int) index1 andIndex2: (int) index2{
+    return [((NSArray *)[array objectAtIndex:index1]) objectAtIndex:index2];
+}
+
+/**
+ * Get the count in the double array at the index
+ *
+ * @param array
+ *            double array
+ * @param index1
+ *            index 1
+ * @return count
+ */
+-(int) countInDoubleArray: (NSArray *) array atIndex1: (int) index1{
+    return (int)((NSArray *)[array objectAtIndex:index1]).count;
 }
 
 -(double) elevationValueWithTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
