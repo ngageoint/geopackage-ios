@@ -19,6 +19,35 @@
 NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME = @"elevation_tiles";
 NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.extensions.elevation_tiles";
 
+@interface GPKGElevationDictionary: NSObject
+
+@property (nonatomic, strong) NSMutableArray * keys;
+@property (nonatomic, strong) NSMutableDictionary * dictionary;
+
+@end
+
+@implementation GPKGElevationDictionary
+
+-(instancetype) init{
+    self = [super init];
+    if(self != nil){
+        self.keys = [[NSMutableArray alloc] init];
+        self.dictionary = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+-(id)objectForKey:(id)aKey{
+    return [self.dictionary objectForKey:aKey];
+}
+
+- (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey{
+    [self.dictionary setObject:anObject forKey:aKey];
+    [self.keys addObject:aKey];
+}
+
+@end
+
 @interface GPKGElevationTilesCore ()
 
 @property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
@@ -243,13 +272,26 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 }
 
 /**
+ * Get the elevations from the elevation dictionary
+ *
+ * @param row
+ *            row number
+ * @param column
+ *            column number
+ * @return elevations
+ */
+-(NSArray *) getElevationsFromElevationDictionary: (GPKGElevationDictionary *) elevationDictionary atRow: (int) row andColumn: (int) column{
+    return (NSMutableArray *)[((GPKGElevationDictionary *)[elevationDictionary objectForKey:[NSNumber numberWithInt:row]]) objectForKey:[NSNumber numberWithInt:column]];
+}
+
+/**
  * Format the unbounded results from elevation tiles into a single double
  * array of elevation
  *
  * @param tileMatrix
  *            tile matrix
- * @param rowsDictionary
- *            rows dictionary
+ * @param elevationDictionary
+ *            elevation dictionary
  * @param tileCount
  *            tile count
  * @param minRow
@@ -262,22 +304,22 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            max column
  * @return elevations
  */
--(NSArray *) formatUnboundedResultsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andRowsDictionary: (NSDictionary *) rowsDictionary andTileCount: (int) tileCount andMinRow: (int) minRow andMaxRow: (int) maxRow andMinColumn: (int) minColumn andMaxColumn: (int) maxColumn{
+-(NSArray *) formatUnboundedResultsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andElevationDictionary: (GPKGElevationDictionary *) elevationDictionary andTileCount: (int) tileCount andMinRow: (int) minRow andMaxRow: (int) maxRow andMinColumn: (int) minColumn andMaxColumn: (int) maxColumn{
     
     // Handle formatting the results
     NSMutableArray * elevations = nil;
-    if(rowsDictionary.count != 0){
+    if(elevationDictionary.dictionary.count != 0){
         
         // If only one tile result, use the elevations as the result
         if (tileCount == 1) {
-            elevations = (NSMutableArray *)[self getElevationsFromDictionary:rowsDictionary atRow:minRow andColumn:minColumn];
+            elevations = (NSMutableArray *)[self getElevationsFromElevationDictionary:elevationDictionary atRow:minRow andColumn:minColumn];
         } else {
             
             // Else, combine all results into a single elevations result
             
             // Get the top left and bottom right elevations
-            NSArray * topLeft = [self getElevationsFromDictionary:rowsDictionary atRow:minRow andColumn:minColumn];
-            NSArray * bottomRight = [self getElevationsFromDictionary:rowsDictionary atRow:maxRow andColumn:maxColumn];
+            NSArray * topLeft = [self getElevationsFromElevationDictionary:elevationDictionary atRow:minRow andColumn:minColumn];
+            NSArray * bottomRight = [self getElevationsFromElevationDictionary:elevationDictionary atRow:maxRow andColumn:maxColumn];
             
             // Determine the width and height of the top left elevation results
             int firstWidth = [self countInDoubleArray:topLeft atIndex1:0];
@@ -306,7 +348,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             
             // Copy the elevation values from each tile results into the
             // final result arrays
-            for(NSNumber * rowKey in rowsDictionary.allKeys){
+            for(NSNumber * rowKey in elevationDictionary.keys){
                 
                 // Determine the starting base row for this tile
                 int row = [rowKey intValue];
@@ -317,9 +359,9 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                 }
                 
                 // Get the row's columns dictionary
-                NSDictionary * columnsDictionary = [rowsDictionary objectForKey:rowKey];
+                GPKGElevationDictionary * columnsDictionary = [elevationDictionary objectForKey:rowKey];
                 
-                for(NSNumber * columnKey in columnsDictionary.allKeys){
+                for(NSNumber * columnKey in columnsDictionary.keys){
                     
                     // Determine the starting base column for this tile
                     int column = [columnKey intValue];
@@ -330,7 +372,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                     }
                     
                     // Get the tiles elevation values
-                    NSArray * values = [rowsDictionary objectForKey:columnKey];
+                    NSArray * values = [columnsDictionary objectForKey:columnKey];
                     
                     // Copy the columns array at each local elevation row to
                     // the global row and column result location
@@ -1733,113 +1775,97 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return elevation values
  */
 -(NSArray *) elevationsUnboundedWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGElevationRequest *) request{
-    return nil; //TODO
+
+    // Build a map of rows to maps of columns and values
+    GPKGElevationDictionary * rowsMap = [[GPKGElevationDictionary alloc] init];
     
-    /*
-     
-     // Build a map of rows to maps of columns and values
-     Map<Long, Map<Long, Double[][]>> rowsMap = new TreeMap<>();
-     
-     // Track the min and max row and column
-     Long minRow = null;
-     Long maxRow = null;
-     Long minColumn = null;
-     Long maxColumn = null;
-     
-     // Track count of tiles involved in the results
-     int tileCount = 0;
-     
-     // Process each elevation tile row
-     while (tileResults.moveToNext()) {
-     
-     // Get the next elevation tile
-     TileRow tileRow = tileResults.getRow();
-     
-     // Get the bounding box of the elevation
-     BoundingBox tileBoundingBox = TileBoundingBoxUtils.getBoundingBox(
-					elevationBoundingBox, tileMatrix, tileRow.getTileColumn(),
-					tileRow.getTileRow());
-     
-     // Get the bounding box where the request and elevation tile overlap
-     BoundingBox overlap = request.overlap(tileBoundingBox);
-     
-     // If the elevation tile overlaps with the requested box
-     if (overlap != null) {
-     
-     // Get the rectangle of the tile elevation with matching values
-     ImageRectangle src = TileBoundingBoxJavaUtils.getRectangle(
-     tileMatrix.getTileWidth(), tileMatrix.getTileHeight(),
-     tileBoundingBox, overlap);
-     
-     if (src.isValidAllowEmpty()) {
-     
-					// Get the source dimensions
-					int srcTop = Math.min(src.getTop(),
-     (int) tileMatrix.getTileHeight() - 1);
-					int srcBottom = Math.min(src.getBottom(),
-     (int) tileMatrix.getTileHeight() - 1);
-					int srcLeft = Math.min(src.getLeft(),
-     (int) tileMatrix.getTileWidth() - 1);
-					int srcRight = Math.min(src.getRight(),
-     (int) tileMatrix.getTileWidth() - 1);
-     
-					// Get the gridded tile value for the tile
-					GriddedTile griddedTile = getGriddedTile(tileRow.getId());
-     
-					// Get the elevation tile image
-					ElevationImage image = new ElevationImage(tileRow);
-     
-					// Create the elevation results for this tile
-					Double[][] elevations = new Double[srcBottom - srcTop + 1][srcRight
-     - srcLeft + 1];
-     
-					// Get or add the columns map to the rows map
-					Map<Long, Double[][]> columnsMap = rowsMap.get(tileRow
-     .getTileRow());
-					if (columnsMap == null) {
-     columnsMap = new TreeMap<Long, Double[][]>();
-     rowsMap.put(tileRow.getTileRow(), columnsMap);
-					}
-     
-					// Read and set the elevation values
-					for (int y = srcTop; y <= srcBottom; y++) {
-     
-     for (int x = srcLeft; x <= srcRight; x++) {
-     
-     // Get the elevation value from the source pixel
-     Double elevation = getElevationValue(griddedTile,
-     image, x, y);
-     
-     elevations[y - srcTop][x - srcLeft] = elevation;
-     }
-					}
-     
-					// Set the elevations in the results map
-					columnsMap.put(tileRow.getTileColumn(), elevations);
-     
-					// Increase the contributing tiles count
-					tileCount++;
-     
-					// Track the min and max row and column
-					minRow = minRow == null ? tileRow.getTileRow() : Math.min(
-     minRow, tileRow.getTileRow());
-					maxRow = maxRow == null ? tileRow.getTileRow() : Math.max(
-     maxRow, tileRow.getTileRow());
-					minColumn = minColumn == null ? tileRow.getTileColumn()
-     : Math.min(minColumn, tileRow.getTileColumn());
-					maxColumn = maxColumn == null ? tileRow.getTileColumn()
-     : Math.max(maxColumn, tileRow.getTileColumn());
-     }
-     }
-     }
-     
-     // Handle formatting the results
-     Double[][] elevations = formatUnboundedResults(tileMatrix, rowsMap,
-     tileCount, minRow, maxRow, minColumn, maxColumn);
-     
-     return elevations;
-     
-     */
+    // Track the min and max row and column
+    NSNumber * minRow = nil;
+    NSNumber * maxRow = nil;
+    NSNumber * minColumn = nil;
+    NSNumber * maxColumn = nil;
+    
+    // Track count of tiles involved in the results
+    int tileCount = 0;
+    
+    GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileMatrix.tableName];
+    
+    // Process each elevation tile row
+    while([tileResults moveToNext]){
+        
+        // Get the next elevation tile
+        GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+        
+        // Get the bounding box of the elevation
+        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.elevationBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+        
+        // Get the bounding box where the request and elevation tile overlap
+        GPKGBoundingBox * overlap = [request overlapWithBoundingBox:tileBoundingBox];
+        
+        // If the elevation tile overlaps with the requested box
+        if (overlap != nil) {
+            
+            // Get the rectangle of the tile elevation with matching values
+            CGRect src = [GPKGTileBoundingBoxUtils getRectangleWithWidth:[tileMatrix.tileWidth intValue] andHeight:[tileMatrix.tileHeight intValue] andBoundingBox:tileBoundingBox andSection:overlap];
+            
+            if (src.origin.x <= src.size.width && src.origin.y <= src.size.height) {
+                
+                // Get the source dimensions
+                int srcTop = MIN(src.origin.y, [tileMatrix.tileHeight intValue] - 1);
+                int srcBottom = MIN(src.size.height, [tileMatrix.tileHeight intValue] - 1);
+                int srcLeft = MIN(src.origin.x, [tileMatrix.tileWidth intValue] - 1);
+                int srcRight = MIN(src.size.width, [tileMatrix.tileWidth intValue] - 1);
+                
+                // Get the gridded tile value for the tile
+                GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
+                
+                // Get the elevation tile image
+                GPKGElevationImage * image = [[GPKGElevationImage alloc] initWithTileRow:tileRow];
+                
+                // Create the elevation results for this tile
+                NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:srcBottom - srcTop + 1];
+                
+                // Get or add the columns map to the rows map
+                GPKGElevationDictionary * columnsMap = [rowsMap.dictionary objectForKey:[NSNumber numberWithInt:[tileRow getTileRow]]];
+                if (columnsMap == nil) {
+                    columnsMap = [[GPKGElevationDictionary alloc] init];
+                    [rowsMap setObject:columnsMap forKey:[NSNumber numberWithInt:[tileRow getTileRow]]];
+                }
+                
+                // Read and set the elevation values
+                for (int y = srcTop; y <= srcBottom; y++) {
+                    
+                    NSMutableArray * innerElevations = [[NSMutableArray alloc] initWithCapacity:srcRight - srcLeft + 1];
+                    [elevations addObject:innerElevations];
+                    
+                    for (int x = srcLeft; x <= srcRight; x++) {
+                        
+                        // Get the elevation value from the source pixel
+                        NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:x andY:y];
+                        
+                        [innerElevations addObject:elevation];
+                    }
+                }
+                
+                // Set the elevations in the results map
+                [columnsMap setObject:elevations forKey:[NSNumber numberWithInt:[tileRow getTileColumn]]];
+                
+                // Increase the contributing tiles count
+                tileCount++;
+                
+                // Track the min and max row and column
+                minRow = [NSNumber numberWithInt:(minRow == nil ? [tileRow getTileRow] : MIN([minRow intValue], [tileRow getTileRow]))];
+                maxRow = [NSNumber numberWithInt:(maxRow == nil ? [tileRow getTileRow] : MAX([maxRow intValue], [tileRow getTileRow]))];
+                minColumn = [NSNumber numberWithInt:(minColumn == nil ? [tileRow getTileColumn] : MIN([minColumn intValue], [tileRow getTileColumn]))];
+                maxColumn = [NSNumber numberWithInt:(maxColumn == nil ? [tileRow getTileColumn] : MAX([maxColumn intValue], [tileRow getTileColumn]))];
+            }
+        }
+    }
+    
+    // Handle formatting the results
+    NSArray * elevations = [self formatUnboundedResultsWithTileMatrix:tileMatrix andElevationDictionary:rowsMap andTileCount:tileCount andMinRow:[minRow intValue] andMaxRow:[maxRow intValue] andMinColumn:[minColumn intValue] andMaxColumn:[maxColumn intValue]];
+    
+    return elevations;
 }
 
 /**
