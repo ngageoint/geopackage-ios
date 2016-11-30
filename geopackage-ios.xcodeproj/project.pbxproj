@@ -41,6 +41,10 @@
 		0422BB1B1DDFB60D002709B6 /* GPKGElevationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */; };
 		0422BB1E1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */; };
 		0422BB1F1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */; };
+		0422BB221DEE22ED002709B6 /* GPKGElevationTilesPng.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */; };
+		0422BB231DEE22ED002709B6 /* GPKGElevationTilesPng.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB211DEE22EC002709B6 /* GPKGElevationTilesPng.m */; };
+		0422BB261DEE2302002709B6 /* GPKGElevationTilesTiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB241DEE2302002709B6 /* GPKGElevationTilesTiff.h */; };
+		0422BB271DEE2302002709B6 /* GPKGElevationTilesTiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB251DEE2302002709B6 /* GPKGElevationTilesTiff.m */; };
 		042FC6E61B964BC800549A4B /* geopackage_ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6E51B964BC800549A4B /* geopackage_ios.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		042FC6EC1B964BC800549A4B /* geopackage_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FC6E01B964BC800549A4B /* geopackage_ios.framework */; };
 		042FC7EF1B964D8C00549A4B /* GPKGContents.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6FE1B964D8C00549A4B /* GPKGContents.h */; };
@@ -433,6 +437,10 @@
 		0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationImage.m; sourceTree = "<group>"; };
 		0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTileMatrixResults.h; sourceTree = "<group>"; };
 		0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTileMatrixResults.m; sourceTree = "<group>"; };
+		0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTilesPng.h; sourceTree = "<group>"; };
+		0422BB211DEE22EC002709B6 /* GPKGElevationTilesPng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTilesPng.m; sourceTree = "<group>"; };
+		0422BB241DEE2302002709B6 /* GPKGElevationTilesTiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTilesTiff.h; sourceTree = "<group>"; };
+		0422BB251DEE2302002709B6 /* GPKGElevationTilesTiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTilesTiff.m; sourceTree = "<group>"; };
 		042FC6E01B964BC800549A4B /* geopackage_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = geopackage_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		042FC6E41B964BC800549A4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042FC6E51B964BC800549A4B /* geopackage_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geopackage_ios.h; sourceTree = "<group>"; };
@@ -893,6 +901,10 @@
 				0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */,
 				0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */,
 				0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */,
+				0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */,
+				0422BB211DEE22EC002709B6 /* GPKGElevationTilesPng.m */,
+				0422BB241DEE2302002709B6 /* GPKGElevationTilesTiff.h */,
+				0422BB251DEE2302002709B6 /* GPKGElevationTilesTiff.m */,
 			);
 			path = elevation;
 			sourceTree = "<group>";
@@ -1824,6 +1836,7 @@
 				0422BAF91DD51023002709B6 /* GPKGGriddedCoverage.h in Headers */,
 				042FC83E1B964D8C00549A4B /* GPKGMapShapeConverter.h in Headers */,
 				042FC86B1B964D8C00549A4B /* GPKGMetadataScope.h in Headers */,
+				0422BB221DEE22ED002709B6 /* GPKGElevationTilesPng.h in Headers */,
 				042FC8151B964D8C00549A4B /* GPKGGeoPackageMetadataTableCreator.h in Headers */,
 				046417C91BCBF48E007624D4 /* GPKGGeometryIndex.h in Headers */,
 				0447FA121CDAA40500418104 /* GPKGMetadataExtension.h in Headers */,
@@ -1846,6 +1859,7 @@
 				042FC8971B964D8C00549A4B /* GPKGUrlTileGenerator.h in Headers */,
 				042FC8291B964D8C00549A4B /* GPKGGeometryColumnsDao.h in Headers */,
 				042FC8BF1B964D8C00549A4B /* GPKGUserTableReader.h in Headers */,
+				0422BB261DEE2302002709B6 /* GPKGElevationTilesTiff.h in Headers */,
 				042FC89F1B964D8C00549A4B /* GPKGTileMatrixSetDao.h in Headers */,
 				042FC8A11B964D8C00549A4B /* GPKGFeatureOverlay.h in Headers */,
 				042FC8A91B964D8C00549A4B /* GPKGTileColumn.h in Headers */,
@@ -2135,6 +2149,7 @@
 				042FC8871B964D8C00549A4B /* GPKGDataColumnConstraints.m in Sources */,
 				0422BAFE1DD5309E002709B6 /* GPKGGriddedCoverageDao.m in Sources */,
 				042FC8701B964D8C00549A4B /* GPKGMetadataReferenceDao.m in Sources */,
+				0422BB271DEE2302002709B6 /* GPKGElevationTilesTiff.m in Sources */,
 				042FC8591B964D8C00549A4B /* GPKGBoundingBox.m in Sources */,
 				046417C11BCBF282007624D4 /* GPKGNGAExtensions.m in Sources */,
 				0431EDEF1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m in Sources */,
@@ -2186,6 +2201,7 @@
 				0422BB071DD6474B002709B6 /* GPKGGriddedTileDao.m in Sources */,
 				042FC80C1B964D8C00549A4B /* GPKGTableCreator.m in Sources */,
 				042FC8891B964D8C00549A4B /* GPKGDataColumnConstraintsDao.m in Sources */,
+				0422BB231DEE22ED002709B6 /* GPKGElevationTilesPng.m in Sources */,
 				042FC8B61B964D8C00549A4B /* GPKGContentValues.m in Sources */,
 				042FC83F1B964D8C00549A4B /* GPKGMapShapeConverter.m in Sources */,
 				042FC7F21B964D8C00549A4B /* GPKGContentsDao.m in Sources */,

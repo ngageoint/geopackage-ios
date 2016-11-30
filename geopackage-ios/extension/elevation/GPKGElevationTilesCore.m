@@ -936,7 +936,6 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return 0;
 }
 
-
 -(GPKGTileDao *) tileDao{
     return _tileDao;
 }
