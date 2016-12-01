@@ -64,7 +64,7 @@
  *            tile image
  * @return unsigned short pixel values
  */
--(NSArray *) pixelValuesWithImage: (UIImage *) image;
+-(unsigned short *) pixelValuesWithImage: (UIImage *) image;
 
 /**
  * Validate that the image type is an unsigned short
@@ -99,6 +99,21 @@
  * @return elevation values
  */
 -(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
+
+/**
+ * Draw an elevation image tile from the flat array of unsigned short
+ * pixel values of length tileWidth * tileHeight where each pixel is at: (y
+ * * tileWidth) + x
+ *
+ * @param pixelValues
+ *            unsigned short pixel values of length tileWidth * tileHeight
+ * @param tileWidth
+ *            tile width
+ * @param tileHeight
+ *            tile height
+ * @return elevation image tile
+ */
+-(UIImage *) drawTileWithUnsignedShortPixelValues: (unsigned short *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
  * Draw an elevation image tile from the flat array of unsigned short
@@ -205,18 +220,7 @@
  *            elevations as [row][width]
  * @return elevation image tile bytes
  */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations;
-
-/**
- * Create a new unsigned 16 bit short grayscale image
- *
- * @param tileWidth
- *            tile width
- * @param tileHeight
- *            tile height
- * @return image
- */
--(UIImage *) createImageWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
 
 /**
  * Get the image as PNG bytes
@@ -228,6 +232,72 @@
 -(NSData *) imageData: (UIImage *) image;
 
 // TODO setPixel method?
+
+/**
+ * Get the pixel at the provided x and y with the image width
+ *
+ * @param pixels
+ *            pixels array
+ * @param width
+ *            image width
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordintate
+ * @return image bytes
+ */
+-(unsigned short) pixelIn: (unsigned short *) pixels withWidth: (int) width atX: (int) x andY: (int) y;
+
+/**
+ * Convert the unsigned short pixel array to a NSArray of numbers
+ *
+ * @param pixelValues
+ *            pixels values
+ * @param count
+ *            pixel count
+ * @return pixel array
+ */
+-(NSArray *) pixelValuesUnsignedShortToArrayToUnsignedShort: (unsigned short *) pixelValues withCount: (int) count;
+
+/**
+ * Convert the pixel array to an unsigned short pixel array
+ *
+ * @param pixelValues
+ *            pixels values
+ * @return unsigned short pixel array
+ */
+-(unsigned short *) pixelValuesArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues;
+
+/**
+ * Convert the pixel double array to an unsigned short pixel array
+ *
+ * @param pixelValues
+ *            pixels values
+ * @return unsigned short pixel array
+ */
+-(unsigned short *) pixelValuesDoubleArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues;
+
+/**
+ * Convert the elevation array to an unsigned short pixel array
+ *
+ * @param elevations
+ *            elevation values
+ * @param griddedTile
+ *            gridded tile
+ * @return unsigned short pixel array
+ */
+-(unsigned short *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+
+/**
+ * Convert the elevation double array to an unsigned short pixel array
+ *
+ * @param elevations
+ *            elevation values
+ * @param griddedTile
+ *            gridded tile
+ * @return unsigned short pixel array
+ */
+-(unsigned short *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
  * Create the elevation tile table with metadata and extension

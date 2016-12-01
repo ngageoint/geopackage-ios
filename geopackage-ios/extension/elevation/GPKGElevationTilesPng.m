@@ -30,56 +30,39 @@
     return elevation.doubleValue;
 }
 
-
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y{
     return [self elevationValueWithGriddedTile: griddedTile andImage: [image image] andX: x andY: y];
 }
 
 -(unsigned short) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y{
-    [self validateImageType:image];
     
-    /*
+    int width = (int) image.size.width;
+    unsigned short * pixels = [self pixelValuesWithImage:image];
+    unsigned short pixel = [self pixelIn:pixels withWidth:width atX:x andY:y];
+    return pixel;
+}
+
+-(unsigned short *) pixelValuesWithImage: (UIImage *) image{
+    [self validateImageType:image];
+
     int width = (int) image.size.width;
     int height = (int) image.size.height;
-    
+     
     CGImageRef tileImageRef = [image CGImage];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    unsigned char *pixels = (unsigned char*) calloc(height * width * 4, sizeof(unsigned char));
-    CGContextRef context = CGBitmapContextCreate(pixels, width, height,
-                                                 8, 4 * width, colorSpace,
-                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    unsigned short *pixels = [self allocatePixelsWithWidth:width andHeight:height];
+    CGContextRef context = CGBitmapContextCreate(pixels, width, height, sizeof(unsigned short) * 8, 2 * width, colorSpace, kCGImageAlphaNone);
     CGColorSpaceRelease(colorSpace);
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), tileImageRef);
     CGContextRelease(context);
-    
-    for (int x = 0; x < image.size.width; x++) {
-        for (int y = 0; y < image.size.height; y++) {
-            
-            int red = pixels[((y * width) + x) * 4];
-            int green = pixels[(((y * width) + x) * 4) + 1];
-            int blue = pixels[(((y * width) + x) * 4) + 2];
-            int alpha = pixels[(((y * width) + x) * 4) + 3];
-            
-            [GPKGTestUtils assertTrue:red > 0];
-            [GPKGTestUtils assertTrue:green > 0];
-            [GPKGTestUtils assertTrue:blue > 0];
-            [GPKGTestUtils assertTrue:alpha > 0];
-        }
-    }
-     */
-    return 0; //TODO
-}
 
--(NSArray *) pixelValuesWithImage: (UIImage *) image{
-    [self validateImageType:image];
-    return nil; // TODO
+    return pixels;
 }
 
 -(void) validateImageType: (UIImage *) image{
     if (image == nil) {
         [NSException raise:@"Nil Image" format:@"The image is nil"];
     }
-    // TODO more validation?
 }
 
 -(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
@@ -89,13 +72,27 @@
 }
 
 -(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
-    NSArray * pixelValues = [self pixelValuesWithImage:image];
-    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelValues:pixelValues];
+    unsigned short * pixelValues = [self pixelValuesWithImage:image];
+    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelValues:pixelValues andCount:image.size.width * image.size.height];
     return elevations;
 }
 
+-(UIImage *) drawTileWithUnsignedShortPixelValues: (unsigned short *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    CGContextRef context = CGBitmapContextCreate(&pixelValues[0], tileWidth, tileHeight, sizeof(unsigned short) * 8, 2 * tileWidth, colorSpace, kCGImageAlphaNone);
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    UIImage * tileImage = [[UIImage alloc] initWithCGImage:imageRef];
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    
+    return tileImage;
+}
+
 -(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    return nil; //TODO
+    unsigned short * pixels = [self pixelValuesArrayToUnsignedShortToUnsignedShort:pixelValues];
+    UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    return tileImage;
 }
 
 -(NSData *) drawTileDataWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
@@ -105,7 +102,11 @@
 }
 
 -(UIImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues{
-    return nil; //TODO
+    unsigned short * pixels = [self pixelValuesDoubleArrayToUnsignedShortToUnsignedShort:pixelValues];
+    int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
+    int tileHeight = (int)pixelValues.count;
+    UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    return tileImage;
 }
 
 -(NSData *) drawTileDataWithDoubleArrayPixelValues:(NSArray *)pixelValues{
@@ -115,7 +116,9 @@
 }
 
 -(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    return nil; //TODO
+    unsigned short * pixels = [self pixelValuesOfElevations:elevations withGriddedTile:griddedTile];
+    UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    return tileImage;
 }
 
 -(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
@@ -125,17 +128,17 @@
 }
 
 -(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
-    return nil; //TODO
+    unsigned short * pixels = [self pixelValuesOfDoubleArrayElevations:elevations withGriddedTile:griddedTile];
+    int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
+    int tileHeight = (int)elevations.count;
+    UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    return tileImage;
 }
 
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations{
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
     UIImage * image = [self drawTileWithGriddedTile:griddedTile andDoubleArrayElevations:elevations];
     NSData * data = [self imageData:image];
     return data;
-}
-
--(UIImage *) createImageWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    return nil; //TODO
 }
 
 -(NSData *) imageData: (UIImage *) image{
@@ -143,7 +146,78 @@
     return data;
 }
 
-// TODO setPixel method?
+-(unsigned short) pixelIn: (unsigned short *) pixels withWidth: (int) width atX: (int) x andY: (int) y{
+    return pixels[(y * width) + x];
+}
+
+-(NSArray *) pixelValuesUnsignedShortToArrayToUnsignedShort: (unsigned short *) pixelValues withCount: (int) count{
+    NSMutableArray * pixels = [[NSMutableArray alloc] initWithCapacity:count];
+    for(int i= 0; i < count; i++){
+        unsigned short pixel = pixelValues[i];
+        [pixels addObject:[NSNumber numberWithUnsignedShort:pixel]];
+    }
+    return pixels;
+}
+
+-(unsigned short *) pixelValuesArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues{
+    unsigned short * pixels = [self allocatePixelsWithCount:(int)pixelValues.count];
+    for(int i = 0; i < pixelValues.count; i++){
+        NSNumber * pixel = [pixelValues objectAtIndex:i];
+        pixels[i] = [pixel unsignedShortValue];
+    }
+    return pixels;
+}
+
+-(unsigned short *) pixelValuesDoubleArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues{
+    
+    int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
+    int tileHeight = (int)pixelValues.count;
+    
+    unsigned short * pixels = [self allocatePixelsWithWidth:tileWidth andHeight:tileHeight];
+    for(int y = 0; y < tileHeight; y++){
+        NSArray * rowValues = [pixelValues objectAtIndex:y];
+        for(int x = 0; x < tileWidth; x++){
+            NSNumber * pixel = [rowValues objectAtIndex:x];
+            pixels[(y * tileWidth) + x] = [pixel unsignedShortValue];
+        }
+    }
+    return pixels;
+}
+
+-(unsigned short *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile{
+    unsigned short * pixels = [self allocatePixelsWithCount:(int)elevations.count];
+    for(int i = 0; i < elevations.count; i++){
+        NSDecimalNumber * elevation = [elevations objectAtIndex:i];
+        unsigned short pixelValue = [self pixelValueWithGriddedTile:griddedTile andElevation:elevation];
+        pixels[i] = pixelValue;
+    }
+    return pixels;
+}
+
+-(unsigned short *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile{
+    
+    int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
+    int tileHeight = (int)elevations.count;
+    
+    unsigned short * pixels = [self allocatePixelsWithWidth:tileWidth andHeight:tileHeight];
+    for(int y = 0; y < tileHeight; y++){
+        NSArray * rowValues = [elevations objectAtIndex:y];
+        for(int x = 0; x < tileWidth; x++){
+            NSDecimalNumber * elevation = [rowValues objectAtIndex:x];
+            unsigned short pixelValue = [self pixelValueWithGriddedTile:griddedTile andElevation:elevation];
+            pixels[(y * tileWidth) + x] = pixelValue;
+        }
+    }
+    return pixels;
+}
+
+-(unsigned short *) allocatePixelsWithWidth: (int) width andHeight: (int) height{
+    return [self allocatePixelsWithCount:width * height];
+}
+
+-(unsigned short *) allocatePixelsWithCount: (int) count{
+    return calloc(count, sizeof(unsigned short));
+}
 
 +(GPKGElevationTilesPng *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
     

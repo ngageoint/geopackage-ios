@@ -234,6 +234,19 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues;
 
 /**
+ * Get the elevation values from the unsigned short pixel values
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param pixelValues
+ *            pixel values as unsigned shorts
+ * @param count
+ *            pixel count
+ * @return elevation values
+ */
+-(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count;
+
+/**
  * Create the elevation tile table with metadata
  *
  * @param geoPackage GeoPackage
