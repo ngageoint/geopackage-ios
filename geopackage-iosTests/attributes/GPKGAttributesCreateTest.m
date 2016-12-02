@@ -7,7 +7,24 @@
 //
 
 #import "GPKGAttributesCreateTest.h"
+#import "GPKGAttributesUtils.h"
 
 @implementation GPKGAttributesCreateTest
+
+-(void) testRead{
+    [GPKGAttributesUtils testReadWithGeoPackage: self.geoPackage];
+}
+
+-(void) testUpdate{
+    [GPKGAttributesUtils testUpdateWithGeoPackage: self.geoPackage];
+}
+
+-(void) testCreate{
+    [GPKGAttributesUtils testCreateWithGeoPackage: self.geoPackage];
+}
+
+-(void) testDelete{
+    [GPKGAttributesUtils testDeleteWithGeoPackage: self.geoPackage];
+}
 
 @end

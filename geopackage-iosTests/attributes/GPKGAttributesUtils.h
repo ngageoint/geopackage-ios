@@ -7,7 +7,36 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGGeoPackage.h"
 
 @interface GPKGAttributesUtils : NSObject
+
+/**
+ * Test read
+ *
+ * @param geoPackage
+ */
++(void) testReadWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test update
+ *
+ * @param geoPackage
+ */
++(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test create
+ *
+ * @param geoPackage
+ */
++(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test delete
+ *
+ * @param geoPackage
+ */
++(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 @end

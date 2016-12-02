@@ -24,4 +24,21 @@
  */
 @property (nonatomic) NSNumber *tolerance;
 
+/**
+ *  Initialize
+ *
+ *  @param value value
+ *  @return new column value
+ */
+-(instancetype) initWithValue: (NSObject *) value;
+
+/**
+ *  Initialize
+ *
+ *  @param value value
+ *  @param tolerance tolerance
+ *  @return new column value
+ */
+-(instancetype) initWithValue: (NSObject *) value andTolerance: (NSNumber *) tolerance;
+
 @end
