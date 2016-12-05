@@ -25,6 +25,32 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGAttributesTable *) table;
 
 /**
+ *  Get the attributes table
+ *
+ *  @return attributes table
+ */
+-(GPKGAttributesTable *) getAttributesTable;
+
+/**
+ *  Get the attributes row for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return attributes row
+ */
+-(GPKGAttributesRow *) getAttributesRow: (GPKGResultSet *) results;
+
+/**
+ *  Create a new attributes row with the column types and values
+ *
+ *  @param columnTypes column types
+ *  @param values      values
+ *
+ *  @return attributes row as user row
+ */
+-(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+/**
  *  Create a new attributes row
  *
  *  @return attributes row

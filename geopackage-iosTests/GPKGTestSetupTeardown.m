@@ -165,7 +165,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     
     GPKGMetadata * attributesMetadata = [[GPKGMetadata alloc] init];
     [attributesMetadata setId:[NSNumber numberWithInt:4]];
-    [attributesMetadata setMetadataScopeType:GPKG_MST_ATTRIBUTE];
+    [attributesMetadata setMetadataScopeType:GPKG_MST_ATTRIBUTE_TYPE];
     [attributesMetadata setStandardUri:@"ATTRIBUTES_TEST_URI"];
     [attributesMetadata setMimeType:@"text/plain"];
     [attributesMetadata setMetadata:@"ATTRIBUTES METADATA"];
@@ -224,7 +224,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
                         [NSException raise:@"Not implemented" format:@"Not implemented for data type: %u", column.dataType];
                 }
                 
-                [newRow setValue:value forKey:column.name];
+                [newRow setValueWithColumnName:column.name andValue:value];
                 
             }
         }

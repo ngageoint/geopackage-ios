@@ -62,6 +62,7 @@
             
             // Choose random attribute
             int random = (int) ([GPKGTestUtils randomDouble] * count);
+            [results moveToFirst];
             [results moveToPosition:random];
             GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao getRow:results];
             
@@ -116,7 +117,7 @@
                 GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
                 [fieldValues addColumn:column1.name withValue:column1AttributesValue];
                 NSObject * column2Value = nil;
-                GPKGColumnValue * column2AttributesValue = nil;
+                
                 if (column2 != nil) {
                     column2Value = [attributesRow getValueWithColumnName:column2.name];
                     enum GPKGDataType column2ClassType = column2.dataType;

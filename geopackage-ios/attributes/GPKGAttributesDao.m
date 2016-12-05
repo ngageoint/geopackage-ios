@@ -20,6 +20,22 @@
     return self;
 }
 
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
+-(GPKGAttributesTable *) getAttributesTable{
+    return (GPKGAttributesTable *) self.table;
+}
+
+-(GPKGAttributesRow *) getAttributesRow: (GPKGResultSet *) results{
+    return (GPKGAttributesRow *) [self getRow:results];
+}
+
+-(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    return [[GPKGAttributesRow alloc] initWithAttributesTable:[self getAttributesTable] andColumnTypes:columnTypes andValues:values];
+}
+
 -(GPKGAttributesRow *) newRow{
     return [[GPKGAttributesRow alloc] initWithAttributesTable:(GPKGAttributesTable *)self.table];
 }

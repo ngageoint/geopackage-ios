@@ -41,7 +41,7 @@ NSString * const GPKG_CDT_ELEVATION_TILES_NAME = @"2d-gridded-coverage";
     enum GPKGContentsDataType value = -1;
     
     if(name != nil){
-        name = [name uppercaseString];
+        name = [name lowercaseString];
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_CDT_FEATURES], GPKG_CDT_FEATURES_NAME,
                                [NSNumber numberWithInteger:GPKG_CDT_TILES], GPKG_CDT_TILES_NAME,
