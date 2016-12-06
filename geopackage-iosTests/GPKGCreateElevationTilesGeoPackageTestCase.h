@@ -7,7 +7,13 @@
 //
 
 #import "GPKGGeoPackageTestCase.h"
+#import "GPKGElevationTileValues.h"
 
 @interface GPKGCreateElevationTilesGeoPackageTestCase : GPKGGeoPackageTestCase
+
+@property (nonatomic, strong) GPKGElevationTileValues *elevationTileValues;
+@property (nonatomic) BOOL allowNils;
+
+-(instancetype) initWithAllowNils: (BOOL) allowNils;
 
 @end
