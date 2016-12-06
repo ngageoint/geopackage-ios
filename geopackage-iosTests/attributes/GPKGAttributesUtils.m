@@ -184,358 +184,301 @@
  * @param attributesRow
  */
 +(void) validateAttributesRowWithColumns: (NSArray *) columns andRow: (GPKGAttributesRow *) attributesRow{
-    /*
-    TestCase.assertEquals(columns.length, attributesRow.columnCount());
     
-    for (int i = 0; i < attributesRow.columnCount(); i++) {
-        AttributesColumn column = attributesRow.getTable().getColumns()
-        .get(i);
-        TestCase.assertEquals(i, column.getIndex());
-        TestCase.assertEquals(columns[i], attributesRow.getColumnName(i));
-        TestCase.assertEquals(i, attributesRow.getColumnIndex(columns[i]));
-        int rowType = attributesRow.getRowColumnType(i);
-        Object value = attributesRow.getValue(i);
+    [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[attributesRow columnCount]];
+    
+    for (int i = 0; i < [attributesRow columnCount]; i++) {
+        GPKGAttributesColumn * column = [attributesRow.table.columns objectAtIndex:i];
+        [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
+        [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow getColumnNameWithIndex:i]];
+        [GPKGTestUtils assertEqualIntWithValue:i andValue2:[attributesRow getColumnIndexWithColumnName:[columns objectAtIndex:i]]];
+        int rowType = [attributesRow getRowColumnTypeWithIndex:i];
+        NSObject * value = [attributesRow getValueWithIndex:i];
         
         switch (rowType) {
                 
-            case UserCoreResultUtils.FIELD_TYPE_INTEGER:
-                TestUtils.validateIntegerValue(value, column.getDataType());
+            case SQLITE_INTEGER:
+                [GPKGTestUtils validateIntegerValue:value andDataType:column.dataType];
                 break;
                 
-            case UserCoreResultUtils.FIELD_TYPE_FLOAT:
-                TestUtils.validateFloatValue(value, column.getDataType());
+            case SQLITE_FLOAT:
+                [GPKGTestUtils validateFloatValue:value andDataType:column.dataType];
                 break;
                 
-            case UserCoreResultUtils.FIELD_TYPE_STRING:
-                TestCase.assertTrue(value instanceof String);
+            case SQLITE_TEXT:
+                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
                 break;
                 
-            case UserCoreResultUtils.FIELD_TYPE_BLOB:
-                TestCase.assertTrue(value instanceof byte[]);
+            case SQLITE_BLOB:
+                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSData class]]];
                 break;
                 
-            case UserCoreResultUtils.FIELD_TYPE_NULL:
-                TestCase.assertNull(value);
+            case SQLITE_NULL:
+                [GPKGTestUtils assertNil:value];
                 break;
                 
         }
     }
     
-    TestCase.assertTrue(attributesRow.getId() >= 0);
-     */
+    [GPKGTestUtils assertTrue:[[attributesRow getId] intValue] >= 0];
+    
 }
 
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    /*
-    List<String> tables = geoPackage.getAttributesTables();
     
-    if (!tables.isEmpty()) {
+    NSArray * tables = [geoPackage getAttributesTables];
+    
+    if (tables.count > 0) {
         
-        for (String tableName : tables) {
+        for (NSString * tableName in tables) {
             
-            AttributesDao dao = geoPackage.getAttributesDao(tableName);
-            TestCase.assertNotNull(dao);
+            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            [GPKGTestUtils assertNotNil:dao];
             
             // Query for all
-            AttributesCursor cursor = dao.queryForAll();
-            int count = cursor.getCount();
+            GPKGResultSet * results = [dao queryForAll];
+            int count = results.count;
             if (count > 0) {
                 
                 // // Choose random attribute
                 // int random = (int) (Math.random() * count);
                 // cursor.moveToPosition(random);
-                cursor.moveToFirst();
+                [results moveToFirst];
+                [results moveToNext];
                 
-                String updatedString = null;
-                String updatedLimitedString = null;
-                Boolean updatedBoolean = null;
-                Byte updatedByte = null;
-                Short updatedShort = null;
-                Integer updatedInteger = null;
-                Long updatedLong = null;
-                Float updatedFloat = null;
-                Double updatedDouble = null;
-                byte[] updatedBytes = null;
-                byte[] updatedLimitedBytes = null;
+                NSString * updatedString = nil;
+                NSString * updatedLimitedString = nil;
+                NSNumber * updatedBoolean = nil;
+                NSNumber * updatedByte = nil;
+                NSNumber * updatedShort = nil;
+                NSNumber * updatedInteger = nil;
+                NSNumber * updatedLong = nil;
+                NSDecimalNumber * updatedFloat = nil;
+                NSDecimalNumber * updatedDouble = nil;
+                NSData * updatedBytes = nil;
+                NSData * updatedLimitedBytes = nil;
                 
-                AttributesRow originalRow = cursor.getRow();
-                AttributesRow attributesRow = cursor.getRow();
+                GPKGAttributesRow * originalRow = [dao getAttributesRow:results];
+                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
                 
-                try {
-                    attributesRow.setValue(
-                                           attributesRow.getPkColumnIndex(), 9);
-                    TestCase.fail("Updated the primary key value");
-                } catch (GeoPackageException e) {
+                @try {
+                    [attributesRow setValueWithIndex:[attributesRow getPkColumnIndex] andValue:[NSNumber numberWithInt:9]];
+                    [GPKGTestUtils fail:@"Updated the primary key value"];
+                } @catch (NSException *exception) {
                     // expected
                 }
                 
-                for (AttributesColumn attributesColumn : dao.getTable()
-                     .getColumns()) {
-                    if (!attributesColumn.isPrimaryKey()) {
+                for (GPKGAttributesColumn * attributesColumn in dao.table.columns) {
+                    if (!attributesColumn.primaryKey) {
                         
-                        switch (attributesRow
-                                .getRowColumnType(attributesColumn
-                                                  .getIndex())) {
-                                        
-                                    case UserCoreResultUtils.FIELD_TYPE_STRING:
-                                        if (updatedString == null) {
-                                            updatedString = UUID.randomUUID()
-                                            .toString();
-                                        }
-                                        if (attributesColumn.getMax() != null) {
-                                            if (updatedLimitedString != null) {
-                                                if (updatedString.length() > attributesColumn
-                                                    .getMax()) {
-                                                    updatedLimitedString = updatedString
-                                                    .substring(0,
-                                                               attributesColumn
-                                                               .getMax()
-                                                               .intValue());
-                                                } else {
-                                                    updatedLimitedString = updatedString;
-                                                }
+                        switch([attributesRow getRowColumnTypeWithIndex:attributesColumn.index]){
+                                
+                            case SQLITE_TEXT:
+                                {
+                                    if (updatedString == nil) {
+                                        updatedString = [[NSProcessInfo processInfo] globallyUniqueString];
+                                    }
+                                    if(attributesColumn.max != nil){
+                                        if(updatedLimitedString == nil){
+                                            if(updatedString.length > [attributesColumn.max intValue]){
+                                                updatedLimitedString = [updatedString substringToIndex:[attributesColumn.max intValue]];
+                                            } else{
+                                                updatedLimitedString = updatedString;
                                             }
-                                            attributesRow.setValue(
-                                                                   attributesColumn.getIndex(),
-                                                                   updatedLimitedString);
-                                        } else {
-                                            attributesRow.setValue(
-                                                                   attributesColumn.getIndex(),
-                                                                   updatedString);
                                         }
-                                        break;
-                                    case UserCoreResultUtils.FIELD_TYPE_INTEGER:
-                                        switch (attributesColumn.getDataType()) {
-                                            case BOOLEAN:
-                                                if (updatedBoolean == null) {
-                                                    updatedBoolean = !((Boolean) attributesRow
-                                                                       .getValue(attributesColumn
-                                                                                 .getIndex()));
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedBoolean);
-                                                break;
-                                            case TINYINT:
-                                                if (updatedByte == null) {
-                                                    updatedByte = (byte) (((int) (Math
-                                                                                  .random() * (Byte.MAX_VALUE + 1))) * (Math
-                                                                                                                        .random() < .5 ? 1 : -1));
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedByte);
-                                                break;
-                                            case SMALLINT:
-                                                if (updatedShort == null) {
-                                                    updatedShort = (short) (((int) (Math
-                                                                                    .random() * (Short.MAX_VALUE + 1))) * (Math
-                                                                                                                           .random() < .5 ? 1 : -1));
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedShort);
-                                                break;
-                                            case MEDIUMINT:
-                                                if (updatedInteger == null) {
-                                                    updatedInteger = (int) (((int) (Math
-                                                                                    .random() * (Integer.MAX_VALUE + 1))) * (Math
-                                                                                                                             .random() < .5 ? 1 : -1));
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedInteger);
-                                                break;
-                                            case INT:
-                                            case INTEGER:
-                                                if (updatedLong == null) {
-                                                    updatedLong = (long) (((int) (Math
-                                                                                  .random() * (Long.MAX_VALUE + 1))) * (Math
-                                                                                                                        .random() < .5 ? 1 : -1));
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedLong);
-                                                break;
-                                            default:
-                                                TestCase.fail("Unexpected integer type: "
-                                                              + attributesColumn.getDataType());
-                                        }
-                                        break;
-                                    case UserCoreResultUtils.FIELD_TYPE_FLOAT:
-                                        switch (attributesColumn.getDataType()) {
-                                            case FLOAT:
-                                                if (updatedFloat == null) {
-                                                    updatedFloat = (float) Math.random()
-                                                    * Float.MAX_VALUE;
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedFloat);
-                                                break;
-                                            case DOUBLE:
-                                            case REAL:
-                                                if (updatedDouble == null) {
-                                                    updatedDouble = Math.random()
-                                                    * Double.MAX_VALUE;
-                                                }
-                                                attributesRow.setValue(
-                                                                       attributesColumn.getIndex(),
-                                                                       updatedDouble);
-                                                break;
-                                            default:
-                                                TestCase.fail("Unexpected float type: "
-                                                              + attributesColumn.getDataType());
-                                        }
-                                        break;
-                                    case UserCoreResultUtils.FIELD_TYPE_BLOB:
-                                        if (updatedBytes == null) {
-                                            updatedBytes = UUID.randomUUID().toString()
-                                            .getBytes();
-                                        }
-                                        if (attributesColumn.getMax() != null) {
-                                            if (updatedLimitedBytes != null) {
-                                                if (updatedBytes.length > attributesColumn
-                                                    .getMax()) {
-                                                    updatedLimitedBytes = new byte[attributesColumn
-                                                                                   .getMax().intValue()];
-                                                    ByteBuffer.wrap(
-                                                                    updatedBytes,
-                                                                    0,
-                                                                    attributesColumn.getMax()
-                                                                    .intValue()).get(
-                                                                                     updatedLimitedBytes);
-                                                } else {
-                                                    updatedLimitedBytes = updatedBytes;
-                                                }
-                                            }
-                                            attributesRow.setValue(
-                                                                   attributesColumn.getIndex(),
-                                                                   updatedLimitedBytes);
-                                        } else {
-                                            attributesRow.setValue(
-                                                                   attributesColumn.getIndex(),
-                                                                   updatedBytes);
-                                        }
-                                        break;
-                                    default:
+                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedString];
+                                    }else{
+                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedString];
+                                    }
                                 }
+                                break;
+   
+                            case SQLITE_INTEGER:
+                                {
+                                    switch (attributesColumn.dataType) {
+                                        case GPKG_DT_BOOLEAN:
+                                            {
+                                                if (updatedBoolean == nil) {
+                                                    updatedBoolean = [NSNumber numberWithBool:![((NSNumber *)[attributesRow getValueWithIndex:attributesColumn.index]) boolValue]];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBoolean];
+                                            }
+                                            break;
+                                        case GPKG_DT_TINYINT:
+                                            {
+                                                if (updatedByte == nil) {
+                                                    updatedByte = [NSNumber numberWithChar:((char)([GPKGTestUtils randomDouble] * (CHAR_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedByte];
+                                            }
+                                            break;
+                                        case GPKG_DT_SMALLINT:
+                                            {
+                                                if (updatedShort == nil) {
+                                                    updatedShort = [NSNumber numberWithShort:((short)([GPKGTestUtils randomDouble] * (SHRT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedShort];
+                                            }
+                                            break;
+                                        case GPKG_DT_MEDIUMINT:
+                                            {
+                                                if (updatedInteger == nil) {
+                                                    updatedInteger = [NSNumber numberWithInt:((int)([GPKGTestUtils randomDouble] * (INT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedInteger];
+                                            }
+                                            break;
+                                        case GPKG_DT_INT:
+                                        case GPKG_DT_INTEGER:
+                                            {
+                                                if (updatedLong == nil) {
+                                                    updatedLong = [NSNumber numberWithLongLong:((long long)([GPKGTestUtils randomDouble] * (LLONG_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLong];
+                                            }
+                                            break;
+                                        default:
+                                            [GPKGTestUtils fail:@"Unexpected integer type"];
+                                    }
+                                }
+                                break;
+                            case SQLITE_FLOAT:
+                                {
+                                    switch (attributesColumn.dataType) {
+                                        case GPKG_DT_FLOAT:
+                                            {
+                                                if(updatedFloat == nil){
+                                                    updatedFloat = [[NSDecimalNumber alloc] initWithFloat:[GPKGTestUtils randomDouble] * FLT_MAX];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedFloat];
+                                            }
+                                            break;
+                                        case GPKG_DT_DOUBLE:
+                                        case GPKG_DT_REAL:
+                                            {
+                                                if(updatedDouble == nil){
+                                                    updatedDouble = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDouble] * DBL_MAX];
+                                                }
+                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDouble];
+                                            }
+                                            break;
+                                        default:
+                                            [GPKGTestUtils fail:@"Unexpected float type"];
+                                    }
+                                }
+                                break;
+                            case SQLITE_BLOB:
+                                {
+                                    if (updatedBytes == nil) {
+                                        updatedBytes = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                                    }
+                                    if (attributesColumn.max != nil) {
+                                        if (updatedLimitedBytes == nil) {
+                                            if (updatedBytes.length > [attributesColumn.max intValue]) {
+                                                updatedLimitedBytes = [NSData dataWithBytes:updatedBytes.bytes length:[attributesColumn.max intValue]];
+                                            } else {
+                                                updatedLimitedBytes = updatedBytes;
+                                            }
+                                        }
+                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedBytes];
+                                    } else {
+                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBytes];
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                         
                     }
                 }
                 
-                cursor.close();
+                [results close];
                 
-                TestCase.assertEquals(1, dao.update(attributesRow));
+                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao update:attributesRow]];
                 
-                long id = attributesRow.getId();
-                AttributesRow readRow = dao.queryForIdRow(id);
-                TestCase.assertNotNull(readRow);
-                TestCase.assertEquals(originalRow.getId(), readRow.getId());
+                NSNumber * id = [attributesRow getId];
+                GPKGResultSet * readRowResults = [dao queryForId:id];
+                [readRowResults moveToNext];
+                GPKGAttributesRow * readRow = [dao getAttributesRow:readRowResults];
+                [readRowResults close];
+                [GPKGTestUtils assertNotNil:readRow];
+                [GPKGTestUtils assertEqualWithValue:[originalRow getId] andValue2:[readRow getId]];
                 
-                for (String readColumnName : readRow.getColumnNames()) {
+                for (NSString * readColumnName in [readRow getColumnNames ]) {
                     
-                    AttributesColumn readAttributesColumn = readRow
-                    .getColumn(readColumnName);
-                    if (!readAttributesColumn.isPrimaryKey()) {
-                        switch (readRow.getRowColumnType(readColumnName)) {
-                            case UserCoreResultUtils.FIELD_TYPE_STRING:
-                                if (readAttributesColumn.getMax() != null) {
-                                    TestCase.assertEquals(
-                                                          updatedLimitedString,
-                                                          readRow.getValue(readAttributesColumn
-                                                                           .getIndex()));
-                                } else {
-                                    TestCase.assertEquals(
-                                                          updatedString,
-                                                          readRow.getValue(readAttributesColumn
-                                                                           .getIndex()));
+                    GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow getColumnWithColumnName:readColumnName];
+                    if (!readAttributesColumn.primaryKey) {
+                        switch ([readRow getRowColumnTypeWithColumnName:readColumnName]) {
+                            case SQLITE_TEXT:
+                                {
+                                    if (readAttributesColumn.max != nil) {
+                                        [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                    } else {
+                                        [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                    }
                                 }
                                 break;
-                            case UserCoreResultUtils.FIELD_TYPE_INTEGER:
-                                switch (readAttributesColumn.getDataType()) {
-                                    case BOOLEAN:
-                                        TestCase.assertEquals(
-                                                              updatedBoolean,
-                                                              readRow.getValue(readAttributesColumn
-                                                                               .getIndex()));
-                                        break;
-                                    case TINYINT:
-                                        TestCase.assertEquals(updatedByte, readRow
-                                                              .getValue(readAttributesColumn
-                                                                        .getIndex()));
-                                        break;
-                                    case SMALLINT:
-                                        TestCase.assertEquals(updatedShort, readRow
-                                                              .getValue(readAttributesColumn
-                                                                        .getIndex()));
-                                        break;
-                                    case MEDIUMINT:
-                                        TestCase.assertEquals(
-                                                              updatedInteger,
-                                                              readRow.getValue(readAttributesColumn
-                                                                               .getIndex()));
-                                        break;
-                                    case INT:
-                                    case INTEGER:
-                                        TestCase.assertEquals(updatedLong, readRow
-                                                              .getValue(readAttributesColumn
-                                                                        .getIndex()));
-                                        break;
-                                    default:
-                                        TestCase.fail("Unexpected integer type: "
-                                                      + readAttributesColumn
-                                                      .getDataType());
+                            case SQLITE_INTEGER:
+                                {
+                                    switch (readAttributesColumn.dataType) {
+                                        case GPKG_DT_BOOLEAN:
+                                            [GPKGTestUtils assertEqualWithValue:updatedBoolean andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                            break;
+                                        case GPKG_DT_TINYINT:
+                                            [GPKGTestUtils assertEqualWithValue:updatedByte andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                            break;
+                                        case GPKG_DT_SMALLINT:
+                                            [GPKGTestUtils assertEqualWithValue:updatedShort andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                            break;
+                                        case GPKG_DT_MEDIUMINT:
+                                            [GPKGTestUtils assertEqualWithValue:updatedInteger andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                            break;
+                                        case GPKG_DT_INT:
+                                        case GPKG_DT_INTEGER:
+                                            [GPKGTestUtils assertEqualWithValue:updatedLong andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                            break;
+                                        default:
+                                            [GPKGTestUtils fail:@"Unexpected integer type"];
+                                    }
                                 }
                                 break;
-                            case UserCoreResultUtils.FIELD_TYPE_FLOAT:
-                                switch (readAttributesColumn.getDataType()) {
-                                    case FLOAT:
-                                        TestCase.assertEquals(updatedFloat, readRow
-                                                              .getValue(readAttributesColumn
-                                                                        .getIndex()));
-                                        break;
-                                    case DOUBLE:
-                                    case REAL:
-                                        TestCase.assertEquals(
-                                                              updatedDouble,
-                                                              readRow.getValue(readAttributesColumn
-                                                                               .getIndex()));
-                                        break;
-                                    default:
-                                        TestCase.fail("Unexpected integer type: "
-                                                      + readAttributesColumn
-                                                      .getDataType());
+                            case SQLITE_FLOAT:
+                                {
+                                    switch (readAttributesColumn.dataType) {
+                                        case GPKG_DT_FLOAT:
+                                            [GPKGTestUtils assertEqualDoubleWithValue:[updatedFloat floatValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) floatValue] andPercentage:.0000000001];
+                                            break;
+                                        case GPKG_DT_DOUBLE:
+                                        case GPKG_DT_REAL:
+                                            [GPKGTestUtils assertEqualDoubleWithValue:[updatedDouble doubleValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) doubleValue] andPercentage:.0000000001];
+                                            break;
+                                        default:
+                                            [GPKGTestUtils fail:@"Unexpected float type"];
+                                    }
                                 }
                                 break;
-                            case UserCoreResultUtils.FIELD_TYPE_BLOB:
-                                if (readAttributesColumn.getMax() != null) {
-                                    GeoPackageGeometryDataUtils
-                                    .compareByteArrays(
-                                                       updatedLimitedBytes,
-                                                       (byte[]) readRow
-                                                       .getValue(readAttributesColumn
-                                                                 .getIndex()));
-                                } else {
-                                    GeoPackageGeometryDataUtils
-                                    .compareByteArrays(
-                                                       updatedBytes,
-                                                       (byte[]) readRow
-                                                       .getValue(readAttributesColumn
-                                                                 .getIndex()));
+                            case SQLITE_BLOB:
+                                {
+                                    if (readAttributesColumn.max != nil) {
+                                        [GPKGTestUtils assertEqualDataWithValue:updatedLimitedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                                    } else {
+                                        [GPKGTestUtils assertEqualDataWithValue:updatedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                                    }
                                 }
                                 break;
                             default:
+                                break;
                         }
                     }
                     
                 }
                 
             }
-            cursor.close();
+            [results close];
         }
     }
-    */
+    
 }
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{

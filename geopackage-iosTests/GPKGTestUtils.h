@@ -37,6 +37,10 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta;
 
++(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andPercentage: (double) percentage;
+
++(void)assertEqualDataWithValue:(NSData *) value andValue2: (NSData *) value2;
+
 +(void)fail:(NSString *) message;
 
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage;
@@ -68,5 +72,9 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 +(double) randomDoubleLessThan: (double) max;
 
 +(void) validateGeoPackage: (GPKGGeoPackage *) geoPackage;
+
++(void) validateIntegerValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType;
+
++(void) validateFloatValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType;
 
 @end

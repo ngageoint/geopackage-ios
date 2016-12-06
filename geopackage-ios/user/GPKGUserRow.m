@@ -92,11 +92,11 @@
 }
 
 -(int) getRowColumnTypeWithIndex: (int) index{
-    return (int)[GPKGUtils objectAtIndex:index inArray:self.columnTypes];
+    return [((NSNumber *)[GPKGUtils objectAtIndex:index inArray:self.columnTypes]) intValue];
 }
 
 -(int) getRowColumnTypeWithColumnName: (NSString *) columnName{
-    return (int)[GPKGUtils objectAtIndex:[self.table getColumnIndexWithColumnName:columnName] inArray:self.columnTypes];
+    return [((NSNumber *)[GPKGUtils objectAtIndex:[self.table getColumnIndexWithColumnName:columnName] inArray:self.columnTypes]) intValue];
 }
 
 -(GPKGUserColumn *) getColumnWithIndex: (int) index{
