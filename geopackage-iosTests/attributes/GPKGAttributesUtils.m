@@ -482,116 +482,124 @@
 }
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    /*
-    List<String> tables = geoPackage.getAttributesTables();
+
+    NSArray * tables = [geoPackage getAttributesTables];
     
-    if (!tables.isEmpty()) {
+    if (tables.count > 0) {
         
-        for (String tableName : tables) {
+        for (NSString * tableName in tables) {
             
-            AttributesDao dao = geoPackage.getAttributesDao(tableName);
-            TestCase.assertNotNull(dao);
+            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            [GPKGTestUtils assertNotNil:dao];
             
-            AttributesCursor cursor = dao.queryForAll();
-            int count = cursor.getCount();
+            GPKGResultSet * results = [dao queryForAll];
+            int count = results.count;
             if (count > 0) {
                 
                 // Choose random attribute
-                int random = (int) (Math.random() * count);
-                cursor.moveToPosition(random);
+                int random = (int) ([GPKGTestUtils randomDouble] * count);
+                [results moveToPosition:random];
                 
-                AttributesRow attributesRow = cursor.getRow();
-                cursor.close();
+                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+                [results close];
                 
                 // Create new row from existing
-                long id = attributesRow.getId();
-                attributesRow.resetId();
-                long newRowId = dao.create(attributesRow);
+                NSNumber * id = [attributesRow getId];
+                [attributesRow resetId];
+                int newRowId = (int)[dao create:attributesRow];
                 
-                TestCase.assertEquals(newRowId, attributesRow.getId());
+                [GPKGTestUtils assertEqualIntWithValue:newRowId andValue2:[[attributesRow getId] intValue]];
                 
                 // Verify original still exists and new was created
-                attributesRow = dao.queryForIdRow(id);
-                TestCase.assertNotNull(attributesRow);
-                AttributesRow queryAttributesRow = dao
-                .queryForIdRow(newRowId);
-                TestCase.assertNotNull(queryAttributesRow);
-                cursor = dao.queryForAll();
-                TestCase.assertEquals(count + 1, cursor.getCount());
-                cursor.close();
+                GPKGResultSet * attributesRowResults = [dao queryForId:id];
+                [attributesRowResults moveToNext];
+                attributesRow = [dao getAttributesRow:attributesRowResults];
+                [attributesRowResults close];
+                [GPKGTestUtils assertNotNil:attributesRow];
+                
+                GPKGResultSet * queryAttributesRowResults = [dao queryForId:[NSNumber numberWithInt:newRowId]];
+                [queryAttributesRowResults moveToNext];
+                GPKGAttributesRow * queryAttributesRow = [dao getAttributesRow:queryAttributesRowResults];
+                [queryAttributesRowResults close];
+                [GPKGTestUtils assertNotNil:queryAttributesRow];
+                
+                results = [dao queryForAll];
+                [GPKGTestUtils assertEqualIntWithValue:count + 1 andValue2:results.count];
+                [results close];
                 
                 // Create new row with copied values from another
-                AttributesRow newRow = dao.newRow();
-                for (AttributesColumn column : dao.getTable().getColumns()) {
+                GPKGAttributesRow * newRow = [dao newRow];
+                for (GPKGAttributesColumn * column in dao.table.columns) {
                     
-                    if (column.isPrimaryKey()) {
-                        try {
-                            newRow.setValue(column.getName(), 10);
-                            TestCase.fail("Set primary key on new row");
-                        } catch (GeoPackageException e) {
+                    if (column.primaryKey) {
+                        @try {
+                            [newRow setValueWithColumnName:column.name andValue:[NSNumber numberWithInt:10]];
+                            [GPKGTestUtils fail:@"Set primary key on new row"];
+                        } @catch (NSException *exception) {
                             // Expected
                         }
                     } else {
-                        newRow.setValue(column.getName(),
-                                        attributesRow.getValue(column.getName()));
+                        [newRow setValueWithColumnName:column.name andValue:[attributesRow getValueWithColumnName:column.name]];
                     }
                 }
                 
-                long newRowId2 = dao.create(newRow);
+                int newRowId2 = (int)[dao create:newRow];
                 
-                TestCase.assertEquals(newRowId2, newRow.getId());
+                [GPKGTestUtils assertEqualIntWithValue:newRowId2 andValue2:[[newRow getId] intValue]];
                 
                 // Verify new was created
-                AttributesRow queryAttributesRow2 = dao
-                .queryForIdRow(newRowId2);
-                TestCase.assertNotNull(queryAttributesRow2);
-                cursor = dao.queryForAll();
-                TestCase.assertEquals(count + 2, cursor.getCount());
-                cursor.close();
+                GPKGResultSet * queryAttributesRow2Results = [dao queryForId:[NSNumber numberWithInt:newRowId2]];
+                [queryAttributesRow2Results moveToNext];
+                GPKGAttributesRow * queryAttributesRow2 = [dao getAttributesRow:queryAttributesRow2Results];
+                [queryAttributesRow2Results close];
+                [GPKGTestUtils assertNotNil:queryAttributesRow2];
+                
+                results = [dao queryForAll];
+                [GPKGTestUtils assertEqualIntWithValue:count + 2 andValue2:results.count];
+                [results close];
             }
-            cursor.close();
+            [results close];
         }
     }
-    */
+
 }
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    /*
-    List<String> tables = geoPackage.getAttributesTables();
     
-    if (!tables.isEmpty()) {
+    NSArray * tables = [geoPackage getAttributesTables];
+    
+    if (tables.count > 0) {
         
-        for (String tableName : tables) {
+        for (NSString * tableName in tables) {
             
-            AttributesDao dao = geoPackage.getAttributesDao(tableName);
-            TestCase.assertNotNull(dao);
+            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            [GPKGTestUtils assertNotNil:dao];
             
-            AttributesCursor cursor = dao.queryForAll();
-            int count = cursor.getCount();
+            GPKGResultSet * results = [dao queryForAll];
+            int count = results.count;
             if (count > 0) {
                 
                 // Choose random attribute
-                int random = (int) (Math.random() * count);
-                cursor.moveToPosition(random);
+                int random = (int) ([GPKGTestUtils randomDouble] * count);
+                [results moveToPosition:random];
                 
-                AttributesRow attributesRow = cursor.getRow();
-                cursor.close();
+                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+                [results close];
                 
                 // Delete row
-                TestCase.assertEquals(1, dao.delete(attributesRow));
+                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao delete:attributesRow]];
                 
                 // Verify deleted
-                AttributesRow queryAttributesRow = dao
-                .queryForIdRow(attributesRow.getId());
-                TestCase.assertNull(queryAttributesRow);
-                cursor = dao.queryForAll();
-                TestCase.assertEquals(count - 1, cursor.getCount());
-                cursor.close();
+                GPKGAttributesRow * queryAttributesRow = (GPKGAttributesRow *) [dao queryForIdObject:[attributesRow getId]];
+                [GPKGTestUtils assertNil:queryAttributesRow];
+                results = [dao queryForAll];
+                [GPKGTestUtils assertEqualIntWithValue:count - 1 andValue2:results.count];
+                [results close];
             }
-            cursor.close();
+            [results close];
         }
     }
-     */
+    
 }
 
 @end
