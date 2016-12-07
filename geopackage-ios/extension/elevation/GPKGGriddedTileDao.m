@@ -107,6 +107,12 @@
     return value;
 }
 
+-(long long) insert: (NSObject *) object{
+    long long id = [super insert:object];
+    [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
+    return id;
+}
+
 -(GPKGResultSet *) queryByContents: (GPKGContents *) contents{
     return [self queryByTableName:contents.tableName];
 }

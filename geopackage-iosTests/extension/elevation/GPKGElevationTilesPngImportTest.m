@@ -10,4 +10,8 @@
 
 @implementation GPKGElevationTilesPngImportTest
 
+-(BOOL) shouldAllowNils{
+    return false;
+}
+
 @end

@@ -14,6 +14,4 @@
 @property (nonatomic, strong) GPKGElevationTileValues *elevationTileValues;
 @property (nonatomic) BOOL allowNils;
 
--(instancetype) initWithAllowNils: (BOOL) allowNils;
-
 @end

@@ -13,15 +13,12 @@
 #import "GPKGTestUtils.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGElevationTilesPng.h"
+#import "GPKGGeoPackageGeometryDataUtils.h"
 
 @implementation GPKGCreateElevationTilesGeoPackageTestCase
 
--(instancetype) initWithAllowNils: (BOOL) allowNils{
-    self = [super init];
-    if(self != nil){
-        self.allowNils = allowNils;
-    }
-    return self;
+-(BOOL) shouldAllowNils{
+    return true;
 }
 
 -(GPKGGeoPackage *) getGeoPackage{
@@ -100,7 +97,8 @@
     
     GPKGGriddedTile * commonGriddedTile = [[GPKGGriddedTile alloc] init];
     GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    [commonGriddedTile setContents:[tileMatrixSetDao getContents:tileMatrixSet]];
+    GPKGContents * contents = [tileMatrixSetDao getContents:tileMatrixSet];
+    [commonGriddedTile setContents:contents];
     BOOL defaultGTScale = true;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:100.0 * [GPKGTestUtils randomDouble]]];
@@ -154,7 +152,82 @@
     GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
     
     for (int zoomLevel = minZoomLevel; zoomLevel <= maxZoomLevel; zoomLevel++) {
-        // TODO
+        
+        GPKGTileMatrix * tileMatrix = [[GPKGTileMatrix alloc] init];
+        [tileMatrix setContents:contents];
+        [tileMatrix setMatrixHeight:[NSNumber numberWithInt:height]];
+        [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
+        [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
+        [tileMatrix setTileWidth:[NSNumber numberWithInt:tileWidth]];
+        [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth]];
+        [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight]];
+        [tileMatrix setZoomLevel:[NSNumber numberWithInt:zoomLevel]];
+        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[tileMatrixDao create:tileMatrix]];
+        
+        for (int row = 0; row < height; row++) {
+            for (int column = 0; column < width; column++) {
+                
+                GPKGTileRow * tileRow = [tileDao newRow];
+                [tileRow setTileColumn:column];
+                [tileRow setTileRow:row];
+                [tileRow setZoomLevel:zoomLevel];
+                [tileRow setTileData:imageData];
+                
+                int tileId = (int)[tileDao create:tileRow];
+                [GPKGTestUtils assertTrue:tileId > 0];
+                
+                GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
+                [griddedTile setContents:contents];
+                [griddedTile setTableId:[NSNumber numberWithInt:tileId]];
+                [griddedTile setScale:commonGriddedTile.scale];
+                [griddedTile setOffset:commonGriddedTile.offset];
+                [griddedTile setMin:commonGriddedTile.min];
+                [griddedTile setMax:commonGriddedTile.max];
+                [griddedTile setMean:commonGriddedTile.mean];
+                [griddedTile setStandardDeviation:commonGriddedTile.standardDeviation];
+                
+                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[griddedTileDao create:griddedTile]];
+                NSNumber * gtId = griddedTile.id;
+                [GPKGTestUtils assertNotNil:gtId];
+                [GPKGTestUtils assertTrue:[gtId intValue] >= 0];
+                
+                griddedTile = (GPKGGriddedTile *)[griddedTileDao queryForIdObject:gtId];
+                [GPKGTestUtils assertNotNil:griddedTile];
+                if(defaultGTScale){
+                    [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile getScaleOrDefault]];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.scale doubleValue] >= 0.0 && [griddedTile.scale doubleValue] <= 100.0];
+                }
+                if(defaultGTOffset){
+                    [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile getOffsetOrDefault]];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.offset doubleValue] >= 0.0 && [griddedTile.offset doubleValue] <= 100.0];
+                }
+                if(defaultGTMin){
+                    [GPKGTestUtils assertNil:griddedTile.min];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.min doubleValue] >= 0.0 && [griddedTile.min doubleValue] <= 1000.0];
+                }
+                if(defaultGTMax){
+                    [GPKGTestUtils assertNil:griddedTile.max];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.max doubleValue] >= 0.0 && [griddedTile.max doubleValue] <= 2000.0];
+                }
+                if(defaultGTMean){
+                    [GPKGTestUtils assertNil:griddedTile.mean];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.mean doubleValue] >= 0.0 && [griddedTile.mean doubleValue] <= 2000.0];
+                }
+                if(defaultGTStandardDeviation){
+                    [GPKGTestUtils assertNil:griddedTile.standardDeviation];
+                }else{
+                    [GPKGTestUtils assertTrue:[griddedTile.standardDeviation doubleValue] >= 0.0 && [griddedTile.standardDeviation doubleValue] <= 2000.0];
+                }
+            }
+            
+        }
+        height *= 2;
+        width *= 2;
     }
     
     return geoPackage;
@@ -163,6 +236,8 @@
 - (void)setUp {
     [super setUp];
     
+    self.allowNils = [self shouldAllowNils];
+    self.elevationTileValues = [[GPKGElevationTileValues alloc] init];
 }
 
 - (void)tearDown {
@@ -176,7 +251,62 @@
 }
 
 -(NSData *) drawTileWithElevationTiles: (GPKGElevationTilesPng *) elevationTiles andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
-    return nil; // TODO
+    
+    GPKGElevationTileValues * values = [[GPKGElevationTileValues alloc] init];
+    values.tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
+    values.tileElevations = [[NSMutableArray alloc] initWithCapacity:tileHeight];
+    values.tilePixelsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
+    values.tileElevationsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
+    
+    GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
+    [griddedTile setScale:commonGriddedTile.scale];
+    [griddedTile setOffset:commonGriddedTile.offset];
+    [griddedTile setMin:commonGriddedTile.min];
+    [griddedTile setMax:commonGriddedTile.max];
+    [griddedTile setMean:commonGriddedTile.mean];
+    [griddedTile setStandardDeviation:commonGriddedTile.standardDeviation];
+    
+    // Create the image and graphics
+    for (int y = 0; y < tileHeight; y++) {
+        
+        NSMutableArray * tilePixelsRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+        [values.tilePixels addObject:tilePixelsRow];
+        
+        NSMutableArray * tileElevationsRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+        [values.tileElevations addObject:tileElevationsRow];
+        
+        for (int x = 0; x < tileWidth; x++) {
+            unsigned short value;
+            if (self.allowNils && [GPKGTestUtils randomDouble] < .05) {
+                value = [griddedCoverage.dataNull unsignedShortValue];
+            } else {
+                value = floor([GPKGTestUtils randomDouble] * USHRT_MAX);
+            }
+            
+            NSNumber * pixelValue = [NSNumber numberWithUnsignedShort:value];
+            [tilePixelsRow addObject:pixelValue];
+            NSDecimalNumber * elevation = [elevationTiles elevationValueWithGriddedTile:griddedTile andPixelValue:value];
+            [tileElevationsRow addObject:elevation];
+            
+            [values.tilePixelsFlat addObject:pixelValue];
+            [values.tileElevationsFlat addObject:elevation];
+        }
+    }
+    
+    NSData * imageData = [elevationTiles drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
+    
+    NSData * imageData2 = [elevationTiles drawTileDataWithGriddedTile:griddedTile andDoubleArrayElevations:values.tileElevations];
+    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData2];
+    
+    NSData * imageData3 = [elevationTiles drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData3];
+    
+    NSData * imageData4 = [elevationTiles drawTileDataWithGriddedTile:griddedTile andElevations:values.tileElevationsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData4];
+    
+    self.elevationTileValues = values;
+    
+    return imageData;
 }
 
 @end

@@ -10,4 +10,9 @@
 
 @interface GPKGElevationTileValues : NSObject
 
+@property (nonatomic, strong) NSMutableArray *tilePixels;
+@property (nonatomic, strong) NSMutableArray *tileElevations;
+@property (nonatomic, strong) NSMutableArray *tilePixelsFlat;
+@property (nonatomic, strong) NSMutableArray *tileElevationsFlat;
+
 @end
