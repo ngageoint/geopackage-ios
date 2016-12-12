@@ -1347,8 +1347,8 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                 dest = [GPKGTileBoundingBoxUtils getRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:request.projectedBoundingBox andSection:overlap];
             }
             
-            if (src.origin.x <= src.size.width && src.origin.y <= src.size.height
-                && dest.origin.x <= dest.size.width && dest.origin.y <= dest.size.height) {
+            if (src.size.width >= 0 && src.size.height >= 0
+                && dest.size.width >= 0 && dest.size.height >= 0) {
                 
                 // Create the elevations array first time through
                 if (elevations == nil) {
@@ -1356,12 +1356,12 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                 }
                 
                 // Get the destination widths
-                float destWidth = dest.size.width - dest.origin.x;
-                float destHeight = dest.size.height - dest.origin.y;
+                float destWidth = dest.size.width;
+                float destHeight = dest.size.height;
                 
                 // Get the destination heights
-                float srcWidth = src.size.width - src.origin.x;
-                float srcHeight = src.size.height - src.origin.y;
+                float srcWidth = src.size.width;
+                float srcHeight = src.size.height;
                 
                 // Determine the source to destination ratio and how many
                 // destination pixels equal half a source pixel
@@ -1392,11 +1392,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                 // Determine the range of destination values to set
                 int minDestY = (int) floor(dest.origin.y
                                                 - algorithmDestHeightPixelOverlap);
-                int maxDestY = (int) ceil(dest.size.height
+                int maxDestY = (int) ceil(dest.origin.y + dest.size.height
                                                + algorithmDestHeightPixelOverlap);
                 int minDestX = (int) floor(dest.origin.x
                                                 - algorithmDestWidthPixelOverlap);
-                int maxDestX = (int) ceil(dest.size.width
+                int maxDestX = (int) ceil(dest.origin.x + dest.size.width
                                                + algorithmDestWidthPixelOverlap);
                 minDestY = MAX(minDestY, 0);
                 minDestX = MAX(minDestX, 0);
@@ -1815,13 +1815,13 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             // Get the rectangle of the tile elevation with matching values
             CGRect src = [GPKGTileBoundingBoxUtils getRectangleWithWidth:[tileMatrix.tileWidth intValue] andHeight:[tileMatrix.tileHeight intValue] andBoundingBox:tileBoundingBox andSection:overlap];
             
-            if (src.origin.x <= src.size.width && src.origin.y <= src.size.height) {
+            if (src.size.width >= 0 && src.size.height >= 0) {
                 
                 // Get the source dimensions
                 int srcTop = MIN(src.origin.y, [tileMatrix.tileHeight intValue] - 1);
-                int srcBottom = MIN(src.size.height, [tileMatrix.tileHeight intValue] - 1);
+                int srcBottom = MIN(src.origin.y + src.size.height, [tileMatrix.tileHeight intValue] - 1);
                 int srcLeft = MIN(src.origin.x, [tileMatrix.tileWidth intValue] - 1);
-                int srcRight = MIN(src.size.width, [tileMatrix.tileWidth intValue] - 1);
+                int srcRight = MIN(src.origin.x + src.size.width, [tileMatrix.tileWidth intValue] - 1);
                 
                 // Get the gridded tile value for the tile
                 GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];

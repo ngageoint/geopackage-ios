@@ -7,6 +7,7 @@
 //
 
 #import "GPKGElevationTilesPngCreateTest.h"
+#import "GPKGElevationTilesPngTestUtils.h"
 
 @implementation GPKGElevationTilesPngCreateTest
 
@@ -19,7 +20,7 @@
  * Nearest Neighbor Algorithm
  */
 - (void)testElevationsNearestNeighbor {
-    
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:self.allowNils];
 }
 
 /**
@@ -27,7 +28,7 @@
  * Bilinear Algorithm
  */
 - (void)testElevationsBilinear {
-    
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:self.allowNils];
 }
 
 /**
@@ -35,28 +36,28 @@
  * Bicubic Algorithm
  */
 - (void)testElevationsBicubic {
-    
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:self.allowNils];
 }
 
 /**
  * Test a random bounding box using the Nearest Neighbor Algorithm
  */
 - (void)testRandomBoundingBoxNearestNeighbor {
-    
+    [GPKGElevationTilesPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:self.allowNils];
 }
 
 /**
  * Test a random bounding box using the Bilinear Algorithm
  */
 - (void)testRandomBoundingBoxBilinear {
-    
+    [GPKGElevationTilesPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:self.allowNils];
 }
 
 /**
  * Test a random bounding box using the Bicubic Algorithm
  */
 - (void)testRandomBoundingBoxBicubic {
-    
+    [GPKGElevationTilesPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.elevationTileValues andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:self.allowNils];
 }
 
 @end

@@ -74,9 +74,11 @@
         defaultPrecision = false;
     }
     [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:SHRT_MAX - SHRT_MIN]];
-    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[griddedCoverageDao create:griddedCoverage]];
+    int griddedCoverageId = (int)[griddedCoverageDao create:griddedCoverage];
+    [GPKGTestUtils assertTrue:griddedCoverageId >= 0];
     
     NSNumber * gcId = griddedCoverage.id;
+    [GPKGTestUtils assertEqualIntWithValue:griddedCoverageId andValue2:[gcId intValue]];
     griddedCoverage = (GPKGGriddedCoverage *)[griddedCoverageDao queryForIdObject:gcId];
     [GPKGTestUtils assertNotNil:griddedCoverage];
     if(defaultScale){
@@ -162,7 +164,8 @@
         [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth]];
         [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight]];
         [tileMatrix setZoomLevel:[NSNumber numberWithInt:zoomLevel]];
-        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[tileMatrixDao create:tileMatrix]];
+        int tileMatrixId = (int)[tileMatrixDao create:tileMatrix];
+        [GPKGTestUtils assertTrue:tileMatrixId >= 0];
         
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
@@ -186,10 +189,12 @@
                 [griddedTile setMean:commonGriddedTile.mean];
                 [griddedTile setStandardDeviation:commonGriddedTile.standardDeviation];
                 
-                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[griddedTileDao create:griddedTile]];
+                int gtCreateId = (int)[griddedTileDao create:griddedTile];
+                [GPKGTestUtils assertTrue:gtCreateId >= 0];
                 NSNumber * gtId = griddedTile.id;
                 [GPKGTestUtils assertNotNil:gtId];
                 [GPKGTestUtils assertTrue:[gtId intValue] >= 0];
+                [GPKGTestUtils assertEqualIntWithValue:gtCreateId andValue2:[gtId intValue]];
                 
                 griddedTile = (GPKGGriddedTile *)[griddedTileDao queryForIdObject:gtId];
                 [GPKGTestUtils assertNotNil:griddedTile];

@@ -10,4 +10,8 @@
 
 @implementation GPKGElevationTilesPngNoNullsCreateTest
 
+-(BOOL) shouldAllowNils{
+    return false;
+}
+
 @end

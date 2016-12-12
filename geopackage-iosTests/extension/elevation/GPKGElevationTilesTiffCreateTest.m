@@ -10,4 +10,8 @@
 
 @implementation GPKGElevationTilesTiffCreateTest
 
+-(BOOL) shouldAllowNils{
+    return true;
+}
+
 @end

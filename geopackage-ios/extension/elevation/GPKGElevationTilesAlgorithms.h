@@ -32,6 +32,32 @@ enum GPKGElevationTilesAlgorithm{
     
 };
 
+/**
+ *  Elevation Tiles Algorithm names
+ */
+extern NSString * const GPKG_ETA_NEAREST_NEIGHBOR_NAME;
+extern NSString * const GPKG_ETA_BILINEAR_NAME;
+extern NSString * const GPKG_ETA_BICUBIC_NAME;
+
+
 @interface GPKGElevationTilesAlgorithms : NSObject
+
+/**
+ *  Get the name of the elevation tiles algorithm
+ *
+ *  @param algorithm algorithm type
+ *
+ *  @return algorithm name
+ */
++(NSString *) name: (enum GPKGElevationTilesAlgorithm) algorithm;
+
+/**
+ *  Get the elevation tiles algorithm type from the algorithm name
+ *
+ *  @param algorithm name
+ *
+ *  @return algorithm type
+ */
++(enum GPKGElevationTilesAlgorithm) fromName: (NSString *) name;
 
 @end

@@ -60,6 +60,8 @@
 		0422BB501DF0EA07002709B6 /* GPKGAttributesImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB4F1DF0EA07002709B6 /* GPKGAttributesImportTest.m */; };
 		0422BB531DF0EA29002709B6 /* GPKGAttributesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB521DF0EA29002709B6 /* GPKGAttributesUtils.m */; };
 		0422BB561DF751F7002709B6 /* GPKGElevationTileValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB551DF751F7002709B6 /* GPKGElevationTileValues.m */; };
+		042B88AB1DFF4AC3006C2A4F /* elevation_tiles_tiff.gpkg in Resources */ = {isa = PBXBuildFile; fileRef = 042B88A91DFF4AC3006C2A4F /* elevation_tiles_tiff.gpkg */; };
+		042B88AC1DFF4AC3006C2A4F /* elevation_tiles.gpkg in Resources */ = {isa = PBXBuildFile; fileRef = 042B88AA1DFF4AC3006C2A4F /* elevation_tiles.gpkg */; };
 		042FC6E61B964BC800549A4B /* geopackage_ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6E51B964BC800549A4B /* geopackage_ios.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		042FC6EC1B964BC800549A4B /* geopackage_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FC6E01B964BC800549A4B /* geopackage_ios.framework */; };
 		042FC7EF1B964D8C00549A4B /* GPKGContents.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC6FE1B964D8C00549A4B /* GPKGContents.h */; };
@@ -486,6 +488,8 @@
 		0422BB521DF0EA29002709B6 /* GPKGAttributesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAttributesUtils.m; sourceTree = "<group>"; };
 		0422BB541DF751F7002709B6 /* GPKGElevationTileValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTileValues.h; sourceTree = "<group>"; };
 		0422BB551DF751F7002709B6 /* GPKGElevationTileValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTileValues.m; sourceTree = "<group>"; };
+		042B88A91DFF4AC3006C2A4F /* elevation_tiles_tiff.gpkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = elevation_tiles_tiff.gpkg; sourceTree = "<group>"; };
+		042B88AA1DFF4AC3006C2A4F /* elevation_tiles.gpkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = elevation_tiles.gpkg; sourceTree = "<group>"; };
 		042FC6E01B964BC800549A4B /* geopackage_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = geopackage_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		042FC6E41B964BC800549A4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042FC6E51B964BC800549A4B /* geopackage_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geopackage_ios.h; sourceTree = "<group>"; };
@@ -1105,6 +1109,8 @@
 				0422BB321DF0E417002709B6 /* GPKGImportElevationTilesTiffGeoPackageTestCase.m */,
 				042FC8E01B964DA200549A4B /* import_db_corrupt.gpkg */,
 				042FC8E11B964DA200549A4B /* import_db.gpkg */,
+				042B88AA1DFF4AC3006C2A4F /* elevation_tiles.gpkg */,
+				042B88A91DFF4AC3006C2A4F /* elevation_tiles_tiff.gpkg */,
 				042FC8E21B964DA200549A4B /* tile.png */,
 				0488E4B31CF6561E0026DD1B /* tiles.gpkg */,
 				0488E4B41CF6561E0026DD1B /* tiles2.gpkg */,
@@ -2137,10 +2143,12 @@
 			files = (
 				042FC8F41B964DA200549A4B /* import_db.gpkg in Resources */,
 				04A1CE321D1087F800731963 /* wgs84.png in Resources */,
+				042B88AC1DFF4AC3006C2A4F /* elevation_tiles.gpkg in Resources */,
 				042FC8F51B964DA200549A4B /* tile.png in Resources */,
 				042FC8E81B964DA200549A4B /* InfoPlist.strings in Resources */,
 				0488E4B81CF6561E0026DD1B /* tiles2.gpkg in Resources */,
 				0488E4B71CF6561E0026DD1B /* tiles.gpkg in Resources */,
+				042B88AB1DFF4AC3006C2A4F /* elevation_tiles_tiff.gpkg in Resources */,
 				042FC8F31B964DA200549A4B /* import_db_corrupt.gpkg in Resources */,
 				04A1CE311D1087F800731963 /* webMercator.png in Resources */,
 			);
