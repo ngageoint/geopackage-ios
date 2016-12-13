@@ -44,7 +44,28 @@
 }
 
 +(GPKGElevationTileResults *) elevationsWithGeoPackage: (GPKGGeoPackage *) geoPackage andAlgorithm: (enum GPKGElevationTilesAlgorithm) algorithm andBoundingBox: (GPKGBoundingBox *) boundingBox andWidth: (int) width andHeight: (int) height andEpsg: (int) epsg{
-    return nil; // TODO
+    
+    GPKGElevationTileResults * elevations = nil;
+    
+    NSArray * elevationTables = [GPKGElevationTilesPng tablesForGeoPackage:geoPackage];
+    GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
+    
+    for(NSString * elevationTable in elevationTables){
+        
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
+        GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        
+        GPKGProjection * requestProjection = [GPKGProjectionFactory getProjectionWithInt:epsg];
+        
+        // Test getting the elevation of a single coordinate
+        GPKGElevationTilesPng * elevationTiles = [[GPKGElevationTilesPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
+        [elevationTiles setAlgorithm:algorithm];
+        [elevationTiles setWidth:[NSNumber numberWithInt:width]];
+        [elevationTiles setHeight:[NSNumber numberWithInt:height]];
+        elevations = [elevationTiles elevationsWithBoundingBox:boundingBox];
+    }
+    
+    return elevations;
 }
 
 @end
