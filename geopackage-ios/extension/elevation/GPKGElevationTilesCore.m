@@ -15,6 +15,7 @@
 #import "GPKGElevationSourcePixel.h"
 #import "GPKGElevationTileMatrixResults.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME = @"elevation_tiles";
 NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.extensions.elevation_tiles";
@@ -580,7 +581,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     if (values != nil) {
         NSArray * top = [values objectAtIndex:0];
         NSArray * bottom = [values objectAtIndex:1];
-        elevation = [self bilinearInterpolationElevationWithOffsetX:offsetX andOffsetY:offsetY andMinX:minX andMaxX:maxX andMinY:minY andMaxY:maxY andTopLeft:[top objectAtIndex:0] andTopRight:[top objectAtIndex:1] andBottomLeft:[bottom objectAtIndex:0] andBottomRight:[bottom objectAtIndex:1]];
+        NSDecimalNumber * topLeft = (NSDecimalNumber *)[GPKGUtils objectAtIndex:0 inArray:top];
+        NSDecimalNumber * topRight = (NSDecimalNumber *)[GPKGUtils objectAtIndex:1 inArray:top];
+        NSDecimalNumber * bottomLeft = (NSDecimalNumber *)[GPKGUtils objectAtIndex:0 inArray:bottom];
+        NSDecimalNumber * bottomRight = (NSDecimalNumber *)[GPKGUtils objectAtIndex:1 inArray:bottom];
+        elevation = [self bilinearInterpolationElevationWithOffsetX:offsetX andOffsetY:offsetY andMinX:minX andMaxX:maxX andMinY:minY andMaxY:maxY andTopLeft:topLeft andTopRight:topRight andBottomLeft:bottomLeft andBottomRight:bottomRight];
     }
     
     return elevation;
@@ -687,7 +692,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     
     for (int y = 0; y < 4; y++) {
         NSArray * yValues = [values objectAtIndex:y];
-        NSDecimalNumber * rowElevation = [self cubicInterpolationElevationWithValue0:[yValues objectAtIndex:0] andValue1:[yValues objectAtIndex:1] andValue2:[yValues objectAtIndex:2] andValue3:[yValues objectAtIndex:3] andOffset:offsetX];
+        NSDecimalNumber * value0 = [GPKGUtils objectAtIndex:0 inArray:yValues];
+        NSDecimalNumber * value1 = [GPKGUtils objectAtIndex:1 inArray:yValues];
+        NSDecimalNumber * value2 = [GPKGUtils objectAtIndex:2 inArray:yValues];
+        NSDecimalNumber * value3 = [GPKGUtils objectAtIndex:3 inArray:yValues];
+        NSDecimalNumber * rowElevation = [self cubicInterpolationElevationWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offsetX];
         if (rowElevation == nil) {
             rowValues = nil;
             break;
@@ -715,8 +724,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     
     NSDecimalNumber * elevation = nil;
     if (values != nil) {
-        elevation = [self cubicInterpolationElevationWithValue0:values[0] andValue1: values[1]
-                                                      andValue2: values[2] andValue3: values[3] andOffset:offset];
+        NSDecimalNumber * value0 = [GPKGUtils objectAtIndex:0 inArray:values];
+        NSDecimalNumber * value1 = [GPKGUtils objectAtIndex:1 inArray:values];
+        NSDecimalNumber * value2 = [GPKGUtils objectAtIndex:2 inArray:values];
+        NSDecimalNumber * value3 = [GPKGUtils objectAtIndex:3 inArray:values];
+        elevation = [self cubicInterpolationElevationWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offset];
     }
     return elevation;
 }
@@ -740,8 +752,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     
     NSDecimalNumber * elevation = nil;
     
-    if (value0 != nil && value1 != nil && value2 != nil
-        && value3 != nil) {
+    if (value0 != nil && value1 != nil && value2 != nil && value3 != nil) {
         
         double coefficient0 = 2 * [value1 doubleValue];
         double coefficient1 = [value2 doubleValue] - [value0 doubleValue];
