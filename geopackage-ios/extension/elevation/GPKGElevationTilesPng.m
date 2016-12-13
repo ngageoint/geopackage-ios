@@ -51,7 +51,7 @@
     CGImageRef tileImageRef = [image CGImage];
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     unsigned short *pixels = [self allocatePixelsWithWidth:width andHeight:height];
-    CGContextRef context = CGBitmapContextCreate(pixels, width, height, sizeof(unsigned short) * 8, 2 * width, colorSpace, kCGImageAlphaNone);
+    CGContextRef context = CGBitmapContextCreate(pixels, width, height, 16, 2 * width, colorSpace, kCGImageAlphaNone | kCGBitmapByteOrder16Host);
     CGColorSpaceRelease(colorSpace);
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), tileImageRef);
     CGContextRelease(context);
