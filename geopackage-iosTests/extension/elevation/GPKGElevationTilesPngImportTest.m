@@ -13,6 +13,8 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGTestUtils.h"
+#import "GPKGElevationTilesPng.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGElevationTilesPngImportTest
 
@@ -84,10 +86,12 @@
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
-        NSLog(@"Min Latitude: %f", [boundingBox.minLatitude doubleValue]);
-        NSLog(@"Max Latitude: %f", [boundingBox.maxLatitude doubleValue]);
-        NSLog(@"Min Longitude: %f", [boundingBox.minLongitude doubleValue]);
-        NSLog(@"Max Longitude: %f", [boundingBox.maxLongitude doubleValue]);
+        NSMutableString * log = [[NSMutableString alloc] init];
+        [log appendFormat:@"\n\nMin Latitude: %f\n", [boundingBox.minLatitude doubleValue]];
+        [log appendFormat:@"Max Latitude: %f\n", [boundingBox.maxLatitude doubleValue]];
+        [log appendFormat:@"Min Longitude: %f\n", [boundingBox.minLongitude doubleValue]];
+        [log appendFormat:@"Max Longitude: %f\n\n", [boundingBox.maxLongitude doubleValue]];
+        NSLog(log, nil);
         
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
         NSNumber * srsId = tileMatrixSet.srsId;
@@ -98,10 +102,12 @@
         projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
     }
     
-    NSLog(@"Min Latitude: %f", [projectedBoundingBox.minLatitude doubleValue]);
-    NSLog(@"Max Latitude: %f", [projectedBoundingBox.maxLatitude doubleValue]);
-    NSLog(@"Min Longitude: %f", [projectedBoundingBox.minLongitude doubleValue]);
-    NSLog(@"Max Longitude: %f", [projectedBoundingBox.maxLongitude doubleValue]);
+    NSMutableString * log = [[NSMutableString alloc] init];
+    [log appendFormat:@"\n\nMin Latitude: %f\n", [projectedBoundingBox.minLatitude doubleValue]];
+    [log appendFormat:@"Max Latitude: %f\n", [projectedBoundingBox.maxLatitude doubleValue]];
+    [log appendFormat:@"Min Longitude: %f\n", [projectedBoundingBox.minLongitude doubleValue]];
+    [log appendFormat:@"Max Longitude: %f\n\n", [projectedBoundingBox.maxLongitude doubleValue]];
+    NSLog(log, nil);
     
     double latDistance = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];
     double lonDistance = [projectedBoundingBox.maxLongitude doubleValue] - [projectedBoundingBox.minLongitude doubleValue];
@@ -121,7 +127,83 @@
  * print
  */
 -(void) testBounds{
-    // TODO
+    
+    int geoPackageEpsg = PROJ_EPSG_WEB_MERCATOR;
+    
+    double widthPixelDistance = 1000;
+    double heightPixelDistance = 1000;
+    int width = 10;
+    int height = 6;
+    double minLongitude = -16586000;
+    double maxLongitude = minLongitude + (width * widthPixelDistance);
+    double minLatitude = 8760000;
+    double maxLatitude = minLatitude + (height * heightPixelDistance);
+    
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
+    
+    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
+    GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+    
+    NSMutableString * log = [[NSMutableString alloc] init];
+    [log appendString:@"\n\nBounds Test\n\n"];
+    [log appendString:@"REQUEST\n\n"];
+    [log appendFormat:@"   Min Lat: %f\n", [boundingBox.minLatitude doubleValue]];
+    [log appendFormat:@"   Max Lat: %f\n", [boundingBox.maxLatitude doubleValue]];
+    [log appendFormat:@"   Min Lon: %f\n", [boundingBox.minLongitude doubleValue]];
+    [log appendFormat:@"   Max Lon: %f\n", [boundingBox.maxLongitude doubleValue]];
+    [log appendFormat:@"   Result Width: %d\n", width];
+    [log appendFormat:@"   Result Height: %d\n", height];
+    
+    [log appendString:@"\n\nWGS84 REQUEST\n\n"];
+    GPKGBoundingBox * wgs84BoundingBox = [wgs84Transform transformWithBoundingBox:boundingBox];
+    [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
+    [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
+    [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];
+    [log appendFormat:@"   Max Lon: %f\n", [wgs84BoundingBox.maxLongitude doubleValue]];
+    
+    [log appendString:@"\n\nWGS84 LOCATIONS\n"];
+    
+    for (double lat = maxLatitude - (heightPixelDistance * .5); lat >= minLatitude; lat -= heightPixelDistance) {
+        [log appendString:@"\n"];
+        for (double lon = minLongitude + (widthPixelDistance * .5); lon <= maxLongitude; lon += widthPixelDistance) {
+            NSArray * point = [wgs84Transform transformWithX:lon andY:lat];
+            [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+        }
+    }
+    [log appendString:@"\n\n"];
+    NSLog(log, nil);
+    
+    for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
+        enum GPKGElevationTilesAlgorithm algorithm = (enum GPKGElevationTilesAlgorithm)i;
+        
+        NSMutableString * log = [[NSMutableString alloc] init];
+        [log appendFormat:@"\n\n%@ SINGLE ELEVATIONS\n", [GPKGElevationTilesAlgorithms name:algorithm]];
+        for (double lat = maxLatitude - (heightPixelDistance * .5); lat >= minLatitude; lat -= heightPixelDistance) {
+            [log appendString:@"\n"];
+            for (double lon = minLongitude + (widthPixelDistance * .5); lon <= maxLongitude; lon += widthPixelDistance) {
+                NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
+                [log appendFormat:@"   %@", elevation];
+                [GPKGTestUtils assertNotNil:elevation];
+            }
+        }
+        
+        GPKGElevationTileResults * results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox andWidth:width andHeight:height andEpsg:geoPackageEpsg];
+        [GPKGTestUtils assertNotNil:results];
+        [log appendFormat:@"\n\n%@\n", [GPKGElevationTilesAlgorithms name:algorithm]];
+        NSArray * elevations = [results elevations];
+        [GPKGTestUtils assertEqualIntWithValue:height andValue2:(int)elevations.count];
+        [GPKGTestUtils assertEqualIntWithValue:width andValue2:(int)((NSArray *)[elevations objectAtIndex:0]).count];
+        for (int y = 0; y < height; y++) {
+            [log appendString:@"\n"];
+            for (int x = 0; x < width; x++) {
+                NSDecimalNumber * elevation = [results elevationAtRow:y andColumn:x];
+                [log appendFormat:@"   %@", elevation];
+                [GPKGTestUtils assertNotNil:elevation];
+            }
+        }
+    }
+    
 }
 
 /**
@@ -129,7 +211,195 @@
  * bounds of individual tiles.
  */
 -(void) testFullBoundingBox{
-    // TODO
+    
+    int geoPackageEpsg = PROJ_EPSG_WEB_MERCATOR;
+    
+    int width = 10;
+    int height = 6;
+    
+    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
+    GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+    
+    NSArray * elevationTables = [GPKGElevationTilesPng tablesForGeoPackage:self.geoPackage];
+    GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
+    
+    for(NSString * elevationTable in elevationTables){
+        
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
+        
+        GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
+        
+        double minLongitude = [boundingBox.minLongitude doubleValue];
+        double maxLongitude = [boundingBox.maxLongitude doubleValue];
+        double minLatitude = [boundingBox.minLatitude doubleValue];
+        double maxLatitude = [boundingBox.maxLatitude doubleValue];
+        
+        double widthPixelDistance = (maxLongitude - minLongitude) / width;
+        double heightPixelDistance = (maxLatitude - minLatitude) / height;
+        
+        NSMutableString * log = [[NSMutableString alloc] init];
+        [log appendString:@"\n\nFull Bounding Box Test\n\n"];
+        [log appendString:@"REQUEST\n\n"];
+        [log appendFormat:@"   Min Lat: %f\n", [boundingBox.minLatitude doubleValue]];
+        [log appendFormat:@"   Max Lat: %f\n", [boundingBox.maxLatitude doubleValue]];
+        [log appendFormat:@"   Min Lon: %f\n", [boundingBox.minLongitude doubleValue]];
+        [log appendFormat:@"   Max Lon: %f\n", [boundingBox.maxLongitude doubleValue]];
+        [log appendFormat:@"   Result Width: %d\n", width];
+        [log appendFormat:@"   Result Height: %d\n", height];
+        
+        [log appendString:@"\n\nWGS84 REQUEST\n\n"];
+        GPKGBoundingBox * wgs84BoundingBox = [wgs84Transform transformWithBoundingBox:boundingBox];
+        [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
+        [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
+        [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];
+        [log appendFormat:@"   Max Lon: %f\n", [wgs84BoundingBox.maxLongitude doubleValue]];
+        
+        [log appendString:@"\n\nWGS84 LOCATIONS\n"];
+        
+        for (double lat = maxLatitude; lat >= minLatitude; lat -= heightPixelDistance) {
+            [log appendString:@"\n"];
+            for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
+                NSArray * point = [wgs84Transform transformWithX:lon andY:lat];
+                [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+            }
+            NSArray * point = [wgs84Transform transformWithX:maxLongitude andY:lat];
+            [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+        }
+        [log appendString:@"\n"];
+        for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
+            NSArray * point = [wgs84Transform transformWithX:lon andY:minLatitude];
+            [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+        }
+        NSArray * point = [wgs84Transform transformWithX:maxLongitude andY:minLatitude];
+        [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+        [log appendString:@"\n\n"];
+        NSLog(log, nil);
+        
+        for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
+            enum GPKGElevationTilesAlgorithm algorithm = (enum GPKGElevationTilesAlgorithm)i;
+            
+            NSMutableString * log = [[NSMutableString alloc] init];
+            [log appendFormat:@"\n\n%@ SINGLE ELEVATIONS Full Bounding Box\n", [GPKGElevationTilesAlgorithms name:algorithm]];
+            for (double lat = maxLatitude; lat >= minLatitude; lat -= heightPixelDistance) {
+                [log appendString:@"\n"];
+                for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
+                    NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
+                    [log appendFormat:@"   %@", elevation];
+                    if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude && lon < maxLongitude)){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                }
+                NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:maxLongitude andEpsg:geoPackageEpsg];
+                [log appendFormat:@"   %@", elevation];
+                if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+                    [GPKGTestUtils assertNotNil:elevation];
+                }
+            }
+            [log appendString:@"\n"];
+            for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
+                NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:lon andEpsg:geoPackageEpsg];
+                [log appendFormat:@"   %@", elevation];
+                if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+                    [GPKGTestUtils assertNotNil:elevation];
+                }
+            }
+            NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:maxLongitude andEpsg:geoPackageEpsg];
+            [log appendFormat:@"   %@", elevation];
+            if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+                [GPKGTestUtils assertNotNil:elevation];
+            }
+            [log appendString:@"\n\n"];
+            NSLog(log, nil);
+            
+            log = [[NSMutableString alloc] init];
+            GPKGElevationTileResults * results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox andWidth:width andHeight:height andEpsg:geoPackageEpsg];
+            [log appendFormat:@"\n\n%@ Full Bounding Box\n", [GPKGElevationTilesAlgorithms name:algorithm]];
+            NSArray * elevations = [results elevations];
+            for (int y = 0; y < [results height]; y++) {
+                [log appendString:@"\n"];
+                for (int x = 0; x < [results width]; x++) {
+                    elevation = [results elevationAtRow:y andColumn:x];
+                    [log appendFormat:@"   %@", elevation];
+                    [GPKGTestUtils assertNotNil:elevation];
+                }
+            }
+            [log appendString:@"\n"];
+            NSLog(log, nil);
+            
+            GPKGTileMatrix * tileMatrix = [results tileMatrix];
+            for (int row = 0; row < [tileMatrix.matrixHeight intValue]; row++) {
+                for (int column = 0; column < [tileMatrix.matrixWidth intValue]; column++) {
+                    
+                    GPKGBoundingBox * boundingBox2 = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:boundingBox andTileMatrix:tileMatrix andTileColumn:column andTileRow:row];
+                    
+                    double minLongitude2 = [boundingBox2.minLongitude doubleValue];
+                    double maxLongitude2 = [boundingBox2.maxLongitude doubleValue];
+                    double minLatitude2 = [boundingBox2.minLatitude doubleValue];
+                    double maxLatitude2 = [boundingBox2.maxLatitude doubleValue];
+                    
+                    log = [[NSMutableString alloc] init];
+                    [log appendFormat:@"\n\n%@ SINGLE ELEVATIONS Tile row = %d, column = %d\n", [GPKGElevationTilesAlgorithms name:algorithm], row, column];
+                    
+                    elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
+                    NSArray * point = [wgs84Transform transformWithX:minLongitude2 andY:maxLatitude2];
+                    [log appendFormat:@"   %f (%f,%f)", [elevation doubleValue], [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == 0)) {
+                        [GPKGTestUtils assertNil:elevation];
+                    } else {
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                    
+                    elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
+                    point = [wgs84Transform transformWithX:maxLongitude2 andY:maxLatitude2];
+                    [log appendFormat:@"   %f (%f,%f)", [elevation doubleValue], [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == [tileMatrix.matrixWidth intValue] - 1)) {
+                        [GPKGTestUtils assertNil:elevation];
+                    } else {
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                    
+                    elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
+                    point = [wgs84Transform transformWithX:minLongitude2 andY:minLatitude2];
+                    [log appendFormat:@"   %f (%f,%f)", [elevation doubleValue], [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == 0)) {
+                        [GPKGTestUtils assertNil:elevation];
+                    } else {
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                    
+                    elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
+                    point = [wgs84Transform transformWithX:maxLongitude2 andY:minLatitude2];
+                    [log appendFormat:@"   %f (%f,%f)", [elevation doubleValue], [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
+                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
+                        [GPKGTestUtils assertNil:elevation];
+                    } else {
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                    
+                    results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox2 andWidth:width andHeight:height andEpsg:geoPackageEpsg];
+
+                    [log appendFormat:@"\n\n%@ Tile row = %d, column = %d\n", [GPKGElevationTilesAlgorithms name:algorithm], row, column];
+                    if (results == nil) {
+                        [log appendString:@"\nnull results"];
+                    } else {
+                        elevations = [results elevations];
+                        for (int y = 0; y < [results height]; y++) {
+                            [log appendString:@"\n"];
+                            for (int x = 0; x < [results width]; x++) {
+                                elevation = [results elevationAtRow:y andColumn:x];
+                                [log appendFormat:@"   %f", [elevation doubleValue]];
+                                [GPKGTestUtils assertNotNil:elevation];
+                            }
+                        }
+                    }
+                    [log appendString:@"\n\n"];
+                    NSLog(log, nil);
+                }
+            }
+        }
+        
+    }
 }
 
 /**
@@ -140,15 +410,19 @@
  */
 -(void) testLocationWithLatitude: (double) latitude andLongitude: (double) longitude{
     
-    NSLog(@"Latitude: %f", latitude);
-    NSLog(@"Longitude: %f", longitude);
+    NSMutableString * log = [[NSMutableString alloc] init];
+    
+    [log appendFormat:@"\n\nLatitude: %f\n", latitude];
+    [log appendFormat:@"Longitude: %f\n", longitude];
     
     for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
         enum GPKGElevationTilesAlgorithm algorithm = (enum GPKGElevationTilesAlgorithm)i;
         NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:latitude andLongitude:longitude andEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        NSLog(@"%@: %f", [GPKGElevationTilesAlgorithms name:algorithm], [elevation doubleValue]);
+        [log appendFormat:@"%@: %f\n", [GPKGElevationTilesAlgorithms name:algorithm], [elevation doubleValue]];
     }
+    [log appendString:@"\n"];
 
+    NSLog(log, nil);
 }
 
 @end
