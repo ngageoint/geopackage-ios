@@ -180,6 +180,7 @@
         GPKGContents * content = (GPKGContents *)[self getObject:contents];
         [tableNames addObject:content.tableName];
     }
+    [contents close];
     return tableNames;
 }
 
@@ -195,6 +196,7 @@
         GPKGContents * content = (GPKGContents *)[self getObject:contents];
         [tableNames addObject:content.tableName];
     }
+    [contents close];
     return tableNames;
 }
 
