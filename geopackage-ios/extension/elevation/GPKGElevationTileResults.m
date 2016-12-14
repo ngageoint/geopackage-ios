@@ -7,6 +7,7 @@
 //
 
 #import "GPKGElevationTileResults.h"
+#import "GPKGUtils.h"
 
 @interface GPKGElevationTileResults()
 
@@ -62,7 +63,9 @@
 }
 
 -(NSDecimalNumber *) elevationAtRow: (int) row andColumn: (int) column{
-    return (NSDecimalNumber *)[((NSArray *)[self.elevations objectAtIndex:row]) objectAtIndex:column];
+    NSArray * rowArray = (NSArray *)[self.elevations objectAtIndex:row];
+    NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:column inArray:rowArray];
+    return elevation;
 }
 
 -(NSNumber *) zoomLevel{
