@@ -162,6 +162,15 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 -(GPKGResultSet *) griddedTile;
 
 /**
+ * Get the current gridded tile in the result set
+ *
+ * @param resultSet gridded tile result set
+ *
+ * @return gridded tile
+ */
+-(GPKGGriddedTile *) griddedTileWithResultSet: (GPKGResultSet *) resultSet;
+
+/**
  * Get the gridded tile by id
  *
  * @param tileId

@@ -169,6 +169,10 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return griddedTile;
 }
 
+-(GPKGGriddedTile *) griddedTileWithResultSet: (GPKGResultSet *) resultSet{
+    return (GPKGGriddedTile *)[self.griddedTileDao getObject:resultSet];
+}
+
 -(GPKGGriddedTile *) griddedTileWithTileId: (int) tileId{
     GPKGGriddedTile * griddedTile = nil;
     if([self.griddedTileDao tableExists]){
