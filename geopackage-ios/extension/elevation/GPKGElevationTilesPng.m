@@ -39,6 +39,7 @@
     int width = (int) image.size.width;
     unsigned short * pixels = [self pixelValuesWithImage:image];
     unsigned short pixel = [self pixelIn:pixels withWidth:width atX:x andY:y];
+    free(pixels);
     return pixel;
 }
 
@@ -74,6 +75,7 @@
 -(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
     unsigned short * pixelValues = [self pixelValuesWithImage:image];
     NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelValues:pixelValues andCount:image.size.width * image.size.height];
+    free(pixelValues);
     return elevations;
 }
 
@@ -92,6 +94,7 @@
 -(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     unsigned short * pixels = [self pixelValuesArrayToUnsignedShortToUnsignedShort:pixelValues];
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    free(pixels);
     return tileImage;
 }
 
@@ -106,6 +109,7 @@
     int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
     int tileHeight = (int)pixelValues.count;
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    free(pixels);
     return tileImage;
 }
 
@@ -118,6 +122,7 @@
 -(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     unsigned short * pixels = [self pixelValuesOfElevations:elevations withGriddedTile:griddedTile];
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    free(pixels);
     return tileImage;
 }
 
@@ -132,6 +137,7 @@
     int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
     int tileHeight = (int)elevations.count;
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    free(pixels);
     return tileImage;
 }
 

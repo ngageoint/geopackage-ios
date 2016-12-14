@@ -285,6 +285,7 @@
             projectedPixels[(((y * requestedTileWidth) + x) * 4) + 3] = pixels[(((yPixel * width) + xPixel) * 4) + 3];
         }
     }
+    free(pixels);
     
     // Draw the new tile image
     CGColorSpaceRef projectedTileColorSpace = CGColorSpaceCreateDeviceRGB();
@@ -293,6 +294,8 @@
     UIImage * projectedTileImage = [[UIImage alloc] initWithCGImage:projectedImageRef];
     CGColorSpaceRelease(projectedTileColorSpace);
     CGContextRelease(projectedContext);
+    
+    free(projectedPixels);
     
     return projectedTileImage;
 }

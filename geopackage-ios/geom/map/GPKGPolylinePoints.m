@@ -36,6 +36,8 @@
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             self.polyline = [MKPolyline polylineWithCoordinates:points count:[self.points count]];
             
+            free(points);
+            
             [mapView addOverlay:self.polyline];
         }
     }
