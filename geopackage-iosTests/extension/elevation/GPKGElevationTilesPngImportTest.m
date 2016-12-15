@@ -8,7 +8,6 @@
 
 #import "GPKGElevationTilesPngImportTest.h"
 #import "GPKGElevationTilesPngTestUtils.h"
-#import "GPKGElevationTilesTiff.h"
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGProjectionTransform.h"
@@ -78,7 +77,7 @@
     
     GPKGBoundingBox * projectedBoundingBox = nil;
     
-    NSArray * elevationTables = [GPKGElevationTilesTiff tablesForGeoPackage:self.geoPackage];
+    NSArray * elevationTables = [GPKGElevationTilesPng tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
     
     for(NSString * elevationTable in elevationTables){

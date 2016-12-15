@@ -231,8 +231,6 @@
  */
 -(NSData *) imageData: (UIImage *) image;
 
-// TODO setPixel method?
-
 /**
  * Get the pixel at the provided x and y with the image width
  *
