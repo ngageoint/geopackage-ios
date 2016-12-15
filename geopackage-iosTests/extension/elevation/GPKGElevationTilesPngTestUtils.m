@@ -13,6 +13,7 @@
 #import "GPKGUtils.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGElevationTilesPngTestUtils
 
@@ -157,7 +158,179 @@
  * @param allowNils
  */
 +(void) testTileRowWithGeoPackage: (GPKGGeoPackage *) geoPackage andValues: (GPKGElevationTileValues *) elevationTileValues andElevationTiles: (GPKGElevationTilesPng *) elevationTiles andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andAlgorithm: (enum GPKGElevationTilesAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
-    // TODO
+    
+    GPKGGriddedTileDao * griddedTileDao = [geoPackage getGriddedTileDao];
+    
+    [GPKGTestUtils assertNotNil:griddedTile];
+    [GPKGTestUtils assertTrue:[griddedTile.id intValue] >= 0];
+    [GPKGTestUtils assertNotNil:[griddedTileDao getContents:griddedTile]];
+    [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
+    NSNumber * tableId = griddedTile.tableId;
+    [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
+    [GPKGTestUtils assertTrue:[griddedTile getScaleOrDefault] >= 0];
+    [GPKGTestUtils assertTrue:[griddedTile getOffsetOrDefault] >= 0];
+    [GPKGTestUtils assertNotNil:tileRow];
+    
+    NSData * tileData = [tileRow getTileData];
+    [GPKGTestUtils assertTrue:tileData.length > 0];
+    UIImage * image = [tileRow getTileDataImage];
+    
+    int width = (int) image.size.width;
+    int height = (int) image.size.height;
+    int pixelCount = width * height;
+    
+    // Get all the pixel values of the image
+    unsigned short * pixelValues = [elevationTiles pixelValuesWithImage:image];
+    if (elevationTileValues != nil) {
+        for (int i = 0; i < pixelCount; i++) {
+            [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues tilePixelFlatAsUnsignedShortWithIndex:i] andValue2:pixelValues[i]];
+        }
+    }
+    
+    // Get each individual image pixel value
+    NSMutableArray * pixelValuesList = [[NSMutableArray alloc] init];
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            unsigned short pixelValue = [elevationTiles pixelValueWithImage:image andX:x andY:y];
+            [pixelValuesList addObject:[NSNumber numberWithUnsignedShort:pixelValue]];
+            
+            // Test getting the pixel value from the pixel values array
+            unsigned short pixelValue2 = [elevationTiles pixelValueWithUnsignedShortValues:pixelValues andWidth:width andX:x andY:y];
+            [GPKGTestUtils assertEqualIntWithValue:pixelValue andValue2:pixelValue2];
+            
+            // Test getting the elevation value
+            NSDecimalNumber * elevationValue = [elevationTiles elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+            GPKGGriddedCoverage * griddedCoverage = [elevationTiles griddedCoverage];
+            if(elevationTileValues != nil){
+                [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues tilePixelAsUnsignedShortWithY:y andX:x] andValue2:pixelValue];
+                [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues tilePixelFlatAsUnsignedShortWithWidth:width andY:y andX:x] andValue2:pixelValue];
+            }
+            if (griddedCoverage.dataNull != nil && pixelValue == [griddedCoverage.dataNull unsignedShortValue]) {
+                [GPKGTestUtils assertNil:elevationValue];
+            } else {
+                [GPKGTestUtils assertEqualDoubleWithValue:(pixelValue * [griddedTile getScaleOrDefault] + [griddedTile getOffsetOrDefault]) * [griddedCoverage getScaleOrDefault] + [griddedCoverage getOffsetOrDefault]
+                                                andValue2:[elevationValue doubleValue] andDelta:.000001];
+            }
+        }
+    }
+    
+    // Test the individually built list of pixel values vs the full returned array
+    [GPKGTestUtils assertEqualIntWithValue:(int)pixelValuesList.count andValue2:pixelCount];
+    for (int i = 0; i < pixelValuesList.count; i++) {
+        [GPKGTestUtils assertEqualIntWithValue:[((NSNumber *)[pixelValuesList objectAtIndex:i]) unsignedShortValue] andValue2:pixelValues[i]];
+    }
+    
+    free(pixelValues);
+    
+    GPKGTileMatrix * tileMatrix = [elevationTiles.tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
+    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+    GPKGElevationTileResults * elevationTileResults = [elevationTiles elevationsWithBoundingBox:boundingBox];
+    if(elevationTileValues != nil){
+        [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues height] andValue2:[elevationTileResults height]];
+        [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues width] andValue2:[elevationTileResults width]];
+        [GPKGTestUtils assertEqualIntWithValue:[elevationTileValues count] andValue2:[elevationTileResults height] * [elevationTileResults width]];
+        for (int y = 0; y < [elevationTileResults height]; y++) {
+            for (int x = 0; x < [elevationTileResults width]; x++) {
+                switch(algorithm) {
+                    case GPKG_ETA_BICUBIC:
+                        {
+                            // Don't test the edges
+                            if (y > 1
+                                && y < [elevationTileValues height] - 2
+                                && x > 1
+                                && x < [elevationTileValues width] - 2) {
+                                if (!allowNils) {
+                                    // No nils allowed, check for equality
+                                    [GPKGTestUtils assertEqualDecimalNumberWithValue:[elevationTileValues tileElevationWithY:y andX:x] andValue2:[elevationTileResults elevationAtRow:y andColumn:x] andDelta:.000001];
+                                } else {
+                                    // Verify there is nil neighbor value
+                                    NSDecimalNumber * value1 = [elevationTileValues tileElevationWithY:y andX:x];
+                                    NSDecimalNumber * value2 = [elevationTileResults elevationAtRow:y andColumn:x];
+                                    if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
+                                        BOOL nilValue = false;
+                                        for (int yLocation = y - 2; !nilValue && yLocation <= y + 2; yLocation++) {
+                                            for (int xLocation = x - 2; xLocation <= x + 2; xLocation++) {
+                                                if ([elevationTileValues tileElevationWithY:yLocation andX:xLocation] == nil) {
+                                                    nilValue = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        [GPKGTestUtils assertTrue:nilValue];
+                                    }
+                                }
+                                
+                            }
+                        }
+                        break;
+                    case GPKG_ETA_BILINEAR:
+                        {
+                            // Don't test the edges
+                            if (y > 0
+                                && y < [elevationTileValues height] - 1
+                                && x > 0
+                                && x < [elevationTileValues width] - 1) {
+                                if (!allowNils) {
+                                    // No nils allowed, check for equality
+                                    [GPKGTestUtils assertEqualDecimalNumberWithValue:[elevationTileValues tileElevationWithY:y andX:x] andValue2:[elevationTileResults elevationAtRow:y andColumn:x] andDelta:.000001];
+                                } else {
+                                    // Verify there is nil neighbor value
+                                    NSDecimalNumber * value1 = [elevationTileValues tileElevationWithY:y andX:x];
+                                    NSDecimalNumber * value2 = [elevationTileResults elevationAtRow:y andColumn:x];
+                                    if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
+                                        BOOL nilValue = false;
+                                        for (int yLocation = y - 1; !nilValue && yLocation <= y + 1; yLocation++) {
+                                            for (int xLocation = x - 1; xLocation <= x + 1; xLocation++) {
+                                                if ([elevationTileValues tileElevationWithY:yLocation andX:xLocation] == nil) {
+                                                    nilValue = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        [GPKGTestUtils assertTrue:nilValue];
+                                    }
+                                }
+                                
+                            }
+                        }
+                        break;
+                    case GPKG_ETA_NEAREST_NEIGHBOR:
+                        {
+                            if (!allowNils) {
+                                [GPKGTestUtils assertEqualDecimalNumberWithValue:[elevationTileValues tileElevationWithY:y andX:x] andValue2:[elevationTileResults elevationAtRow:y andColumn:x] andDelta:.000001];
+                            } else {
+                                NSDecimalNumber * value1 = [elevationTileValues tileElevationWithY:y andX:x];
+                                NSDecimalNumber * value2 = [elevationTileResults elevationAtRow:y andColumn:x];
+                                if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
+                                    // Find a matching neighbor
+                                    BOOL nonNil = false;
+                                    BOOL match = false;
+                                    for (int yLocation = MAX(0, y - 1); !match && yLocation <= y + 1 && yLocation < [elevationTileValues height]; yLocation++) {
+                                        for (int xLocation = MAX(0, x - 1); xLocation <= x + 1 && xLocation < [elevationTileValues width]; xLocation++) {
+                                            NSDecimalNumber * value = [elevationTileValues tileElevationWithY:yLocation andX:xLocation];
+                                            if (value != nil) {
+                                                nonNil = true;
+                                                match = [GPKGTestUtils equalDoubleWithValue:[value doubleValue] andValue2:[value2 doubleValue] andDelta:.000001];
+                                                if (match) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (!match) {
+                                        if (nonNil) {
+                                            [GPKGTestUtils assertNotNil:value2];
+                                        } else {
+                                            [GPKGTestUtils assertNil:value2];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -222,7 +395,7 @@
     for (int y = 0; y < [elevations height]; y++) {
         for (int x = 0; x < [elevations width]; x++) {
             NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[elevations elevations] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
@@ -245,7 +418,7 @@
     for (int y = 0; y < specifiedHeight; y++) {
         for (int x = 0; x < specifiedWidth; x++) {
             NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[elevations elevations] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
@@ -262,7 +435,7 @@
     for (int y = 0; y < [elevations height]; y++) {
         for (int x = 0; x < [elevations width]; x++) {
             NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[elevations elevations] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
@@ -322,7 +495,7 @@
             BOOL secondNilsFound = false;
             for (int x = 0; x < specifiedWidth; x++) {
                 NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[elevations elevations] objectAtIndex:y]];
-                [GPKGTestUtils assertEqualWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x]];
+                [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([elevations elevationAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];
@@ -339,7 +512,7 @@
             BOOL secondNilsFound = false;
             for (int y = 0; y < specifiedHeight; y++) {
                 NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[elevations elevations] objectAtIndex:y]];
-                [GPKGTestUtils assertEqualWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x]];
+                [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[elevations elevationAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([elevations elevationAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];

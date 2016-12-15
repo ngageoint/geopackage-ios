@@ -29,6 +29,8 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void)assertEqualWithValue:(NSObject *) value andValue2: (NSObject *) value2;
 
++(void)assertEqualDecimalNumberWithValue:(NSDecimalNumber *) value andValue2: (NSDecimalNumber *) value2 andDelta: (double) delta;
+
 +(void)assertEqualBoolWithValue:(BOOL) value andValue2: (BOOL) value2;
 
 +(void)assertEqualIntWithValue:(int) value andValue2: (int) value2;
@@ -36,6 +38,8 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2;
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta;
+
++(BOOL) equalDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta;
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andPercentage: (double) percentage;
 

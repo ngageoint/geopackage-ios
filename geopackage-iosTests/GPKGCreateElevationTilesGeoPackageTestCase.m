@@ -242,7 +242,6 @@
     [super setUp];
     
     self.allowNils = [self shouldAllowNils];
-    self.elevationTileValues = [[GPKGElevationTileValues alloc] init];
 }
 
 - (void)tearDown {

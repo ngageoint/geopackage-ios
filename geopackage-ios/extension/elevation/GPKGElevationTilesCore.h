@@ -205,23 +205,39 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 +(NSArray *) tablesForGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
- * Get the pixel value as an "unsigned short" at the coordinate from the
- * "unsigned short" pixel values
+ * Get the pixel value as an unsigned short at the coordinate from the
+ * unsigned short pixel values
  *
  * @param pixelValues
- *            "unsigned short" pixel values
+ *            unsigned short pixel values
  * @param width
  *            image width
  * @param x
  *            x coordinate
  * @param y
  *            y coordinate
- * @return "unsigned short" pixel value
+ * @return unsigned short pixel value
  */
 -(unsigned short) pixelValueWithValues:(NSArray *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
 
 /**
- * Get the elevation value for the "unsigned short" pixel value
+ * Get the pixel value as an unsigned short at the coordinate from the
+ * unsigned short pixel values
+ *
+ * @param pixelValues
+ *            unsigned short pixel values
+ * @param width
+ *            image width
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return unsigned short pixel value
+ */
+-(unsigned short) pixelValueWithUnsignedShortValues:(unsigned short *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
+
+/**
+ * Get the elevation value for the unsigned short pixel value
  *
  * @param griddedTile
  *            gridded tile
@@ -232,7 +248,7 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue;
 
 /**
- * Get the elevation values from the "unsigned short" pixel values
+ * Get the elevation values from the unsigned short pixel values
  *
  * @param griddedTile
  *            gridded tile
@@ -268,13 +284,13 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 +(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
 
 /**
- * Get the "unsigned short" pixel value of the elevation
+ * Get the unsigned short pixel value of the elevation
  *
  * @param griddedTile
  *            gridded tile
  * @param elevation
  *            elevation value
- * @return "unsigned short" pixel value
+ * @return unsigned short pixel value
  */
 -(unsigned short) pixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
 
@@ -292,6 +308,21 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
  * @return pixel value
  */
 -(float) pixelValueWithFloatValues: (NSArray *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
+
+/**
+ * Get the pixel value at the coordinate from the pixel values
+ *
+ * @param pixelValues
+ *            pixel values
+ * @param width
+ *            image width
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return pixel value
+ */
+-(float) pixelValueWithRawFloatValues: (float *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
 
 /**
  * Get the elevation value for the pixel value

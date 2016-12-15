@@ -796,6 +796,10 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return [((NSNumber *)[pixelValues objectAtIndex:(y * width) + x]) unsignedShortValue];
 }
 
+-(unsigned short) pixelValueWithUnsignedShortValues:(unsigned short *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
+    return pixelValues[(y * width) + x];
+}
+
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue{
     
     NSDecimalNumber * elevation = nil;
@@ -913,6 +917,10 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 
 -(float) pixelValueWithFloatValues: (NSArray *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
     return [((NSDecimalNumber *)[pixelValues objectAtIndex:(y * width) + x]) floatValue];
+}
+
+-(float) pixelValueWithRawFloatValues: (float *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y{
+    return pixelValues[(y * width) + x];
 }
 
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValue: (float) pixelValue{

@@ -82,7 +82,7 @@
 -(UIImage *) drawTileWithUnsignedShortPixelValues: (unsigned short *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGContextRef context = CGBitmapContextCreate(&pixelValues[0], tileWidth, tileHeight, sizeof(unsigned short) * 8, 2 * tileWidth, colorSpace, kCGImageAlphaNone);
+    CGContextRef context = CGBitmapContextCreate(&pixelValues[0], tileWidth, tileHeight, 16, 2 * tileWidth, colorSpace, kCGImageAlphaNone | kCGBitmapByteOrder16Host);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
     UIImage * tileImage = [[UIImage alloc] initWithCGImage:imageRef];
     CGColorSpaceRelease(colorSpace);
