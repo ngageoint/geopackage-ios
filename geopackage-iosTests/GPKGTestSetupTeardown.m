@@ -17,6 +17,7 @@
 #import "GPKGImageConverter.h"
 #import "GPKGUtils.h"
 #import "GPKGAttributesColumn.h"
+#import "GPKGGeoPackageConstants.h"
 
 NSInteger const GPKG_TEST_SETUP_CREATE_SRS_COUNT = 3;
 NSInteger const GPKG_TEST_SETUP_CREATE_CONTENTS_COUNT = 6;
@@ -47,6 +48,16 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
     }
+    
+    [GPKGTestUtils assertEqualWithValue:[geoPackage applicationId] andValue2:GPKG_APPLICATION_ID];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersion] andValue2:(int)GPKG_USER_VERSION];
+    NSString * userVersionString= [NSString stringWithFormat:@"%d",[geoPackage userVersion]];
+    NSString * majorVersion = [userVersionString substringWithRange:NSMakeRange(0, userVersionString.length - 4)];
+    NSString * minorVersion = [userVersionString substringWithRange:NSMakeRange(userVersionString.length - 4, userVersionString.length - 3)];
+    NSString * patchVersion = [userVersionString substringFromIndex:userVersionString.length - 2];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionMajor] andValue2:[majorVersion intValue]];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionMinor] andValue2:[minorVersion intValue]];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionPatch] andValue2:[patchVersion intValue]];
     
     if(features){
         [self setUpCreateFeaturesWithGeoPackage:geoPackage];

@@ -44,6 +44,26 @@
     [self.database close];
 }
 
+-(NSString *) applicationId{
+    return [self.database applicationId];
+}
+
+-(int) userVersion{
+    return [self.database userVersion];
+}
+
+-(int) userVersionMajor{
+    return [self userVersion] / 10000;
+}
+
+-(int) userVersionMinor{
+    return ([self userVersion] % 10000) / 100;
+}
+
+-(int) userVersionPatch{
+    return [self userVersion] % 100;
+}
+
 -(NSArray *)getFeatureTables{
     NSArray * tableNames = [self getTablesByType:GPKG_CDT_FEATURES];
     return tableNames;

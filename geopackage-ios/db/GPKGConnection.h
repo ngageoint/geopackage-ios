@@ -320,6 +320,32 @@
 -(void) setApplicationId: (NSString *) applicationId;
 
 /**
+ *  Get the application id
+ *
+ *  @return application id
+ */
+-(NSString *) applicationId;
+
+/**
+ *  Set the GeoPackage user version
+ */
+-(void) setUserVersion;
+
+/**
+ *  Set the user version
+ *
+ *  @param userVersion user version
+ */
+-(void) setUserVersion: (int) userVersion;
+
+/**
+ *  Get the user version
+ *
+ *  @return user version
+ */
+-(int) userVersion;
+
+/**
  *  Drop the table
  *
  *  @param table table name

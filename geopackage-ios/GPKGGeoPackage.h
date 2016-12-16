@@ -79,6 +79,41 @@
 -(void)close;
 
 /**
+ *  Get the application id
+ *
+ *  @return application id
+ */
+-(NSString *) applicationId;
+
+/**
+ *  Get the user version
+ *
+ *  @return user version
+ */
+-(int) userVersion;
+
+/**
+ *  Get the major user version
+ *
+ *  @return major user version
+ */
+-(int) userVersionMajor;
+
+/**
+ *  Get the minor user version
+ *
+ *  @return minor user version
+ */
+-(int) userVersionMinor;
+
+/**
+ *  Get the patch user version
+ *
+ *  @return patch user version
+ */
+-(int) userVersionPatch;
+
+/**
  *  Get the feature tables
  *
  *  @return feature table names
