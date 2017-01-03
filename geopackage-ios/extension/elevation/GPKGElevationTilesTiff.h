@@ -210,7 +210,7 @@
 
 /**
  * Draw an elevation image tile and format as TIFF bytes from the double
- * array of unsigned elevations formatted as Double[row][width]
+ * array of elevations formatted as Double[row][width]
  *
  * @param griddedTile
  *            gridded tile
@@ -228,6 +228,72 @@
  * @return image bytes
  */
 -(NSData *) imageData: (UIImage *) image;
+
+/**
+ * Get the pixel at the provided x and y with the image width
+ *
+ * @param pixels
+ *            pixels array
+ * @param width
+ *            image width
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordintate
+ * @return pixel value
+ */
+-(float) pixelIn: (float *) pixels withWidth: (int) width atX: (int) x andY: (int) y;
+
+/**
+ * Convert the float pixel array to a NSArray of numbers
+ *
+ * @param pixelValues
+ *            pixels values
+ * @param count
+ *            pixel count
+ * @return pixel array
+ */
+-(NSArray *) pixelValuesFloatToArray: (float *) pixelValues withCount: (int) count;
+
+/**
+ * Convert the pixel array to a float pixel array
+ *
+ * @param pixelValues
+ *            pixels values
+ * @return float pixel array
+ */
+-(float *) pixelValuesArrayToFloat: (NSArray *) pixelValues;
+
+/**
+ * Convert the pixel double array to a float pixel array
+ *
+ * @param pixelValues
+ *            pixels values
+ * @return float pixel array
+ */
+-(float *) pixelValuesDoubleArrayToFloat: (NSArray *) pixelValues;
+
+/**
+ * Convert the elevation array to a float pixel array
+ *
+ * @param elevations
+ *            elevation values
+ * @param griddedTile
+ *            gridded tile
+ * @return float pixel array
+ */
+-(float *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+
+/**
+ * Convert the elevation double array to a float pixel array
+ *
+ * @param elevations
+ *            elevation values
+ * @param griddedTile
+ *            gridded tile
+ * @return float pixel array
+ */
+-(float *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
  * Create the elevation tile table with metadata and extension

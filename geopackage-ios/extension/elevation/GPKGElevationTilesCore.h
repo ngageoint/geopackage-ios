@@ -347,6 +347,19 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues;
 
 /**
+ * Get the elevation values from the pixel values
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param pixelValues
+ *            pixel values as floats
+ * @param count
+ *            pixel count
+ * @return elevation values
+ */
+-(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count;
+
+/**
  * Get the pixel value of the elevation
  *
  * @param griddedTile

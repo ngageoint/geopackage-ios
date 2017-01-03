@@ -941,6 +941,14 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return elevations;
 }
 
+-(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count{
+    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
+    for(int i = 0; i < count; i++){
+        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]]];
+    }
+    return elevations;
+}
+
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation{
     
     double value = 0;

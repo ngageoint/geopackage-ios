@@ -92,7 +92,7 @@
 }
 
 -(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    unsigned short * pixels = [self pixelValuesArrayToUnsignedShortToUnsignedShort:pixelValues];
+    unsigned short * pixels = [self pixelValuesArrayToUnsignedShort:pixelValues];
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
@@ -105,7 +105,7 @@
 }
 
 -(UIImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues{
-    unsigned short * pixels = [self pixelValuesDoubleArrayToUnsignedShortToUnsignedShort:pixelValues];
+    unsigned short * pixels = [self pixelValuesDoubleArrayToUnsignedShort:pixelValues];
     int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
     int tileHeight = (int)pixelValues.count;
     UIImage * tileImage = [self drawTileWithUnsignedShortPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
@@ -156,7 +156,7 @@
     return pixels[(y * width) + x];
 }
 
--(NSArray *) pixelValuesUnsignedShortToArrayToUnsignedShort: (unsigned short *) pixelValues withCount: (int) count{
+-(NSArray *) pixelValuesUnsignedShortToArray: (unsigned short *) pixelValues withCount: (int) count{
     NSMutableArray * pixels = [[NSMutableArray alloc] initWithCapacity:count];
     for(int i= 0; i < count; i++){
         unsigned short pixel = pixelValues[i];
@@ -165,7 +165,7 @@
     return pixels;
 }
 
--(unsigned short *) pixelValuesArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues{
+-(unsigned short *) pixelValuesArrayToUnsignedShort: (NSArray *) pixelValues{
     unsigned short * pixels = [self allocatePixelsWithCount:(int)pixelValues.count];
     for(int i = 0; i < pixelValues.count; i++){
         NSNumber * pixel = [pixelValues objectAtIndex:i];
@@ -174,7 +174,7 @@
     return pixels;
 }
 
--(unsigned short *) pixelValuesDoubleArrayToUnsignedShortToUnsignedShort: (NSArray *) pixelValues{
+-(unsigned short *) pixelValuesDoubleArrayToUnsignedShort: (NSArray *) pixelValues{
     
     int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
     int tileHeight = (int)pixelValues.count;
