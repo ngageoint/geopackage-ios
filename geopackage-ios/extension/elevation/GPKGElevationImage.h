@@ -2,34 +2,19 @@
 //  GPKGElevationImage.h
 //  geopackage-ios
 //
-//  Created by Brian Osborn on 11/18/16.
-//  Copyright © 2016 NGA. All rights reserved.
+//  Created by Brian Osborn on 1/3/17.
+//  Copyright © 2017 NGA. All rights reserved.
 //
 
+#ifndef geopackage_ios_GPKGElevationImage_h
+#define geopackage_ios_GPKGElevationImage_h
+
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "GPKGTileRow.h"
 
 /**
- * Elevation image, stores the tile row image
+ *  Elevation image interface
  */
-@interface GPKGElevationImage : NSObject
-
-/**
- *  Initialize
- *
- *  @param tileRow tile row
- *
- *  @return new instance
- */
--(instancetype) initWithTileRow: (GPKGTileRow *) tileRow;
-
-/**
- * Get the image
- *
- * @return image
- */
--(UIImage *) image;
+@protocol GPKGElevationImage <NSObject>
 
 /**
  * Get the width
@@ -46,3 +31,5 @@
 -(int) height;
 
 @end
+
+#endif

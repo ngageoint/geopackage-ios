@@ -371,19 +371,13 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
 
 /**
- * Get the elevation value from the image at the coordinate
+ * Create an elevation image
  *
- * @param griddedTile
- *            gridded tile
- * @param image
- *            elevation image
- * @param x
- *            x coordinate
- * @param y
- *            y coordinate
- * @return elevation
+ * @param tileRow
+ *            tile row
+ * @return elevation image
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y;
+-(NSObject<GPKGElevationImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow;
 
 /**
  * Get the elevation value of the pixel in the tile row image
@@ -399,6 +393,21 @@ extern NSString * const GPKG_ELEVATION_TILES_EXTENSION_NAME;
  * @return elevation value
  */
 -(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
+
+/**
+ * Get the elevation value from the image at the coordinate
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param image
+ *            elevation image
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return elevation
+ */
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andX: (int) x andY: (int) y;
 
 /**
  * Get the tile dao

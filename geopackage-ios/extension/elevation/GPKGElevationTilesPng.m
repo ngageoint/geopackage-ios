@@ -8,6 +8,7 @@
 
 #import "GPKGElevationTilesPng.h"
 #import "GPKGImageConverter.h"
+#import "GPKGElevationPngImage.h"
 
 @implementation GPKGElevationTilesPng
 
@@ -24,14 +25,19 @@
     return [self initWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
+-(NSObject<GPKGElevationImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow{
+    return [[GPKGElevationPngImage alloc] initWithTileRow:tileRow];
+}
+
 -(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
     UIImage * image = [tileRow getTileDataImage];
     NSDecimalNumber * elevation = [self elevationValueWithGriddedTile: griddedTile andImage: image andX: x andY: y];
     return elevation.doubleValue;
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y{
-    return [self elevationValueWithGriddedTile: griddedTile andImage: [image image] andX: x andY: y];
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andX: (int) x andY: (int) y{
+    GPKGElevationPngImage * pngImage = (GPKGElevationPngImage *) image;
+    return [self elevationValueWithGriddedTile: griddedTile andImage: [pngImage image] andX: x andY: y];
 }
 
 -(unsigned short) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y{
@@ -44,7 +50,7 @@
 }
 
 -(unsigned short *) pixelValuesWithImage: (UIImage *) image{
-    [self validateImageType:image];
+    [GPKGElevationTilesPng validateImageType:image];
 
     int width = (int) image.size.width;
     int height = (int) image.size.height;
@@ -60,7 +66,7 @@
     return pixels;
 }
 
--(void) validateImageType: (UIImage *) image{
++(void) validateImageType: (UIImage *) image{
     if (image == nil) {
         [NSException raise:@"Nil Image" format:@"The image is nil"];
     }

@@ -941,14 +941,6 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return elevations;
 }
 
--(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count{
-    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
-    for(int i = 0; i < count; i++){
-        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]]];
-    }
-    return elevations;
-}
-
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation{
     
     double value = 0;
@@ -965,7 +957,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     return pixelValue;
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andX: (int) x andY: (int) y{
+-(NSObject<GPKGElevationImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow{
     [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
     return nil;
 }
@@ -973,6 +965,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 -(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
     [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
     return 0;
+}
+
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andX: (int) x andY: (int) y{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    return nil;
 }
 
 -(GPKGTileDao *) tileDao{
@@ -1354,7 +1351,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
         
         // Get the elevation tile image
-        GPKGElevationImage * image = [[GPKGElevationImage alloc] initWithTileRow:tileRow];
+        NSObject<GPKGElevationImage> * image = [self createElevationImageWithTileRow:tileRow];
         
         // If the tile overlaps with the requested box
         if (overlap != nil) {
@@ -1532,7 +1529,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            source left most pixel
  * @return bilinear elevation
  */
--(NSDecimalNumber *) bilinearInterpolationElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) bilinearInterpolationElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1584,7 +1581,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            source left most pixel
  * @return bicubic elevation
  */
--(NSDecimalNumber *) bicubicInterpolationElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) bicubicInterpolationElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1630,7 +1627,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @param values
  *            values to populate
  */
--(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andPixelX: (GPKGElevationSourcePixel *) pixelX andPixelY: (GPKGElevationSourcePixel *) pixelY andValues: (NSMutableArray *) values{
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andPixelX: (GPKGElevationSourcePixel *) pixelX andPixelY: (GPKGElevationSourcePixel *) pixelY andValues: (NSMutableArray *) values{
     
     [self populateElevationValues:griddedTile andElevationImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andMinX:pixelX.min andMaxX:pixelX.max andMinY:pixelY.min andMaxY:pixelY.max andValues:values];
 }
@@ -1659,7 +1656,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @param values
  *            values to populate
  */
--(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY andValues: (NSMutableArray *) values{
+-(void) populateElevationValues: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY andValues: (NSMutableArray *) values{
     
     for (int yLocation = maxY; values != nil && yLocation >= minY; yLocation--) {
         for (int xLocation = maxX; xLocation >= minX; xLocation--) {
@@ -1706,7 +1703,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            source left most pixel
  * @return nearest neighbor elevation
  */
--(NSDecimalNumber *) nearestNeighborElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) nearestNeighborElevation: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1749,7 +1746,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            y coordinate
  * @return elevation value
  */
--(NSDecimalNumber *) elevationValueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (GPKGElevationImage *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andX: (int) x andY: (int) y{
+-(NSDecimalNumber *) elevationValueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andX: (int) x andY: (int) y{
 
     NSDecimalNumber * elevation = nil;
     
@@ -1858,7 +1855,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                 GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
                 
                 // Get the elevation tile image
-                GPKGElevationImage * image = [[GPKGElevationImage alloc] initWithTileRow:tileRow];
+                NSObject<GPKGElevationImage> * image = [self createElevationImageWithTileRow:tileRow];
                 
                 // Create the elevation results for this tile
                 NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:srcBottom - srcTop + 1];

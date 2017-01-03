@@ -37,8 +37,6 @@
 		0422BB131DDE442D002709B6 /* GPKGAttributesRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB111DDE442D002709B6 /* GPKGAttributesRow.m */; };
 		0422BB161DDE445E002709B6 /* GPKGAttributesTableReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB141DDE445E002709B6 /* GPKGAttributesTableReader.h */; };
 		0422BB171DDE445E002709B6 /* GPKGAttributesTableReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB151DDE445E002709B6 /* GPKGAttributesTableReader.m */; };
-		0422BB1A1DDFB60D002709B6 /* GPKGElevationImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB181DDFB60D002709B6 /* GPKGElevationImage.h */; };
-		0422BB1B1DDFB60D002709B6 /* GPKGElevationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */; };
 		0422BB1E1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */; };
 		0422BB1F1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */; };
 		0422BB221DEE22ED002709B6 /* GPKGElevationTilesPng.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */; };
@@ -393,6 +391,10 @@
 		04A1CE2E1D1059D500731963 /* GPKGTileCreatorImageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */; };
 		04A1CE311D1087F800731963 /* webMercator.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A1CE2F1D1087F800731963 /* webMercator.png */; };
 		04A1CE321D1087F800731963 /* wgs84.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A1CE301D1087F800731963 /* wgs84.png */; };
+		04C637F61E1C371800B429FE /* GPKGElevationPngImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C637F41E1C371700B429FE /* GPKGElevationPngImage.h */; };
+		04C637F71E1C371800B429FE /* GPKGElevationPngImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F51E1C371800B429FE /* GPKGElevationPngImage.m */; };
+		04C637FA1E1C373D00B429FE /* GPKGElevationTiffImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C637F81E1C373D00B429FE /* GPKGElevationTiffImage.h */; };
+		04C637FB1E1C373D00B429FE /* GPKGElevationTiffImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F91E1C373D00B429FE /* GPKGElevationTiffImage.m */; };
 		04DD109B1BDE9D4C00CC59A0 /* GPKGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10971BDE9D4C00CC59A0 /* GPKGConnectionPool.h */; };
 		04DD109C1BDE9D4C00CC59A0 /* GPKGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10981BDE9D4C00CC59A0 /* GPKGConnectionPool.m */; };
 		04DD109D1BDE9D4C00CC59A0 /* GPKGSqliteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10991BDE9D4C00CC59A0 /* GPKGSqliteConnection.h */; };
@@ -450,8 +452,6 @@
 		0422BB111DDE442D002709B6 /* GPKGAttributesRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAttributesRow.m; sourceTree = "<group>"; };
 		0422BB141DDE445E002709B6 /* GPKGAttributesTableReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGAttributesTableReader.h; sourceTree = "<group>"; };
 		0422BB151DDE445E002709B6 /* GPKGAttributesTableReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAttributesTableReader.m; sourceTree = "<group>"; };
-		0422BB181DDFB60D002709B6 /* GPKGElevationImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationImage.h; sourceTree = "<group>"; };
-		0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationImage.m; sourceTree = "<group>"; };
 		0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTileMatrixResults.h; sourceTree = "<group>"; };
 		0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTileMatrixResults.m; sourceTree = "<group>"; };
 		0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTilesPng.h; sourceTree = "<group>"; };
@@ -859,6 +859,11 @@
 		04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGTileCreatorImageTest.m; sourceTree = "<group>"; };
 		04A1CE2F1D1087F800731963 /* webMercator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webMercator.png; sourceTree = "<group>"; };
 		04A1CE301D1087F800731963 /* wgs84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wgs84.png; sourceTree = "<group>"; };
+		04C637F41E1C371700B429FE /* GPKGElevationPngImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationPngImage.h; sourceTree = "<group>"; };
+		04C637F51E1C371800B429FE /* GPKGElevationPngImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationPngImage.m; sourceTree = "<group>"; };
+		04C637F81E1C373D00B429FE /* GPKGElevationTiffImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTiffImage.h; sourceTree = "<group>"; };
+		04C637F91E1C373D00B429FE /* GPKGElevationTiffImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTiffImage.m; sourceTree = "<group>"; };
+		04C637FC1E1C386E00B429FE /* GPKGElevationImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGElevationImage.h; sourceTree = "<group>"; };
 		04DD10971BDE9D4C00CC59A0 /* GPKGConnectionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnectionPool.h; sourceTree = "<group>"; };
 		04DD10981BDE9D4C00CC59A0 /* GPKGConnectionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionPool.m; sourceTree = "<group>"; };
 		04DD10991BDE9D4C00CC59A0 /* GPKGSqliteConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGSqliteConnection.h; sourceTree = "<group>"; };
@@ -946,8 +951,11 @@
 				0422BB051DD6474B002709B6 /* GPKGGriddedTileDao.m */,
 				0422BB081DD66D21002709B6 /* GPKGElevationTilesCore.h */,
 				0422BB091DD66D21002709B6 /* GPKGElevationTilesCore.m */,
-				0422BB181DDFB60D002709B6 /* GPKGElevationImage.h */,
-				0422BB191DDFB60D002709B6 /* GPKGElevationImage.m */,
+				04C637FC1E1C386E00B429FE /* GPKGElevationImage.h */,
+				04C637F41E1C371700B429FE /* GPKGElevationPngImage.h */,
+				04C637F51E1C371800B429FE /* GPKGElevationPngImage.m */,
+				04C637F81E1C373D00B429FE /* GPKGElevationTiffImage.h */,
+				04C637F91E1C373D00B429FE /* GPKGElevationTiffImage.m */,
 				0422BB1C1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.h */,
 				0422BB1D1DDFBE42002709B6 /* GPKGElevationTileMatrixResults.m */,
 				0422BB201DEE22EC002709B6 /* GPKGElevationTilesPng.h */,
@@ -1897,7 +1905,6 @@
 				042FC8751B964D8C00549A4B /* GPKGProjectionFactory.h in Headers */,
 				042FC8521B964D8C00549A4B /* GPKGPolylinePoints.h in Headers */,
 				0422BAFD1DD5309E002709B6 /* GPKGGriddedCoverageDao.h in Headers */,
-				0422BB1A1DDFB60D002709B6 /* GPKGElevationImage.h in Headers */,
 				042FC8091B964D8C00549A4B /* GPKGSqlUtils.h in Headers */,
 				042FC8441B964D8C00549A4B /* GPKGMultiPoint.h in Headers */,
 				042FC7FF1B964D8C00549A4B /* GPKGDataTypes.h in Headers */,
@@ -1956,6 +1963,7 @@
 				042FC8971B964D8C00549A4B /* GPKGUrlTileGenerator.h in Headers */,
 				042FC8291B964D8C00549A4B /* GPKGGeometryColumnsDao.h in Headers */,
 				042FC8BF1B964D8C00549A4B /* GPKGUserTableReader.h in Headers */,
+				04C637FA1E1C373D00B429FE /* GPKGElevationTiffImage.h in Headers */,
 				0422BB261DEE2302002709B6 /* GPKGElevationTilesTiff.h in Headers */,
 				042FC89F1B964D8C00549A4B /* GPKGTileMatrixSetDao.h in Headers */,
 				042FC8A11B964D8C00549A4B /* GPKGFeatureOverlay.h in Headers */,
@@ -1971,6 +1979,7 @@
 				042FC88D1B964D8C00549A4B /* GPKGFeatureTilePointIcon.h in Headers */,
 				042FC82B1B964D8C00549A4B /* GPKGFeatureColumn.h in Headers */,
 				042FC8171B964D8C00549A4B /* GPKGMetadataDb.h in Headers */,
+				04C637F61E1C371800B429FE /* GPKGElevationPngImage.h in Headers */,
 				042FC8011B964D8C00549A4B /* GPKGFeatureIndexer.h in Headers */,
 				0422BAE51DD38A38002709B6 /* GPKGElevationRequest.h in Headers */,
 				042FC8791B964D8C00549A4B /* GPKGProjectionTransform.h in Headers */,
@@ -2274,7 +2283,6 @@
 				0447FA1F1CDAA46500418104 /* GPKGZoomOtherExtension.m in Sources */,
 				042FC8471B964D8C00549A4B /* GPKGMultiPolygon.m in Sources */,
 				0422BAE61DD38A38002709B6 /* GPKGElevationRequest.m in Sources */,
-				0422BB1B1DDFB60D002709B6 /* GPKGElevationImage.m in Sources */,
 				042FC7F01B964D8C00549A4B /* GPKGContents.m in Sources */,
 				042FC8BA1B964D8C00549A4B /* GPKGUserDao.m in Sources */,
 				046417E91BCC1424007624D4 /* GPKGFeatureIndexTypes.m in Sources */,
@@ -2377,6 +2385,7 @@
 				042FC86A1B964D8C00549A4B /* GPKGMetadataDao.m in Sources */,
 				042FC8001B964D8C00549A4B /* GPKGDataTypes.m in Sources */,
 				042FC8741B964D8C00549A4B /* GPKGProjectionConstants.m in Sources */,
+				04C637F71E1C371800B429FE /* GPKGElevationPngImage.m in Sources */,
 				042FC84D1B964D8C00549A4B /* GPKGMultiPolylinePoints.m in Sources */,
 				042FC8921B964D8C00549A4B /* GPKGTileBoundingBoxUtils.m in Sources */,
 				042FC8681B964D8C00549A4B /* GPKGMetadata.m in Sources */,
@@ -2395,6 +2404,7 @@
 				042FC8761B964D8C00549A4B /* GPKGProjectionFactory.m in Sources */,
 				042FC8C21B964D8C00549A4B /* GPKGUserUniqueConstraint.m in Sources */,
 				042FC8941B964D8C00549A4B /* GPKGTileGenerator.m in Sources */,
+				04C637FB1E1C373D00B429FE /* GPKGElevationTiffImage.m in Sources */,
 				042FC8511B964D8C00549A4B /* GPKGPolygonPoints.m in Sources */,
 				042FC8B41B964D8C00549A4B /* GPKGTileTableReader.m in Sources */,
 				042FC8021B964D8C00549A4B /* GPKGFeatureIndexer.m in Sources */,

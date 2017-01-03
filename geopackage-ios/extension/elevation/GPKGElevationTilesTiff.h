@@ -72,7 +72,7 @@
  * @param image
  *            tile image
  */
--(void) validateImageType: (UIImage *) image;
++(void) validateImageType: (UIImage *) image;
 
 /**
  * Get the elevation value
