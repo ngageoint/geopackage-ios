@@ -8,6 +8,7 @@
 
 #import "GPKGElevationTiffImage.h"
 #import "GPKGElevationTilesTiff.h"
+#import "TIFFRasters.h"
 
 @interface GPKGElevationTiffImage ()
 
@@ -16,7 +17,7 @@
 @property (nonatomic, strong) NSData * imageData;
 // TODO
 //@property (nonatomic, strong) TIFFFileDirectory * directory;
-//@property (nonatomic, strong) TIFFRasters * rasters;
+@property (nonatomic, strong) TIFFRasters * rasters;
 
 @end
 
@@ -61,13 +62,12 @@
     return _directory;
 }*/
 
-// TODO
-/*-(TIFFRasters *) rasters{
+-(TIFFRasters *) rasters{
     if(_rasters == nil){
         [self readPixels];
     }
-    return rasters;
-}*/
+    return _rasters;
+}
 
 -(int) width{
     return _width;

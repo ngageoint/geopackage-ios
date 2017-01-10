@@ -7,6 +7,7 @@
 //
 
 #import "TIFFRasters.h"
+#import "TIFFConstants.h"
 
 @interface TIFFRasters()
 
@@ -136,48 +137,160 @@
     [self validateValues];
 }
 
+/**
+ * Get the sample value for the sample and index
+ *
+ * @param sample
+ *            pixel sample
+ * @param index
+ *            pixel index
+ * @return value
+ */
+-(NSNumber *) sampleValueAtSample: (int) sample andIndex: (int) index{
+    NSArray * singleSampleValues = [self.sampleValues objectAtIndex:sample];
+    NSObject * objectValue = [singleSampleValues objectAtIndex:index];
+    NSNumber * value = [self numberValue: objectValue];
+    return value;
+}
+
+/**
+ * Get the interleave value for the index
+ *
+ * @param index
+ *            pixel index
+ * @return value
+ */
+-(NSNumber *) interleaveValueAtIndex: (int) index{
+    NSObject * objectValue = [self.interleaveValues objectAtIndex:index];
+    NSNumber * value = [self numberValue: objectValue];
+    return value;
+}
+
+/**
+ * Get the number value from the object value if not null
+ *
+ * @param objectValue
+ *            object value
+ * @return value
+ */
+-(NSNumber *) numberValue: (NSObject *) objectValue{
+    NSNumber * value = nil;
+    if(objectValue != nil && ![objectValue isEqual:[NSNull null]]){
+        value = (NSNumber *) objectValue;
+    }
+    return value;
+}
+
 -(NSArray *) pixelAtX: (int) x andY: (int) y{
-    return nil; // TODO
+    
+    [self validateCoordinatesAtX:x andY:y];
+    
+    // Pixel with each sample value
+    NSMutableArray * pixel = [[NSMutableArray alloc] initWithCapacity:self.samplesPerPixel];
+    
+    // Get the pixel values from each sample
+    if (self.sampleValues != nil) {
+        int sampleIndex = [self sampleIndexAtX:x andY:y];
+        for (int i = 0; i < self.samplesPerPixel; i++) {
+            [pixel addObject:[self sampleValueAtSample:i andIndex:sampleIndex]];
+        }
+    } else {
+        int interleaveIndex = [self interleaveIndexAtX:x andY:y];
+        for (int i = 0; i < self.samplesPerPixel; i++) {
+            [pixel addObject: [self interleaveValueAtIndex:interleaveIndex++]];
+        }
+    }
+    
+    return pixel;
 }
 
 -(void) setPixelAtX: (int) x andY: (int) y withValues: (NSArray *) values{
-    // TODO
+    
+    [self validateCoordinatesAtX:x andY:y];
+    [self validateSample:(int)values.count + 1];
+    
+    // Set the pixel values from each sample
+    if (self.sampleValues != nil) {
+        int sampleIndex = [self sampleIndexAtX:x andY:y];
+        for (int i = 0; i < self.samplesPerPixel; i++) {
+            NSMutableArray * singleSampleValues = [_sampleValues objectAtIndex:i];
+            [singleSampleValues replaceObjectAtIndex:sampleIndex withObject:[values objectAtIndex: i]];
+        }
+    } else {
+        int interleaveIndex = [self interleaveIndexAtX:x andY:y];
+        for (int i = 0; i < self.samplesPerPixel; i++) {
+            [_interleaveValues replaceObjectAtIndex:interleaveIndex++ withObject:[values objectAtIndex: i]];
+        }
+    }
 }
 
 -(NSObject *) pixelSampleAtSample: (int) sample andX: (int) x andY: (int) y{
-    return nil; // TODO
+    
+    [self validateCoordinatesAtX:x andY:y];
+    [self validateSample:sample];
+    
+    // Pixel sample value
+    NSNumber * pixelSample = nil;
+    
+    // Get the pixel sample
+    if (self.sampleValues != nil) {
+        int sampleIndex = [self sampleIndexAtX:x andY:y];
+        pixelSample = [self sampleValueAtSample:sample andIndex:sampleIndex];
+    } else {
+        int interleaveIndex = [self interleaveIndexAtX:x andY:y];
+        pixelSample = [self interleaveValueAtIndex:interleaveIndex + sample];
+    }
+    
+    return pixelSample;
 }
 
 -(void) setPixelSampleAtSample: (int) sample andX: (int) x andY: (int) y withValue: (NSObject *) value{
-    //TODO
+    
+    [self validateCoordinatesAtX:x andY:y];
+    [self validateSample:sample];
+    
+    // Set the pixel sample
+    if (self.sampleValues != nil) {
+        int sampleIndex = [self sampleIndexAtX:x andY:y];
+        NSMutableArray * singleSampleValues = [_sampleValues objectAtIndex:sample];
+        [singleSampleValues replaceObjectAtIndex:sampleIndex withObject:value];
+    }
+    if (self.interleaveValues != nil) {
+        int interleaveIndex = [self interleaveIndexAtX:x andY:y];
+        [_interleaveValues replaceObjectAtIndex:interleaveIndex + sample withObject:value];
+    }
 }
 
 -(NSObject *) firstPixelSampleAtX: (int) x andY: (int) y{
-    return nil; // TODO
+    return [self pixelSampleAtSample:0 andX:x andY:y];
 }
 
 -(void) setFirstPixelSampleAtX: (int) x andY: (int) y withValue: (NSObject *) value{
-    //TODO
+    [self setPixelSampleAtSample:0 andX:x andY:y withValue:value];
 }
 
 -(int) sampleIndexAtX: (int) x andY: (int) y{
-    return -1; //TODO
+    return y * self.width + x;
 }
 
 -(int) interleaveIndexAtX: (int) x andY: (int) y{
-    return -1; //TODO
+    return (y * self.width * self.samplesPerPixel) + (x * self.samplesPerPixel);
 }
 
 -(int) size{
-    return -1; // TODO
+    return [self numPixels] * [self sizePixel];
 }
 
 -(int) sizePixel{
-    return -1; // TODO
+    int size = 0;
+    for (int i = 0; i < self.samplesPerPixel; i++) {
+        size += [self sizeSample:i];
+    }
+    return size;
 }
 
 -(int) sizeSample: (int) sample{
-    return -1; // TODO
+    return [[self.bitsPerSample objectAtIndex:sample] intValue] / 8;
 }
 
 /**
@@ -189,19 +302,48 @@
  *            y coordinate
  */
 -(void) validateCoordinatesAtX: (int) x andY: (int) y{
-    // TODO
+    if (x < 0 || x >= self.width || y < 0 || y > self.height) {
+        [NSException raise:@"Pixel Out Of Bounds" format:@"Pixel outside of raster range. Width: %d, Height: %d, x: %d, y: %d", self.width, self.height, x, y];
+    }
 }
 
+/**
+ * Validate the sample index
+ *
+ * @param sample
+ *            sample index
+ */
 -(void) validateSample: (int) sample{
-    // TODO
+    if (sample < 0 || sample >= self.samplesPerPixel) {
+        [NSException raise:@"Pixel Sample Out Of Bounds" format:@"Pixel sample out of bounds. sample: %d, samples per pixel: %d", sample, self.samplesPerPixel];
+    }
 }
 
 -(int) calculateRowsPerStripWithPlanarConfiguration: (int) planarConfiguration{
-    return -1; //TODO
+    return [self calculateRowsPerStripWithPlanarConfiguration:planarConfiguration andMaxBytesPerStrip:(int)TIFF_DEFAULT_MAX_BYTES_PER_STRIP];
 }
 
 -(int) calculateRowsPerStripWithPlanarConfiguration: (int) planarConfiguration andMaxBytesPerStrip: (int) maxBytesPerStrip{
-    return -1; //TODO
+    
+    NSNumber * rowsPerStrip = nil;
+    
+    if (planarConfiguration == TIFF_PLANAR_CONFIGURATION_CHUNKY) {
+        int bitsPerPixel = 0;
+        for (NSNumber * sampleBits in self.bitsPerSample) {
+            bitsPerPixel += [sampleBits intValue];
+        }
+        rowsPerStrip = [NSNumber numberWithInt:[self rowsPerStripWithBitsPerPixel:bitsPerPixel andMaxBytesPerStrip:maxBytesPerStrip]];
+    } else {
+        
+        for (NSNumber * sampleBits in self.bitsPerSample) {
+            int rowsPerStripForSample = [self rowsPerStripWithBitsPerPixel:[sampleBits intValue] andMaxBytesPerStrip:maxBytesPerStrip];
+            if (rowsPerStrip == nil || rowsPerStripForSample < [rowsPerStrip intValue]) {
+                rowsPerStrip = [NSNumber numberWithInt:rowsPerStripForSample];
+            }
+        }
+    }
+    
+    return [rowsPerStrip intValue];
 }
 
 +(NSMutableArray<NSMutableArray *> *) createEmptySampleValuesWithSamplesPerPixel: (int) samplesPerPixel andWidth: (int) width andHeight: (int) height{
@@ -234,7 +376,13 @@
 }
 
 -(int) rowsPerStripWithBitsPerPixel: (int) bitsPerPixel andMaxBytesPerStrip: (int) maxBytesPerStrip{
-    return -1; // TODO
+    
+    int bytesPerPixel = ceil(bitsPerPixel / 8.0);
+    int bytesPerRow = bytesPerPixel * self.width;
+    
+    int rowsPerStrip = MAX(1, maxBytesPerStrip / bytesPerRow);
+    
+    return rowsPerStrip;
 }
 
 @end

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "TIFFFileDirectory.h"
 
+@class TIFFFileDirectory;
+
 @interface TIFFImageWindow : NSObject
 
 /**
