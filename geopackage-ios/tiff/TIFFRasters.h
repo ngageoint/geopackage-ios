@@ -24,7 +24,7 @@
  * @param sampleValues
  *            empty sample values double array
  */
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues;
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues;
 
 /**
  * Initialize
@@ -40,7 +40,7 @@
  * @param interleaveValues
  *            empty interleaved values array
  */
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andInterleaveValues: (NSMutableArray *) interleaveValues;
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andInterleaveValues: (NSMutableArray *) interleaveValues;
 
 /**
  * Initialize
@@ -58,7 +58,7 @@
  * @param interleaveValues
  *            empty interleaved values array
  */
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues andInterleaveValues: (NSMutableArray *) interleaveValues;
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues andInterleaveValues: (NSMutableArray *) interleaveValues;
 
 /**
  * Initialize
@@ -72,7 +72,7 @@
  * @param bitsPerSample
  *            bits per sample
  */
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample;
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample;
 
 /**
  * Initialize

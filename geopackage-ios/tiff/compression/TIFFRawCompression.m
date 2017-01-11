@@ -10,7 +10,7 @@
 
 @implementation TIFFRawCompression
 
--(NSData *) decodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) decodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     return data;
 }
 
@@ -18,7 +18,7 @@
     return false;
 }
 
--(NSData *) encodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) encodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     return data;
 }
 

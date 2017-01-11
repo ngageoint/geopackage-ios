@@ -10,7 +10,7 @@
 
 @implementation TIFFPackbitsCompression
 
--(NSData *) decodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) decodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     // TODO
     [NSException raise:@"Not Implemented" format:@"Packbits decoder is not yet implemented"];
     return data;
@@ -20,7 +20,7 @@
     return true;
 }
 
--(NSData *) encodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) encodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     [NSException raise:@"Not Implemented" format:@"Packbits encoder is not yet implemented"];
     return data;
 }

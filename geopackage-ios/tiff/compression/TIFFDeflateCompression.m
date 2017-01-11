@@ -10,7 +10,7 @@
 
 @implementation TIFFDeflateCompression
 
--(NSData *) decodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) decodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     [NSException raise:@"Not Implemented" format:@"Deflate decoder is not yet implemented"];
     return data;
 }
@@ -19,7 +19,7 @@
     return false;
 }
 
--(NSData *) encodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) encodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     [NSException raise:@"Not Implemented" format:@"Deflate encoder is not yet implemented"];
     return data;
 }

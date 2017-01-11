@@ -30,11 +30,14 @@
     if(self != nil){
         self.minX = 0;
         self.minY = 0;
-// TODO
-//        self.maxX = [fileDirectory imageWidth];
-//        self.maxY = [fileDirectory imageHeight];
+        self.maxX = [[fileDirectory imageWidth] intValue];
+        self.maxY = [[fileDirectory imageHeight] intValue];
     }
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"ImageWindow [minX=%d, minY=%d, maxX=%d, maxY=%d]", self.minX, self.minY, self.maxX, self.maxY];
 }
 
 @end

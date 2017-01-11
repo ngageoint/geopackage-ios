@@ -20,6 +20,11 @@
 @interface TIFFFileDirectory : NSObject
 
 /**
+ * Rasters to write to the TIFF file
+ */
+@property (nonatomic, strong) TIFFRasters * writeRasters;
+
+/**
  * Initialize, for reading TIFF files
  *
  * @param entries
@@ -344,7 +349,7 @@
  * @param stripByteCount
  *            strip byte count
  */
--(void) setStripByteCountsAsSingleValue: (unsigned short) stripOffset;
+-(void) setStripByteCountsAsSingleValue: (unsigned short) stripByteCount;
 
 /**
  * Set a single value strip byte count
@@ -352,7 +357,7 @@
  * @param stripByteCount
  *            strip byte count
  */
--(void) setStripByteCountsAsSingleLongValue: (unsigned long) stripOffset;
+-(void) setStripByteCountsAsSingleLongValue: (unsigned long) stripByteCount;
 
 /**
  * Get the x resolution

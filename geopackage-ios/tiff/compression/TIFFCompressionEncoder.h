@@ -33,7 +33,7 @@
  *            data byte order
  * @return encoded data
  */
--(NSData *) encodeData: (NSData *) data withByteOrder: () byteOrder;
+-(NSData *) encodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder;
 
 @end
 

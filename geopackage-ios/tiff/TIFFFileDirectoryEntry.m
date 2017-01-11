@@ -61,16 +61,4 @@
     return size;
 }
 
--(NSComparisonResult)compare:(TIFFFileDirectoryEntry *) otherObject{
-    NSComparisonResult result = NSOrderedSame;
-    int id = [TIFFFieldTagTypes tagId:[self fieldTag]];
-    int otherId = [TIFFFieldTagTypes tagId:[otherObject fieldTag]];
-    if(id < otherId){
-        result = NSOrderedAscending;
-    } else if(id > otherId){
-        result = NSOrderedDescending;
-    }
-    return result;
-}
-
 @end

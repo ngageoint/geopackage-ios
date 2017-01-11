@@ -72,11 +72,4 @@
  */
 -(int) sizeOfValues;
 
-/**
- * Compare for ordering, lower field tag ids first
- *
- * @return compare result
- */
--(NSComparisonResult)compare:(TIFFFileDirectoryEntry *) otherObject;
-
 @end

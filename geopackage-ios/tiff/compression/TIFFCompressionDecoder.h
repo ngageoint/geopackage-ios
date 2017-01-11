@@ -25,7 +25,7 @@
  *            data byte order
  * @return decoded data
  */
--(NSData *) decodeData: (NSData *) data withByteOrder: () byteOrder;
+-(NSData *) decodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder;
 
 @end
 

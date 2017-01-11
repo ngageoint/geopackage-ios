@@ -29,7 +29,7 @@
 /**
  * Bits per sample
  */
-@property (nonatomic, strong) NSMutableArray<NSNumber *> *bitsPerSample;
+@property (nonatomic, strong) NSArray<NSNumber *> *bitsPerSample;
 
 /**
  * Values separated by sample
@@ -45,13 +45,13 @@
 
 @implementation TIFFRasters
 
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues{
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues{
     return [self initWithWidth:width andHeight:height andSamplesPerPixel:samplesPerPixel andBitsPerSample:bitsPerSample andSampleValues:sampleValues andInterleaveValues:nil];
 }
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andInterleaveValues: (NSMutableArray *) interleaveValues{
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andInterleaveValues: (NSMutableArray *) interleaveValues{
     return [self initWithWidth:width andHeight:height andSamplesPerPixel:samplesPerPixel andBitsPerSample:bitsPerSample andSampleValues:nil andInterleaveValues:interleaveValues];
 }
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues andInterleaveValues: (NSMutableArray *) interleaveValues{
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample andSampleValues: (NSMutableArray<NSMutableArray *> *) sampleValues andInterleaveValues: (NSMutableArray *) interleaveValues{
     self = [super init];
     if(self != nil){
         self.width = width;
@@ -69,7 +69,7 @@
     return self;
 }
 
--(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSMutableArray<NSNumber *> *) bitsPerSample{
+-(instancetype) initWithWidth: (int) width andHeight: (int) height andSamplesPerPixel: (int) samplesPerPixel andBitsPerSample: (NSArray<NSNumber *> *) bitsPerSample{
     return [self initWithWidth:width andHeight:height andSamplesPerPixel:samplesPerPixel andBitsPerSample:bitsPerSample andSampleValues:[TIFFRasters createEmptySampleValuesWithSamplesPerPixel:samplesPerPixel andWidth:width andHeight:height]];
 }
 

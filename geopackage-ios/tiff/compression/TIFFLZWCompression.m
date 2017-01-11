@@ -10,7 +10,7 @@
 
 @implementation TIFFLZWCompression
 
--(NSData *) decodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) decodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     // TODO
     [NSException raise:@"Not Implemented" format:@"LZW decoder is not yet implemented"];
     return data;
@@ -20,7 +20,7 @@
     return false;
 }
 
--(NSData *) encodeData: (NSData *) data withByteOrder: () byteOrder{
+-(NSData *) encodeData: (NSData *) data withByteOrder: (CFByteOrder) byteOrder{
     [NSException raise:@"Not Implemented" format:@"LZW encoder is not yet implemented"];
     return data;
 }
