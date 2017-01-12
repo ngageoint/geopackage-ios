@@ -11,8 +11,6 @@
 
 /**
  * Reads the metadata from an existing attributes table
- *
- * @author osbornb
  */
 @interface GPKGAttributesTableReader : GPKGUserTableReader
 

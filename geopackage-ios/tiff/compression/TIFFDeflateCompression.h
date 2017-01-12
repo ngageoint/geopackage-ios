@@ -12,8 +12,6 @@
 
 /**
  * Deflate Compression
- *
- * @author osbornb
  */
 @interface TIFFDeflateCompression : NSObject<TIFFCompressionDecoder, TIFFCompressionEncoder>
 

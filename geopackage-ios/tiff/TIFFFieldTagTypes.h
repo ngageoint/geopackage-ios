@@ -114,6 +114,9 @@ enum TIFFFieldTagType{
     TIFF_TAG_GEO_ASCII_PARAMS
 };
 
+/**
+ * Field Tag Types
+ */
 @interface TIFFFieldTagTypes : NSObject
 
 /**

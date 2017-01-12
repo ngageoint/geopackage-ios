@@ -11,6 +11,9 @@
 
 @class TIFFFileDirectory;
 
+/**
+ * Coordinates of a window over a portion or the entire image coordinates
+ */
 @interface TIFFImageWindow : NSObject
 
 /**

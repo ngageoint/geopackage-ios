@@ -12,8 +12,6 @@
 
 /**
  * Packbits Compression
- *
- * @author osbornb
  */
 @interface TIFFPackbitsCompression : NSObject<TIFFCompressionDecoder, TIFFCompressionEncoder>
 

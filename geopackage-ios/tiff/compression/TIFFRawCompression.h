@@ -12,8 +12,6 @@
 
 /**
  * Raw / no compression
- *
- * @author osbornb
  */
 @interface TIFFRawCompression : NSObject<TIFFCompressionDecoder, TIFFCompressionEncoder>
 

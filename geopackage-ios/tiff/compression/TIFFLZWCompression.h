@@ -12,8 +12,6 @@
 
 /**
  * LZW Compression
- *
- * @author osbornb
  */
 @interface TIFFLZWCompression : NSObject<TIFFCompressionDecoder, TIFFCompressionEncoder>
 

@@ -17,6 +17,10 @@
 
 @class TIFFImageWindow;
 
+/**
+ * File Directory, represents all directory entries and can be used to read the
+ * image raster
+ */
 @interface TIFFFileDirectory : NSObject
 
 /**

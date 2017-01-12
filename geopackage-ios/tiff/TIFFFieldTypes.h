@@ -26,6 +26,9 @@ enum TIFFFieldType{
     TIFF_FIELD_DOUBLE
 };
 
+/**
+ * Field Types
+ */
 @interface TIFFFieldTypes : NSObject
 
 /**

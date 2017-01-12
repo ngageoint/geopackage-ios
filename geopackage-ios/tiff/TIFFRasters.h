@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * Raster image values
+ */
 @interface TIFFRasters : NSObject
 
 /**
