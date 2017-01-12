@@ -48,7 +48,7 @@
  *
  * @return file directories
  */
--(void) addFileDirectories: (NSArray<TIFFFileDirectory *> *) fileDirectories;
+-(NSArray<TIFFFileDirectory *> *) fileDirectories;
 
 /**
  * Get the default, first, or only file directory

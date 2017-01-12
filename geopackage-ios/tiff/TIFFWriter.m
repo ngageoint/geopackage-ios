@@ -45,11 +45,11 @@
     [writer writeString:byteOrder];
     
     // Write the TIFF file identifier (bytes 2-3)
-    [writer writeUnsignedShort:[NSNumber numberWithUnsignedShort:TIFF_FILE_IDENTIFIER]];
+    [writer writeUnsignedShort:TIFF_FILE_IDENTIFIER];
     
     // Write the first IFD offset (bytes 4-7), set to start right away at
     // byte 8
-    [writer writeUnsignedInt:[NSNumber numberWithUnsignedInt:(unsigned int)TIFF_HEADER_BYTES]];
+    [writer writeUnsignedInt:(unsigned int)TIFF_HEADER_BYTES];
     
     // Write the TIFF Image
     [self writeImageFileDirectoriesWithWriter:writer andImage:tiffImage];
@@ -65,7 +65,87 @@
  * @throws IOException
  */
 +(void) writeImageFileDirectoriesWithWriter: (TIFFByteWriter *) writer andImage: (TIFFImage *) tiffImage{
-    // TODO
+
+    // Write each file directory
+    for (int i = 0; i < [tiffImage fileDirectories].count; i++) {
+        TIFFFileDirectory * fileDirectory = [tiffImage fileDirectoryAtIndex:i];
+        
+        // Populate strip entries with placeholder values so the sizes come
+        // out correctly
+        [self populateRasterEntriesWithFileDirectory:fileDirectory];
+        
+        // Track of the starting byte of this directory
+        int startOfDirectory = [writer size];
+        int afterDirectory = startOfDirectory + [fileDirectory size];
+        int afterValues = startOfDirectory + [fileDirectory sizeWithValues];
+        
+        // Write the number of directory entries
+        [writer writeUnsignedShort:[fileDirectory numEntries]];
+        
+        NSMutableArray<TIFFFileDirectoryEntry *> * entryValues = [[NSMutableArray alloc] init];
+        
+        // Byte to write the next values
+        int nextByte = afterDirectory;
+        
+        NSMutableArray<NSNumber *> * valueBytesCheck = [[NSMutableArray alloc] init];
+        
+        // Write the raster bytes to temporary storage
+        if ([fileDirectory rowsPerStrip] == nil) {
+            [NSException raise:@"Not Supported" format:@"Tiled images are not supported"];
+        }
+        
+        // Create the raster bytes, written to the stream later
+        NSData * rastersBytes = [self writeRastersWithByteOrder:writer.byteOrder andFileDirectory:fileDirectory andOffset:afterValues];
+        
+        // Write each entry
+        for (TIFFFileDirectoryEntry * entry in [fileDirectory entries]) {
+            [writer writeUnsignedShort:[TIFFFieldTagTypes tagId:[entry fieldTag]]];
+            [writer writeUnsignedShort:[TIFFFieldTypes value:[entry fieldType]]];
+            [writer writeUnsignedInt:[entry typeCount]];
+            int valueBytes = [TIFFFieldTypes bytes:[entry fieldType]] * [entry typeCount];
+            if (valueBytes > 4) {
+                // Write the value offset
+                [entryValues addObject:entry];
+                [writer writeUnsignedInt:nextByte];
+                [valueBytesCheck addObject:[NSNumber numberWithInt:nextByte]];
+                nextByte += [entry sizeOfValues];
+            } else {
+                // Write the value in the inline 4 byte space, left aligned
+                int bytesWritten = [self writeValuesWithWriter:writer andFileDirectoryEntry:entry];
+                if (bytesWritten != valueBytes) {
+                    [NSException raise:@"Unexpected Bytes Written" format:@"Unexpected bytes written. Expected: %d, Actual: %d", valueBytes, bytesWritten];
+                }
+                [self writerFillerBytesWithWriter:writer andCount:4 - valueBytes];
+            }
+        }
+        
+        if (i + 1 == [tiffImage fileDirectories].count) {
+            // Write 0's since there are not more file directories
+            [self writerFillerBytesWithWriter:writer andCount:4];
+        } else {
+            // Write the start address of the next file directory
+            int nextFileDirectory = afterValues + (int)rastersBytes.length;
+            [writer writeUnsignedInt:nextFileDirectory];
+        }
+        
+        // Write the external entry values
+        for (int entryIndex = 0; entryIndex < entryValues.count; entryIndex++) {
+            TIFFFileDirectoryEntry * entry = [entryValues objectAtIndex:entryIndex];
+            int entryValuesByte = [[valueBytesCheck objectAtIndex:entryIndex] intValue];
+            if (entryValuesByte != [writer size]) {
+                [NSException raise:@"Byte Mismatch" format:@"Entry values byte does not match the write location. Entry Values Byte: %d, Current Byte: %d", entryValuesByte, [writer size]];
+            }
+            int bytesWritten = [self writeValuesWithWriter:writer andFileDirectoryEntry:entry];
+            int valueBytes = [TIFFFieldTypes bytes:[entry fieldType]] * [entry typeCount];
+            if (bytesWritten != valueBytes) {
+                [NSException raise:@"Unexpected Bytes Written" format:@"Unexpected bytes written. Expected: %d, Actual: %d", valueBytes, bytesWritten];
+            }
+        }
+        
+        // Write the image bytes
+        [writer writeBytesWithData:rastersBytes];
+    }
+    
 }
 
 /**
@@ -76,7 +156,18 @@
  *            file directory
  */
 +(void) populateRasterEntriesWithFileDirectory: (TIFFFileDirectory *) fileDirectory{
-    // TODO
+
+    TIFFRasters * rasters = [fileDirectory writeRasters];
+    if (rasters == nil) {
+        [NSException raise:@"Rasters Required" format:@"File Directory Writer Rasters is required to create a TIFF"];
+    }
+    
+    // Populate the raster entries
+    if ([fileDirectory rowsPerStrip] != nil) {
+        [self populateStripEntriesWithFileDirectory:fileDirectory];
+    } else {
+        [NSException raise:@"Not Supported" format:@"Tiled images are not supported"];
+    }
 }
 
 /**
@@ -88,7 +179,19 @@
  *            number of strips
  */
 +(void) populateStripEntriesWithFileDirectory: (TIFFFileDirectory *) fileDirectory{
+
+    int rowsPerStrip = [[fileDirectory rowsPerStrip] intValue];
+    int stripsPerSample = ceil([[fileDirectory imageHeight] doubleValue] / rowsPerStrip);
+    int strips = stripsPerSample;
+    if ([[fileDirectory planarConfiguration] intValue] == TIFF_PLANAR_CONFIGURATION_PLANAR) {
+        strips *= [[fileDirectory samplesPerPixel] intValue];
+    }
+    
     // TODO
+    //fileDirectory.setStripOffsetsAsLongs(new ArrayList<>(Collections
+    //                                                     .nCopies(strips, 0l)));
+    //fileDirectory.setStripByteCounts(new ArrayList<>(Collections.nCopies(
+     //                                                                    strips, 0)));
 }
 
 /**
@@ -156,7 +259,7 @@
  *            number of 0 bytes to write
  */
 +(void) writerFillerBytesWithWriter: (TIFFByteWriter *) writer andCount: (int) count{
-    for (long i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         [writer writeUnsignedByte:0];
     }
 }

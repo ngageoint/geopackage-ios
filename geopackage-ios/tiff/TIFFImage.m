@@ -48,8 +48,8 @@
     [_fileDirectories addObject:fileDirectory];
 }
 
--(void) addFileDirectories: (NSArray<TIFFFileDirectory *> *) fileDirectories{
-    [_fileDirectories addObjectsFromArray:fileDirectories];
+-(NSArray<TIFFFileDirectory *> *) fileDirectories{
+    return _fileDirectories;
 }
 
 -(TIFFFileDirectory *) fileDirectory{

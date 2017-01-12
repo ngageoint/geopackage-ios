@@ -75,7 +75,14 @@
  *
  *  @param value byte
  */
--(void) writeByte: (NSNumber *) value;
+-(void) writeNumberAsByte: (NSNumber *) value;
+
+/**
+ *  Write a byte
+ *
+ *  @param value byte
+ */
+-(void) writeByte: (char) value;
 
 /**
  * Write an unsigned byte
@@ -83,7 +90,15 @@
  * @param value
  *            unsigned byte as a short
  */
--(void) writeUnsignedByte: (NSNumber *) value;
+-(void) writeNumberAsUnsignedByte: (NSNumber *) value;
+
+/**
+ * Write an unsigned byte
+ *
+ * @param value
+ *            unsigned byte as a short
+ */
+-(void) writeUnsignedByte: (unsigned char) value;
 
 /**
  * Write the bytes
@@ -99,7 +114,15 @@
  * @param value
  *            short
  */
--(void) writeShort: (NSNumber *) value;
+-(void) writeNumberAsShort: (NSNumber *) value;
+
+/**
+ * Write a short
+ *
+ * @param value
+ *            short
+ */
+-(void) writeShort: (short) value;
 
 /**
  * Write an unsigned short
@@ -107,14 +130,29 @@
  * @param value
  *            unsigned short as an int
  */
--(void) writeUnsignedShort: (NSNumber *) value;
+-(void) writeNumberAsUnsignedShort: (NSNumber *) value;
+
+/**
+ * Write an unsigned short
+ *
+ * @param value
+ *            unsigned short as an int
+ */
+-(void) writeUnsignedShort: (unsigned short) value;
 
 /**
  *  Write an integer
  *
  *  @param value integer
  */
--(void) writeInt: (NSNumber *) value;
+-(void) writeNumberAsInt: (NSNumber *) value;
+
+/**
+ *  Write an integer
+ *
+ *  @param value integer
+ */
+-(void) writeInt: (int) value;
 
 /**
  * Write an unsigned int
@@ -122,7 +160,15 @@
  * @param value
  *            unsigned int as long
  */
--(void) writeUnsignedInt: (NSNumber *) value;
+-(void) writeNumberAsUnsignedInt: (NSNumber *) value;
+
+/**
+ * Write an unsigned int
+ *
+ * @param value
+ *            unsigned int as long
+ */
+-(void) writeUnsignedInt: (unsigned int) value;
 
 /**
  * Write a float
@@ -130,13 +176,28 @@
  * @param value
  *            float
  */
--(void) writeFloat: (NSDecimalNumber *) value;
+-(void) writeNumberAsFloat: (NSDecimalNumber *) value;
+
+/**
+ * Write a float
+ *
+ * @param value
+ *            float
+ */
+-(void) writeFloat: (float) value;
 
 /**
  *  Write a double
  *
  *  @param value double
  */
--(void) writeDouble: (NSDecimalNumber *) value;
+-(void) writeNumberAsDouble: (NSDecimalNumber *) value;
+
+/**
+ *  Write a double
+ *
+ *  @param value double
+ */
+-(void) writeDouble: (double) value;
 
 @end

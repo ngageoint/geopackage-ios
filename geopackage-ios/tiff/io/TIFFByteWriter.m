@@ -43,13 +43,21 @@
     self.nextByte += (int)[value length];
 }
 
--(void) writeByte: (NSNumber *) value{
-    uint8_t byteValue = [value charValue];
+-(void) writeNumberAsByte: (NSNumber *) value{
+    [self writeByte:[value charValue]];
+}
+
+-(void) writeByte: (char) value{
+    uint8_t byteValue = value;
     [self write8BitInt:byteValue];
 }
 
--(void) writeUnsignedByte: (NSNumber *) value{
-    uint8_t byteValue = [value unsignedCharValue];
+-(void) writeNumberAsUnsignedByte: (NSNumber *) value{
+    [self writeUnsignedByte:[value unsignedCharValue]];
+}
+
+-(void) writeUnsignedByte: (unsigned char) value{
+    uint8_t byteValue = value;
     [self write8BitInt:byteValue];
 }
 
@@ -63,22 +71,30 @@
     [self.os write:[data bytes]  maxLength:data.length];
 }
 
--(void) writeShort: (NSNumber *) value{
-    uint16_t shortValue = [value shortValue];
+-(void) writeNumberAsShort: (NSNumber *) value{
+    [self writeShort:[value shortValue]];
+}
+
+-(void) writeShort: (short) value{
+    uint16_t shortValue = value;
     [self write16BitInt:shortValue];
 }
 
--(void) writeUnsignedShort: (NSNumber *) value{
-    uint16_t shortValue = [value unsignedShortValue];
+-(void) writeNumberAsUnsignedShort: (NSNumber *) value{
+    [self writeUnsignedShort:[value unsignedShortValue]];
+}
+
+-(void) writeUnsignedShort: (unsigned short) value{
+    uint16_t shortValue = value;
     [self write16BitInt:shortValue];
 }
 
 -(void) write16BitInt: (uint16_t) value{
     
     if(self.byteOrder == CFByteOrderBigEndian){
-        value = CFSwapInt32HostToBig(value);
+        value = CFSwapInt16HostToBig(value);
     }else{
-        value = CFSwapInt32HostToLittle(value);
+        value = CFSwapInt16HostToLittle(value);
     }
     
     NSData *data = [NSData dataWithBytes:&value length:2];
@@ -86,13 +102,21 @@
     self.nextByte += 2;
 }
 
--(void) writeInt: (NSNumber *) value{
-    uint32_t intValue = [value intValue];
+-(void) writeNumberAsInt: (NSNumber *) value{
+    [self writeInt:[value intValue]];
+}
+
+-(void) writeInt: (int) value{
+    uint32_t intValue = value;
     [self write32BitInt:intValue];
 }
 
--(void) writeUnsignedInt: (NSNumber *) value{
-    uint32_t intValue = [value unsignedIntValue];
+-(void) writeNumberAsUnsignedInt: (NSNumber *) value{
+    [self writeUnsignedInt:[value unsignedIntValue]];
+}
+
+-(void) writeUnsignedInt: (unsigned int) value{
+    uint32_t intValue = value;
     [self write32BitInt:intValue];
 }
 
@@ -109,13 +133,17 @@
     self.nextByte += 4;
 }
 
--(void) writeFloat: (NSDecimalNumber *) value{
+-(void) writeNumberAsFloat: (NSDecimalNumber *) value{
+    [self writeFloat:[value floatValue]];
+}
+
+-(void) writeFloat: (float) value{
     
     union FloatSwap {
         float v;
         uint32_t sv;
     } result;
-    result.v = [value floatValue];
+    result.v = value;
     
     if(self.byteOrder == CFByteOrderBigEndian){
         result.sv = CFSwapInt32HostToBig(result.sv);
@@ -128,13 +156,17 @@
     self.nextByte += 4;
 }
 
--(void) writeDouble: (NSDecimalNumber *) value{
+-(void) writeNumberAsDouble: (NSDecimalNumber *) value{
+    [self writeDouble:[value doubleValue]];
+}
+
+-(void) writeDouble: (double) value{
     
     union DoubleSwap {
         double v;
         uint64_t sv;
     } result;
-    result.v = [value doubleValue];
+    result.v = value;
     
     if(self.byteOrder == CFByteOrderBigEndian){
         result.sv = CFSwapInt64HostToBig(result.sv);
