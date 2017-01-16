@@ -181,7 +181,7 @@
     return value;
 }
 
--(NSArray *) pixelAtX: (int) x andY: (int) y{
+-(NSArray<NSNumber *> *) pixelAtX: (int) x andY: (int) y{
     
     [self validateCoordinatesAtX:x andY:y];
     
@@ -204,7 +204,7 @@
     return pixel;
 }
 
--(void) setPixelAtX: (int) x andY: (int) y withValues: (NSArray *) values{
+-(void) setPixelAtX: (int) x andY: (int) y withValues: (NSArray<NSNumber *> *) values{
     
     [self validateCoordinatesAtX:x andY:y];
     [self validateSample:(int)values.count + 1];
@@ -224,7 +224,7 @@
     }
 }
 
--(NSObject *) pixelSampleAtSample: (int) sample andX: (int) x andY: (int) y{
+-(NSNumber *) pixelSampleAtSample: (int) sample andX: (int) x andY: (int) y{
     
     [self validateCoordinatesAtX:x andY:y];
     [self validateSample:sample];
@@ -244,7 +244,7 @@
     return pixelSample;
 }
 
--(void) setPixelSampleAtSample: (int) sample andX: (int) x andY: (int) y withValue: (NSObject *) value{
+-(void) setPixelSampleAtSample: (int) sample andX: (int) x andY: (int) y withValue: (NSNumber *) value{
     
     [self validateCoordinatesAtX:x andY:y];
     [self validateSample:sample];
@@ -261,11 +261,11 @@
     }
 }
 
--(NSObject *) firstPixelSampleAtX: (int) x andY: (int) y{
+-(NSNumber *) firstPixelSampleAtX: (int) x andY: (int) y{
     return [self pixelSampleAtSample:0 andX:x andY:y];
 }
 
--(void) setFirstPixelSampleAtX: (int) x andY: (int) y withValue: (NSObject *) value{
+-(void) setFirstPixelSampleAtX: (int) x andY: (int) y withValue: (NSNumber *) value{
     [self setPixelSampleAtSample:0 andX:x andY:y withValue:value];
 }
 

@@ -201,7 +201,7 @@
  *            y coordinate (>= 0 && < height)
  * @return pixel sample values
  */
--(NSArray *) pixelAtX: (int) x andY: (int) y;
+-(NSArray<NSNumber *> *) pixelAtX: (int) x andY: (int) y;
 
 /**
  * Set the pixel sample values
@@ -213,7 +213,7 @@
  * @param values
  *            pixel values
  */
--(void) setPixelAtX: (int) x andY: (int) y withValues: (NSArray *) values;
+-(void) setPixelAtX: (int) x andY: (int) y withValues: (NSArray<NSNumber *> *) values;
 
 /**
  * Get a pixel sample value
@@ -226,7 +226,7 @@
  *            y coordinate (>= 0 && < height)
  * @return pixel sample
  */
--(NSObject *) pixelSampleAtSample: (int) sample andX: (int) x andY: (int) y;
+-(NSNumber *) pixelSampleAtSample: (int) sample andX: (int) x andY: (int) y;
 
 /**
  * Set a pixel vample value
@@ -240,7 +240,7 @@
  * @param value
  *            pixel value
  */
--(void) setPixelSampleAtSample: (int) sample andX: (int) x andY: (int) y withValue: (NSObject *) value;
+-(void) setPixelSampleAtSample: (int) sample andX: (int) x andY: (int) y withValue: (NSNumber *) value;
 
 /**
  * Get the first pixel sample value, useful for single sample pixels
@@ -252,7 +252,7 @@
  *            y coordinate (>= 0 && < height)
  * @return first pixel sample
  */
--(NSObject *) firstPixelSampleAtX: (int) x andY: (int) y;
+-(NSNumber *) firstPixelSampleAtX: (int) x andY: (int) y;
 
 /**
  * Set the first pixel sample value, useful for single sample pixels
@@ -265,7 +265,7 @@
  * @param value
  *            pixel value
  */
--(void) setFirstPixelSampleAtX: (int) x andY: (int) y withValue: (NSObject *) value;
+-(void) setFirstPixelSampleAtX: (int) x andY: (int) y withValue: (NSNumber *) value;
 
 /**
  * Get the sample index location

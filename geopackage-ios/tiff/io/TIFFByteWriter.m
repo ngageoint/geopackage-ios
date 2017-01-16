@@ -37,10 +37,11 @@
     return self.nextByte;
 }
 
--(void) writeString: (NSString *) value{
+-(int) writeString: (NSString *) value{
     NSData *data = [[NSData alloc] initWithData:[value dataUsingEncoding:NSUTF8StringEncoding]];
-    [self.os write:[data bytes] maxLength:[value length]];
-    self.nextByte += (int)[value length];
+    [self.os write:[data bytes] maxLength:data.length];
+    self.nextByte += (int)data.length;
+    return (int)data.length;
 }
 
 -(void) writeNumberAsByte: (NSNumber *) value{

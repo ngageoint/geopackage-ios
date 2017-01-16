@@ -67,8 +67,9 @@
  *  Write a string
  *
  *  @param value string
+ *  @return bytes written
  */
--(void) writeString: (NSString *) value;
+-(int) writeString: (NSString *) value;
 
 /**
  *  Write a byte
