@@ -16,6 +16,7 @@
     TIFFByteReader * reader = [[TIFFByteReader alloc] initWithData:data andByteOrder:byteOrder];
     
     NSOutputStream * decodedStream = [NSOutputStream outputStreamToMemory];
+    [decodedStream open];
     
     while ([reader hasByte]) {
         int header = [[reader readByte] intValue];
