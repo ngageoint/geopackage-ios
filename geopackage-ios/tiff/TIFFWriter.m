@@ -66,7 +66,6 @@
  *            byte writer
  * @param tiffImage
  *            tiff image
- * @throws IOException
  */
 +(void) writeImageFileDirectoriesWithWriter: (TIFFByteWriter *) writer andImage: (TIFFImage *) tiffImage{
 
