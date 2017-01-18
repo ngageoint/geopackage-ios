@@ -481,7 +481,7 @@
     
     // Set or validate the samples
     int samplesPerPixel = [[self samplesPerPixel] intValue];
-    if (samples == nil) {
+    if (samples == nil || samples.count == 0) {
         NSMutableArray<NSNumber *> * allSamples = [[NSMutableArray alloc] initWithCapacity:samplesPerPixel];
         for (int i = 0; i < samplesPerPixel; i++) {
             [allSamples addObject:[NSNumber numberWithInt:i]];
@@ -912,7 +912,7 @@
  */
 -(NSObject *) entryValueWithFieldTag: (enum TIFFFieldTagType) fieldTagType{
     NSObject * value = nil;
-    TIFFFileDirectoryEntry * entry = [self.fieldTagTypeMapping objectForKey:[NSNumber numberWithInt:fieldTagType]];
+    TIFFFileDirectoryEntry * entry = [self.fieldTagTypeMapping objectForKey:[NSNumber numberWithInt:[TIFFFieldTagTypes tagId:fieldTagType]]];
     if(entry != nil){
         value = [entry values];
     }

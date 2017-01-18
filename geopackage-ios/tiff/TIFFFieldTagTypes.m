@@ -753,7 +753,7 @@
             break;
     }
     
-    return tagId;
+    return fieldTagType;
 }
 
 @end

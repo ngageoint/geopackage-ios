@@ -41,7 +41,7 @@
 }
 
 -(NSString *) readStringWithCount: (int) num{
-    NSString * value = [self readStringWithCount:self.nextByte];
+    NSString * value = [self readStringWithCount:num andOffset:self.nextByte];
     self.nextByte += num;
     return value;
 }

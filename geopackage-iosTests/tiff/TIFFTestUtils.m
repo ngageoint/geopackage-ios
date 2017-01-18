@@ -112,7 +112,7 @@
         [self compareFileDirectory:fileDirectory1 andRastersMetadata:interleaveRasters1];
         TIFFRasters * interleaveRasters2 = [fileDirectory2 readInterleavedRasters];
         [self compareFileDirectory:fileDirectory2 andRastersMetadata:interleaveRasters2];
-        [self compareRastersSampleValuesWithRasters1:interleaveRasters1 andRasters2:interleaveRasters2 andExactType:exactType andSameBitsPerSample:sameBitsPerSample];
+        [self compareRastersInterleaveValuesWithRasters1:interleaveRasters1 andRasters2:interleaveRasters2 andExactType:exactType andSameBitsPerSample:sameBitsPerSample];
         
         [self compareRastersWithFileDirectory1:fileDirectory1 andRasters1:sampleRasters1 andFileDirectory2:fileDirectory2 andRasters2:interleaveRasters2 andExactType:exactType andSameBitsPerSample:sameBitsPerSample];
         [self compareRastersWithFileDirectory1:fileDirectory1 andRasters1:interleaveRasters1 andFileDirectory2:fileDirectory2 andRasters2:sampleRasters2 andExactType:exactType andSameBitsPerSample:sameBitsPerSample];

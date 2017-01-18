@@ -58,6 +58,7 @@
         self.height = height;
         self.samplesPerPixel = samplesPerPixel;
         self.bitsPerSample = bitsPerSample;
+        self.sampleValues = sampleValues;
         self.interleaveValues = interleaveValues;
         [self validateValues];
         for (NSNumber * bits in bitsPerSample) {
