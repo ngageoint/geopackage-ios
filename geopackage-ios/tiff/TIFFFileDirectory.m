@@ -643,7 +643,7 @@
 
 -(enum TIFFFieldType) fieldTypeForSample: (int) sampleIndex{
 
-    enum TIFFFieldType fieldType;
+    enum TIFFFieldType fieldType = 0;
     
     NSArray<NSNumber *> * sampleFormat = [self sampleFormat];
     int format = sampleFormat != nil ? [[sampleFormat objectAtIndex:sampleIndex] intValue] : (int)TIFF_SAMPLE_FORMAT_UNSIGNED_INT;
@@ -661,7 +661,7 @@
                 fieldType = TIFF_FIELD_LONG;
                 break;
         }
-    }else if(format == TIFF_SAMPLE_FORMAT_UNSIGNED_INT){
+    }else if(format == TIFF_SAMPLE_FORMAT_SIGNED_INT){
         switch (bitsPerSample) {
             case 8:
                 fieldType = TIFF_FIELD_SBYTE;
@@ -673,7 +673,7 @@
                 fieldType = TIFF_FIELD_SLONG;
                 break;
         }
-    }else if(format == TIFF_SAMPLE_FORMAT_UNSIGNED_INT){
+    }else if(format == TIFF_SAMPLE_FORMAT_FLOAT){
         switch (bitsPerSample) {
             case 32:
                 fieldType = TIFF_FIELD_FLOAT;
