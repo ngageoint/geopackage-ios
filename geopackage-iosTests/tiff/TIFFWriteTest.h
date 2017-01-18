@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
 
-@interface TIFFWriteTest : NSObject
+@interface TIFFWriteTest : XCTestCase
 
 @end
