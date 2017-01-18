@@ -26,6 +26,7 @@
 +(void) writeTiffWithFile: (NSString *) file andWriter: (TIFFByteWriter *) writer andImage: (TIFFImage *) tiffImage{
     NSData * data = [self writeTiffToDataWithWriter:writer andImage:tiffImage];
     NSInputStream * inputStream = [NSInputStream inputStreamWithData:data];
+    [inputStream open];
     [TIFFIOUtils copyInputStream:inputStream toFile:file];
 }
 

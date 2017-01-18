@@ -14,6 +14,8 @@
     
     NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
     NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    
+    [from open];
     [to open];
     
     [self copyInputStream:from toOutputStream:to];
@@ -34,6 +36,7 @@
 +(NSData *) fileData: (NSString *) file{
     
     NSInputStream * inputStream = [NSInputStream inputStreamWithFileAtPath:file];
+    [inputStream open];
     
     return [self streamData:inputStream];
 }
@@ -53,7 +56,6 @@
 }
 
 +(void) copyInputStream: (NSInputStream *) copyFrom toOutputStream: (NSOutputStream *) copyTo{
-
     NSInteger bufferSize = 1024;
     NSInteger length;
     uint8_t buffer[bufferSize];

@@ -104,6 +104,8 @@
     
     NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
     NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    
+    [from open];
     [to open];
     
     [self copyInputStream:from toOutputStream:to];
@@ -138,6 +140,7 @@
 +(NSData *) fileData: (NSString *) file{
     
     NSInputStream * inputStream = [NSInputStream inputStreamWithFileAtPath:file];
+    [inputStream open];
     
     return [self streamData:inputStream];
 }
