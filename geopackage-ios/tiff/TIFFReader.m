@@ -249,7 +249,7 @@
         NSMutableArray * stringValues = [[NSMutableArray alloc] init];
         NSMutableString * stringValue = [[NSMutableString alloc] init];
         for (NSObject * value in values) {
-            if (value == nil) {
+            if ([value isEqual:[NSNull null]] || ((NSString *)value).length == 0) {
                 if(stringValue.length > 0){
                     [stringValues addObject:stringValue];
                     stringValue = [[NSMutableString alloc] init];
