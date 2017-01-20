@@ -9,14 +9,16 @@
 #import "GPKGElevationTiffImage.h"
 #import "GPKGElevationTilesTiff.h"
 #import "TIFFRasters.h"
+#import "TIFFReader.h"
+#import "TIFFWriter.h"
 
 @interface GPKGElevationTiffImage ()
 
 @property (nonatomic) int width;
 @property (nonatomic) int height;
 @property (nonatomic, strong) NSData * imageData;
-// TODO
-//@property (nonatomic, strong) TIFFFileDirectory * directory;
+@property (nonatomic, strong) TIFFImage * image;
+@property (nonatomic, strong) TIFFFileDirectory * directory;
 @property (nonatomic, strong) TIFFRasters * rasters;
 
 @end
@@ -27,28 +29,26 @@
     self = [super init];
     if(self != nil){
         self.imageData = [tileRow getTileData];
-// TODO
-//        TIFFImage * tiffImage = [TIFFReader readTiff:self.imageData];
-//        self.directory = [tiffImage fileDirectory];
-//        [GPKGElevationTilesTiff validateImageType:self.image];
-//        self.width = [[directory imageWidth] intValue];
-//        self.height = [[directory imageHeight] intValue];
+        self.image = [TIFFReader readTiffFromData:self.imageData];
+        self.directory = [self.image fileDirectory];
+        [GPKGElevationTilesTiff validateImageType:self.directory];
+        self.width = [[self.directory imageWidth] intValue];
+        self.height = [[self.directory imageHeight] intValue];
     }
     return self;
 }
 
-// TODO
-/*-(instancetype) initWithFileDirectory: (TIFFFileDirectory *) directory{
+-(instancetype) initWithFileDirectory: (TIFFFileDirectory *) directory{
     self = [super init];
     if(self != nil){
         self.directory = directory;
         self.rasters = [directory writeRasters];
-        [GPKGElevationTilesTiff validateImageType:self.image];
+        [GPKGElevationTilesTiff validateImageType:self.directory];
         self.width = [[directory imageWidth] intValue];
         self.height = [[directory imageHeight] intValue];
     }
     return self;
-}*/
+}
 
 -(NSData *) imageData{
     if(_imageData == nil){
@@ -57,10 +57,9 @@
     return _imageData;
 }
 
-// TODO
-/*-(TIFFFileDirectory *) directory{
+-(TIFFFileDirectory *) directory{
     return _directory;
-}*/
+}
 
 -(TIFFRasters *) rasters{
     if(_rasters == nil){
@@ -78,16 +77,30 @@
 }
 
 -(void) writeTiff{
-    // TODO
+    if ([self.directory writeRasters] != nil) {
+        TIFFImage * tiffImage = [[TIFFImage alloc] init];
+        [tiffImage addFileDirectory:self.directory];
+        self.imageData = [TIFFWriter writeTiffToDataWithImage:tiffImage];
+    }
 }
 
 -(float) pixelAtX: (int) x andY: (int) y{
-    // TODO
-    return 0;
+    float pixel = -1;
+    if (self.rasters == nil) {
+        [self readPixels];
+    }
+    if (self.rasters != nil) {
+        pixel = [[self.rasters firstPixelSampleAtX:x andY:y] floatValue];
+    } else {
+        [NSException raise:@"Pixel Value" format:@"Could not retrieve pixel value"];
+    }
+    return pixel;
 }
 
 -(void) readPixels{
-    // TODO
+    if (self.directory != nil) {
+        self.rasters = [self.directory readRasters];
+    }
 }
 
 @end

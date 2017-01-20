@@ -8,6 +8,7 @@
 
 #import "GPKGElevationImage.h"
 #import "GPKGTileRow.h"
+#import "TIFFFileDirectory.h"
 
 @interface GPKGElevationTiffImage : NSObject<GPKGElevationImage>
 
@@ -27,7 +28,7 @@
  *
  *  @return new instance
  */
-//-(instancetype) initWithFileDirectory: (TIFFFileDirectory *) directory;
+-(instancetype) initWithFileDirectory: (TIFFFileDirectory *) directory;
 
 /**
  * Get the image data
@@ -41,14 +42,14 @@
  *
  * @return file directory
  */
-//-(TIFFFileDirectory *) directory;
+-(TIFFFileDirectory *) directory;
 
 /**
  * Get the rasters, read if needed
  *
  * @return rasters
  */
-//-(TIFFRasters *) rasters;
+-(TIFFRasters *) rasters;
 
 /**
  * Write the TIFF file to the image bytes

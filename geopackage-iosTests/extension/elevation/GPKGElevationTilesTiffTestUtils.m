@@ -173,25 +173,25 @@
     
     NSData * tileData = [tileRow getTileData];
     [GPKGTestUtils assertTrue:tileData.length > 0];
-    UIImage * image = [tileRow getTileDataImage];
-    
-    int width = (int) image.size.width;
-    int height = (int) image.size.height;
-    int pixelCount = width * height;
+    GPKGElevationTiffImage * image = [[GPKGElevationTiffImage alloc] initWithTileRow:tileRow];
     
     // Get all the pixel values of the image
-    float * pixelValues = [elevationTiles pixelValuesWithImage:image];
+    NSArray * arrayValues = [elevationTiles pixelArrayValuesWithData: tileData];
+    float * pixelValues = [elevationTiles pixelValuesArrayToFloat:arrayValues];
     if (elevationTileValues != nil) {
-        for (int i = 0; i < pixelCount; i++) {
+        for (int i = 0; i < arrayValues.count; i++) {
             [GPKGTestUtils assertEqualDoubleWithValue:[elevationTileValues tilePixelFlatAsFloatWithIndex:i] andValue2:pixelValues[i]];
         }
     }
+    
+    int width = [image width];
+    int height = [image height];
     
     // Get each individual image pixel value
     NSMutableArray * pixelValuesList = [[NSMutableArray alloc] init];
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            float pixelValue = [elevationTiles pixelValueWithImage:image andX:x andY:y];
+            float pixelValue = [image pixelAtX:x andY:y];
             [pixelValuesList addObject:[NSNumber numberWithFloat:pixelValue]];
             
             // Test getting the pixel value from the pixel values array
@@ -214,7 +214,7 @@
     }
     
     // Test the individually built list of pixel values vs the full returned array
-    [GPKGTestUtils assertEqualIntWithValue:(int)pixelValuesList.count andValue2:pixelCount];
+    [GPKGTestUtils assertEqualIntWithValue:(int)pixelValuesList.count andValue2:(int)arrayValues.count];
     for (int i = 0; i < pixelValuesList.count; i++) {
         [GPKGTestUtils assertEqualDoubleWithValue:[((NSDecimalNumber *)[pixelValuesList objectAtIndex:i]) floatValue] andValue2:pixelValues[i]];
     }

@@ -8,6 +8,18 @@
 
 #import "GPKGElevationTilesTiff.h"
 #import "GPKGElevationTiffImage.h"
+#import "TIFFConstants.h"
+#import "TIFFReader.h"
+
+/**
+ * Single sample elevation
+ */
+NSInteger const GPKG_TIFF_SAMPLES_PER_PIXEL = 1;
+
+/**
+ * Bits per value for floating point elevations
+ */
+NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
 
 @implementation GPKGElevationTilesTiff
 
@@ -29,136 +41,185 @@
 }
 
 -(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
-    UIImage * image = [tileRow getTileDataImage];
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile: griddedTile andImage: image andX: x andY: y];
+    NSData * imageData = [tileRow getTileData];
+    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile: griddedTile andData: imageData andX: x andY: y];
     return elevation.doubleValue;
 }
 
 -(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGElevationImage> *) image andX: (int) x andY: (int) y{
     GPKGElevationTiffImage * tiffImage = (GPKGElevationTiffImage *) image;
-    //TODO
-    return nil;
-    //return [self elevationValueWithGriddedTile: griddedTile andImage: [image image] andX: x andY: y];
+    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andImage:tiffImage andX:x andY:y];
+    return elevation;
 }
 
--(float) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y{
-    int width = (int) image.size.width;
-    float * pixels = [self pixelValuesWithImage:image];
-    float pixel = [self pixelIn:pixels withWidth:width atX:x andY:y];
-    free(pixels);
-    return pixel;
+-(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (GPKGElevationTiffImage *) image andX: (int) x andY: (int) y{
+    NSDecimalNumber * elevation = nil;
+    if ([image directory]  != nil) {
+        float pixelValue = [image pixelAtX:x andY:y];
+        elevation = [self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValue];
+    } else {
+        elevation = [self elevationValueWithGriddedTile:griddedTile andData:[image imageData] andX:x andY:y];
+    }
+    return elevation;
 }
 
--(float *) pixelValuesWithImage: (UIImage *) image{
-    [GPKGElevationTilesTiff validateImageType:image];
+-(float) pixelValueWithData: (NSData *) imageData andX: (int) x andY: (int) y{
     
-    int width = (int) image.size.width;
-    int height = (int) image.size.height;
-    
-    // TODO
-    CGImageRef tileImageRef = [image CGImage];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    float *pixels = [self allocatePixelsWithWidth:width andHeight:height];
-    CGContextRef context = CGBitmapContextCreate(pixels, width, height, 16, 2 * width, colorSpace, kCGImageAlphaNone | kCGBitmapByteOrder16Host);
-    CGColorSpaceRelease(colorSpace);
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), tileImageRef);
-    CGContextRelease(context);
-    
+    TIFFImage * tiffImage = [TIFFReader readTiffFromData:imageData];
+    TIFFFileDirectory * directory = [tiffImage fileDirectory];
+    [GPKGElevationTilesTiff validateImageType:directory];
+    TIFFRasters * rasters = [directory readRasters];
+    float pixelValue = [[rasters firstPixelSampleAtX:x andY:y] floatValue];
+
+    return pixelValue;
+}
+
+-(NSArray *) pixelArrayValuesWithData: (NSData *) imageData{
+    TIFFImage * tiffImage = [TIFFReader readTiffFromData:imageData];
+    TIFFFileDirectory * directory = [tiffImage fileDirectory];
+    [GPKGElevationTilesTiff validateImageType:directory];
+    TIFFRasters * rasters = [directory readRasters];
+    NSArray * values = [[rasters sampleValues] objectAtIndex:0];
+    return values;
+}
+                     
+-(float *) pixelValuesWithData: (NSData *) imageData{
+    NSArray * values = [self pixelArrayValuesWithData: imageData];
+    float *pixels = [self pixelValuesArrayToFloat:values];
     return pixels;
 }
-
-+(void) validateImageType: (UIImage *) image{
-    if (image == nil) {
+                     
++(void) validateImageType: (TIFFFileDirectory *) directory{
+    if (directory == nil) {
         [NSException raise:@"Nil Image" format:@"The image is nil"];
+    }
+    
+    NSNumber * samplesPerPixel = [directory samplesPerPixel];
+    NSNumber * bitsPerSample = nil;
+    if ([directory bitsPerSample] != nil && [directory bitsPerSample].count > 0) {
+        bitsPerSample = [[directory bitsPerSample] objectAtIndex:0];
+    }
+    NSNumber * sampleFormat = nil;
+    if ([directory sampleFormat] != nil && [directory sampleFormat].count > 0) {
+        sampleFormat = [[directory sampleFormat] objectAtIndex:0];
+    }
+    
+    if (samplesPerPixel == nil || [samplesPerPixel intValue] != GPKG_TIFF_SAMPLES_PER_PIXEL
+        || bitsPerSample == nil || [bitsPerSample intValue] != GPKG_TIFF_BITS_PER_SAMPLE
+        || sampleFormat == nil || [sampleFormat intValue] != TIFF_SAMPLE_FORMAT_FLOAT) {
+        [NSException raise:@"Image Type" format:@"The elevation tile is expected to be a single sample 32 bit float. Samples Per Pixel: %@, Bits Per Sample: %@, Sample Format: %@", samplesPerPixel, bitsPerSample, sampleFormat];
     }
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
-    float pixelValue = [self pixelValueWithImage: image andX: x andY: y];
+-(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData andX:(int)x andY:(int)y{
+    float pixelValue = [self pixelValueWithData: imageData andX: x andY: y];
     NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValue];
     return elevation;
 }
 
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
-    float * pixelValues = [self pixelValuesWithImage:image];
-    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelFloatValues:pixelValues andCount:image.size.width * image.size.height];
+-(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData{
+    NSArray * values = [self pixelArrayValuesWithData: imageData];
+    float *pixelValues = [self pixelValuesArrayToFloat:values];
+    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelFloatValues:pixelValues andCount:(int)values.count];
     free(pixelValues);
     return elevations;
 }
 
--(UIImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+-(GPKGElevationTiffImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGContextRef context = CGBitmapContextCreate(&pixelValues[0], tileWidth, tileHeight, 16, 2 * tileWidth, colorSpace, kCGImageAlphaNone | kCGBitmapByteOrder16Host);
-    CGImageRef imageRef = CGBitmapContextCreateImage(context);
-    UIImage * tileImage = [[UIImage alloc] initWithCGImage:imageRef];
-    CGColorSpaceRelease(colorSpace);
-    CGContextRelease(context);
+    GPKGElevationTiffImage * image = [self createImageWithTileWidth:tileWidth andTileHeight:tileHeight];
+    for (int y = 0; y < tileHeight; y++) {
+        for (int x = 0; x < tileWidth; x++) {
+            float pixelValue = pixelValues[(y * tileWidth) + x];
+            [self setPixelValueWithImage:image andX:x andY:y andPixelValue:pixelValue];
+        }
+    }
+    [image writeTiff];
     
-    return tileImage;
+    return image;
 }
 
--(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+-(GPKGElevationTiffImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     float * pixels = [self pixelValuesArrayToFloat:pixelValues];
-    UIImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    GPKGElevationTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
 -(NSData *) drawTileDataWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    UIImage * image = [self drawTileWithPixelValues:pixelValues andTileWidth:tileWidth andTileHeight:tileHeight];
-    NSData * data = [self imageData:image];
+    GPKGElevationTiffImage * image = [self drawTileWithPixelValues:pixelValues andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData * data = [image imageData];
     return data;
 }
 
--(UIImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues{
+-(GPKGElevationTiffImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues{
     float * pixels = [self pixelValuesDoubleArrayToFloat:pixelValues];
     int tileWidth = (int)((NSArray *)[pixelValues objectAtIndex: 0]).count;
     int tileHeight = (int)pixelValues.count;
-    UIImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    GPKGElevationTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
 -(NSData *) drawTileDataWithDoubleArrayPixelValues:(NSArray *)pixelValues{
-    UIImage * image = [self drawTileWithDoubleArrayPixelValues:pixelValues];
-    NSData * data = [self imageData:image];
+    GPKGElevationTiffImage * image = [self drawTileWithDoubleArrayPixelValues:pixelValues];
+    NSData * data = [image imageData];
     return data;
 }
 
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+-(GPKGElevationTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
     float * pixels = [self pixelValuesOfElevations:elevations withGriddedTile:griddedTile];
-    UIImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    GPKGElevationTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
 -(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    UIImage * image = [self drawTileWithGriddedTile:griddedTile andElevations:elevations andTileWidth:tileWidth andTileHeight:tileHeight];
-    NSData * data = [self imageData:image];
+    GPKGElevationTiffImage * image = [self drawTileWithGriddedTile:griddedTile andElevations:elevations andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData * data = [image imageData];
     return data;
 }
 
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
+-(GPKGElevationTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
     float * pixels = [self pixelValuesOfDoubleArrayElevations:elevations withGriddedTile:griddedTile];
     int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
     int tileHeight = (int)elevations.count;
-    UIImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
+    GPKGElevationTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
 -(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
-    UIImage * image = [self drawTileWithGriddedTile:griddedTile andDoubleArrayElevations:elevations];
-    NSData * data = [self imageData:image];
+    GPKGElevationTiffImage * image = [self drawTileWithGriddedTile:griddedTile andDoubleArrayElevations:elevations];
+    NSData * data = [image imageData];
     return data;
 }
 
--(NSData *) imageData: (UIImage *) image{
-    // TODO
-    NSData * data = nil;
-    //NSData * data = [GPKGImageConverter toData:image andFormat:GPKG_CF_PNG];
-    return data;
+-(GPKGElevationTiffImage *) createImageWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+    
+    TIFFRasters * rasters = [[TIFFRasters alloc] initWithWidth:tileWidth andHeight:tileHeight andSamplesPerPixel:1 andSingleBitsPerSample:GPKG_TIFF_BITS_PER_SAMPLE];
+    
+    int rowsPerStrip = [rasters calculateRowsPerStripWithPlanarConfiguration:(int)TIFF_PLANAR_CONFIGURATION_CHUNKY];
+    
+    TIFFFileDirectory * fileDirectory = [[TIFFFileDirectory alloc] init];
+    [fileDirectory setImageWidth: tileWidth];
+    [fileDirectory setImageHeight: tileHeight];
+    [fileDirectory setBitsPerSampleAsSingleValue: GPKG_TIFF_BITS_PER_SAMPLE];
+    [fileDirectory setCompression: TIFF_COMPRESSION_NO];
+    [fileDirectory setPhotometricInterpretation: TIFF_PHOTOMETRIC_INTERPRETATION_BLACK_IS_ZERO];
+    [fileDirectory setSamplesPerPixel: GPKG_TIFF_SAMPLES_PER_PIXEL];
+    [fileDirectory setRowsPerStrip: rowsPerStrip];
+    [fileDirectory setPlanarConfiguration: TIFF_PLANAR_CONFIGURATION_CHUNKY];
+    [fileDirectory setSampleFormatAsSingleValue: TIFF_SAMPLE_FORMAT_FLOAT];
+    [fileDirectory setWriteRasters: rasters];
+    
+    GPKGElevationTiffImage * image = [[GPKGElevationTiffImage alloc] initWithFileDirectory: fileDirectory];
+    
+    return image;
+}
+
+-(void) setPixelValueWithImage: (GPKGElevationTiffImage *) image andX: (int) x andY: (int) y andPixelValue: (float) pixelValue{
+    [[image rasters] setFirstPixelSampleAtX:x andY:y withValue:[[NSDecimalNumber alloc] initWithFloat:pixelValue]];
 }
 
 -(float) pixelIn: (float *) pixels withWidth: (int) width atX: (int) x andY: (int) y{

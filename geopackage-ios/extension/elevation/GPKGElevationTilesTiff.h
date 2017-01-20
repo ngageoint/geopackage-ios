@@ -7,6 +7,8 @@
 //
 
 #import "GPKGElevationTilesCore.h"
+#import "TIFFFileDirectory.h"
+#import "GPKGElevationTiffImage.h"
 
 @interface GPKGElevationTilesTiff : GPKGElevationTilesCore
 
@@ -47,32 +49,40 @@
 /**
  * Get the pixel value as a float
  *
- * @param image
- *            tile image
+ * @param imageData
+ *            image data
  * @param x
  *            x coordinate
  * @param y
  *            y coordinate
  * @return float pixel value
  */
--(float) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y;
+-(float) pixelValueWithData: (NSData *) imageData andX: (int) x andY: (int) y;
 
 /**
- * Get the pixel values of the image as floats
+ * Get the pixel values of the image data as an array of decimal numbers
  *
- * @param image
- *            tile image
+ * @param imageData
+ *            image data
+ * @return pixel values array
+ */
+-(NSArray *) pixelArrayValuesWithData: (NSData *) imageData;
+
+/**
+ * Get the pixel values of the image data as floats
+ *
+ * @param imageData
+ *            image data
  * @return float pixel values
  */
--(float *) pixelValuesWithImage: (UIImage *) image;
+-(float *) pixelValuesWithData: (NSData *) imageData;
 
 /**
- * Validate that the image type
+ * Validate the image type
  *
- * @param image
- *            tile image
+ * @param directory file directory
  */
-+(void) validateImageType: (UIImage *) image;
++(void) validateImageType: (TIFFFileDirectory *) directory;
 
 /**
  * Get the elevation value
@@ -87,18 +97,18 @@
  *            y coordinate
  * @return elevation value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y;
+-(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(GPKGElevationTiffImage *)image andX:(int)x andY:(int)y;
 
 /**
  * Get the elevation values
  *
  * @param griddedTile
  *            gridded tile
- * @param image
- *            tile image
+ * @param imageData
+ *            image data
  * @return elevation values
  */
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
+-(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData;
 
 /**
  * Draw an elevation image tile from the flat array of float pixel values of
@@ -112,7 +122,7 @@
  *            tile height
  * @return elevation image tile
  */
--(UIImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(GPKGElevationTiffImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
  * Draw an elevation image tile from the flat array of float pixel values of
@@ -126,7 +136,7 @@
  *            tile height
  * @return elevation image tile
  */
--(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(GPKGElevationTiffImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
  * Draw an elevation image tile and format as TIFF bytes from the flat array
@@ -151,7 +161,7 @@
  *            float pixel values as [row][width]
  * @return elevation image tile
  */
--(UIImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues;
+-(GPKGElevationTiffImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues;
 
 /**
  * Draw an elevation tile and format as TIFF bytes from the double array of
@@ -177,7 +187,7 @@
  *            tile height
  * @return elevation image tile
  */
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(GPKGElevationTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
  * Draw an elevation image tile and format as TIFF bytes from the flat array
@@ -206,7 +216,7 @@
  *            elevations as [row][width]
  * @return elevation image tile
  */
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
+-(GPKGElevationTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
 
 /**
  * Draw an elevation image tile and format as TIFF bytes from the double
@@ -221,13 +231,23 @@
 -(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
 
 /**
- * Get the image as TIFF bytes
+ * Create a new image
  *
- * @param image
- *            buffered image
- * @return image bytes
+ * @param tileWidth  tile width
+ * @param tileHeight tile height
+ * @return image
  */
--(NSData *) imageData: (UIImage *) image;
+-(GPKGElevationTiffImage *) createImageWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+
+/**
+ * Set the pixel value into the image
+ *
+ * @param image      image
+ * @param x          x coordinate
+ * @param y          y coordinate
+ * @param pixelValue pixel value
+ */
+-(void) setPixelValueWithImage: (GPKGElevationTiffImage *) image andX: (int) x andY: (int) y andPixelValue: (float) pixelValue;
 
 /**
  * Get the pixel at the provided x and y with the image width
