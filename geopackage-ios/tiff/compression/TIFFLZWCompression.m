@@ -227,7 +227,7 @@ NSInteger const TIFF_LZW_MIN_BITS = 9;
         NSLog(@"End of data reached without an end of input code");
         return TIFF_LZW_EOI_CODE;
     }
-    int chunk1 = ((int) [reader readUnsignedByteWithOffset:a])
+    int chunk1 = [[reader readUnsignedByteWithOffset:a] unsignedCharValue]
 				& ((int) (pow(2, 8 - d) - 1));
     chunk1 = chunk1 << (self.byteLength - de);
     int chunks = chunk1;

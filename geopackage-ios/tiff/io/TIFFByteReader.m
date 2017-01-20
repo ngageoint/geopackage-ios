@@ -84,11 +84,8 @@
 -(uint8_t) read8BitIntWithOffset: (int) offset{
     [self verifyRemainingBytesWithOffset:offset andBytesToRead:1];
     
-    char *buffer = (char *)malloc(sizeof(char));
-    [self.bytes getBytes:buffer range:NSMakeRange(offset, 1)];
-    uint8_t value = *(uint8_t*)buffer;
-
-    free(buffer);
+    uint8_t value;
+    [self.bytes getBytes:&value range:NSMakeRange(offset, 1)];
     
     return value;
 }
@@ -130,20 +127,16 @@
 -(uint16_t) read16BitIntWithOffset: (int) offset{
     [self verifyRemainingBytesWithOffset:offset andBytesToRead:2];
     
-    char *buffer = (char *)malloc(sizeof(char) * 2);
-    [self.bytes getBytes:buffer range:NSMakeRange(offset, 2)];
-    
-    uint16_t result = *(uint16_t*)buffer;
+    uint16_t value;
+    [self.bytes getBytes:&value range:NSMakeRange(offset, 2)];
     
     if(self.byteOrder == CFByteOrderBigEndian){
-        result = CFSwapInt16BigToHost(result);
+        value = CFSwapInt16BigToHost(value);
     }else{
-        result = CFSwapInt16LittleToHost(result);
+        value = CFSwapInt16LittleToHost(value);
     }
     
-    free(buffer);
-    
-    return result;
+    return value;
 }
 
 -(NSNumber *) readInt{
@@ -171,20 +164,16 @@
 -(uint32_t) read32BitIntWithOffset: (int) offset{
     [self verifyRemainingBytesWithOffset:offset andBytesToRead:4];
     
-    char *buffer = (char *)malloc(sizeof(char) * 4);
-    [self.bytes getBytes:buffer range:NSMakeRange(offset, 4)];
-    
-    uint32_t result = *(uint32_t*)buffer;
+    uint32_t value;
+    [self.bytes getBytes:&value range:NSMakeRange(offset, 4)];
     
     if(self.byteOrder == CFByteOrderBigEndian){
-        result = CFSwapInt32BigToHost(result);
+        value = CFSwapInt32BigToHost(value);
     }else{
-        result = CFSwapInt32LittleToHost(result);
+        value = CFSwapInt32LittleToHost(value);
     }
     
-    free(buffer);
-    
-    return result;
+    return value;
 }
 
 -(NSDecimalNumber *) readFloat{
@@ -196,22 +185,20 @@
 -(NSDecimalNumber *) readFloatWithOffset: (int) offset{
     [self verifyRemainingBytesWithOffset:offset andBytesToRead:4];
     
-    char *buffer = (char *)malloc(sizeof(char) * 4);
-    [self.bytes getBytes:buffer range:NSMakeRange(offset, 4)];
+    uint32_t value;
+    [self.bytes getBytes:&value range:NSMakeRange(offset, 4)];
     
     union FloatSwap {
         float v;
         uint32_t sv;
     } result;
-    result.sv = *(uint32_t*)buffer;
+    result.sv = value;
     
     if(self.byteOrder == CFByteOrderBigEndian){
         result.sv = CFSwapInt32BigToHost(result.sv);
     }else{
         result.sv = CFSwapInt32LittleToHost(result.sv);
     }
-    
-    free(buffer);
     
     return [[NSDecimalNumber alloc] initWithFloat:result.v];
 }
@@ -225,22 +212,20 @@
 -(NSDecimalNumber *) readDoubleWithOffset: (int) offset{
     [self verifyRemainingBytesWithOffset:offset andBytesToRead:8];
     
-    char *buffer = (char *)malloc(sizeof(char) * 8);
-    [self.bytes getBytes:buffer range:NSMakeRange(offset, 8)];
+    uint64_t value;
+    [self.bytes getBytes:&value range:NSMakeRange(offset, 8)];
     
     union DoubleSwap {
         double v;
         uint64_t sv;
     } result;
-    result.sv = *(uint64_t*)buffer;
+    result.sv = value;
     
     if(self.byteOrder == CFByteOrderBigEndian){
         result.sv = CFSwapInt64BigToHost(result.sv);
     }else{
         result.sv = CFSwapInt64LittleToHost(result.sv);
     }
-    
-    free(buffer);
     
     return [[NSDecimalNumber alloc] initWithDouble:result.v];
 }
