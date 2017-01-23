@@ -70,6 +70,9 @@
     if (image == nil) {
         [NSException raise:@"Nil Image" format:@"The image is nil"];
     }
+    if(CGImageGetBitsPerComponent(image.CGImage) != 16 || CGImageGetBitsPerPixel(image.CGImage) != 16){
+        [NSException raise:@"Invalid Image" format:@"The elevation tile is expected to be a single channel 16 bit unsigned short (16 bits per component & 16 bits per pixel), bits per component: %zu, bits per pixel: %zu", CGImageGetBitsPerComponent(image.CGImage), CGImageGetBitsPerPixel(image.CGImage)];
+    }
 }
 
 -(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
