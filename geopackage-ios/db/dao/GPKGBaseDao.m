@@ -35,6 +35,10 @@
     return nil;
 }
 
+-(BOOL) valueIsNullInsertableForColumnIndex: (int) columnIndex{
+    return false;
+}
+
 -(void) validateObject: (NSObject*) object{
     
 }
@@ -307,6 +311,13 @@
     GPKGContentValues *values = [[GPKGContentValues alloc]init];
     for(NSString * column in self.columns){
         NSObject * value = [self getValueFromObject:object withColumnName:column];
+        if(value == nil){
+            int columnIndex = ((NSNumber*) [self.columnIndex valueForKey:column]).intValue;
+            if([self valueIsNullInsertableForColumnIndex:columnIndex]){
+                value = [NSNull null];
+            }
+        }
+        
         if(value != nil){
             [values putKey:column withValue:value];
         }

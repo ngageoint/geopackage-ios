@@ -95,6 +95,22 @@
     return value;
 }
 
+-(BOOL) valueIsNullInsertableForColumnIndex: (int) columnIndex{
+    BOOL value;
+    
+    switch(columnIndex){
+        case 3:
+        case 4:
+            value = true;
+            break;
+        default:
+            value = false;
+            break;
+    }
+    
+    return value;
+}
+
 -(long long) insert: (NSObject *) object{
     long long id = [super insert:object];
     [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];

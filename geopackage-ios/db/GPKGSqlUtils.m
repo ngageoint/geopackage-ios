@@ -226,7 +226,11 @@
             [insertStatement appendString:@","];
         }
         [insertStatement appendString:[self quoteWrapName:colName]];
-        [args addObject:[values getValueForKey:colName]];
+        NSObject * value = [values getValueForKey:colName];
+        if(value == nil){
+            value = [NSNull null];
+        }
+        [args addObject:value];
         i++;
     }
     [insertStatement appendString:@") values ("];
@@ -297,7 +301,7 @@
         [updateStatement appendString:[self quoteWrapName:colName]];
         NSObject * value = [values getValueForKey:colName];
         if(value == nil){
-            value = [[NSNull alloc] init];
+            value = [NSNull null];
         }
         [args addObject:value];
         i++;

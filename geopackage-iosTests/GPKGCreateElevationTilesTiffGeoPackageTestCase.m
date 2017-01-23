@@ -213,7 +213,6 @@
     [super setUp];
     
     self.allowNils = [self shouldAllowNils];
-    self.elevationTileValues = [[GPKGElevationTileValues alloc] init];
 }
 
 - (void)tearDown {
@@ -242,8 +241,8 @@
     [griddedTile setMean:commonGriddedTile.mean];
     [griddedTile setStandardDeviation:commonGriddedTile.standardDeviation];
     
-    float maxElevation = 8850.0;
-    float minElevation = 10994.0;
+    float minElevation = 8850.0;
+    float maxElevation = 10994.0;
     
     // Create the image and graphics
     for (int y = 0; y < tileHeight; y++) {
@@ -259,7 +258,7 @@
             if (self.allowNils && [GPKGTestUtils randomDouble] < .05) {
                 value = [griddedCoverage.dataNull floatValue];
             } else {
-                value = (float)(([GPKGTestUtils randomDouble] * (maxElevation + minElevation)) - minElevation);
+                value = (float)(([GPKGTestUtils randomDouble] * (maxElevation - minElevation)) + minElevation);
             }
             
             NSNumber * pixelValue = [[NSDecimalNumber alloc] initWithFloat:value];

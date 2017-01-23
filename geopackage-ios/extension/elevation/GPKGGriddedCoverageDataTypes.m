@@ -33,7 +33,7 @@ NSString * const GPKG_GCDT_FLOAT_NAME = @"float";
     enum GPKGGriddedCoverageDataType value = -1;
     
     if(name != nil){
-        name = [name uppercaseString];
+        name = [name lowercaseString];
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_GCDT_INTEGER], GPKG_GCDT_INTEGER_NAME,
                                [NSNumber numberWithInteger:GPKG_GCDT_FLOAT], GPKG_GCDT_FLOAT_NAME,

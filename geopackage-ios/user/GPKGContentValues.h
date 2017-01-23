@@ -48,7 +48,7 @@
 -(int) size;
 
 /**
- *  Get teh value of the key
+ *  Get the value of the key
  *
  *  @param key key
  *

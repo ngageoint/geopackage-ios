@@ -812,7 +812,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 
 -(NSDecimalNumber *) pixelValueToElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (NSDecimalNumber *) pixelValue{
 
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * elevation = pixelValue;
     
     if (self.griddedCoverage != nil
         && [self.griddedCoverage getGriddedCoverageDataType] == GPKG_GCDT_INTEGER) {
