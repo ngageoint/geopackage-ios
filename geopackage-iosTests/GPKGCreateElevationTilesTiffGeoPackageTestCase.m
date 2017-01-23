@@ -59,8 +59,8 @@
     GPKGGriddedCoverage * griddedCoverage = [[GPKGGriddedCoverage alloc] init];
     [griddedCoverage setTileMatrixSet:tileMatrixSet];
     [griddedCoverage setGriddedCoverageDataType:GPKG_GCDT_FLOAT];
-    [griddedCoverage setScale:nil];
-    [griddedCoverage setOffset:nil];
+    [griddedCoverage setNullScale:true];
+    [griddedCoverage setNullOffset:true];
     BOOL defaultPrecision = true;
     if([GPKGTestUtils randomDouble] < .5){
         [griddedCoverage setPrecision:[[NSDecimalNumber alloc] initWithDouble:10.0 * [GPKGTestUtils randomDouble]]];
@@ -87,8 +87,8 @@
     GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
     GPKGContents * contents = [tileMatrixSetDao getContents:tileMatrixSet];
     [commonGriddedTile setContents:contents];
-    [commonGriddedTile setScale:nil];
-    [commonGriddedTile setOffset:nil];
+    [commonGriddedTile setNullScale:true];
+    [commonGriddedTile setNullOffset:true];
     
     // The min, max, mean, and sd are just for testing and have
     // no association on the test tile created
@@ -162,7 +162,9 @@
                 [griddedTile setContents:contents];
                 [griddedTile setTableId:[NSNumber numberWithInt:tileId]];
                 [griddedTile setScale:commonGriddedTile.scale];
+                [griddedTile setNullScale:commonGriddedTile.nullScale];
                 [griddedTile setOffset:commonGriddedTile.offset];
+                [griddedTile setNullOffset:commonGriddedTile.nullOffset];
                 [griddedTile setMin:commonGriddedTile.min];
                 [griddedTile setMax:commonGriddedTile.max];
                 [griddedTile setMean:commonGriddedTile.mean];
@@ -235,7 +237,9 @@
     
     GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
     [griddedTile setScale:commonGriddedTile.scale];
+    [griddedTile setNullScale:commonGriddedTile.nullScale];
     [griddedTile setOffset:commonGriddedTile.offset];
+    [griddedTile setNullOffset:commonGriddedTile.nullOffset];
     [griddedTile setMin:commonGriddedTile.min];
     [griddedTile setMax:commonGriddedTile.max];
     [griddedTile setMean:commonGriddedTile.mean];

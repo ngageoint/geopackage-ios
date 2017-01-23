@@ -183,7 +183,9 @@
                 [griddedTile setContents:contents];
                 [griddedTile setTableId:[NSNumber numberWithInt:tileId]];
                 [griddedTile setScale:commonGriddedTile.scale];
+                [griddedTile setNullScale:commonGriddedTile.nullScale];
                 [griddedTile setOffset:commonGriddedTile.offset];
+                [griddedTile setNullOffset:commonGriddedTile.nullOffset];
                 [griddedTile setMin:commonGriddedTile.min];
                 [griddedTile setMax:commonGriddedTile.max];
                 [griddedTile setMean:commonGriddedTile.mean];
@@ -264,7 +266,9 @@
     
     GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
     [griddedTile setScale:commonGriddedTile.scale];
+    [griddedTile setNullScale:commonGriddedTile.nullScale];
     [griddedTile setOffset:commonGriddedTile.offset];
+    [griddedTile setNullOffset:commonGriddedTile.nullOffset];
     [griddedTile setMin:commonGriddedTile.min];
     [griddedTile setMax:commonGriddedTile.max];
     [griddedTile setMean:commonGriddedTile.mean];

@@ -76,10 +76,18 @@
             value = getObject.datatype;
             break;
         case 3:
-            value = getObject.scale;
+            if(getObject.nullScale){
+                value = [NSNull null];
+            }else{
+                value = getObject.scale;
+            }
             break;
         case 4:
-            value = getObject.offset;
+            if(getObject.nullOffset){
+                value = [NSNull null];
+            }else{
+                value = getObject.offset;
+            }
             break;
         case 5:
             value = getObject.precision;
@@ -89,22 +97,6 @@
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
-            break;
-    }
-    
-    return value;
-}
-
--(BOOL) valueIsNullInsertableForColumnIndex: (int) columnIndex{
-    BOOL value;
-    
-    switch(columnIndex){
-        case 3:
-        case 4:
-            value = true;
-            break;
-        default:
-            value = false;
             break;
     }
     
