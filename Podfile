@@ -3,10 +3,12 @@ platform :ios, '8.0'
 
 inhibit_all_warnings!
 
-pod 'AFNetworking', '~> 3.1'
-pod 'proj4', '~> 4.8'
-pod 'wkb-ios', '~> 1.0.6'
+target 'geopackage-ios' do
+  pod 'AFNetworking', '~> 3.1'
+  pod 'proj4', '~> 4.8'
+  pod 'wkb-ios', '~> 1.0.6'
 
-target :"geopackage-iosTests", :exclusive => true do
-  podspec :path => './geopackage-ios.podspec'
+  target 'geopackage-iosTests' do
+    inherit! :search_paths
+  end
 end

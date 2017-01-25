@@ -407,7 +407,7 @@
 		04FEE5761D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */; };
 		04FEE5791D131380004B8113 /* GPKGFeatureTilesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */; };
 		6903C385D41142932E5D29BE /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */; };
-		B16EA3BC364185079F6FC3EA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FA26FA59BD87DC4A9A30A36 /* libPods.a */; };
+		CF2975A894D3EAA8247E449D /* libPods-geopackage-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06FDA9757D9C05806757CAF0 /* libPods-geopackage-ios.a */; };
 		F7882C471BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F7882C461BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.m */; };
 /* End PBXBuildFile section */
 
@@ -878,10 +878,13 @@
 		04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTileGeneratorTest.m; sourceTree = "<group>"; };
 		04FEE5771D131380004B8113 /* GPKGFeatureTilesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTilesTest.h; sourceTree = "<group>"; };
 		04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTilesTest.m; sourceTree = "<group>"; };
+		06FDA9757D9C05806757CAF0 /* libPods-geopackage-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-geopackage-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		311A6D7DA91DB9C729B57458 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-geopackage-iosTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FA26FA59BD87DC4A9A30A36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E8367EE12396D05EE836843 /* Pods-geopackage-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		9A6D855F8340B3698EA6418C /* Pods-geopackage-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.release.xcconfig"; sourceTree = "<group>"; };
+		B7EDD44B76A01E05EDE05DC6 /* Pods-geopackage-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios.release.xcconfig"; sourceTree = "<group>"; };
 		CB0B2D43B57C53B91B15E6F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ED7BD96C5C8B5744CA3F89CF /* Pods-geopackage-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-geopackage-iosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F7882C451BF1472700DC6BB0 /* GPKGDataColumnsDaoTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDataColumnsDaoTest.h; sourceTree = "<group>"; };
@@ -894,7 +897,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				042FC8F81B964E6900549A4B /* libsqlite3.dylib in Frameworks */,
-				B16EA3BC364185079F6FC3EA /* libPods.a in Frameworks */,
+				CF2975A894D3EAA8247E449D /* libPods-geopackage-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1845,6 +1848,7 @@
 				042FC8F71B964E6900549A4B /* libsqlite3.dylib */,
 				5FA26FA59BD87DC4A9A30A36 /* libPods.a */,
 				4D78F4C4CF43FBF5289DCCD3 /* libPods-geopackage-iosTests.a */,
+				06FDA9757D9C05806757CAF0 /* libPods-geopackage-ios.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1856,6 +1860,8 @@
 				CB0B2D43B57C53B91B15E6F4 /* Pods.release.xcconfig */,
 				ED7BD96C5C8B5744CA3F89CF /* Pods-geopackage-iosTests.debug.xcconfig */,
 				9A6D855F8340B3698EA6418C /* Pods-geopackage-iosTests.release.xcconfig */,
+				7E8367EE12396D05EE836843 /* Pods-geopackage-ios.debug.xcconfig */,
+				B7EDD44B76A01E05EDE05DC6 /* Pods-geopackage-ios.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2063,12 +2069,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 042FC6F61B964BC800549A4B /* Build configuration list for PBXNativeTarget "geopackage-ios" */;
 			buildPhases = (
-				01FB5D4E2B8E9CB69B2D0BA0 /* Check Pods Manifest.lock */,
+				01FB5D4E2B8E9CB69B2D0BA0 /* [CP] Check Pods Manifest.lock */,
 				042FC6DB1B964BC800549A4B /* Sources */,
 				042FC6DC1B964BC800549A4B /* Frameworks */,
 				042FC6DD1B964BC800549A4B /* Headers */,
 				042FC6DE1B964BC800549A4B /* Resources */,
-				E7B4425C11F90949F89E6381 /* Copy Pods Resources */,
+				E7B4425C11F90949F89E6381 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2083,12 +2089,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 042FC6F91B964BC800549A4B /* Build configuration list for PBXNativeTarget "geopackage-iosTests" */;
 			buildPhases = (
-				506BD12081AD1269BF1C15EA /* Check Pods Manifest.lock */,
+				506BD12081AD1269BF1C15EA /* [CP] Check Pods Manifest.lock */,
 				042FC6E71B964BC800549A4B /* Sources */,
 				042FC6E81B964BC800549A4B /* Frameworks */,
 				042FC6E91B964BC800549A4B /* Resources */,
-				C0A452B14E727E90113AC7AA /* Copy Pods Resources */,
-				8E30385523A94FE7C8B884D4 /* Embed Pods Frameworks */,
+				C0A452B14E727E90113AC7AA /* [CP] Copy Pods Resources */,
+				8E30385523A94FE7C8B884D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2166,44 +2172,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01FB5D4E2B8E9CB69B2D0BA0 /* Check Pods Manifest.lock */ = {
+		01FB5D4E2B8E9CB69B2D0BA0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		506BD12081AD1269BF1C15EA /* Check Pods Manifest.lock */ = {
+		506BD12081AD1269BF1C15EA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8E30385523A94FE7C8B884D4 /* Embed Pods Frameworks */ = {
+		8E30385523A94FE7C8B884D4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2211,14 +2217,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C0A452B14E727E90113AC7AA /* Copy Pods Resources */ = {
+		C0A452B14E727E90113AC7AA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2226,19 +2232,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E7B4425C11F90949F89E6381 /* Copy Pods Resources */ = {
+		E7B4425C11F90949F89E6381 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2585,7 +2591,7 @@
 		};
 		042FC6F71B964BC800549A4B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 311A6D7DA91DB9C729B57458 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 7E8367EE12396D05EE836843 /* Pods-geopackage-ios.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2601,7 +2607,7 @@
 		};
 		042FC6F81B964BC800549A4B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB0B2D43B57C53B91B15E6F4 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B7EDD44B76A01E05EDE05DC6 /* Pods-geopackage-ios.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
