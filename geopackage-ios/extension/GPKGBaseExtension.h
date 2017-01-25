@@ -40,12 +40,12 @@
  *  @param extensionName extension name
  *  @param tableName     table name
  *  @param columnName    column name
- *  @param description   extension description
+ *  @param definition    extension definition
  *  @param scopeType     extension scope type
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreateWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDescription: (NSString *) description andScope: (enum GPKGExtensionScopeType) scopeType;
+-(GPKGExtensions *) getOrCreateWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDefinition: (NSString *) definition andScope: (enum GPKGExtensionScopeType) scopeType;
 
 /**
  *  Get the extension for the name, table name, and column name

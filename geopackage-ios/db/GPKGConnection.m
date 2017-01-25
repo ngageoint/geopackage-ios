@@ -207,7 +207,7 @@
     
     BOOL exists = false;
     
-    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName]];
+    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", [GPKGSqlUtils quoteWrapName:tableName]]];
     @try{
         while ([result moveToNext]){
             NSString * name = [result getString:[result getColumnIndexWithName:@"name"]];
@@ -225,7 +225,7 @@
 }
 
 -(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef{
-    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", tableName, columnName, columndef]];
+    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", [GPKGSqlUtils quoteWrapName:tableName], [GPKGSqlUtils quoteWrapName:columnName], columndef]];
 }
 
 -(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
@@ -243,6 +243,49 @@
     NSData *bytes = [applicationId dataUsingEncoding:NSUTF8StringEncoding];
     int applicationIdData = CFSwapInt32BigToHost(*(int*)([bytes bytes]));
     [self exec:[NSString stringWithFormat:@"PRAGMA application_id = %d", applicationIdData]];
+}
+
+-(NSString *) applicationId{
+
+    NSString * applicationId = nil;
+    
+    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA application_id"]];
+    @try{
+        if([result moveToNext]){
+            NSNumber * resultNumber = [result getInt:0];
+            int applicationIdInt = CFSwapInt32HostToBig([resultNumber intValue]);
+            NSData * applicationIdData = [NSData dataWithBytes:&applicationIdInt length:4];
+            applicationId = [[NSString alloc] initWithData:applicationIdData encoding:NSUTF8StringEncoding];
+        }
+    }@finally{
+        [result close];
+    }
+    
+    return applicationId;
+}
+
+-(void) setUserVersion{
+    [self setUserVersion:(int)GPKG_USER_VERSION];
+}
+
+-(void) setUserVersion: (int) userVersion{
+    [self exec:[NSString stringWithFormat:@"PRAGMA user_version = %d", userVersion]];
+}
+
+-(int) userVersion{
+    
+    int userVersion = -1;
+    
+    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA user_version"]];
+    @try{
+        if([result moveToNext]){
+            userVersion = [[result getInt:0] intValue];
+        }
+    }@finally{
+        [result close];
+    }
+    
+    return userVersion;
 }
 
 -(void) dropTable: (NSString *) table{

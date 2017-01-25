@@ -23,6 +23,9 @@
 #import "GPKGTableIndex.h"
 #import "GPKGGeometryIndex.h"
 #import "GPKGFeatureTileLink.h"
+#import "GPKGGriddedCoverage.h"
+#import "GPKGGriddedTile.h"
+#import "GPKGSqlUtils.h"
 
 @implementation GPKGGeoPackageTableCreator
 
@@ -71,6 +74,14 @@
     return [self createTable:GPKG_EX_TABLE_NAME];
 }
 
+-(int) createGriddedCoverage{
+    return [self createTable:GPKG_EGC_TABLE_NAME];
+}
+
+-(int) createGriddedTile{
+    return [self createTable:GPKG_EGT_TABLE_NAME];
+}
+
 -(int) createTableIndex{
     return [self createTable:GPKG_TI_TABLE_NAME];
 }
@@ -108,7 +119,7 @@
     
     // Build the create table sql
     NSMutableString * sql = [[NSMutableString alloc] init];
-    [sql appendFormat:@"create table %@ (", table.tableName];
+    [sql appendFormat:@"create table %@ (", [GPKGSqlUtils quoteWrapName:table.tableName]];
     
     // Add each column to the sql
     NSArray * columns = [table columns];
@@ -117,7 +128,7 @@
         if(i > 0){
             [sql appendString:@","];
         }
-        [sql appendFormat:@"\n %@ %@", column.name, [GPKGDataTypes name:column.dataType]];
+        [sql appendFormat:@"\n %@ %@", [GPKGSqlUtils quoteWrapName:column.name], [GPKGDataTypes name:column.dataType]];
         if(column.max != nil){
             [sql appendFormat:@"(%@)", column.max];
         }

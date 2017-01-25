@@ -15,16 +15,19 @@
 #import <UIKit/UIKit.h>
 #import "GPKGCompressFormats.h"
 #import "GPKGImageConverter.h"
+#import "GPKGUtils.h"
+#import "GPKGAttributesColumn.h"
+#import "GPKGGeoPackageConstants.h"
 
 NSInteger const GPKG_TEST_SETUP_CREATE_SRS_COUNT = 3;
-NSInteger const GPKG_TEST_SETUP_CREATE_CONTENTS_COUNT = 5;
+NSInteger const GPKG_TEST_SETUP_CREATE_CONTENTS_COUNT = 6;
 NSInteger const GPKG_TEST_SETUP_CREATE_GEOMETRY_COLUMNS_COUNT = 4;
 NSInteger const GPKG_TEST_SETUP_CREATE_TILE_MATRIX_SET_COUNT = 1;
 NSInteger const GPKG_TEST_SETUP_CREATE_TILE_MATRIX_COUNT = 3;
 NSInteger const GPKG_TEST_SETUP_CREATE_DATA_COLUMN_COUNT = 4;
 NSInteger const GPKG_TEST_SETUP_CREATE_DATA_COLUMN_CONSTRAINTS_COUNT = 7;
-NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_COUNT = 3;
-NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_REFERENCE_COUNT = 3;
+NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_COUNT = 4;
+NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_REFERENCE_COUNT = 13;
 NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
 
 @implementation GPKGTestSetupTeardown
@@ -45,6 +48,16 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
     }
+    
+    [GPKGTestUtils assertEqualWithValue:[geoPackage applicationId] andValue2:GPKG_APPLICATION_ID];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersion] andValue2:(int)GPKG_USER_VERSION];
+    NSString * userVersionString= [NSString stringWithFormat:@"%d",[geoPackage userVersion]];
+    NSString * majorVersion = [userVersionString substringWithRange:NSMakeRange(0, userVersionString.length - 4)];
+    NSString * minorVersion = [userVersionString substringWithRange:NSMakeRange(userVersionString.length - 4, userVersionString.length - 3)];
+    NSString * patchVersion = [userVersionString substringFromIndex:userVersionString.length - 2];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionMajor] andValue2:[majorVersion intValue]];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionMinor] andValue2:[minorVersion intValue]];
+    [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionPatch] andValue2:[patchVersion intValue]];
     
     if(features){
         [self setUpCreateFeaturesWithGeoPackage:geoPackage];
@@ -109,9 +122,9 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     
     GPKGMetadataReference * reference3 = [[GPKGMetadataReference alloc] init];
     [reference3 setReferenceScopeType:GPKG_RST_ROW_COL];
-    [reference2 setTableName:@"TEST_TABLE_NAME_3"];
-    [reference2 setColumnName:@"TEST_COLUMN_NAME_3"];
-    [reference2 setRowIdValue:[NSNumber numberWithInt:5]];
+    [reference3 setTableName:@"TEST_TABLE_NAME_3"];
+    [reference3 setColumnName:@"TEST_COLUMN_NAME_3"];
+    [reference3 setRowIdValue:[NSNumber numberWithInt:5]];
     [reference3 setTimestamp:[NSDate date]];
     [reference3 setMetadata:metadata3];
     [metadataReferenceDao create:reference3];
@@ -140,6 +153,103 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [extensions3 setDefinition:@"TEST DEFINITION 3"];
     [extensions3 setExtensionScopeType:GPKG_EST_READ_WRITE];
     [extensionsDao create:extensions3];
+    
+    // Attributes
+    
+    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:6 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:5 andName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:false andDefaultValue:nil] toArray:columns];
+    
+    GPKGAttributesTable * attributesTable = [geoPackage createAttributesTableWithTableName:@"test_attributes" andAdditionalColumns:columns];
+    [GPKGTestUtils assertNotNil:attributesTable];
+    GPKGContents * attributesContents = attributesTable.contents;
+    [GPKGTestUtils assertNotNil:attributesContents];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents getContentsDataType]];
+    [GPKGTestUtils assertEqualWithValue:@"test_attributes" andValue2:attributesContents.tableName];
+    [GPKGTestUtils assertEqualWithValue:attributesContents.tableName andValue2:attributesTable.tableName];
+    
+    GPKGMetadata * attributesMetadata = [[GPKGMetadata alloc] init];
+    [attributesMetadata setId:[NSNumber numberWithInt:4]];
+    [attributesMetadata setMetadataScopeType:GPKG_MST_ATTRIBUTE_TYPE];
+    [attributesMetadata setStandardUri:@"ATTRIBUTES_TEST_URI"];
+    [attributesMetadata setMimeType:@"text/plain"];
+    [attributesMetadata setMetadata:@"ATTRIBUTES METADATA"];
+    [metadataDao create:attributesMetadata];
+    
+    GPKGAttributesDao * attributesDao = [geoPackage getAttributesDaoWithTableName:attributesTable.tableName];
+    
+    for (int i = 0; i < 10; i++) {
+        
+        GPKGAttributesRow * newRow = [attributesDao newRow];
+        
+        for (GPKGAttributesColumn * column in attributesTable.columns) {
+            if(!column.primaryKey){
+                
+                // Leave nullable columns null 20% of the time
+                if(!column.notNull){
+                    if ([GPKGTestUtils randomDouble] < 0.2) {
+                        continue;
+                    }
+                }
+                
+                NSObject * value = nil;
+                
+                switch (column.dataType) {
+                        
+                    case GPKG_DT_TEXT:
+                    {
+                        NSString * text = [[NSProcessInfo processInfo] globallyUniqueString];
+                        if(column.max != nil && [text length] > [column.max intValue]){
+                            text = [text substringToIndex:[column.max intValue]];
+                        }
+                        value = text;
+                    }
+                        break;
+                    case GPKG_DT_REAL:
+                    case GPKG_DT_DOUBLE:
+                        value = [GPKGTestUtils roundDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
+                        break;
+                    case GPKG_DT_BOOLEAN:
+                        value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)];
+                        break;
+                    case GPKG_DT_INTEGER:
+                    case GPKG_DT_INT:
+                        value = [NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]];
+                        break;
+                    case GPKG_DT_BLOB:
+                    {
+                        NSData * blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                        if(column.max != nil && [blob length] > [column.max intValue]){
+                            blob = [blob subdataWithRange:NSMakeRange(0, [column.max intValue])];
+                        }
+                        value = blob;
+                    }
+                        break;
+                    default:
+                        [NSException raise:@"Not implemented" format:@"Not implemented for data type: %u", column.dataType];
+                }
+                
+                [newRow setValueWithColumnName:column.name andValue:value];
+                
+            }
+        }
+        int rowId = (int)[attributesDao create:newRow];
+        
+        GPKGMetadataReference * attributesReference = [[GPKGMetadataReference alloc] init];
+        [attributesReference setReferenceScopeType:GPKG_RST_ROW];
+        [attributesReference setTableName:attributesTable.tableName];
+        [attributesReference setRowIdValue:[NSNumber numberWithInt:rowId]];
+        [attributesReference setTimestamp:[NSDate date]];
+        [attributesReference setMetadata:attributesMetadata];
+        [metadataReferenceDao create:attributesReference];
+        
+    }
 }
 
 +(void) setUpCreateFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage{

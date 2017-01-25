@@ -159,7 +159,7 @@
   md_scope TEXT NOT NULL DEFAULT &apos;dataset&apos;,
   md_standard_uri TEXT NOT NULL,
   mime_type TEXT NOT NULL DEFAULT &apos;text/xml&apos;,
-  metadata TEXT NOT NULL
+  metadata TEXT NOT NULL DEFAULT &apos;&apos;
 );</string>
 	</array>
 	<key>gpkg_metadata_reference</key>
@@ -210,6 +210,14 @@
   CONSTRAINT pk_ngi PRIMARY KEY (table_name, geom_id),
   CONSTRAINT fk_ngi_nti_tn FOREIGN KEY (table_name) REFERENCES nga_table_index(table_name)
 );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_min_x ON nga_geometry_index ( min_x );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_max_x ON nga_geometry_index ( max_x );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_min_y ON nga_geometry_index ( min_y );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_max_y ON nga_geometry_index ( max_y );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_min_z ON nga_geometry_index ( min_z );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_max_z ON nga_geometry_index ( max_z );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_min_m ON nga_geometry_index ( min_m );</string>
+		<string>CREATE INDEX idx_nga_geometry_index_max_m ON nga_geometry_index ( max_m );</string>
 	</array>
 	<key>nga_feature_tile_link</key>
 	<array>
@@ -254,6 +262,36 @@
   CONSTRAINT pk_geom_metadata PRIMARY KEY (geopackage_id, table_name, geom_id),
   CONSTRAINT fk_gm_tm_gp FOREIGN KEY (geopackage_id) REFERENCES geopackage_table(geopackage_id),
   CONSTRAINT fk_gm_tm FOREIGN KEY (table_name) REFERENCES geopackage_table(table_name)
+);</string>
+	</array>
+	<key>gpkg_2d_gridded_coverage_ancillary</key>
+	<array>
+		<string>CREATE TABLE &apos;gpkg_2d_gridded_coverage_ancillary&apos; (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tile_matrix_set_name TEXT NOT NULL UNIQUE,
+  datatype TEXT NOT NULL DEFAULT &apos;integer&apos;,
+  scale REAL DEFAULT 1.0,
+  offset REAL DEFAULT 0.0,
+  precision REAL DEFAULT 1.0,
+  data_null REAL,
+  CONSTRAINT fk_g2dgtct_name FOREIGN KEY(&apos;tile_matrix_set_name&apos;) REFERENCES gpkg_tile_matrix_set ( table_name )
+  CHECK (datatype in (&apos;integer&apos;,&apos;float&apos;))
+ );</string>
+	</array>
+	<key>gpkg_2d_gridded_tile_ancillary</key>
+	<array>
+		<string>CREATE TABLE gpkg_2d_gridded_tile_ancillary (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tpudt_name TEXT NOT NULL,
+  tpudt_id INTEGER NOT NULL,
+  scale REAL DEFAULT 1.0,
+  offset REAL DEFAULT 0.0,
+  min REAL DEFAULT NULL,
+  max REAL DEFAULT NULL,
+  mean REAL DEFAULT NULL,
+  std_dev REAL DEFAULT NULL,
+  CONSTRAINT fk_g2dgtat_name FOREIGN KEY (tpudt_name) REFERENCES gpkg_contents(table_name),
+  UNIQUE (tpudt_name, tpudt_id)
 );</string>
 	</array>
 </dict>

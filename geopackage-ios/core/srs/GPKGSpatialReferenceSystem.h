@@ -19,7 +19,7 @@ extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION;
 extern NSString * const GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID;
 extern NSString * const GPKG_SRS_COLUMN_DEFINITION;
 extern NSString * const GPKG_SRS_COLUMN_DESCRIPTION;
-extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_163;
+extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
 
 /**
  * Spatial Reference System object. The coordinate reference system definitions
@@ -62,6 +62,6 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_163;
 /**
  *  Well-known Text [34] Representation of the Spatial Reference System
  */
-@property (nonatomic, strong) NSString *definition_12_163;
+@property (nonatomic, strong) NSString *definition_12_063;
 
 @end

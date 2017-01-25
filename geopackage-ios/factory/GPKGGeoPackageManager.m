@@ -229,8 +229,9 @@
     GPKGConnection * connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsDatabasePath];
     @try {
         
-        // Set the application id as a GeoPackage
+        // Set the GeoPackage application id and user version
         [connection setApplicationId];
+        [connection setUserVersion];
         
         // Create the minimum required tables
         GPKGGeoPackageTableCreator * tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:connection];

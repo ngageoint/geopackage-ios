@@ -27,20 +27,6 @@ extern NSString * const GPKG_CON_COLUMN_MAX_Y;
 extern NSString * const GPKG_CON_COLUMN_SRS_ID;
 
 /**
- *  Contents Data Type enumeration
- */
-enum GPKGContentsDataType{
-    GPKG_CDT_FEATURES,
-    GPKG_CDT_TILES
-};
-
-/**
- *  Contents Data Type enumeration names
- */
-extern NSString * const GPKG_CDT_FEATURES_NAME;
-extern NSString * const GPKG_CDT_TILES_NAME;
-
-/**
  * Contents object. Provides identifying and descriptive information that an
  * application can display to a user in a menu of geospatial data that is
  * available for access and/or update.

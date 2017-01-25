@@ -372,7 +372,7 @@
     
     // Find the longitude range
     double minLon = matrixMinX + (tileWidth * tileGrid.minX);
-    double maxLon = minLon + (tileWidth * (tileGrid.maxX + 1 - tileGrid.minX));
+    double maxLon = matrixMinX + (tileWidth * (tileGrid.maxX + 1));
     
     // Get the tile height
     double matrixMinY = [totalBox.minLatitude doubleValue];
@@ -382,7 +382,7 @@
     
     // Find the latitude range
     double maxLat = matrixMaxY - (tileHeight * tileGrid.minY);
-    double minLat = maxLat - (tileHeight * (tileGrid.maxY + 1 - tileGrid.minY));
+    double minLat = matrixMaxY - (tileHeight * (tileGrid.maxY + 1));
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMaxLongitudeDouble:maxLon andMinLatitudeDouble:minLat andMaxLatitudeDouble:maxLat];
     

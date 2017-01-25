@@ -7,6 +7,7 @@
 //
 
 #import "GPKGTileMatrix.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_TM_TABLE_NAME = @"gpkg_tile_matrix";
 NSString * const GPKG_TM_COLUMN_PK1 = @"table_name";
@@ -26,8 +27,8 @@ NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
     if(contents != nil){
         // Verify the Contents have a tiles data type (Spec Requirement 42)
         enum GPKGContentsDataType dataType = contents.getContentsDataType;
-        if(dataType != GPKG_CDT_TILES){
-            [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix must have a data type of tiles"];
+        if(dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_ELEVATION_TILES){
+            [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix must have a data type of %@ or %@", [GPKGContentsDataTypes name:GPKG_CDT_TILES], [GPKGContentsDataTypes name:GPKG_CDT_ELEVATION_TILES]];
         }
         self.tableName = contents.tableName;
     }else{

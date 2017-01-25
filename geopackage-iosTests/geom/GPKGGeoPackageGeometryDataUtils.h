@@ -16,4 +16,6 @@
 
 +(void) testGeometryProjectionTransform: (GPKGGeoPackage *) geoPackage;
 
++(void) compareByteArrayWithExpected: (NSData *) expected andActual: (NSData *) actual;
+
 @end

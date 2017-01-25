@@ -7,6 +7,7 @@
 //
 
 #import "GPKGGeometryColumns.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_GC_TABLE_NAME = @"gpkg_geometry_columns";
 NSString * const GPKG_GC_COLUMN_PK1 = @"table_name";

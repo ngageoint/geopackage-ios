@@ -427,7 +427,7 @@
 
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
-    [whereString appendFormat:@"%@ ", field];
+    [whereString appendFormat:@"%@ ", [GPKGSqlUtils quoteWrapName:field]];
     if(value == nil){
         [whereString appendString:@"is null"];
     }else{
@@ -442,12 +442,12 @@
     
     if(value != nil){
         if(value.value != nil && value.tolerance != nil){
-            [whereString appendFormat:@"%@ >= ? and %@ <= ?", field, field];
+            [whereString appendFormat:@"%@ >= ? and %@ <= ?", [GPKGSqlUtils quoteWrapName:field], [GPKGSqlUtils quoteWrapName:field]];
         }else{
             [whereString appendString:[self buildWhereWithField:field andValue:value.value]];
         }
     }else{
-        [whereString appendString:[self buildWhereWithField:field andValue:nil]];
+        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:@"="]];
     }
     
     return whereString;

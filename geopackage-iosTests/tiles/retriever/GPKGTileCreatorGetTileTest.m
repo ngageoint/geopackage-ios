@@ -110,6 +110,8 @@
             [GPKGTestUtils assertTrue:alpha > 0];
         }
     }
+    
+    free(pixels);
 }
 
 @end

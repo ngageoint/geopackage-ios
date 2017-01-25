@@ -139,22 +139,14 @@
                 }
             }
             break;
-        case GPKG_CDT_TILES:{
-                // Tiles require Tile Matrix Set table (Spec Requirement 37)
-                GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
-                if(![tileMatrixSetDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_TMS_TABLE_NAME];
-                }
-            
-                // Tiles require Tile Matrix table (Spec Requirement 41)
-                GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
-                if(![tileMatrixDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_TM_TABLE_NAME];
-                }
-            }
-            
+        case GPKG_CDT_TILES:
+                [self verifyTiles:dataType];
             break;
-            
+        case GPKG_CDT_ELEVATION_TILES:
+                [self verifyTiles:dataType];
+            break;
+        case GPKG_CDT_ATTRIBUTES:
+            break;
         default:
             [NSException raise:@"Illegal Data Type" format:@"Unsupported data type: %d", dataType];
             break;
@@ -164,6 +156,48 @@
     if(![self.database tableExists:validateObject.tableName]){
         [NSException raise:@"Missing Table" format:@"No table exists for Content Table Name: %@. Table must first be created.", validateObject.tableName];
     }
+}
+
+-(void) verifyTiles: (enum GPKGContentsDataType) dataType{
+    
+    // Tiles require Tile Matrix Set table (Spec Requirement 37)
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+    if(![tileMatrixSetDao tableExists]){
+        [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TMS_TABLE_NAME];
+    }
+    
+    // Tiles require Tile Matrix table (Spec Requirement 41)
+    GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+    if(![tileMatrixDao tableExists]){
+        [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TM_TABLE_NAME];
+    }
+}
+
+-(NSArray *) getTablesOfType: (enum GPKGContentsDataType) dataType{
+    GPKGResultSet * contents = [self getContentsOfType:dataType];
+    NSMutableArray * tableNames = [[NSMutableArray alloc] init];
+    while([contents moveToNext]){
+        GPKGContents * content = (GPKGContents *)[self getObject:contents];
+        [tableNames addObject:content.tableName];
+    }
+    [contents close];
+    return tableNames;
+}
+
+-(GPKGResultSet *) getContentsOfType: (enum GPKGContentsDataType) dataType{
+    GPKGResultSet * contents = [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:[GPKGContentsDataTypes name:dataType]];
+    return contents;
+}
+
+-(NSArray *) getTables{
+    GPKGResultSet * contents = [self queryForAll];
+    NSMutableArray * tableNames = [[NSMutableArray alloc] init];
+    while([contents moveToNext]){
+        GPKGContents * content = (GPKGContents *)[self getObject:contents];
+        [tableNames addObject:content.tableName];
+    }
+    [contents close];
+    return tableNames;
 }
 
 -(int) deleteCascade: (GPKGContents *) contents{

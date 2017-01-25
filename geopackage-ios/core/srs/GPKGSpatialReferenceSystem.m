@@ -16,7 +16,7 @@ NSString * const GPKG_SRS_COLUMN_ORGANIZATION = @"organization";
 NSString * const GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID = @"organization_coordsys_id";
 NSString * const GPKG_SRS_COLUMN_DEFINITION = @"definition";
 NSString * const GPKG_SRS_COLUMN_DESCRIPTION = @"description";
-NSString * const GPKG_SRS_COLUMN_DEFINITION_12_163 = @"definition_12_163";
+NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
 
 @implementation GPKGSpatialReferenceSystem
 

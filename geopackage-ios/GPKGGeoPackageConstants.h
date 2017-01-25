@@ -13,8 +13,14 @@
  *  GeoPackage constants
  */
 extern NSString * const GPKG_GEOPACKAGE_EXTENSION;
-extern NSString * const GPKG_GEOPACKAGE_EXTENDED_EXTENSION;
+
+/**
+ * @deprecated in GeoPackage version 1.2
+ */
+extern NSString * const GPKG_GEOPACKAGE_EXTENDED_EXTENSION __attribute__((deprecated));
+
 extern NSString * const GPKG_APPLICATION_ID;
+extern NSInteger const GPKG_USER_VERSION;
 extern NSString * const GPKG_METADATA_APPLICATION_ID;
 extern NSString * const GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER;
 extern NSInteger const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1;

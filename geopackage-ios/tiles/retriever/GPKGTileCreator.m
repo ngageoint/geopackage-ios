@@ -285,6 +285,7 @@
             projectedPixels[(((y * requestedTileWidth) + x) * 4) + 3] = pixels[(((yPixel * width) + xPixel) * 4) + 3];
         }
     }
+    free(pixels);
     
     // Draw the new tile image
     CGColorSpaceRef projectedTileColorSpace = CGColorSpaceCreateDeviceRGB();
@@ -293,6 +294,8 @@
     UIImage * projectedTileImage = [[UIImage alloc] initWithCGImage:projectedImageRef];
     CGColorSpaceRelease(projectedTileColorSpace);
     CGContextRelease(projectedContext);
+    
+    free(projectedPixels);
     
     return projectedTileImage;
 }
@@ -305,11 +308,13 @@
     if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:projectedRequestBoundingBox andBoundingBox:self.tileSetBoundingBox] != nil){
         
         // Get the tile distance
-        double distance = [projectedRequestBoundingBox.maxLongitude doubleValue]
+        double distanceWidth = [projectedRequestBoundingBox.maxLongitude doubleValue]
             - [projectedRequestBoundingBox.minLongitude doubleValue];
+        double distanceHeight = [projectedRequestBoundingBox.maxLatitude doubleValue]
+        - [projectedRequestBoundingBox.minLatitude doubleValue];
         
         // Get the zoom level to request based upon the tile size
-        NSNumber * zoomLevel = [self.tileDao getZoomLevelWithLength:distance];
+        NSNumber * zoomLevel = [self.tileDao zoomLevelWithWidth: distanceWidth andHeight: distanceHeight];
         
         // If there is a matching zoom level
         if (zoomLevel != nil) {

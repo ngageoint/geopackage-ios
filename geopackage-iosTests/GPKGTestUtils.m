@@ -52,6 +52,16 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     }
 }
 
++(void)assertEqualDecimalNumberWithValue:(NSDecimalNumber *) value andValue2: (NSDecimalNumber *) value2 andDelta: (double) delta{
+    if(value == nil){
+        if(value2 != nil){
+            [NSException raise:@"Assert Decimal Number Equal" format:@"Value 1: '%@' is not equal to Value 2: '%@'", value, value2];
+        }
+    } else{
+        [self assertEqualDoubleWithValue:[value doubleValue] andValue2:[value2 doubleValue] andDelta:delta];
+    }
+}
+
 +(void)assertEqualBoolWithValue:(BOOL) value andValue2: (BOOL) value2{
     if(value != value2){
         [NSException raise:@"Assert Equal BOOL" format:@"Value 1: '%d' is not equal to Value 2: '%d'", value, value2];
@@ -73,6 +83,26 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta{
     if(fabsl(value - value2) > delta){
         [NSException raise:@"Assert Equal double" format:@"Value 1: '%f' is not equal to Value 2: '%f' within delta: '%f'", value, value2, delta];
+    }
+}
+
++(BOOL) equalDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta{
+    return fabsl(value - value2) <= delta;
+}
+
++(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andPercentage: (double) percentage{
+    if(fabsl(value - value2) > percentage * MAX(fabsl(value), fabsl(value2))){
+        [NSException raise:@"Assert Equal double" format:@"Value 1: '%f' is not equal to Value 2: '%f' within percentage: '%f'", value, value2, percentage];
+    }
+}
+
++(void)assertEqualDataWithValue:(NSData *) value andValue2: (NSData *) value2{
+    if(value == nil){
+        if(value2 != nil){
+            [NSException raise:@"Assert Data Equal" format:@"Value 1: '%@' is not equal to Value 2: '%@'", value, value2];
+        }
+    } else if(![value isEqualToData:value2]){
+        [NSException raise:@"Assert Data Equal" format:@"Value 1: '%@' is not equal to Value 2: '%@'", value, value2];
     }
 }
 
@@ -386,6 +416,39 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [self assertNil:[geoPackage foreignKeyCheck]];
     [self assertNil:[geoPackage integrityCheck]];
     [self assertNil:[geoPackage quickCheck]];
+}
+
++(void) validateIntegerValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType{
+    
+    switch(dataType){
+        case GPKG_DT_BOOLEAN:
+        case GPKG_DT_TINYINT:
+        case GPKG_DT_SMALLINT:
+        case GPKG_DT_MEDIUMINT:
+        case GPKG_DT_INT:
+        case GPKG_DT_INTEGER:
+            [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
+            break;
+        default:
+            [NSException raise:@"Integer Data Type" format:@"Data Type %u is not an integer type", dataType];
+    }
+}
+
++(void) validateFloatValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType{
+    
+    switch(dataType){
+        case GPKG_DT_FLOAT:
+        case GPKG_DT_DOUBLE:
+        case GPKG_DT_REAL:
+            {
+                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
+                NSDecimalNumber * decimalNumber = ((NSDecimalNumber *)value);
+                [GPKGTestUtils assertNotNil:decimalNumber];
+            }
+            break;
+        default:
+            [NSException raise:@"Float Data Type" format:@"Data Type %u is not a float type", dataType];
+    }
 }
 
 @end

@@ -137,6 +137,11 @@
     [GPKGTestUtils assertTrue:greenDiff > self.colorTolerance];
     [GPKGTestUtils assertTrue:blueDiff > self.colorTolerance];
 
+    free(webMercatorPixels);
+    free(webMercatorTestPixels);
+    free(wgs84Pixels);
+    free(wgs84TestPixels);
+    
     // To save the images to user documents directory if the test images need to change
     /*
     NSString * saveLocation = @"/Users/osbornb/Documents/";
@@ -193,6 +198,8 @@
             [GPKGTestUtils assertTrue:alpha > 0];
         }
     }
+    
+    free(pixels);
 }
 
 @end

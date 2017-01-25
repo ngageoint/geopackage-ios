@@ -16,6 +16,8 @@
 #import "GPKGCrsWktExtension.h"
 #import "GPKGSchemaExtension.h"
 #import "GPKGMetadataExtension.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGAttributesTableReader.h"
 
 @interface GPKGGeoPackage()
 
@@ -42,33 +44,58 @@
     [self.database close];
 }
 
+-(NSString *) applicationId{
+    return [self.database applicationId];
+}
+
+-(int) userVersion{
+    return [self.database userVersion];
+}
+
+-(int) userVersionMajor{
+    return [self userVersion] / 10000;
+}
+
+-(int) userVersionMinor{
+    return ([self userVersion] % 10000) / 100;
+}
+
+-(int) userVersionPatch{
+    return [self userVersion] % 100;
+}
+
 -(NSArray *)getFeatureTables{
-    NSArray * tables = nil;
-    GPKGGeometryColumnsDao *dao = [self getGeometryColumnsDao];
-    if([dao tableExists]){
-        tables = [dao getFeatureTables];
-    }else{
-        tables = [[NSArray alloc] init];
-    }
-    return tables;
+    NSArray * tableNames = [self getTablesByType:GPKG_CDT_FEATURES];
+    return tableNames;
 }
 
 -(NSArray *)getTileTables{
-    NSArray * tables = nil;
-    GPKGTileMatrixSetDao *dao = [self getTileMatrixSetDao];
-    if([dao tableExists]){
-        tables = [dao getTileTables];
-    }else{
-        tables = [[NSArray alloc] init];
-    }
-    return tables;
+    NSArray * tableNames = [self getTablesByType:GPKG_CDT_TILES];
+    return tableNames;
 }
 
--(NSArray *)getTables{
+-(NSArray *)getAttributesTables{
+    NSArray * tableNames = [self getTablesByType:GPKG_CDT_ATTRIBUTES];
+    return tableNames;
+}
+
+-(NSArray *)getTablesByType: (enum GPKGContentsDataType) type{
+    GPKGContentsDao * contentsDao = [self getContentsDao];
+    NSArray * tableNames = [contentsDao getTablesOfType:type];
+    return tableNames;
+}
+
+-(NSArray *)getFeatureAndTileTables{
     NSMutableArray * tables = [[NSMutableArray alloc] init];
     [tables addObjectsFromArray:[self getFeatureTables]];
     [tables addObjectsFromArray:[self getTileTables]];
     return tables;
+}
+
+-(NSArray *)getTables{
+    GPKGContentsDao * contentsDao = [self getContentsDao];
+    NSArray * tableNames = [contentsDao getTables];
+    return tableNames;
 }
 
 -(BOOL) isFeatureTable: (NSString *) table{
@@ -81,7 +108,17 @@
     return [tileTables containsObject:table];
 }
 
+-(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
+    NSSet * tables = [[NSSet alloc] initWithArray:[self getTablesByType:type]];
+    return [tables containsObject:table];
+}
+
 -(BOOL) isFeatureOrTileTable: (NSString *) table{
+    NSSet * tables = [[NSSet alloc] initWithArray:[self getFeatureAndTileTables]];
+    return [tables containsObject:table];
+}
+
+-(BOOL) isTable: (NSString *) table{
     NSSet * tables = [[NSSet alloc] initWithArray:[self getTables]];
     return [tables containsObject:table];
 }
@@ -267,10 +304,19 @@
 }
 
 -(GPKGTileMatrixSet *) createTileTableWithTableName: (NSString *) tableName
-                                                andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
-                                                andContentsSrsId: (NSNumber *) contentsSrsId
-                                                andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
-                                                andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
+                             andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
+                                   andContentsSrsId: (NSNumber *) contentsSrsId
+                        andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
+                              andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
+    return [self createTileTableWithType:GPKG_CDT_TILES andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
+}
+
+-(GPKGTileMatrixSet *) createTileTableWithType: (enum GPKGContentsDataType) type
+                                  andTableName: (NSString *) tableName
+                        andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
+                              andContentsSrsId: (NSNumber *) contentsSrsId
+                   andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
+                         andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
     
     GPKGTileMatrixSet * tileMatrixSet = nil;
     
@@ -291,7 +337,7 @@
         // Create the contents
         GPKGContents * contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
-        [contents setDataType:GPKG_CDT_TILES_NAME];
+        [contents setContentsDataType:type];
         [contents setIdentifier:tableName];
         [contents setLastChange:[NSDate date]];
         [contents setMinX:contentsBoundingBox.minLongitude];
@@ -580,6 +626,33 @@
     return [self getTileDaoWithTileMatrixSet:tileMatrixSet];
 }
 
+-(GPKGAttributesDao *) getAttributesDaoWithContents: (GPKGContents *) contents{
+    if(contents == nil){
+        [NSException raise:@"Illegal Argument" format:@"Non null Contents is required to create Attributes DAO"];
+    }
+    if([contents getContentsDataType] != GPKG_CDT_ATTRIBUTES){
+        [NSException raise:@"Illegal Argument" format:@"Contents is required to be of type Attributes. Actual: %@", contents.dataType];
+    }
+    
+    // Read the existing table and create the dao
+    GPKGAttributesTableReader * tableReader = [[GPKGAttributesTableReader alloc] initWithTableName:contents.tableName];
+    GPKGAttributesTable * attributesTable = [tableReader readAttributesTableWithConnection:self.database];
+    [attributesTable setContents:contents];
+    GPKGAttributesDao * dao = [[GPKGAttributesDao alloc] initWithDatabase:self.database andTable:attributesTable];
+    
+    return dao;
+}
+
+-(GPKGAttributesDao *) getAttributesDaoWithTableName: (NSString *) tableName{
+
+    GPKGContentsDao * dao = [self getContentsDao];
+    GPKGContents * contents = (GPKGContents *)[dao queryForIdObject:tableName];
+    if(contents == nil){
+        [NSException raise:@"No Contents" format:@"No Contents Table entry exists for table name: %@", tableName];
+    }
+    return [self getAttributesDaoWithContents:contents];
+}
+
 -(void) execSQL: (NSString *) sql{
     [self.database exec:sql];
 }
@@ -630,13 +703,109 @@
 -(void) dropSQLiteTriggers: (GPKGGeometryColumns *) geometryColumns{
     
     if (self.writable) {
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_insert", geometryColumns.tableName, geometryColumns.columnName]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update1", geometryColumns.tableName, geometryColumns.columnName]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update2", geometryColumns.tableName, geometryColumns.columnName]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update3", geometryColumns.tableName, geometryColumns.columnName]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_update4", geometryColumns.tableName, geometryColumns.columnName]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS rtree_%@_%@_delete", geometryColumns.tableName, geometryColumns.columnName]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_insert", geometryColumns.tableName, geometryColumns.columnName]]]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update1", geometryColumns.tableName, geometryColumns.columnName]]]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update2", geometryColumns.tableName, geometryColumns.columnName]]]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update3", geometryColumns.tableName, geometryColumns.columnName]]]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update4", geometryColumns.tableName, geometryColumns.columnName]]]];
+        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
+            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_delete", geometryColumns.tableName, geometryColumns.columnName]]]];
     }
+}
+
+-(GPKGGriddedCoverageDao *) getGriddedCoverageDao{
+    return [[GPKGGriddedCoverageDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createGriddedCoverageTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGGriddedCoverageDao * dao = [self getGriddedCoverageDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createGriddedCoverage] > 0;
+    }
+    
+    return created;
+}
+
+-(GPKGGriddedTileDao *) getGriddedTileDao{
+    return [[GPKGGriddedTileDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createGriddedTileTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGGriddedTileDao * dao = [self getGriddedTileDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createGriddedTile] > 0;
+    }
+    
+    return created;
+}
+
+-(void) createAttributesTable: (GPKGAttributesTable *) table{
+    [self verifyWritable];
+    
+    [self.tableCreator createUserTable:table];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns{
+    
+    if(idColumnName == nil){
+        idColumnName = @"id";
+    }
+    
+    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:idColumnName]];
+    
+    if(additionalColumns != nil){
+        [columns addObjectsFromArray:additionalColumns];
+    }
+    
+    return [self createAttributesTableWithTableName:tableName andColumns:columns];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                                 andColumns: (NSArray *) columns{
+    
+    // Create the user attributes table
+    GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
+    [self createAttributesTable:table];
+    
+    @try {
+        
+        // Create the contents
+        GPKGContents * contents = [[GPKGContents alloc] init];
+        [contents setTableName:tableName];
+        [contents setDataType:GPKG_CDT_ATTRIBUTES_NAME];
+        [contents setIdentifier:tableName];
+        [contents setLastChange:[NSDate date]];
+        [[self getContentsDao] create:contents];
+        
+        [table setContents:contents];
+    }
+    @catch (NSException *e) {
+        [self deleteUserTableQuietly:tableName];
+        @throw e;
+    }
+    
+    return table;
 }
 
 -(GPKGSpatialReferenceSystem *) getSrs: (NSNumber *) srsId{

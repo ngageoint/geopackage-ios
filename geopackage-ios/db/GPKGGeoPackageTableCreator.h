@@ -93,6 +93,20 @@
 -(int) createExtensions;
 
 /**
+ * Create the Tile Gridded Elevation Coverage extension table
+ *
+ * @return executed statements
+ */
+-(int) createGriddedCoverage;
+
+/**
+ * Create the Tile Gridded Elevation Tile extension table
+ *
+ * @return executed statements
+ */
+-(int) createGriddedTile;
+
+/**
  *  Create Table Index table
  *
  *  @return tables created
