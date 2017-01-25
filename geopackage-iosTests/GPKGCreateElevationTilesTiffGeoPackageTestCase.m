@@ -121,8 +121,8 @@
     
     int width = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
     int height = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
-    int tileWidth = 3 + (int) floor(([GPKGTestUtils randomDouble] * 62.0));
-    int tileHeight = 3 + (int) floor(([GPKGTestUtils randomDouble] * 62.0));
+    int tileWidth = 3 + (int) floor(([GPKGTestUtils randomDouble] * 30.0));
+    int tileHeight = 3 + (int) floor(([GPKGTestUtils randomDouble] * 30.0));
     int minZoomLevel = (int) floor([GPKGTestUtils randomDouble] * 22.0);
     int maxZoomLevel = minZoomLevel + (int) floor([GPKGTestUtils randomDouble] * 3.0);
     
