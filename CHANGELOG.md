@@ -6,7 +6,24 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.2.1 (TBD)
 
-* TBD
+* GeoPackage spec version 1.2 changes and updates
+* Elevation Extension support (PNG & TIFF)
+* User Attributes table support
+* tiff-ios dependency for TIFF support
+* Elevation Tiles table type (2d-gridded-coverage)
+* Contents Data Type (features, tiles, attributes, elevation) functionality
+* Built in support for WGS 84 Geographic 3d projection (EPSG:4979)
+* Table and column name SQL quotations to allow uncommon but valid names
+* Elevation query algorithms including Nearest Neighbor, Bilinear, and Bicubic
+* Elevation unbounded results elevation queries
+* Tile bounding box utility methods precision adjustments
+* Spatial Reference System definition_12_163 column changed to definition_12_063
+* Deprecated the User Geometry Types Extension per spec removal
+* Deprecated gpkx file extension for extended GeoPackages per spec removal
+* GeoPackage application id and user version
+* Additional Tile Dao zoom level determinations, including the closest
+* Zoom level determination using width and height
+* Resource cleanup including fix for [Issue #25](https://github.com/ngageoint/geopackage-ios/issues/25)
 
 ## [1.2.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.0) (06-23-2016)
 
