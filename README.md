@@ -44,29 +44,29 @@ The [Disconnected Interactive Content Explorer (DICE)](https://github.com/ngageo
 GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
 
 // Available databases
-NSArray * databases = [self.manager databases];
+NSArray * databases = [manager databases];
 
 // Import database
 BOOL imported = [manager importGeoPackageFromPath:geoPackageFile];
 
 // Open database
-GPKGGeoPackage * geoPackage = [manager open:[databases objectAtIndex:0]);
+GPKGGeoPackage * geoPackage = [manager open:[databases objectAtIndex:0]];
 
 // GeoPackage Table DAOs
 GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
 GPKGContentsDao * contentsDao =  [geoPackage getContentsDao];
 GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
 GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
-GPKGDataColumnsDao *dataColumnsDao = [self getDataColumnsDao];
-GPKGDataColumnConstraintsDao * dataColumnConstraintsDao = [self getDataColumnConstraintsDao];
-GPKGMetadataDao * metadataDao = [self getMetadataDao];
-GPKGMetadataReferenceDao * metadataReferenceDao = [self getMetadataReferenceDao];
-GPKGExtensionsDao * extensionsDao = [self getExtensionsDao];
+GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
+GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+GPKGDataColumnConstraintsDao * dataColumnConstraintsDao = [geoPackage getDataColumnConstraintsDao];
+GPKGMetadataDao * metadataDao = [geoPackage getMetadataDao];
+GPKGMetadataReferenceDao * metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
 
 // Feature and tile tables
-NSArray * features = [geopackage getFeatureTables];
-NSArray * tiles = [geopackage getTileTables];
+NSArray * features = [geoPackage getFeatureTables];
+NSArray * tiles = [geoPackage getTileTables];
 
 // Query Features
 NSString * featureTable = [features objectAtIndex:0];
@@ -103,20 +103,23 @@ GPKGResultSet * tileResults = [tileDao queryForAll];
 
 // Tile Overlay (GeoPackage or Standard API)
 MKTileOverlay * tileOverlay = [GPKGOverlayFactory getTileOverlayWithTileDao:tileDao];
-tileOverlay.canReplaceMapContent = false
+tileOverlay.canReplaceMapContent = false;
 [mapView addOverlay:tileOverlay];
 
 // Feature Tile Overlay (dynamically draw tiles from features)
 GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
 GPKGFeatureOverlay * featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
-[self.mapView addOverlay:featureOverlay];
+[mapView addOverlay:featureOverlay];
+
+GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
+GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
 
 // URL Tile Generator (generate tiles from a URL)
-GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7];
+GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7 andBoundingBox:boundingBox andProjection:projection];
 int urlTileCount = [urlTileGenerator generateTiles];
 
 // Feature Tile Generator (generate tiles from features)
-GPKGTileGenerator * featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:10 andMaxZoom:15];
+GPKGTileGenerator * featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:10 andMaxZoom:15 andBoundingBox:boundingBox andProjection:projection];
 int featureTileCount = [featureTileGenerator generateTiles];
 
 // Close database when done
