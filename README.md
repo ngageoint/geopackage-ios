@@ -177,13 +177,13 @@ To use from Swift, import the geopackage-ios bridging header from the Swift proj
 let manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.getManager();
 
 // Available databases
-let databases: NSArray = manager.databases();
+let databases: NSArray = manager.databases() as NSArray;
 
 // Import database
-let imported: Bool = manager.importGeoPackageFromPath(geoPackageFile);
+let imported: Bool = manager.importGeoPackage(fromPath: geoPackageFile);
 
 // Open database
-let geoPackage: GPKGGeoPackage = manager.open(databases.objectAtIndex(0) as! String);
+let geoPackage: GPKGGeoPackage = manager.open(databases.object(at: 0) as! String);
 
 // GeoPackage Table DAOs
 let srsDao: GPKGSpatialReferenceSystemDao = geoPackage.getSpatialReferenceSystemDao();
@@ -198,52 +198,56 @@ let metadataReferenceDao: GPKGMetadataReferenceDao = geoPackage.getMetadataRefer
 let extensionsDao: GPKGExtensionsDao = geoPackage.getExtensionsDao();
 
 // Feature and tile tables
-let features: NSArray = geoPackage.getFeatureTables();
-let tiles: NSArray = geoPackage.getTileTables();
+let features: NSArray = geoPackage.getFeatureTables() as NSArray;
+let tiles: NSArray = geoPackage.getTileTables() as NSArray;
 
 // Query Features
-let featureTable: String = features.objectAtIndex(0) as! String;
-let featureDao: GPKGFeatureDao = geoPackage.getFeatureDaoWithTableName(featureTable);
+let featureTable: String = features.object(at: 0) as! String;
+let featureDao: GPKGFeatureDao = geoPackage.getFeatureDao(withTableName: featureTable);
 let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
 let featureResults: GPKGResultSet = featureDao.queryForAll();
 while(featureResults.moveToNext()){
     let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
     let geometryData: GPKGGeometryData = featureRow.getGeometry();
     let geometry: WKBGeometry = geometryData.geometry;
-    let shape: GPKGMapShape = converter.toShapeWithGeometry(geometry);
-    let mapShape = GPKGMapShapeConverter.addMapShape(shape, toMapView: mapView);
+    let shape: GPKGMapShape = converter.toShape(with: geometry);
+    let mapShape = GPKGMapShapeConverter.add(shape, to: mapView);
     // ...
 }
 featureResults.close();
 
 // Query Tiles
-let tileTable: String = tiles.objectAtIndex(0) as! String;
-let tileDao: GPKGTileDao = geoPackage.getTileDaoWithTableName(tileTable);
+let tileTable: String = tiles.object(at: 0) as! String;
+let tileDao: GPKGTileDao = geoPackage.getTileDao(withTableName: tileTable);
 let tileResults: GPKGResultSet = tileDao.queryForAll();
 while(tileResults.moveToNext()){
     let tileRow: GPKGTileRow = tileDao.getTileRow(tileResults);
-    let tileBytes: NSData = tileRow.getTileData();
+    let tileBytes: Data = tileRow.getTileData();
     let tileImage: UIImage = tileRow.getTileDataImage();
     // ...
 }
 tileResults.close();
 
 // Tile Overlay (GeoPackage or Standard API)
-let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlayWithTileDao(tileDao);
+let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlay(with: tileDao);
 tileOverlay.canReplaceMapContent = false;
-mapView.addOverlay(tileOverlay);
+mapView.add(tileOverlay);
 
 // Feature Tile Overlay (dynamically draw tiles from features)
 let featureTiles: GPKGFeatureTiles = GPKGFeatureTiles(featureDao: featureDao);
 let featureOverlay = GPKGFeatureOverlay(featureTiles: featureTiles);
-mapView.addOverlay(featureOverlay);
+mapView.add(featureOverlay!);
+
+var boundingBox: GPKGBoundingBox = GPKGBoundingBox();
+boundingBox = GPKGTileBoundingBoxUtils.boundWgs84BoundingBox(withWebMercatorLimits: boundingBox);
+boundingBox = GPKGProjectionTransform.init(fromEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM, andToEpsg: PROJ_EPSG_WEB_MERCATOR).transform(with: boundingBox);
 
 // URL Tile Generator (generate tiles from a URL)
-let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7);
+let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
 let urlTileCount: Int32 = urlTileGenerator.generateTiles();
-
+        
 // Feature Tile Generator (generate tiles from features)
-let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15);
+let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
 let featureTileCount: Int32 = featureTileGenerator.generateTiles();
 
 // Close database when done
