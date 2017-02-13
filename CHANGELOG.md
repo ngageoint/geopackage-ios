@@ -6,7 +6,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.2.2 (TBD)
 
-* TBD
+* Allow user tables (feature, tile, attributes) without primary keys to support table views
+* Support EPSG 900913 (GOOGLE)
 
 ## [1.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.1) (02-02-2017)
 
