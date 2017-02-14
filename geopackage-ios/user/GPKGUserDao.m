@@ -21,7 +21,7 @@
         self.tableName = table.tableName;
         GPKGUserColumn * pkColumn = [table getPkColumn];
         if(pkColumn != nil){
-            self.idColumns = @[[table getPkColumn].name];
+            self.idColumns = @[pkColumn.name];
         }else{
             self.idColumns = @[];
         }
