@@ -19,7 +19,12 @@
     if(self != nil){
         self.table = table;
         self.tableName = table.tableName;
-        self.idColumns = @[[table getPkColumn].name];
+        GPKGUserColumn * pkColumn = [table getPkColumn];
+        if(pkColumn != nil){
+            self.idColumns = @[[table getPkColumn].name];
+        }else{
+            self.idColumns = @[];
+        }
         self.columns = table.columnNames;
         [self initializeColumnIndex];
     }
