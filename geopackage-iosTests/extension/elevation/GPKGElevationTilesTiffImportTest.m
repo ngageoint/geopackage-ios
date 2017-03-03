@@ -207,7 +207,9 @@ static BOOL allowNulls = true;
                 for (int x = 0; x < width; x++) {
                     NSDecimalNumber * elevation = [results elevationAtRow:y andColumn:x];
                     [log appendFormat:@"   %@", elevation];
-                    [GPKGTestUtils assertNotNil:elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
                 }
             }
         }
@@ -399,7 +401,9 @@ static BOOL allowNulls = true;
                     if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:elevation];
                     } else {
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if (!allowNulls) {
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                     
                     results = [GPKGElevationTilesTiffTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox2 andWidth:width andHeight:height andEpsg:geoPackageEpsg];

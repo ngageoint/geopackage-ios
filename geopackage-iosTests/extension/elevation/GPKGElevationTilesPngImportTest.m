@@ -205,7 +205,9 @@ static BOOL allowNulls = false;
                 for (int x = 0; x < width; x++) {
                     NSDecimalNumber * elevation = [results elevationAtRow:y andColumn:x];
                     [log appendFormat:@"   %@", elevation];
-                    [GPKGTestUtils assertNotNil:elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
                 }
             }
         }

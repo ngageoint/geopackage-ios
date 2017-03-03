@@ -843,7 +843,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues{
     NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
     for(int i = 0; i < pixelValues.count; i++){
-        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]]];
+        [GPKGUtils addObject:[self elevationValueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]] toArray:elevations];
     }
     return elevations;
 }
@@ -851,7 +851,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count{
     NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
     for(int i = 0; i < count; i++){
-        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValues[i]]];
+        [GPKGUtils addObject:[self elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValues[i]] toArray:elevations];
     }
     return elevations;
 }
@@ -936,7 +936,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues{
     NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
     for (int i = 0; i < pixelValues.count; i++) {
-        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]]];
+        [GPKGUtils addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]] toArray:elevations];
     }
     return elevations;
 }
@@ -944,7 +944,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 -(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count{
     NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
     for(int i = 0; i < count; i++){
-        [elevations addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]]];
+        [GPKGUtils addObject:[self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]] toArray:elevations];
     }
     return elevations;
 }
@@ -1484,7 +1484,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             int lastColumnIndex = [tileMatrix.tileWidth intValue] - lastIndex - 1;
             for (int row = 0; row < [tileMatrix.tileHeight intValue]; row++) {
                 NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:lastColumnIndex andY:row];
-                [leftLastColumnsRow addObject:elevation];
+                [GPKGUtils addObject:elevation toArray:leftLastColumnsRow];
             }
             
             // Store the last row column elevation values
@@ -1493,7 +1493,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             int lastRowIndex = [tileMatrix.tileHeight intValue] - lastIndex - 1;
             for (int column = 0; column < [tileMatrix.tileWidth intValue]; column++) {
                 NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:column andY:lastRowIndex];
-                [lastRowsColumn addObject:elevation];
+                [GPKGUtils addObject:elevation toArray:lastRowsColumn];
             }
             
         }
@@ -1886,7 +1886,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
                         // Get the elevation value from the source pixel
                         NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andElevationImage:image andX:x andY:y];
                         
-                        [innerElevations addObject:elevation];
+                        [GPKGUtils addObject:elevation toArray:innerElevations];
                     }
                 }
                 
@@ -2004,7 +2004,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  *            object value
  */
 -(void) replaceObjectInDoubleArray: (NSMutableArray *) array atIndex1: (int) index1 andIndex2: (int) index2 withValue: (NSObject *) value{
-     [((NSMutableArray *)[array objectAtIndex:index1]) replaceObjectAtIndex:index2 withObject:value];
+    [GPKGUtils replaceObjectAtIndex:index2 withObject:value inArray:(NSMutableArray *)[array objectAtIndex:index1]];
 }
 
 /**
@@ -2019,7 +2019,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
  * @return object value
  */
 -(NSObject *) objectInDoubleArray: (NSArray *) array atIndex1: (int) index1 andIndex2: (int) index2{
-    return [((NSArray *)[array objectAtIndex:index1]) objectAtIndex:index2];
+    return [GPKGUtils objectAtIndex:index2 inArray:(NSArray *)[array objectAtIndex:index1]];
 }
 
 /**
