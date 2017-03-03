@@ -437,10 +437,6 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     // Create new Tile Matrix rows
     GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
     
-    int matrixWidthAndHeight = 2;
-    double pixelXSize = 69237.2;
-    double pixelYSize = 68412.1;
-    
     // Read the asset tile to bytes and convert to bitmap
     NSString *tilePath  = [[[NSBundle bundleForClass:[GPKGTestSetupTeardown class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILE_FILE_NAME];
     NSData *tilePathData = [[NSFileManager defaultManager] contentsAtPath:tilePath];
@@ -449,6 +445,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     // Get the width and height of the bitmap
     int tileWidth = image.size.width;
     int tileHeight = image.size.height;
+    
+    int matrixWidthAndHeight = 2;
+    double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidthAndHeight * tileWidth);
+    double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixWidthAndHeight * tileHeight);
     
     // Compress the bitmap back to bytes and use those for the test
     NSData * tileData = [GPKGImageConverter toData:image andFormat:[GPKGCompressFormats fromName:GPKG_TEST_TILE_FILE_NAME_EXTENSION]];
