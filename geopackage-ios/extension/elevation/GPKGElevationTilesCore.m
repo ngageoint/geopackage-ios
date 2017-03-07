@@ -256,7 +256,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
             yPixel = MIN(height - 1, yPixel);
             
             NSDecimalNumber * elevation = (NSDecimalNumber *)[self objectInDoubleArray:elevations atIndex1:yPixel andIndex2:xPixel];
-            [elevationsRow addObject:elevation];
+            [GPKGUtils addObject:elevation toArray:elevationsRow];
         }
     }
     
@@ -820,19 +820,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         double elevationValue = [pixelValue doubleValue];
         
         if (griddedTile != nil) {
-            if (griddedTile.scale != nil) {
-                elevationValue *= [griddedTile.scale doubleValue];
-            }
-            if (griddedTile.offset != nil) {
-                elevationValue += [griddedTile.offset doubleValue];
-            }
+            elevationValue *= [griddedTile scaleOrDefault];
+            elevationValue += [griddedTile offsetOrDefault];
         }
-        if (self.griddedCoverage.scale != nil) {
-            elevationValue *= [self.griddedCoverage.scale doubleValue];
-        }
-        if (self.griddedCoverage.offset != nil) {
-            elevationValue += [self.griddedCoverage.offset doubleValue];
-        }
+        elevationValue *= [self.griddedCoverage scaleOrDefault];
+        elevationValue += [self.griddedCoverage offsetOrDefault];
      
         elevation = [[NSDecimalNumber alloc] initWithDouble:elevationValue];
     }
@@ -895,19 +887,11 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     if (self.griddedCoverage != nil
         && [self.griddedCoverage getGriddedCoverageDataType] == GPKG_GCDT_INTEGER) {
         
-        if (self.griddedCoverage.offset != nil) {
-            pixelValue -= [self.griddedCoverage.offset doubleValue];
-        }
-        if (self.griddedCoverage.scale != nil) {
-            pixelValue /= [self.griddedCoverage.scale doubleValue];
-        }
+        pixelValue -= [self.griddedCoverage offsetOrDefault];
+        pixelValue /= [self.griddedCoverage scaleOrDefault];
         if (griddedTile != nil) {
-            if (griddedTile.offset != nil) {
-                pixelValue -= [griddedTile.offset doubleValue];
-            }
-            if (griddedTile.scale != nil) {
-                pixelValue /= [griddedTile.scale doubleValue];
-            }
+            pixelValue -= [griddedTile offsetOrDefault];
+            pixelValue /= [griddedTile scaleOrDefault];
         }
         
     }

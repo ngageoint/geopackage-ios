@@ -169,9 +169,9 @@
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
     NSNumber * tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
-    [GPKGTestUtils assertTrue:[griddedTile getScaleOrDefault] >= 0];
+    [GPKGTestUtils assertTrue:[griddedTile scaleOrDefault] >= 0];
     if(elevationTileValues != nil){
-        [GPKGTestUtils assertTrue:[griddedTile getOffsetOrDefault] >= 0];
+        [GPKGTestUtils assertTrue:[griddedTile offsetOrDefault] >= 0];
     }
     [GPKGTestUtils assertNotNil:tileRow];
     
@@ -212,7 +212,7 @@
             if (griddedCoverage.dataNull != nil && pixelValue == [griddedCoverage.dataNull unsignedShortValue]) {
                 [GPKGTestUtils assertNil:elevationValue];
             } else {
-                [GPKGTestUtils assertEqualDoubleWithValue:(pixelValue * [griddedTile getScaleOrDefault] + [griddedTile getOffsetOrDefault]) * [griddedCoverage getScaleOrDefault] + [griddedCoverage getOffsetOrDefault]
+                [GPKGTestUtils assertEqualDoubleWithValue:(pixelValue * [griddedTile scaleOrDefault] + [griddedTile offsetOrDefault]) * [griddedCoverage scaleOrDefault] + [griddedCoverage offsetOrDefault]
                                                 andValue2:[elevationValue doubleValue] andDelta:.000001];
             }
         }

@@ -76,18 +76,10 @@
             value = getObject.datatype;
             break;
         case 3:
-            if(getObject.nullScale){
-                value = [NSNull null];
-            }else{
-                value = getObject.scale;
-            }
+            value = getObject.scale;
             break;
         case 4:
-            if(getObject.nullOffset){
-                value = [NSNull null];
-            }else{
-                value = getObject.offset;
-            }
+            value = getObject.offset;
             break;
         case 5:
             value = getObject.precision;

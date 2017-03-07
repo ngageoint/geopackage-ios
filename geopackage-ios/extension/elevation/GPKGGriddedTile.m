@@ -30,11 +30,11 @@ NSString * const GPKG_EGT_COLUMN_STANDARD_DEVIATION = @"std_dev";
     }
 }
 
--(double) getScaleOrDefault{
+-(double) scaleOrDefault{
     return self.scale != nil ? [self.scale doubleValue] : 1.0;
 }
 
--(double) getOffsetOrDefault{
+-(double) offsetOrDefault{
     return self.offset != nil ? [self.offset doubleValue] : 0.0;
 }
 

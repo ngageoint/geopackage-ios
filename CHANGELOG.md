@@ -8,6 +8,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * Allow user tables (feature, tile, attributes) without primary keys to support table views
 * Support EPSG 900913 (GOOGLE)
+* Elevation Extension scale and offset columns changed to be non nullable
 * tiff-ios version updated to 1.0.1
 * proj4-ios verion 4.9.3
 * Bug fixes for elevation extension when handling null elevations

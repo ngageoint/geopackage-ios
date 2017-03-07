@@ -115,8 +115,8 @@
         [GPKGTestUtils assertNotNil:[griddedCoverageDao getTileMatrixSet:griddedCoverage]];
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedCoverage.tileMatrixSetName];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_GCDT_FLOAT andValue2:[griddedCoverage getGriddedCoverageDataType]];
-        [GPKGTestUtils assertNil:griddedCoverage.scale];
-        [GPKGTestUtils assertNil:griddedCoverage.offset];
+        [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedCoverage.scale doubleValue]];
+        [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedCoverage.offset doubleValue]];
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0];
         
         // Test the Gridded Tile
@@ -167,8 +167,8 @@
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
     NSNumber * tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
-    [GPKGTestUtils assertNil:griddedTile.scale];
-    [GPKGTestUtils assertNil:griddedTile.offset];
+    [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile.scale doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile.offset doubleValue]];
     [GPKGTestUtils assertNotNil:tileRow];
     
     NSData * tileData = [tileRow getTileData];

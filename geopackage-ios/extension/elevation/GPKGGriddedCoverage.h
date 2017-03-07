@@ -49,19 +49,9 @@ extern NSString * const GPKG_EGC_COLUMN_DATA_NULL;
 @property (nonatomic, strong) NSDecimalNumber *scale;
 
 /**
- *  Insert the scale value as null as opposed to using the default value
- */
-@property (nonatomic) BOOL nullScale;
-
-/**
  * The offset to the 0 value
  */
 @property (nonatomic, strong) NSDecimalNumber *offset;
-
-/**
- *  Insert the offset value as null as opposed to using the default value
- */
-@property (nonatomic) BOOL nullOffset;
 
 /**
  *  The smallest value that has meaning for this dataset
@@ -99,20 +89,20 @@ extern NSString * const GPKG_EGC_COLUMN_DATA_NULL;
  *
  *  @return scale as a multiple relative to the unit of measure
  */
--(double) getScaleOrDefault;
+-(double) scaleOrDefault;
 
 /**
  *  Get the offset or default value
  *
  *  @return offset to the 0 value
  */
--(double) getOffsetOrDefault;
+-(double) offsetOrDefault;
 
 /**
  *  Get the precision or default value
  *
  *  @return smallest value that has meaning for this dataset
  */
--(double) getPrecisionOrDefault;
+-(double) precisionOrDefault;
 
 @end
