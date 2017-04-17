@@ -22,6 +22,7 @@ static NSArray * dateFormatters;
         for(NSString * dateTimeFormat in dateTimeFormats){
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:dateTimeFormat];
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
             [formatters addObject:dateFormatter];
         }
         dateFormatters = formatters;

@@ -9,9 +9,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Allow user tables (feature, tile, attributes) without primary keys to support table views
 * Support EPSG 900913 (GOOGLE)
 * Elevation Extension scale and offset columns changed to be non nullable
+* Bug fixes for elevation extension when handling null elevations
+* Timezone fixes for Contents last change and Metadata Reference timestamp
 * tiff-ios version updated to 1.0.1
 * proj4-ios verion 4.9.3
-* Bug fixes for elevation extension when handling null elevations
 * wkb version update to 1.0.7
 
 ## [1.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.1) (02-02-2017)
