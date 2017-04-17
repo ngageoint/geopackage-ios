@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'AFNetworking', '~> 3.1'
   s.dependency 'proj4-ios', '~> 4.9.3'
-  s.dependency 'wkb-ios', '~> 1.0.6'
-  s.dependency 'tiff-ios', '~> 1.0.0'
+  s.dependency 'wkb-ios', '~> 1.0.7'
+  s.dependency 'tiff-ios', '~> 1.0.1'
 end
