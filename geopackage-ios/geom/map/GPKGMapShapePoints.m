@@ -173,4 +173,12 @@
     [points insertObject:point atIndex:insertLocation];
 }
 
+-(int) size{
+    return (int) self.shapePoints.count;
+}
+
+-(int) isEmpty{
+    return [self size] == 0;
+}
+
 @end

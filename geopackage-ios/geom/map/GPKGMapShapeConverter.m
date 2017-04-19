@@ -11,6 +11,8 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGUtils.h"
+#import "GPKGPolygonOrientations.h"
+#import "GPKGGeometryUtils.h"
 
 @interface GPKGMapShapeConverter ()
 
@@ -22,6 +24,10 @@
 @end
 
 @implementation GPKGMapShapeConverter
+
+-(instancetype) init{
+    return [self initWithProjection:nil];
+}
 
 -(instancetype) initWithProjection: (GPKGProjection *) projection{
     self = [super init];
@@ -35,6 +41,8 @@
             self.fromWgs84 = [[GPKGProjectionTransform alloc] initWithFromProjection:wgs84 andToProjection:webMercator];
             self.fromWebMercator = [[GPKGProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:projection];
         }
+        self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
+        self.holeOrientation = GPKG_PO_CLOCKWISE;
     }
     return self;
 }
@@ -216,25 +224,32 @@
     WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    WKBLineString * polygonLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    NSMutableArray<WKBPoint *> * polygonPoints = [[NSMutableArray alloc] init];
     for(int i = 0; i < pointCount; i++){
         MKMapPoint mapPoint = mapPoints[i];
         WKBPoint * point = [self toPointWithMKMapPoint:mapPoint];
-        [polygonLineString addPoint:point];
+        [polygonPoints addObject:point];
     }
-    [polygon addRing:polygonLineString];
+    
+    // Add the exterior ring
+    WKBLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
         for(MKPolygon * hole in holes){
             
-            WKBLineString * holeLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+            // Add the hole points
+            NSMutableArray<WKBPoint *> * holePoints = [[NSMutableArray alloc] init];
             for(int i = 0; i < hole.pointCount; i++){
                 MKMapPoint mapPoint = hole.points[i];
                 WKBPoint * point = [self toPointWithMKMapPoint:mapPoint];
-                [holeLineString addPoint:point];
+                [holePoints addObject:point];
             }
-            [polygon addRing:holeLineString];
+            
+            // Add the hole ring
+            WKBLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            [polygon addRing:holeRing];
         }
     }
     
@@ -250,27 +265,62 @@
     WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    WKBLineString * polygonLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    NSMutableArray<WKBPoint *> * polygonPoints = [[NSMutableArray alloc] init];
     for(GPKGMapPoint * mapPoint in mapPoints){
         WKBPoint * point = [self toPointWithMapPoint:mapPoint];
-        [polygonLineString addPoint:point];
+        [polygonPoints addObject:point];
     }
-    [polygon addRing:polygonLineString];
+    
+    // Add the exterior ring
+    WKBLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
         for(NSArray * hole in holes){
             
-            WKBLineString * holeLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+            NSMutableArray<WKBPoint *> * holePoints = [[NSMutableArray alloc] init];
             for(GPKGMapPoint * mapPoint in hole){
                 WKBPoint * point = [self toPointWithMapPoint:mapPoint];
-                [holeLineString addPoint:point];
+                [holePoints addObject:point];
             }
-            [polygon addRing:holeLineString];
+            
+            // Add the hole ring
+            WKBLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            [polygon addRing:holeRing];
         }
     }
     
     return polygon;
+}
+
+-(WKBLineString *) buildPolygonRingWithPoints: (NSMutableArray<WKBPoint *> *) points andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
+    
+    // Close the ring if needed and determine orientation
+    [self closePolygonRingWithPoints: points];
+    enum GPKGPolygonOrientation ringOrientation = [self orientationWithPoints: points];
+    
+    // Reverse the order as needed to match the desired orientation
+    if(self.exteriorOrientation != GPKG_PO_UNSPECIFIED && self.exteriorOrientation != ringOrientation){
+        points = (NSMutableArray<WKBPoint *> *)[[points reverseObjectEnumerator] allObjects];
+    }
+    
+    // Create the ring
+    WKBLineString * ring = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    [ring setPoints:points];
+    
+    return ring;
+}
+
+-(void) closePolygonRingWithPoints: (NSMutableArray<WKBPoint *> *) points{
+    if(![GPKGGeometryUtils isClosedPolygonWithPoints:points]){
+        WKBPoint * first = [points objectAtIndex:0];
+        [points addObject:[[WKBPoint alloc] initWithX:first.x andY:first.y]];
+    }
+}
+
+-(enum GPKGPolygonOrientation) orientationWithPoints: (NSMutableArray *) points{
+    return [GPKGGeometryUtils computeSignedAreaOfDegreesPath:points] >= 0 ? GPKG_PO_COUNTERCLOCKWISE : GPKG_PO_CLOCKWISE;
 }
 
 -(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (WKBMultiPoint *) multiPoint{
@@ -824,7 +874,7 @@
     for(int i = 0; i < pointCount; i++){
         MKMapPoint point = mapPoints[i];
         
-        if(i + 1 == pointCount && ignoreIdenticalEnds){
+        if(points.count > 1 && i + 1 == pointCount && ignoreIdenticalEnds){
             MKMapPoint firstPoint = mapPoints[0];
             if(point.y == firstPoint.y && point.x == firstPoint.x){
                 break;

@@ -161,4 +161,18 @@
  */
 +(void) addPointAsPolyline: (GPKGMapPoint *) point toPoints: (NSMutableArray *) points;
 
+/**
+ * Get the shape markers size
+ *
+ * @return size
+ */
+-(int) size;
+
+/**
+ * Check if the shape markers is empty
+ *
+ * @return true if empty
+ */
+-(int) isEmpty;
+
 @end

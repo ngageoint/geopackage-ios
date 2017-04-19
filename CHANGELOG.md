@@ -11,6 +11,12 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Elevation Extension scale and offset columns changed to be non nullable
 * Bug fixes for elevation extension when handling null elevations
 * Timezone fixes for Contents last change and Metadata Reference timestamp
+* Geometry utilities
+* Map Shape Converter fix for single point polygon points at creation time
+* Map Shape Converter default constructor
+* Map Shape Markers size and is empty methods
+* Close Polygons converting from Google Map Shapes to Geometries
+* Default and optional polygon counterclockwise and clockwise conversion orientations
 * tiff-ios version updated to 1.0.1
 * proj4-ios verion 4.9.3
 * wkb version update to 1.0.7

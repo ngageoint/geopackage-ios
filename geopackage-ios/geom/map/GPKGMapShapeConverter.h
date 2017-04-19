@@ -48,6 +48,23 @@
 @property (nonatomic, strong) GPKGProjection *projection;
 
 /**
+ * Convert polygon exteriors to specified orientation
+ */
+@property (nonatomic) enum GPKGPolygonOrientation exteriorOrientation;
+
+/**
+ * Convert polygon holes to specified orientation
+ */
+@property (nonatomic) enum GPKGPolygonOrientation holeOrientation;
+
+/**
+ *  Initialize
+ *
+ *  @return new map shape converter
+ */
+-(instancetype) init;
+
+/**
  *  Initialize
  *
  *  @param projection projection
