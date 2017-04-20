@@ -173,6 +173,17 @@
     [points insertObject:point atIndex:insertLocation];
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    [self.shape hidden:hidden fromMapView:mapView];
+    [self hiddenPoints:hidden];
+}
+
+-(void) hiddenPoints: (BOOL) hidden{
+    for(NSObject<GPKGShapePoints> * shapePoints in [self.shapePoints allValues]){
+        [shapePoints hiddenPoints:hidden];
+    }
+}
+
 -(int) size{
     return (int) self.shapePoints.count;
 }

@@ -76,4 +76,21 @@
     [GPKGMapShapePoints addPointAsPolyline:point toPoints: self.points];
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    if(self.polyline != nil){
+        if(hidden){
+            [mapView removeOverlay:self.polyline];
+        }else{
+            [mapView addOverlay:self.polyline];
+        }
+    }
+    [self hiddenPoints:hidden];
+}
+
+-(void) hiddenPoints: (BOOL) hidden{
+    for(GPKGMapPoint * point in self.points){
+        [point hidden:hidden];
+    }
+}
+
 @end

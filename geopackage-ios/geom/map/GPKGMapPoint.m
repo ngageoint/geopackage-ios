@@ -40,4 +40,10 @@ static NSUInteger idCounter = 0;
     return [NSNumber numberWithInteger:self.id];
 }
 
+-(void) hidden: (BOOL) hidden{
+    if(self.view != nil){
+        self.view.hidden = hidden;
+    }
+}
+
 @end

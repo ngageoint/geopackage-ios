@@ -14,6 +14,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Geometry utilities
 * Map Shape Converter fix for single point polygon points at creation time
 * Map Shape Converter default constructor
+* Map Shape hidden setters
 * Map Shape Markers size and is empty methods
 * Close Polygons converting from Google Map Shapes to Geometries
 * Default and optional polygon counterclockwise and clockwise conversion orientations

@@ -35,6 +35,12 @@
     }
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+        [polylinePoint hidden:hidden fromMapView:mapView];
+    }
+}
+
 -(BOOL) isValid{
     BOOL valid = true;
     for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){

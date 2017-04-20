@@ -35,6 +35,12 @@
     }
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    for(GPKGPolygonPoints * polygonPoint in self.polygonPoints){
+        [polygonPoint hidden:hidden fromMapView:mapView];
+    }
+}
+
 -(BOOL) isValid{
     BOOL valid = true;
     for(GPKGPolygonPoints * polygonPoint in self.polygonPoints){

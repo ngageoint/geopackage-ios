@@ -51,6 +51,14 @@
 -(void) removeFromMapView: (MKMapView *) mapView;
 
 /**
+ *  Set the shape hidden state
+ *
+ *  @param hidden true to make hidden, false to make visible
+ *  @param mapView map view
+ */
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView;
+
+/**
  *  Update the shape on the map view
  *
  *  @param mapView map view

@@ -73,6 +73,63 @@
     }
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    
+    switch(self.shapeType){
+        case GPKG_MST_POINT:
+            [((GPKGMapPoint *)self.shape) hidden:hidden];
+            break;
+        case GPKG_MST_POLYGON:{
+            MKPolygon * polygon = (MKPolygon *)self.shape;
+            if(hidden){
+                [mapView removeOverlay:polygon];
+            }else{
+                [mapView addOverlay:polygon];
+            }
+            break;
+        }
+        case GPKG_MST_POLYLINE:{
+            MKPolyline * polyline = (MKPolyline *)self.shape;
+            if(hidden){
+                [mapView removeOverlay:polyline];
+            }else{
+                [mapView addOverlay:polyline];
+            }
+            break;
+        }
+        case GPKG_MST_MULTI_POINT:
+            [((GPKGMultiPoint *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYLINE:
+            [((GPKGMultiPolyline *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYGON:
+            [((GPKGMultiPolygon *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_POLYLINE_POINTS:
+            [((GPKGPolylinePoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_POLYGON_POINTS:
+            [((GPKGPolygonPoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYLINE_POINTS:
+            [((GPKGMultiPolylinePoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYGON_POINTS:
+            [((GPKGMultiPolygonPoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_COLLECTION:{
+            NSArray * shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape * collectionShape in shapeCollection){
+                [collectionShape hidden:hidden fromMapView:mapView];
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 -(void) updateWithMapView: (MKMapView *) mapView{
     
     switch(self.shapeType){

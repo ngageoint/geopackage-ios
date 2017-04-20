@@ -42,6 +42,11 @@
 @property (nonatomic, strong) NSObject * data;
 
 /**
+ *  Map annotation view
+ */
+@property (nonatomic, strong) MKAnnotationView * view;
+
+/**
  *  Initialize with coordinate
  *
  *  @param coord coordinate
@@ -84,5 +89,12 @@
  *  @return number id
  */
 -(NSNumber *) getIdAsNumber;
+
+/**
+ *  If the view has been set, change the hidden state
+ *
+ *  @param hidden true to make hidden, false to make visible
+ */
+-(void) hidden: (BOOL) hidden;
 
 @end

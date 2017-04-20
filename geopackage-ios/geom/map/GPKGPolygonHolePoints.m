@@ -54,4 +54,14 @@
     [GPKGMapShapePoints addPointAsPolygon:point toPoints: self.points];
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    [self hiddenPoints:hidden];
+}
+
+-(void) hiddenPoints: (BOOL) hidden{
+    for(GPKGMapPoint * point in self.points){
+        [point hidden:hidden];
+    }
+}
+
 @end

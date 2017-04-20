@@ -50,6 +50,14 @@
 -(void) removeFromMapView: (MKMapView *) mapView;
 
 /**
+ *  Updates hidden state on the map
+ *
+ *  @param hidden hidden flag
+ *  @param mapView map view
+ */
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView;
+
+/**
  *  Determine if the multiple polyline points is valid
  *
  *  @return true if valid
