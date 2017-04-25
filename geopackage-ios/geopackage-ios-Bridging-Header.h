@@ -180,5 +180,7 @@
 #import "GPKGUserTableReader.h"
 #import "GPKGUserUniqueConstraint.h"
 #import "GPKGGeoPackageValidate.h"
+#import "GPKGPolygonOrientations.h"
+#import "GPKGGeometryUtils.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
