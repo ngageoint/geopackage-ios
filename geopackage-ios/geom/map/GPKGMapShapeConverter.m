@@ -43,6 +43,7 @@
         }
         self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
         self.holeOrientation = GPKG_PO_CLOCKWISE;
+        self.drawShortestDirection = true;
     }
     return self;
 }
@@ -118,6 +119,8 @@
 }
 
 -(MKPolyline *) toMapPolylineWithLineString: (WKBLineString *) lineString{
+    
+    lineString = [self shortestDirectionWithLineString:lineString];
     
     int numPoints = [[lineString numPoints] intValue];
     MKMapPoint mapPoints[numPoints];
@@ -195,6 +198,7 @@
         
         // Create the polygon points
         WKBLineString * polygonLineString = (WKBLineString *)[rings objectAtIndex:0];
+        polygonLineString = [self shortestDirectionWithLineString:polygonLineString];
         int numPoints = [[polygonLineString numPoints] intValue];
         MKMapPoint polygonPoints[numPoints];
         for(int i = 0; i < numPoints; i++){
@@ -208,6 +212,7 @@
         NSMutableArray * holes = [[NSMutableArray alloc] initWithCapacity:ringCount-1];
         for(int i = 1; i < ringCount; i++){
             WKBLineString * hole = (WKBLineString *)[rings objectAtIndex:i];
+            hole = [self shortestDirectionWithLineString:hole];
             int numHolePoints = [[hole numPoints] intValue];
             MKMapPoint holePoints[numHolePoints];
             for(int j = 0; j < numHolePoints; j++){
@@ -338,6 +343,42 @@
 
 -(enum GPKGPolygonOrientation) orientationWithPoints: (NSMutableArray *) points{
     return [GPKGGeometryUtils computeSignedAreaOfDegreesPath:points] >= 0 ? GPKG_PO_COUNTERCLOCKWISE : GPKG_PO_CLOCKWISE;
+}
+
+-(WKBLineString *) shortestDirectionWithLineString: (WKBLineString *) lineString{
+    
+    WKBLineString *shortest = nil;
+    NSMutableArray *points = lineString.points;
+    if(self.drawShortestDirection && points.count > 1){
+        shortest = [[WKBLineString alloc] init];
+        
+        WKBPoint *previousPoint = [lineString.points objectAtIndex:0];
+        [shortest addPoint:[[WKBPoint alloc] initWithX:previousPoint.x andY:previousPoint.y]];
+        
+        for(int i = 1; i < points.count; i++){
+            WKBPoint *point = [lineString.points objectAtIndex:i];
+            
+            double x = [point.x doubleValue];
+            double previousX = [previousPoint.x doubleValue];
+            if(x < previousX){
+                if(previousX - x > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+                    x += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+                }
+            }else if(x > previousX){
+                if(x - previousX > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+                    x -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+                }
+            }
+            WKBPoint *shortestPoint = [[WKBPoint alloc] initWithXValue:x andYValue:[point.y doubleValue]];
+            [shortest addPoint:shortestPoint];
+            
+            previousPoint = shortestPoint;
+        }
+    }else{
+        shortest = lineString;
+    }
+    
+    return shortest;
 }
 
 -(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (WKBMultiPoint *) multiPoint{

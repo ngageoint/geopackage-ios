@@ -58,6 +58,12 @@
 @property (nonatomic) enum GPKGPolygonOrientation holeOrientation;
 
 /**
+ * When true, draw map points from lines and polygons using the closest longitude direction between points
+ * Default is true
+ */
+@property (nonatomic) BOOL drawShortestDirection;
+
+/**
  *  Initialize
  *
  *  @return new map shape converter
@@ -331,6 +337,16 @@
  *  @return WKB polygon
  */
 -(WKBPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+
+/**
+ *  When drawShortestDirection is enabled, create a new line string where each point is
+ *  world wrapped to be drawn in the closest longitude direction from the previous point
+ *
+ *  @param lineString line string
+ *
+ *  @return line string with shortest longitude distance points
+ */
+-(WKBLineString *) shortestDirectionWithLineString: (WKBLineString *) lineString;
 
 /**
  *  Convert WKB multi point to multi point
