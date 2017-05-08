@@ -71,7 +71,24 @@
 
 -(MKMapPoint) toMKMapPointWithPoint: (WKBPoint *) point{
     point = [self toWgs84WithPoint:point];
-    MKMapPoint mapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]));
+    
+    double xValue = [point.x doubleValue];
+    double adjustment = 0;
+    if(xValue < -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        adjustment = -MKMapSizeWorld.width;
+        while(xValue < -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+            xValue += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+        }
+    } else if(xValue > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        adjustment = MKMapSizeWorld.width;
+        while(xValue > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+            xValue -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+        }
+    }
+    
+    MKMapPoint mapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([point.y doubleValue], xValue));
+    mapPoint.x += adjustment;
+    
     return mapPoint;
 }
 
