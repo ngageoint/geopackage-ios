@@ -14,6 +14,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Geometry utilities
 * Map Shape Converter fix for single point polygon points at creation time
 * Map Shape Converter default constructor
+* Map Shape Converter draw shapes using closest longitude direction between consecutive points
+* Map Shape Converter complementary path creation for shapes over -180 / 180 longitudes
 * Map Shape hidden setters
 * Map Shape Markers size and is empty methods
 * Close Polygons converting from Google Map Shapes to Geometries
