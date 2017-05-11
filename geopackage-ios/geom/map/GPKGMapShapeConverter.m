@@ -43,7 +43,7 @@
         }
         self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
         self.holeOrientation = GPKG_PO_CLOCKWISE;
-        self.drawShortestDirection = true;
+        [self setDrawShortestDirection:true];
     }
     return self;
 }
@@ -1271,6 +1271,68 @@
     }
     
     return geometry;
+}
+
++(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline{
+    return [self complementaryWorldPathOfMultiPoint:polyline];
+}
+
++(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon{
+    return [self complementaryWorldPathOfMultiPoint:polygon];
+}
+
++(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint{
+    return [self complementaryWorldPathOfPoints:[multiPoint points] andPointCount:multiPoint.pointCount];
+}
+
++(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount{
+    
+    CGMutablePathRef path = nil;
+    
+    // Determine if the shape is drawn over the -180 / 180 longitude boundary and the direction
+    int worldOverlap = 0;
+    for(int i = 0; i < pointCount; i++){
+        MKMapPoint mapPoint = points[i];
+        if(mapPoint.x < 0){
+            worldOverlap = -1;
+            break;
+        }else if(mapPoint.x > MKMapSizeWorld.width){
+            worldOverlap = 1;
+            break;
+        }
+    }
+    
+    // Shape crosses the -180 / 180 longitude boundary
+    if(worldOverlap != 0){
+        
+        // Build the complementary points in the opposite world width direction
+        MKMapPoint complementaryPoints[pointCount];
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint mapPoint = points[i];
+            double x = mapPoint.x;
+            if(worldOverlap < 0){
+                x += MKMapSizeWorld.width;
+            }else{
+                x -= MKMapSizeWorld.width;
+            }
+            MKMapPoint complementaryPoint = MKMapPointMake(x, mapPoint.y);
+            complementaryPoints[i] = complementaryPoint;
+        }
+        
+        // Build the path
+        path = CGPathCreateMutable();
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint complementaryPoint = complementaryPoints[i];
+            if(i == 0){
+                CGPathMoveToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }else{
+                CGPathAddLineToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }
+        }
+        
+    }
+    
+    return path;
 }
 
 @end

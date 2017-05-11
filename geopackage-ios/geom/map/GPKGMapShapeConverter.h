@@ -897,4 +897,53 @@
  */
 -(WKBGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
 
+/**
+ *  If the polyline spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param polyline polyline
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline;
+
+/**
+ *  If the polygon spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param polygon polygon
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon;
+
+/**
+ *  If the multi point spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param multiPoint multi point
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint;
+
+/**
+ *  If the points span the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param points points
+ *  @param pointCount point count
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount;
+
 @end
