@@ -192,7 +192,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:180.0 andMaxLongitudeDouble:-180.0 andMinLatitudeDouble:90.0 andMaxLatitudeDouble:-90.0];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:181.0 andMaxLongitudeDouble:-181.0 andMinLatitudeDouble:181.0 andMaxLatitudeDouble:-181.0];
     [self expandBoundingBox:boundingBox];
     return boundingBox;
 }
@@ -270,6 +270,18 @@
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withLatitude: (double) latitude andLongitude: (double) longitude{
+    
+    if([boundingBox.minLongitude doubleValue] != 181.0 && [boundingBox.maxLongitude doubleValue] != -181.0){
+        if(longitude < [boundingBox.minLongitude doubleValue]){
+            if([boundingBox.minLongitude doubleValue] - longitude > (longitude + 360.0) - [boundingBox.maxLongitude doubleValue]){
+                longitude += 360.0;
+            }
+        }else if(longitude > [boundingBox.maxLongitude doubleValue]){
+            if(longitude - [boundingBox.maxLongitude doubleValue] > [boundingBox.minLongitude doubleValue] - (longitude - 360.0)){
+                longitude -= 360.0;
+            }
+        }
+    }
     
     if(latitude < [boundingBox.minLatitude doubleValue]){
         boundingBox.minLatitude = [[NSDecimalNumber alloc] initWithDouble:latitude];
