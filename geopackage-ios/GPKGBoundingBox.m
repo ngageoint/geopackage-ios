@@ -108,6 +108,11 @@
     if(minLongitude + 360.0 == maxLongitude){
         center = CLLocationCoordinate2DMake(center.latitude, maxLongitude - 180.0);
     }
+    if(center.longitude > 180.0){
+        center.longitude -= 360.0;
+    }else if(center.longitude < -180.0){
+        center.longitude += 360.0;
+    }
     return center;
 }
 
