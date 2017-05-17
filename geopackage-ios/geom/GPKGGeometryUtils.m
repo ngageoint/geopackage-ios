@@ -8,6 +8,7 @@
 
 #import "GPKGGeometryUtils.h"
 #import "GPKGGeoPackageConstants.h"
+#import "GPKGProjectionConstants.h"
 
 @implementation GPKGGeometryUtils
 
@@ -49,11 +50,11 @@
 }
 
 +(double) toRadiansWithDegrees: (double) degrees{
-    return M_PI * degrees / 180.0;
+    return M_PI * degrees / PROJ_WGS84_HALF_WORLD_LON_WIDTH;
 }
 
 +(double) toDegreesWithRadians: (double) radians{
-    return radians * 180.0 / M_PI;
+    return radians * PROJ_WGS84_HALF_WORLD_LON_WIDTH / M_PI;
 }
 
 @end

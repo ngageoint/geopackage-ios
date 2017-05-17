@@ -15,6 +15,7 @@
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
 #import "GPKGMapPoint.h"
+#import "GPKGProjectionConstants.h"
 
 @implementation GPKGMapShape
 
@@ -192,7 +193,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:181.0 andMaxLongitudeDouble:-181.0 andMinLatitudeDouble:181.0 andMaxLatitudeDouble:-181.0];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:DBL_MAX andMaxLongitudeDouble:-DBL_MAX andMinLatitudeDouble:DBL_MAX andMaxLatitudeDouble:-DBL_MAX];
     [self expandBoundingBox:boundingBox];
     return boundingBox;
 }
@@ -271,14 +272,14 @@
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withLatitude: (double) latitude andLongitude: (double) longitude{
     
-    if([boundingBox.minLongitude doubleValue] != 181.0 && [boundingBox.maxLongitude doubleValue] != -181.0){
+    if([boundingBox.minLongitude doubleValue] <= 3 * PROJ_WGS84_HALF_WORLD_LON_WIDTH && [boundingBox.maxLongitude doubleValue] >= 3 * -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
         if(longitude < [boundingBox.minLongitude doubleValue]){
-            if([boundingBox.minLongitude doubleValue] - longitude > (longitude + 360.0) - [boundingBox.maxLongitude doubleValue]){
-                longitude += 360.0;
+            if([boundingBox.minLongitude doubleValue] - longitude > (longitude + (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)) - [boundingBox.maxLongitude doubleValue]){
+                longitude += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
             }
         }else if(longitude > [boundingBox.maxLongitude doubleValue]){
-            if(longitude - [boundingBox.maxLongitude doubleValue] > [boundingBox.minLongitude doubleValue] - (longitude - 360.0)){
-                longitude -= 360.0;
+            if(longitude - [boundingBox.maxLongitude doubleValue] > [boundingBox.minLongitude doubleValue] - (longitude - (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH))){
+                longitude -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
             }
         }
     }

@@ -8,14 +8,15 @@
 
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGProjectionConstants.h"
 
 @implementation GPKGBoundingBox
 
 -(instancetype) init{
-    self = [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithFloat:-180.0]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:180.0]
-                       andMinLatitude:[[NSDecimalNumber alloc] initWithFloat:-90.0]
-                       andMaxLatitude:[[NSDecimalNumber alloc] initWithFloat:90.0]];
+    self = [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LON_WIDTH]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
+                       andMinLatitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]
+                       andMaxLatitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]];
     return self;
 }
 
@@ -105,13 +106,13 @@
     CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([self.minLatitude doubleValue], minLongitude);
     CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake([self.maxLatitude doubleValue], maxLongitude);
     CLLocationCoordinate2D center = [GPKGTileBoundingBoxUtils pointBetweenFromLocation:lowerLeft andToLocation:upperRight];
-    if(minLongitude + 360.0 == maxLongitude){
-        center = CLLocationCoordinate2DMake(center.latitude, maxLongitude - 180.0);
+    if(minLongitude + (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH) == maxLongitude){
+        center = CLLocationCoordinate2DMake(center.latitude, maxLongitude - PROJ_WGS84_HALF_WORLD_LON_WIDTH);
     }
-    if(center.longitude > 180.0){
-        center.longitude -= 360.0;
-    }else if(center.longitude < -180.0){
-        center.longitude += 360.0;
+    if(center.longitude > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        center.longitude -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+    }else if(center.longitude < -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        center.longitude += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
     }
     return center;
 }
