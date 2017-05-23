@@ -13,12 +13,18 @@
 /**
  *  Map Point options including style and atributes
  */
-@interface GPKGMapPointOptions : NSObject
+@interface GPKGMapPointOptions : NSObject <NSMutableCopying>
+
+/**
+ *  Pin tint color
+ */
+@property (nonatomic) UIColor *pinTintColor;
 
 /**
  *  Standard pin annotation color
+ *  @deprecated within MKPinAnnotationView, use pinTintColor instead
  */
-@property (nonatomic) MKPinAnnotationColor pinColor;
+@property (nonatomic) MKPinAnnotationColor pinColor __attribute__((deprecated("Use pinTintColor instead")));
 
 /**
  *  Icon image, replacing the use of a pin color

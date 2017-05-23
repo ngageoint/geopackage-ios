@@ -18,6 +18,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Map Shape Converter complementary path creation for shapes over -180 / 180 longitudes
 * Map Shape hidden setters
 * Map Shape Markers size and is empty methods
+* Map Point Options support for pinTintColor alongside deprecated pinColor
+* Map Point Options mutable copy support
 * Close Polygons converting from Google Map Shapes to Geometries
 * Default and optional polygon counterclockwise and clockwise conversion orientations
 * tiff-ios version updated to 1.0.1

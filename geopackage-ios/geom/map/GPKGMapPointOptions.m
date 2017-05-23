@@ -13,6 +13,7 @@
 - (id)init{
     self = [super init];
     if (self) {
+        self.pinTintColor = [UIColor purpleColor];
         self.pinColor = MKPinAnnotationColorPurple;
     }
     return self;
@@ -26,6 +27,17 @@
 
 -(void) centerImage{
     self.imageCenterOffset = CGPointMake(0, 0);
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGMapPointOptions *copy = [[GPKGMapPointOptions alloc] init];
+    [copy setPinTintColor:_pinTintColor];
+    [copy setPinColor:_pinColor];
+    [copy setImage:_image];
+    [copy setImageCenterOffset:_imageCenterOffset];
+    [copy setDraggable:_draggable];
+    [copy setInitializer:_initializer];
+    return copy;
 }
 
 @end

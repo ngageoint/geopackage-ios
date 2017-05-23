@@ -797,7 +797,7 @@
 
 +(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
     if(pointOptions != nil){
-        mapPoint.options = pointOptions;
+        mapPoint.options = [pointOptions mutableCopy];
         if(pointOptions.initializer != nil){
             [pointOptions.initializer initializeAnnotation:mapPoint];
         }
