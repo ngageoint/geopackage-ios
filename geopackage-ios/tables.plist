@@ -267,7 +267,7 @@
 	<key>gpkg_2d_gridded_coverage_ancillary</key>
 	<array>
 		<string>CREATE TABLE &apos;gpkg_2d_gridded_coverage_ancillary&apos; (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   tile_matrix_set_name TEXT NOT NULL UNIQUE,
   datatype TEXT NOT NULL DEFAULT &apos;integer&apos;,
   scale REAL NOT NULL DEFAULT 1.0,
@@ -281,7 +281,7 @@
 	<key>gpkg_2d_gridded_tile_ancillary</key>
 	<array>
 		<string>CREATE TABLE gpkg_2d_gridded_tile_ancillary (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   tpudt_name TEXT NOT NULL,
   tpudt_id INTEGER NOT NULL,
   scale REAL NOT NULL DEFAULT 1.0,
