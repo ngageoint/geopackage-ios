@@ -8,7 +8,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * Allow user tables (feature, tile, attributes) without primary keys to support table views
 * Support EPSG 900913 (GOOGLE)
-* Elevation Extension scale and offset columns changed to be non nullable
+* Elevation Extension scale, offset, and id columns changed to be non nullable
 * Bug fixes for elevation extension when handling null elevations
 * Timezone fixes for Contents last change and Metadata Reference timestamp
 * Geometry utilities
