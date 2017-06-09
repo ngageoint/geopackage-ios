@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
 
   s.library = 'sqlite3'
 
-  s.dependency 'AFNetworking', '~> 3.1'
   s.dependency 'proj4-ios', '~> 4.9.3'
   s.dependency 'wkb-ios', '~> 1.0.7'
   s.dependency 'tiff-ios', '~> 1.0.2'

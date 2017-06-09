@@ -22,6 +22,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Map Point Options mutable copy support
 * Close Polygons converting from Google Map Shapes to Geometries
 * Default and optional polygon counterclockwise and clockwise conversion orientations
+* Removed AFNetworking dependency
 * tiff-ios version updated to 1.0.2
 * proj4-ios verion 4.9.3
 * wkb version update to 1.0.7

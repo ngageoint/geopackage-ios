@@ -16,9 +16,15 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "WKBByteReader.h"
-#import "AFURLSessionManager.h"
+#import "GPKGSessionTaskData.h"
+#import <objc/runtime.h>
 
 @implementation GPKGGeoPackageManager
+
+/**
+ *  Associated object key for additional import GeoPackage from URL download task data
+ */
+static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(instancetype) init{
     self = [super init];
@@ -350,31 +356,66 @@
     [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:nil];
 }
 
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session{
+    NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:nil];
+}
+
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name{
     [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:nil];
+}
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory{
     [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:false andProgress:nil];
 }
 
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:false andProgress:nil];
+}
+
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress{
     [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:progress];
+}
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andOverride: (BOOL) override{
     [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:override andProgress:nil];
 }
 
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name andOverride: (BOOL) override{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:override andProgress:nil];
+}
+
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress{
     [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:false andProgress:progress];
+}
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:false andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
     [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:override andProgress:nil];
 }
 
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:override andProgress:nil];
+}
+
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andProgress: (NSObject<GPKGProgress> *) progress{
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    [self importGeoPackageFromUrl:url withSession:urlSession andName:name inDirectory:dbDirectory andOverride:override andProgress:progress];
+}
+
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andProgress: (NSObject<GPKGProgress> *) progress{
     
     if(!override && [self exists:name]){
         [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", name];
@@ -383,59 +424,91 @@
     NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:name];
     NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithRequest:request];
+
+    GPKGSessionTaskData *data = [[GPKGSessionTaskData alloc] init];
+    [data setUrl:url];
+    [data setName:name];
+    [data setDatabasePath:databasePath];
+    [data setDocumentsDatabasePath:documentsDatabasePath];
+    [data setProgress:progress];
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [NSURL fileURLWithPath :documentsDatabasePath];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        
-        if(error || (progress != nil && ![progress isActive])){
-            [GPKGIOUtils deleteFile:documentsDatabasePath];
-            if(progress != nil){
-                NSString * errorString = nil;
-                if(error == nil || ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled)){
-                    errorString = @"Operation was canceled";
-                }else{
-                    errorString = [error description];
-                }
-                [progress failureWithError:errorString];
-            }
-        } else{
-            
-            @try {
-                // Validate the imported GeoPackage and create the metadata
-                [self validateAndCreateImportGeoPackageWithName:name andPath:databasePath andDocumentsPath:documentsDatabasePath andDeleteOnError:YES];
-                
-                if(progress != nil){
-                    [progress completed];
-                }
-            } @catch (NSException *e) {
-                NSLog(@"Download Validation Error for '%@' at url '%@' with error: %@", name, url, [e description]);
-                if(progress != nil){
-                    [progress failureWithError:[e description]];
-                }
-            }
-        }
-    }];
-    
-    [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
-        if(progress != nil){
-            if([progress isActive]){
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [progress setMax:(int)totalBytesExpectedToWrite];
-                    [progress addProgress:(int)bytesWritten];
-                });
-            }else{
-                [downloadTask cancel];
-            }
-        }
-    }];
+    objc_setAssociatedObject(downloadTask, &IMPORT_GEOPACKAGE_FROM_URL_KEY, data, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [downloadTask resume];
+}
 
+/**
+ * Finished downloading a GeoPackage file
+ */
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location{
+
+    GPKGSessionTaskData *data = objc_getAssociatedObject(downloadTask, &IMPORT_GEOPACKAGE_FROM_URL_KEY);
+    
+    if(data.progress != nil && ![data.progress isActive]){
+        [data.progress failureWithError:@"Operation was canceled"];
+    } else{
+        
+        [GPKGIOUtils copyFile:location.path toFile:data.documentsDatabasePath];
+        
+        @try {
+            // Validate the imported GeoPackage and create the metadata
+            [self validateAndCreateImportGeoPackageWithName:data.name andPath:data.databasePath andDocumentsPath:data.documentsDatabasePath andDeleteOnError:YES];
+            
+            if(data.progress != nil){
+                [data.progress completed];
+            }
+        } @catch (NSException *e) {
+            NSLog(@"Download Validation Error for '%@' at url '%@' with error: %@", data.name, data.url, [e description]);
+            if(data.progress != nil){
+                [data.progress failureWithError:[e description]];
+            }
+        }
+    }
+    
+}
+
+/**
+ * Finished downloading a GeoPackage file
+ */
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
+    
+    GPKGSessionTaskData *data = objc_getAssociatedObject(downloadTask, &IMPORT_GEOPACKAGE_FROM_URL_KEY);
+    
+    if(data.progress != nil){
+        if([data.progress isActive]){
+            [data.progress setMax:(int)totalBytesExpectedToWrite];
+            [data.progress addProgress:(int)bytesWritten];
+        }else{
+            [downloadTask cancel];
+        }
+    }
+    
+}
+
+/**
+ * GeoPackage file download complete, with or without an error
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error{
+    
+    if(error){
+        GPKGSessionTaskData *data = objc_getAssociatedObject(task, &IMPORT_GEOPACKAGE_FROM_URL_KEY);
+        if(data.progress != nil){
+            NSString * errorString = nil;
+            if([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled){
+                errorString = @"Operation was canceled";
+            }else{
+                errorString = [error description];
+            }
+            [data.progress failureWithError:errorString];
+        }
+    }
 }
 
 -(void) validateAndCreateImportGeoPackageWithName: (NSString *) name andPath: (NSString *) path andDocumentsPath: (NSString *) documentsPath andDeleteOnError: (BOOL) deleteOnError{
