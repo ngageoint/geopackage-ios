@@ -134,6 +134,7 @@ int featureTileCount = [featureTileGenerator generateTiles];
 
 Build this repository using Xcode and/or CocoaPods:
 
+    pod repo update
     pod install
 
 Open geopackage-ios.xcworkspace in Xcode or build from command line:
