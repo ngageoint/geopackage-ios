@@ -182,5 +182,6 @@
 #import "GPKGGeoPackageValidate.h"
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"
+#import "GPKGSessionTaskData.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
