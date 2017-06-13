@@ -183,7 +183,7 @@
     
     // Draw the resulting image with the matching tiles
     UIGraphicsBeginImageContext(CGSizeMake(tileWidth, tileHeight));
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIGraphicsGetCurrentContext();
     
     while([tileResults moveToNext]){
         
