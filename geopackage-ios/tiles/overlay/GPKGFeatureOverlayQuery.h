@@ -189,7 +189,7 @@
 /**
  *  Get the count of features in the tile at the point and zoom level
  *
- *  @param mapPoint map point
+ *  @param point    point
  *  @param zoom     double zoom value
  *
  *  @return tile feature count
@@ -199,7 +199,7 @@
 /**
  *  Get the count of features in the tile at the point and zoom level
  *
- *  @param mapPoint map point
+ *  @param point    point
  *  @param zoom     zoom value
  *
  *  @return tile feature count

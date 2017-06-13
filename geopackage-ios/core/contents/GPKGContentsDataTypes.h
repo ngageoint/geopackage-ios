@@ -40,7 +40,7 @@ extern NSString * const GPKG_CDT_ELEVATION_TILES_NAME;
 /**
  *  Get the contents data type from the contents data type name
  *
- *  @param contents name data type name
+ *  @param name contents data type name
  *
  *  @return contents data type
  */

@@ -107,7 +107,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * Index the feature row. This method assumes that indexing has been
  * completed and maintained as the last indexed time is updated.
  *
- * @param row
+ * @param row feature row
  * @return true if indexed
  */
 -(BOOL) indexFeatureRow: (GPKGFeatureRow *) row;
@@ -131,7 +131,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Delete the index for the feature row
  *
- * @param row
+ * @param row feature row
  * @return deleted rows, should be 0 or 1
  */
 -(int) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row;
@@ -220,7 +220,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * Query for Geometry Index objects within the bounding box in
  * the provided projection
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @param projection  projection of the provided bounding box
  * @return geometry indices result set
  */
@@ -230,7 +230,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * Query for Geometry Index count within the bounding box in
  * the provided projection
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @param projection  projection of the provided bounding box
  * @return count
  */
@@ -239,7 +239,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Get the Geometry Index for the current place in the cursor
  *
- * @param resultSet
+ * @param resultSet result set
  * @return geometry index
  */
 -(GPKGGeometryIndex *) getGeometryIndexWithResultSet: (GPKGResultSet *) resultSet;
@@ -247,7 +247,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Get the feature row for the current place in the cursor
  *
- * @param resultSet
+ * @param resultSet result set
  * @return feature row
  */
 -(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet;
@@ -255,7 +255,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Get the feature row for the Geometry Index
  *
- * @param geometryIndex
+ * @param geometryIndex geometry index
  * @return feature row
  */
 -(GPKGFeatureRow *) getFeatureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex;

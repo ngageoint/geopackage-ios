@@ -181,9 +181,9 @@
 /**
  * Draw a tile bitmap from the x, y, and zoom level by querying features in the tile location
  *
- *  @param x
- *  @param y
- *  @param zoom
+ *  @param x    x
+ *  @param y    y
+ *  @param zoom zoom level
  *
  *  @return feature count
  */

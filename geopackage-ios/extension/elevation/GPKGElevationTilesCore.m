@@ -1957,10 +1957,10 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
 /**
  * Create a new array using the provided sizes filled with NSNull values
  *
- * @param size
- *            array size
- * @param subSize
- *            sub array size
+ * @param size1
+ *            array size 1
+ * @param size2
+ *            array size 2
  * @return NSNull filled double array
  */
 -(NSMutableArray *) createNullFilledDoubleArrayWithSize1: (int) size1 andSize2: (int) size2{

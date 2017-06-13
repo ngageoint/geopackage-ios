@@ -34,14 +34,14 @@
 /**
  *  Ignore drawing tiles if they exist in the tile tables represented by the tile daos
  *
- *  @param tileDaos
+ *  @param tileDaos tile daos
  */
 -(void) ignoreTileDaos: (NSArray<GPKGTileDao *> *) tileDaos;
 
 /**
  *  Ignore drawing tiles if they exist in the tile table represented by the tile dao
  *
- *  @param tileDao
+ *  @param tileDao tile dao
  */
 -(void) ignoreTileDao: (GPKGTileDao *) tileDao;
 

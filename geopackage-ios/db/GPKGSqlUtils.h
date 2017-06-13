@@ -101,7 +101,7 @@
 /**
  *  Count on the database
  *
- *  @param database       database
+ *  @param connection     database connection
  *  @param countStatement count statement
  *
  *  @return count
@@ -270,7 +270,7 @@
 /**
  *  Close the statement
  *
- *  @param statment statement
+ *  @param statement statement
  */
 +(void) closeStatement: (sqlite3_stmt *) statement;
 

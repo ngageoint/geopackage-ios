@@ -23,17 +23,17 @@
 /**
  *  Query by feature table name and tile table name for a link
  *
- *  @param featureTableName feature table name
- *  @param tileTableName tile table name
+ *  @param featureTable feature table name
+ *  @param tileTable tile table name
  *
- *  @return feature tile linke or nil
+ *  @return feature tile link or nil
  */
 -(GPKGFeatureTileLink *) queryForFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable;
 
 /**
  *  Query by feature table name
  *
- *  @param featureTableName feature table name
+ *  @param featureTable feature table name
  *
  *  @return result set
  */
@@ -42,7 +42,7 @@
 /**
  *  Query by tile table name
  *
- *  @param tileTableName tile table name
+ *  @param tileTable tile table name
  *
  *  @return result set
  */
@@ -51,8 +51,8 @@
 /**
  *  Delete by feature table and tile table names
  *
- *  @param featureTableName feature table name
- *  @param tileTableName tile table name
+ *  @param featureTable feature table name
+ *  @param tileTable tile table name
  *
  *  @return rows deleted
  */

@@ -75,7 +75,7 @@
 /**
  * Delete the index for the feature row
  *
- * @param row
+ * @param row feature row
  * @return true if deleted
  */
 -(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row;
@@ -83,7 +83,7 @@
 /**
  * Delete the index for the geometry id
  *
- * @param geomId
+ * @param geomId geometry id
  * @return true if deleted
  */
 -(BOOL) deleteIndexWithGeomId: (NSNumber *) geomId;
@@ -120,7 +120,7 @@
  * Query for Geometry Metadata within the bounding box, projected
  * correctly
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @return geometry metadata results
  */
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox;
@@ -129,7 +129,7 @@
  * Query for Geometry Metadata count within the bounding box, projected
  * correctly
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox;
@@ -137,7 +137,7 @@
 /**
  * Query for Geometry Metadata within the Geometry Envelope
  *
- * @param envelope
+ * @param envelope geometry envelope
  * @return geometry metadata results
  */
 -(GPKGResultSet *) queryWithEnvelope: (WKBGeometryEnvelope *) envelope;
@@ -145,7 +145,7 @@
 /**
  * Query for Geometry Metadata count within the Geometry Envelope
  *
- * @param envelope
+ * @param envelope geometry envelope
  * @return count
  */
 -(int) countWithEnvelope: (WKBGeometryEnvelope *) envelope;
@@ -154,7 +154,7 @@
  * Query for Geometry Metadata within the bounding box in
  * the provided projection
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @param projection  projection of the provided bounding box
  * @return geometry metadata results
  */
@@ -164,7 +164,7 @@
  * Query for Geometry Metadata count within the bounding box in
  * the provided projection
  *
- * @param boundingBox
+ * @param boundingBox bounding box
  * @param projection  projection of the provided bounding box
  * @return count
  */
@@ -173,7 +173,7 @@
 /**
  * Get the Geometry Metadata for the current place in the cursor
  *
- * @param resultSet
+ * @param resultSet result set
  * @return geometry metadata
  */
 -(GPKGGeometryMetadata *) getGeometryMetadataWithResultSet: (GPKGResultSet *) resultSet;
@@ -181,7 +181,7 @@
 /**
  * Get the feature row for the current place in the cursor
  *
- * @param resultSet
+ * @param resultSet result set
  * @return feature row
  */
 -(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet;
@@ -189,7 +189,7 @@
 /**
  * Get the feature row for the Geometry Metadata
  *
- * @param geometryMetadata
+ * @param geometryMetadata geometry metadata
  * @return feature row
  */
 -(GPKGFeatureRow *) getFeatureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;

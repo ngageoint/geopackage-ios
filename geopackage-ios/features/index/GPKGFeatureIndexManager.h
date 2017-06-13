@@ -64,7 +64,7 @@
  *  Prioritize the query location order.  The type is placed at the front of the query order,
  *  leaving the remaining locations in their current order.
  *
- *  @param featureIndexTypes array of feature index type names
+ *  @param featureIndexType feature index type
  */
 -(void) prioritizeQueryLocationWithType: (enum GPKGFeatureIndexType) featureIndexType;
 

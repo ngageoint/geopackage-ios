@@ -54,7 +54,7 @@ extern NSString * const GPKG_ETA_BICUBIC_NAME;
 /**
  *  Get the elevation tiles algorithm type from the algorithm name
  *
- *  @param algorithm name
+ *  @param name algorithm name
  *
  *  @return algorithm type
  */
