@@ -155,7 +155,7 @@ Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 Pull from GitHub:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.2.1'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.2.2'
 
 Include as local project:
 
@@ -261,5 +261,4 @@ manager.close();
 
 * [WKB](https://github.com/ngageoint/geopackage-wkb-ios) (The MIT License (MIT)) - GeoPackage Well Known Binary Lib
 * [TIFF](https://github.com/ngageoint/geopackage-tiff-ios) (The MIT License (MIT)) - GeoPackage Tagged Image File Format Lib
-* [AFNetworking](https://github.com/AFNetworking/AFNetworking) (The MIT License (MIT)) - Networking framework
 * [proj4](https://trac.osgeo.org/proj/) (The MIT License (MIT)) - Cartographic projection software
