@@ -12,8 +12,8 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGGeoPackageConstants.h"
 
-#define degreesToRadians(x) (M_PI * x / 180.0)
-#define radiansToDegrees(x) (x * 180.0 / M_PI)
+#define degreesToRadians(x) (M_PI * x / PROJ_WGS84_HALF_WORLD_LON_WIDTH)
+#define radiansToDegrees(x) (x * PROJ_WGS84_HALF_WORLD_LON_WIDTH / M_PI)
 
 @implementation GPKGTileBoundingBoxUtils
 
@@ -95,10 +95,10 @@
     double tileWidthDegrees = [self tileWidthDegreesWithTilesPerSide:tilesPerSide];
     double tileHeightDegrees = [self tileHeightDegreesWithTilesPerSide:tilesPerSide];
     
-    double minLon = -180.0 + (x * tileWidthDegrees);
+    double minLon = -PROJ_WGS84_HALF_WORLD_LON_WIDTH + (x * tileWidthDegrees);
     double maxLon = minLon + tileWidthDegrees;
     
-    double maxLat = 90.0 - (y * tileHeightDegrees);
+    double maxLat = PROJ_WGS84_HALF_WORLD_LAT_HEIGHT - (y * tileHeightDegrees);
     double minLat = maxLat - tileHeightDegrees;
     
     GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMaxLongitudeDouble:maxLon andMinLatitudeDouble:minLat andMaxLatitudeDouble:maxLat];
@@ -259,11 +259,11 @@
 }
 
 +(double) tileWidthDegreesWithTilesPerSide: (int) tilesPerSide{
-    return 360.0 / tilesPerSide;
+    return (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH) / tilesPerSide;
 }
 
 +(double) tileHeightDegreesWithTilesPerSide: (int) tilesPerSide{
-    return 180.0 / tilesPerSide;
+    return PROJ_WGS84_HALF_WORLD_LON_WIDTH / tilesPerSide;
 }
 
 +(int) tilesPerSideWithZoom: (int) zoom{

@@ -27,4 +27,12 @@
     [mapView removeOverlays:self.polylines];
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    if(hidden){
+        [self removeFromMapView:mapView];
+    }else{
+        [mapView addOverlays:self.polylines];
+    }
+}
+
 @end

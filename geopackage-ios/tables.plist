@@ -267,11 +267,11 @@
 	<key>gpkg_2d_gridded_coverage_ancillary</key>
 	<array>
 		<string>CREATE TABLE &apos;gpkg_2d_gridded_coverage_ancillary&apos; (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   tile_matrix_set_name TEXT NOT NULL UNIQUE,
   datatype TEXT NOT NULL DEFAULT &apos;integer&apos;,
-  scale REAL DEFAULT 1.0,
-  offset REAL DEFAULT 0.0,
+  scale REAL NOT NULL DEFAULT 1.0,
+  offset REAL NOT NULL DEFAULT 0.0,
   precision REAL DEFAULT 1.0,
   data_null REAL,
   CONSTRAINT fk_g2dgtct_name FOREIGN KEY(&apos;tile_matrix_set_name&apos;) REFERENCES gpkg_tile_matrix_set ( table_name )
@@ -281,11 +281,11 @@
 	<key>gpkg_2d_gridded_tile_ancillary</key>
 	<array>
 		<string>CREATE TABLE gpkg_2d_gridded_tile_ancillary (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   tpudt_name TEXT NOT NULL,
   tpudt_id INTEGER NOT NULL,
-  scale REAL DEFAULT 1.0,
-  offset REAL DEFAULT 0.0,
+  scale REAL NOT NULL DEFAULT 1.0,
+  offset REAL NOT NULL DEFAULT 0.0,
   min REAL DEFAULT NULL,
   max REAL DEFAULT NULL,
   mean REAL DEFAULT NULL,

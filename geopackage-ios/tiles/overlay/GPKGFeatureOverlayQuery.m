@@ -80,7 +80,7 @@
 -(double) currentZoomWithMapView: (MKMapView *) mapView{
     CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
     CGFloat width = mapView.bounds.size.width;
-    double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (180.0 * width);
+    double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);
     double zoom = self.maxZoom - round(log2(scale));
     if (self.maxZoom < 0){
         zoom = 0;

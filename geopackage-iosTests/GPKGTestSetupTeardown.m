@@ -108,14 +108,14 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     
     GPKGMetadataReference * reference1 = [[GPKGMetadataReference alloc] init];
     [reference1 setReferenceScopeType:GPKG_RST_GEOPACKAGE];
-    [reference1 setTimestamp:[NSDate date]];
+    // [reference1 setTimestamp:[NSDate date]];
     [reference1 setMetadata:metadata1];
     [metadataReferenceDao create:reference1];
     
     GPKGMetadataReference * reference2 = [[GPKGMetadataReference alloc] init];
     [reference2 setReferenceScopeType:GPKG_RST_TABLE];
     [reference2 setTableName:@"TEST_TABLE_NAME_2"];
-    [reference2 setTimestamp:[NSDate date]];
+    // [reference2 setTimestamp:[NSDate date]];
     [reference2 setMetadata:metadata2];
     [reference2 setParentMetadata:metadata1];
     [metadataReferenceDao create:reference2];
@@ -125,7 +125,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [reference3 setTableName:@"TEST_TABLE_NAME_3"];
     [reference3 setColumnName:@"TEST_COLUMN_NAME_3"];
     [reference3 setRowIdValue:[NSNumber numberWithInt:5]];
-    [reference3 setTimestamp:[NSDate date]];
+    // [reference3 setTimestamp:[NSDate date]];
     [reference3 setMetadata:metadata3];
     [metadataReferenceDao create:reference3];
     
@@ -245,7 +245,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
         [attributesReference setReferenceScopeType:GPKG_RST_ROW];
         [attributesReference setTableName:attributesTable.tableName];
         [attributesReference setRowIdValue:[NSNumber numberWithInt:rowId]];
-        [attributesReference setTimestamp:[NSDate date]];
+        // [attributesReference setTimestamp:[NSDate date]];
         [attributesReference setMetadata:attributesMetadata];
         [metadataReferenceDao create:attributesReference];
         
@@ -275,8 +275,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [point2dContents setTableName:@"point2d"];
     [point2dContents setContentsDataType:GPKG_CDT_FEATURES];
     [point2dContents setIdentifier:@"point2d"];
-    //[point2dContents setTheDescription:@""];
-    [point2dContents setLastChange:[NSDate date]];
+    // [point2dContents setTheDescription:@""];
+    // [point2dContents setLastChange:[NSDate date]];
     [point2dContents setMinX:[[NSDecimalNumber alloc] initWithDouble:-180.0]];
     [point2dContents setMinY:[[NSDecimalNumber alloc] initWithDouble:-90.0]];
     [point2dContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:180.0]];
@@ -287,8 +287,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [polygon2dContents setTableName:@"polygon2d"];
     [polygon2dContents setContentsDataType:GPKG_CDT_FEATURES];
     [polygon2dContents setIdentifier:@"polygon2d"];
-    //[polygon2dContents setTheDescription:@""];
-    [polygon2dContents setLastChange:[NSDate date]];
+    // [polygon2dContents setTheDescription:@""];
+    // [polygon2dContents setLastChange:[NSDate date]];
     [polygon2dContents setMinX:[[NSDecimalNumber alloc] initWithDouble:0.0]];
     [polygon2dContents setMinY:[[NSDecimalNumber alloc] initWithDouble:0.0]];
     [polygon2dContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:10.0]];
@@ -299,8 +299,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [point3dContents setTableName:@"point3d"];
     [point3dContents setContentsDataType:GPKG_CDT_FEATURES];
     [point3dContents setIdentifier:@"point3d"];
-    //[point3dContents setTheDescription:@""];
-    [point3dContents setLastChange:[NSDate date]];
+    // [point3dContents setTheDescription:@""];
+    // [point3dContents setLastChange:[NSDate date]];
     [point3dContents setMinX:[[NSDecimalNumber alloc] initWithDouble:-180.0]];
     [point3dContents setMinY:[[NSDecimalNumber alloc] initWithDouble:-90.0]];
     [point3dContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:180.0]];
@@ -311,8 +311,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [lineString3dMContents setTableName:@"lineString3dM"];
     [lineString3dMContents setContentsDataType:GPKG_CDT_FEATURES];
     [lineString3dMContents setIdentifier:@"lineString3dM"];
-    //[lineString3dMContents setTheDescription:@""];
-    [lineString3dMContents setLastChange:[NSDate date]];
+    // [lineString3dMContents setTheDescription:@""];
+    // [lineString3dMContents setLastChange:[NSDate date]];
     [lineString3dMContents setMinX:[[NSDecimalNumber alloc] initWithDouble:-180.0]];
     [lineString3dMContents setMinY:[[NSDecimalNumber alloc] initWithDouble:-90.0]];
     [lineString3dMContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:180.0]];
@@ -407,8 +407,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [contents setTableName:@"test_tiles"];
     [contents setContentsDataType:GPKG_CDT_TILES];
     [contents setIdentifier:@"test_tiles"];
-    //[contents setTheDescription:@""];
-    [contents setLastChange:[NSDate date]];
+    // [contents setTheDescription:@""];
+    // [contents setLastChange:[NSDate date]];
     [contents setMinX:[[NSDecimalNumber alloc] initWithDouble:-180.0]];
     [contents setMinY:[[NSDecimalNumber alloc] initWithDouble:-90.0]];
     [contents setMaxX:[[NSDecimalNumber alloc] initWithDouble:180.0]];
@@ -437,10 +437,6 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     // Create new Tile Matrix rows
     GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
     
-    int matrixWidthAndHeight = 2;
-    double pixelXSize = 69237.2;
-    double pixelYSize = 68412.1;
-    
     // Read the asset tile to bytes and convert to bitmap
     NSString *tilePath  = [[[NSBundle bundleForClass:[GPKGTestSetupTeardown class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILE_FILE_NAME];
     NSData *tilePathData = [[NSFileManager defaultManager] contentsAtPath:tilePath];
@@ -449,6 +445,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     // Get the width and height of the bitmap
     int tileWidth = image.size.width;
     int tileHeight = image.size.height;
+    
+    int matrixWidthAndHeight = 2;
+    double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidthAndHeight * tileWidth);
+    double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixWidthAndHeight * tileHeight);
     
     // Compress the bitmap back to bytes and use those for the test
     NSData * tileData = [GPKGImageConverter toData:image andFormat:[GPKGCompressFormats fromName:GPKG_TEST_TILE_FILE_NAME_EXTENSION]];

@@ -115,8 +115,8 @@
         [GPKGTestUtils assertNotNil:[griddedCoverageDao getTileMatrixSet:griddedCoverage]];
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedCoverage.tileMatrixSetName];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_GCDT_FLOAT andValue2:[griddedCoverage getGriddedCoverageDataType]];
-        [GPKGTestUtils assertNil:griddedCoverage.scale];
-        [GPKGTestUtils assertNil:griddedCoverage.offset];
+        [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedCoverage.scale doubleValue]];
+        [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedCoverage.offset doubleValue]];
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0];
         
         // Test the Gridded Tile
@@ -167,8 +167,8 @@
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
     NSNumber * tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
-    [GPKGTestUtils assertNil:griddedTile.scale];
-    [GPKGTestUtils assertNil:griddedTile.offset];
+    [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile.scale doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile.offset doubleValue]];
     [GPKGTestUtils assertNotNil:tileRow];
     
     NSData * tileData = [tileRow getTileData];
@@ -222,6 +222,12 @@
     free(pixelValues);
     
     GPKGTileMatrix * tileMatrix = [elevationTiles.tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
+    double xDistance = [tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue];
+    double xDistance2 = [tileMatrix.matrixWidth intValue] * [tileMatrix.tileWidth intValue] * [tileMatrix.pixelXSize doubleValue];
+    [GPKGTestUtils assertEqualDoubleWithValue:xDistance andValue2:xDistance2 andDelta:.001];
+    double yDistance = [tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue];
+    double yDistance2 = [tileMatrix.matrixHeight intValue] * [tileMatrix.tileHeight intValue] * [tileMatrix.pixelYSize doubleValue];
+    [GPKGTestUtils assertEqualDoubleWithValue:yDistance andValue2:yDistance2 andDelta:.001];
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
     GPKGElevationTileResults * elevationTileResults = [elevationTiles elevationsWithBoundingBox:boundingBox];
     if(elevationTileValues != nil){

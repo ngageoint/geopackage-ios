@@ -244,7 +244,7 @@
         [contents setTableName:geometryColumns.tableName];
         [contents setDataType:GPKG_CDT_FEATURES_NAME];
         [contents setIdentifier:geometryColumns.tableName];
-        [contents setLastChange:[NSDate date]];
+        // [contents setLastChange:[NSDate date]];
         [contents setMinX:boundingBox.minLongitude];
         [contents setMinY:boundingBox.minLatitude];
         [contents setMaxX:boundingBox.maxLongitude];
@@ -339,7 +339,7 @@
         [contents setTableName:tableName];
         [contents setContentsDataType:type];
         [contents setIdentifier:tableName];
-        [contents setLastChange:[NSDate date]];
+        // [contents setLastChange:[NSDate date]];
         [contents setMinX:contentsBoundingBox.minLongitude];
         [contents setMinY:contentsBoundingBox.minLatitude];
         [contents setMaxX:contentsBoundingBox.maxLongitude];
@@ -795,7 +795,7 @@
         [contents setTableName:tableName];
         [contents setDataType:GPKG_CDT_ATTRIBUTES_NAME];
         [contents setIdentifier:tableName];
-        [contents setLastChange:[NSDate date]];
+        // [contents setLastChange:[NSDate date]];
         [[self getContentsDao] create:contents];
         
         [table setContents:contents];

@@ -298,6 +298,10 @@
 		0431EDEF1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */; };
 		043FB6421CD8EA37001EEB7A /* GPKGBaseExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 043FB6401CD8EA37001EEB7A /* GPKGBaseExtension.h */; };
 		043FB6431CD8EA37001EEB7A /* GPKGBaseExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 043FB6411CD8EA37001EEB7A /* GPKGBaseExtension.m */; };
+		0445CB391EA6945A008DC0D7 /* GPKGPolygonOrientations.h in Headers */ = {isa = PBXBuildFile; fileRef = 0445CB371EA6945A008DC0D7 /* GPKGPolygonOrientations.h */; };
+		0445CB3A1EA6945A008DC0D7 /* GPKGPolygonOrientations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445CB381EA6945A008DC0D7 /* GPKGPolygonOrientations.m */; };
+		0445CB3D1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0445CB3B1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h */; };
+		0445CB3E1EA6B8FA008DC0D7 /* GPKGGeometryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0445CB3C1EA6B8FA008DC0D7 /* GPKGGeometryUtils.m */; };
 		0447FA0A1CD8F66100418104 /* GPKGCrsWktExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 0447FA081CD8F66100418104 /* GPKGCrsWktExtension.h */; };
 		0447FA0B1CD8F66100418104 /* GPKGCrsWktExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0447FA091CD8F66100418104 /* GPKGCrsWktExtension.m */; };
 		0447FA0E1CDA531B00418104 /* GPKGGeoPackageExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0447FA0C1CDA531B00418104 /* GPKGGeoPackageExtensions.h */; };
@@ -404,6 +408,8 @@
 		04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */; };
 		04E516ED1DC7E98E00BB94C9 /* GPKGContentsDataTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04E516EB1DC7E98E00BB94C9 /* GPKGContentsDataTypes.h */; };
 		04E516EE1DC7E98E00BB94C9 /* GPKGContentsDataTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E516EC1DC7E98E00BB94C9 /* GPKGContentsDataTypes.m */; };
+		04F8340C1EEAD2AC00B5FE1E /* GPKGSessionTaskData.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F8340A1EEAD2AC00B5FE1E /* GPKGSessionTaskData.h */; };
+		04F8340D1EEAD2AC00B5FE1E /* GPKGSessionTaskData.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F8340B1EEAD2AC00B5FE1E /* GPKGSessionTaskData.m */; };
 		04FEE5761D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */; };
 		04FEE5791D131380004B8113 /* GPKGFeatureTilesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FEE5781D131380004B8113 /* GPKGFeatureTilesTest.m */; };
 		B580828E5A8F00EA9623989B /* libPods-geopackage-iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 695E8936687927557901BF90 /* libPods-geopackage-iosTests.a */; };
@@ -742,6 +748,10 @@
 		0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackageCache.m; sourceTree = "<group>"; };
 		043FB6401CD8EA37001EEB7A /* GPKGBaseExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGBaseExtension.h; sourceTree = "<group>"; };
 		043FB6411CD8EA37001EEB7A /* GPKGBaseExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGBaseExtension.m; sourceTree = "<group>"; };
+		0445CB371EA6945A008DC0D7 /* GPKGPolygonOrientations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGPolygonOrientations.h; sourceTree = "<group>"; };
+		0445CB381EA6945A008DC0D7 /* GPKGPolygonOrientations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGPolygonOrientations.m; sourceTree = "<group>"; };
+		0445CB3B1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeometryUtils.h; sourceTree = "<group>"; };
+		0445CB3C1EA6B8FA008DC0D7 /* GPKGGeometryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGGeometryUtils.m; sourceTree = "<group>"; };
 		0447FA081CD8F66100418104 /* GPKGCrsWktExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGCrsWktExtension.h; sourceTree = "<group>"; };
 		0447FA091CD8F66100418104 /* GPKGCrsWktExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGCrsWktExtension.m; sourceTree = "<group>"; };
 		0447FA0C1CDA531B00418104 /* GPKGGeoPackageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackageExtensions.h; sourceTree = "<group>"; };
@@ -874,6 +884,8 @@
 		04DD10AF1BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionPoolTestCase.m; sourceTree = "<group>"; };
 		04E516EB1DC7E98E00BB94C9 /* GPKGContentsDataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGContentsDataTypes.h; sourceTree = "<group>"; };
 		04E516EC1DC7E98E00BB94C9 /* GPKGContentsDataTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGContentsDataTypes.m; sourceTree = "<group>"; };
+		04F8340A1EEAD2AC00B5FE1E /* GPKGSessionTaskData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGSessionTaskData.h; sourceTree = "<group>"; };
+		04F8340B1EEAD2AC00B5FE1E /* GPKGSessionTaskData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGSessionTaskData.m; sourceTree = "<group>"; };
 		04FEE5741D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTileGeneratorTest.h; sourceTree = "<group>"; };
 		04FEE5751D130CD3004B8113 /* GPKGFeatureTileGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTileGeneratorTest.m; sourceTree = "<group>"; };
 		04FEE5771D131380004B8113 /* GPKGFeatureTilesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTilesTest.h; sourceTree = "<group>"; };
@@ -1271,6 +1283,8 @@
 				042FC7391B964D8C00549A4B /* GPKGGeoPackageFactory.m */,
 				042FC73A1B964D8C00549A4B /* GPKGGeoPackageManager.h */,
 				042FC73B1B964D8C00549A4B /* GPKGGeoPackageManager.m */,
+				04F8340A1EEAD2AC00B5FE1E /* GPKGSessionTaskData.h */,
+				04F8340B1EEAD2AC00B5FE1E /* GPKGSessionTaskData.m */,
 			);
 			path = factory;
 			sourceTree = "<group>";
@@ -1318,6 +1332,8 @@
 			children = (
 				042FC74E1B964D8C00549A4B /* GPKGGeometryData.h */,
 				042FC74F1B964D8C00549A4B /* GPKGGeometryData.m */,
+				0445CB3B1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h */,
+				0445CB3C1EA6B8FA008DC0D7 /* GPKGGeometryUtils.m */,
 				042FC7501B964D8C00549A4B /* map */,
 			);
 			path = geom;
@@ -1357,6 +1373,8 @@
 				042FC76D1B964D8C00549A4B /* GPKGPolylinePoints.m */,
 				042FC76E1B964D8C00549A4B /* GPKGShapePoints.h */,
 				042FC76F1B964D8C00549A4B /* GPKGShapeWithChildrenPoints.h */,
+				0445CB371EA6945A008DC0D7 /* GPKGPolygonOrientations.h */,
+				0445CB381EA6945A008DC0D7 /* GPKGPolygonOrientations.m */,
 			);
 			path = map;
 			sourceTree = "<group>";
@@ -1911,6 +1929,7 @@
 				042FC81D1B964D8C00549A4B /* GPKGExtensions.h in Headers */,
 				042FC8051B964D8C00549A4B /* GPKGResultSet.h in Headers */,
 				042FC8691B964D8C00549A4B /* GPKGMetadataDao.h in Headers */,
+				0445CB391EA6945A008DC0D7 /* GPKGPolygonOrientations.h in Headers */,
 				042FC8821B964D8C00549A4B /* GPKGDataColumns.h in Headers */,
 				042FC8841B964D8C00549A4B /* GPKGDataColumnsDao.h in Headers */,
 				046417EB1BCC5837007624D4 /* GPKGCustomFeaturesTile.h in Headers */,
@@ -1967,6 +1986,7 @@
 				0422BB261DEE2302002709B6 /* GPKGElevationTilesTiff.h in Headers */,
 				042FC89F1B964D8C00549A4B /* GPKGTileMatrixSetDao.h in Headers */,
 				042FC8A11B964D8C00549A4B /* GPKGFeatureOverlay.h in Headers */,
+				0445CB3D1EA6B8FA008DC0D7 /* GPKGGeometryUtils.h in Headers */,
 				042FC8A91B964D8C00549A4B /* GPKGTileColumn.h in Headers */,
 				0422BAE91DD3B320002709B6 /* GPKGElevationSourcePixel.h in Headers */,
 				042FC8771B964D8C00549A4B /* GPKGProjectionRetriever.h in Headers */,
@@ -1990,6 +2010,7 @@
 				042FC7F31B964D8C00549A4B /* GPKGSpatialReferenceSystem.h in Headers */,
 				042FC80D1B964D8C00549A4B /* GPKGGeometryMetadata.h in Headers */,
 				0422BB161DDE445E002709B6 /* GPKGAttributesTableReader.h in Headers */,
+				04F8340C1EEAD2AC00B5FE1E /* GPKGSessionTaskData.h in Headers */,
 				042FC8881B964D8C00549A4B /* GPKGDataColumnConstraintsDao.h in Headers */,
 				042FC8581B964D8C00549A4B /* GPKGBoundingBox.h in Headers */,
 				042FC80B1B964D8C00549A4B /* GPKGTableCreator.h in Headers */,
@@ -2178,7 +2199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		0525C5044E383BFAD2725287 /* [CP] Copy Pods Resources */ = {
@@ -2238,7 +2259,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2260,6 +2281,7 @@
 				0422BB271DEE2302002709B6 /* GPKGElevationTilesTiff.m in Sources */,
 				042FC8591B964D8C00549A4B /* GPKGBoundingBox.m in Sources */,
 				046417C11BCBF282007624D4 /* GPKGNGAExtensions.m in Sources */,
+				04F8340D1EEAD2AC00B5FE1E /* GPKGSessionTaskData.m in Sources */,
 				0431EDEF1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m in Sources */,
 				042FC8221B964D8C00549A4B /* GPKGGeometryExtensions.m in Sources */,
 				042FC8961B964D8C00549A4B /* GPKGTileGrid.m in Sources */,
@@ -2338,6 +2360,7 @@
 				042FC8811B964D8C00549A4B /* GPKGPropertyConstants.m in Sources */,
 				042FC8241B964D8C00549A4B /* GPKGGeoPackageFactory.m in Sources */,
 				0422BAFA1DD51023002709B6 /* GPKGGriddedCoverage.m in Sources */,
+				0445CB3E1EA6B8FA008DC0D7 /* GPKGGeometryUtils.m in Sources */,
 				048A7BA41C988661007BCA5D /* GPKGFeatureRowData.m in Sources */,
 				042FC81E1B964D8C00549A4B /* GPKGExtensions.m in Sources */,
 				042FC8B01B964D8C00549A4B /* GPKGTileRow.m in Sources */,
@@ -2390,6 +2413,7 @@
 				042FC8921B964D8C00549A4B /* GPKGTileBoundingBoxUtils.m in Sources */,
 				042FC8681B964D8C00549A4B /* GPKGMetadata.m in Sources */,
 				046417F01BCC58BF007624D4 /* GPKGNumberFeaturesTile.m in Sources */,
+				0445CB3A1EA6945A008DC0D7 /* GPKGPolygonOrientations.m in Sources */,
 				04DD109C1BDE9D4C00CC59A0 /* GPKGConnectionPool.m in Sources */,
 				042FC8831B964D8C00549A4B /* GPKGDataColumns.m in Sources */,
 				042FC83D1B964D8C00549A4B /* GPKGMapShape.m in Sources */,

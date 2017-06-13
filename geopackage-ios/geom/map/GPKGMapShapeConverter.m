@@ -11,6 +11,8 @@
 #import "GPKGProjectionTransform.h"
 #import "GPKGProjectionConstants.h"
 #import "GPKGUtils.h"
+#import "GPKGPolygonOrientations.h"
+#import "GPKGGeometryUtils.h"
 
 @interface GPKGMapShapeConverter ()
 
@@ -22,6 +24,10 @@
 @end
 
 @implementation GPKGMapShapeConverter
+
+-(instancetype) init{
+    return [self initWithProjection:nil];
+}
 
 -(instancetype) initWithProjection: (GPKGProjection *) projection{
     self = [super init];
@@ -35,6 +41,9 @@
             self.fromWgs84 = [[GPKGProjectionTransform alloc] initWithFromProjection:wgs84 andToProjection:webMercator];
             self.fromWebMercator = [[GPKGProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:projection];
         }
+        self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
+        self.holeOrientation = GPKG_PO_CLOCKWISE;
+        [self setDrawShortestDirection:true];
     }
     return self;
 }
@@ -63,7 +72,24 @@
 
 -(MKMapPoint) toMKMapPointWithPoint: (WKBPoint *) point{
     point = [self toWgs84WithPoint:point];
-    MKMapPoint mapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]));
+    
+    double xValue = [point.x doubleValue];
+    double adjustment = 0;
+    if(xValue < -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        adjustment = -MKMapSizeWorld.width;
+        while(xValue < -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+            xValue += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+        }
+    } else if(xValue > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        adjustment = MKMapSizeWorld.width;
+        while(xValue > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+            xValue -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+        }
+    }
+    
+    MKMapPoint mapPoint = MKMapPointForCoordinate(CLLocationCoordinate2DMake([point.y doubleValue], xValue));
+    mapPoint.x += adjustment;
+    
     return mapPoint;
 }
 
@@ -93,6 +119,8 @@
 }
 
 -(MKPolyline *) toMapPolylineWithLineString: (WKBLineString *) lineString{
+    
+    lineString = [self shortestDirectionWithLineString:lineString];
     
     int numPoints = [[lineString numPoints] intValue];
     MKMapPoint mapPoints[numPoints];
@@ -170,6 +198,7 @@
         
         // Create the polygon points
         WKBLineString * polygonLineString = (WKBLineString *)[rings objectAtIndex:0];
+        polygonLineString = [self shortestDirectionWithLineString:polygonLineString];
         int numPoints = [[polygonLineString numPoints] intValue];
         MKMapPoint polygonPoints[numPoints];
         for(int i = 0; i < numPoints; i++){
@@ -183,6 +212,7 @@
         NSMutableArray * holes = [[NSMutableArray alloc] initWithCapacity:ringCount-1];
         for(int i = 1; i < ringCount; i++){
             WKBLineString * hole = (WKBLineString *)[rings objectAtIndex:i];
+            hole = [self shortestDirectionWithLineString:hole];
             int numHolePoints = [[hole numPoints] intValue];
             MKMapPoint holePoints[numHolePoints];
             for(int j = 0; j < numHolePoints; j++){
@@ -216,25 +246,32 @@
     WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    WKBLineString * polygonLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    NSMutableArray<WKBPoint *> * polygonPoints = [[NSMutableArray alloc] init];
     for(int i = 0; i < pointCount; i++){
         MKMapPoint mapPoint = mapPoints[i];
         WKBPoint * point = [self toPointWithMKMapPoint:mapPoint];
-        [polygonLineString addPoint:point];
+        [polygonPoints addObject:point];
     }
-    [polygon addRing:polygonLineString];
+    
+    // Add the exterior ring
+    WKBLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
         for(MKPolygon * hole in holes){
             
-            WKBLineString * holeLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+            // Add the hole points
+            NSMutableArray<WKBPoint *> * holePoints = [[NSMutableArray alloc] init];
             for(int i = 0; i < hole.pointCount; i++){
                 MKMapPoint mapPoint = hole.points[i];
                 WKBPoint * point = [self toPointWithMKMapPoint:mapPoint];
-                [holeLineString addPoint:point];
+                [holePoints addObject:point];
             }
-            [polygon addRing:holeLineString];
+            
+            // Add the hole ring
+            WKBLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            [polygon addRing:holeRing];
         }
     }
     
@@ -250,27 +287,98 @@
     WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    WKBLineString * polygonLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    NSMutableArray<WKBPoint *> * polygonPoints = [[NSMutableArray alloc] init];
     for(GPKGMapPoint * mapPoint in mapPoints){
         WKBPoint * point = [self toPointWithMapPoint:mapPoint];
-        [polygonLineString addPoint:point];
+        [polygonPoints addObject:point];
     }
-    [polygon addRing:polygonLineString];
+    
+    // Add the exterior ring
+    WKBLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
         for(NSArray * hole in holes){
             
-            WKBLineString * holeLineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+            NSMutableArray<WKBPoint *> * holePoints = [[NSMutableArray alloc] init];
             for(GPKGMapPoint * mapPoint in hole){
                 WKBPoint * point = [self toPointWithMapPoint:mapPoint];
-                [holeLineString addPoint:point];
+                [holePoints addObject:point];
             }
-            [polygon addRing:holeLineString];
+            
+            // Add the hole ring
+            WKBLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            [polygon addRing:holeRing];
         }
     }
     
     return polygon;
+}
+
+-(WKBLineString *) buildPolygonRingWithPoints: (NSMutableArray<WKBPoint *> *) points andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
+    
+    // Close the ring if needed and determine orientation
+    [self closePolygonRingWithPoints: points];
+    enum GPKGPolygonOrientation ringOrientation = [self orientationWithPoints: points];
+    
+    // Reverse the order as needed to match the desired orientation
+    if(self.exteriorOrientation != GPKG_PO_UNSPECIFIED && self.exteriorOrientation != ringOrientation){
+        points = (NSMutableArray<WKBPoint *> *)[[points reverseObjectEnumerator] allObjects];
+    }
+    
+    // Create the ring
+    WKBLineString * ring = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    [ring setPoints:points];
+    
+    return ring;
+}
+
+-(void) closePolygonRingWithPoints: (NSMutableArray<WKBPoint *> *) points{
+    if(![GPKGGeometryUtils isClosedPolygonWithPoints:points]){
+        WKBPoint * first = [points objectAtIndex:0];
+        [points addObject:[[WKBPoint alloc] initWithX:first.x andY:first.y]];
+    }
+}
+
+-(enum GPKGPolygonOrientation) orientationWithPoints: (NSMutableArray *) points{
+    return [GPKGGeometryUtils computeSignedAreaOfDegreesPath:points] >= 0 ? GPKG_PO_COUNTERCLOCKWISE : GPKG_PO_CLOCKWISE;
+}
+
+-(WKBLineString *) shortestDirectionWithLineString: (WKBLineString *) lineString{
+    
+    WKBLineString *shortest = nil;
+    NSMutableArray *points = lineString.points;
+    if(self.drawShortestDirection && points.count > 1){
+        shortest = [[WKBLineString alloc] init];
+        
+        WKBPoint *previousPoint = [lineString.points objectAtIndex:0];
+        [shortest addPoint:[[WKBPoint alloc] initWithX:previousPoint.x andY:previousPoint.y]];
+        
+        for(int i = 1; i < points.count; i++){
+            WKBPoint *point = [lineString.points objectAtIndex:i];
+            
+            double x = [point.x doubleValue];
+            double previousX = [previousPoint.x doubleValue];
+            if(x < previousX){
+                if(previousX - x > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+                    x += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+                }
+            }else if(x > previousX){
+                if(x - previousX > PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+                    x -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+                }
+            }
+            WKBPoint *shortestPoint = [[WKBPoint alloc] initWithXValue:x andYValue:[point.y doubleValue]];
+            [shortest addPoint:shortestPoint];
+            
+            previousPoint = shortestPoint;
+        }
+    }else{
+        shortest = lineString;
+    }
+    
+    return shortest;
 }
 
 -(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (WKBMultiPoint *) multiPoint{
@@ -689,7 +797,7 @@
 
 +(GPKGMapPoint *) addMapPoint: (GPKGMapPoint *) mapPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
     if(pointOptions != nil){
-        mapPoint.options = pointOptions;
+        mapPoint.options = [pointOptions mutableCopy];
         if(pointOptions.initializer != nil){
             [pointOptions.initializer initializeAnnotation:mapPoint];
         }
@@ -824,7 +932,7 @@
     for(int i = 0; i < pointCount; i++){
         MKMapPoint point = mapPoints[i];
         
-        if(i + 1 == pointCount && ignoreIdenticalEnds){
+        if(points.count > 1 && i + 1 == pointCount && ignoreIdenticalEnds){
             MKMapPoint firstPoint = mapPoints[0];
             if(point.y == firstPoint.y && point.x == firstPoint.x){
                 break;
@@ -1163,6 +1271,68 @@
     }
     
     return geometry;
+}
+
++(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline{
+    return [self complementaryWorldPathOfMultiPoint:polyline];
+}
+
++(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon{
+    return [self complementaryWorldPathOfMultiPoint:polygon];
+}
+
++(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint{
+    return [self complementaryWorldPathOfPoints:[multiPoint points] andPointCount:multiPoint.pointCount];
+}
+
++(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount{
+    
+    CGMutablePathRef path = nil;
+    
+    // Determine if the shape is drawn over the -180 / 180 longitude boundary and the direction
+    int worldOverlap = 0;
+    for(int i = 0; i < pointCount; i++){
+        MKMapPoint mapPoint = points[i];
+        if(mapPoint.x < 0){
+            worldOverlap = -1;
+            break;
+        }else if(mapPoint.x > MKMapSizeWorld.width){
+            worldOverlap = 1;
+            break;
+        }
+    }
+    
+    // Shape crosses the -180 / 180 longitude boundary
+    if(worldOverlap != 0){
+        
+        // Build the complementary points in the opposite world width direction
+        MKMapPoint complementaryPoints[pointCount];
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint mapPoint = points[i];
+            double x = mapPoint.x;
+            if(worldOverlap < 0){
+                x += MKMapSizeWorld.width;
+            }else{
+                x -= MKMapSizeWorld.width;
+            }
+            MKMapPoint complementaryPoint = MKMapPointMake(x, mapPoint.y);
+            complementaryPoints[i] = complementaryPoint;
+        }
+        
+        // Build the path
+        path = CGPathCreateMutable();
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint complementaryPoint = complementaryPoints[i];
+            if(i == 0){
+                CGPathMoveToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }else{
+                CGPathAddLineToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }
+        }
+        
+    }
+    
+    return path;
 }
 
 @end

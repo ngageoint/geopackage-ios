@@ -15,6 +15,7 @@
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
 #import "GPKGMapPoint.h"
+#import "GPKGProjectionConstants.h"
 
 @implementation GPKGMapShape
 
@@ -65,6 +66,63 @@
             NSArray * shapeCollection = (NSArray *) self.shape;
             for(GPKGMapShape * collectionShape in shapeCollection){
                 [collectionShape removeFromMapView:mapView];
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    
+    switch(self.shapeType){
+        case GPKG_MST_POINT:
+            [((GPKGMapPoint *)self.shape) hidden:hidden];
+            break;
+        case GPKG_MST_POLYGON:{
+            MKPolygon * polygon = (MKPolygon *)self.shape;
+            if(hidden){
+                [mapView removeOverlay:polygon];
+            }else{
+                [mapView addOverlay:polygon];
+            }
+            break;
+        }
+        case GPKG_MST_POLYLINE:{
+            MKPolyline * polyline = (MKPolyline *)self.shape;
+            if(hidden){
+                [mapView removeOverlay:polyline];
+            }else{
+                [mapView addOverlay:polyline];
+            }
+            break;
+        }
+        case GPKG_MST_MULTI_POINT:
+            [((GPKGMultiPoint *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYLINE:
+            [((GPKGMultiPolyline *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYGON:
+            [((GPKGMultiPolygon *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_POLYLINE_POINTS:
+            [((GPKGPolylinePoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_POLYGON_POINTS:
+            [((GPKGPolygonPoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYLINE_POINTS:
+            [((GPKGMultiPolylinePoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POLYGON_POINTS:
+            [((GPKGMultiPolygonPoints *)self.shape) hidden:hidden fromMapView:mapView];
+            break;
+        case GPKG_MST_COLLECTION:{
+            NSArray * shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape * collectionShape in shapeCollection){
+                [collectionShape hidden:hidden fromMapView:mapView];
             }
             break;
         }
@@ -135,7 +193,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:180.0 andMaxLongitudeDouble:-180.0 andMinLatitudeDouble:90.0 andMaxLatitudeDouble:-90.0];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:DBL_MAX andMaxLongitudeDouble:-DBL_MAX andMinLatitudeDouble:DBL_MAX andMaxLatitudeDouble:-DBL_MAX];
     [self expandBoundingBox:boundingBox];
     return boundingBox;
 }
@@ -213,6 +271,18 @@
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withLatitude: (double) latitude andLongitude: (double) longitude{
+    
+    if([boundingBox.minLongitude doubleValue] <= 3 * PROJ_WGS84_HALF_WORLD_LON_WIDTH && [boundingBox.maxLongitude doubleValue] >= 3 * -PROJ_WGS84_HALF_WORLD_LON_WIDTH){
+        if(longitude < [boundingBox.minLongitude doubleValue]){
+            if([boundingBox.minLongitude doubleValue] - longitude > (longitude + (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)) - [boundingBox.maxLongitude doubleValue]){
+                longitude += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+            }
+        }else if(longitude > [boundingBox.maxLongitude doubleValue]){
+            if(longitude - [boundingBox.maxLongitude doubleValue] > [boundingBox.minLongitude doubleValue] - (longitude - (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH))){
+                longitude -= (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+            }
+        }
+    }
     
     if(latitude < [boundingBox.minLatitude doubleValue]){
         boundingBox.minLatitude = [[NSDecimalNumber alloc] initWithDouble:latitude];

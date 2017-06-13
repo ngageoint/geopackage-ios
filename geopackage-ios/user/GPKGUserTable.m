@@ -55,10 +55,13 @@
         self.columnNames = tempColumnNames;
         self.nameToIndex = tempNameToIndex;
         
-        if(pk == nil){
-            [NSException raise:@"No Primary Key" format:@"No primary key column was found for table '%@'", tableName];
+        if(pk != nil){
+            self.pkIndex = [pk intValue];
+        }else{
+            // Permit views without primary keys
+            NSLog(@"No primary key column was found for table '%@'", tableName);
+            self.pkIndex = -1;
         }
-        self.pkIndex = [pk intValue];
 
     }
     return self;
@@ -108,7 +111,11 @@
 }
 
 -(GPKGUserColumn *) getPkColumn{
-    return [GPKGUtils objectAtIndex:self.pkIndex inArray:self.columns];
+    GPKGUserColumn * column = nil;
+    if(self.pkIndex >= 0){
+        column = [GPKGUtils objectAtIndex:self.pkIndex inArray:self.columns];
+    }
+    return column;
 }
 
 -(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint{

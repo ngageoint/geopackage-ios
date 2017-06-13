@@ -17,12 +17,14 @@
 
 @implementation GPKGElevationTilesPngImportTest
 
+static BOOL allowNulls = false;
+
 /**
  * Test the elevation extension with a newly created GeoPackage using the
  * Nearest Neighbor Algorithm
  */
 - (void)testElevationsNearestNeighbor {
-    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:false];
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:allowNulls];
 }
 
 /**
@@ -30,7 +32,7 @@
  * Bilinear Algorithm
  */
 - (void)testElevationsBilinear {
-    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:false];
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:allowNulls];
 }
 
 /**
@@ -38,7 +40,7 @@
  * Bicubic Algorithm
  */
 - (void)testElevationsBicubic {
-    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:false];
+    [GPKGElevationTilesPngTestUtils testElevationsWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:allowNulls];
 }
 
 /**
@@ -127,7 +129,7 @@
  */
 -(void) testBounds{
     
-    int geoPackageEpsg = PROJ_EPSG_WEB_MERCATOR;
+    int requestEpsg = PROJ_EPSG_WEB_MERCATOR;
     
     double widthPixelDistance = 1000;
     double heightPixelDistance = 1000;
@@ -140,7 +142,7 @@
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
+    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:requestEpsg];
     GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
     
@@ -181,24 +183,32 @@
         for (double lat = maxLatitude - (heightPixelDistance * .5); lat >= minLatitude; lat -= heightPixelDistance) {
             [log appendString:@"\n"];
             for (double lon = minLongitude + (widthPixelDistance * .5); lon <= maxLongitude; lon += widthPixelDistance) {
-                NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
+                NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:requestEpsg];
                 [log appendFormat:@"   %@", elevation];
-                [GPKGTestUtils assertNotNil:elevation];
+                if(!allowNulls){
+                    [GPKGTestUtils assertNotNil:elevation];
+                }
             }
         }
         
-        GPKGElevationTileResults * results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox andWidth:width andHeight:height andEpsg:geoPackageEpsg];
-        [GPKGTestUtils assertNotNil:results];
-        [log appendFormat:@"\n\n%@\n", [GPKGElevationTilesAlgorithms name:algorithm]];
-        NSArray * elevations = [results elevations];
-        [GPKGTestUtils assertEqualIntWithValue:height andValue2:(int)elevations.count];
-        [GPKGTestUtils assertEqualIntWithValue:width andValue2:(int)((NSArray *)[elevations objectAtIndex:0]).count];
-        for (int y = 0; y < height; y++) {
-            [log appendString:@"\n"];
-            for (int x = 0; x < width; x++) {
-                NSDecimalNumber * elevation = [results elevationAtRow:y andColumn:x];
-                [log appendFormat:@"   %@", elevation];
-                [GPKGTestUtils assertNotNil:elevation];
+        GPKGElevationTileResults * results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox andWidth:width andHeight:height andEpsg:requestEpsg];
+        if(!allowNulls){
+            [GPKGTestUtils assertNotNil:results];
+        }
+        if(results != nil){
+            [log appendFormat:@"\n\n%@\n", [GPKGElevationTilesAlgorithms name:algorithm]];
+            NSArray * elevations = [results elevations];
+            [GPKGTestUtils assertEqualIntWithValue:height andValue2:(int)elevations.count];
+            [GPKGTestUtils assertEqualIntWithValue:width andValue2:(int)((NSArray *)[elevations objectAtIndex:0]).count];
+            for (int y = 0; y < height; y++) {
+                [log appendString:@"\n"];
+                for (int x = 0; x < width; x++) {
+                    NSDecimalNumber * elevation = [results elevationAtRow:y andColumn:x];
+                    [log appendFormat:@"   %@", elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
+                }
             }
         }
     }
@@ -211,14 +221,8 @@
  */
 -(void) testFullBoundingBox{
     
-    int geoPackageEpsg = PROJ_EPSG_WEB_MERCATOR;
-    
     int width = 10;
     int height = 6;
-    
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
-    GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
     
     NSArray * elevationTables = [GPKGElevationTilesPng tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
@@ -226,6 +230,12 @@
     for(NSString * elevationTable in elevationTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
+        
+        int geoPackageEpsg = [[dao getSrs:tileMatrixSet].organizationCoordsysId intValue];
+        
+        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
+        GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
         
@@ -286,13 +296,17 @@
                     NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
                     [log appendFormat:@"   %@", elevation];
                     if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude && lon < maxLongitude)){
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if(!allowNulls){
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                 }
                 NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:maxLongitude andEpsg:geoPackageEpsg];
                 [log appendFormat:@"   %@", elevation];
                 if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
-                    [GPKGTestUtils assertNotNil:elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
                 }
             }
             [log appendString:@"\n"];
@@ -300,13 +314,17 @@
                 NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:lon andEpsg:geoPackageEpsg];
                 [log appendFormat:@"   %@", elevation];
                 if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
-                    [GPKGTestUtils assertNotNil:elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
                 }
             }
             NSDecimalNumber * elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:maxLongitude andEpsg:geoPackageEpsg];
             [log appendFormat:@"   %@", elevation];
             if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
-                [GPKGTestUtils assertNotNil:elevation];
+                if(!allowNulls){
+                    [GPKGTestUtils assertNotNil:elevation];
+                }
             }
             [log appendString:@"\n\n"];
             NSLog(log, nil);
@@ -320,7 +338,9 @@
                 for (int x = 0; x < [results width]; x++) {
                     elevation = [results elevationAtRow:y andColumn:x];
                     [log appendFormat:@"   %@", elevation];
-                    [GPKGTestUtils assertNotNil:elevation];
+                    if(!allowNulls){
+                        [GPKGTestUtils assertNotNil:elevation];
+                    }
                 }
             }
             [log appendString:@"\n"];
@@ -346,7 +366,9 @@
                     if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == 0)) {
                         [GPKGTestUtils assertNil:elevation];
                     } else {
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if(!allowNulls){
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                     
                     elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
@@ -355,7 +377,9 @@
                     if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:elevation];
                     } else {
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if(!allowNulls){
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                     
                     elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
@@ -364,7 +388,9 @@
                     if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == 0)) {
                         [GPKGTestUtils assertNil:elevation];
                     } else {
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if(!allowNulls){
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                     
                     elevation = [GPKGElevationTilesPngTestUtils elevationWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
@@ -373,7 +399,9 @@
                     if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:elevation];
                     } else {
-                        [GPKGTestUtils assertNotNil:elevation];
+                        if(!allowNulls){
+                            [GPKGTestUtils assertNotNil:elevation];
+                        }
                     }
                     
                     results = [GPKGElevationTilesPngTestUtils elevationsWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox2 andWidth:width andHeight:height andEpsg:geoPackageEpsg];
@@ -388,7 +416,9 @@
                             for (int x = 0; x < [results width]; x++) {
                                 elevation = [results elevationAtRow:y andColumn:x];
                                 [log appendFormat:@"   %@", elevation];
-                                [GPKGTestUtils assertNotNil:elevation];
+                                if(!allowNulls){
+                                    [GPKGTestUtils assertNotNil:elevation];
+                                }
                             }
                         }
                     }

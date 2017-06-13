@@ -1,12 +1,12 @@
 <!--
  EPSG Projections
  File taken from: https://github.com/jdeolive/proj4j/blob/master/src/main/resources/nad/epsg
- 
+
  Modified with the following regex replacements and copied into the dictionary:
- 
+
  Replace: <(\d{4,5})>\s*(.*\S)\s*<>
  With: \t<key>$1</key>\n\t<string>$2</string>
- 
+
  Replace: #\s(.*)$
  With: \tOPEN_XML_COMMENT $1 CLOSE_XML_COMMENT
 -->
@@ -12605,5 +12605,8 @@
     <!-- WGS 84 / TM 36 SE -->
     <key>32766</key>
     <string>+proj=tmerc +lat_0=0 +lon_0=36 +k=0.9996 +x_0=500000 +y_0=10000000 +datum=WGS84 +units=m +no_defs</string>
+    <!-- WGS 84 / Pseudo-Mercator (GOOGLE version of 3857) -->
+    <key>900913</key>
+    <string>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</string>
 </dict>
 </plist>

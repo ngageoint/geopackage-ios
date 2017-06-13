@@ -104,6 +104,31 @@
     [GPKGMapShapePoints addPointAsPolygon:point toPoints: self.points];
 }
 
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
+    if(self.polygon != nil){
+        if(hidden){
+            [mapView removeOverlay:self.polygon];
+        }else{
+            [mapView addOverlay:self.polygon];
+        }
+    }
+    for(GPKGMapPoint * point in self.points){
+        [point hidden:hidden];
+    }
+    for(GPKGPolygonHolePoints * hole in self.holes){
+        [hole hidden: hidden fromMapView:mapView];
+    }
+}
+
+-(void) hiddenPoints: (BOOL) hidden{
+    for(GPKGMapPoint * point in self.points){
+        [point hidden:hidden];
+    }
+    for(GPKGPolygonHolePoints * hole in self.holes){
+        [hole hiddenPoints: hidden];
+    }
+}
+
 -(NSObject<GPKGShapePoints> *) createChild{
     GPKGPolygonHolePoints * hole = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:self];
     [GPKGUtils addObject:hole toArray:self.holes];

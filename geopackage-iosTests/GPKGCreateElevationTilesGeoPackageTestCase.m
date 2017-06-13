@@ -14,6 +14,7 @@
 #import "GPKGProjectionConstants.h"
 #import "GPKGElevationTilesPng.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGCreateElevationTilesGeoPackageTestCase
 
@@ -182,10 +183,8 @@
                 GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
                 [griddedTile setContents:contents];
                 [griddedTile setTableId:[NSNumber numberWithInt:tileId]];
-                [griddedTile setScale:commonGriddedTile.scale];
-                [griddedTile setNullScale:commonGriddedTile.nullScale];
-                [griddedTile setOffset:commonGriddedTile.offset];
-                [griddedTile setNullOffset:commonGriddedTile.nullOffset];
+                [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
+                [griddedTile setOffset:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile offsetOrDefault]]];
                 [griddedTile setMin:commonGriddedTile.min];
                 [griddedTile setMax:commonGriddedTile.max];
                 [griddedTile setMean:commonGriddedTile.mean];
@@ -201,12 +200,12 @@
                 griddedTile = (GPKGGriddedTile *)[griddedTileDao queryForIdObject:gtId];
                 [GPKGTestUtils assertNotNil:griddedTile];
                 if(defaultGTScale){
-                    [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile getScaleOrDefault]];
+                    [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile scaleOrDefault]];
                 }else{
                     [GPKGTestUtils assertTrue:[griddedTile.scale doubleValue] >= 0.0 && [griddedTile.scale doubleValue] <= 100.0];
                 }
                 if(defaultGTOffset){
-                    [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile getOffsetOrDefault]];
+                    [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile offsetOrDefault]];
                 }else{
                     [GPKGTestUtils assertTrue:[griddedTile.offset doubleValue] >= 0.0 && [griddedTile.offset doubleValue] <= 100.0];
                 }
@@ -265,10 +264,8 @@
     values.tileElevationsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
     
     GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
-    [griddedTile setScale:commonGriddedTile.scale];
-    [griddedTile setNullScale:commonGriddedTile.nullScale];
-    [griddedTile setOffset:commonGriddedTile.offset];
-    [griddedTile setNullOffset:commonGriddedTile.nullOffset];
+    [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
+    [griddedTile setOffset:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile offsetOrDefault]]];
     [griddedTile setMin:commonGriddedTile.min];
     [griddedTile setMax:commonGriddedTile.max];
     [griddedTile setMean:commonGriddedTile.mean];
@@ -294,10 +291,10 @@
             NSNumber * pixelValue = [NSNumber numberWithUnsignedShort:value];
             [tilePixelsRow addObject:pixelValue];
             NSDecimalNumber * elevation = [elevationTiles elevationValueWithGriddedTile:griddedTile andPixelValue:value];
-            [tileElevationsRow addObject:elevation];
+            [GPKGUtils addObject:elevation toArray:tileElevationsRow];
             
             [values.tilePixelsFlat addObject:pixelValue];
-            [values.tileElevationsFlat addObject:elevation];
+            [GPKGUtils addObject:elevation toArray:values.tileElevationsFlat];
         }
     }
     

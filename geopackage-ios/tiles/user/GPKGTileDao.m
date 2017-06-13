@@ -292,8 +292,8 @@
     // Verify the bounds are the entire world
     if([wgs84BoundingBox.minLatitude doubleValue] <= PROJ_WEB_MERCATOR_MIN_LAT_RANGE
        && [wgs84BoundingBox.maxLatitude doubleValue] <= PROJ_WEB_MERCATOR_MAX_LAT_RANGE
-       && [wgs84BoundingBox.minLongitude doubleValue] <= -180.0
-       && [wgs84BoundingBox.maxLongitude doubleValue] >= 180.0){
+       && [wgs84BoundingBox.minLongitude doubleValue] <= -PROJ_WGS84_HALF_WORLD_LON_WIDTH
+       && [wgs84BoundingBox.maxLongitude doubleValue] >= PROJ_WGS84_HALF_WORLD_LON_WIDTH){
         
         isFormat = true;
         

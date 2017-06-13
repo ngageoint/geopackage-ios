@@ -42,15 +42,15 @@ NSString * const GPKG_EGC_COLUMN_DATA_NULL = @"data_null";
     self.datatype = [GPKGGriddedCoverageDataTypes name:dataType];
 }
 
--(double) getScaleOrDefault{
+-(double) scaleOrDefault{
     return self.scale != nil ? [self.scale doubleValue] : 1.0;
 }
 
--(double) getOffsetOrDefault{
+-(double) offsetOrDefault{
     return self.offset != nil ? [self.offset doubleValue] : 0.0;
 }
 
--(double) getPrecisionOrDefault{
+-(double) precisionOrDefault{
     return self.precision != nil ? [self.precision doubleValue] : 1.0;
 }
 

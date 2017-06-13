@@ -13,7 +13,7 @@
 /**
  *  GeoPackage Database management. Maintains an active connection to the metadata database, close when done.
  */
-@interface GPKGGeoPackageManager : NSObject
+@interface GPKGGeoPackageManager : NSObject <NSURLSessionDownloadDelegate>
 
 /**
  *  Metadata database connection
@@ -311,12 +311,29 @@
 -(void) importGeoPackageFromUrl: (NSURL *) url;
 
 /**
+ *  Import a GeoPackage file from a URL
+ *
+ *  @param url url
+ *  @param session  session
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session;
+
+/**
  *  Import a GeoPackage file from a URL and name it
  *
  *  @param url  url
  *  @param name creation name
  */
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name;
+
+/**
+ *  Import a GeoPackage file from a URL and name it
+ *
+ *  @param url      url
+ *  @param session  session
+ *  @param name creation name
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name;
 
 /**
  *  Import a GeoPackage file from a URL and name it into a directory
@@ -328,6 +345,16 @@
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory;
 
 /**
+ *  Import a GeoPackage file from a URL and name it into a directory
+ *
+ *  @param url         url
+ *  @param session     session
+ *  @param name        creation name
+ *  @param dbDirectory directory
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory;
+
+/**
  *  Import a GeoPackage file from a URL and name it with progress callbacks
  *
  *  @param url      url
@@ -337,6 +364,16 @@
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress;
 
 /**
+ *  Import a GeoPackage file from a URL and name it with progress callbacks
+ *
+ *  @param url      url
+ *  @param session  session
+ *  @param name     creation name
+ *  @param progress progress callback
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress;
+
+/**
  *   Import a GeoPackage file from a URL and name it with existing file overide option
  *
  *  @param url      url
@@ -344,6 +381,16 @@
  *  @param override true to override an existing GeoPackage
  */
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andOverride: (BOOL) override;
+
+/**
+ *   Import a GeoPackage file from a URL and name it with existing file overide option
+ *
+ *  @param url      url
+ *  @param session  session
+ *  @param name     creation name
+ *  @param override true to override an existing GeoPackage
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name andOverride: (BOOL) override;
 
 /**
  *  Import a GeoPackage file from a URL and name it into a directory with progress callbacks
@@ -356,6 +403,17 @@
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress;
 
 /**
+ *  Import a GeoPackage file from a URL and name it into a directory with progress callbacks
+ *
+ *  @param url         url
+ *  @param session     session
+ *  @param name        creation name
+ *  @param dbDirectory directory
+ *  @param progress    progress callback
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress;
+
+/**
  *  Import a GeoPackage file from a URL and name it into a directory with existing file overide option
  *
  *  @param url         url
@@ -364,6 +422,17 @@
  *  @param override    true to override an existing GeoPackage
  */
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
+
+/**
+ *  Import a GeoPackage file from a URL and name it into a directory with existing file overide option
+ *
+ *  @param url         url
+ *  @param session     session
+ *  @param name        creation name
+ *  @param dbDirectory directory
+ *  @param override    true to override an existing GeoPackage
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override;
 
 /**
  *  Import a GeoPackage file from a URL and name it into a directory with existing file overide option and progress callbacks
@@ -375,6 +444,18 @@
  *  @param progress    progress callback
  */
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andProgress: (NSObject<GPKGProgress> *) progress;
+
+/**
+ *  Import a GeoPackage file from a URL and name it into a directory with existing file overide option and progress callbacks
+ *
+ *  @param url         url
+ *  @param session     session
+ *  @param name        creation name
+ *  @param dbDirectory directory
+ *  @param override    true to override an existing GeoPackage
+ *  @param progress    progress callback
+ */
+-(void) importGeoPackageFromUrl: (NSURL *) url withSession:(NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override andProgress: (NSObject<GPKGProgress> *) progress;
 
 /**
  *  Export a GeoPackage to a directory

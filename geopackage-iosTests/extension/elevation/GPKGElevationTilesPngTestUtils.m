@@ -116,7 +116,9 @@
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedCoverage.tileMatrixSetName];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_GCDT_INTEGER andValue2:[griddedCoverage getGriddedCoverageDataType]];
         [GPKGTestUtils assertTrue:[griddedCoverage.scale doubleValue] >= 0];
-        [GPKGTestUtils assertTrue:[griddedCoverage.offset doubleValue] >= 0];
+        if(elevationTileValues != nil){
+            [GPKGTestUtils assertTrue:[griddedCoverage.offset doubleValue] >= 0];
+        }
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0];
         
         // Test the Gridded Tile
@@ -167,8 +169,10 @@
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
     NSNumber * tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
-    [GPKGTestUtils assertTrue:[griddedTile getScaleOrDefault] >= 0];
-    [GPKGTestUtils assertTrue:[griddedTile getOffsetOrDefault] >= 0];
+    [GPKGTestUtils assertTrue:[griddedTile scaleOrDefault] >= 0];
+    if(elevationTileValues != nil){
+        [GPKGTestUtils assertTrue:[griddedTile offsetOrDefault] >= 0];
+    }
     [GPKGTestUtils assertNotNil:tileRow];
     
     NSData * tileData = [tileRow getTileData];
@@ -208,7 +212,7 @@
             if (griddedCoverage.dataNull != nil && pixelValue == [griddedCoverage.dataNull unsignedShortValue]) {
                 [GPKGTestUtils assertNil:elevationValue];
             } else {
-                [GPKGTestUtils assertEqualDoubleWithValue:(pixelValue * [griddedTile getScaleOrDefault] + [griddedTile getOffsetOrDefault]) * [griddedCoverage getScaleOrDefault] + [griddedCoverage getOffsetOrDefault]
+                [GPKGTestUtils assertEqualDoubleWithValue:(pixelValue * [griddedTile scaleOrDefault] + [griddedTile offsetOrDefault]) * [griddedCoverage scaleOrDefault] + [griddedCoverage offsetOrDefault]
                                                 andValue2:[elevationValue doubleValue] andDelta:.000001];
             }
         }
@@ -223,6 +227,14 @@
     free(pixelValues);
     
     GPKGTileMatrix * tileMatrix = [elevationTiles.tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
+    
+    double xDistance = [tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue];
+    double xDistance2 = [tileMatrix.matrixWidth intValue] * [tileMatrix.tileWidth intValue] * [tileMatrix.pixelXSize doubleValue];
+    [GPKGTestUtils assertEqualDoubleWithValue:xDistance andValue2:xDistance2 andDelta:.0000000001];
+    double yDistance = [tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue];
+    double yDistance2 = [tileMatrix.matrixHeight intValue] * [tileMatrix.tileHeight intValue] * [tileMatrix.pixelYSize doubleValue];
+    [GPKGTestUtils assertEqualDoubleWithValue:yDistance andValue2:yDistance2 andDelta:.0000000001];
+    
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
     GPKGElevationTileResults * elevationTileResults = [elevationTiles elevationsWithBoundingBox:boundingBox];
     if(elevationTileValues != nil){

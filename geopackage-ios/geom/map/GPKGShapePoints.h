@@ -39,6 +39,21 @@
  */
 -(void) addNewPoint: (GPKGMapPoint *) point;
 
+/**
+ *  Updates hidden state of all objects
+ *
+ *  @param hidden hidden flag
+ *  @param mapView map view
+ */
+-(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView;
+
+/**
+ *  Updates hidden state of the shape representing points
+ *
+ *  @param hidden hidden flag
+ */
+-(void) hiddenPoints: (BOOL) hidden;
+
 @end
 
 #endif
