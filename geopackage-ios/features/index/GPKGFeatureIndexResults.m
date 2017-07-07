@@ -11,12 +11,11 @@
 
 @interface GPKGFeatureIndexResults ()
 
-@property (nonatomic, strong) GPKGResultSet *results;
-
 /**
- *  Used to keep the current feature row reference to preven loss of pointers within the unsafe unreatined feature row
+ *  Strong reference of enumerated feature rows to prevent garbage collection of enumerated items.
  */
-@property (nonatomic, strong) GPKGFeatureRow *featureRow;
+@property (nonatomic, strong) NSMutableArray *rows;
+@property (nonatomic, strong) GPKGResultSet *results;
 
 @end
 
@@ -42,26 +41,31 @@
     [self.results close];
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len {
 
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len{
+    self.rows = [NSMutableArray arrayWithCapacity:len];
+    
     // First call
-    if(state->state == 0)
-    {
+    if(state->state == 0){
         state->mutationsPtr = &state->extra[0];
         state->state = 1;
     }
     
-    // Verify there are more results to return
-    if(![self.results moveToNext]){
-        return 0;
+    state->itemsPtr = stackbuf;
+    
+    NSUInteger count = 0;
+    while (count < len) {
+        if(![self.results moveToNext]){
+            break;
+        }
+        
+        GPKGFeatureRow * row = [self getFeatureRow];
+        [self.rows addObject:row];
+        stackbuf[count] = row;
+        count += 1;
     }
     
-    // Get and set the feature row
-    self.featureRow = [self getFeatureRow];
-    __unsafe_unretained GPKGFeatureRow * tempFeatureRow = self.featureRow;
-    state->itemsPtr = &tempFeatureRow;
-    
-    return 1;
+    return count;
 }
 
 -(GPKGFeatureRow *) getFeatureRow{
