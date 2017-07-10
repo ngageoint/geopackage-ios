@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.2.4 (TBD)
+
+* TBD
+
 ## [1.2.3](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.3) (07-10-2017)
 
 * Bug fix for indexed feature row enumeration in optimized release builds
