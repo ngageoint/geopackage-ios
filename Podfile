@@ -6,7 +6,7 @@ inhibit_all_warnings!
 target 'geopackage-ios' do
   pod 'proj4-ios', '~> 4.9.3'
   pod 'wkb-ios', '~> 1.0.7'
-  pod 'tiff-ios', '~> 1.0.2'
+  pod 'tiff-ios', '~> 1.0.3'
 
   target 'geopackage-iosTests' do
     inherit! :search_paths
