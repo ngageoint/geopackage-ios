@@ -178,7 +178,7 @@
 	<key>geopackage.number_feature_tiles.text_font</key>
 	<string>Helvetica</string>
 	<key>geopackage.number_feature_tiles.text_font_size</key>
-	<string>7.0</string>
+	<string>21.0</string>
 	<key>geopackage.number_feature_tiles.text_color</key>
 	<dict>
 		<key>white</key>
@@ -227,7 +227,7 @@
 		<string>.062745</string>
 	</dict>
 	<key>geopackage.number_feature_tiles.circle_padding_percentage</key>
-	<string>.1</string>
+	<string>.4</string>
 	<key>geopackage.number_feature_tiles.draw_unindexed_tiles</key>
 	<string>true</string>
 	<key>geopackage.number_feature_tiles.unindexed_text</key>
