@@ -48,7 +48,11 @@ NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
 }
 
 -(GPKGBoundingBox *) getBoundingBox{
-    return[[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMaxLongitude:self.maxX andMinLatitude:self.minY andMaxLatitude:self.maxY];
+    GPKGBoundingBox *boundingBox = nil;
+    if(self.minX != nil && self.maxX != nil && self.minY != nil && self.maxY != nil){
+        boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMaxLongitude:self.maxX andMinLatitude:self.minY andMaxLatitude:self.maxY];
+    }
+    return boundingBox;
 }
 
 -(void) setBoundingBox: (GPKGBoundingBox *) boundingBox{

@@ -241,14 +241,16 @@
     GPKGContentsDao * contentsDao = [self.geoPackage getContentsDao];
     
     GPKGBoundingBox * previousContentsBoundingBox = [contents getBoundingBox];
-    GPKGProjectionTransform * transformProjectionToContents = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao getProjection:contents]];
-    GPKGBoundingBox * contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:self.boundingBox];
-    contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
-    
-    // Update the contents if modified
-    if(![contentsBoundingBox equals:previousContentsBoundingBox]){
-        [contents setBoundingBox:contentsBoundingBox];
-        [contentsDao update:contents];
+    if(previousContentsBoundingBox != nil){
+        GPKGProjectionTransform * transformProjectionToContents = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao getProjection:contents]];
+        GPKGBoundingBox * contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:self.boundingBox];
+        contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
+        
+        // Update the contents if modified
+        if(![contentsBoundingBox equals:previousContentsBoundingBox]){
+            [contents setBoundingBox:contentsBoundingBox];
+            [contentsDao update:contents];
+        }
     }
     
     // If updating GeoPackage format tiles, all existing metadata and tile
