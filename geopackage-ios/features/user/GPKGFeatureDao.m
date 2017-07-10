@@ -70,13 +70,15 @@
 -(GPKGBoundingBox *) getBoundingBox{
     GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
     GPKGContents * contents = [geometryColumnsDao getContents:self.geometryColumns];
-    GPKGContentsDao * contentsDao = [self getContentsDao];
-    GPKGProjection * contentsProjection = [contentsDao getProjection:contents];
     
     GPKGBoundingBox * boundingBox = [contents getBoundingBox];
-    if([self.projection.epsg compare:contentsProjection.epsg] != NSOrderedSame){
-        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
-        boundingBox = [transform transformWithBoundingBox:boundingBox];
+    if(boundingBox != nil){
+        GPKGContentsDao * contentsDao = [self getContentsDao];
+        GPKGProjection * contentsProjection = [contentsDao getProjection:contents];
+        if([self.projection.epsg compare:contentsProjection.epsg] != NSOrderedSame){
+            GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
+            boundingBox = [transform transformWithBoundingBox:boundingBox];
+        }
     }
     
     return boundingBox;

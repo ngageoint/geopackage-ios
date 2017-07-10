@@ -20,7 +20,7 @@
         
         // Set the default text paint values
         self.textFont = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT];
-        self.textFontSize = [[UIScreen mainScreen] scale] * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE] floatValue];
+        self.textFontSize = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE] floatValue];
         self.textColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR]];
         
         // Set the default circle values
@@ -143,37 +143,19 @@
     }
     
     // Draw the text
-    CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-    
-    CGMutablePathRef textPath = CGPathCreateMutable();
-    CGRect bounds = CGRectMake(centerX - (textSize.width / 2.0), centerY - (textSize.height / 2.0), textSize.width, textSize.height);
-    CGPathAddRect(textPath, NULL, bounds );
-    
-    NSMutableAttributedString* attString = [[NSMutableAttributedString alloc] initWithString:text];
-    
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.alignment = NSTextAlignmentCenter;
+    NSDictionary *attributes = @{
+                            NSFontAttributeName: font,
+                            NSForegroundColorAttributeName: self.textColor,
+                            NSParagraphStyleAttributeName: paragraphStyle,
+                            };
     
-    [attString beginEditing];
+    CGRect bounds = CGRectMake(centerX - (textSize.width / 2.0), centerY - (textSize.height / 2.0), textSize.width, textSize.height);
     
-    [attString addAttribute:NSForegroundColorAttributeName value:self.textColor range:NSMakeRange(0, text.length)];
-    [attString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, text.length)];
-    [attString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, text.length)];
-    
-    [attString endEditing];
-    
-    CTFramesetterRef textFramesetter =
-        CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attString);
-    CTFrameRef textFrame =
-        CTFramesetterCreateFrame(textFramesetter,
-                             CFRangeMake(0, [attString length]), textPath, NULL);
-    
-    CTFrameDraw(textFrame, context);
-    
-    CFRelease(textFrame);
-    CFRelease(textPath);
-    CFRelease(textFramesetter);
-    
+    CGContextTranslateCTM(context, 0, tileHeight);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    [text drawInRect:bounds withAttributes:attributes];
     
     UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
