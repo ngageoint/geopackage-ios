@@ -127,7 +127,7 @@ int featureTileCount = [featureTileGenerator generateTiles];
 
 // Close manager when done
 [manager close];
-    
+
 ```
 
 ### Build ###
@@ -156,7 +156,7 @@ Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
 Pull from GitHub:
 
     pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.2.2'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.2.3'
 
 Include as local project:
 
@@ -246,7 +246,7 @@ boundingBox = GPKGProjectionTransform.init(fromEpsg: PROJ_EPSG_WORLD_GEODETIC_SY
 // URL Tile Generator (generate tiles from a URL)
 let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
 let urlTileCount: Int32 = urlTileGenerator.generateTiles();
-        
+
 // Feature Tile Generator (generate tiles from features)
 let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
 let featureTileCount: Int32 = featureTileGenerator.generateTiles();

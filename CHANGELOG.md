@@ -4,11 +4,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.2.3 (TBD)
+## [1.2.3](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.3) (07-10-2017)
 
-* Fix bug in indexed feature row enumeration
-* Improved handling of unknown Contents bounding box
-* Feature Tiles fix for number drawn tiles on non retina screens
+* Bug fix for indexed feature row enumeration in optimized release builds
+* Improved handling of unknown Contents bounding boxes
+* Feature Tiles fix for max feature number drawn tiles on non retina screens
 * tiff-ios version updated to 1.0.3
 
 ## [1.2.2](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.2) (06-14-2017)
