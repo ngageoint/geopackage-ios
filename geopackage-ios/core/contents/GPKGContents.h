@@ -31,7 +31,7 @@ extern NSString * const GPKG_CON_COLUMN_SRS_ID;
  * application can display to a user in a menu of geospatial data that is
  * available for access and/or update.
  */
-@interface GPKGContents : NSObject
+@interface GPKGContents : NSObject <NSMutableCopying>
 
 /**
  *  The name of the tiles, or feature table

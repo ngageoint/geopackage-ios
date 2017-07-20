@@ -112,7 +112,7 @@
 
 -(GPKGProjection *) getProjection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:projectionObject];
+    GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:projectionObject];
     return projection;
 }
 
@@ -306,55 +306,68 @@
     return result;
 }
 
--(GPKGSpatialReferenceSystem *) getOrCreateWithSrsId: (NSNumber*) srsId{
-    
-    GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *) [self queryForIdObject:srsId];
-    
-    srs = [self createIfNeededSrs:srs andId:srsId];
-    
-    return srs;
-}
-
 -(GPKGSpatialReferenceSystem *) getOrCreateWithEpsg: (NSNumber*) epsg{
+    return [self getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:epsg];
+}
+
+-(GPKGSpatialReferenceSystem *) getOrCreateWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
     
-    GPKGSpatialReferenceSystem * srs = [self queryForOrganizationCoordsysId:epsg];
+    GPKGSpatialReferenceSystem * srs = [self queryForOrganization:organization andCoordsysId:coordsysId];
     
-    srs = [self createIfNeededSrs:srs andId:epsg];
+    srs = [self createIfNeededWithSrs:srs andOrganization:organization andCoordsysId:coordsysId];
     
     return srs;
 }
 
--(GPKGSpatialReferenceSystem *) queryForOrganizationCoordsysId: (NSNumber *) organizationCoordsysId{
-    GPKGSpatialReferenceSystem * srs = nil;
-    GPKGResultSet * results = [super queryForEqWithField:GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID andValue:organizationCoordsysId];
+-(GPKGSpatialReferenceSystem *) queryForOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
+    GPKGSpatialReferenceSystem *srs = nil;
+    
+    GPKGColumnValues * values = [[GPKGColumnValues alloc] init];
+    [values addColumn:GPKG_SRS_COLUMN_ORGANIZATION withValue:organization];
+    [values addColumn:GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID withValue:coordsysId];
+    
+    GPKGResultSet *results = [self queryForFieldValues:values];
     if(results.count > 0){
         if(results.count > 1){
-            [NSException raise:@"Unexpected Result" format:@"More than one SpatialReferenceSystem returned for Organization Coordsys Id: %@", organizationCoordsysId];
+            [NSException raise:@"Unexpected Result" format:@"More than one SpatialReferenceSystem returned for Organization: %@, Organization Coordsys Id: %@", organization, coordsysId];
         }
         srs = (GPKGSpatialReferenceSystem *) [self getFirstObject:results];
     }
     [results close];
+    
     return srs;
 }
 
--(GPKGSpatialReferenceSystem *) createIfNeededSrs: (GPKGSpatialReferenceSystem *) srs andId: (NSNumber *) id{
+-(GPKGSpatialReferenceSystem *) createIfNeededWithSrs: (GPKGSpatialReferenceSystem *) srs andOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
     
     if(srs == nil){
         
-        long idValue = [id integerValue];
+        long idValue = [coordsysId integerValue];
         
-        if(idValue == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
-            srs = [self createWgs84];
-        } else if(idValue == PROJ_UNDEFINED_CARTESIAN){
-            srs = [self createUndefinedCartesian];
-        } else if(idValue == PROJ_UNDEFINED_GEOGRAPHIC){
-            srs = [self createUndefinedGeographic];
-        } else if(idValue == PROJ_EPSG_WEB_MERCATOR){
-            srs = [self createWebMercator];
-        }else if(idValue == PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D){
-            srs = [self createWgs84Geographical3D];
-        } else{
-            [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: %@", id];
+        if([organization caseInsensitiveCompare:PROJ_AUTHORITY_EPSG] == NSOrderedSame){
+            
+            if(idValue == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
+                srs = [self createWgs84];
+            } else if(idValue == PROJ_EPSG_WEB_MERCATOR){
+                srs = [self createWebMercator];
+            }else if(idValue == PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D){
+                srs = [self createWgs84Geographical3D];
+            } else{
+                [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: Organization: %@, id: %@", organization, coordsysId];
+            }
+            
+        }else if([organization caseInsensitiveCompare:PROJ_AUTHORITY_NONE] == NSOrderedSame){
+            
+            if(idValue == PROJ_UNDEFINED_CARTESIAN){
+                srs = [self createUndefinedCartesian];
+            } else if(idValue == PROJ_UNDEFINED_GEOGRAPHIC){
+                srs = [self createUndefinedGeographic];
+            } else{
+                [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: Organization: %@, id: %@", organization, coordsysId];
+            }
+            
+        }else{
+            [NSException raise:@"SRS Not Support" format:@"Spatial Reference System not supported for metadata creation: Organization: %@, id: %@", organization, coordsysId];
         }
         
     }else{

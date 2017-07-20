@@ -144,19 +144,23 @@
     return box;
 }
 
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjectionEpsg: (NSNumber *) projectionEpsg andX: (int) x andY: (int) y andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithEpsg: (NSNumber *) epsg andX: (int) x andY: (int) y andZoom: (int) zoom{
+    return [self projectedBoundingBoxWithAuthority:PROJ_AUTHORITY_EPSG andCode:epsg andX:x andY:y andZoom:zoom];
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom{
     
     GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
-    if(projectionEpsg != nil){
-        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:[projectionEpsg intValue]];
+    if(code != nil){
+        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [transform transformWithBoundingBox:boundingBox];
     }
     
     return boundingBox;
 }
 
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjection: (GPKGProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
@@ -168,19 +172,23 @@
     return boundingBox;
 }
 
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjectionEpsg: (NSNumber *) projectionEpsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithEpsg: (NSNumber *) epsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    return [self projectedBoundingBoxWithAuthority:PROJ_AUTHORITY_EPSG andCode:epsg andTileGrid:tileGrid andZoom:zoom];
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
-    if(projectionEpsg != nil){
-        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:[projectionEpsg intValue]];
+    if(code != nil){
+        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [transform transformWithBoundingBox:boundingBox];
     }
     
     return boundingBox;
 }
 
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
@@ -193,7 +201,7 @@
 }
 
 +(GPKGTileGrid *) getTileGridFromWGS84Point: (WKBPoint *) point andZoom: (int) zoom{
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGProjection * projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     return [GPKGTileBoundingBoxUtils getTileGridFromPoint:point andZoom:zoom andProjection:projection];
 }
 
@@ -459,6 +467,10 @@
 }
 
 +(GPKGBoundingBox *) boundWgs84BoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox{
+    return [self boundDegreesBoundingBoxWithWebMercatorLimits:boundingBox];
+}
+
++(GPKGBoundingBox *) boundDegreesBoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox{
     GPKGBoundingBox * bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox];
     if([bounded.minLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
         [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];

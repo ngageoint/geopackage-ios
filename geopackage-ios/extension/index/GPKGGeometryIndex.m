@@ -32,4 +32,19 @@ NSString * const GPKG_GI_COLUMN_MAX_M = @"max_m";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGGeometryIndex *geometryIndex = [[GPKGGeometryIndex alloc] init];
+    geometryIndex.tableName = _tableName;
+    geometryIndex.geomId = _geomId;
+    geometryIndex.minX = _minX;
+    geometryIndex.maxX = _maxX;
+    geometryIndex.minY = _minY;
+    geometryIndex.maxY = _maxY;
+    geometryIndex.minZ = _minZ;
+    geometryIndex.maxZ = _maxZ;
+    geometryIndex.minM = _minM;
+    geometryIndex.maxM = _maxM;
+    return geometryIndex;
+}
+
 @end

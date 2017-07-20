@@ -15,4 +15,11 @@ NSString * const GPKG_TI_COLUMN_LAST_INDEXED = @"last_indexed";
 
 @implementation GPKGTableIndex
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGTableIndex *tableIndex = [[GPKGTableIndex alloc] init];
+    tableIndex.tableName = _tableName;
+    tableIndex.lastIndexed = _lastIndexed;
+    return tableIndex;
+}
+
 @end

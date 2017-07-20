@@ -71,7 +71,7 @@
 
 -(NSString *) replaceBoundingBoxWithUrl: (NSString *) url andZ: (int) z andX: (int) x andY: (int) y{
     
-    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getProjectedBoundingBoxWithProjection:self.projection andX:x andY:y andZoom:z];
+    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils projectedBoundingBoxWithProjection:self.projection andX:x andY:y andZoom:z];
     
     url = [self replaceBoundingBoxWithUrl:url andBoundingBox:boundingBox];
     

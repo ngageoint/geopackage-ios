@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGProjection.h"
 #import "GPKGSpatialReferenceSystem.h"
+#import "GPKGAuthorityProjections.h"
 
 /**
  *  Projection factory for coordinate projections and transformations
@@ -22,7 +23,7 @@
  *
  *  @return projection
  */
-+(GPKGProjection *) getProjectionWithNumber: (NSNumber *) epsg;
++(GPKGProjection *) projectionWithEpsg: (NSNumber *) epsg;
 
 /**
  *  Get the projection with the epsg int
@@ -31,15 +32,137 @@
  *
  *  @return projection
  */
-+(GPKGProjection *) getProjectionWithInt: (int) epsg;
++(GPKGProjection *) projectionWithEpsgInt: (int) epsg;
 
 /**
- *  Get the projection for the Spatial Reference System
+ * Get the projection for authority and code
  *
- *  @param srs spatial reference system
- *
- *  @return projection
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @return projection
  */
-+(GPKGProjection *) getProjectionWithSrs: (GPKGSpatialReferenceSystem *) srs;
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andNumberCode:(NSNumber *)code;
+
+/**
+ * Get the projection for authority and code
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @return projection
+ */
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andCode:(NSString *)code;
+
+/**
+ * Get the projection for authority, code, and parameter string
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @param params
+ *            proj4 string
+ * @return projection
+ */
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andNumberCode:(NSNumber *)code andParams: (NSString *) params;
+
+/**
+ * Get the projection for authority, code, and parameter string
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @param params
+ *            proj4 string
+ * @return projection
+ */
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andCode:(NSString *)code andParams: (NSString *) params;
+
+/**
+ * Get the projection for the authority, code, definition, and custom
+ * parameter array
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @param params
+ *            proj4 string
+ * @param definition
+ *            definition
+ * @return projection
+ */
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andNumberCode:(NSNumber *)code andParams: (NSString *) params andDefinition: (NSString *) definition;
+
+/**
+ * Get the projection for the authority, code, definition, and custom
+ * parameter array
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            authority coordinate code
+ * @param params
+ *            proj4 string
+ * @param definition
+ *            definition
+ * @return projection
+ */
++(GPKGProjection *) projectionWithAuthority: (NSString *) authority andCode:(NSString *)code andParams: (NSString *) params andDefinition: (NSString *) definition;
+
+/**
+ * Get or create projections for the authority
+ *
+ * @param authority
+ *            coordinate authority
+ * @return authority projections
+ */
++(GPKGAuthorityProjections *) projectionsWithAuthority: (NSString *) authority;
+
+/**
+ * Clear all authority projections
+ */
++(void) clear;
+
+/**
+ * Clear the authority projections
+ *
+ * @param authority
+ *            coordinate authority
+ */
++(void) clearWithAuthority: (NSString *) authority;
+
+/**
+ * Clear the authority projection code
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            coordinate code
+ */
++(void) clearWithAuthority: (NSString *) authority andNumberCode: (NSNumber *) code;
+
+/**
+ * Clear the authority projection code
+ *
+ * @param authority
+ *            coordinate authority
+ * @param code
+ *            coordinate code
+ */
++(void) clearWithAuthority: (NSString *) authority andCode: (NSString *) code;
+
+/**
+ * Get the projection for the Spatial Reference System
+ *
+ * @param srs
+ *            spatial reference system
+ * @return projection
+ */
++(GPKGProjection *) projectionWithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 @end

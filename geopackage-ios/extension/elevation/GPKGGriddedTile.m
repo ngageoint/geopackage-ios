@@ -38,4 +38,18 @@ NSString * const GPKG_EGT_COLUMN_STANDARD_DEVIATION = @"std_dev";
     return self.offset != nil ? [self.offset doubleValue] : 0.0;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGGriddedTile *griddedTile = [[GPKGGriddedTile alloc] init];
+    griddedTile.id = _id;
+    griddedTile.tableName = _tableName;
+    griddedTile.tableId = _tableId;
+    griddedTile.scale = _scale;
+    griddedTile.offset = _offset;
+    griddedTile.min = _min;
+    griddedTile.max = _max;
+    griddedTile.mean = _mean;
+    griddedTile.standardDeviation = _standardDeviation;
+    return griddedTile;
+}
+
 @end

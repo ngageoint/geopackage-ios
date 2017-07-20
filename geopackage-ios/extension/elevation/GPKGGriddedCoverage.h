@@ -26,7 +26,7 @@ extern NSString * const GPKG_EGC_COLUMN_DATA_NULL;
 /**
  * Gridded Coverage object
  */
-@interface GPKGGriddedCoverage : NSObject
+@interface GPKGGriddedCoverage : NSObject <NSMutableCopying>
 
 /**
  *  Auto increment primary key

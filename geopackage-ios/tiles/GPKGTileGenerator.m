@@ -108,7 +108,8 @@
     if(![tileMatrixSetDao tableExists] || ![tileMatrixSetDao idExists:self.tableName]){
         // Create the srs if needed
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
-        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithEpsg:self.projection.epsg];
+        NSNumber *coordsysId = [NSNumber numberWithInteger:[[self.projection code] integerValue]];
+        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithOrganization:[self.projection authority] andCoordsysId:coordsysId];
         // Create the tile table
         tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.tileGridBoundingBox andContentsSrsId:srs.srsId andTileMatrixSetBoundingBox:self.tileGridBoundingBox andTileMatrixSetSrsId:srs.srsId];
         
@@ -232,8 +233,8 @@
     
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage getTileMatrixSetDao];
     GPKGProjection * tileMatrixProjection = [tileMatrixSetDao getProjection:tileMatrixSet];
-    if([tileMatrixProjection.epsg intValue] != [self.projection.epsg intValue]){
-        [NSException raise:@"Projection Mismatch" format:@"Can not update tiles projected at %@ with tiles projected at %@", tileMatrixProjection.epsg, self.projection.epsg];
+    if(![tileMatrixProjection isEqual:self.projection]){
+        [NSException raise:@"Projection Mismatch" format:@"Can not update tiles projected at %@:%@ with tiles projected at %@:%@", [tileMatrixProjection authority], [tileMatrixProjection code], [self.projection authority], [self.projection code]];
     }
     
     GPKGContents * contents = [tileMatrixSetDao getContents:tileMatrixSet];

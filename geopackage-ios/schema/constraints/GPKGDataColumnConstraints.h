@@ -40,7 +40,7 @@ extern NSString * const GPKG_DCCT_GLOB_NAME;
 /**
  *  Contains data to specify restrictions on basic data type column values
  */
-@interface GPKGDataColumnConstraints : NSObject
+@interface GPKGDataColumnConstraints : NSObject <NSMutableCopying>
 
 /**
  *  Case sensitive name of constraint

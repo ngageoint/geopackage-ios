@@ -12,6 +12,8 @@
  *  Projection constants
  */
 extern NSString * const PROJ_PROPERTIES;
+extern NSString * const PROJ_AUTHORITY_EPSG;
+extern NSString * const PROJ_AUTHORITY_NONE;
 extern int const PROJ_UNDEFINED_CARTESIAN;
 extern int const PROJ_UNDEFINED_GEOGRAPHIC;
 extern int const PROJ_EPSG_WORLD_GEODETIC_SYSTEM;

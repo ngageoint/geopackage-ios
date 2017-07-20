@@ -91,4 +91,14 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
     return value;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGExtensions *extensions = [[GPKGExtensions alloc] init];
+    extensions.tableName = _tableName;
+    extensions.columnName = _columnName;
+    extensions.extensionName = _extensionName;
+    extensions.definition = _definition;
+    extensions.scope = _scope;
+    return extensions;
+}
+
 @end

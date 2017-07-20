@@ -54,4 +54,16 @@ NSString * const GPKG_EGC_COLUMN_DATA_NULL = @"data_null";
     return self.precision != nil ? [self.precision doubleValue] : 1.0;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGGriddedCoverage *griddedCoverage = [[GPKGGriddedCoverage alloc] init];
+    griddedCoverage.id = _id;
+    griddedCoverage.tileMatrixSetName = _tileMatrixSetName;
+    griddedCoverage.datatype = _datatype;
+    griddedCoverage.scale = _scale;
+    griddedCoverage.offset = _offset;
+    griddedCoverage.precision = _precision;
+    griddedCoverage.dataNull = _dataNull;
+    return griddedCoverage;
+}
+
 @end

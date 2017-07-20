@@ -83,7 +83,7 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
         self.width = width;
         self.height = height;
         self.requestProjection = requestProjection;
-        self.elevationProjection = [GPKGProjectionFactory getProjectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
+        self.elevationProjection = [GPKGProjectionFactory projectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
         self.elevationBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units

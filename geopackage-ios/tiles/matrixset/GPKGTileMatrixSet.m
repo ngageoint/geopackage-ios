@@ -52,4 +52,15 @@ NSString * const GPKG_TMS_COLUMN_MAX_Y = @"max_y";
     self.maxY = boundingBox.maxLatitude;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGTileMatrixSet *tileMatrixSet = [[GPKGTileMatrixSet alloc] init];
+    tileMatrixSet.tableName = _tableName;
+    tileMatrixSet.srsId = _srsId;
+    tileMatrixSet.minX = _minX;
+    tileMatrixSet.minY = _minY;
+    tileMatrixSet.maxX = _maxX;
+    tileMatrixSet.maxY = _maxY;
+    return tileMatrixSet;
+}
+
 @end

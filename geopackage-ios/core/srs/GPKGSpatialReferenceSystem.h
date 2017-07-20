@@ -27,7 +27,7 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
  * GeometryColumns objects to relate the vector and tile data in user
  * tables to locations on the earth.
  */
-@interface GPKGSpatialReferenceSystem : NSObject
+@interface GPKGSpatialReferenceSystem : NSObject <NSMutableCopying>
 
 /**
  *  Human readable name of this SRS

@@ -164,7 +164,7 @@
     
     GPKGExtensions * extension = nil;
     if(extensions.count > 1){
-        [NSException raise:@"Too Many Results" format:@"More than one Extenion existed for unique combination of Extension Name: %@, Table Name: %@, Column Name: %@", extensionName, tableName, columnName];
+        [NSException raise:@"Too Many Results" format:@"More than one Extension existed for unique combination of Extension Name: %@, Table Name: %@, Column Name: %@", extensionName, tableName, columnName];
     } else if([extensions moveToNext]){
         extension = (GPKGExtensions *)[self getObject:extensions];
     }

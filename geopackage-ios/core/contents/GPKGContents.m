@@ -62,4 +62,19 @@ NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
     self.maxY = boundingBox.maxLatitude;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGContents *contents = [[GPKGContents alloc] init];
+    contents.tableName = _tableName;
+    contents.dataType = _dataType;
+    contents.identifier = _identifier;
+    contents.theDescription = _theDescription;
+    contents.lastChange = _lastChange;
+    contents.minX = _minX;
+    contents.maxX = _maxX;
+    contents.minY = _minY;
+    contents.maxY = _maxY;
+    contents.srsId = _srsId;
+    return contents;
+}
+
 @end

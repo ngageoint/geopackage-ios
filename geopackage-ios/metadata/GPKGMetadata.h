@@ -72,7 +72,7 @@ extern NSString * const GPKG_MST_DIMENSION_GROUP_NAME;
  *  Contains metadata in MIME encodings structured in accordance with any
  *  authoritative metadata specification
  */
-@interface GPKGMetadata : NSObject
+@interface GPKGMetadata : NSObject <NSMutableCopying>
 
 /**
  *  Metadata primary key

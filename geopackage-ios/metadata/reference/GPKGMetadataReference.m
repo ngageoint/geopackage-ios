@@ -117,4 +117,16 @@ NSString * const GPKG_RST_ROW_COL_NAME = @"row/col";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGMetadataReference *metadataReference = [[GPKGMetadataReference alloc] init];
+    metadataReference.referenceScope = _referenceScope;
+    metadataReference.tableName = _tableName;
+    metadataReference.columnName = _columnName;
+    metadataReference.rowIdValue = _rowIdValue;
+    metadataReference.timestamp = _timestamp;
+    metadataReference.fileId = _fileId;
+    metadataReference.parentId = _parentId;
+    return metadataReference;
+}
+
 @end

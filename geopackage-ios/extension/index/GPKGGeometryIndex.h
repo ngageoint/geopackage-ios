@@ -29,7 +29,7 @@ extern NSString * const GPKG_GI_COLUMN_MAX_M;
 /**
  * Geometry Index object, for indexing geometries within user feature tables
  */
-@interface GPKGGeometryIndex : NSObject
+@interface GPKGGeometryIndex : NSObject <NSMutableCopying>
 
 /**
  *  Name of the table

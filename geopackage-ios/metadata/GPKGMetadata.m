@@ -183,4 +183,14 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
     return scope;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGMetadata *metadata = [[GPKGMetadata alloc] init];
+    metadata.id = _id;
+    metadata.scope = _scope;
+    metadata.standardUri = _standardUri;
+    metadata.mimeType = _mimeType;
+    metadata.metadata = _metadata;
+    return metadata;
+}
+
 @end
