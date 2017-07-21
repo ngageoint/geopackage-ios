@@ -134,7 +134,7 @@
  * @param authority
  *            coordinate authority
  */
-+(void) clearWithAuthority: (NSString *) authority;
++(void) clearAuthority: (NSString *) authority;
 
 /**
  * Clear the authority projection code
@@ -144,7 +144,7 @@
  * @param code
  *            coordinate code
  */
-+(void) clearWithAuthority: (NSString *) authority andNumberCode: (NSNumber *) code;
++(void) clearAuthority: (NSString *) authority andNumberCode: (NSNumber *) code;
 
 /**
  * Clear the authority projection code
@@ -154,7 +154,7 @@
  * @param code
  *            coordinate code
  */
-+(void) clearWithAuthority: (NSString *) authority andCode: (NSString *) code;
++(void) clearAuthority: (NSString *) authority andCode: (NSString *) code;
 
 /**
  * Get the projection for the Spatial Reference System

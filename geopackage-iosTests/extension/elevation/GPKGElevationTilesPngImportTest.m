@@ -96,9 +96,9 @@ static BOOL allowNulls = false;
         
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
         NSNumber * srsId = tileMatrixSet.srsId;
-        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
-        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:srs];
-        GPKGProjection * requestProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
+        GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
+        GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         GPKGProjectionTransform * elevationToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
         projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
     }
@@ -142,8 +142,8 @@ static BOOL allowNulls = false;
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:requestEpsg];
-    GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGProjection * projection = [GPKGProjectionFactory projectionWithEpsgInt:requestEpsg];
+    GPKGProjection * printProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
     
     NSMutableString * log = [[NSMutableString alloc] init];
@@ -231,10 +231,11 @@ static BOOL allowNulls = false;
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
         
-        int geoPackageEpsg = [[dao getSrs:tileMatrixSet].organizationCoordsysId intValue];
+        GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
+        int geoPackageEpsg = [srs.organizationCoordsysId intValue];
         
-        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:geoPackageEpsg];
-        GPKGProjection * printProjection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
+        GPKGProjection * printProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];

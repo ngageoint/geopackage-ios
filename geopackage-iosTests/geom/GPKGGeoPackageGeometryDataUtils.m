@@ -128,9 +128,9 @@
                         
                         GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
                         NSNumber * srsId = geometryData.srsId;
-                        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
+                        GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
-                        GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:srs];
+                        GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
                         int toEpsg = -1;
                         if([srs.organizationCoordsysId intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
                             toEpsg = PROJ_EPSG_WEB_MERCATOR;

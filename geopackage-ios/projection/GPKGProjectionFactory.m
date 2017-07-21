@@ -82,6 +82,11 @@ static NSMutableDictionary<NSString *, GPKGAuthorityProjections *> * authorities
 }
 
 +(GPKGAuthorityProjections *) projectionsWithAuthority: (NSString *) authority{
+    
+    if(authorities == nil){
+        authorities = [[NSMutableDictionary alloc] init];
+    }
+    
     GPKGAuthorityProjections *authorityProjections = [authorities objectForKey:[authority uppercaseString]];
     if(authorityProjections == nil){
         authorityProjections = [[GPKGAuthorityProjections alloc] initWithAuthority:authority];
@@ -94,15 +99,15 @@ static NSMutableDictionary<NSString *, GPKGAuthorityProjections *> * authorities
     [authorities removeAllObjects];
 }
 
-+(void) clearWithAuthority: (NSString *) authority{
++(void) clearAuthority: (NSString *) authority{
     [[self projectionsWithAuthority:authority] clear];
 }
 
-+(void) clearWithAuthority: (NSString *) authority andNumberCode: (NSNumber *) code{
++(void) clearAuthority: (NSString *) authority andNumberCode: (NSNumber *) code{
     [[self projectionsWithAuthority:authority] clearNumberCode:code];
 }
 
-+(void) clearWithAuthority: (NSString *) authority andCode: (NSString *) code{
++(void) clearAuthority: (NSString *) authority andCode: (NSString *) code{
     [[self projectionsWithAuthority:authority] clearCode:code];
 }
 

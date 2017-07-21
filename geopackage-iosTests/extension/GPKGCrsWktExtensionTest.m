@@ -96,12 +96,12 @@
     [GPKGTestUtils assertNotNil:wgs84Srs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:wgs84Srs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     
-    undefinedCartesianSrs = [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
+    undefinedCartesianSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:undefinedCartesianSrs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     
-    undefinedGeographicSrs = [srsDao getOrCreateWithSrsId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
+    undefinedGeographicSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:undefinedGeographicSrs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     

@@ -402,6 +402,7 @@
 		04C637F71E1C371800B429FE /* GPKGElevationPngImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F51E1C371800B429FE /* GPKGElevationPngImage.m */; };
 		04C637FA1E1C373D00B429FE /* GPKGElevationTiffImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C637F81E1C373D00B429FE /* GPKGElevationTiffImage.h */; };
 		04C637FB1E1C373D00B429FE /* GPKGElevationTiffImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F91E1C373D00B429FE /* GPKGElevationTiffImage.m */; };
+		04DCAEA11F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCAEA01F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.m */; };
 		04DD109B1BDE9D4C00CC59A0 /* GPKGConnectionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10971BDE9D4C00CC59A0 /* GPKGConnectionPool.h */; };
 		04DD109C1BDE9D4C00CC59A0 /* GPKGConnectionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD10981BDE9D4C00CC59A0 /* GPKGConnectionPool.m */; };
 		04DD109D1BDE9D4C00CC59A0 /* GPKGSqliteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 04DD10991BDE9D4C00CC59A0 /* GPKGSqliteConnection.h */; };
@@ -880,6 +881,8 @@
 		04C637F81E1C373D00B429FE /* GPKGElevationTiffImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGElevationTiffImage.h; sourceTree = "<group>"; };
 		04C637F91E1C373D00B429FE /* GPKGElevationTiffImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGElevationTiffImage.m; sourceTree = "<group>"; };
 		04C637FC1E1C386E00B429FE /* GPKGElevationImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGElevationImage.h; sourceTree = "<group>"; };
+		04DCAE9F1F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGProjectionFactoryTestCase.h; sourceTree = "<group>"; };
+		04DCAEA01F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGProjectionFactoryTestCase.m; sourceTree = "<group>"; };
 		04DD10971BDE9D4C00CC59A0 /* GPKGConnectionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGConnectionPool.h; sourceTree = "<group>"; };
 		04DD10981BDE9D4C00CC59A0 /* GPKGConnectionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionPool.m; sourceTree = "<group>"; };
 		04DD10991BDE9D4C00CC59A0 /* GPKGSqliteConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGSqliteConnection.h; sourceTree = "<group>"; };
@@ -1100,6 +1103,7 @@
 				042FC8C81B964DA200549A4B /* en.lproj */,
 				042FC8CB1B964DA200549A4B /* geom */,
 				042FC8E31B964DA200549A4B /* tiles */,
+				04DCAE9E1F22822E00FA9B9F /* projection */,
 				042FC8D21B964DA200549A4B /* GPKGBaseTestCase.h */,
 				042FC8D31B964DA200549A4B /* GPKGBaseTestCase.m */,
 				042FC8D41B964DA200549A4B /* GPKGCreateGeoPackageTestCase.h */,
@@ -1844,6 +1848,15 @@
 			path = retriever;
 			sourceTree = "<group>";
 		};
+		04DCAE9E1F22822E00FA9B9F /* projection */ = {
+			isa = PBXGroup;
+			children = (
+				04DCAE9F1F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.h */,
+				04DCAEA01F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.m */,
+			);
+			path = projection;
+			sourceTree = "<group>";
+		};
 		04DD10AB1BDECCD100CC59A0 /* pool */ = {
 			isa = PBXGroup;
 			children = (
@@ -2479,6 +2492,7 @@
 				0447FA251CDBFA6200418104 /* GPKGGeometryExtensionsTest.m in Sources */,
 				0447FA281CDBFAC400418104 /* GPKGWebPExtensionTest.m in Sources */,
 				04DD10B01BDFB16D00CC59A0 /* GPKGConnectionPoolTestCase.m in Sources */,
+				04DCAEA11F22872E00FA9B9F /* GPKGProjectionFactoryTestCase.m in Sources */,
 				0496750A1D08BE6300D65851 /* GPKGTileCreatorGetTileTest.m in Sources */,
 				045BCA081BFB6E220080B967 /* GPKGTileCreateTestCase.m in Sources */,
 				045BCA011BFA73C40080B967 /* GPKGManagerTestCase.m in Sources */,

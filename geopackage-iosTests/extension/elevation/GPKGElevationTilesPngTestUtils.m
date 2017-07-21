@@ -360,17 +360,17 @@
     GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
     GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
     NSNumber * srsId = tileMatrixSet.srsId;
-    GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
+    GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
     
     NSNumber * epsg = srs.organizationCoordsysId;
-    GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithSrs:srs];
+    GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
     int requestEpsg = -1;
     if ([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM) {
         requestEpsg = PROJ_EPSG_WEB_MERCATOR;
     } else {
         requestEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
     }
-    GPKGProjection * requestProjection = [GPKGProjectionFactory getProjectionWithInt:requestEpsg];
+    GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:requestEpsg];
     GPKGProjectionTransform * elevationToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
     GPKGBoundingBox * projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
     
@@ -551,7 +551,7 @@
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         
-        GPKGProjection * requestProjection = [GPKGProjectionFactory  getProjectionWithInt:epsg];
+        GPKGProjection * requestProjection = [GPKGProjectionFactory  projectionWithEpsgInt:epsg];
         
         // Test getting the elevation of a single coordinate
         GPKGElevationTilesPng * elevationTiles = [[GPKGElevationTilesPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
@@ -574,7 +574,7 @@
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         
-        GPKGProjection * requestProjection = [GPKGProjectionFactory getProjectionWithInt:epsg];
+        GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:epsg];
         
         // Test getting the elevation of a single coordinate
         GPKGElevationTilesPng * elevationTiles = [[GPKGElevationTilesPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
