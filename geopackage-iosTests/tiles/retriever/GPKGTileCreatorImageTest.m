@@ -31,7 +31,7 @@
     
     GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
-    [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WEB_MERCATOR];
+    [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     GPKGProjection * webMercator = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
     GPKGProjection * wgs84 = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
