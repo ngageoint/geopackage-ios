@@ -273,6 +273,15 @@
 -(MKPolygon *) toMapPolygonWithPolygon: (WKBPolygon *) polygon;
 
 /**
+ *  Convert WKB curve polygon to a MapKit polygon
+ *
+ *  @param polygon wkb curve polygon
+ *
+ *  @return MK polygon
+ */
+-(MKPolygon *) toMapCurvePolygonWithPolygon: (WKBCurvePolygon *) curvePolygon;
+
+/**
  *  Convert a MapKit polygon to a WKB polygon
  *
  *  @param mapPolygon MK polygon

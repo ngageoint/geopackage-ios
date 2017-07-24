@@ -229,6 +229,91 @@
     return mapPolygon;
 }
 
+-(MKPolygon *) toMapCurvePolygonWithPolygon: (WKBCurvePolygon *) curvePolygon{
+    
+    MKPolygon * mapPolygon = nil;
+    
+    NSArray * rings = curvePolygon.rings;
+    
+    if([rings count] > 0){
+    
+        MKMapPoint *polygonPoints;
+        int numPoints = 0;
+        
+        // Add the polygon points
+        NSObject *curve = (WKBCurve *)[rings objectAtIndex:0];
+        if([curve isKindOfClass:[WKBCompoundCurve class]]){
+            WKBCompoundCurve *compoundCurve = (WKBCompoundCurve *) curve;
+            for(WKBLineString *lineString in compoundCurve.lineStrings){
+                numPoints += [[lineString numPoints] intValue];
+            }
+            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            int index = 0;
+            for(WKBLineString *lineString in compoundCurve.lineStrings){
+                WKBLineString *compoundCurveLineString = [self shortestDirectionWithLineString:lineString];
+                for(WKBPoint *point in compoundCurveLineString.points){
+                    MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
+                    polygonPoints[index++] = mapPoint;
+                }
+            }
+        }else if([curve isKindOfClass:[WKBLineString class]]){
+            WKBLineString *lineString = (WKBLineString *)curve;
+            lineString = [self shortestDirectionWithLineString:lineString];
+            numPoints = [[lineString numPoints] intValue];
+            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            for(int i = 0; i < numPoints; i++){
+                WKBPoint * point = (WKBPoint *)[lineString.points objectAtIndex:i];
+                MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
+                polygonPoints[i] = mapPoint;
+            }
+        }else{
+            [NSException raise:@"Unsupported Curve Type" format:@"Unsupported Curve Type: %@", NSStringFromClass([curve class])];
+        }
+        
+        // Add the holes
+        NSUInteger ringCount = [rings count];
+        NSMutableArray * holes = [[NSMutableArray alloc] init];
+        for(int i = 1; i < ringCount; i++){
+            WKBCurve *hole = (WKBCurve *)[rings objectAtIndex:i];
+            if([hole isKindOfClass:[WKBCompoundCurve class]]){
+                WKBCompoundCurve *holeCompoundCurve = (WKBCompoundCurve *) hole;
+                int numHolePoints = 0;
+                for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
+                    numHolePoints += [[holeLineString numPoints] intValue];
+                }
+                MKMapPoint holePoints[numHolePoints];
+                int index = 0;
+                for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
+                    WKBLineString *compoundCurveHoleLineString = [self shortestDirectionWithLineString:holeLineString];
+                    for(WKBPoint *point in compoundCurveHoleLineString.points){
+                        MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
+                        holePoints[index++] = mapPoint;
+                    }
+                }
+                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:holePoints count:numHolePoints];
+                [holes addObject:holePolygon];
+            }else if([hole isKindOfClass:[WKBLineString class]]){
+                WKBLineString *holeLineString = (WKBLineString *)hole;
+                holeLineString = [self shortestDirectionWithLineString:holeLineString];
+                int numHolePoints = [[holeLineString numPoints] intValue];
+                MKMapPoint holePoints[numHolePoints];
+                for(int j = 0; j < numHolePoints; j++){
+                    WKBPoint * point = (WKBPoint *)[holeLineString.points objectAtIndex:j];
+                    MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
+                    holePoints[j] = mapPoint;
+                }
+                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:holePoints count:numHolePoints];
+                [holes addObject:holePolygon];
+            }else{
+                [NSException raise:@"Unsupported Curve Hole Type" format:@"Unsupported Curve Hole Type: %@", NSStringFromClass([hole class])];
+            }
+        }
+
+        mapPolygon = [MKPolygon polygonWithPoints:polygonPoints count:numPoints interiorPolygons:holes];
+    }
+    return mapPolygon;
+}
+
 -(WKBPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon{
     return [self toPolygonWithMapPolygon:mapPolygon andHasZ:false andHasM:false];
 }
@@ -670,6 +755,9 @@
         case WKB_COMPOUNDCURVE:
             shape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_MULTI_POLYLINE andShape:[self toMapMultiPolylineWithCompoundCurve:(WKBCompoundCurve *) geometry]];
             break;
+        case WKB_CURVEPOLYGON:
+            shape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_POLYGON andShape:[self toMapCurvePolygonWithPolygon:(WKBCurvePolygon *) geometry]];
+            break;
         case WKB_POLYHEDRALSURFACE:
             shape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_MULTI_POLYGON andShape:[self toMapMultiPolygonWithPolyhedralSurface:(WKBPolyhedralSurface *) geometry]];
             break;
@@ -730,6 +818,9 @@
             break;
         case WKB_COMPOUNDCURVE:
             addedShape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_MULTI_POLYLINE andShape:[GPKGMapShapeConverter addMapMultiPolyline:[self toMapMultiPolylineWithCompoundCurve:(WKBCompoundCurve *) geometry]toMapView:mapView]];
+            break;
+        case WKB_CURVEPOLYGON:
+            addedShape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_POLYGON andShape:[GPKGMapShapeConverter addMapPolygon:[self toMapCurvePolygonWithPolygon:(WKBCurvePolygon *) geometry] toMapView:mapView]];
             break;
         case WKB_POLYHEDRALSURFACE:
             addedShape = [[GPKGMapShape alloc] initWithGeometryType:geometryType andShapeType:GPKG_MST_MULTI_POLYGON andShape:[GPKGMapShapeConverter addMapMultiPolygon:[self toMapMultiPolygonWithPolyhedralSurface:(WKBPolyhedralSurface *) geometry]toMapView:mapView]];
