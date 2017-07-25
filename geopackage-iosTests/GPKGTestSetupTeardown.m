@@ -18,6 +18,7 @@
 #import "GPKGUtils.h"
 #import "GPKGAttributesColumn.h"
 #import "GPKGGeoPackageConstants.h"
+#import "GPKGDateTimeUtils.h"
 
 NSInteger const GPKG_TEST_SETUP_CREATE_SRS_COUNT = 3;
 NSInteger const GPKG_TEST_SETUP_CREATE_CONTENTS_COUNT = 6;
@@ -158,13 +159,15 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
     
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:6 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:5 andName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:6 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:8 andName:@"test_date" andDataType:GPKG_DT_DATE andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:9 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:5 andName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:false andDefaultValue:nil] toArray:columns];
     
     GPKGAttributesTable * attributesTable = [geoPackage createAttributesTableWithTableName:@"test_attributes" andAdditionalColumns:columns];
     [GPKGTestUtils assertNotNil:attributesTable];
@@ -223,13 +226,28 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
                         value = [NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]];
                         break;
                     case GPKG_DT_BLOB:
-                    {
-                        NSData * blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
-                        if(column.max != nil && [blob length] > [column.max intValue]){
-                            blob = [blob subdataWithRange:NSMakeRange(0, [column.max intValue])];
+                        {
+                            NSData * blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                            if(column.max != nil && [blob length] > [column.max intValue]){
+                                blob = [blob subdataWithRange:NSMakeRange(0, [column.max intValue])];
+                            }
+                            value = blob;
                         }
-                        value = blob;
-                    }
+                        break;
+                    case GPKG_DT_DATE:
+                    case GPKG_DT_DATETIME:
+                        {
+                            NSDate *date = [NSDate date];
+                            if([GPKGTestUtils randomDouble] < .5){
+                                if(column.dataType == GPKG_DT_DATE){
+                                    value = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType]];
+                                }else{
+                                    value = date;
+                                }
+                            }else{
+                                value = [GPKGDateTimeUtils convertToStringWithDate:date andType:column.dataType];
+                            }
+                        }
                         break;
                     default:
                         [NSException raise:@"Not implemented" format:@"Not implemented for data type: %u", column.dataType];

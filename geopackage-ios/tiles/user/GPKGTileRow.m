@@ -115,4 +115,10 @@
     [self setTileData:[GPKGImageConverter toData:image andFormat:format andQuality:quality]];
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGTileRow *tileRow = [super mutableCopyWithZone:zone];
+    tileRow.tileTable = _tileTable;
+    return tileRow;
+}
+
 @end

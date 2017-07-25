@@ -23,19 +23,19 @@
     [GPKGTestUtils assertFalse:[wktExtension has]];
     
     // Test querying and setting the definitions before the column exists
-    GPKGSpatialReferenceSystem * wgs84Srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem * wgs84Srs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTestUtils assertNotNil:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
     
-    GPKGSpatialReferenceSystem * undefinedCartesianSrs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
+    GPKGSpatialReferenceSystem * undefinedCartesianSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
     
-    GPKGSpatialReferenceSystem * undefinedGeographicSrs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
+    GPKGSpatialReferenceSystem * undefinedGeographicSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs];
     [GPKGTestUtils assertNil:undefinedGeographicSrs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:undefinedGeographicSrs];
@@ -69,17 +69,17 @@
     [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:[GPKGProperties getValueOfProperty:@"geopackage.extensions.crs_wkt"]];
     
     // Test querying and setting the definitions after the column exists
-    wgs84Srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    wgs84Srs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTestUtils assertNotNil:wgs84Srs];
     [GPKGTestUtils assertNotNil:wgs84Srs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:wgs84Srs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     
-    undefinedCartesianSrs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
+    undefinedCartesianSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:undefinedCartesianSrs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     
-    undefinedGeographicSrs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
+    undefinedGeographicSrs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:undefinedGeographicSrs.definition_12_063 andValue2:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];

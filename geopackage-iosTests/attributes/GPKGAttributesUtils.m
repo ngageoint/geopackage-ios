@@ -9,6 +9,8 @@
 #import "GPKGAttributesUtils.h"
 #import "GPKGTestUtils.h"
 #import "GPKGAttributesColumn.h"
+#import "GPKGDateTimeUtils.h"
+#import "GPKGGeoPackageGeometryDataUtils.h"
 
 @implementation GPKGAttributesUtils
 
@@ -189,6 +191,7 @@
     
     for (int i = 0; i < [attributesRow columnCount]; i++) {
         GPKGAttributesColumn * column = [attributesRow.table.columns objectAtIndex:i];
+        enum GPKGDataType dataType = column.dataType;
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
         [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow getColumnNameWithIndex:i]];
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:[attributesRow getColumnIndexWithColumnName:[columns objectAtIndex:i]]];
@@ -206,7 +209,16 @@
                 break;
                 
             case SQLITE_TEXT:
-                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+                {
+                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
+                        NSDate *date = (NSDate *) value;
+                        NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
+                        [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
+                    }else{
+                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+                    }
+                }
                 break;
                 
             case SQLITE_BLOB:
@@ -248,6 +260,7 @@
                 
                 NSString * updatedString = nil;
                 NSString * updatedLimitedString = nil;
+                NSDate *updatedDate = nil;
                 NSNumber * updatedBoolean = nil;
                 NSNumber * updatedByte = nil;
                 NSNumber * updatedShort = nil;
@@ -271,24 +284,40 @@
                 for (GPKGAttributesColumn * attributesColumn in dao.table.columns) {
                     if (!attributesColumn.primaryKey) {
                         
+                        enum GPKGDataType dataType = attributesColumn.dataType;
+                        
                         switch([attributesRow getRowColumnTypeWithIndex:attributesColumn.index]){
                                 
                             case SQLITE_TEXT:
                                 {
-                                    if (updatedString == nil) {
-                                        updatedString = [[NSProcessInfo processInfo] globallyUniqueString];
-                                    }
-                                    if(attributesColumn.max != nil){
-                                        if(updatedLimitedString == nil){
-                                            if(updatedString.length > [attributesColumn.max intValue]){
-                                                updatedLimitedString = [updatedString substringToIndex:[attributesColumn.max intValue]];
-                                            } else{
-                                                updatedLimitedString = updatedString;
-                                            }
+                                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                                        
+                                        if (updatedDate == nil) {
+                                            updatedDate = [NSDate date];
                                         }
-                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedString];
+                                        if ([GPKGTestUtils randomDouble] < .5) {
+                                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDate];
+                                        } else {
+                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                                        }
                                     }else{
-                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedString];
+                                    
+                                        if (updatedString == nil) {
+                                            updatedString = [[NSProcessInfo processInfo] globallyUniqueString];
+                                        }
+                                        if(attributesColumn.max != nil){
+                                            if(updatedLimitedString == nil){
+                                                if(updatedString.length > [attributesColumn.max intValue]){
+                                                    updatedLimitedString = [updatedString substringToIndex:[attributesColumn.max intValue]];
+                                                } else{
+                                                    updatedLimitedString = updatedString;
+                                                }
+                                            }
+                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedString];
+                                        }else{
+                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedString];
+                                        }
                                     }
                                 }
                                 break;
@@ -409,13 +438,32 @@
                     
                     GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow getColumnWithColumnName:readColumnName];
                     if (!readAttributesColumn.primaryKey) {
+                        
+                        enum GPKGDataType dataType = readAttributesColumn.dataType;
+                        
                         switch ([readRow getRowColumnTypeWithColumnName:readColumnName]) {
                             case SQLITE_TEXT:
                                 {
-                                    if (readAttributesColumn.max != nil) {
-                                        [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                    } else {
-                                        [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                                        
+                                        NSObject *value = [readRow getValueWithIndex:readAttributesColumn.index];
+                                        NSDate *date = nil;
+                                        if([value isKindOfClass:[NSDate class]]){
+                                            date = (NSDate *) value;
+                                        } else {
+                                            date = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
+                                        }
+                                        NSDate *compareDate = updatedDate;
+                                        if (dataType == GPKG_DT_DATE) {
+                                            compareDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:compareDate andType:dataType]];
+                                        }
+                                        [GPKGTestUtils assertTrue:[compareDate compare:date] == NSOrderedSame];
+                                    }else{
+                                        if (readAttributesColumn.max != nil) {
+                                            [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                        } else {
+                                            [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                        }
                                     }
                                 }
                                 break;
@@ -557,6 +605,52 @@
                 results = [dao queryForAll];
                 [GPKGTestUtils assertEqualIntWithValue:count + 2 andValue2:results.count];
                 [results close];
+                
+                // Test copied row
+                GPKGAttributesRow *copyRow = [queryAttributesRow2 mutableCopy];
+                for (GPKGAttributesColumn *column in dao.table.columns) {
+                    if (column.dataType == GPKG_DT_BLOB) {
+                        NSData *blob1 = (NSData *) [queryAttributesRow2 getValueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [copyRow getValueWithColumnName:column.name];
+                        if(blob1 == nil){
+                            [GPKGTestUtils assertNil:blob2];
+                        }else{
+                            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
+                        }
+                    } else {
+                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 getValueWithColumnName:column.name] andValue2:[copyRow getValueWithColumnName:column.name]];
+                    }
+                }
+                
+                [copyRow resetId];
+                
+                NSNumber *newRowId3 = [NSNumber numberWithLongLong:[dao create:copyRow]];
+                
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[[copyRow getId] intValue]];
+                
+                // Verify new was created
+                GPKGAttributesRow *queryAttributesRow3 = (GPKGAttributesRow *)[dao queryForIdObject:newRowId3];
+                [GPKGTestUtils assertNotNil:queryAttributesRow3];
+                GPKGResultSet *results = [dao queryForAll];
+                [GPKGTestUtils assertEqualIntWithValue:count + 3 andValue2:results.count];
+                [results close];
+                
+                for(GPKGAttributesColumn *column in dao.table.columns){
+                    if(column.primaryKey){
+                        [GPKGTestUtils assertFalse:[[queryAttributesRow2 getValueWithColumnName:column.name] isEqual:[queryAttributesRow3 getValueWithColumnName:column.name]]];
+                    } else if(column.dataType == GPKG_DT_BLOB){
+                        NSData *blob1 = (NSData *) [queryAttributesRow2 getValueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [queryAttributesRow3 getValueWithColumnName:column.name];
+                        if (blob1 == nil) {
+                            [GPKGTestUtils assertNil:blob2];
+                        } else {
+                            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
+                        }
+                    }else{
+                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 getValueWithColumnName:column.name] andValue2:[queryAttributesRow3 getValueWithColumnName:column.name]];
+                    }
+                }
+                
             }
             [results close];
         }

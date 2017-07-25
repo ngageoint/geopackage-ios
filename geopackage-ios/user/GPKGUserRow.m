@@ -178,7 +178,7 @@
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
-    GPKGUserRow *userRow = [[GPKGUserRow alloc] init];
+    GPKGUserRow *userRow = [[[self class] allocWithZone:zone] init];
     userRow.table = _table;
     userRow.columnTypes = _columnTypes;
     userRow.values = [[NSMutableArray alloc] initWithCapacity:_values.count];

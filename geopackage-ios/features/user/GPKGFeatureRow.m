@@ -105,4 +105,10 @@
     return copyValue;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGFeatureRow *featureRow = [super mutableCopyWithZone:zone];
+    featureRow.featureTable = _featureTable;
+    return featureRow;
+}
+
 @end

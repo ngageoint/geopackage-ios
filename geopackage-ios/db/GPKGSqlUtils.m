@@ -9,6 +9,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGUtils.h"
+#import "GPKGDateTimeUtils.h"
 
 @implementation GPKGSqlUtils
 
@@ -385,10 +386,7 @@
                 }
             }else if([argument isKindOfClass:[NSDate class]]){
                 NSDate * date = (NSDate *) argument;
-                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-                [dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-                NSString *dateString=[dateFormat stringFromDate:date];
+                NSString *dateString = [GPKGDateTimeUtils convertToDateTimeStringWithDate:date];
                 int bindResult = sqlite3_bind_text(statement, index, [dateString UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind Date" format:@"Failed to bind date in SQL statement: %@, Error Code: %d", statement, bindResult];
