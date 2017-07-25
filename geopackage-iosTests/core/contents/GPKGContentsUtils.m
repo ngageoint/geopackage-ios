@@ -8,6 +8,7 @@
 
 #import "GPKGContentsUtils.h"
 #import "GPKGTestUtils.h"
+#import "GPKGDateTimeUtils.h"
 
 @implementation GPKGContentsUtils
 
@@ -39,7 +40,6 @@
                 [GPKGTestUtils assertNotNil:srs.definition];
             }
         }
-        //[results close];
         
         // Choose random contents
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
@@ -131,6 +131,56 @@
 
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
+    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGResultSet *results = [dao queryForAll];
+    
+    if (results.count > 0) {
+        
+        // Choose random contents
+        int random = (int) ([GPKGTestUtils randomDouble] * results.count);
+        [results moveToPosition:random];
+        GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+        [results close];
+        
+        // Update
+        NSDate *updatedLastChange = [NSDate date];
+        updatedLastChange = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToDateTimeStringWithDate:updatedLastChange]];
+        [contents setLastChange:updatedLastChange];
+        [dao update:contents];
+        
+        // Verify update
+        dao = [geoPackage getContentsDao];
+        GPKGContents *updatedContents = (GPKGContents *)[dao queryForIdObject:[dao getId:contents]];
+        [GPKGTestUtils assertTrue:[updatedLastChange compare:updatedContents.lastChange] == NSOrderedSame];
+        
+        // Find expected results for prepared update
+        NSDecimalNumber *updatedMinimum = [[NSDecimalNumber alloc] initWithDouble:-90.0];
+        NSMutableString * where = [[NSMutableString alloc] init];
+        [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_X andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
+        [where appendString:@" or "];
+        [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_Y andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
+        NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+        [whereArgs addObject:[NSNumber numberWithInt:0]];
+        [whereArgs addObject:[NSNumber numberWithInt:0]];
+        GPKGResultSet *queryResults = [dao queryWhere:where andWhereArgs:whereArgs];
+
+        // Prepared update
+        GPKGContentValues *values = [[GPKGContentValues alloc] init];
+        [values putKey:GPKG_CON_COLUMN_MIN_X withValue:updatedMinimum];
+        [values putKey:GPKG_CON_COLUMN_MIN_Y withValue:updatedMinimum];
+        int updated = [dao updateWithValues:values andWhere:where andWhereArgs:whereArgs];
+        [GPKGTestUtils assertEqualIntWithValue:queryResults.count andValue2:updated];
+        
+        while([queryResults moveToNext]){
+            GPKGContents *updatedContent = (GPKGContents *)[dao getObject:queryResults];
+            GPKGContents *reloadedContents = (GPKGContents *)[dao queryForSameId:updatedContent];
+            [GPKGTestUtils assertEqualDoubleWithValue:[updatedMinimum doubleValue] andValue2:[reloadedContents.minX doubleValue]];
+            [GPKGTestUtils assertEqualDoubleWithValue:[updatedMinimum doubleValue] andValue2:[reloadedContents.minY doubleValue]];
+        }
+        
+        [queryResults close];
+    }
+    
 }
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
