@@ -126,6 +126,8 @@
         queryCount += queryContentsResults.count;
         [GPKGTestUtils assertEqualIntWithValue:count andValue2:queryCount];
         
+    }else{
+        [results close];
     }
 }
 
@@ -179,6 +181,8 @@
         }
         
         [queryResults close];
+    }else{
+        [results close];
     }
     
 }
@@ -189,9 +193,115 @@
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:false];
+    
 }
 
 +(void) testDeleteCascadeWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:true];
+    
+}
+
++(void) testDeleteHelperWithGeoPackage: (GPKGGeoPackage *) geoPackage andCascade: (BOOL) cascade{
+    
+    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGResultSet *results = [dao queryForAll];
+    
+    if (results.count > 0) {
+        
+        // Choose random contents
+        int random = (int) ([GPKGTestUtils randomDouble] * results.count);
+        [results moveToPosition:random];
+        GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+        [results close];
+        
+        // Save the ids of geometry columns
+        NSMutableArray *geometryColumnsIds = [[NSMutableArray alloc] init];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+        if([geometryColumnsDao tableExists]){
+            GPKGGeometryColumns *geometryColumns = [dao getGeometryColumns:contents];
+            if (geometryColumns != nil) {
+                [geometryColumnsIds addObject:[dao getId:geometryColumns]];
+            }
+        }
+        
+        // Delete the contents
+        if (cascade) {
+            [dao deleteCascade:contents];
+        } else {
+            [dao delete:contents];
+        }
+        
+        // Verify deleted
+        GPKGContents *queryContents = (GPKGContents *)[dao queryForIdObject:[dao getId:contents]];
+        [GPKGTestUtils assertNil:queryContents];
+        
+        // Verify that geometry columns or foreign keys were deleted
+        for(NSString *geometryColumnsId in geometryColumnsIds){
+            GPKGGeometryColumns *queryGeometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao queryForIdObject:geometryColumnsId];
+            if (cascade) {
+                [GPKGTestUtils assertNil:queryGeometryColumns];
+            } else {
+                [GPKGTestUtils assertNil:[geometryColumnsDao getContents:queryGeometryColumns]];
+            }
+        }
+        
+        
+        // Choose prepared deleted
+        results = [dao queryForAll];
+        if (results.count > 0) {
+            
+            // Choose random contents
+            int random = (int) ([GPKGTestUtils randomDouble] * results.count);
+            [results moveToPosition:random];
+            GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+            [results close];
+            
+            // Find which contents to delete and the geometry columns
+            GPKGResultSet *queryResults = [dao queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType];
+            int count = queryResults.count;
+            geometryColumnsIds = [[NSMutableArray alloc] init];
+            while([queryResults moveToNext]){
+                GPKGContents *queryResultsContenst = (GPKGContents *)[dao getObject:queryResults];
+                if([geometryColumnsDao tableExists]){
+                    GPKGGeometryColumns *geometryColumns = [dao getGeometryColumns:queryResultsContenst];
+                    if (geometryColumns != nil) {
+                        [geometryColumnsIds addObject:[dao getId:geometryColumns]];
+                    }
+                }
+            }
+            
+            // Delete
+            int deleted;
+            NSMutableString * where = [[NSMutableString alloc] init];
+            [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType]];
+            NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+            [whereArgs addObject:contents.dataType];
+            if (cascade) {
+                deleted = [dao deleteCascadeWhere:where andWhereArgs:whereArgs];
+            } else {
+                deleted = [dao deleteWhere:where andWhereArgs:whereArgs];
+            }
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:deleted];
+            
+            // Verify that geometry columns or foreign keys were deleted
+            for(NSString *geometryColumnsId in geometryColumnsIds){
+                GPKGGeometryColumns *queryGeometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao queryForIdObject:geometryColumnsId];
+                if (cascade) {
+                    [GPKGTestUtils assertNil:queryGeometryColumns];
+                } else {
+                    [GPKGTestUtils assertNil:[geometryColumnsDao getContents:queryGeometryColumns]];
+                }
+            }
+
+        }else{
+            [results close];
+        }
+        
+    }else{
+        [results close];
+    }
     
 }
 
