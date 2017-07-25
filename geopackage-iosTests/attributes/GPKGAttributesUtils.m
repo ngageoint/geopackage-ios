@@ -294,9 +294,9 @@
                                         
                                         if (updatedDate == nil) {
                                             updatedDate = [NSDate date];
+                                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
                                         }
                                         if ([GPKGTestUtils randomDouble] < .5) {
-                                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
                                             [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDate];
                                         } else {
                                             [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
