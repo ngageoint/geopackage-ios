@@ -165,12 +165,16 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
+        NSMutableArray *dataColumnConstraintsArray = [[NSMutableArray alloc] init];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGDataColumnConstraints *dataColumnConstraints = (GPKGDataColumnConstraints *)[self getObject:results];
-            count += [self deleteCascade:dataColumnConstraints];
+            [dataColumnConstraintsArray addObject:dataColumnConstraints];
         }
         [results close];
+        for(GPKGDataColumnConstraints *dataColumnConstraints in dataColumnConstraintsArray){
+            count += [self deleteCascade:dataColumnConstraints];
+        }
     }
     return count;
 }

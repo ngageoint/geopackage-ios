@@ -410,6 +410,7 @@
                     }
                 }
             }
+            [queryResults close];
             
             // Delete
             int deleted;

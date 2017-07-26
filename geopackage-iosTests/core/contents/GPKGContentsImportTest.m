@@ -28,7 +28,7 @@
 }
 
 -(void) testDeleteCascade{
-    [GPKGContentsUtils testDeleteWithGeoPackage: self.geoPackage];
+    [GPKGContentsUtils testDeleteCascadeWithGeoPackage: self.geoPackage];
 }
 
 @end
