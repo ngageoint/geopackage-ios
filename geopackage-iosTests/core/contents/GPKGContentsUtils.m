@@ -189,6 +189,145 @@
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    
+    // Get current count
+    int count = [dao count];
+    
+    // Retrieve a random srs
+    GPKGResultSet *results = [srsDao queryForAll];
+    GPKGSpatialReferenceSystem *srs = nil;
+    if(results.count > 0){
+        int random = (int) ([GPKGTestUtils randomDouble] * results.count);
+        [results moveToPosition:random];
+        srs = (GPKGSpatialReferenceSystem *)[srsDao getObject:results];
+    }
+    [results close];
+    
+    NSString *tableName = @"TEST_TABLE_NAME";
+    enum GPKGContentsDataType dataType = GPKG_CDT_FEATURES;
+    NSString *identifier = @"TEST_IDENTIFIER";
+    NSString *description = @"TEST_IDENTIFIER";
+    NSDate *lastChange = [NSDate date];
+    lastChange = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToDateTimeStringWithDate:lastChange]];
+    NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:-180.0];
+    NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:-90.0];
+    NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:180.0];
+    NSDecimalNumber *maxY = [[NSDecimalNumber alloc] initWithDouble:90.0];
+    
+    // Create new contents
+    GPKGContents *contents = [[GPKGContents alloc] init];
+    [contents setTableName:tableName];
+    [contents setContentsDataType:dataType];
+    [contents setIdentifier:identifier];
+    [contents setTheDescription:description];
+    [contents setLastChange:lastChange];
+    [contents setMinX:minX];
+    [contents setMinY:minY];
+    [contents setMaxX:maxX];
+    [contents setMaxY:maxY];
+    [contents setSrs:srs];
+    
+    // Create the feature table
+    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:contents.tableName andGeometryColumn:@"geom" andGeometryType:WKB_GEOMETRY]];
+    
+    [geoPackage createGeometryColumnsTable];
+    
+    [dao create:contents];
+    
+    // Verify count
+    int newCount = [dao count];
+    [GPKGTestUtils assertEqualIntWithValue:count+1 andValue2:newCount];
+    
+    // Verify saved contents
+    GPKGContents *queryContents = (GPKGContents *)[dao queryForIdObject:tableName];
+    NSString *queryContentsId = (NSString *)[dao getId:queryContents];
+    [GPKGTestUtils assertEqualWithValue:tableName andValue2:queryContents.tableName];
+    [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:dataType] andValue2:queryContents.dataType];
+    [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
+    [GPKGTestUtils assertEqualWithValue:description andValue2:queryContents.theDescription];
+    [GPKGTestUtils assertTrue:[lastChange compare:queryContents.lastChange] == NSOrderedSame];
+    [GPKGTestUtils assertEqualDoubleWithValue:[minX doubleValue] andValue2:[queryContents.minX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[minY doubleValue] andValue2:[queryContents.minY doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[maxX doubleValue] andValue2:[queryContents.maxX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[maxY doubleValue] andValue2:[queryContents.maxY doubleValue]];
+    if(srs != nil){
+        [GPKGTestUtils assertEqualIntWithValue:[srs.srsId intValue] andValue2:[queryContents.srsId intValue]];
+    }else{
+        [GPKGTestUtils assertNil:queryContents.srsId];
+    }
+    
+    // Test copied contents
+    GPKGContents *copyContents = [queryContents mutableCopy];
+    [GPKGTestUtils assertEqualWithValue:[dao getId:queryContents] andValue2:[dao getId:copyContents]];
+    [GPKGTestUtils assertEqualWithValue:queryContents.tableName andValue2:copyContents.tableName];
+    [GPKGTestUtils assertEqualWithValue:queryContents.dataType andValue2:copyContents.dataType];
+    [GPKGTestUtils assertEqualWithValue:queryContents.identifier andValue2:copyContents.identifier];
+    [GPKGTestUtils assertEqualWithValue:queryContents.theDescription andValue2:copyContents.theDescription];
+    [GPKGTestUtils assertTrue:[queryContents.lastChange compare:copyContents.lastChange] == NSOrderedSame];
+    [GPKGTestUtils assertEqualWithValue:queryContents.minX andValue2:copyContents.minX];
+    [GPKGTestUtils assertEqualWithValue:queryContents.minY andValue2:copyContents.minY];
+    [GPKGTestUtils assertEqualWithValue:queryContents.maxX andValue2:copyContents.maxX];
+    [GPKGTestUtils assertEqualWithValue:queryContents.maxY andValue2:copyContents.maxY];
+    [GPKGTestUtils assertEqualWithValue:queryContents.srsId andValue2:copyContents.srsId];
+    
+    // Change pk and unique
+    NSString *copyTableName = @"CopyContents";
+    NSString *copyIdentifier = @"CopyIdentifier";
+    [dao setId:copyContents withIdValue:copyTableName];
+    [copyContents setIdentifier:copyIdentifier];
+    
+    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao getId:queryContents]];
+    [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
+    [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:[dao getId:copyContents]];
+    [GPKGTestUtils assertEqualWithValue:copyIdentifier andValue2:copyContents.identifier];
+    [GPKGTestUtils assertFalse:[[dao getId:queryContents] isEqual:[dao getId:copyContents]]];
+    [GPKGTestUtils assertFalse:[queryContents.identifier isEqual:copyContents.identifier]];
+    
+    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:copyContents.tableName andGeometryColumn:@"geom" andGeometryType:WKB_GEOMETRY]];
+    
+    [dao create:copyContents];
+    
+    // Verify count
+    int newCount2 = [dao count];
+    [GPKGTestUtils assertEqualIntWithValue:count+2 andValue2:newCount2];
+    
+    // Verify saved contents
+    GPKGContents *queryCopiedContents = (GPKGContents *)[dao queryForIdObject:copyTableName];
+    [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:queryCopiedContents.tableName];
+    [GPKGTestUtils assertEqualWithValue:queryContents.dataType andValue2:queryCopiedContents.dataType];
+    [GPKGTestUtils assertEqualWithValue:copyIdentifier andValue2:queryCopiedContents.identifier];
+    [GPKGTestUtils assertEqualWithValue:queryContents.theDescription andValue2:queryCopiedContents.theDescription];
+    [GPKGTestUtils assertTrue:[queryContents.lastChange compare:queryCopiedContents.lastChange] == NSOrderedSame];
+    [GPKGTestUtils assertEqualDoubleWithValue:[queryContents.minX doubleValue] andValue2:[queryCopiedContents.minX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[queryContents.minY doubleValue] andValue2:[queryCopiedContents.minY doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[queryContents.maxX doubleValue] andValue2:[queryCopiedContents.maxX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[queryContents.maxY doubleValue] andValue2:[queryCopiedContents.maxY doubleValue]];
+    if(srs != nil){
+        [GPKGTestUtils assertEqualIntWithValue:[srs.srsId intValue] andValue2:[queryCopiedContents.srsId intValue]];
+    }else{
+        [GPKGTestUtils assertNil:queryCopiedContents.srsId];
+    }
+    
+    // Verify initial saved contents again
+    queryContents = (GPKGContents *)[dao queryForIdObject:tableName];
+    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao getId:queryContents]];
+    [GPKGTestUtils assertEqualWithValue:tableName andValue2:queryContents.tableName];
+    [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:dataType] andValue2:queryContents.dataType];
+    [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
+    [GPKGTestUtils assertEqualWithValue:description andValue2:queryContents.theDescription];
+    [GPKGTestUtils assertTrue:[lastChange compare:queryContents.lastChange] == NSOrderedSame];
+    [GPKGTestUtils assertEqualDoubleWithValue:[minX doubleValue] andValue2:[queryContents.minX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[minY doubleValue] andValue2:[queryContents.minY doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[maxX doubleValue] andValue2:[queryContents.maxX doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[maxY doubleValue] andValue2:[queryContents.maxY doubleValue]];
+    if(srs != nil){
+        [GPKGTestUtils assertEqualIntWithValue:[srs.srsId intValue] andValue2:[queryContents.srsId intValue]];
+    }else{
+        [GPKGTestUtils assertNil:queryContents.srsId];
+    }
+    
 }
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
