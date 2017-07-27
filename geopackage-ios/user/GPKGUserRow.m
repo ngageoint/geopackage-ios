@@ -199,13 +199,22 @@
         
     switch(column.dataType){
             
+        case GPKG_DT_TEXT:
+        case GPKG_DT_DATE:
+        case GPKG_DT_DATETIME:
+            
+            if([value isKindOfClass:[NSMutableString class]]){
+                NSMutableString *mutableString = (NSMutableString *) value;
+                copyValue = [mutableString mutableCopy];
+            }
+            
+            break;
+            
         case GPKG_DT_BLOB:
             
-            if([value isKindOfClass:[NSData class]]){
-                NSData *data = (NSData *) value;
-                copyValue = [NSData dataWithData:data];
-            }else{
-                [NSException raise:@"Unsupported Copy" format:@"Unsupported copy value type. column: %@, value type: %@, data type: %@", column.name, NSStringFromClass([value class]), [GPKGDataTypes name:column.dataType]];
+            if([value isKindOfClass:[NSMutableData class]]){
+                NSMutableData *mutableData = (NSMutableData *) value;
+                copyValue = [mutableData mutableCopy];
             }
             
             break;
