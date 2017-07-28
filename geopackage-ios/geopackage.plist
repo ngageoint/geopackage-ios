@@ -146,8 +146,6 @@
 	<string>.03</string>
 	<key>geopackage.feature_overlay_query.max_features_info</key>
 	<string>true</string>
-	<key>New item</key>
-	<string></string>
 	<key>geopackage.feature_overlay_query.features_info</key>
 	<string>true</string>
 	<key>geopackage.feature_overlay_query.max_point_detailed_info</key>
