@@ -113,7 +113,6 @@
  *            properties dictionary
  * @param authority
  *            coordinate authority
- * @since 1.3.0
  */
 +(void) setProjections: (NSMutableDictionary *) projections forAuthority: (NSString *) authority;
 
