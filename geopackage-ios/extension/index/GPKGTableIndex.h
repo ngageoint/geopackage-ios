@@ -19,7 +19,7 @@ extern NSString * const GPKG_TI_COLUMN_LAST_INDEXED;
 /**
  * Table Index object, for indexing data within user tables
  */
-@interface GPKGTableIndex : NSObject
+@interface GPKGTableIndex : NSObject <NSMutableCopying>
 
 /**
  *  Name of the table

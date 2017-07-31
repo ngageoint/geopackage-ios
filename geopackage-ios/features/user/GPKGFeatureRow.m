@@ -82,4 +82,37 @@
     return dbValue;
 }
 
+-(NSObject *) copyValue: (NSObject *) value forColumn: (GPKGUserColumn *) column{
+    
+    NSObject *copyValue = nil;
+    
+    GPKGFeatureColumn * featureColumn = (GPKGFeatureColumn *) column;
+    if([featureColumn isGeometry] && ![value isKindOfClass:[GPKGGeometryData class]]){
+     
+        if([value isKindOfClass:[GPKGGeometryData class]]){
+            GPKGGeometryData *geometryData = (GPKGGeometryData *) value;
+            @try {
+                NSData *data = [geometryData toData];
+                NSData *copyData = [data mutableCopy];
+                copyValue = [[GPKGGeometryData alloc] initWithData:copyData];
+            } @catch (NSException *e) {
+                NSLog(@"Failed to copy Geometry Data. column: %@, error: %@", column.name, [e description]);
+            }
+        }else{
+            copyValue = [super copyValue:value forColumn:column];
+        }
+        
+    }else{
+        copyValue = [super copyValue:value forColumn:column];
+    }
+    
+    return copyValue;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGFeatureRow *featureRow = [super mutableCopyWithZone:zone];
+    featureRow.featureTable = _featureTable;
+    return featureRow;
+}
+
 @end

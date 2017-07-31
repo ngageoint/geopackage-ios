@@ -12,7 +12,7 @@
 /**
  *  User Row containing the values from a single result row
  */
-@interface GPKGUserRow : NSObject
+@interface GPKGUserRow : NSObject <NSMutableCopying>
 
 /**
  *  User table
@@ -219,5 +219,16 @@
  *  @param valueTypes value type classes
  */
 -(void) validateValueWithColumn: (GPKGUserColumn *) column andValue: (NSObject *) value andValueTypes: (NSArray *) valueTypes;
+
+/**
+ * Copy the value of the data type
+ *
+ * @param column
+ *            table column
+ * @param value
+ *            value
+ * @return copy value
+ */
+-(NSObject *) copyValue: (NSObject *) value forColumn: (GPKGUserColumn *) column;
 
 @end

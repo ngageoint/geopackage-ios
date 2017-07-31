@@ -27,7 +27,7 @@ extern NSString * const GPKG_EGT_COLUMN_STANDARD_DEVIATION;
 /**
  * Gridded Tile object
  */
-@interface GPKGGriddedTile : NSObject
+@interface GPKGGriddedTile : NSObject <NSMutableCopying>
 
 /**
  *  Auto increment primary key

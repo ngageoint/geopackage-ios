@@ -16,4 +16,11 @@ NSString * const GPKG_FTL_COLUMN_TILE_TABLE_NAME = @"tile_table_name";
 
 @implementation GPKGFeatureTileLink
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGFeatureTileLink *featureTileLink = [[GPKGFeatureTileLink alloc] init];
+    featureTileLink.featureTableName = _featureTableName;
+    featureTileLink.tileTableName = _tileTableName;
+    return featureTileLink;
+}
+
 @end

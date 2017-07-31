@@ -17,7 +17,7 @@ extern NSString * const GPKG_FTL_COLUMN_PK2;
 extern NSString * const GPKG_FTL_COLUMN_FEATURE_TABLE_NAME;
 extern NSString * const GPKG_FTL_COLUMN_TILE_TABLE_NAME;
 
-@interface GPKGFeatureTileLink : NSObject
+@interface GPKGFeatureTileLink : NSObject <NSMutableCopying>
 
 /**
  *  Name of the feature table

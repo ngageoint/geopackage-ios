@@ -226,7 +226,7 @@
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection{
     
     if(projection == nil){
-        projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     }
     
     // Query for features
@@ -437,16 +437,18 @@
     
         GPKGSpatialReferenceSystemDao * srsDao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:[self.featureTiles getFeatureDao].database];
         NSNumber * srsId = geometryData.srsId;
-        GPKGSpatialReferenceSystem * srs = [srsDao getOrCreateWithSrsId:srsId];
+        GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:srsId];
         
-        if ([projection.epsg compare:srs.organizationCoordsysId] != NSOrderedSame){
+        if(![projection isEqualToAuthority:srs.organization andNumberCode:srs.organizationCoordsysId]){
             
-            GPKGProjection * geomProjection = [GPKGProjectionFactory getProjectionWithSrs:srs];
+            GPKGProjection * geomProjection = [GPKGProjectionFactory projectionWithSrs:srs];
             GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
             
             WKBGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
-            [geometryData setSrsId:projection.epsg];
+            NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
+            GPKGSpatialReferenceSystem *projectionSrs = [srsDao getOrCreateWithOrganization:[projection authority] andCoordsysId:coordsysId];
+            [geometryData setSrsId:projectionSrs.srsId];
         }
    
     }

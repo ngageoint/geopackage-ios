@@ -20,9 +20,7 @@ static NSArray * dateFormatters;
         NSMutableArray * formatters = [[NSMutableArray alloc] init];
         NSArray * dateTimeFormats = [GPKGProperties getArrayValueOfProperty:GPKG_PROP_DATETIME_FORMATS];
         for(NSString * dateTimeFormat in dateTimeFormats){
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:dateTimeFormat];
-            [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+            NSDateFormatter *dateFormatter = [self createFormatterWithFormat:dateTimeFormat];
             [formatters addObject:dateFormatter];
         }
         dateFormatters = formatters;
@@ -50,6 +48,42 @@ static NSArray * dateFormatters;
     }
     
     return date;
+}
+
++(NSString *) convertToStringWithDate: (NSDate *) date withFormat: (NSString *) format{
+    NSDateFormatter *dateFormatter = [self createFormatterWithFormat:format];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    return dateString;
+}
+
++(NSString *) convertToDateStringWithDate: (NSDate *) date{
+    return [self convertToStringWithDate:date withFormat:@"yyyy-MM-dd"];
+}
+
++(NSString *) convertToDateTimeStringWithDate: (NSDate *) date{
+    return [self convertToStringWithDate:date withFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+}
+
++(NSString *) convertToStringWithDate: (NSDate *) date andType: (enum GPKGDataType) dataType{
+    NSString *dateString = nil;
+    switch(dataType){
+        case GPKG_DT_DATE:
+            dateString = [self convertToDateStringWithDate:date];
+            break;
+        case GPKG_DT_DATETIME:
+            dateString = [self convertToDateTimeStringWithDate:date];
+            break;
+        default:
+            [NSException raise:@"Illegal Data Type" format:@"Data type must be a date type: %@", [GPKGDataTypes name:dataType]];
+    }
+    return dateString;
+}
+
++(NSDateFormatter *) createFormatterWithFormat: (NSString *) format{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:format];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    return dateFormatter;
 }
 
 @end

@@ -273,12 +273,16 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andUserTable: (BOOL) userTable{
     int count = 0;
     if(where != nil){
+        NSMutableArray *contentsArray = [[NSMutableArray alloc] init];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGContents *contents = (GPKGContents *)[self getObject:results];
-            count += [self deleteCascade:contents andUserTable:userTable];
+            [contentsArray addObject:contents];
         }
         [results close];
+        for(GPKGContents *contents in contentsArray){
+            count += [self deleteCascade:contents andUserTable:userTable];
+        }
     }
     return count;
 }

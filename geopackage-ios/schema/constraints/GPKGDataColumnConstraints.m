@@ -115,4 +115,17 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGDataColumnConstraints *dataColumnConstraints = [[GPKGDataColumnConstraints alloc] init];
+    dataColumnConstraints.constraintName = _constraintName;
+    dataColumnConstraints.constraintType = _constraintType;
+    dataColumnConstraints.value = _value;
+    dataColumnConstraints.min = _min;
+    dataColumnConstraints.minIsInclusive = _minIsInclusive;
+    dataColumnConstraints.max = _max;
+    dataColumnConstraints.maxIsInclusive = _maxIsInclusive;
+    dataColumnConstraints.theDescription = _theDescription;
+    return dataColumnConstraints;
+}
+
 @end

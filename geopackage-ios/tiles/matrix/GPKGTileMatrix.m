@@ -85,4 +85,17 @@ NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
+    tileMatrix.tableName = _tableName;
+    tileMatrix.zoomLevel = _zoomLevel;
+    tileMatrix.matrixWidth = _matrixWidth;
+    tileMatrix.matrixHeight = _matrixHeight;
+    tileMatrix.tileWidth = _tileWidth;
+    tileMatrix.tileHeight = _tileHeight;
+    tileMatrix.pixelXSize = _pixelXSize;
+    tileMatrix.pixelYSize = _pixelYSize;
+    return tileMatrix;
+}
+
 @end

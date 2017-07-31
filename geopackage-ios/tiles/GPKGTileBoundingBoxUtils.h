@@ -121,14 +121,28 @@
  * Get the Projected tile bounding box from the Standard Maps API tile
  * coordinates and zoom level
  *
- *  @param projectionEpsg projection epsg code
- *  @param x              x
- *  @param y              y
- *  @param zoom           zoom level
+ *  @param epsg epsg code
+ *  @param x    x
+ *  @param y    y
+ *  @param zoom zoom level
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjectionEpsg: (NSNumber *) projectionEpsg andX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithEpsg: (NSNumber *) epsg andX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the Standard Maps API tile
+ * coordinates and zoom level
+ *
+ *  @param authority projection authority
+ *  @param code      authority code
+ *  @param x         x
+ *  @param y         y
+ *  @param zoom      zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom;
 
 /**
  * Get the Projected tile bounding box from the Standard Maps API tile
@@ -141,19 +155,32 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjection: (GPKGProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
  * Get the Projected tile bounding box from the Standard Maps API tile
  * tileGrid and zoom level
  *
- *  @param projectionEpsg projection epsg code
- *  @param tileGrid       tile grid
- *  @param zoom           zoom level
+ *  @param epsg     epsg code
+ *  @param tileGrid tile grid
+ *  @param zoom     zoom level
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjectionEpsg: (NSNumber *) projectionEpsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithEpsg: (NSNumber *) epsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the Standard Maps API tile
+ * tileGrid and zoom level
+ *
+ *  @param authority projection authority
+ *  @param code      authority code
+ *  @param tileGrid tile grid
+ *  @param zoom     zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  * Get the Projected tile bounding box from the Standard Maps API tile
@@ -165,7 +192,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getProjectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  *  Get the tile grid for the location specified as WGS84
@@ -416,6 +443,15 @@
  *  @return bounding box
  */
 +(GPKGBoundingBox *) boundWgs84BoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Bound the upper and lower bounds of the degrees bounding box with web mercator limits
+ *
+ *  @param boundingBox degrees bounding box
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) boundDegreesBoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Get a rectangle using the tile width, height, bounding box, and the

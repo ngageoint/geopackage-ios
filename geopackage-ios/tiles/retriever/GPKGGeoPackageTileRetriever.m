@@ -33,14 +33,14 @@
         
         [tileDao adjustTileMatrixLengths];
         
-        GPKGProjection * webMercator = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WEB_MERCATOR];
+        GPKGProjection * webMercator = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         
         self.tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
         
         GPKGProjectionTransform * projectionToWebMercator = [[GPKGProjectionTransform alloc] initWithFromProjection:[self.tileCreator tilesProjection] andToProjection:webMercator];
         GPKGBoundingBox * tileSetBoundingBox = [self.tileCreator tileSetBoundingBox];
-        if([[self.tileCreator tilesProjection].epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
-            tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
+        if([[self.tileCreator tilesProjection] getUnit] == GPKG_UNIT_DEGREES){
+            tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
         self.setWebMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:tileSetBoundingBox];
     }

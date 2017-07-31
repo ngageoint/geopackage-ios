@@ -11,10 +11,20 @@
 
 @implementation GPKGTileImportTestCase
 
+- (void)testCreate {
+    [GPKGTileTestUtils testCreateWithGeoPackage:self.geoPackage];
+}
+
+- (void)testDelete {
+    [GPKGTileTestUtils testDeleteWithGeoPackage:self.geoPackage];
+}
+
+- (void)testGetZoomLevel {
+    [GPKGTileTestUtils testGetZoomLevelWithGeoPackage:self.geoPackage];
+}
+
 - (void)testTileMatrixBoundingBox {
-    
     [GPKGTileTestUtils testTileMatrixBoundingBox:self.geoPackage];
-    
 }
 
 @end

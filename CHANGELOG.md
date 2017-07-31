@@ -4,9 +4,19 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.2.4 (TBD)
+## [1.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.3.0) (07-31-2017)
 
-* TBD
+* Projections refactor to support additional coordinate authorities and custom projections
+* Mutable copy implementations for base, extension, and user table (features, tiles, attributes) row objects
+* Date Time utils formatter creation and date to string conversions
+* Improved date column support for user tables (features, tiles, attributes)
+* User table zoom level bounding of degree unit projections
+* Tile Bounding Box Utils method to bound degree unit bounding box with web mercator limits
+* Bounding of degree projected boxes before Web Mercator transformations
+* Curve Polygon to map polygon support (drawn as straight lines)
+* DAO where clause cascading delete fixes due to open connections during deletions
+* Result Set move to position off by one fix
+* Base DAO fix to handle insertions of all nil values
 
 ## [1.2.3](https://github.com/ngageoint/geopackage-ios/releases/tag/1.2.3) (07-10-2017)
 

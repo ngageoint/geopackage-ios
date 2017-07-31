@@ -66,4 +66,15 @@ NSString * const GPKG_GC_COLUMN_M = @"m";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
+    geometryColumns.tableName = _tableName;
+    geometryColumns.columnName = _columnName;
+    geometryColumns.geometryTypeName = _geometryTypeName;
+    geometryColumns.srsId = _srsId;
+    geometryColumns.z = _z;
+    geometryColumns.m = _m;
+    return geometryColumns;
+}
+
 @end

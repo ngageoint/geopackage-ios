@@ -41,7 +41,7 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  * read or write to tables with extensions, and to “fail fast” and return an
  * error message if it does not.
  */
-@interface GPKGExtensions : NSObject
+@interface GPKGExtensions : NSObject <NSMutableCopying>
 
 /**
  * Name of the table that requires the extension. When NULL, the extension

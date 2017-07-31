@@ -91,6 +91,8 @@
     
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:8 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:9 andName:@"test_date" andDataType:GPKG_DT_DATE andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:10 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME andNotNull:false andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:2 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:3 andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:false andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:4 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:false andDefaultValue:nil] toArray:columns];
@@ -131,6 +133,8 @@
         [GPKGTestUtils assertEqualWithValue:@"test_integer" andValue2:[featureRow getColumnNameWithIndex:6]];
         [GPKGTestUtils assertEqualWithValue:@"test_text_limited" andValue2:[featureRow getColumnNameWithIndex:7]];
         [GPKGTestUtils assertEqualWithValue:@"test_blob_limited" andValue2:[featureRow getColumnNameWithIndex:8]];
+        [GPKGTestUtils assertEqualWithValue:@"test_date" andValue2:[featureRow getColumnNameWithIndex:9]];
+        [GPKGTestUtils assertEqualWithValue:@"test_datetime" andValue2:[featureRow getColumnNameWithIndex:10]];
     }
 }
 

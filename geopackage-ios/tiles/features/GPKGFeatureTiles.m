@@ -194,7 +194,7 @@
     GPKGBoundingBox * expandedQueryBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     return results;
 }

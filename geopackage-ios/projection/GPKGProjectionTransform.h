@@ -51,6 +51,30 @@
 /**
  *  Initialize
  *
+ *  @param fromAuthority from authority
+ *  @param fromCode      from code
+ *  @param toAuthority   to authority
+ *  @param toCode        to code
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromIntCode: (int) fromCode andToAuthority: (NSString *) toAuthority andToIntCode: (int) toCode;
+
+/**
+ *  Initialize
+ *
+ *  @param fromAuthority from authority
+ *  @param fromCode      from code
+ *  @param toAuthority   to authority
+ *  @param toCode        to code
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode;
+
+/**
+ *  Initialize
+ *
  *  @param fromProjection from projection
  *  @param toEpsg         to epsg
  *
@@ -61,12 +85,34 @@
 /**
  *  Initialize
  *
+ *  @param fromProjection from projection
+ *  @param toAuthority   to authority
+ *  @param toCode        to code
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode;
+
+/**
+ *  Initialize
+ *
  *  @param fromEpsg     from epsg
- *  @param toProjection to projeciton
+ *  @param toProjection to projection
  *
  *  @return new projection transform
  */
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToProjection: (GPKGProjection *) toProjection;
+
+/**
+ *  Initialize
+ *
+ *  @param fromAuthority from authority
+ *  @param fromCode      from code
+ *  @param toProjection to projection
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToProjection: (GPKGProjection *) toProjection;
 
 /**
  *  Initialize
@@ -111,12 +157,34 @@
 /**
  *  Initialize
  *
+ *  @param fromSrs from spatial reference system
+ *  @param toAuthority   to authority
+ *  @param toCode        to code
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode;
+
+/**
+ *  Initialize
+ *
  *  @param fromEpsg from epsg
  *  @param toSrs    to spatial reference system
  *
  *  @return new projection transform
  */
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToSrs: (GPKGSpatialReferenceSystem *) toSrs;
+
+/**
+ *  Initialize
+ *
+ *  @param fromAuthority from authority
+ *  @param fromCode      from code
+ *  @param toSrs    to spatial reference system
+ *
+ *  @return new projection transform
+ */
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToSrs: (GPKGSpatialReferenceSystem *) toSrs;
 
 /**
  *  Transform a location coordinate

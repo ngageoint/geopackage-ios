@@ -45,7 +45,7 @@ extern NSString * const GPKG_RST_ROW_COL_NAME;
  * Links metadata in the gpkg_metadata table to data in the feature, and tiles
  * tables
  */
-@interface GPKGMetadataReference : NSObject
+@interface GPKGMetadataReference : NSObject <NSMutableCopying>
 
 /**
  * Lowercase metadata reference scope; one of ‘geopackage’,

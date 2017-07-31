@@ -11,6 +11,32 @@
 
 @interface GPKGTileTestUtils : NSObject
 
+/**
+ * Test create
+ *
+ * @param geoPackage
+ */
++(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test delete
+ *
+ * @param geoPackage
+ */
++(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test get zoom level
+ *
+ * @param geoPackage
+ */
++(void) testGetZoomLevelWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test querying for the bounding box at a tile matrix zoom level
+ *
+ * @param geoPackage
+ */
 +(void)testTileMatrixBoundingBox: (GPKGGeoPackage *) geoPackage;
 
 @end

@@ -34,7 +34,7 @@ extern NSString * const GPKG_DC_COLUMN_CONSTRAINT_NAME;
  * informative user menu displays and more effective user decisions on the
  * suitability of GeoPackage contents for specific purposes.
  */
-@interface GPKGDataColumns : NSObject
+@interface GPKGDataColumns : NSObject <NSMutableCopying>
 
 /**
  *  Name of the tiles or feature table

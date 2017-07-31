@@ -311,6 +311,11 @@
             [values putKey:column withValue:value];
         }
     }
+    if([values size] == 0){
+        for(NSString * column in self.columns){
+            [values putKey:column withValue:[NSNull null]];
+        }
+    }
     long long id = [self.database insertWithTable:self.tableName andValues:values];
     return id;
 }

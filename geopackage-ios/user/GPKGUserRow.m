@@ -9,6 +9,7 @@
 #import "GPKGUserRow.h"
 #import <sqlite3.h>
 #import "GPKGUtils.h"
+#import "GPKGDateTimeUtils.h"
 
 @implementation GPKGUserRow
 
@@ -70,7 +71,12 @@
 -(NSObject *) getValueWithIndex: (int) index{
     NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
     if(value != nil){
-        value = [self toObjectValueWithIndex:index andValue:value];
+        GPKGUserColumn * column = [self getColumnWithIndex:index];
+        if([value isKindOfClass:[NSString class]] && (column.dataType == GPKG_DT_DATE || column.dataType == GPKG_DT_DATETIME)){
+            value = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
+        }else{
+            value = [self toObjectValueWithIndex:index andValue:value];
+        }
     }
     return value;
 }
@@ -169,6 +175,54 @@
     if(!valid){
         [NSException raise:@"Illegal Value" format:@"Column: %@, Value: %@, Expected Type: %@, Actual Type: %@", column.name, value, [dataTypeClass description], [[[GPKGUtils objectAtIndex:0 inArray:valueTypes] class] description]];
     }
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserRow *userRow = [[[self class] allocWithZone:zone] init];
+    userRow.table = _table;
+    userRow.columnTypes = _columnTypes;
+    userRow.values = [[NSMutableArray alloc] initWithCapacity:_values.count];
+    for(int i = 0; i < _values.count; i++){
+        NSObject *value = [_values objectAtIndex:i];
+        if(![value isEqual:[NSNull null]]){
+            GPKGUserColumn *column = [self getColumnWithIndex:i];
+            value = [self copyValue:value forColumn:column];
+        }
+        [userRow.values addObject:value];
+    }
+    return userRow;
+}
+
+-(NSObject *) copyValue: (NSObject *) value forColumn: (GPKGUserColumn *) column{
+    
+    NSObject *copyValue = value;
+        
+    switch(column.dataType){
+            
+        case GPKG_DT_TEXT:
+        case GPKG_DT_DATE:
+        case GPKG_DT_DATETIME:
+            
+            if([value isKindOfClass:[NSMutableString class]]){
+                NSMutableString *mutableString = (NSMutableString *) value;
+                copyValue = [mutableString mutableCopy];
+            }
+            
+            break;
+            
+        case GPKG_DT_BLOB:
+            
+            if([value isKindOfClass:[NSMutableData class]]){
+                NSMutableData *mutableData = (NSMutableData *) value;
+                copyValue = [mutableData mutableCopy];
+            }
+            
+            break;
+        default:
+            break;
+    }
+    
+    return copyValue;
 }
 
 @end

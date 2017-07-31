@@ -20,4 +20,16 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
 
 @implementation GPKGSpatialReferenceSystem
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
+    srs.srsName = _srsName;
+    srs.srsId = _srsId;
+    srs.organization = _organization;
+    srs.organizationCoordsysId = _organizationCoordsysId;
+    srs.definition = _definition;
+    srs.theDescription = _theDescription;
+    srs.definition_12_063 = _definition_12_063;
+    return srs;
+}
+
 @end

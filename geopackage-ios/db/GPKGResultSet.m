@@ -47,7 +47,7 @@
 }
 
 -(BOOL) moveToPosition: (int) position{
-    for(int i = 0; i < position; i++){
+    for(int i = 0; i <= position; i++){
         if(![self moveToNext]){
             return false;
         }

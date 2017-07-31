@@ -75,7 +75,7 @@
     if(boundingBox != nil){
         GPKGContentsDao * contentsDao = [self getContentsDao];
         GPKGProjection * contentsProjection = [contentsDao getProjection:contents];
-        if([self.projection.epsg compare:contentsProjection.epsg] != NSOrderedSame){
+        if(![self.projection isEqual:contentsProjection]){
             GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
             boundingBox = [transform transformWithBoundingBox:boundingBox];
         }

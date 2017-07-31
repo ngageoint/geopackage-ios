@@ -43,4 +43,16 @@ NSString * const GPKG_DC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGDataColumns *dataColumns = [[GPKGDataColumns alloc] init];
+    dataColumns.tableName = _tableName;
+    dataColumns.columnName = _columnName;
+    dataColumns.name = _name;
+    dataColumns.title = _title;
+    dataColumns.theDescription = _theDescription;
+    dataColumns.mimeType = _mimeType;
+    dataColumns.constraintName = _constraintName;
+    return dataColumns;
+}
+
 @end

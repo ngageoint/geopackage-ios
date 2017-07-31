@@ -31,7 +31,7 @@ extern NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE;
  * allows tile pyramids with zoom levels that differ in resolution by factors of
  * 2, irregular intervals, or regular intervals other than factors of 2.
  */
-@interface GPKGTileMatrix : NSObject
+@interface GPKGTileMatrix : NSObject <NSMutableCopying>
 
 /**
  *  Tile Pyramid User Data Table Name

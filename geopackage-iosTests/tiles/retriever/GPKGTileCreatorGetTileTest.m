@@ -30,11 +30,12 @@
 -(void) testGetTile{
     
     GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:GPKG_TEST_TILES_DB_TABLE_NAME];
-    [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.epsg intValue] andValue2:PROJ_EPSG_WEB_MERCATOR];
+    [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
+    [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WEB_MERCATOR];
     
     [tileDao adjustTileMatrixLengths];
     
-    GPKGProjection * wgs84 = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGProjection * wgs84 = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     NSNumber * width = [NSNumber numberWithInt:256];
     NSNumber * height = [NSNumber numberWithInt:140];

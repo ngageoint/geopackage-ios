@@ -33,7 +33,7 @@
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     boundingBox = [[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR] transformWithBoundingBox:boundingBox];
-    GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:[GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:[GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     [tileGenerator setStandardWebMercatorFormat:false];
     
     int tiles = [tileGenerator generateTiles];

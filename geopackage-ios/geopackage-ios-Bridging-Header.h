@@ -183,5 +183,6 @@
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"
 #import "GPKGSessionTaskData.h"
+#import "GPKGAuthorityProjections.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

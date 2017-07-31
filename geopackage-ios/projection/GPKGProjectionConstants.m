@@ -9,6 +9,8 @@
 #import "GPKGProjectionConstants.h"
 
 NSString * const PROJ_PROPERTIES = @"projections";
+NSString * const PROJ_AUTHORITY_EPSG = @"EPSG";
+NSString * const PROJ_AUTHORITY_NONE = @"NONE";
 int const PROJ_UNDEFINED_CARTESIAN = -1;
 int const PROJ_UNDEFINED_GEOGRAPHIC = 0;
 int const PROJ_EPSG_WORLD_GEODETIC_SYSTEM = 4326;

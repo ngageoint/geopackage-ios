@@ -28,7 +28,7 @@ extern NSString * const GPKG_GC_COLUMN_M;
  * Geometry Columns object. Identifies the geometry columns in tables that
  * contain user data representing features.
  */
-@interface GPKGGeometryColumns : NSObject
+@interface GPKGGeometryColumns : NSObject <NSMutableCopying>
 
 /**
  *  Name of the table containing the geometry column

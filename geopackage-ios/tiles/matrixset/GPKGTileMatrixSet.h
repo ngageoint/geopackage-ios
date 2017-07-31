@@ -28,7 +28,7 @@ extern NSString * const GPKG_TMS_COLUMN_MAX_Y;
  * max_x, max_y) and spatial reference system (srs_id) for all content in a tile
  * pyramid user data table.
  */
-@interface GPKGTileMatrixSet : NSObject
+@interface GPKGTileMatrixSet : NSObject <NSMutableCopying>
 
 /**
  *  Tile Pyramid User Data Table Name

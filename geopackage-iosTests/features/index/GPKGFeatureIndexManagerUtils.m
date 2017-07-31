@@ -129,10 +129,10 @@
                                                                        andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
                                                                        andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
         GPKGProjection * projection = nil;
-        if([featureDao.projection.epsg intValue] != PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
-            projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){
+            projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         }else{
-            projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WEB_MERCATOR];
+            projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         }
         GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox * transformedBoundingBox = [transform transformWithBoundingBox:boundingBox];

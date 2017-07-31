@@ -120,15 +120,6 @@
 -(void) updateDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs;
 
 /**
- *  Get or Create the Spatial Reference System for the provided id
- *
- *  @param srsId srs id
- *
- *  @return srs
- */
--(GPKGSpatialReferenceSystem *) getOrCreateWithSrsId: (NSNumber*) srsId;
-
-/**
  *  Get or Create the Spatial Reference System for the provided epsg
  *
  *  @param epsg epsg
@@ -138,13 +129,28 @@
 -(GPKGSpatialReferenceSystem *) getOrCreateWithEpsg: (NSNumber*) epsg;
 
 /**
+ * Get or Create the Spatial Reference System for the provided organization
+ * and id
+ *
+ * @param organization
+ *            organization
+ * @param coordsysId
+ *            coordsys id
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) getOrCreateWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
+
+/**
  *  Query for the organization coordsys id
  *
- *  @param organizationCoordsysId organization coordinate system id
+ *  @param organization
+ *            organization
+ *  @param coordsysId
+ *            organization coordinate system id
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) queryForOrganizationCoordsysId: (NSNumber *) organizationCoordsysId;
+-(GPKGSpatialReferenceSystem *) queryForOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
 
 /**
  *  Delete the Spatial Reference System, cascading

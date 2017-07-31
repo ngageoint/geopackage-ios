@@ -10,6 +10,7 @@
 #import "GPKGUtils.h"
 #import "GPKGProjectionFactory.h"
 #import "GPKGGeometryProjectionTransform.h"
+#import "GPKGProjectionConstants.h"
 
 @implementation GPKGProjectionTransform
 
@@ -23,61 +24,102 @@
 }
 
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToEpsg: (int) toEpsg{
+
+    return [self initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:fromEpsg andToAuthority:PROJ_AUTHORITY_EPSG andToIntCode:toEpsg];
+}
+
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromIntCode: (int) fromCode andToAuthority: (NSString *) toAuthority andToIntCode: (int) toCode{
     
-    GPKGProjection * fromProjection = [GPKGProjectionFactory getProjectionWithInt:fromEpsg];
-    GPKGProjection * toProjection = [GPKGProjectionFactory getProjectionWithInt:toEpsg];
+    NSString *fromStringCode = [NSString stringWithFormat:@"%d", fromCode];
+    NSString *toStringCode = [NSString stringWithFormat:@"%d", toCode];
+    
+    return [self initWithFromAuthority:fromAuthority andFromCode:fromStringCode andToAuthority:toAuthority andToCode:toStringCode];
+}
+
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode{
+    
+    GPKGProjection * fromProjection = [GPKGProjectionFactory projectionWithAuthority:fromAuthority andCode:fromCode];
+    GPKGProjection * toProjection = [GPKGProjectionFactory projectionWithAuthority:toAuthority andCode:toCode];
     
     return [self initWithFromProjection:fromProjection andToProjection:toProjection];
 }
 
 -(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToEpsg: (int) toEpsg{
     
-    GPKGProjection * toProjection = [GPKGProjectionFactory getProjectionWithInt:toEpsg];
+    NSString *toCode = [NSString stringWithFormat:@"%d", toEpsg];
+    
+    return [self initWithFromProjection:fromProjection andToAuthority:PROJ_AUTHORITY_EPSG andToCode:toCode];
+}
+
+-(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode{
+    
+    GPKGProjection * toProjection = [GPKGProjectionFactory projectionWithAuthority:toAuthority andCode:toCode];
     
     return [self initWithFromProjection:fromProjection andToProjection:toProjection];
 }
 
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToProjection: (GPKGProjection *) toProjection{
     
-    GPKGProjection * fromProjection = [GPKGProjectionFactory getProjectionWithInt:fromEpsg];
+    NSString *fromCode = [NSString stringWithFormat:@"%d", fromEpsg];
+    
+    return [self initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromCode:fromCode andToProjection:toProjection];
+}
+
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToProjection: (GPKGProjection *) toProjection{
+    
+    GPKGProjection * fromProjection = [GPKGProjectionFactory projectionWithAuthority:fromAuthority andCode:fromCode];
     
     return [self initWithFromProjection:fromProjection andToProjection:toProjection];
 }
 
 -(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
     
-    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
-    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    NSString *fromCode = [fromSrs.organizationCoordsysId stringValue];
+    NSString *toCode = [toSrs.organizationCoordsysId stringValue];
     
-    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+    return [self initWithFromAuthority:fromSrs.organization andFromCode:fromCode andToAuthority:toSrs.organization andToCode:toCode];
 }
 
 -(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToProjection: (GPKGProjection *) toProjection{
     
-    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
+    NSString *fromCode = [fromSrs.organizationCoordsysId stringValue];
     
-    return [self initWithFromEpsg:fromEpsg andToProjection:toProjection];
+    return [self initWithFromAuthority:fromSrs.organization andFromCode:fromCode andToProjection:toProjection];
 }
 
 -(instancetype) initWithFromProjection: (GPKGProjection *) fromProjection andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
     
-    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    NSString *toCode = [toSrs.organizationCoordsysId stringValue];
     
-    return [self initWithFromProjection:fromProjection andToEpsg:toEpsg];
+    return [self initWithFromProjection:fromProjection andToAuthority:toSrs.organization andToCode:toCode];
 }
 
 -(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToEpsg: (int) toEpsg{
     
-    int fromEpsg = [fromSrs.organizationCoordsysId intValue];
+    NSString *toCode = [NSString stringWithFormat:@"%d", toEpsg];
     
-    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+    return [self initWithFromSrs:fromSrs andToAuthority:PROJ_AUTHORITY_EPSG andToCode:toCode];
+}
+
+-(instancetype) initWithFromSrs: (GPKGSpatialReferenceSystem *) fromSrs andToAuthority: (NSString *) toAuthority andToCode: (NSString *) toCode{
+    
+    NSString *fromCode = [fromSrs.organizationCoordsysId stringValue];
+    
+    return [self initWithFromAuthority:fromSrs.organization andFromCode:fromCode andToAuthority:toAuthority andToCode:toCode];
 }
 
 -(instancetype) initWithFromEpsg: (int) fromEpsg andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
     
-    int toEpsg = [toSrs.organizationCoordsysId intValue];
+    NSString *fromCode = [NSString stringWithFormat:@"%d", fromEpsg];
     
-    return [self initWithFromEpsg:fromEpsg andToEpsg:toEpsg];
+    return [self initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromCode:fromCode andToSrs:toSrs];
+}
+
+-(instancetype) initWithFromAuthority: (NSString *) fromAuthority andFromCode: (NSString *) fromCode andToSrs: (GPKGSpatialReferenceSystem *) toSrs{
+    
+    NSString *toCode = [toSrs.organizationCoordsysId stringValue];
+    
+    return [self initWithFromAuthority:fromAuthority andFromCode:fromCode andToAuthority:toSrs.organization andToCode:toCode];
 }
 
 -(CLLocationCoordinate2D) transform: (CLLocationCoordinate2D) from{
@@ -103,7 +145,7 @@
     int value = pj_transform(self.fromProjection.crs, self.toProjection.crs, 1, 0, &to.longitude, &to.latitude, hasZ ? &zValue : NULL);
     
     if(value != 0){
-        [NSException raise:@"Transform Error" format:@"Failed to transform EPSG %@ latitude: %f and longitude: %f to EPSG %@, Error: %d", self.fromProjection.epsg, from.coordinate.latitude, from.coordinate.longitude, self.toProjection.epsg, value];
+        [NSException raise:@"Transform Error" format:@"Failed to transform authority: %@, code: %@, latitude: %f, longitude: %f to authority: %@, code: %@, Error: %d", self.fromProjection.authority, self.fromProjection.code, from.coordinate.latitude, from.coordinate.longitude, self.toProjection.authority, self.toProjection.code, value];
     }
     
     if(self.toProjection.isLatLong){
