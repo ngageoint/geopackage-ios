@@ -275,7 +275,7 @@
 /**
  *  Convert WKB curve polygon to a MapKit polygon
  *
- *  @param polygon wkb curve polygon
+ *  @param curvePolygon wkb curve polygon
  *
  *  @return MK polygon
  */
