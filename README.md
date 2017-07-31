@@ -112,7 +112,7 @@ GPKGFeatureOverlay * featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatur
 [mapView addOverlay:featureOverlay];
 
 GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
-GPKGProjection * projection = [GPKGProjectionFactory getProjectionWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+GPKGProjection * projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
 
 // URL Tile Generator (generate tiles from a URL)
 GPKGTileGenerator * urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:2 andMaxZoom:7 andBoundingBox:boundingBox andProjection:projection];
@@ -244,11 +244,11 @@ boundingBox = GPKGTileBoundingBoxUtils.boundWgs84BoundingBox(withWebMercatorLimi
 boundingBox = GPKGProjectionTransform.init(fromEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM, andToEpsg: PROJ_EPSG_WEB_MERCATOR).transform(with: boundingBox);
 
 // URL Tile Generator (generate tiles from a URL)
-let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
+let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 2, andMaxZoom: 7, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.projectionWithEpsg(PROJ_EPSG_WEB_MERCATOR));
 let urlTileCount: Int32 = urlTileGenerator.generateTiles();
 
 // Feature Tile Generator (generate tiles from features)
-let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.getProjectionWith(PROJ_EPSG_WEB_MERCATOR));
+let featureTileGenerator: GPKGTileGenerator = GPKGFeatureTileGenerator(geoPackage: geoPackage, andTableName: featureTable + "_tiles", andFeatureTiles: featureTiles, andMinZoom: 10, andMaxZoom: 15, andBoundingBox:boundingBox, andProjection:GPKGProjectionFactory.projectionWithEpsg(PROJ_EPSG_WEB_MERCATOR));
 let featureTileCount: Int32 = featureTileGenerator.generateTiles();
 
 // Close database when done
