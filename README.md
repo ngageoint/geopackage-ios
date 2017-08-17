@@ -132,6 +132,10 @@ int featureTileCount = [featureTileGenerator generateTiles];
 
 ### Build ###
 
+You may need to install automake
+
+    brew install automake
+
 Build this repository using Xcode and/or CocoaPods:
 
     pod repo update
