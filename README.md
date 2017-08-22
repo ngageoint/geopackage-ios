@@ -16,11 +16,38 @@ Software source code previously released under an open source license and then m
 
 The GeoPackage SDK provides the ability to manage GeoPackage files providing read, write, import, export, share, and open support. Open GeoPackage files provide read and write access to features and tiles. Feature support includes Well-Known Binary and iOS Map shape translations. Tile generation supports creation by URL or features. Tile providers supporting GeoPackage format, standard tile API, and feature tile generation.
 
+### Getting Started ###
+
+**IMPORTANT** -
+Be sure your Mac has the `autoconf`, `automake`, and `glibtoolize` utilities.  These are required to build
+the [proj4-ios](https://cocoapods.org/?q=proj4-ios) dependency.  Without them, `pod install` will fail.  The easiest way to get these is to [`brew install`](https://brew.sh/) them:
+```
+brew install automake
+brew install libtool
+```
+
+Include this repository by specifying it in a Podfile using a supported option.
+
+Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
+
+    pod 'geopackage-ios', '~> 1.3'
+
+Pull from GitHub via CocoaPods:
+
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
+    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.3.0'
+
+Include as local project:
+
+    pod 'geopackage-ios', :path => '../geopackage-ios'
+
 ### Usage ###
 
-View the latest [Appledoc on CocoaDocs](http://cocoadocs.org/docsets/geopackage-ios)
+View the latest [Appledoc on CocoaDocs](http://cocoadocs.org/docsets/geopackage-ios).
 
-#### Implementations ####
+#### Example Apps ####
+
+The following projects demonstrate usage of geopackage-ios in a host app.
 
 ##### GeoPackage MapCache #####
 
@@ -34,7 +61,7 @@ The [Mobile Awareness GEOINT Environment (MAGE)](https://github.com/ngageoint/ma
 
 The [Disconnected Interactive Content Explorer (DICE)](https://github.com/ngageoint/disconnected-content-explorer-iOS) app allows users to load and display interactive content without a network connection. It [uses the SDK](https://github.com/ngageoint/disconnected-content-explorer-iOS/search?q=GeoPackage&type=Code) to provide GeoPackage functionality on the map and within reports.
 
-#### Example ####
+#### Objective-C Example ####
 ```objectivec
 
 // NSString * geoPackageFile = ...;
@@ -130,49 +157,12 @@ int featureTileCount = [featureTileGenerator generateTiles];
 
 ```
 
-### Build ###
-
-You may need to install automake
-
-    brew install automake
-
-Build this repository using Xcode and/or CocoaPods:
-
-    pod repo update
-    pod install
-
-Open geopackage-ios.xcworkspace in Xcode or build from command line:
-
-    xcodebuild -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios build
-
-Run tests from Xcode or from command line:
-
-    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
-
-### Include Library ###
-
-Include this repository by specifying it in a Podfile using a supported option.
-
-Pull from [CocoaPods](https://cocoapods.org/pods/geopackage-ios):
-
-    pod 'geopackage-ios', '~> 1.3'
-
-Pull from GitHub:
-
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :branch => 'master'
-    pod 'geopackage-ios', :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => '1.3.0'
-
-Include as local project:
-
-    pod 'geopackage-ios', :path => '../geopackage-ios'
-
-### Swift ###
+#### Swift Example ####
 
 To use from Swift, import the geopackage-ios bridging header from the Swift project's bridging header
 
     #import "geopackage-ios-Bridging-Header.h"
 
-#### Example ####
 ```swift
 
 // let geoPackageFile: String = ...;
@@ -261,6 +251,23 @@ geoPackage.close();
 // Close manager when done
 manager.close();
 ```
+
+### Developing ###
+
+Build this repository using Xcode and/or CocoaPods:
+
+    pod repo update
+    pod install
+
+See the above note about `automake` and `glibtoolize`.
+
+Open geopackage-ios.xcworkspace in Xcode or build from command line:
+
+    xcodebuild -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios build
+
+Run tests from Xcode or from command line:
+
+    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
 
 ### Remote Dependencies ###
 
