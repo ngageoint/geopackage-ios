@@ -123,7 +123,7 @@
     lineString = [self shortestDirectionWithLineString:lineString];
     
     int numPoints = [[lineString numPoints] intValue];
-    MKMapPoint mapPoints[numPoints];
+    MKMapPoint * mapPoints = malloc(sizeof(MKMapPoint)*numPoints);
     
     for(int i = 0; i < numPoints; i++){
         WKBPoint * point = (WKBPoint *)[lineString.points objectAtIndex:i];
@@ -200,7 +200,9 @@
         WKBLineString * polygonLineString = (WKBLineString *)[rings objectAtIndex:0];
         polygonLineString = [self shortestDirectionWithLineString:polygonLineString];
         int numPoints = [[polygonLineString numPoints] intValue];
-        MKMapPoint polygonPoints[numPoints];
+        
+        MKMapPoint * polygonPoints = malloc(sizeof(MKMapPoint)*numPoints);
+        
         for(int i = 0; i < numPoints; i++){
             WKBPoint * point = (WKBPoint *)[polygonLineString.points objectAtIndex:i];
             MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
@@ -214,7 +216,7 @@
             WKBLineString * hole = (WKBLineString *)[rings objectAtIndex:i];
             hole = [self shortestDirectionWithLineString:hole];
             int numHolePoints = [[hole numPoints] intValue];
-            MKMapPoint holePoints[numHolePoints];
+            MKMapPoint * holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
             for(int j = 0; j < numHolePoints; j++){
                 WKBPoint * point = (WKBPoint *)[hole.points objectAtIndex:j];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
@@ -247,7 +249,7 @@
             for(WKBLineString *lineString in compoundCurve.lineStrings){
                 numPoints += [[lineString numPoints] intValue];
             }
-            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             int index = 0;
             for(WKBLineString *lineString in compoundCurve.lineStrings){
                 WKBLineString *compoundCurveLineString = [self shortestDirectionWithLineString:lineString];
@@ -260,7 +262,7 @@
             WKBLineString *lineString = (WKBLineString *)curve;
             lineString = [self shortestDirectionWithLineString:lineString];
             numPoints = [[lineString numPoints] intValue];
-            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             for(int i = 0; i < numPoints; i++){
                 WKBPoint * point = (WKBPoint *)[lineString.points objectAtIndex:i];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
@@ -281,7 +283,7 @@
                 for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
                     numHolePoints += [[holeLineString numPoints] intValue];
                 }
-                MKMapPoint holePoints[numHolePoints];
+                MKMapPoint * holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 int index = 0;
                 for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
                     WKBLineString *compoundCurveHoleLineString = [self shortestDirectionWithLineString:holeLineString];
@@ -296,7 +298,7 @@
                 WKBLineString *holeLineString = (WKBLineString *)hole;
                 holeLineString = [self shortestDirectionWithLineString:holeLineString];
                 int numHolePoints = [[holeLineString numPoints] intValue];
-                MKMapPoint holePoints[numHolePoints];
+                MKMapPoint * holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 for(int j = 0; j < numHolePoints; j++){
                     WKBPoint * point = (WKBPoint *)[holeLineString.points objectAtIndex:j];
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
