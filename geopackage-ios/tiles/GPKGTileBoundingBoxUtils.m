@@ -288,6 +288,10 @@
     return tolerance;
 }
 
++(double) simplifyToleranceWithZoom: (int) zoom andPixelWidth: (int) pixelWidth andPixelHeight: (int) pixelHeight{
+    return [self simplifyToleranceWithZoom:zoom andPixels:MAX(pixelWidth, pixelHeight)];
+}
+
 +(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{
     int tilesPerSide = [self tilesPerSideWithZoom:zoom];
     int oppositeY = tilesPerSide - y - 1;
