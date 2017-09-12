@@ -64,6 +64,12 @@
 @property (nonatomic) BOOL drawShortestDirection;
 
 /**
+ * Tolerance in meters for simplifying lines and polygons to a similar curve with fewer points
+ * Default is nil resulting in no simplification
+ */
+@property (nonatomic) NSDecimalNumber *simplifyTolerance;
+
+/**
  *  Initialize
  *
  *  @return new map shape converter
@@ -78,6 +84,13 @@
  *  @return new map shape converter
  */
 -(instancetype) initWithProjection: (GPKGProjection *) projection;
+
+/**
+ *  Set the simplify tolerance in meters to simplify lines and polygons to similar curves with fewer points
+ *
+ *  @param simplifyTolerance simplify tolerance in meters
+ */
+-(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance;
 
 /**
  *  Transform a projection WKB point to WGS84

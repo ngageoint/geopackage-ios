@@ -141,6 +141,10 @@
             GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
             GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
             
+            // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
+            double simplifyTolerance = [GPKGTileBoundingBoxUtils simplifyToleranceWithZoom:zoom andPixels:MAX(self.tileWidth, self.tileHeight)];
+            [converter setSimplifyToleranceAsDouble:simplifyTolerance];
+            
             for(GPKGFeatureRow * featureRow in results){
                 [self drawFeatureWithBoundingBox:webMercatorBoundingBox andTransform:wgs84ToWebMercatorTransform andContext:context andRow:featureRow andShapeConverter:converter];
             }

@@ -108,8 +108,7 @@
 
 +(GPKGBoundingBox *) getWebMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    int tilesPerSide = [self tilesPerSideWithZoom:zoom];
-    double tileSize = [self tileSizeWithTilesPerSide:tilesPerSide];
+    double tileSize = [self tileSizeWithZoom:zoom];
     
     double minLon = (-1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH)
 				+ (x * tileSize);
@@ -127,8 +126,7 @@
 
 +(GPKGBoundingBox *) getWebMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
-    int tilesPerSide = [self tilesPerSideWithZoom:zoom];
-    double tileSize = [self tileSizeWithTilesPerSide:tilesPerSide];
+    double tileSize = [self tileSizeWithZoom:zoom];
     
     double minLon = (-1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH)
 				+ (tileGrid.minX * tileSize);
@@ -276,6 +274,18 @@
 
 +(int) tilesPerSideWithZoom: (int) zoom{
     return (int) pow(2, zoom);
+}
+
++(double) tileSizeWithZoom: (int) zoom{
+    int tilesPerSide = [self tilesPerSideWithZoom:zoom];
+    double tileSize = [self tileSizeWithTilesPerSide:tilesPerSide];
+    return tileSize;
+}
+
++(double) simplifyToleranceWithZoom: (int) zoom andPixels: (int) pixels{
+    double tileSize = [self tileSizeWithZoom:zoom];
+    double tolerance = tileSize / pixels;
+    return tolerance;
 }
 
 +(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{

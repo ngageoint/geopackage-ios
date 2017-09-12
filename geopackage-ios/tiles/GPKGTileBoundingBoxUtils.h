@@ -280,6 +280,25 @@
 +(int) tilesPerSideWithZoom: (int) zoom;
 
 /**
+ *  Get the tile size in meters at the zoom level
+ *
+ *  @param zoom zoom level
+ *
+ *  @return tile size in meters
+ */
++(double) tileSizeWithZoom: (int) zoom;
+
+/**
+ *  Get the ordered points simplify tolerance value in meters for the zoom level and display pixels
+ *
+ *  @param zoom zoom level
+ *  @param pixels display pixels
+ *
+ *  @return simplify tolerance in meters
+ */
++(double) simplifyToleranceWithZoom: (int) zoom andPixels: (int) pixels;
+
+/**
  *  Get the standard y tile location as TMS or a TMS y location as standard
  *
  *  @param zoom zoom

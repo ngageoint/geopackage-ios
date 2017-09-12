@@ -169,6 +169,19 @@
     return to;
 }
 
+-(NSArray<WKBPoint *> *) transformWithPoints: (NSArray<WKBPoint *> *) from{
+    
+    NSMutableArray<WKBPoint *> *to = [[NSMutableArray alloc] init];
+    
+    GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
+    for(WKBPoint *fromPoint in from){
+        WKBPoint * toPoint = [geometryTransform transformPoint:fromPoint];
+        [to addObject:toPoint];
+    }
+    
+    return to;
+}
+
 -(WKBGeometry *) transformWithGeometry: (WKBGeometry *) from{
     
     GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
