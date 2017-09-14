@@ -566,13 +566,4 @@
  */
 +(double) tileSizeLonWithWgs84TilesPerSide: (int) tilesPerLon;
 
-/**
- *  Get the current zoom level of the map view
- *
- *  @param mapView map view
- *
- *  @return current zoom level
- */
-+(double) currentZoomWithMapView: (MKMapView *) mapView;
-
 @end

@@ -15,6 +15,7 @@
 #import "GPKGPropertyConstants.h"
 #import "GPKGFeatureRowData.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGMapUtils.h"
 
 @interface GPKGFeatureOverlayQuery ()
 
@@ -75,7 +76,7 @@
 }
 
 -(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
-    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
+    double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
     BOOL on = [self onAtZoom:zoom andLocationCoordinate:locationCoordinate];
     return on;
 }
@@ -451,7 +452,7 @@
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
     
     // Get the zoom level
-    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
+    double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
@@ -523,7 +524,7 @@
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
     
     // Get the zoom level
-    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
+    double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
