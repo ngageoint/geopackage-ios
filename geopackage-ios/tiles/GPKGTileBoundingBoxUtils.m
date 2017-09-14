@@ -11,6 +11,8 @@
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGGeoPackageConstants.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 #define degreesToRadians(x) (M_PI * x / PROJ_WGS84_HALF_WORLD_LON_WIDTH)
 #define radiansToDegrees(x) (x * PROJ_WGS84_HALF_WORLD_LON_WIDTH / M_PI)
@@ -591,6 +593,19 @@
 +(double) tileSizeLonWithWgs84TilesPerSide: (int) tilesPerLon{
     return (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH)
 				/ tilesPerLon;
+}
+
++(double) currentZoomWithMapView: (MKMapView *) mapView{
+    int maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
+    CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
+    CGFloat width = mapView.bounds.size.width;
+    double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);
+    double zoom = maxZoom - round(log2(scale));
+    if (maxZoom < 0){
+        zoom = 0;
+    }
+    
+    return zoom;
 }
 
 @end

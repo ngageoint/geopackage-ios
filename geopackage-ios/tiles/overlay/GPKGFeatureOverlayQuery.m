@@ -21,7 +21,6 @@
 @property (nonatomic, strong) GPKGBoundedOverlay *boundedOverlay;
 @property (nonatomic, strong) GPKGFeatureTiles *featureTiles;
 @property (nonatomic) enum WKBGeometryType geometryType;
-@property (nonatomic) int maxZoom;
 
 @end
 
@@ -52,8 +51,6 @@
         
         self.detailedInfoPrintPoints = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
         self.detailedInfoPrintFeatures = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
-
-        self.maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     }
     return self;
 }
@@ -77,20 +74,8 @@
     _screenClickPercentage = screenClickPercentage;
 }
 
--(double) currentZoomWithMapView: (MKMapView *) mapView{
-    CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
-    CGFloat width = mapView.bounds.size.width;
-    double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);
-    double zoom = self.maxZoom - round(log2(scale));
-    if (self.maxZoom < 0){
-        zoom = 0;
-    }
-    
-    return zoom;
-}
-
 -(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
-    double zoom = [self currentZoomWithMapView:mapView];
+    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
     BOOL on = [self onAtZoom:zoom andLocationCoordinate:locationCoordinate];
     return on;
 }
@@ -466,7 +451,7 @@
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
     
     // Get the zoom level
-    double zoom = [self currentZoomWithMapView:mapView];
+    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];
@@ -538,7 +523,7 @@
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection{
     
     // Get the zoom level
-    double zoom = [self currentZoomWithMapView:mapView];
+    double zoom = [GPKGTileBoundingBoxUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView];

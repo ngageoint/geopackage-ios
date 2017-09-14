@@ -98,15 +98,6 @@
 -(enum WKBGeometryType) getGeometryType;
 
 /**
- *  Get the current zoom level of the map view
- *
- *  @param mapView map view
- *
- *  @return current zoom level
- */
--(double) currentZoomWithMapView: (MKMapView *) mapView;
-
-/**
  *  Determine if the the feature overlay is on for the current zoom level of the map view at the location coordinate
  *
  *  @param mapView map view
