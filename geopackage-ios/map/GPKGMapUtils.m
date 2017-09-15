@@ -10,6 +10,7 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGProjectionConstants.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGMapUtils
 
@@ -27,13 +28,32 @@
     return zoom;
 }
 
++(double) toleranceDistanceInMapView: (MKMapView *) mapView{
+    
+    CGSize mapViewSize = mapView.frame.size;
+    
+    GPKGBoundingBox * boundingBox = [self boundingBoxOfMapView:mapView];
+    struct GPKGBoundingBoxSize size = [boundingBox sizeInMeters];
+    
+    double widthMeters = size.width / mapViewSize.width;
+    double heightMeters = size.height / mapViewSize.height;
+    
+    double meters = MIN(widthMeters, heightMeters);
+    
+    return meters;
+}
+
 +(GPKGBoundingBox *) boundingBoxOfMapView: (MKMapView *) mapView{
 
     CLLocationCoordinate2D center = mapView.region.center;
     MKCoordinateSpan span = mapView.region.span;
     double latitudeFromCenter = span.latitudeDelta * .5;
     double longitudeFromCenter = span.longitudeDelta * .5;
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:center.longitude - longitudeFromCenter andMaxLongitudeDouble:center.longitude + longitudeFromCenter andMinLatitudeDouble:center.latitude - latitudeFromCenter andMaxLatitudeDouble:center.latitude + latitudeFromCenter];
+    double minLongitude = center.longitude - longitudeFromCenter;
+    double maxLongitude = center.longitude + longitudeFromCenter;
+    double minLatitude = MAX(center.latitude - latitudeFromCenter, -90.0);
+    double maxLatitude = MIN(center.latitude + latitudeFromCenter, 90.0);
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
     return boundingBox;
 }

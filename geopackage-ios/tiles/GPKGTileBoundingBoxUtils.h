@@ -289,25 +289,25 @@
 +(double) tileSizeWithZoom: (int) zoom;
 
 /**
- *  Get the ordered points simplify tolerance value in meters for the zoom level and display pixels
+ *  Get the tolerance distance in meters for the zoom level and pixels length
  *
  *  @param zoom zoom level
- *  @param pixels display pixels
+ *  @param pixels pixel length
  *
- *  @return simplify tolerance in meters
+ *  @return tolerance distance in meters
  */
-+(double) simplifyToleranceWithZoom: (int) zoom andPixels: (int) pixels;
++(double) toleranceDistanceWithZoom: (int) zoom andPixels: (int) pixels;
 
 /**
- *  Get the ordered points simplify tolerance value in meters for the zoom level and display pixels
+ *  Get the tolerance distance in meters for the zoom level and pixels length
  *
  *  @param zoom zoom level
- *  @param pixelWidth width display pixels
- *  @param pixelHeight height display pixels
+ *  @param pixelWidth pixel width
+ *  @param pixelHeight pixel height
  *
- *  @return simplify tolerance in meters
+ *  @return tolerance distance in meters
  */
-+(double) simplifyToleranceWithZoom: (int) zoom andPixelWidth: (int) pixelWidth andPixelHeight: (int) pixelHeight;
++(double) toleranceDistanceWithZoom: (int) zoom andPixelWidth: (int) pixelWidth andPixelHeight: (int) pixelHeight;
 
 /**
  *  Get the standard y tile location as TMS or a TMS y location as standard

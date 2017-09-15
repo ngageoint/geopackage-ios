@@ -282,14 +282,14 @@
     return tileSize;
 }
 
-+(double) simplifyToleranceWithZoom: (int) zoom andPixels: (int) pixels{
++(double) toleranceDistanceWithZoom: (int) zoom andPixels: (int) pixels{
     double tileSize = [self tileSizeWithZoom:zoom];
     double tolerance = tileSize / pixels;
     return tolerance;
 }
 
-+(double) simplifyToleranceWithZoom: (int) zoom andPixelWidth: (int) pixelWidth andPixelHeight: (int) pixelHeight{
-    return [self simplifyToleranceWithZoom:zoom andPixels:MAX(pixelWidth, pixelHeight)];
++(double) toleranceDistanceWithZoom: (int) zoom andPixelWidth: (int) pixelWidth andPixelHeight: (int) pixelHeight{
+    return [self toleranceDistanceWithZoom:zoom andPixels:MAX(pixelWidth, pixelHeight)];
 }
 
 +(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{

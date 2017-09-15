@@ -25,6 +25,15 @@
 +(double) currentZoomWithMapView: (MKMapView *) mapView;
 
 /**
+ *  Get the tolerance distance meters in the current region of the map view
+ *
+ *  @param mapView map view
+ *
+ *  @return tolerance distance in meters
+ */
++(double) toleranceDistanceInMapView: (MKMapView *) mapView;
+
+/**
  *  Get the WGS84 bounding box of the current map view screen
  *
  *  @param mapView map view

@@ -142,7 +142,7 @@
             GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
             
             // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
-            double simplifyTolerance = [GPKGTileBoundingBoxUtils simplifyToleranceWithZoom:zoom andPixelWidth:self.tileWidth andPixelHeight:self.tileHeight];
+            double simplifyTolerance = [GPKGTileBoundingBoxUtils toleranceDistanceWithZoom:zoom andPixelWidth:self.tileWidth andPixelHeight:self.tileHeight];
             [converter setSimplifyToleranceAsDouble:simplifyTolerance];
             
             for(GPKGFeatureRow * featureRow in results){
