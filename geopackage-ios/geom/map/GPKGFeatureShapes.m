@@ -102,11 +102,13 @@
     BOOL exists = NO;
     NSMutableDictionary * tables = [_databases objectForKey:database];
     if(tables != nil){
+        
         NSMutableDictionary * featureIds = [tables objectForKey:table];
         if(featureIds != nil){
             NSMutableArray *shapes = [featureIds objectForKey:featureId];
             exists = shapes != nil && shapes.count > 0;
         }
+        
     }
     return exists;
 }
@@ -131,12 +133,16 @@
     
     NSMutableDictionary * tables = (NSMutableDictionary *)[self tablesInDatabase:database];
     
-    for(NSString * table in [tables allKeys]){
-        
-        count += [self removeShapesFromMapView:mapView inDatabase:database withTable:table];
-    }
+    if(tables != nil){
     
-    [tables removeAllObjects];
+        for(NSString * table in [tables allKeys]){
+            
+            count += [self removeShapesFromMapView:mapView inDatabase:database withTable:table];
+        }
+        
+        [tables removeAllObjects];
+        
+    }
     
     return count;
 }
@@ -147,17 +153,26 @@
     
     NSMutableDictionary * featureIds = (NSMutableDictionary *)[self featureIdsInDatabase:database withTable:table];
     
-    for(NSNumber *featureId in [featureIds allKeys]){
-        
-        NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:featureId];
-        
-        for(GPKGMapShape *mapShape in mapShapes){
-            [mapShape removeFromMapView:mapView];
-        }
-        count++;
-    }
+    if(featureIds != nil){
     
-    [featureIds removeAllObjects];
+        for(NSNumber *featureId in [featureIds allKeys]){
+            
+            NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:featureId];
+            
+            if(mapShapes != nil){
+            
+                for(GPKGMapShape *mapShape in mapShapes){
+                    
+                    [mapShape removeFromMapView:mapView];
+                }
+            
+            }
+            count++;
+        }
+        
+        [featureIds removeAllObjects];
+        
+    }
     
     return count;
 }
@@ -192,8 +207,12 @@
     
     NSMutableDictionary * tables = (NSMutableDictionary *)[self tablesInDatabase:database];
     
-    for(NSString * table in [tables allKeys]){
-        count += [self removeShapesNotWithinMapView:mapView withBoundingBox:boundingBox inDatabase:database withTable:table];
+    if(tables != nil){
+        
+        for(NSString * table in [tables allKeys]){
+            count += [self removeShapesNotWithinMapView:mapView withBoundingBox:boundingBox inDatabase:database withTable:table];
+        }
+        
     }
     
     return count;
@@ -214,36 +233,48 @@
     
     NSMutableDictionary * featureIds = (NSMutableDictionary *)[self featureIdsInDatabase:database withTable:table];
     
-    NSMutableArray *deleteFeatureIds = [[NSMutableArray alloc] init];
+    if(featureIds != nil){
     
-    for(NSNumber *featureId in [featureIds allKeys]){
+        NSMutableArray *deleteFeatureIds = [[NSMutableArray alloc] init];
         
-        NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:featureId];
-        
-        BOOL delete = YES;
-        for(GPKGMapShape *mapShape in mapShapes){
-            GPKGBoundingBox *mapShapeBoundingBox = [mapShape boundingBox];
-            if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:mapShapeBoundingBox andBoundingBox:boundingBox]){
-                delete = NO;
-                break;
+        for(NSNumber *featureId in [featureIds allKeys]){
+            
+            NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:featureId];
+            
+            if(mapShapes != nil){
+            
+                BOOL delete = YES;
+                for(GPKGMapShape *mapShape in mapShapes){
+                    GPKGBoundingBox *mapShapeBoundingBox = [mapShape boundingBox];
+                    if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:mapShapeBoundingBox andBoundingBox:boundingBox]){
+                        delete = NO;
+                        break;
+                    }
+                }
+                if(delete){
+                    [deleteFeatureIds addObject:featureId];
+                }
+                
             }
-        }
-        if(delete){
-            [deleteFeatureIds addObject:featureId];
+            
         }
         
-    }
-    
-    for(NSNumber * deleteFeatureId in deleteFeatureIds){
-        
-        NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:deleteFeatureId];
-        
-        for(GPKGMapShape *mapShape in mapShapes){
-            [mapShape removeFromMapView:mapView];
+        for(NSNumber * deleteFeatureId in deleteFeatureIds){
+            
+            NSMutableArray *mapShapes = [self shapesInFeatureIds:featureIds withFeatureId:deleteFeatureId];
+            
+            if(mapShapes != nil){
+            
+                for(GPKGMapShape *mapShape in mapShapes){
+                    [mapShape removeFromMapView:mapView];
+                }
+                
+                [featureIds removeObjectForKey:deleteFeatureId];
+                
+            }
+            count++;
         }
         
-        [featureIds removeObjectForKey:deleteFeatureId];
-        count++;
     }
     
     return count;
