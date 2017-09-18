@@ -82,6 +82,15 @@ struct GPKGBoundingBoxSize{
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
+ *  Initialize with geometry envelope
+ *
+ *  @param envelope geometry envelope
+ *
+ *  @return new bounding box
+ */
+-(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+
+/**
  * Build a Geometry Envelope from the bounding box
  *
  * @return geometry envelope

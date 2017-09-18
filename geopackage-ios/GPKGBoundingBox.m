@@ -48,6 +48,10 @@
     return [self initWithMinLongitude:boundingBox.minLongitude andMaxLongitude:boundingBox.maxLongitude andMinLatitude:boundingBox.minLatitude andMaxLatitude:boundingBox.maxLatitude];
 }
 
+-(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+    return [self initWithMinLongitude:envelope.minX andMaxLongitude:envelope.maxX andMinLatitude:envelope.minY andMaxLatitude:envelope.maxY];
+}
+
 -(WKBGeometryEnvelope *) buildEnvelope{
     WKBGeometryEnvelope * envelope = [[WKBGeometryEnvelope alloc] init];
     [envelope setMinX:self.minLongitude];
