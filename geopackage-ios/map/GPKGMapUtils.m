@@ -51,8 +51,8 @@
     double longitudeFromCenter = span.longitudeDelta * .5;
     double minLongitude = center.longitude - longitudeFromCenter;
     double maxLongitude = center.longitude + longitudeFromCenter;
-    double minLatitude = MAX(center.latitude - latitudeFromCenter, -90.0);
-    double maxLatitude = MIN(center.latitude + latitudeFromCenter, 90.0);
+    double minLatitude = MAX(center.latitude - latitudeFromCenter, PROJ_WEB_MERCATOR_MIN_LAT_RANGE);
+    double maxLatitude = MIN(center.latitude + latitudeFromCenter, PROJ_WEB_MERCATOR_MAX_LAT_RANGE);
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
     return boundingBox;
