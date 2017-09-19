@@ -44,16 +44,14 @@
 }
 
 +(GPKGBoundingBox *) boundingBoxOfMapView: (MKMapView *) mapView{
-
-    CLLocationCoordinate2D center = mapView.region.center;
-    MKCoordinateSpan span = mapView.region.span;
-    double latitudeFromCenter = span.latitudeDelta * .5;
-    double longitudeFromCenter = span.longitudeDelta * .5;
-    double minLongitude = center.longitude - longitudeFromCenter;
-    double maxLongitude = center.longitude + longitudeFromCenter;
-    double minLatitude = MAX(center.latitude - latitudeFromCenter, PROJ_WEB_MERCATOR_MIN_LAT_RANGE);
-    double maxLatitude = MIN(center.latitude + latitudeFromCenter, PROJ_WEB_MERCATOR_MAX_LAT_RANGE);
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
+    
+    CGPoint topRightPoint = CGPointMake(mapView.bounds.origin.x + mapView.bounds.size.width, mapView.bounds.origin.y);
+    CGPoint bottomLeftPoint = CGPointMake((mapView.bounds.origin.x), (mapView.bounds.origin.y + mapView.bounds.size.height));
+    
+    CLLocationCoordinate2D topRight = [mapView convertPoint:topRightPoint toCoordinateFromView:mapView];
+    CLLocationCoordinate2D bottomLeft = [mapView convertPoint:bottomLeftPoint toCoordinateFromView:mapView];
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:bottomLeft.longitude andMaxLongitudeDouble:topRight.longitude andMinLatitudeDouble:bottomLeft.latitude andMaxLatitudeDouble:topRight.latitude];
     
     return boundingBox;
 }
