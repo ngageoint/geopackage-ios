@@ -29,6 +29,17 @@
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2;
 
 /**
+ *  Get the overlapping bounding box between the two bounding boxes adjusting the second box to an Anti-Meridian complementary version based upon the max longitude
+ *
+ *  @param boundingBox  bounding box
+ *  @param boundingBox2 bounding box 2
+ *  @param maxLongitude max longitude of the world for the current bounding box units
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andMaxLongitude: (double) maxLongitude;
+
+/**
  *  Get the union bounding box combining the two bounding boxes
  *
  *  @param boundingBox  bounding box

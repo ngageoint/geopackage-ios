@@ -33,6 +33,28 @@
     return overlap;
 }
 
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andMaxLongitude: (double) maxLongitude{
+    
+    GPKGBoundingBox *bbox2 = boundingBox2;
+    
+    double adjustment = 0.0;
+    
+    if([boundingBox.minLongitude compare:boundingBox2.maxLongitude] == NSOrderedDescending){
+        adjustment = maxLongitude * 2.0;
+    } else if([boundingBox.maxLongitude compare:boundingBox2.minLongitude] == NSOrderedAscending){
+        adjustment = maxLongitude * -2.0;
+    }
+    
+    if(adjustment != 0.0){
+        bbox2 = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox2];
+        NSDecimalNumber *adjustmentDecimal = [[NSDecimalNumber alloc] initWithDouble:adjustment];
+        [bbox2 setMinLongitude:[bbox2.minLongitude decimalNumberByAdding:adjustmentDecimal]];
+        [bbox2 setMaxLongitude:[bbox2.maxLongitude decimalNumberByAdding:adjustmentDecimal]];
+    }
+    
+    return [self overlapWithBoundingBox:boundingBox andBoundingBox:bbox2];
+}
+
 +(GPKGBoundingBox *) unionWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2{
     
     double minLongitude = MIN([boundingBox.minLongitude doubleValue], [boundingBox2.minLongitude doubleValue]);

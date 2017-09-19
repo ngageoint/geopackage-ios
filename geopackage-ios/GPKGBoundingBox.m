@@ -141,4 +141,37 @@
     return size;
 }
 
+-(GPKGBoundingBox *) complementaryWithMaxLongitude: (double) maxLongitude{
+    
+    GPKGBoundingBox * complementary = nil;
+    
+    NSDecimalNumber *adjust = nil;
+    
+    if([self.maxLongitude doubleValue] > maxLongitude){
+        if([self.minLongitude doubleValue] >= -maxLongitude){
+            adjust = [[NSDecimalNumber alloc] initWithDouble:-2 * maxLongitude];
+        }
+    }else if([self.minLongitude doubleValue] < -maxLongitude){
+        if([self.maxLongitude doubleValue] <= maxLongitude){
+            adjust = [[NSDecimalNumber alloc] initWithDouble:2 * maxLongitude];
+        }
+    }
+    
+    if(adjust != nil){
+        complementary = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+        [complementary setMinLongitude:[complementary.minLongitude decimalNumberByAdding:adjust]];
+        [complementary setMaxLongitude:[complementary.maxLongitude decimalNumberByAdding:adjust]];
+    }
+            
+    return complementary;
+}
+
+-(GPKGBoundingBox *) complementaryWgs84{
+    return [self complementaryWithMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH];
+}
+
+-(GPKGBoundingBox *) complementaryWebMercator{
+    return [self complementaryWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
 @end

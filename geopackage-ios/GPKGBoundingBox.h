@@ -141,4 +141,27 @@ struct GPKGBoundingBoxSize{
  */
 -(struct GPKGBoundingBoxSize) sizeInMeters;
 
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary bounding box using the max longitude of the unit projection
+ *
+ *  @param maxLongitude max longitude of the world for the current bounding box units
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWithMaxLongitude: (double) maxLongitude;
+
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary WGS84 bounding box
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWgs84;
+
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary Web Mercator bounding box
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWebMercator;
+
 @end
