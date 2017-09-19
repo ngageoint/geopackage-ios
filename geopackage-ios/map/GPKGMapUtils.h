@@ -34,7 +34,8 @@
 +(double) toleranceDistanceInMapView: (MKMapView *) mapView;
 
 /**
- *  Get the WGS84 bounding box of the current map view screen
+ *  Get the WGS84 bounding box of the current map view screen.
+ *  The max longitude will be larger than the min resulting in it to be larger than 180.0
  *
  *  @param mapView map view
  *

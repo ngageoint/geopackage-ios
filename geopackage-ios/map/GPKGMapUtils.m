@@ -51,7 +51,16 @@
     CLLocationCoordinate2D topRight = [mapView convertPoint:topRightPoint toCoordinateFromView:mapView];
     CLLocationCoordinate2D bottomLeft = [mapView convertPoint:bottomLeftPoint toCoordinateFromView:mapView];
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:bottomLeft.longitude andMaxLongitudeDouble:topRight.longitude andMinLatitudeDouble:bottomLeft.latitude andMaxLatitudeDouble:topRight.latitude];
+    double minLatitude = bottomLeft.latitude;
+    double maxLatitude = topRight.latitude;
+    
+    double minLongitude = bottomLeft.longitude;
+    double maxLongitude = topRight.longitude;
+    if(maxLongitude < minLongitude){
+        maxLongitude += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
+    }
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     
     return boundingBox;
 }
