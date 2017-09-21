@@ -137,4 +137,13 @@
  */
 -(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint;
 
+/**
+ * Get the columns with the provided data type
+ *
+ * @param type
+ *            data type
+ * @return columns
+ */
+-(NSArray *) columnsOfType: (enum GPKGDataType) type;
+
 @end

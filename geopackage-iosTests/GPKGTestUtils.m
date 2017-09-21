@@ -176,7 +176,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     GPKGDataColumns * dataColumns = [[GPKGDataColumns alloc] init];
     [dataColumns setContents:contents];
     [dataColumns setColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
-    [dataColumns setName:@"TEST_NAME"];
+    [dataColumns setName:contents.tableName];
     [dataColumns setTitle:@"TEST_TITLE"];
     [dataColumns setTheDescription:@"TEST_DESCRIPTION"];
     [dataColumns setMimeType:@"TEST_MIME_TYPE"];

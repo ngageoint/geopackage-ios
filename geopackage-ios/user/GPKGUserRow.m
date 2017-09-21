@@ -128,6 +128,11 @@
     return id;
 }
 
+-(BOOL) hasId{
+    NSObject * objectValue = [self getValueWithIndex:[self getPkColumnIndex]];
+    return objectValue != nil && [objectValue isKindOfClass:[NSNumber class]];
+}
+
 -(int) getPkColumnIndex{
     return self.table.pkIndex;
 }

@@ -10,6 +10,7 @@
 #import "GPKGProperties.h"
 #import "WKBGeometryEnvelopeBuilder.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGUserRowSync.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
@@ -18,6 +19,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 @interface GPKGFeatureTableIndex ()
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
+@property (nonatomic, strong)  GPKGUserRowSync * featureRowSync;
 @property (nonatomic, strong) NSString *extensionName;
 @property (nonatomic, strong) NSString *extensionDefinition;
 @property (nonatomic, strong) NSString *tableName;
@@ -33,6 +35,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.featureDao = featureDao;
+        self.featureRowSync = [[GPKGUserRowSync alloc] init];
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
@@ -96,13 +99,18 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         GPKGResultSet * results = [self.featureDao queryForAll];
         @try{
             while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
-                if(indexed){
-                    count++;
-                }
-                if(self.progress != nil){
-                    [self.progress addProgress:1];
+                @try {
+                    GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+                    if(indexed){
+                        count++;
+                    }
+                    if(self.progress != nil){
+                        [self.progress addProgress:1];
+                    }
+                    
+                } @catch (NSException *exception) {
+                    NSLog(@"Failed to index feature. Table: %@", tableIndex.tableName);
                 }
             }
         }@finally{
@@ -416,8 +424,21 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGFeatureRow *) getFeatureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex{
-    GPKGFeatureRow * featureRow = (GPKGFeatureRow *)[self.featureDao queryForIdObject:geometryIndex.geomId];
-    return featureRow;
+    
+    NSNumber *geomId = geometryIndex.geomId;
+    
+    // Get the row or lock for reading
+    GPKGFeatureRow *row = (GPKGFeatureRow *)[self.featureRowSync getRowOrLockNumber:geomId];
+    if(row == nil){
+        // Query for the row and set in the sync
+        @try {
+            row = (GPKGFeatureRow *)[self.featureDao queryForIdObject:geomId];
+        } @finally {
+            [self.featureRowSync setRow:row withNumber:geomId];
+        }
+    }
+    
+    return row;
 }
 
 @end

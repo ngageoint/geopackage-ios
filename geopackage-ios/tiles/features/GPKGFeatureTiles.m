@@ -283,13 +283,17 @@
 }
 
 -(void) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
-    GPKGGeometryData * geomData = [row getGeometry];
-    if(geomData != nil){
-        WKBGeometry * geometry = geomData.geometry;
-        if(geometry != nil){
-            GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
-            [self drawShapeWithBoundingBox:boundingBox andTransform:transform andContext:context andMapShape:shape];
+    @try{
+        GPKGGeometryData * geomData = [row getGeometry];
+        if(geomData != nil){
+            WKBGeometry * geometry = geomData.geometry;
+            if(geometry != nil){
+                GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
+                [self drawShapeWithBoundingBox:boundingBox andTransform:transform andContext:context andMapShape:shape];
+            }
         }
+    }@catch (NSException *e) {
+        NSLog(@"Failed to draw feature in tile. Table: %@", self.featureDao.tableName);
     }
 }
 
