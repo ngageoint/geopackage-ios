@@ -29,6 +29,17 @@
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2;
 
 /**
+ *  Get the overlapping bounding box between the two bounding boxes
+ *
+ *  @param boundingBox  bounding box
+ *  @param boundingBox2 bounding box 2
+ *  @param allowEmpty   allow empty latitude and/or longitude ranges when determining overlap
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andAllowEmpty: (BOOL) allowEmpty;
+
+/**
  *  Get the overlapping bounding box between the two bounding boxes adjusting the second box to an Anti-Meridian complementary version based upon the max longitude
  *
  *  @param boundingBox  bounding box
@@ -37,7 +48,40 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andMaxLongitude: (double) maxLongitude;
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 withMaxLongitude: (double) maxLongitude;
+
+/**
+ *  Get the overlapping bounding box between the two bounding boxes adjusting the second box to an Anti-Meridian complementary version based upon the max longitude
+ *
+ *  @param boundingBox  bounding box
+ *  @param boundingBox2 bounding box 2
+ *  @param maxLongitude max longitude of the world for the current bounding box units
+ *  @param allowEmpty   allow empty latitude and/or longitude ranges when determining overlap
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 withMaxLongitude: (double) maxLongitude andAllowEmpty: (BOOL) allowEmpty;
+
+/**
+ *  Determine if the point is within the bounding box
+ *
+ *  @param point  bounding box
+ *  @param boundingBox bounding box
+ *
+ *  @return YES if within the bounding box
+ */
++(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Determine if the point is within the bounding box
+ *
+ *  @param point  bounding box
+ *  @param boundingBox bounding box
+ *  @param maxLongitude max longitude of the world for the current bounding box units
+ *
+ *  @return YES if within the bounding box
+ */
++(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox withMaxLongitude: (double) maxLongitude;
 
 /**
  *  Get the union bounding box combining the two bounding boxes

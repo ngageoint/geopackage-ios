@@ -18,6 +18,10 @@
 @implementation GPKGTileBoundingBoxUtils
 
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2{
+    return [self overlapWithBoundingBox:boundingBox andBoundingBox:boundingBox2 andAllowEmpty:NO];
+}
+
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andAllowEmpty: (BOOL) allowEmpty{
     
     double minLongitude = MAX([boundingBox.minLongitude doubleValue], [boundingBox2.minLongitude doubleValue]);
     double maxLongitude = MIN([boundingBox.maxLongitude doubleValue], [boundingBox2.maxLongitude doubleValue]);
@@ -26,23 +30,29 @@
     
     GPKGBoundingBox * overlap = nil;
     
-    if(minLongitude < maxLongitude && minLatitude < maxLatitude){
+    if((minLongitude < maxLongitude && minLatitude < maxLatitude) || (allowEmpty && minLongitude <= maxLongitude && minLatitude <= maxLatitude)){
         overlap = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
     }
     
     return overlap;
 }
 
-+(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andMaxLongitude: (double) maxLongitude{
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 withMaxLongitude: (double) maxLongitude{
+    return [self overlapWithBoundingBox:boundingBox andBoundingBox:boundingBox2 withMaxLongitude:maxLongitude andAllowEmpty:NO];
+}
+
++(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 withMaxLongitude: (double) maxLongitude andAllowEmpty: (BOOL) allowEmpty{
     
     GPKGBoundingBox *bbox2 = boundingBox2;
     
     double adjustment = 0.0;
     
-    if([boundingBox.minLongitude compare:boundingBox2.maxLongitude] == NSOrderedDescending){
-        adjustment = maxLongitude * 2.0;
-    } else if([boundingBox.maxLongitude compare:boundingBox2.minLongitude] == NSOrderedAscending){
-        adjustment = maxLongitude * -2.0;
+    if(maxLongitude > 0){
+        if([boundingBox.minLongitude compare:boundingBox2.maxLongitude] == NSOrderedDescending){
+            adjustment = maxLongitude * 2.0;
+        } else if([boundingBox.maxLongitude compare:boundingBox2.minLongitude] == NSOrderedAscending){
+            adjustment = maxLongitude * -2.0;
+        }
     }
     
     if(adjustment != 0.0){
@@ -52,7 +62,19 @@
         [bbox2 setMaxLongitude:[bbox2.maxLongitude decimalNumberByAdding:adjustmentDecimal]];
     }
     
-    return [self overlapWithBoundingBox:boundingBox andBoundingBox:bbox2];
+    return [self overlapWithBoundingBox:boundingBox andBoundingBox:bbox2 andAllowEmpty:allowEmpty];
+}
+
++(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox{
+    GPKGBoundingBox *pointBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMaxLongitude:point.x andMinLatitude:point.y andMaxLatitude:point.y];
+    GPKGBoundingBox *overlap = [self overlapWithBoundingBox:boundingBox andBoundingBox:pointBoundingBox andAllowEmpty:YES];
+    return overlap != nil;
+}
+
++(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox withMaxLongitude: (double) maxLongitude{
+    GPKGBoundingBox *pointBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMaxLongitude:point.x andMinLatitude:point.y andMaxLatitude:point.y];
+    GPKGBoundingBox *overlap = [self overlapWithBoundingBox:boundingBox andBoundingBox:pointBoundingBox withMaxLongitude:maxLongitude andAllowEmpty:YES];
+    return overlap != nil;
 }
 
 +(GPKGBoundingBox *) unionWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2{

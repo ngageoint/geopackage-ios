@@ -246,7 +246,8 @@
                 BOOL delete = YES;
                 for(GPKGMapShape *mapShape in mapShapes){
                     GPKGBoundingBox *mapShapeBoundingBox = [mapShape boundingBox];
-                    if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:mapShapeBoundingBox andBoundingBox:boundingBox andMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH] != nil){
+                    BOOL allowEmpty = mapShape.geometryType == WKB_POINT;
+                    if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:mapShapeBoundingBox andBoundingBox:boundingBox withMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH andAllowEmpty:allowEmpty] != nil){
                         delete = NO;
                         break;
                     }
