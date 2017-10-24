@@ -184,5 +184,8 @@
 #import "GPKGGeometryUtils.h"
 #import "GPKGSessionTaskData.h"
 #import "GPKGAuthorityProjections.h"
+#import "GPKGFeatureShapes.h"
+#import "GPKGMapUtils.h"
+#import "GPKGUserRowSync.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
