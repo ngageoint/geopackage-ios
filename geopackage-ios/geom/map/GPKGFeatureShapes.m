@@ -50,7 +50,7 @@
     return (int)[self tablesInDatabase:database].count;
 }
 
--(NSDictionary<NSString *, NSArray *> *) featureIdsInDatabase: (NSString *) database withTable: (NSString *) table{
+-(NSDictionary<NSNumber *, NSArray *> *) featureIdsInDatabase: (NSString *) database withTable: (NSString *) table{
     
     NSMutableDictionary * tables = (NSMutableDictionary *)[self tablesInDatabase:database];
     NSMutableDictionary * featureIds = [self featureIdsInTables:tables withTable:table];
@@ -61,7 +61,7 @@
     return (int) [self featureIdsInDatabase:database withTable:table].count;
 }
 
--(NSMutableDictionary<NSString *, NSArray *> *) featureIdsInTables: (NSMutableDictionary *) tables withTable: (NSString *) table{
+-(NSMutableDictionary<NSNumber *, NSArray *> *) featureIdsInTables: (NSMutableDictionary *) tables withTable: (NSString *) table{
     
     NSMutableDictionary * featureIds = [tables objectForKey:table];
     if(featureIds == nil){
