@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
 
   s.dependency 'proj4-ios', '~> 4.9.3'
   s.dependency 'wkb-ios', '~> 1.0.8'
-  s.dependency 'tiff-ios', '~> 1.0.4'
+  s.dependency 'tiff-ios', '~> 1.1.0'
 end
