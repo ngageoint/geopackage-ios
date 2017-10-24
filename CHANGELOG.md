@@ -6,7 +6,25 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.3.1 (TBD)
 
-* TBD
+* Bounding Box envelope constructor
+* Bounding Box projection based complementary methods // TODO ? bounding and expansion
+* Feature Indexer and Feature Table Index row syncing
+* Improved feature row geometry blob handling
+* FeatureShapes for maintaining active map Shapes
+* Map Shape Converter geometry simplifications // TODO ? and point on shape determinations
+* Map Shape Converter memory improvements
+* MapUtils for zoom, tolerance distance, map bounds // TODO ? , and click bounds utilities
+* Projection transformations for lists of points
+* Minor SQL changes to match spec changes
+* Bounding box utility improvements for overlap and point in box testing
+* Tolerance distance utility methods for geometry proximity testing
+* Feature Tiles geometry simplifications
+* Tile Creator source image size check
+* User Table / Row has id check & columns of a type methods
+* User Row Sync implementation to support sharing user row query results
+* // TODO ? FeatureInfoBuilder for common feature creating result messages and data
+* tiff-ios version updated to 1.1.0
+* wkb version update to 1.0.8
 
 ## [1.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.3.0) (07-31-2017)
 
