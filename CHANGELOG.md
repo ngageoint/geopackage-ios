@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.3.1 (TBD)
+## 1.4.0 (TBD)
 
 * Bounding Box envelope constructor
 * Bounding Box projection based complementary methods // TODO ? bounding and expansion
