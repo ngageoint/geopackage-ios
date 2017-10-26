@@ -35,10 +35,18 @@
     GPKGBoundingBox * boundingBox = [self boundingBoxOfMapView:mapView];
     struct GPKGBoundingBoxSize size = [boundingBox sizeInMeters];
     
-    double widthMeters = size.width / mapViewSize.width;
-    double heightMeters = size.height / mapViewSize.height;
+    float viewWidth = mapViewSize.width;
+    float viewHeight = mapViewSize.height;
     
-    double meters = MIN(widthMeters, heightMeters);
+    double meters = 0;
+    
+    if(viewWidth > 0 && viewHeight > 0) {
+    
+        double widthMeters = size.width / viewWidth;
+        double heightMeters = size.height / viewHeight;
+    
+        meters = MIN(widthMeters, heightMeters);
+    }
     
     return meters;
 }

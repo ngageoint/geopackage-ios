@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGFeatureTableIndex.h"
-#import "GPKGFeatureIndexResults.h"
+#import "GPKGFeatureIndexResultSetResults.h"
 
 /**
  * Feature Index Results to enumerate on feature rows
  * retrieved from GeoPackage index extension results
  */
-@interface GPKGFeatureIndexGeoPackageResults : GPKGFeatureIndexResults
+@interface GPKGFeatureIndexGeoPackageResults : GPKGFeatureIndexResultSetResults
 
 /**
  *  Initialize

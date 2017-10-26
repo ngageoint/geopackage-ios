@@ -187,5 +187,8 @@
 #import "GPKGFeatureShapes.h"
 #import "GPKGMapUtils.h"
 #import "GPKGUserRowSync.h"
+#import "GPKGFeatureIndexResultSetResults.h"
+#import "GPKGFeatureIndexListResults.h"
+#import "GPKGMultipleFeatureIndexResults.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

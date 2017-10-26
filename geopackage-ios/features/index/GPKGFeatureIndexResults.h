@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPKGResultSet.h"
-
+#import "GPKGFeatureRow.h"
 
 /**
  *  Feature Index Results fast enumeration to iterate on feature rows in a for loop
@@ -18,18 +17,9 @@
 /**
  *  Initialize
  *
- *  @param results result set
- *
  *  @return feature index results
  */
--(instancetype) initWithResults: (GPKGResultSet *) results;
-
-/**
- *  Get the results
- *
- *  @return results
- */
--(GPKGResultSet *) getResults;
+-(instancetype) init;
 
 /**
  *  Get the count of results
@@ -37,6 +27,20 @@
  *  @return count
  */
 -(int) count;
+
+/**
+ *  Move to the next feature row if additional exist
+ *
+ *  @return true if feature row to retrieve
+ */
+-(BOOL) moveToNext;
+
+/**
+ *  Get the current location feature row
+ *
+ *  @return feature row
+ */
+-(GPKGFeatureRow *) getFeatureRow;
 
 /**
  *  Close the results

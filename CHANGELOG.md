@@ -7,7 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.4.0 (TBD)
 
 * Bounding Box envelope constructor
-* Bounding Box projection based complementary methods // TODO ? bounding and expansion
+* Bounding Box projection based complementary, bounding, and expansion methods
 * Feature Indexer and Feature Table Index row syncing
 * Improved feature row geometry blob handling
 * FeatureShapes for maintaining active map Shapes
@@ -19,6 +19,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Bounding box utility improvements for overlap and point in box testing
 * Tolerance distance utility methods for geometry proximity testing
 * Feature Tiles geometry simplifications
+* Multiple Results and List Results implementations of Feature Index results
+* Feature Index Manager index type specific improvements
 * Tile Creator source image size check
 * User Table / Row has id check & columns of a type methods
 * User Row Sync implementation to support sharing user row query results

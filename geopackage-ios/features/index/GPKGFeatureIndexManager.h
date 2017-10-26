@@ -74,7 +74,7 @@
  *
  *  @param featureIndexTypes array of feature index type names
  */
--(void) prioritizeQueryLocationWithTypes: (NSArray *) featureIndexTypes;
+-(void) prioritizeQueryLocationWithTypes: (NSArray<NSString *> *) featureIndexTypes;
 
 /**
  *  Set the GeoPackage Progress
@@ -89,6 +89,14 @@
  *  @return count
  */
 -(int) index;
+
+/**
+ * Index the feature tables if needed for the index types
+ *
+ * @param types feature index types
+ * @return largest count of indexed features
+ */
+-(int) indexFeatureIndexTypes: (NSArray<NSString *> *) types;
 
 /**
  *  Index the feature table if needed
@@ -107,6 +115,15 @@
  *  @return count
  */
 -(int) indexWithForce: (BOOL) force;
+
+/**
+ * Index the feature tables for the index types
+ *
+ * @param force true to force re-indexing
+ * @param types feature index types
+ * @return largest count of indexed features
+ */
+-(int) indexWithForce: (BOOL) force andFeatureIndexTypes: (NSArray<NSString *> *) types;
 
 /**
  *  Index the feature table
@@ -130,6 +147,17 @@
 -(BOOL) indexWithFeatureRow: (GPKGFeatureRow *) row;
 
 /**
+ * Index the feature row for the index types.
+ * This method assumes that indexing has been completed and
+ * maintained as the last indexed time is updated.
+ *
+ * @param row   feature row to index
+ * @param types feature index types
+ * @return true if indexed from any type
+ */
+-(BOOL) indexWithFeatureRow: (GPKGFeatureRow *) row andFeatureIndexTypes: (NSArray<NSString *> *) types;
+
+/**
  *  Index the feature row. This method assumes that indexing has been completed and
  *  maintained as the last indexed time is updated.
  *
@@ -148,6 +176,14 @@
 -(BOOL) deleteIndex;
 
 /**
+ * Delete the feature index from the index types
+ *
+ * @param types feature index types
+ * @return true if deleted from any type
+ */
+-(BOOL) deleteIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types;
+
+/**
  *  Delete the feature index
  *
  *  @param type index location type
@@ -164,6 +200,15 @@
  *  @return true if deleted
  */
 -(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row;
+
+/**
+ * Delete the feature index for the feature row from the index types
+ *
+ * @param row   feature row
+ * @param types feature index types
+ * @return true if deleted from any type
+ */
+-(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row andFeatureIndexTypes: (NSArray<NSString *> *) types;
 
 /**
  *  Delete the feature index for the feature row
@@ -185,6 +230,15 @@
 -(BOOL) deleteIndexWithGeomId: (int) geomId;
 
 /**
+ * Delete the feature index for the geometry id from the index types
+ *
+ * @param geomId geometry id
+ * @param types  feature index types
+ * @return true if deleted from any type
+ */
+-(BOOL) deleteIndexWithGeomId: (int) geomId andFeatureIndexTypes: (NSArray<NSString *> *) types;
+
+/**
  *  Delete the feature index for the geometry id
  *
  *  @param type   index location type
@@ -193,6 +247,13 @@
  *  @return true if deleted
  */
 -(BOOL) deleteIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type andGeomId: (int) geomId;
+
+/**
+ * Get the indexed types that are currently indexed
+ *
+ * @return indexed types
+ */
+-(NSArray<NSString *> *) indexedTypes;
 
 /**
  *  Determine if the feature table is indexed

@@ -7,43 +7,44 @@
 //
 
 #import "GPKGFeatureIndexResults.h"
-#import "GPKGFeatureRow.h"
 
 @interface GPKGFeatureIndexResults ()
 
 /**
- *  Strong reference of enumerated feature rows to prevent garbage collection of enumerated items.
+ *  Strong reference of the last enumerated feature rows result to prevent garbage collection
  */
-@property (nonatomic, strong) NSMutableArray *rows;
-@property (nonatomic, strong) GPKGResultSet *results;
+@property (nonatomic, strong) NSMutableArray *rowsResult;
 
 @end
 
 @implementation GPKGFeatureIndexResults
 
--(instancetype) initWithResults: (GPKGResultSet *) results{
+-(instancetype) init{
     self = [super init];
-    if(self != nil){
-        self.results = results;
-    }
     return self;
 }
 
--(GPKGResultSet *) getResults{
-    return self.results;
+-(int) count{
+    [self doesNotRecognizeSelector:_cmd];
+    return 0;
 }
 
--(int) count{
-    return self.results.count;
+-(BOOL) moveToNext{
+    [self doesNotRecognizeSelector:_cmd];
+    return false;
+}
+
+-(GPKGFeatureRow *) getFeatureRow{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 -(void) close{
-    [self.results close];
+    
 }
 
-
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len{
-    self.rows = [NSMutableArray arrayWithCapacity:len];
+    self.rowsResult = [NSMutableArray arrayWithCapacity:len];
     
     // First call
     if(state->state == 0){
@@ -55,22 +56,17 @@
     
     NSUInteger count = 0;
     while (count < len) {
-        if(![self.results moveToNext]){
+        if(![self moveToNext]){
             break;
         }
         
         GPKGFeatureRow * row = [self getFeatureRow];
-        [self.rows addObject:row];
+        [self.rowsResult addObject:row];
         stackbuf[count] = row;
         count += 1;
     }
     
     return count;
-}
-
--(GPKGFeatureRow *) getFeatureRow{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
 }
 
 @end
