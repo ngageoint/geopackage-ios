@@ -73,4 +73,94 @@
     return boundingBox;
 }
 
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    // Get the screen width and height a click occurs from a feature
+    CGSize mapViewSize = mapView.frame.size;
+    int width = (int) roundf(mapViewSize.width * screenClickPercentage);
+    int height = (int) roundf(mapViewSize.height * screenClickPercentage);
+    
+    // Get the screen click locations in each width or height direction
+    CGPoint left = CGPointMake(point.x - width, point.y);
+    CGPoint up = CGPointMake(point.x, point.y - height);
+    CGPoint right = CGPointMake(point.x + width, point.y);
+    CGPoint down = CGPointMake(point.x, point.y + height);
+    
+    // Get the coordinates of the bounding box points
+    CLLocationCoordinate2D leftCoordinate = [mapView convertPoint:left toCoordinateFromView:mapView];
+    CLLocationCoordinate2D upCoordinate = [mapView convertPoint:up toCoordinateFromView:mapView];
+    CLLocationCoordinate2D rightCoordinate = [mapView convertPoint:right toCoordinateFromView:mapView];
+    CLLocationCoordinate2D downCoordinate = [mapView convertPoint:down toCoordinateFromView:mapView];
+    
+    GPKGLocationBoundingBox *locationBoundingBox = [[GPKGLocationBoundingBox alloc] initWithLeft:leftCoordinate
+                                                                                           andUp:upCoordinate
+                                                                                        andRight:rightCoordinate
+                                                                                         andDown:downCoordinate];
+
+    return locationBoundingBox;
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithLocationCoordinate:mapPoint.coordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CLLocationCoordinate2D locationCoordinate = MKCoordinateForMapPoint(mapPoint);
+    return [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
+    return [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
+    return [self buildClickBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    GPKGLocationBoundingBox *locationBoundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:locationBoundingBox.leftCoordinate.longitude
+                                                                 andMaxLongitudeDouble:locationBoundingBox.rightCoordinate.longitude
+                                                                  andMinLatitudeDouble:locationBoundingBox.downCoordinate.latitude
+                                                                  andMaxLatitudeDouble:locationBoundingBox.upCoordinate.latitude];
+    
+    return boundingBox;
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage{
+    
+    // Get the screen width and height a click occurs from a feature
+    struct GPKGBoundingBoxSize size = [mapBounds sizeInMeters];
+    double width = size.width * screenClickPercentage;
+    double height = size.height * screenClickPercentage;
+    
+    CLLocationCoordinate2D leftCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:270 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D upCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:0 andDistance:height fromLocation:location];
+    CLLocationCoordinate2D rightCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:90 andDistance:width fromLocation:location];
+    CLLocationCoordinate2D downCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:180 andDistance:height fromLocation:location];
+    
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:leftCoordinate.longitude
+                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
+                                                                   andMinLatitudeDouble:downCoordinate.latitude
+                                                                   andMaxLatitudeDouble:upCoordinate.latitude];
+    
+    return boundingBox;
+}
+
++(double) getToleranceDistanceWithPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    GPKGLocationBoundingBox *boundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+    
+    double longitudeDistance = [GPKGTileBoundingBoxUtils distanceBetweenLocation:boundingBox.leftCoordinate andLocation:boundingBox.rightCoordinate];
+    double latitudeDistance = [GPKGTileBoundingBoxUtils distanceBetweenLocation:boundingBox.downCoordinate andLocation:boundingBox.upCoordinate];
+    
+    double distance = MAX(longitudeDistance, latitudeDistance);
+    
+    return distance;
+}
+
 @end

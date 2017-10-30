@@ -13,7 +13,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * FeatureShapes for maintaining active map Shapes
 * Map Shape Converter geometry simplifications // TODO ? and point on shape determinations
 * Map Shape Converter memory improvements
-* MapUtils for zoom, tolerance distance, map bounds // TODO ? , and click bounds utilities
+* MapUtils for zoom, tolerance distance, map bounds, and click bounds utilities
 * Projection transformations for lists of points
 * Minor SQL changes to match spec changes
 * Bounding box utility improvements for overlap and point in box testing

@@ -190,5 +190,6 @@
 #import "GPKGFeatureIndexResultSetResults.h"
 #import "GPKGFeatureIndexListResults.h"
 #import "GPKGMultipleFeatureIndexResults.h"
+#import "GPKGLocationBoundingBox.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
