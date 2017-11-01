@@ -163,4 +163,189 @@
     return distance;
 }
 
++(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline{
+    return [self complementaryWorldPathOfMultiPoint:polyline];
+}
+
++(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon{
+    return [self complementaryWorldPathOfMultiPoint:polygon];
+}
+
++(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint{
+    return [self complementaryWorldPathOfPoints:[multiPoint points] andPointCount:multiPoint.pointCount];
+}
+
++(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount{
+    
+    CGMutablePathRef path = nil;
+    
+    // Determine if the shape is drawn over the -180 / 180 longitude boundary and the direction
+    int worldOverlap = 0;
+    for(int i = 0; i < pointCount; i++){
+        MKMapPoint mapPoint = points[i];
+        if(mapPoint.x < 0){
+            worldOverlap = -1;
+            break;
+        }else if(mapPoint.x > MKMapSizeWorld.width){
+            worldOverlap = 1;
+            break;
+        }
+    }
+    
+    // Shape crosses the -180 / 180 longitude boundary
+    if(worldOverlap != 0){
+        
+        // Build the complementary points in the opposite world width direction
+        MKMapPoint complementaryPoints[pointCount];
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint mapPoint = points[i];
+            double x = mapPoint.x;
+            if(worldOverlap < 0){
+                x += MKMapSizeWorld.width;
+            }else{
+                x -= MKMapSizeWorld.width;
+            }
+            MKMapPoint complementaryPoint = MKMapPointMake(x, mapPoint.y);
+            complementaryPoints[i] = complementaryPoint;
+        }
+        
+        // Build the path
+        path = CGPathCreateMutable();
+        for(int i = 0; i < pointCount; i++){
+            MKMapPoint complementaryPoint = complementaryPoints[i];
+            if(i == 0){
+                CGPathMoveToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }else{
+                CGPathAddLineToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
+            }
+        }
+        
+    }
+    
+    return path;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withMapView: (MKMapView *) mapView andTolerance: (double) tolerance{
+    
+    BOOL onShape = false;
+    
+    switch(mapShape.shapeType){
+            
+        case GPKG_MST_POINT:
+            onShape = [self isLocation:location nearMapPoint:(GPKGMapPoint *) mapShape.shape withTolerance:tolerance];
+            break;
+        case GPKG_MST_POLYLINE:
+            onShape = [self isLocation:location onPolyline:(MKPolyline *) mapShape.shape withMapView:mapView andTolerance:tolerance];
+            break;
+        case GPKG_MST_POLYGON:
+            onShape = [self isLocation:location onPolygon:(MKPolygon *) mapShape.shape withMapView:mapView];
+            break;
+        case GPKG_MST_MULTI_POINT:
+            onShape = [self isLocation:location nearMultiPoint:(GPKGMultiPoint *) mapShape.shape withTolerance:tolerance];
+            break;
+        case GPKG_MST_MULTI_POLYLINE:
+            onShape = [self isLocation:location onMultiPolyline:(GPKGMultiPolyline *)mapShape.shape withMapView:mapView withTolerance:tolerance];
+            break;
+        case GPKG_MST_MULTI_POLYGON:
+            onShape = [self isLocation:location onMultiPolygon:(GPKGMultiPolygon *)mapShape.shape withMapView:mapView];
+            break;
+        case GPKG_MST_COLLECTION:
+        {
+            NSArray * shapeArray = (NSArray *) mapShape.shape;
+            for(GPKGMapShape * shapeArrayItem in shapeArray){
+                onShape = [self isLocation:location onShape:shapeArrayItem withMapView:mapView andTolerance:tolerance];
+                if(onShape){
+                    break;
+                }
+            }
+        }
+            break;
+        default:
+            [NSException raise:@"Unsupported Shape" format:@"Unsupported Shape Type: %@", [GPKGMapShapeTypes name:mapShape.shapeType]];
+    }
+    
+    return onShape;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (double) tolerance{
+    return [self isLocation:location nearLocation:mapPoint.coordinate withTolerance:tolerance];
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (double) tolerance{
+    return [GPKGTileBoundingBoxUtils distanceBetweenLocation:location1 andLocation:location2] <= tolerance;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (double) tolerance{
+    BOOL near = false;
+    for(GPKGMapPoint *mapPoint in multiPoint.points){
+        near = [self isLocation:location nearMapPoint:mapPoint withTolerance:tolerance];
+        if(near){
+            break;
+        }
+    }
+    return near;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline withMapView: (MKMapView *) mapView andTolerance: (double) tolerance{
+    
+    MKPolylineRenderer *polylineRenderer = (MKPolylineRenderer *)[mapView rendererForOverlay:polyline];
+    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
+    CGPoint point = [polylineRenderer pointForMapPoint:mapPoint];
+    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(polylineRenderer.path, NULL, tolerance, kCGLineCapRound, kCGLineJoinRound, 1);
+    BOOL onShape = CGPathContainsPoint(strokedPath, NULL, point, NO);
+    CGPathRelease(strokedPath);
+    
+    // If not on the line, check the complementary line path in case it crosses -180 / 180 longitude
+    if(!onShape){
+        CGPathRef complementaryPath = [self complementaryWorldPathOfPolyline:polyline];
+        if(complementaryPath != nil){
+            CGPathRef complementaryStrokedPath = CGPathCreateCopyByStrokingPath(complementaryPath, NULL, tolerance, kCGLineCapRound, kCGLineJoinRound, 1);
+            onShape = CGPathContainsPoint(complementaryStrokedPath, NULL, CGPointMake(mapPoint.x, mapPoint.y), NO);
+            CGPathRelease(complementaryStrokedPath);
+        }
+        CGPathRelease(complementaryPath);
+    }
+    
+    return onShape;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withMapView: (MKMapView *) mapView withTolerance: (double) tolerance{
+    BOOL near = false;
+    for(MKPolyline *polyline in multiPolyline.polylines){
+        near = [self isLocation:location onPolyline:polyline withMapView:mapView andTolerance:tolerance];
+        if(near){
+            break;
+        }
+    }
+    return near;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon withMapView: (MKMapView *) mapView{
+    
+    MKPolygonRenderer *polygonRenderer = (MKPolygonRenderer *)[mapView rendererForOverlay:polygon];
+    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
+    CGPoint point = [polygonRenderer pointForMapPoint:mapPoint];
+    BOOL onShape = CGPathContainsPoint(polygonRenderer.path, NULL, point, NO);
+    
+    // If not on the polygon, check the complementary polygon path in case it crosses -180 / 180 longitude
+    if(!onShape){
+        CGPathRef complementaryPath = [self complementaryWorldPathOfPolygon:polygon];
+        onShape = CGPathContainsPoint(complementaryPath, NULL, CGPointMake(mapPoint.x, mapPoint.y), NO);
+        CGPathRelease(complementaryPath);
+    }
+    
+    return onShape;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withMapView: (MKMapView *) mapView{
+    BOOL near = false;
+    for(MKPolygon *polygon in multiPolygon.polygons){
+        near = [self isLocation:location onPolygon:polygon withMapView:mapView];
+        if(near){
+            break;
+        }
+    }
+    return near;
+}
+
 @end

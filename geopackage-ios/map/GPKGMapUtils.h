@@ -11,6 +11,10 @@
 #import "GPKGBoundingBox.h"
 #import "GPKGLocationBoundingBox.h"
 #import "GPKGMapPoint.h"
+#import "GPKGMapShape.h"
+#import "GPKGMultiPoint.h"
+#import "GPKGMultiPolyline.h"
+#import "GPKGMultiPolygon.h"
 
 /**
  *  Map utility methods
@@ -139,5 +143,137 @@
  * @return tolerance distance in meters
  */
 +(double) getToleranceDistanceWithPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  If the polyline spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param polyline polyline
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline;
+
+/**
+ *  If the polygon spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param polygon polygon
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon;
+
+/**
+ *  If the multi point spans the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param multiPoint multi point
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint;
+
+/**
+ *  If the points span the -180 / 180 longitude, builds the complementary path.
+ *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
+ *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
+ *  The returned path should be released.
+ *
+ *  @param points points
+ *  @param pointCount point count
+ *
+ *  @return complementary path
+ */
++(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount;
+
+/**
+ * Is the location on or near the shape
+ *
+ * @param location  location point
+ * @param shape     map shape
+ * @param mapView   map view
+ * @param tolerance distance tolerance
+ * @return true if location is on shape
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withMapView: (MKMapView *) mapView andTolerance: (double) tolerance;
+
+/**
+ * Is the location near the map point
+ *
+ * @param location  location point
+ * @param mapPoint  map point
+ * @param tolerance distance tolerance
+ * @return true if location is near map point
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (double) tolerance;
+
+/**
+ * Is the location near the other location
+ *
+ * @param location1  location point 1
+ * @param location2  location point 2
+ * @param tolerance distance tolerance
+ * @return true if location 1 is near location 2
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (double) tolerance;
+
+/**
+ * Is the location near the multi point
+ *
+ * @param location   location point
+ * @param multiPoint multi point
+ * @param tolerance  distance tolerance
+ * @return true if location is near multi point
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (double) tolerance;
+
+/**
+ * Is the location on the polyline
+ *
+ * @param location  location point
+ * @param polyline  polyline
+ * @param mapView   map view
+ * @param tolerance distance tolerance
+ * @return true if location is on polyline
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline withMapView: (MKMapView *) mapView andTolerance: (double) tolerance;
+
+/**
+ * Is the location on the multi polyline
+ *
+ * @param location      location point
+ * @param multiPolyline multi polyline
+ * @param mapView       map view
+ * @param tolerance     distance tolerance
+ * @return true if location is on multi polyline
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withMapView: (MKMapView *) mapView withTolerance: (double) tolerance;
+
+/**
+ * Is the location on the polygon
+ *
+ * @param location location point
+ * @param polygon  polygon
+ * @param mapView  map view
+ * @return true if location is on the polygon
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon withMapView: (MKMapView *) mapView;
+
+/**
+ * Is the location on the polygon
+ *
+ * @param location     location point
+ * @param multiPolygon multi polygon
+ * @param mapView      map view
+ * @return true if location is on the multi polygon
+ */
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withMapView: (MKMapView *) mapView;
 
 @end
