@@ -142,7 +142,29 @@
  *                              on the screen must be to be included in a click query
  * @return tolerance distance in meters
  */
-+(double) getToleranceDistanceWithPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
++(double) toleranceDistanceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  *  If the polyline spans the -180 / 180 longitude, builds the complementary path.

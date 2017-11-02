@@ -151,7 +151,17 @@
     return boundingBox;
 }
 
-+(double) getToleranceDistanceWithPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
++(double) toleranceDistanceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
+    return [self toleranceDistanceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
+    return [self toleranceDistanceWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     
     GPKGLocationBoundingBox *boundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
     
