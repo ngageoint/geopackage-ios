@@ -314,7 +314,7 @@
                 if (geometry != nil) {
                     
                     GPKGMapShape *mapShape = [converter toShapeWithGeometry:geometry];
-                    if([GPKGMapUtils isLocation:clickLocation onShape:mapShape andTolerance:tolerance]){
+                    if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
                         
                         [filteredListResults addRow:featureRow];
                         

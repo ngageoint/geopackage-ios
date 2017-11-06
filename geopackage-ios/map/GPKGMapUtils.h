@@ -267,7 +267,7 @@
  * @param tolerance distance and screen tolerance
  * @return true if location is on shape
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (GPKGMapTolerance *) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location near the map point
@@ -307,7 +307,7 @@
  * @param tolerance distance and screen tolerance
  * @return true if location is on polyline
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (GPKGMapTolerance *) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location on the multi polyline
@@ -322,19 +322,21 @@
 /**
  * Is the location on the polygon
  *
- * @param location location point
- * @param polygon  polygon
+ * @param location  location point
+ * @param polygon   polygon
+ * @param tolerance distance and screen tolerance
  * @return true if location is on the polygon
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location on the polygon
  *
  * @param location     location point
  * @param multiPolygon multi polygon
+ * @param tolerance    distance and screen tolerance
  * @return true if location is on the multi polygon
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withTolerance: (GPKGMapTolerance *) tolerance;
 
 @end

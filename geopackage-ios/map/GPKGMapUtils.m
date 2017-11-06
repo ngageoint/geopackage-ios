@@ -264,7 +264,7 @@
     return path;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (GPKGMapTolerance *) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withTolerance: (GPKGMapTolerance *) tolerance{
     
     BOOL onShape = false;
     
@@ -274,10 +274,10 @@
             onShape = [self isLocation:location nearMapPoint:(GPKGMapPoint *) mapShape.shape withTolerance:tolerance];
             break;
         case GPKG_MST_POLYLINE:
-            onShape = [self isLocation:location onPolyline:(MKPolyline *) mapShape.shape andTolerance:tolerance];
+            onShape = [self isLocation:location onPolyline:(MKPolyline *) mapShape.shape withTolerance:tolerance];
             break;
         case GPKG_MST_POLYGON:
-            onShape = [self isLocation:location onPolygon:(MKPolygon *) mapShape.shape];
+            onShape = [self isLocation:location onPolygon:(MKPolygon *) mapShape.shape withTolerance:tolerance];
             break;
         case GPKG_MST_MULTI_POINT:
             onShape = [self isLocation:location nearMultiPoint:(GPKGMultiPoint *) mapShape.shape withTolerance:tolerance];
@@ -286,13 +286,13 @@
             onShape = [self isLocation:location onMultiPolyline:(GPKGMultiPolyline *)mapShape.shape withTolerance:tolerance];
             break;
         case GPKG_MST_MULTI_POLYGON:
-            onShape = [self isLocation:location onMultiPolygon:(GPKGMultiPolygon *)mapShape.shape];
+            onShape = [self isLocation:location onMultiPolygon:(GPKGMultiPolygon *)mapShape.shape withTolerance:tolerance];
             break;
         case GPKG_MST_COLLECTION:
         {
             NSArray * shapeArray = (NSArray *) mapShape.shape;
             for(GPKGMapShape * shapeArrayItem in shapeArray){
-                onShape = [self isLocation:location onShape:shapeArrayItem andTolerance:tolerance];
+                onShape = [self isLocation:location onShape:shapeArrayItem withTolerance:tolerance];
                 if(onShape){
                     break;
                 }
@@ -325,26 +325,21 @@
     return near;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (GPKGMapTolerance *) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline withTolerance: (GPKGMapTolerance *) tolerance{
     
     MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:polyline];
-    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
-    CGPoint point = [polylineRenderer pointForMapPoint:mapPoint];
-    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(polylineRenderer.path, NULL, 2 * tolerance.screen, kCGLineCapRound, kCGLineJoinRound, 1);
-    BOOL onShape = CGPathContainsPoint(strokedPath, NULL, point, NO);
-    CGPathRelease(strokedPath);
-    [polylineRenderer invalidatePath];
-    
+    BOOL onShape = [self isLocation:location onRendererPath:polylineRenderer withTolerance:tolerance];
+
     // If not on the line, check the complementary line path in case it crosses -180 / 180 longitude
     if(!onShape){
         CGPathRef complementaryPath = [self complementaryWorldPathOfPolyline:polyline];
         if(complementaryPath != nil){
-            CGPathRef complementaryStrokedPath = CGPathCreateCopyByStrokingPath(complementaryPath, NULL, 2 * tolerance.screen, kCGLineCapRound, kCGLineJoinRound, 1);
-            onShape = CGPathContainsPoint(complementaryStrokedPath, NULL, CGPointMake(mapPoint.x, mapPoint.y), NO);
-            CGPathRelease(complementaryStrokedPath);
+            onShape = [self isLocation:location onPath:complementaryPath withRenderer:polylineRenderer andTolerance:tolerance];
         }
         CGPathRelease(complementaryPath);
     }
+    
+    [polylineRenderer invalidatePath];
     
     return onShape;
 }
@@ -352,7 +347,7 @@
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (GPKGMapTolerance *) tolerance{
     BOOL near = false;
     for(MKPolyline *polyline in multiPolyline.polylines){
-        near = [self isLocation:location onPolyline:polyline andTolerance:tolerance];
+        near = [self isLocation:location onPolyline:polyline withTolerance:tolerance];
         if(near){
             break;
         }
@@ -360,28 +355,32 @@
     return near;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon withTolerance: (GPKGMapTolerance *) tolerance{
     
     MKPolygonRenderer *polygonRenderer = [[MKPolygonRenderer alloc] initWithPolygon:polygon];
-    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
-    CGPoint point = [polygonRenderer pointForMapPoint:mapPoint];
-    [polygonRenderer invalidatePath];
-    BOOL onShape = CGPathContainsPoint(polygonRenderer.path, NULL, point, NO);
-    [polygonRenderer invalidatePath];
-    
+    BOOL onShape = [self isLocation:location containedInRendererPath:polygonRenderer withTolerance:tolerance] ||
+        [self isLocation:location onRendererPath:polygonRenderer withTolerance:tolerance];
+
     if(onShape){
+        // Verify not in a hole
         onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:false];
     }else{
         // Check the complementary polygon path in case it crosses -180 / 180 longitude
         
         CGPathRef complementaryPath = [self complementaryWorldPathOfPolygon:polygon];
-        onShape = CGPathContainsPoint(complementaryPath, NULL, CGPointMake(mapPoint.x, mapPoint.y), NO);
+        if(complementaryPath != nil){
+            onShape = [self isLocation:location containedInPath:complementaryPath withRenderer:polygonRenderer andTolerance:tolerance] ||
+                [self isLocation:location onPath:complementaryPath withRenderer:polygonRenderer andTolerance:tolerance];
+        }
         CGPathRelease(complementaryPath);
         
         if(onShape){
+            // Verify not in a hole
             onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:true];
         }
     }
+    
+    [polygonRenderer invalidatePath];
     
     return onShape;
 }
@@ -418,15 +417,39 @@
     return onHole;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withTolerance: (GPKGMapTolerance *) tolerance{
     BOOL near = false;
     for(MKPolygon *polygon in multiPolygon.polygons){
-        near = [self isLocation:location onPolygon:polygon];
+        near = [self isLocation:location onPolygon:polygon withTolerance:tolerance];
         if(near){
             break;
         }
     }
     return near;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onRendererPath: (MKOverlayPathRenderer *) renderer withTolerance: (GPKGMapTolerance *) tolerance{
+    return [self isLocation:location onPath:renderer.path withRenderer:renderer andTolerance:tolerance];
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPath: (CGPathRef) path withRenderer: (MKOverlayPathRenderer *) renderer andTolerance: (GPKGMapTolerance *) tolerance{
+    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
+    CGPoint point = [renderer pointForMapPoint:mapPoint];
+    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(path, NULL, 2 * tolerance.screen, kCGLineCapRound, kCGLineJoinRound, 1);
+    BOOL onShape = CGPathContainsPoint(strokedPath, NULL, point, NO);
+    CGPathRelease(strokedPath);
+    return onShape;
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location containedInRendererPath: (MKOverlayPathRenderer *) renderer withTolerance: (GPKGMapTolerance *) tolerance{
+    return [self isLocation:location containedInPath:renderer.path withRenderer:renderer andTolerance:tolerance];
+}
+
++(BOOL) isLocation: (CLLocationCoordinate2D) location containedInPath: (CGPathRef) path withRenderer: (MKOverlayPathRenderer *) renderer andTolerance: (GPKGMapTolerance *) tolerance{
+    MKMapPoint mapPoint = MKMapPointForCoordinate(location);
+    CGPoint point = [renderer pointForMapPoint:mapPoint];
+    BOOL onShape = CGPathContainsPoint(path, NULL, point, NO);
+    return onShape;
 }
 
 @end
