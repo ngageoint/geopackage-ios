@@ -11,7 +11,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Feature Indexer and Feature Table Index row syncing
 * Improved feature row geometry blob handling
 * FeatureShapes for maintaining active map Shapes
-* Map Shape Converter geometry simplifications // TODO ? and point on shape determinations
+* Map Shape Converter geometry simplifications and point on shape determinations
 * Map Shape Converter memory improvements
 * MapUtils for zoom, tolerance distance, map bounds, and click bounds utilities
 * Projection transformations for lists of points
@@ -24,7 +24,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Tile Creator source image size check
 * User Table / Row has id check & columns of a type methods
 * User Row Sync implementation to support sharing user row query results
-* // TODO ? FeatureInfoBuilder for common feature creating result messages and data
+* FeatureInfoBuilder for common feature creating result messages and data
 * tiff-ios version updated to 1.1.0
 * wkb version update to 1.0.8
 

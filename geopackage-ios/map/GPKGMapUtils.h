@@ -220,11 +220,10 @@
  *
  * @param location  location point
  * @param shape     map shape
- * @param mapView   map view
  * @param tolerance distance tolerance
  * @return true if location is on shape
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withMapView: (MKMapView *) mapView andTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (double) tolerance;
 
 /**
  * Is the location near the map point
@@ -261,41 +260,37 @@
  *
  * @param location  location point
  * @param polyline  polyline
- * @param mapView   map view
  * @param tolerance distance tolerance
  * @return true if location is on polyline
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline withMapView: (MKMapView *) mapView andTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (double) tolerance;
 
 /**
  * Is the location on the multi polyline
  *
  * @param location      location point
  * @param multiPolyline multi polyline
- * @param mapView       map view
  * @param tolerance     distance tolerance
  * @return true if location is on multi polyline
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withMapView: (MKMapView *) mapView withTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (double) tolerance;
 
 /**
  * Is the location on the polygon
  *
  * @param location location point
  * @param polygon  polygon
- * @param mapView  map view
  * @return true if location is on the polygon
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon withMapView: (MKMapView *) mapView;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygon: (MKPolygon *) polygon;
 
 /**
  * Is the location on the polygon
  *
  * @param location     location point
  * @param multiPolygon multi polygon
- * @param mapView      map view
  * @return true if location is on the multi polygon
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withMapView: (MKMapView *) mapView;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon;
 
 @end
