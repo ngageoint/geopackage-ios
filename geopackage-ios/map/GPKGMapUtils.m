@@ -151,6 +151,26 @@
     return boundingBox;
 }
 
++(GPKGMapTolerance *) toleranceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
+    return [self toleranceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
+    return [self toleranceWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    double distance = [self toleranceDistanceWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+    double screen = [self toleranceScreenWithMapView:mapView andScreenPercentage:screenClickPercentage];
+    
+    GPKGMapTolerance *tolerance = [[GPKGMapTolerance alloc] initWithDistance:distance andScreen:screen];
+    
+    return tolerance;
+}
+
 +(double) toleranceDistanceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
     return [self toleranceDistanceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
@@ -171,6 +191,15 @@
     double distance = MAX(longitudeDistance, latitudeDistance);
     
     return distance;
+}
+
++(double) toleranceScreenWithMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+
+    MKMapSize mapSize = mapView.visibleMapRect.size;
+    double length = MAX(mapSize.width, mapSize.height);
+    double tolerance = length * screenClickPercentage;
+    
+    return tolerance;
 }
 
 +(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline{
@@ -235,7 +264,7 @@
     return path;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (double) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (GPKGMapTolerance *) tolerance{
     
     BOOL onShape = false;
     
@@ -277,15 +306,15 @@
     return onShape;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (double) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (GPKGMapTolerance *) tolerance{
     return [self isLocation:location nearLocation:mapPoint.coordinate withTolerance:tolerance];
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (double) tolerance{
-    return [GPKGTileBoundingBoxUtils distanceBetweenLocation:location1 andLocation:location2] <= tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (GPKGMapTolerance *) tolerance{
+    return [GPKGTileBoundingBoxUtils distanceBetweenLocation:location1 andLocation:location2] <= tolerance.distance;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (double) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (GPKGMapTolerance *) tolerance{
     BOOL near = false;
     for(GPKGMapPoint *mapPoint in multiPoint.points){
         near = [self isLocation:location nearMapPoint:mapPoint withTolerance:tolerance];
@@ -296,12 +325,12 @@
     return near;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (double) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (GPKGMapTolerance *) tolerance{
     
     MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:polyline];
     MKMapPoint mapPoint = MKMapPointForCoordinate(location);
     CGPoint point = [polylineRenderer pointForMapPoint:mapPoint];
-    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(polylineRenderer.path, NULL, tolerance, kCGLineCapRound, kCGLineJoinRound, 1);
+    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(polylineRenderer.path, NULL, 2 * tolerance.screen, kCGLineCapRound, kCGLineJoinRound, 1);
     BOOL onShape = CGPathContainsPoint(strokedPath, NULL, point, NO);
     CGPathRelease(strokedPath);
     [polylineRenderer invalidatePath];
@@ -310,7 +339,7 @@
     if(!onShape){
         CGPathRef complementaryPath = [self complementaryWorldPathOfPolyline:polyline];
         if(complementaryPath != nil){
-            CGPathRef complementaryStrokedPath = CGPathCreateCopyByStrokingPath(complementaryPath, NULL, tolerance, kCGLineCapRound, kCGLineJoinRound, 1);
+            CGPathRef complementaryStrokedPath = CGPathCreateCopyByStrokingPath(complementaryPath, NULL, 2 * tolerance.screen, kCGLineCapRound, kCGLineJoinRound, 1);
             onShape = CGPathContainsPoint(complementaryStrokedPath, NULL, CGPointMake(mapPoint.x, mapPoint.y), NO);
             CGPathRelease(complementaryStrokedPath);
         }
@@ -320,7 +349,7 @@
     return onShape;
 }
 
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (double) tolerance{
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (GPKGMapTolerance *) tolerance{
     BOOL near = false;
     for(MKPolyline *polyline in multiPolyline.polylines){
         near = [self isLocation:location onPolyline:polyline andTolerance:tolerance];

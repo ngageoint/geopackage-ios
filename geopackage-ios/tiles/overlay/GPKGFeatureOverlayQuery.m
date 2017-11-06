@@ -175,18 +175,18 @@
     GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     // Get the map click distance tolerance
-    double tolerance = [GPKGMapUtils toleranceDistanceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
+    GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return message;
 }
 
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance{
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance{
     return [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andMapBounds:mapBounds andTolerance:tolerance andProjection:nil];
 }
 
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection{
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection{
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
@@ -196,7 +196,7 @@
     return message;
 }
 
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection{
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection{
     
     NSString * message = nil;
     
@@ -250,18 +250,18 @@
     GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     // Get the map click distance tolerance
-    double tolerance = [GPKGMapUtils toleranceDistanceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
+    GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return tableData;
 }
 
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance{
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance{
     return [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andMapBounds:mapBounds andTolerance:tolerance andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection{
     
     // Build a bounding box to represent the click location
     GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
@@ -271,7 +271,7 @@
     return tableData;
 }
 
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection{
     
     GPKGFeatureTableData * tableData = nil;
     

@@ -253,11 +253,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
- *  @param tolerance          distance tolerance
+ *  @param tolerance          distance and screen tolerance
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  *  Perform a query based upon the map click location and build a info message
@@ -265,12 +265,12 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
- *  @param tolerance          distance tolerance
+ *  @param tolerance          distance and screen tolerance
  *  @param projection         desired geometry projection
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -299,11 +299,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
- *  @param tolerance          distance tolerance
+ *  @param tolerance          distance and screen tolerance
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -311,11 +311,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
- *  @param tolerance          distance tolerance
+ *  @param tolerance          distance and screen tolerance
  *  @param projection         desired geometry projection
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (double) tolerance andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
 
 @end

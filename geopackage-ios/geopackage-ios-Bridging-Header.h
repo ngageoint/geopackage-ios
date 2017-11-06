@@ -192,5 +192,6 @@
 #import "GPKGMultipleFeatureIndexResults.h"
 #import "GPKGLocationBoundingBox.h"
 #import "GPKGFeatureInfoBuilder.h"
+#import "GPKGMapTolerance.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

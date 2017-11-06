@@ -54,14 +54,14 @@
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (GPKGProjection *) projection{
-    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:0 andPoint:nil andProjection:projection];
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:nil andPoint:nil andProjection:projection];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andPoint: (WKBPoint *) point{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point{
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -71,11 +71,11 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
     
     NSMutableString * message = nil;
     
@@ -162,11 +162,11 @@
     return message;
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andPoint: (WKBPoint *) point{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point{
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -176,11 +176,11 @@
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
     
     GPKGFeatureTableData * tableData = nil;
     
@@ -295,7 +295,7 @@
     return newColumnName;
 }
 
--(GPKGFeatureIndexResults *) fineFilterResults: (GPKGFeatureIndexResults *) results andTolerance: (double) tolerance andLocation: (CLLocationCoordinate2D) clickLocation{
+-(GPKGFeatureIndexResults *) fineFilterResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocation: (CLLocationCoordinate2D) clickLocation{
     
     GPKGFeatureIndexResults *filteredResults = nil;
     if(self.geometryType == WKB_POINT || !CLLocationCoordinate2DIsValid(clickLocation)){

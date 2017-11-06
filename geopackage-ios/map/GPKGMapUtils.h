@@ -15,6 +15,7 @@
 #import "GPKGMultiPoint.h"
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
+#import "GPKGMapTolerance.h"
 
 /**
  *  Map utility methods
@@ -134,6 +135,39 @@
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage;
 
 /**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
  *
  * @param point                 click point
@@ -165,6 +199,16 @@
  * @return tolerance distance in meters
  */
 +(double) toleranceDistanceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance screen pixels
+ */
++(double) toleranceScreenWithMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  *  If the polyline spans the -180 / 180 longitude, builds the complementary path.
@@ -220,60 +264,60 @@
  *
  * @param location  location point
  * @param shape     map shape
- * @param tolerance distance tolerance
+ * @param tolerance distance and screen tolerance
  * @return true if location is on shape
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location near the map point
  *
  * @param location  location point
  * @param mapPoint  map point
- * @param tolerance distance tolerance
+ * @param tolerance distance and screen tolerance
  * @return true if location is near map point
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location near the other location
  *
  * @param location1  location point 1
  * @param location2  location point 2
- * @param tolerance distance tolerance
+ * @param tolerance distance and screen tolerance
  * @return true if location 1 is near location 2
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location near the multi point
  *
  * @param location   location point
  * @param multiPoint multi point
- * @param tolerance  distance tolerance
+ * @param tolerance  distance and screen tolerance
  * @return true if location is near multi point
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location on the polyline
  *
  * @param location  location point
  * @param polyline  polyline
- * @param tolerance distance tolerance
+ * @param tolerance distance and screen tolerance
  * @return true if location is on polyline
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onPolyline: (MKPolyline *) polyline andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location on the multi polyline
  *
  * @param location      location point
  * @param multiPolyline multi polyline
- * @param tolerance     distance tolerance
+ * @param tolerance     distance and screen tolerance
  * @return true if location is on multi polyline
  */
-+(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (double) tolerance;
++(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  * Is the location on the polygon
