@@ -22,6 +22,7 @@
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic, strong) NSMutableSet<NSNumber *> *ignoreGeometryTypes;
 
 @end
 
@@ -34,6 +35,9 @@
         self.featureDao = featureDao;
         
         self.geometryType = [featureDao getGeometryType];
+        
+        self.ignoreGeometryTypes = [[NSMutableSet alloc] init];
+        
         self.name = [NSString stringWithFormat:@"%@ - %@", featureDao.databaseName, featureDao.tableName];
         
         self.maxPointDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO] intValue];
@@ -47,6 +51,10 @@
 
 -(enum WKBGeometryType) geometryType{
     return _geometryType;
+}
+
+-(void) ignoreGeometryType: (enum WKBGeometryType) geometryType{
+    [self.ignoreGeometryTypes addObject:[NSNumber numberWithInt:geometryType]];
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
@@ -298,7 +306,10 @@
 -(GPKGFeatureIndexResults *) fineFilterResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocation: (CLLocationCoordinate2D) clickLocation{
     
     GPKGFeatureIndexResults *filteredResults = nil;
-    if(self.geometryType == WKB_POINT || !CLLocationCoordinate2DIsValid(clickLocation)){
+    
+    if([self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:self.geometryType]]){
+        filteredResults = [[GPKGFeatureIndexListResults alloc] init];
+    }else if(!CLLocationCoordinate2DIsValid(clickLocation) && self.ignoreGeometryTypes.count == 0){
         filteredResults = results;
     }else{
         
@@ -313,13 +324,21 @@
                 WKBGeometry *geometry = geomData.geometry;
                 if (geometry != nil) {
                     
-                    GPKGMapShape *mapShape = [converter toShapeWithGeometry:geometry];
-                    if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
+                    if(![self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:geometry.geometryType]]){
+                    
+                        if(CLLocationCoordinate2DIsValid(clickLocation)){
                         
-                        [filteredListResults addRow:featureRow];
+                            GPKGMapShape *mapShape = [converter toShapeWithGeometry:geometry];
+                            if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
+                                
+                                [filteredListResults addRow:featureRow];
+                                
+                            }
+                        }else{
+                            [filteredListResults addRow:featureRow];
+                        }
                         
                     }
-                    
                 }
             }
             

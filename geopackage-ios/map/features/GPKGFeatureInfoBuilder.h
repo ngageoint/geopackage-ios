@@ -55,6 +55,13 @@
 -(enum WKBGeometryType) geometryType;
 
 /**
+ * Add a geomtetry type to ignore
+ *
+ * @param geometryType geometry type
+ */
+-(void) ignoreGeometryType: (enum WKBGeometryType) geometryType;
+
+/**
  *  Build a feature results information message and close the results
  *
  *  @param results feature index results
