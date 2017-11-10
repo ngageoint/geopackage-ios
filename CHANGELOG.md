@@ -11,9 +11,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Feature Indexer and Feature Table Index row syncing
 * Improved feature row geometry blob handling
 * FeatureShapes for maintaining active map Shapes
-* Map Shape Converter geometry simplifications and point on shape determinations
+* Map Shape Converter geometry simplifications
 * Map Shape Converter memory improvements
-* MapUtils for zoom, tolerance distance, map bounds, and click bounds utilities
+* MapUtils for zoom, tolerance distance, map bounds, click bounds utilities, and location on shape determinations
 * Projection transformations for lists of points
 * Minor SQL changes to match spec changes
 * Bounding box utility improvements for overlap and point in box testing
