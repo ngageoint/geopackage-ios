@@ -46,30 +46,30 @@ struct GPKGBoundingBoxSize{
  *  Initialize with number range
  *
  *  @param minLongitude minimum longitude
- *  @param maxLongitude maximum longitude
  *  @param minLatitude  minimum latitude
+ *  @param maxLongitude maximum longitude
  *  @param maxLatitude  maximum latitude
  *
  *  @return new bounding box
  */
 -(instancetype) initWithMinLongitude: (NSDecimalNumber *) minLongitude
-                      andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMinLatitude: (NSDecimalNumber *) minLatitude
+                      andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMaxLatitude: (NSDecimalNumber *) maxLatitude;
 
 /**
  *  Initialize with double range
  *
  *  @param minLongitude minimum longitude
- *  @param maxLongitude maximum longitude
  *  @param minLatitude  minimum latitude
+ *  @param maxLongitude maximum longitude
  *  @param maxLatitude  maximum latitude
  *
  *  @return new bounding box
  */
 -(instancetype) initWithMinLongitudeDouble: (double) minLongitude
-                     andMaxLongitudeDouble: (double) maxLongitude
                       andMinLatitudeDouble: (double) minLatitude
+                     andMaxLongitudeDouble: (double) maxLongitude
                       andMaxLatitudeDouble: (double) maxLatitude;
 
 /**

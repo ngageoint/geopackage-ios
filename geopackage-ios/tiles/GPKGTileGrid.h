@@ -37,13 +37,13 @@
  *  Initialize
  *
  *  @param minX min x
- *  @param maxX max x
  *  @param minY min y
+ *  @param maxX max x
  *  @param maxY max y
  *
  *  @return new tile grid
  */
--(instancetype) initWithMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY;
+-(instancetype) initWithMinX: (int) minX andMinY: (int) minY andMaxX: (int) maxX andMaxY: (int) maxY;
 
 /**
  *  Get the count of tiles in the grid

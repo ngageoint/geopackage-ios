@@ -90,7 +90,7 @@
     GPKGTileGrid * tileGrid = nil;
     GPKGTileMatrix * tileMatrix = [self getTileMatrixWithZoomLevel:zoomLevel];
     if(tileMatrix != nil){
-        tileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMaxX:[tileMatrix.matrixWidth intValue] - 1 andMinY:0 andMaxY:[tileMatrix.matrixHeight intValue] - 1];
+        tileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMinY:0 andMaxX:[tileMatrix.matrixWidth intValue] - 1 andMaxY:[tileMatrix.matrixHeight intValue] - 1];
     }
     return tileGrid;
 }
@@ -235,7 +235,7 @@
     
     GPKGTileGrid * tileGrid = nil;
     if(minX != nil && maxX != nil && minY != nil && maxY != nil){
-        tileGrid = [[GPKGTileGrid alloc] initWithMinX:[minX intValue] andMaxX:[maxX intValue] andMinY:[minY intValue] andMaxY:[maxY intValue]];
+        tileGrid = [[GPKGTileGrid alloc] initWithMinX:[minX intValue] andMinY:[minY intValue] andMaxX:[maxX intValue] andMaxY:[maxY intValue]];
     }
     
     return tileGrid;

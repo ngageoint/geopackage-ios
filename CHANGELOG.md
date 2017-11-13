@@ -4,8 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.4.0 (TBD)
+## 2.0.0 (TBD)
 
+* WARNING - GPKGBoundingBox coordinate constructor arguments order changed to (min lon, min lat, max lon, max lat)
+* WARNING - GPKGTileGrid constructor arguments order changed to (minX, minY, maxX, maxY)
 * Bounding Box envelope constructor
 * Bounding Box projection based complementary, bounding, and expansion methods
 * Feature Indexer and Feature Table Index row syncing

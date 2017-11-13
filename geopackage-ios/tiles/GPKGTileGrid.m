@@ -10,12 +10,12 @@
 
 @implementation GPKGTileGrid
 
--(instancetype) initWithMinX: (int) minX andMaxX: (int) maxX andMinY: (int) minY andMaxY: (int) maxY{
+-(instancetype) initWithMinX: (int) minX andMinY: (int) minY andMaxX: (int) maxX andMaxY: (int) maxY{
     self = [super init];
     if(self != nil){
         self.minX = minX;
-        self.maxX = maxX;
         self.minY = minY;
+        self.maxX = maxX;
         self.maxY = maxY;
     }
     return self;

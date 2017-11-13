@@ -68,7 +68,7 @@
         maxLongitude += (2 * PROJ_WGS84_HALF_WORLD_LON_WIDTH);
     }
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
     return boundingBox;
 }
@@ -124,8 +124,8 @@
     GPKGLocationBoundingBox *locationBoundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
     
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:locationBoundingBox.leftCoordinate.longitude
-                                                                 andMaxLongitudeDouble:locationBoundingBox.rightCoordinate.longitude
                                                                   andMinLatitudeDouble:locationBoundingBox.downCoordinate.latitude
+                                                                 andMaxLongitudeDouble:locationBoundingBox.rightCoordinate.longitude
                                                                   andMaxLatitudeDouble:locationBoundingBox.upCoordinate.latitude];
     
     return boundingBox;
@@ -144,8 +144,8 @@
     CLLocationCoordinate2D downCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:180 andDistance:height fromLocation:location];
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:leftCoordinate.longitude
-                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
                                                                    andMinLatitudeDouble:downCoordinate.latitude
+                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
                                                                    andMaxLatitudeDouble:upCoordinate.latitude];
     
     return boundingBox;

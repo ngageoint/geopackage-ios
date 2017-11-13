@@ -14,15 +14,15 @@
 
 -(instancetype) init{
     self = [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LON_WIDTH]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
                        andMinLatitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]];
     return self;
 }
 
 -(instancetype) initWithMinLongitude: (NSDecimalNumber *) minLongitude
-                     andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMinLatitude: (NSDecimalNumber *) minLatitude
+                     andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMaxLatitude: (NSDecimalNumber *) maxLatitude{
     self = [super init];
     if(self != nil){
@@ -35,21 +35,21 @@
 }
 
 -(instancetype) initWithMinLongitudeDouble: (double) minLongitude
-                     andMaxLongitudeDouble: (double) maxLongitude
                       andMinLatitudeDouble: (double) minLatitude
+                     andMaxLongitudeDouble: (double) maxLongitude
                       andMaxLatitudeDouble: (double) maxLatitude{
     return [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithDouble:minLongitude]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
                        andMinLatitude:[[NSDecimalNumber alloc] initWithDouble:minLatitude]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
 }
 
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self initWithMinLongitude:boundingBox.minLongitude andMaxLongitude:boundingBox.maxLongitude andMinLatitude:boundingBox.minLatitude andMaxLatitude:boundingBox.maxLatitude];
+    return [self initWithMinLongitude:boundingBox.minLongitude andMinLatitude:boundingBox.minLatitude andMaxLongitude:boundingBox.maxLongitude andMaxLatitude:boundingBox.maxLatitude];
 }
 
 -(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
-    return [self initWithMinLongitude:envelope.minX andMaxLongitude:envelope.maxX andMinLatitude:envelope.minY andMaxLatitude:envelope.maxY];
+    return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
 -(WKBGeometryEnvelope *) buildEnvelope{

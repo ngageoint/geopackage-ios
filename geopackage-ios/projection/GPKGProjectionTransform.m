@@ -207,7 +207,7 @@
     double minY = MIN(projectedLowerLeft.latitude, projectedLowerRight.latitude);
     double maxY = MAX(projectedUpperLeft.latitude, projectedUpperRight.latitude);
     
-    GPKGBoundingBox * projectedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minX andMaxLongitudeDouble:maxX andMinLatitudeDouble:minY andMaxLatitudeDouble:maxY];
+    GPKGBoundingBox * projectedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minX andMinLatitudeDouble:minY andMaxLongitudeDouble:maxX andMaxLatitudeDouble:maxY];
     
     return projectedBoundingBox;
 }

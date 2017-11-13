@@ -45,7 +45,7 @@
     double minLatitude = PROJ_WEB_MERCATOR_MIN_LAT_RANGE + ((PROJ_WEB_MERCATOR_MAX_LAT_RANGE - PROJ_WEB_MERCATOR_MIN_LAT_RANGE) * [GPKGTestUtils randomDouble]);
     double maxLatitude = minLatitude + ((PROJ_WEB_MERCATOR_MAX_LAT_RANGE - minLatitude) * [GPKGTestUtils randomDouble]);
     
-    GPKGBoundingBox * bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox * bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
     GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
     GPKGSpatialReferenceSystem * contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];

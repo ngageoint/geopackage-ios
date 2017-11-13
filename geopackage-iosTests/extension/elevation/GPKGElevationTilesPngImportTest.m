@@ -140,7 +140,7 @@ static BOOL allowNulls = false;
     double minLatitude = 8760000;
     double maxLatitude = minLatitude + (height * heightPixelDistance);
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMaxLongitudeDouble:maxLongitude andMinLatitudeDouble:minLatitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
     GPKGProjection * projection = [GPKGProjectionFactory projectionWithEpsgInt:requestEpsg];
     GPKGProjection * printProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];

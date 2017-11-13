@@ -42,7 +42,7 @@ NSString * const GPKG_TMS_COLUMN_MAX_Y = @"max_y";
 }
 
 -(GPKGBoundingBox *) getBoundingBox{
-    return[[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMaxLongitude:self.maxX andMinLatitude:self.minY andMaxLatitude:self.maxY];
+    return[[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMinLatitude:self.minY andMaxLongitude:self.maxX andMaxLatitude:self.maxY];
 }
 
 -(void) setBoundingBox: (GPKGBoundingBox *) boundingBox{

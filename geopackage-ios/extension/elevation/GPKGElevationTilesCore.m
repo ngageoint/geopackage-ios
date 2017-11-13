@@ -786,8 +786,8 @@ NSString * const GPKG_PROP_ELEVATION_TILES_EXTENSION_DEFINITION = @"geopackage.e
     double lonPixelPadding = [tileMatrix.pixelXSize doubleValue] * overlap;
     double latPixelPadding = [tileMatrix.pixelYSize doubleValue] * overlap;
     GPKGBoundingBox * paddedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:[boundingBox.minLongitude doubleValue] - lonPixelPadding
-                                                                        andMaxLongitudeDouble:[boundingBox.maxLongitude doubleValue] + lonPixelPadding
                                                                          andMinLatitudeDouble:[boundingBox.minLatitude doubleValue] - latPixelPadding
+                                                                        andMaxLongitudeDouble:[boundingBox.maxLongitude doubleValue] + lonPixelPadding
                                                                          andMaxLatitudeDouble:[boundingBox.maxLatitude doubleValue] + latPixelPadding];
     return paddedBoundingBox;
 }

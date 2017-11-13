@@ -21,7 +21,7 @@
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMaxLongitudeDouble:90 andMinLatitudeDouble:-45 andMaxLatitudeDouble:45];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
     GPKGSpatialReferenceSystem * srs = [[geoPackage getSpatialReferenceSystemDao] createWebMercator];
     geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
@@ -38,7 +38,7 @@
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMaxLongitudeDouble:90 andMinLatitudeDouble:-45 andMaxLatitudeDouble:45];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
     GPKGSpatialReferenceSystem * srs = [[geoPackage getSpatialReferenceSystemDao] createWebMercator];
     NSString * idColumn = @"my_id";
@@ -56,7 +56,7 @@
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMaxLongitudeDouble:90 andMinLatitudeDouble:-45 andMaxLatitudeDouble:45];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
     NSArray * additionalColumns = [self getFeatureColumns];
     
@@ -75,7 +75,7 @@
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMaxLongitudeDouble:90 andMinLatitudeDouble:-45 andMaxLatitudeDouble:45];
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
     NSArray * additionalColumns = [self getFeatureColumns];
     
