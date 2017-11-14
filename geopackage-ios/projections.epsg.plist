@@ -1328,6 +1328,9 @@
     <!-- Lisbon 1890 (Lisbon) -->
     <key>4904</key>
     <string>+proj=longlat +ellps=bessel +towgs84=508.088,-191.042,565.223,0,0,0,0 +pm=lisbon +no_defs</string>
+    <!-- WGS 84 Geographic 3D -->
+    <key>4979</key>
+    <string>+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs</string>
     <!-- PTRA08 -->
     <key>5013</key>
     <string>+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs</string>
