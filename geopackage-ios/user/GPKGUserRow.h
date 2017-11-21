@@ -161,6 +161,13 @@
 -(NSNumber *) getId;
 
 /**
+ *  Check if the row has an id value
+ *
+ *  @return true if has an id
+ */
+-(BOOL) hasId;
+
+/**
  *  Get the primary key column index
  *
  *  @return pk index

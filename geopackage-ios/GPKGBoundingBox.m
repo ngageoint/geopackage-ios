@@ -14,15 +14,15 @@
 
 -(instancetype) init{
     self = [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LON_WIDTH]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
                        andMinLatitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]];
     return self;
 }
 
 -(instancetype) initWithMinLongitude: (NSDecimalNumber *) minLongitude
-                     andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMinLatitude: (NSDecimalNumber *) minLatitude
+                     andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMaxLatitude: (NSDecimalNumber *) maxLatitude{
     self = [super init];
     if(self != nil){
@@ -35,17 +35,21 @@
 }
 
 -(instancetype) initWithMinLongitudeDouble: (double) minLongitude
-                     andMaxLongitudeDouble: (double) maxLongitude
                       andMinLatitudeDouble: (double) minLatitude
+                     andMaxLongitudeDouble: (double) maxLongitude
                       andMaxLatitudeDouble: (double) maxLatitude{
     return [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithDouble:minLongitude]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
                        andMinLatitude:[[NSDecimalNumber alloc] initWithDouble:minLatitude]
+                      andMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]
                        andMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
 }
 
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self initWithMinLongitude:boundingBox.minLongitude andMaxLongitude:boundingBox.maxLongitude andMinLatitude:boundingBox.minLatitude andMaxLatitude:boundingBox.maxLatitude];
+    return [self initWithMinLongitude:boundingBox.minLongitude andMinLatitude:boundingBox.minLatitude andMaxLongitude:boundingBox.maxLongitude andMaxLatitude:boundingBox.maxLatitude];
+}
+
+-(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+    return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
 -(WKBGeometryEnvelope *) buildEnvelope{
@@ -135,6 +139,86 @@
     size.height = height;
     
     return size;
+}
+
+-(GPKGBoundingBox *) complementaryWithMaxLongitude: (double) maxProjectionLongitude{
+    
+    GPKGBoundingBox * complementary = nil;
+    
+    NSDecimalNumber *adjust = nil;
+    
+    if([self.maxLongitude doubleValue] > maxProjectionLongitude){
+        if([self.minLongitude doubleValue] >= -maxProjectionLongitude){
+            adjust = [[NSDecimalNumber alloc] initWithDouble:-2 * maxProjectionLongitude];
+        }
+    }else if([self.minLongitude doubleValue] < -maxProjectionLongitude){
+        if([self.maxLongitude doubleValue] <= maxProjectionLongitude){
+            adjust = [[NSDecimalNumber alloc] initWithDouble:2 * maxProjectionLongitude];
+        }
+    }
+    
+    if(adjust != nil){
+        complementary = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+        [complementary setMinLongitude:[complementary.minLongitude decimalNumberByAdding:adjust]];
+        [complementary setMaxLongitude:[complementary.maxLongitude decimalNumberByAdding:adjust]];
+    }
+            
+    return complementary;
+}
+
+-(GPKGBoundingBox *) complementaryWgs84{
+    return [self complementaryWithMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH];
+}
+
+-(GPKGBoundingBox *) complementaryWebMercator{
+    return [self complementaryWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
+-(GPKGBoundingBox *) boundCoordinatesWithMaxLongitude: (double) maxProjectionLongitude{
+
+    GPKGBoundingBox *bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+    
+    double minLongitude = fmod([self.minLongitude doubleValue] + maxProjectionLongitude, 2 * maxProjectionLongitude)
+        - maxProjectionLongitude;
+    double maxLongitude = fmod([self.maxLongitude doubleValue] + maxProjectionLongitude, 2 * maxProjectionLongitude)
+        - maxProjectionLongitude;
+
+    [bounded setMinLongitude:[[NSDecimalNumber alloc] initWithDouble:minLongitude]];
+    [bounded setMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]];
+
+    return bounded;
+}
+
+-(GPKGBoundingBox *) boundWgs84Coordinates{
+    return [self boundCoordinatesWithMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH];
+}
+
+-(GPKGBoundingBox *) boundWebMercatorCoordinates{
+    return [self boundCoordinatesWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
+-(GPKGBoundingBox *) expandCoordinatesWithMaxLongitude: (double) maxProjectionLongitude{
+    
+    GPKGBoundingBox *expanded = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+    
+    double minLongitude = [self.minLongitude doubleValue];
+    double maxLongitude = [self.maxLongitude doubleValue];
+    
+    if (minLongitude > maxLongitude) {
+        int worldWraps = 1 + (int) ((minLongitude - maxLongitude) / (2 * maxProjectionLongitude));
+        maxLongitude += (worldWraps * 2 * maxProjectionLongitude);
+        [expanded setMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:maxLongitude]];
+    }
+    
+    return expanded;
+}
+
+-(GPKGBoundingBox *) expandWgs84Coordinates{
+    return [self expandCoordinatesWithMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH];
+}
+
+-(GPKGBoundingBox *) expandWebMercatorCoordinates{
+    return [self expandCoordinatesWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
 }
 
 @end

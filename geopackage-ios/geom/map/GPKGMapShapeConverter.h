@@ -64,6 +64,12 @@
 @property (nonatomic) BOOL drawShortestDirection;
 
 /**
+ * Tolerance in meters for simplifying lines and polygons to a similar curve with fewer points
+ * Default is nil resulting in no simplification
+ */
+@property (nonatomic) NSDecimalNumber *simplifyTolerance;
+
+/**
  *  Initialize
  *
  *  @return new map shape converter
@@ -78,6 +84,13 @@
  *  @return new map shape converter
  */
 -(instancetype) initWithProjection: (GPKGProjection *) projection;
+
+/**
+ *  Set the simplify tolerance in meters to simplify lines and polygons to similar curves with fewer points
+ *
+ *  @param simplifyTolerance simplify tolerance in meters
+ */
+-(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance;
 
 /**
  *  Transform a projection WKB point to WGS84
@@ -905,54 +918,5 @@
  *  @return wkb geometry
  */
 -(WKBGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
-
-/**
- *  If the polyline spans the -180 / 180 longitude, builds the complementary path.
- *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
- *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
- *  The returned path should be released.
- *
- *  @param polyline polyline
- *
- *  @return complementary path
- */
-+(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline;
-
-/**
- *  If the polygon spans the -180 / 180 longitude, builds the complementary path.
- *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
- *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
- *  The returned path should be released.
- *
- *  @param polygon polygon
- *
- *  @return complementary path
- */
-+(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon;
-
-/**
- *  If the multi point spans the -180 / 180 longitude, builds the complementary path.
- *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
- *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
- *  The returned path should be released.
- *
- *  @param multiPoint multi point
- *
- *  @return complementary path
- */
-+(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint;
-
-/**
- *  If the points span the -180 / 180 longitude, builds the complementary path.
- *  If points exist below 0, the path will have points above MKMapSizeWorld.width.
- *  If points exist above MKMapSizeWorld.width, the path will have points below 0.
- *  The returned path should be released.
- *
- *  @param points points
- *  @param pointCount point count
- *
- *  @return complementary path
- */
-+(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount;
 
 @end

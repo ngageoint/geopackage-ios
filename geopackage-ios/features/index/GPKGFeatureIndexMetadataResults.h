@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGFeatureIndexer.h"
-#import "GPKGFeatureIndexResults.h"
+#import "GPKGFeatureIndexResultSetResults.h"
 
 /**
  * Feature Index Results to enumerate on feature rows
  * retrieved from Metadata index results
  */
-@interface GPKGFeatureIndexMetadataResults : GPKGFeatureIndexResults
+@interface GPKGFeatureIndexMetadataResults : GPKGFeatureIndexResultSetResults
 
 /**
  *  Initialize

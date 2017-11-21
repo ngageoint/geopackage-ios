@@ -45,7 +45,7 @@
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertFalse:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
-    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMaxLongitudeDouble:0.0 andMinLatitudeDouble:0.0 andMaxLatitudeDouble:90.0];
+    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180.0 andMinLatitudeDouble:0.0 andMaxLongitudeDouble:0.0 andMaxLatitudeDouble:90.0];
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
@@ -63,7 +63,7 @@
     [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:image.size.height];
     [self validateImage:image];
     
-    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMaxLongitudeDouble:0.0 andMinLatitudeDouble:0.0 andMaxLatitudeDouble:45.0];
+    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMinLatitudeDouble:0.0 andMaxLongitudeDouble:0.0 andMaxLatitudeDouble:45.0];
     [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
     tile = [tileCreator getTileWithBoundingBox:boundingBox];

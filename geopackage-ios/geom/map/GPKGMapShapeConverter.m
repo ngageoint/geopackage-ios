@@ -13,6 +13,7 @@
 #import "GPKGUtils.h"
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"
+#import "WKBGeometryUtils.h"
 
 @interface GPKGMapShapeConverter ()
 
@@ -46,6 +47,10 @@
         [self setDrawShortestDirection:true];
     }
     return self;
+}
+
+-(void) setSimplifyToleranceAsDouble: (double) simplifyTolerance{
+    self.simplifyTolerance = [[NSDecimalNumber alloc] initWithDouble:simplifyTolerance];
 }
 
 -(WKBPoint *) toWgs84WithPoint: (WKBPoint *) point{
@@ -122,11 +127,14 @@
     
     lineString = [self shortestDirectionWithLineString:lineString];
     
-    int numPoints = [[lineString numPoints] intValue];
-    MKMapPoint mapPoints[numPoints];
+    // Try to simplify the number of points in the line string
+    NSArray *points = [self simplifyPoints:lineString.points];
+    int numPoints = (int) points.count;
+    
+    MKMapPoint * mapPoints = malloc(sizeof(MKMapPoint)*numPoints);
     
     for(int i = 0; i < numPoints; i++){
-        WKBPoint * point = (WKBPoint *)[lineString.points objectAtIndex:i];
+        WKBPoint * point = (WKBPoint *)[points objectAtIndex:i];
         MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
         mapPoints[i] = mapPoint;
     }
@@ -199,10 +207,15 @@
         // Create the polygon points
         WKBLineString * polygonLineString = (WKBLineString *)[rings objectAtIndex:0];
         polygonLineString = [self shortestDirectionWithLineString:polygonLineString];
-        int numPoints = [[polygonLineString numPoints] intValue];
-        MKMapPoint polygonPoints[numPoints];
+        
+        // Try to simplify the number of points in the polygon
+        NSArray *points = [self simplifyPoints:polygonLineString.points];
+        int numPoints = (int) points.count;
+        
+        MKMapPoint * polygonPoints = malloc(sizeof(MKMapPoint)*numPoints);
+        
         for(int i = 0; i < numPoints; i++){
-            WKBPoint * point = (WKBPoint *)[polygonLineString.points objectAtIndex:i];
+            WKBPoint * point = (WKBPoint *)[points objectAtIndex:i];
             MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
             polygonPoints[i] = mapPoint;
         }
@@ -213,14 +226,19 @@
         for(int i = 1; i < ringCount; i++){
             WKBLineString * hole = (WKBLineString *)[rings objectAtIndex:i];
             hole = [self shortestDirectionWithLineString:hole];
-            int numHolePoints = [[hole numPoints] intValue];
-            MKMapPoint holePoints[numHolePoints];
+            
+            // Try to simplify the number of points in the hole
+            NSArray *holePoints = [self simplifyPoints:hole.points];
+            int numHolePoints = (int) holePoints.count;
+            
+            MKMapPoint * polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
+            
             for(int j = 0; j < numHolePoints; j++){
-                WKBPoint * point = (WKBPoint *)[hole.points objectAtIndex:j];
+                WKBPoint * point = (WKBPoint *)[holePoints objectAtIndex:j];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
-                holePoints[j] = mapPoint;
+                polygonHolePoints[j] = mapPoint;
             }
-            MKPolygon * holePolygon = [MKPolygon polygonWithPoints:holePoints count:numHolePoints];
+            MKPolygon * holePolygon = [MKPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
             [holes addObject:holePolygon];
         }
         
@@ -247,11 +265,12 @@
             for(WKBLineString *lineString in compoundCurve.lineStrings){
                 numPoints += [[lineString numPoints] intValue];
             }
-            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             int index = 0;
             for(WKBLineString *lineString in compoundCurve.lineStrings){
                 WKBLineString *compoundCurveLineString = [self shortestDirectionWithLineString:lineString];
-                for(WKBPoint *point in compoundCurveLineString.points){
+                NSArray *compoundCurvePoints = [self simplifyPoints:compoundCurveLineString.points];
+                for(WKBPoint *point in compoundCurvePoints){
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                     polygonPoints[index++] = mapPoint;
                 }
@@ -259,10 +278,11 @@
         }else if([curve isKindOfClass:[WKBLineString class]]){
             WKBLineString *lineString = (WKBLineString *)curve;
             lineString = [self shortestDirectionWithLineString:lineString];
-            numPoints = [[lineString numPoints] intValue];
-            polygonPoints = (MKMapPoint *)malloc(sizeof(MKMapPoint) * numPoints);
+            NSArray *points = [self simplifyPoints:lineString.points];
+            numPoints = (int) points.count;
+            polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             for(int i = 0; i < numPoints; i++){
-                WKBPoint * point = (WKBPoint *)[lineString.points objectAtIndex:i];
+                WKBPoint * point = (WKBPoint *)[points objectAtIndex:i];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                 polygonPoints[i] = mapPoint;
             }
@@ -281,11 +301,12 @@
                 for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
                     numHolePoints += [[holeLineString numPoints] intValue];
                 }
-                MKMapPoint holePoints[numHolePoints];
+                MKMapPoint * holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 int index = 0;
                 for(WKBLineString *holeLineString in holeCompoundCurve.lineStrings){
                     WKBLineString *compoundCurveHoleLineString = [self shortestDirectionWithLineString:holeLineString];
-                    for(WKBPoint *point in compoundCurveHoleLineString.points){
+                    NSArray *compoundCurveHolePoints = [self simplifyPoints:compoundCurveHoleLineString.points];
+                    for(WKBPoint *point in compoundCurveHolePoints){
                         MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                         holePoints[index++] = mapPoint;
                     }
@@ -295,14 +316,15 @@
             }else if([hole isKindOfClass:[WKBLineString class]]){
                 WKBLineString *holeLineString = (WKBLineString *)hole;
                 holeLineString = [self shortestDirectionWithLineString:holeLineString];
-                int numHolePoints = [[holeLineString numPoints] intValue];
-                MKMapPoint holePoints[numHolePoints];
+                NSArray *holePoints = [self simplifyPoints:holeLineString.points];
+                int numHolePoints = (int) holePoints.count;
+                MKMapPoint * polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 for(int j = 0; j < numHolePoints; j++){
-                    WKBPoint * point = (WKBPoint *)[holeLineString.points objectAtIndex:j];
+                    WKBPoint * point = (WKBPoint *)[holePoints objectAtIndex:j];
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
-                    holePoints[j] = mapPoint;
+                    polygonHolePoints[j] = mapPoint;
                 }
-                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:holePoints count:numHolePoints];
+                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
                 [holes addObject:holePolygon];
             }else{
                 [NSException raise:@"Unsupported Curve Hole Type" format:@"Unsupported Curve Hole Type: %@", NSStringFromClass([hole class])];
@@ -399,6 +421,37 @@
     }
     
     return polygon;
+}
+
+/**
+ *  When the simplify tolerance is set, simplify the points to a similar curve with fewer points.
+ *
+ *  @param points ordered points
+ *
+ *  @return simplified points
+ */
+-(NSArray *) simplifyPoints: (NSArray *) points{
+    
+    NSArray *simplifiedPoints;
+    if(self.simplifyTolerance != nil){
+        
+        // Reproject to web mercator if not in meters
+        if([self.projection getUnit] != GPKG_UNIT_METERS){
+            points = [self.toWebMercator transformWithPoints:points];
+        }
+        
+        // Simplify the points
+        simplifiedPoints = [WKBGeometryUtils simplifyPoints:points withTolerance:[self.simplifyTolerance doubleValue]];
+        
+        // Reproject back to the original projection
+        if([self.projection getUnit] != GPKG_UNIT_METERS){
+            simplifiedPoints = [self.fromWebMercator transformWithPoints:simplifiedPoints];
+        }
+    }else{
+        simplifiedPoints = points;
+    }
+    
+    return simplifiedPoints;
 }
 
 -(WKBLineString *) buildPolygonRingWithPoints: (NSMutableArray<WKBPoint *> *) points andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -1362,68 +1415,6 @@
     }
     
     return geometry;
-}
-
-+(CGPathRef) complementaryWorldPathOfPolyline: (MKPolyline *) polyline{
-    return [self complementaryWorldPathOfMultiPoint:polyline];
-}
-
-+(CGPathRef) complementaryWorldPathOfPolygon: (MKPolygon *) polygon{
-    return [self complementaryWorldPathOfMultiPoint:polygon];
-}
-
-+(CGPathRef) complementaryWorldPathOfMultiPoint: (MKMultiPoint *) multiPoint{
-    return [self complementaryWorldPathOfPoints:[multiPoint points] andPointCount:multiPoint.pointCount];
-}
-
-+(CGPathRef) complementaryWorldPathOfPoints: (MKMapPoint *) points andPointCount: (NSUInteger) pointCount{
-    
-    CGMutablePathRef path = nil;
-    
-    // Determine if the shape is drawn over the -180 / 180 longitude boundary and the direction
-    int worldOverlap = 0;
-    for(int i = 0; i < pointCount; i++){
-        MKMapPoint mapPoint = points[i];
-        if(mapPoint.x < 0){
-            worldOverlap = -1;
-            break;
-        }else if(mapPoint.x > MKMapSizeWorld.width){
-            worldOverlap = 1;
-            break;
-        }
-    }
-    
-    // Shape crosses the -180 / 180 longitude boundary
-    if(worldOverlap != 0){
-        
-        // Build the complementary points in the opposite world width direction
-        MKMapPoint complementaryPoints[pointCount];
-        for(int i = 0; i < pointCount; i++){
-            MKMapPoint mapPoint = points[i];
-            double x = mapPoint.x;
-            if(worldOverlap < 0){
-                x += MKMapSizeWorld.width;
-            }else{
-                x -= MKMapSizeWorld.width;
-            }
-            MKMapPoint complementaryPoint = MKMapPointMake(x, mapPoint.y);
-            complementaryPoints[i] = complementaryPoint;
-        }
-        
-        // Build the path
-        path = CGPathCreateMutable();
-        for(int i = 0; i < pointCount; i++){
-            MKMapPoint complementaryPoint = complementaryPoints[i];
-            if(i == 0){
-                CGPathMoveToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
-            }else{
-                CGPathAddLineToPoint(path, NULL, complementaryPoint.x, complementaryPoint.y);
-            }
-        }
-        
-    }
-    
-    return path;
 }
 
 @end

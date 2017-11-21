@@ -45,7 +45,7 @@
 @property (nonatomic) BOOL primaryKey;
 
 /**
- *  Data type if not a geometry column
+ *  Data type
  */
 @property (nonatomic) enum GPKGDataType dataType;
 

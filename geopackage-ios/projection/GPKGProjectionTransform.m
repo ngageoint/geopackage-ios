@@ -169,6 +169,19 @@
     return to;
 }
 
+-(NSArray<WKBPoint *> *) transformWithPoints: (NSArray<WKBPoint *> *) from{
+    
+    NSMutableArray<WKBPoint *> *to = [[NSMutableArray alloc] init];
+    
+    GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
+    for(WKBPoint *fromPoint in from){
+        WKBPoint * toPoint = [geometryTransform transformPoint:fromPoint];
+        [to addObject:toPoint];
+    }
+    
+    return to;
+}
+
 -(WKBGeometry *) transformWithGeometry: (WKBGeometry *) from{
     
     GPKGGeometryProjectionTransform * geometryTransform = [[GPKGGeometryProjectionTransform alloc] initWithProjectionTransform:self];
@@ -194,7 +207,7 @@
     double minY = MIN(projectedLowerLeft.latitude, projectedLowerRight.latitude);
     double maxY = MAX(projectedUpperLeft.latitude, projectedUpperRight.latitude);
     
-    GPKGBoundingBox * projectedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minX andMaxLongitudeDouble:maxX andMinLatitudeDouble:minY andMaxLatitudeDouble:maxY];
+    GPKGBoundingBox * projectedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minX andMinLatitudeDouble:minY andMaxLongitudeDouble:maxX andMaxLatitudeDouble:maxY];
     
     return projectedBoundingBox;
 }

@@ -34,6 +34,14 @@
     return [self.featureTable getGeometryColumn];
 }
 
+-(void) setValueWithIndex:(int)index andValue:(NSObject *)value{
+    if(index == [self getGeometryColumnIndex] && [value isKindOfClass:[NSData class]]){
+        NSData * data = (NSData *) value;
+        value = [[GPKGGeometryData alloc] initWithData:data];
+    }
+    [super setValueWithIndex:index andValue:value];
+}
+
 -(GPKGGeometryData *) getGeometry{
     GPKGGeometryData * geometryData = nil;
     NSObject * value = [self getValueWithIndex:self.featureTable.geometryIndex];

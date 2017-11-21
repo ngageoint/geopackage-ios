@@ -125,8 +125,8 @@
         // Pick a projection different from the feature dao and project the
         // bounding box
         GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:[envelope.minX doubleValue] - 1.0
-                                                                      andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
                                                                        andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
+                                                                      andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
                                                                        andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
         GPKGProjection * projection = nil;
         if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){

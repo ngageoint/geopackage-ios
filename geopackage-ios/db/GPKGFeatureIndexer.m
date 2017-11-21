@@ -11,9 +11,11 @@
 #import "GPKGGeometryColumnsDao.h"
 #import "WKBGeometryEnvelopeBuilder.h"
 #import "GPKGProjectionTransform.h"
+#import "GPKGUserRowSync.h"
 
 @interface GPKGFeatureIndexer()
 
+@property (nonatomic, strong)  GPKGUserRowSync * featureRowSync;
 @property (nonatomic, strong)  GPKGMetadataDb * db;
 @property (nonatomic, strong)  GPKGGeometryMetadataDao * geometryMetadataDataSource;
 
@@ -25,6 +27,7 @@
     self = [super init];
     if(self){
         self.featureDao = featureDao;
+        self.featureRowSync = [[GPKGUserRowSync alloc] init];
         self.db = featureDao.metadataDb;
         self.geometryMetadataDataSource = [self.db getGeometryMetadataDao];
     }
@@ -76,13 +79,17 @@
         GPKGResultSet * results = [self.featureDao queryForAll];
         @try{
             while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                BOOL indexed = [self indexWithGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
-                if(indexed){
-                    count++;
-                }
-                if(self.progress != nil){
-                    [self.progress addProgress:1];
+                @try {
+                    GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                    BOOL indexed = [self indexWithGeoPackageId:metadata.geoPackageId andFeatureRow:row andPossibleUpdate:false];
+                    if(indexed){
+                        count++;
+                    }
+                    if(self.progress != nil){
+                        [self.progress addProgress:1];
+                    }
+                } @catch (NSException *exception) {
+                    NSLog(@"Failed to index feature. Table: %@, Position: ", self.featureDao.tableName);
                 }
             }
         }@finally{
@@ -251,8 +258,21 @@
 }
 
 -(GPKGFeatureRow *) getFeatureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata{
-    GPKGFeatureRow * featureRow = (GPKGFeatureRow *)[self.featureDao queryForIdObject:geometryMetadata.id];
-    return featureRow;
+    
+    NSNumber *geomId = geometryMetadata.id;
+    
+    // Get the row or lock for reading
+    GPKGFeatureRow *row = (GPKGFeatureRow *)[self.featureRowSync getRowOrLockNumber:geomId];
+    if(row == nil){
+        // Query for the row and set in the sync
+        @try {
+            row = (GPKGFeatureRow *)[self.featureDao queryForIdObject:geomId];
+        } @finally {
+            [self.featureRowSync setRow:row withNumber:geomId];
+        }
+    }
+
+    return row;
 }
 
 @end

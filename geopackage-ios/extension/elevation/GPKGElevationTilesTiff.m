@@ -94,7 +94,7 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
         [NSException raise:@"Nil Image" format:@"The image is nil"];
     }
     
-    NSNumber * samplesPerPixel = [directory samplesPerPixel];
+    int samplesPerPixel = [directory samplesPerPixel];
     NSNumber * bitsPerSample = nil;
     if ([directory bitsPerSample] != nil && [directory bitsPerSample].count > 0) {
         bitsPerSample = [[directory bitsPerSample] objectAtIndex:0];
@@ -104,10 +104,10 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
         sampleFormat = [[directory sampleFormat] objectAtIndex:0];
     }
     
-    if (samplesPerPixel == nil || [samplesPerPixel intValue] != GPKG_TIFF_SAMPLES_PER_PIXEL
+    if (samplesPerPixel != GPKG_TIFF_SAMPLES_PER_PIXEL
         || bitsPerSample == nil || [bitsPerSample intValue] != GPKG_TIFF_BITS_PER_SAMPLE
         || sampleFormat == nil || [sampleFormat intValue] != TIFF_SAMPLE_FORMAT_FLOAT) {
-        [NSException raise:@"Image Type" format:@"The elevation tile is expected to be a single sample 32 bit float. Samples Per Pixel: %@, Bits Per Sample: %@, Sample Format: %@", samplesPerPixel, bitsPerSample, sampleFormat];
+        [NSException raise:@"Image Type" format:@"The elevation tile is expected to be a single sample 32 bit float. Samples Per Pixel: %d, Bits Per Sample: %@, Sample Format: %@", samplesPerPixel, bitsPerSample, sampleFormat];
     }
 }
 

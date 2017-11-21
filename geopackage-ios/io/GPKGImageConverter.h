@@ -45,7 +45,7 @@
 +(NSData *) toData: (UIImage *) image andFormat: (enum GPKGCompressFormat) format;
 
 /**
- *  Compress teh image to byte data with quality
+ *  Compress the image to byte data with quality
  *
  *  @param image   image
  *  @param format  compress format

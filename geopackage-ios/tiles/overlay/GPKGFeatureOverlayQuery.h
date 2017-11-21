@@ -9,17 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "GPKGFeatureOverlay.h"
 #import "GPKGMapPoint.h"
-#import "GPKGFeatureTableData.h"
+#import "GPKGFeatureInfoBuilder.h"
 
 /**
  * Used to query the features represented by tiles, either being drawn from or linked to the features
  */
 @interface GPKGFeatureOverlayQuery : NSObject
-
-/**
- *  Table name used when building text
- */
-@property (nonatomic, strong) NSString * name;
 
 /**
  * Screen click percentage between 0.0 and 1.0 for how close a feature on the screen must be
@@ -36,26 +31,6 @@
  * Flag indicating if building info messages for clicked features is enabled
  */
 @property (nonatomic) BOOL featuresInfo;
-
-/**
- * Max number of points clicked to return detailed information about
- */
-@property (nonatomic) int maxPointDetailedInfo;
-
-/**
- * Max number of features clicked to return detailed information about
- */
-@property (nonatomic) int maxFeatureDetailedInfo;
-
-/**
- * Print Point geometries within detailed info when true
- */
-@property (nonatomic) BOOL detailedInfoPrintPoints;
-
-/**
- * Print Feature geometries within detailed info when true
- */
-@property (nonatomic) BOOL detailedInfoPrintFeatures;
 
 /**
  *  Initialize
@@ -81,30 +56,21 @@
  *
  *  @return bounded overlay
  */
--(GPKGBoundedOverlay *) getBoundedOverlay;
+-(GPKGBoundedOverlay *) boundedOverlay;
 
 /**
  *  Get the feature tiles
  *
  *  @return feature tiles
  */
--(GPKGFeatureTiles *) getFeatureTiles;
+-(GPKGFeatureTiles *) featureTiles;
 
 /**
- *  Get the geometry type
+ *  Get the feature info builder
  *
- *  @return geometry type
+ *  @return feature info builder
  */
--(enum WKBGeometryType) getGeometryType;
-
-/**
- *  Get the current zoom level of the map view
- *
- *  @param mapView map view
- *
- *  @return current zoom level
- */
--(double) currentZoomWithMapView: (MKMapView *) mapView;
+-(GPKGFeatureInfoBuilder *) featureInfoBuilder;
 
 /**
  *  Determine if the the feature overlay is on for the current zoom level of the map view at the location coordinate
@@ -216,66 +182,6 @@
 -(BOOL) moreThanMaxFeatures: (int) tileFeaturesCount;
 
 /**
- *  Build a bounding box using the map point click location and map view that can be used to query for features
- *
- *  @param mapPoint map point
- *  @param mapView  map view
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andMapView: (MKMapView *) mapView;
-
-/**
- *  Build a bounding box using the mapkit map point click location and map view that can be used to query for features
- *
- *  @param mapPoint mapkit map point
- *  @param mapView  map view
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andMapView: (MKMapView *) mapView;
-
-/**
- *  Build a bounding box using the point click location and map view that can be used to query for features
- *
- *  @param point   point
- *  @param mapView map view
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView;
-
-/**
- *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
- *
- *  @param location location coordinate
- *  @param mapView  map view
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView;
-
-/**
- *  Build a bounding box using the cg point click location and map view that can be used to query for features
- *
- *  @param point   cg point
- *  @param mapView map view
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView;
-
-/**
- *  Build a bounding box using the location coordinate click location and map view bounds
- *
- *  @param location  location coordinate
- *  @param mapBounds map bounds
- *
- *  @return bounding box
- */
--(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds;
-
-/**
  *  Query for features in the WGS84 projected bounding box
  *
  *  @param boundingBox query bounding box in WGS84 projection
@@ -311,109 +217,6 @@
 -(NSString *) buildMaxFeaturesInfoMessageWithTileFeaturesCount: (int) tileFeaturesCount;
 
 /**
- *  Build a feature results information message and close the results
- *
- *  @param results feature index results
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results;
-
-/**
- *  Build a feature results information message and close the results
- *
- *  @param results feature index results
- *  @param projection         desired geometry projection
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (GPKGProjection *) projection;
-
-/**
- *  Build a feature results information message
- *
- *  @param results            feature index results
- *  @param locationCoordinate location coordinate
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
-
-/**
- *  Build a feature results information message
- *
- *  @param results            feature index results
- *  @param locationCoordinate location coordinate
- *  @param projection         desired geometry projection
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection;
-
-/**
- *  Build a feature results information message
- *
- *  @param results feature index results
- *  @param point   point
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point;
-
-/**
- *  Build a feature results information message
- *
- *  @param results feature index results
- *  @param point   point
- *  @param projection         desired geometry projection
- *
- *  @return results message or null if no results
- */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection;
-
-/**
- *  Build feature table data results
- *
- *  @param results            feature index results
- *  @param locationCoordinate location coordinate
- *
- *  @return table data or nil if not results
- */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate;
-
-/**
- *  Build feature table data results
- *
- *  @param results            feature index results
- *  @param locationCoordinate location coordinate
- *  @param projection         desired geometry projection
- *
- *  @return table data or nil if not results
- */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection;
-
-/**
- *  Build feature table data results
- *
- *  @param results feature index results
- *  @param point   point
- *
- *  @return feature table data or nil if not results
- */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point;
-
-/**
- *  Build feature table data results
- *
- *  @param results feature index results
- *  @param point   point
- *  @param projection         desired geometry projection
- *
- *  @return feature table data or nil if not results
- */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection;
-
-/**
  *  Perform a query based upon the map click location and build a info message
  *
  *  @param point   cg point
@@ -436,8 +239,8 @@
 /**
  *  Perform a query based upon the map click location and build a info message
  *
- *  @param locationCoordinate   location coordinate
- *  @param mapView              map view
+ *  @param locationCoordinate location coordinate
+ *  @param mapView            map view
  *  @param projection         desired geometry projection
  *
  *  @return information message on what was clicked, or nil
@@ -450,10 +253,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
+ *  @param tolerance          distance and screen tolerance
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  *  Perform a query based upon the map click location and build a info message
@@ -461,11 +265,12 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
+ *  @param tolerance          distance and screen tolerance
  *  @param projection         desired geometry projection
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (GPKGProjection *) projection;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -494,10 +299,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
+ *  @param tolerance          distance and screen tolerance
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -505,10 +311,11 @@
  *  @param locationCoordinate location coordinate
  *  @param zoom               current zoom level
  *  @param mapBounds          map view bounds
+ *  @param tolerance          distance and screen tolerance
  *  @param projection         desired geometry projection
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
 
 @end

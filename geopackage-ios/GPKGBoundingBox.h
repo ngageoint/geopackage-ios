@@ -46,30 +46,30 @@ struct GPKGBoundingBoxSize{
  *  Initialize with number range
  *
  *  @param minLongitude minimum longitude
- *  @param maxLongitude maximum longitude
  *  @param minLatitude  minimum latitude
+ *  @param maxLongitude maximum longitude
  *  @param maxLatitude  maximum latitude
  *
  *  @return new bounding box
  */
 -(instancetype) initWithMinLongitude: (NSDecimalNumber *) minLongitude
-                      andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMinLatitude: (NSDecimalNumber *) minLatitude
+                      andMaxLongitude: (NSDecimalNumber *) maxLongitude
                       andMaxLatitude: (NSDecimalNumber *) maxLatitude;
 
 /**
  *  Initialize with double range
  *
  *  @param minLongitude minimum longitude
- *  @param maxLongitude maximum longitude
  *  @param minLatitude  minimum latitude
+ *  @param maxLongitude maximum longitude
  *  @param maxLatitude  maximum latitude
  *
  *  @return new bounding box
  */
 -(instancetype) initWithMinLongitudeDouble: (double) minLongitude
-                     andMaxLongitudeDouble: (double) maxLongitude
                       andMinLatitudeDouble: (double) minLatitude
+                     andMaxLongitudeDouble: (double) maxLongitude
                       andMaxLatitudeDouble: (double) maxLatitude;
 
 /**
@@ -80,6 +80,15 @@ struct GPKGBoundingBoxSize{
  *  @return new bounding box
  */
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Initialize with geometry envelope
+ *
+ *  @param envelope geometry envelope
+ *
+ *  @return new bounding box
+ */
+-(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
 
 /**
  * Build a Geometry Envelope from the bounding box
@@ -131,5 +140,82 @@ struct GPKGBoundingBoxSize{
  *  @return bounding box size
  */
 -(struct GPKGBoundingBoxSize) sizeInMeters;
+
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary bounding box using the max longitude of the unit projection
+ *
+ *  @param maxProjectionLongitude max longitude of the world for the current bounding box units
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWithMaxLongitude: (double) maxProjectionLongitude;
+
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary WGS84 bounding box
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWgs84;
+
+/**
+ *  If the bounding box spans the Anti-Meridian, attempt to get a complementary Web Mercator bounding box
+ *
+ *  @return complementary bounding box or nil if none
+ */
+-(GPKGBoundingBox *) complementaryWebMercator;
+
+/**
+ * Bound the bounding box longitudes within the min and max possible
+ * projection values. This may result in a max longitude numerically lower
+ * than the min longitude.
+ *
+ * @param maxProjectionLongitude
+ *            max longitude of the world for the current bounding box units
+ * @return bounded bounding box
+ */
+-(GPKGBoundingBox *) boundCoordinatesWithMaxLongitude: (double) maxProjectionLongitude;
+
+/**
+ * Bound the bounding box coordinates within WGS84 range values
+ *
+ * @return bounded bounding box
+ */
+-(GPKGBoundingBox *) boundWgs84Coordinates;
+
+/**
+ * Bound the bounding box coordinates within Web Mercator range values
+ *
+ * @return bounded bounding box
+ */
+-(GPKGBoundingBox *) boundWebMercatorCoordinates;
+
+/**
+ * Expand the bounding box max longitude above the max possible projection
+ * value if needed to create a bounding box where the max longitude is
+ * numerically larger than the min longitude.
+ *
+ * @param maxProjectionLongitude
+ *            max longitude of the world for the current bounding box units
+ * @return expanded bounding box
+ */
+-(GPKGBoundingBox *) expandCoordinatesWithMaxLongitude: (double) maxProjectionLongitude;
+
+/**
+ * Expand the bounding box max longitude above the max WGS84 projection
+ * value if needed to create a bounding box where the max longitude is
+ * numerically larger than the min longitude.
+ *
+ * @return expanded bounding box
+ */
+-(GPKGBoundingBox *) expandWgs84Coordinates;
+
+/**
+ * Expand the bounding box max longitude above the max Web Mercator
+ * projection value if needed to create a bounding box where the max
+ * longitude is numerically larger than the min longitude.
+ *
+ * @return expanded bounding box
+ */
+-(GPKGBoundingBox *) expandWebMercatorCoordinates;
 
 @end

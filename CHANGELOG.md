@@ -4,9 +4,31 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.3.1 (TBD)
+## [2.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.0) (11-21-2017)
 
-* TBD
+* WARNING - GPKGBoundingBox coordinate constructor arguments order changed to (min lon, min lat, max lon, max lat)
+* WARNING - GPKGTileGrid constructor arguments order changed to (minX, minY, maxX, maxY)
+* Bounding Box envelope constructor
+* Bounding Box projection based complementary, bounding, and expansion methods
+* Feature Indexer and Feature Table Index row syncing
+* Improved feature row geometry blob handling
+* FeatureShapes for maintaining active map Shapes
+* Map Shape Converter geometry simplifications
+* Map Shape Converter memory improvements
+* MapUtils for zoom, tolerance distance, map bounds, click bounds utilities, and location on shape determinations
+* Projection transformations for lists of points
+* Minor SQL changes to match spec changes
+* Bounding box utility improvements for overlap and point in box testing
+* Tolerance distance utility methods for geometry proximity testing
+* Feature Tiles geometry simplifications
+* Multiple Results and List Results implementations of Feature Index results
+* Feature Index Manager index type specific improvements
+* Tile Creator source image size check
+* User Table / Row has id check & columns of a type methods
+* User Row Sync implementation to support sharing user row query results
+* FeatureInfoBuilder for common feature creating result messages and data
+* tiff-ios version updated to 1.1.0
+* wkb version update to 1.0.8
 
 ## [1.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/1.3.0) (07-31-2017)
 

@@ -214,6 +214,15 @@
 -(WKBPoint *) transformWithPoint: (WKBPoint *) from;
 
 /**
+ *  Transform an array of points
+ *
+ *  @param from points to transform
+ *
+ *  @return transformed points
+ */
+-(NSArray<WKBPoint *> *) transformWithPoints: (NSArray<WKBPoint *> *) from;
+
+/**
  *  Transform a geometry
  *
  *  @param from geometry

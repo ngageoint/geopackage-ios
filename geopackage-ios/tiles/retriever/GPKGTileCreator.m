@@ -203,17 +203,20 @@
             // Get the rectangle of the tile image to draw
             CGRect src = [GPKGTileBoundingBoxUtils getRoundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:tileBoundingBox andSection:overlap];
             
-            // Get the portion of the image to draw
-            CGImageRef srcImageRef = CGImageCreateWithImageInRect([tileDataImage CGImage], src);
-            UIImage *srcImage = [UIImage imageWithCGImage:srcImageRef];
-            CGImageRelease(srcImageRef);
+            if(src.size.width > 0 && src.size.height > 0){
             
-            // Get the rectangle of where to draw the tile in
-            // the resulting image
-            CGRect dest = [GPKGTileBoundingBoxUtils getRoundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestProjectedBoundingBox andSection:overlap];
+                // Get the portion of the image to draw
+                CGImageRef srcImageRef = CGImageCreateWithImageInRect([tileDataImage CGImage], src);
+                UIImage *srcImage = [UIImage imageWithCGImage:srcImageRef];
+                CGImageRelease(srcImageRef);
+            
+                // Get the rectangle of where to draw the tile in
+                // the resulting image
+                CGRect dest = [GPKGTileBoundingBoxUtils getRoundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestProjectedBoundingBox andSection:overlap];
 
-            // Draw to the image
-            [srcImage drawInRect:dest];
+                // Draw to the image
+                [srcImage drawInRect:dest];
+            }
         }
     }
     
