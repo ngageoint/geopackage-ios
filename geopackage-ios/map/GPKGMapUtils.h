@@ -263,7 +263,7 @@
  * Is the location on or near the shape
  *
  * @param location  location point
- * @param shape     map shape
+ * @param mapShape  map shape
  * @param tolerance distance and screen tolerance
  * @return true if location is on shape
  */
