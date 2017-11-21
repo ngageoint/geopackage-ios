@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 2.0.0 (TBD)
+## [2.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.0) (11-21-2017)
 
 * WARNING - GPKGBoundingBox coordinate constructor arguments order changed to (min lon, min lat, max lon, max lat)
 * WARNING - GPKGTileGrid constructor arguments order changed to (minX, minY, maxX, maxY)
