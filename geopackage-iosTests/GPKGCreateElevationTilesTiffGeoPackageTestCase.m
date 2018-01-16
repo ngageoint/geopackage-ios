@@ -12,7 +12,7 @@
 #import "GPKGTestConstants.h"
 #import "GPKGTestUtils.h"
 #import "GPKGProjectionConstants.h"
-#import "GPKGElevationTilesTiff.h"
+#import "GPKGCoverageDataTiff.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGUtils.h"
 
@@ -28,13 +28,13 @@
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     
     // Delete
-    [manager delete:GPKG_TEST_CREATE_ELEVATION_TILES_DB_NAME];
+    [manager delete:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
     
     // Create
-    [manager create:GPKG_TEST_CREATE_ELEVATION_TILES_DB_NAME];
+    [manager create:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_CREATE_ELEVATION_TILES_DB_NAME];
+    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
@@ -51,11 +51,11 @@
     GPKGSpatialReferenceSystem * contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     GPKGSpatialReferenceSystem * tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
-    GPKGElevationTilesTiff * elevationTiles = [GPKGElevationTilesTiff createTileTableWithGeoPackage:geoPackage andTableName:GPKG_TEST_CREATE_ELEVATION_TILES_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
-    GPKGTileDao * tileDao = elevationTiles.tileDao;
-    GPKGTileMatrixSet * tileMatrixSet = [elevationTiles tileMatrixSet];
+    GPKGCoverageDataTiff * coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
+    GPKGTileDao * tileDao = coverageData.tileDao;
+    GPKGTileMatrixSet * tileMatrixSet = [coverageData tileMatrixSet];
     
-    GPKGGriddedCoverageDao * griddedCoverageDao = [elevationTiles griddedCoverageDao];
+    GPKGGriddedCoverageDao * griddedCoverageDao = [coverageData griddedCoverageDao];
     
     GPKGGriddedCoverage * griddedCoverage = [[GPKGGriddedCoverage alloc] init];
     [griddedCoverage setTileMatrixSet:tileMatrixSet];
@@ -114,7 +114,7 @@
         defaultGTStandardDeviation = false;
     }
     
-    GPKGGriddedTileDao * griddedTileDao = [elevationTiles griddedTileDao];
+    GPKGGriddedTileDao * griddedTileDao = [coverageData griddedTileDao];
     
     int width = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
     int height = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
@@ -124,8 +124,8 @@
     int maxZoomLevel = minZoomLevel + (int) floor([GPKGTestUtils randomDouble] * 3.0);
     
     // Just draw one image and re-use
-    elevationTiles = [[GPKGElevationTilesTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
-    NSData * imageData = [self drawTileWithElevationTiles:elevationTiles andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
+    coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
+    NSData * imageData = [self drawTileWithElevationTiles:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
     
     GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
     
@@ -222,7 +222,7 @@
     [super tearDown];
 }
 
--(NSData *) drawTileWithElevationTiles: (GPKGElevationTilesTiff *) elevationTiles andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
+-(NSData *) drawTileWithElevationTiles: (GPKGCoverageDataTiff *) elevationTiles andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
     
     GPKGElevationTileValues * values = [[GPKGElevationTileValues alloc] init];
     values.tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];

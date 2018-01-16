@@ -28,8 +28,8 @@
 	<string>definition_12_063</string>
 	<key>geopackage.extensions.crs_wkt.column_def</key>
 	<string>TEXT NOT NULL DEFAULT &quot;undefined&quot;</string>
-	<key>geopackage.extensions.elevation_tiles</key>
-	<string>http://www.geopackage.org/spec/#extension_tiled_gridded_elevation_data</string>
+	<key>geopackage.extensions.2d_gridded_coverage</key>
+	<string>TBD</string>
 	<key>geopackage.extensions.geometry_index</key>
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</string>
 	<key>geopackage.extensions.feature_tile_link</key>

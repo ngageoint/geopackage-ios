@@ -15,7 +15,7 @@ enum GPKGContentsDataType{
     GPKG_CDT_FEATURES,
     GPKG_CDT_TILES,
     GPKG_CDT_ATTRIBUTES,
-    GPKG_CDT_ELEVATION_TILES
+    GPKG_CDT_GRIDDED_COVERAGE
 };
 
 /**
@@ -24,7 +24,7 @@ enum GPKGContentsDataType{
 extern NSString * const GPKG_CDT_FEATURES_NAME;
 extern NSString * const GPKG_CDT_TILES_NAME;
 extern NSString * const GPKG_CDT_ATTRIBUTES_NAME;
-extern NSString * const GPKG_CDT_ELEVATION_TILES_NAME;
+extern NSString * const GPKG_CDT_GRIDDED_COVERAGE_NAME;
 
 @interface GPKGContentsDataTypes : NSObject
 

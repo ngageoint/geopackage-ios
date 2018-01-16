@@ -142,7 +142,7 @@
         case GPKG_CDT_TILES:
                 [self verifyTiles:dataType];
             break;
-        case GPKG_CDT_ELEVATION_TILES:
+        case GPKG_CDT_GRIDDED_COVERAGE:
                 [self verifyTiles:dataType];
             break;
         case GPKG_CDT_ATTRIBUTES:

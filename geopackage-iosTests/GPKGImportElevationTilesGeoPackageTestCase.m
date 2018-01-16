@@ -18,15 +18,15 @@
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     
     // Delete
-    [manager delete:GPKG_TEST_IMPORT_ELEVATION_TILES_DB_NAME];
+    [manager delete:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     
-    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGImportElevationTilesGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_ELEVATION_TILES_DB_FILE_NAME];
+    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGImportElevationTilesGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_FILE_NAME];
     
     // Import
-    [manager importGeoPackageFromPath:filePath withName:GPKG_TEST_IMPORT_ELEVATION_TILES_DB_NAME];
+    [manager importGeoPackageFromPath:filePath withName:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_ELEVATION_TILES_DB_NAME];
+    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
