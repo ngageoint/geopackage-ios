@@ -11,15 +11,15 @@
 @implementation GPKGCoverageDataValues
 
 -(int) width{
-    return (int)((NSArray *)[self.tileElevations objectAtIndex:0]).count;
+    return (int)((NSArray *)[self.coverageData objectAtIndex:0]).count;
 }
 
 -(int) height{
-    return (int)self.tileElevations.count;
+    return (int)self.coverageData.count;
 }
 
 -(int) count{
-    return (int)self.tileElevationsFlat.count;
+    return (int)self.coverageDataFlat.count;
 }
 
 -(unsigned short) tilePixelAsUnsignedShortWithY: (int) y andX: (int) x{
@@ -46,12 +46,12 @@
     return [((NSDecimalNumber *) [self.tilePixelsFlat objectAtIndex:index]) floatValue];
 }
 
--(NSDecimalNumber *) tileElevationWithY: (int) y andX: (int) x{
-    return ((NSDecimalNumber *) [((NSArray *)[self.tileElevations objectAtIndex:y]) objectAtIndex:x]);
+-(NSDecimalNumber *) valueWithY: (int) y andX: (int) x{
+    return ((NSDecimalNumber *) [((NSArray *)[self.coverageData objectAtIndex:y]) objectAtIndex:x]);
 }
 
--(NSDecimalNumber *) tileElevationFlatWithWidth: (int) width andY: (int) y andX: (int) x{
-    return ((NSDecimalNumber *) [self.tileElevationsFlat objectAtIndex:(y * width) + x]);
+-(NSDecimalNumber *) valueFlatWithWidth: (int) width andY: (int) y andX: (int) x{
+    return ((NSDecimalNumber *) [self.coverageDataFlat objectAtIndex:(y * width) + x]);
 }
 
 @end

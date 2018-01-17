@@ -99,8 +99,8 @@ static BOOL allowNulls = false;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
         GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
         GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        GPKGProjectionTransform * elevationToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-        projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
+        GPKGProjectionTransform * coverageToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
     }
     
     NSMutableString * log = [[NSMutableString alloc] init];
@@ -124,7 +124,7 @@ static BOOL allowNulls = false;
 }
 
 /**
- * Test elevation requests within the bounds of the tiles and optionally
+ * Test coverage data requests within the bounds of the tiles and optionally
  * print
  */
 -(void) testBounds{
@@ -224,12 +224,12 @@ static BOOL allowNulls = false;
     int width = 10;
     int height = 6;
     
-    NSArray * elevationTables = [GPKGCoverageDataPng tablesForGeoPackage:self.geoPackage];
+    NSArray * coverageDataTables = [GPKGCoverageDataPng tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
     
-    for(NSString * elevationTable in elevationTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
         GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];

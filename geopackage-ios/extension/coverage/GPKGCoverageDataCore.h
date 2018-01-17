@@ -31,24 +31,24 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 @property (nonatomic, strong) NSString *definition;
 
 /**
- * Elevation results width
+ * Coverage Data results width
  */
 @property (nonatomic, strong) NSNumber *width;
 
 /**
- * Elevation results height
+ * Coverage Data results height
  */
 @property (nonatomic, strong) NSNumber *height;
 
 /**
  * True if zooming in should be performed to find a tile matrix with
- * elevation values
+ * coverage data values
  */
 @property (nonatomic) BOOL zoomIn;
 
 /**
  * True if zooming out should be performed to find a tile matrix with
- * elevation values
+ * coverage data values
  */
 @property (nonatomic) BOOL zoomOut;
 
@@ -109,21 +109,21 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(GPKGProjection *) requestProjection;
 
 /**
- * Get the elevation projection
+ * Get the coverage data projection
  *
- * @return elevation projection
+ * @return coverage data projection
  */
--(GPKGProjection *) elevationProjection;
+-(GPKGProjection *) coverageProjection;
 
 /**
- * Get the elevation bounding box
+ * Get the coverage data bounding box
  *
- * @return elevation bounding box
+ * @return coverage data bounding box
  */
--(GPKGBoundingBox *) elevationBoundingBox;
+-(GPKGBoundingBox *) coverageBoundingBox;
 
 /**
- * Is the request and elevation projection the same
+ * Is the request and coverage data projection the same
  *
  * @return true if the same
  */
@@ -199,7 +199,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(BOOL) isDataNull: (double) value;
 
 /**
- * Get the elevation tile tables
+ * Get the coverage data tile tables
  *
  * @param geoPackage
  *            GeoPackage
@@ -275,7 +275,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count;
 
 /**
- * Create the elevation tile table with metadata
+ * Create the coverage data tile table with metadata
  *
  * @param geoPackage GeoPackage
  * @param tableName table name
@@ -287,15 +287,15 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 +(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
 
 /**
- * Get the unsigned short pixel value of the elevation
+ * Get the unsigned short pixel value of the coverage data value
  *
  * @param griddedTile
  *            gridded tile
- * @param elevation
- *            elevation value
+ * @param value
+ *            coverage data value
  * @return unsigned short pixel value
  */
--(unsigned short) pixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
+-(unsigned short) pixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andValue: (NSDecimalNumber *) value;
 
 /**
  * Get the pixel value at the coordinate from the pixel values
@@ -363,15 +363,15 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count;
 
 /**
- * Get the pixel value of the elevation
+ * Get the pixel value of the coverage data value
  *
  * @param griddedTile
  *            gridded tile
- * @param elevation
- *            elevation value
+ * @param value
+ *            coverage data value
  * @return pixel value
  */
--(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
+-(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andValue: (NSDecimalNumber *) value;
 
 /**
  * Create a coverage data image
@@ -420,82 +420,82 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(GPKGTileDao *) tileDao;
 
 /**
- * Get the elevation at the coordinate
+ * Get the coverage data value at the coordinate
  *
  * @param latitude
  *            latitude
  * @param longitude
  *            longitude
- * @return elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) elevationWithLatitude: (double) latitude andLongitude: (double) longitude;
+-(NSDecimalNumber *) valueWithLatitude: (double) latitude andLongitude: (double) longitude;
 
 /**
- * Get the elevation values within the bounding box
+ * Get the coverage data values within the bounding box
  *
  * @param requestBoundingBox
  *            request bounding box
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
+-(GPKGCoverageDataResults *) valuesWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
 
 /**
- * Get the elevation values within the bounding box with the requested width
+ * Get the coverage data values within the bounding box with the requested width
  * and height result size
  *
  * @param requestBoundingBox
  *            request bounding box
  * @param width
- *            elevation request width
+ *            coverage data request width
  * @param height
- *            elevation request height
+ *            coverage data request height
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
+-(GPKGCoverageDataResults *) valuesWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
 
 /**
- * Get the requested elevation values
+ * Get the requested coverage data values
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsWithElevationRequest: (GPKGCoverageDataRequest *) request;
+-(GPKGCoverageDataResults *) valuesWithCoverageDataRequest: (GPKGCoverageDataRequest *) request;
 
 /**
- * Get the requested elevation values with the requested width and height
+ * Get the requested coverage data values with the requested width and height
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @param width
- *            elevation request width
+ *            coverage data request width
  * @param height
- *            elevation request height
+ *            coverage data request height
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsWithElevationRequest: (GPKGCoverageDataRequest *) request andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
+-(GPKGCoverageDataResults *) valuesWithCoverageDataRequest: (GPKGCoverageDataRequest *) request andWidth: (NSNumber *) width andHeight: (NSNumber *) height;
 
 /**
- * Get the unbounded elevation values within the bounding box. Unbounded
- * results retrieves and returns each elevation pixel. The results size
+ * Get the unbounded coverage data values within the bounding box. Unbounded
+ * results retrieves and returns each coverage data pixel. The results size
  * equals the width and height of all matching pixels.
  *
  * @param requestBoundingBox
  *            request bounding box
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsUnboundedWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
+-(GPKGCoverageDataResults *) valuesUnboundedWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
 
 /**
- * Get the requested unbounded elevation values. Unbounded results retrieves
- * and returns each elevation pixel. The results size equals the width and
+ * Get the requested unbounded coverage data values. Unbounded results retrieves
+ * and returns each coverage data pixel. The results size equals the width and
  * height of all matching pixels.
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @return coverage data results
  */
--(GPKGCoverageDataResults *) elevationsUnboundedWithElevationRequest: (GPKGCoverageDataRequest *) request;
+-(GPKGCoverageDataResults *) valuesUnboundedWithCoverageDataRequest: (GPKGCoverageDataRequest *) request;
 
 /**
  * Get the coverage data value of the pixel in the tile row image

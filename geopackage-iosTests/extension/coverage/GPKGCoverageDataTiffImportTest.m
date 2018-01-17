@@ -82,9 +82,9 @@ static BOOL allowNulls = true;
     NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
     
-    for(NSString * elevationTable in coverageDataTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
         NSMutableString * log = [[NSMutableString alloc] init];
@@ -99,8 +99,8 @@ static BOOL allowNulls = true;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
         GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
         GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        GPKGProjectionTransform * elevationToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-        projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
+        GPKGProjectionTransform * coverageToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
     }
     
     NSMutableString * log = [[NSMutableString alloc] init];
@@ -124,7 +124,7 @@ static BOOL allowNulls = true;
 }
 
 /**
- * Test elevation requests within the bounds of the tiles and optionally
+ * Test coverage data requests within the bounds of the tiles and optionally
  * print
  */
 -(void) testBounds{
@@ -229,9 +229,9 @@ static BOOL allowNulls = true;
     NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
     
-    for(NSString * elevationTable in coverageDataTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
         GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];

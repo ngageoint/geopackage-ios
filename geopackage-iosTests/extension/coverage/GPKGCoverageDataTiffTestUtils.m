@@ -19,7 +19,7 @@
 
 +(void) testCoverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andValues: (GPKGCoverageDataValues *) coverageDataValues andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
-    // Verify the elevation shows up as an elevation table and not a tile table
+    // Verify the coverage data shows up as a coverage data table and not a tile table
     NSArray * tilesTables = [geoPackage getTileTables];
     NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:geoPackage];
     [GPKGTestUtils assertTrue:coverageDataTables.count > 0];
@@ -72,7 +72,7 @@
         [GPKGTestUtils assertNotNil:contentsSrs.organizationCoordsysId];
         [GPKGTestUtils assertNotNil:contentsSrs.definition];
         
-        // Test the elevation tiles extension is on
+        // Test if the coverage data extension is on
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
         [GPKGTestUtils assertTrue:[coverageData has]];
@@ -140,8 +140,8 @@
         }
         [tileResultSet close];
         
-        // Perform elevation query tests
-        [self testElevationQueriesWithGeoPackage:geoPackage andCoverageData:coverageData andTileMatrixSet:tileMatrixSet andAlgorithm:algorithm andAllowNils:allowNils];
+        // Perform coverage data query tests
+        [self testCoverageDataQueriesWithGeoPackage:geoPackage andCoverageData:coverageData andTileMatrixSet:tileMatrixSet andAlgorithm:algorithm andAllowNils:allowNils];
     }
 }
 
@@ -198,7 +198,7 @@
             float pixelValue2 = [coverageData pixelValueWithRawFloatValues:pixelValues andWidth:width andX:x andY:y];
             [GPKGTestUtils assertEqualDoubleWithValue:pixelValue andValue2:pixelValue2];
             
-            // Test getting the elevation value
+            // Test getting the coverage data value
             NSDecimalNumber * value = [coverageData valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValue];
             GPKGGriddedCoverage * griddedCoverage = [coverageData griddedCoverage];
             if(coverageDataValues != nil){
@@ -229,7 +229,7 @@
     double yDistance2 = [tileMatrix.matrixHeight intValue] * [tileMatrix.tileHeight intValue] * [tileMatrix.pixelYSize doubleValue];
     [GPKGTestUtils assertEqualDoubleWithValue:yDistance andValue2:yDistance2 andDelta:.001];
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
-    GPKGCoverageDataResults * coverageDataResults = [coverageData elevationsWithBoundingBox:boundingBox];
+    GPKGCoverageDataResults * coverageDataResults = [coverageData valuesWithBoundingBox:boundingBox];
     if(coverageDataValues != nil){
         [GPKGTestUtils assertEqualIntWithValue:[coverageDataValues height] andValue2:[coverageDataResults height]];
         [GPKGTestUtils assertEqualIntWithValue:[coverageDataValues width] andValue2:[coverageDataResults width]];
@@ -246,16 +246,16 @@
                             && x < [coverageDataValues width] - 2) {
                             if (!allowNils) {
                                 // No nils allowed, check for equality
-                                [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues tileElevationWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
+                                [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues valueWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
                             } else {
                                 // Verify there is nil neighbor value
-                                NSDecimalNumber * value1 = [coverageDataValues tileElevationWithY:y andX:x];
+                                NSDecimalNumber * value1 = [coverageDataValues valueWithY:y andX:x];
                                 NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                                 if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
                                     BOOL nilValue = false;
                                     for (int yLocation = y - 2; !nilValue && yLocation <= y + 2; yLocation++) {
                                         for (int xLocation = x - 2; xLocation <= x + 2; xLocation++) {
-                                            if ([coverageDataValues tileElevationWithY:yLocation andX:xLocation] == nil) {
+                                            if ([coverageDataValues valueWithY:yLocation andX:xLocation] == nil) {
                                                 nilValue = true;
                                                 break;
                                             }
@@ -277,16 +277,16 @@
                             && x < [coverageDataValues width] - 1) {
                             if (!allowNils) {
                                 // No nils allowed, check for equality
-                                [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues tileElevationWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
+                                [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues valueWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
                             } else {
                                 // Verify there is nil neighbor value
-                                NSDecimalNumber * value1 = [coverageDataValues tileElevationWithY:y andX:x];
+                                NSDecimalNumber * value1 = [coverageDataValues valueWithY:y andX:x];
                                 NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                                 if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
                                     BOOL nilValue = false;
                                     for (int yLocation = y - 1; !nilValue && yLocation <= y + 1; yLocation++) {
                                         for (int xLocation = x - 1; xLocation <= x + 1; xLocation++) {
-                                            if ([coverageDataValues tileElevationWithY:yLocation andX:xLocation] == nil) {
+                                            if ([coverageDataValues valueWithY:yLocation andX:xLocation] == nil) {
                                                 nilValue = true;
                                                 break;
                                             }
@@ -302,9 +302,9 @@
                     case GPKG_ETA_NEAREST_NEIGHBOR:
                     {
                         if (!allowNils) {
-                            [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues tileElevationWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
+                            [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues valueWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];
                         } else {
-                            NSDecimalNumber * value1 = [coverageDataValues tileElevationWithY:y andX:x];
+                            NSDecimalNumber * value1 = [coverageDataValues valueWithY:y andX:x];
                             NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                             if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
                                 // Find a matching neighbor
@@ -312,7 +312,7 @@
                                 BOOL match = false;
                                 for (int yLocation = MAX(0, y - 1); !match && yLocation <= y + 1 && yLocation < [coverageDataValues height]; yLocation++) {
                                     for (int xLocation = MAX(0, x - 1); xLocation <= x + 1 && xLocation < [coverageDataValues width]; xLocation++) {
-                                        NSDecimalNumber * value = [coverageDataValues tileElevationWithY:yLocation andX:xLocation];
+                                        NSDecimalNumber * value = [coverageDataValues valueWithY:yLocation andX:xLocation];
                                         if (value != nil) {
                                             nonNil = true;
                                             match = [GPKGTestUtils equalDoubleWithValue:[value doubleValue] andValue2:[value2 doubleValue] andDelta:.000001];
@@ -339,7 +339,7 @@
 }
 
 /**
- * Test performing elevation queries
+ * Test performing coverage data queries
  *
  * @param geoPackage
  * @param coverageData
@@ -347,7 +347,7 @@
  * @param algorithm
  * @param allowNils
  */
-+(void) testElevationQueriesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCoverageData: (GPKGCoverageDataTiff *) coverageData andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
++(void) testCoverageDataQueriesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCoverageData: (GPKGCoverageDataTiff *) coverageData andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
     // Determine an alternate projection
     GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
@@ -364,8 +364,8 @@
         requestEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
     }
     GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:requestEpsg];
-    GPKGProjectionTransform * elevationToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-    GPKGBoundingBox * projectedBoundingBox = [elevationToRequest transformWithBoundingBox:boundingBox];
+    GPKGProjectionTransform * coverageToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+    GPKGBoundingBox * projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
     
     // Get a random coordinate
     double latDistance = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];
@@ -373,10 +373,10 @@
     double lonDistance = [projectedBoundingBox.maxLongitude doubleValue] - [projectedBoundingBox.minLongitude doubleValue];
     double longitude = lonDistance * .9 * [GPKGTestUtils randomDouble] + [projectedBoundingBox.minLongitude doubleValue] + (.05 * lonDistance);
     
-    // Test getting the elevation of a single coordinate
+    // Test getting the coverage data value of a single coordinate
     GPKGCoverageDataTiff * coverageData2 = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:[coverageData tileDao] andProjection:requestProjection];
     [coverageData2 setAlgorithm:algorithm];
-    NSDecimalNumber * value = [coverageData2 elevationWithLatitude:latitude andLongitude:longitude];
+    NSDecimalNumber * value = [coverageData2 valueWithLatitude:latitude andLongitude:longitude];
     if (!allowNils) {
         [GPKGTestUtils assertNotNil:value];
     }
@@ -388,7 +388,7 @@
     double maxLongitude = ([projectedBoundingBox.maxLongitude doubleValue] - minLongitude) * [GPKGTestUtils randomDouble] + minLongitude;
     
     GPKGBoundingBox * requestBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
-    GPKGCoverageDataResults * values = [coverageData2 elevationsWithBoundingBox:requestBoundingBox];
+    GPKGCoverageDataResults * values = [coverageData2 valuesWithBoundingBox:requestBoundingBox];
     [GPKGTestUtils assertNotNil:values];
     [GPKGTestUtils assertNotNil:[values values]];
     [GPKGTestUtils assertEqualIntWithValue:(int)((NSArray *)[[values values] objectAtIndex:0]).count andValue2:[values width]];
@@ -399,8 +399,8 @@
     [GPKGTestUtils assertTrue:((NSArray *)[[values values] objectAtIndex:0]).count > 0];
     for (int y = 0; y < [values height]; y++) {
         for (int x = 0; x < [values width]; x++) {
-            NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
+            NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
@@ -409,7 +409,7 @@
     [coverageData2 setWidth:[NSNumber numberWithInt:specifiedWidth]];
     [coverageData2 setHeight:[NSNumber numberWithInt:specifiedHeight]];
     
-    values = [coverageData2 elevationsWithBoundingBox:requestBoundingBox];
+    values = [coverageData2 valuesWithBoundingBox:requestBoundingBox];
     [GPKGTestUtils assertNotNil:values];
     [GPKGTestUtils assertNotNil:[values values]];
     [GPKGTestUtils assertEqualIntWithValue:(int)((NSArray *)[[values values] objectAtIndex:0]).count andValue2:[values width]];
@@ -422,12 +422,12 @@
     [GPKGTestUtils assertEqualIntWithValue:specifiedWidth andValue2:[values width]];
     for (int y = 0; y < specifiedHeight; y++) {
         for (int x = 0; x < specifiedWidth; x++) {
-            NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
+            NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
-    values = [coverageData2 elevationsUnboundedWithBoundingBox:requestBoundingBox];
+    values = [coverageData2 valuesUnboundedWithBoundingBox:requestBoundingBox];
     [GPKGTestUtils assertNotNil:values];
     [GPKGTestUtils assertNotNil:[values values]];
     [GPKGTestUtils assertEqualIntWithValue:(int)((NSArray *)[[values values] objectAtIndex:0]).count andValue2:[values width]];
@@ -439,8 +439,8 @@
     [GPKGTestUtils assertEqualIntWithValue:(int)((NSArray *)[[values values] objectAtIndex:0]).count andValue2:(int)((NSArray *)[[values values] objectAtIndex:[values values].count - 1]).count];
     for (int y = 0; y < [values height]; y++) {
         for (int x = 0; x < [values width]; x++) {
-            NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
-            [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
+            NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
+            [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
         }
     }
     
@@ -448,20 +448,20 @@
 
 +(void) testRandomBoundingBoxWithGeoPackage: (GPKGGeoPackage *) geoPackage andValues: (GPKGCoverageDataValues *) coverageDataValues andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
-    // Verify the elevation shows up as an elevation table and not a tile table
+    // Verify the coverage data shows up as a coverage data table and not a tile table
     NSArray * tilesTables = [geoPackage getTileTables];
-    NSArray * elevationTables = [GPKGCoverageDataTiff tablesForGeoPackage:geoPackage];
-    [GPKGTestUtils assertTrue:elevationTables.count > 0];
+    NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:geoPackage];
+    [GPKGTestUtils assertTrue:coverageDataTables.count > 0];
     for (NSString * tilesTable in tilesTables) {
-        [GPKGTestUtils assertFalse:[elevationTables containsObject:tilesTable]];
+        [GPKGTestUtils assertFalse:[coverageDataTables containsObject:tilesTable]];
     }
     
     GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
     [GPKGTestUtils assertTrue:[dao tableExists]];
     
-    for(NSString * elevationTable in elevationTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
@@ -482,7 +482,7 @@
         
         GPKGBoundingBox * requestBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
         
-        GPKGCoverageDataResults * values = [coverageData elevationsWithBoundingBox:requestBoundingBox];
+        GPKGCoverageDataResults * values = [coverageData valuesWithBoundingBox:requestBoundingBox];
         
         [GPKGTestUtils assertNotNil:values];
         [GPKGTestUtils assertNotNil:[values values]];
@@ -499,8 +499,8 @@
             BOOL nonNilFound = false;
             BOOL secondNilsFound = false;
             for (int x = 0; x < specifiedWidth; x++) {
-                NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
-                [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
+                NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
+                [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([values valueAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];
@@ -516,8 +516,8 @@
             BOOL nonNilFound = false;
             BOOL secondNilsFound = false;
             for (int y = 0; y < specifiedHeight; y++) {
-                NSDecimalNumber * elevation = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
-                [GPKGTestUtils assertEqualDecimalNumberWithValue:elevation andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
+                NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
+                [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([values valueAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];
@@ -534,25 +534,25 @@
 
 +(NSDecimalNumber *) valueWithGeoPackage: (GPKGGeoPackage *) geoPackage andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andLatitude: (double) latitude andLongitude: (double) longitude andEpsg: (int) epsg{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:geoPackage];
     GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
     
-    for(NSString * elevationTable in coverageDataTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         
         GPKGProjection * requestProjection = [GPKGProjectionFactory  projectionWithEpsgInt:epsg];
         
-        // Test getting the elevation of a single coordinate
+        // Test getting the coverage data value of a single coordinate
         GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
         [coverageData setAlgorithm:algorithm];
-        elevation = [coverageData elevationWithLatitude:latitude andLongitude:longitude];
+        value = [coverageData valueWithLatitude:latitude andLongitude:longitude];
     }
     
-    return elevation;
+    return value;
 }
 
 +(GPKGCoverageDataResults *) valuesWithGeoPackage: (GPKGGeoPackage *) geoPackage andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andBoundingBox: (GPKGBoundingBox *) boundingBox andWidth: (int) width andHeight: (int) height andEpsg: (int) epsg{
@@ -562,19 +562,19 @@
     NSArray * coverageDataTables = [GPKGCoverageDataTiff tablesForGeoPackage:geoPackage];
     GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
     
-    for(NSString * elevationTable in coverageDataTables){
+    for(NSString * coverageDataTable in coverageDataTables){
         
-        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:elevationTable];
+        GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         
         GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:epsg];
         
-        // Test getting the elevation of a single coordinate
+        // Test getting the coverage data value of a single coordinate
         GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
         [coverageData setAlgorithm:algorithm];
         [coverageData setWidth:[NSNumber numberWithInt:width]];
         [coverageData setHeight:[NSNumber numberWithInt:height]];
-        values = [coverageData elevationsWithBoundingBox:boundingBox];
+        values = [coverageData valuesWithBoundingBox:boundingBox];
     }
     
     return values;

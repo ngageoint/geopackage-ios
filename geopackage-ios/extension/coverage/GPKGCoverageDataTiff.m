@@ -12,12 +12,12 @@
 #import "TIFFReader.h"
 
 /**
- * Single sample elevation
+ * Single sample coverage data
  */
 NSInteger const GPKG_TIFF_SAMPLES_PER_PIXEL = 1;
 
 /**
- * Bits per value for floating point elevations
+ * Bits per value for floating point coverage data values
  */
 NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
 
@@ -107,7 +107,7 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     if (samplesPerPixel != GPKG_TIFF_SAMPLES_PER_PIXEL
         || bitsPerSample == nil || [bitsPerSample intValue] != GPKG_TIFF_BITS_PER_SAMPLE
         || sampleFormat == nil || [sampleFormat intValue] != TIFF_SAMPLE_FORMAT_FLOAT) {
-        [NSException raise:@"Image Type" format:@"The elevation tile is expected to be a single sample 32 bit float. Samples Per Pixel: %d, Bits Per Sample: %@, Sample Format: %@", samplesPerPixel, bitsPerSample, sampleFormat];
+        [NSException raise:@"Image Type" format:@"The coverage data tile is expected to be a single sample 32 bit float. Samples Per Pixel: %d, Bits Per Sample: %@, Sample Format: %@", samplesPerPixel, bitsPerSample, sampleFormat];
     }
 }
 
@@ -167,30 +167,30 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     return data;
 }
 
--(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    float * pixels = [self pixelValuesOfElevations:elevations withGriddedTile:griddedTile];
+-(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+    float * pixels = [self pixelValuesOfValues:values withGriddedTile:griddedTile];
     GPKGCoverageDataTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
-    GPKGCoverageDataTiffImage * image = [self drawTileWithGriddedTile:griddedTile andElevations:elevations andTileWidth:tileWidth andTileHeight:tileHeight];
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+    GPKGCoverageDataTiffImage * image = [self drawTileWithGriddedTile:griddedTile andValues:values andTileWidth:tileWidth andTileHeight:tileHeight];
     NSData * data = [image imageData];
     return data;
 }
 
--(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
-    float * pixels = [self pixelValuesOfDoubleArrayElevations:elevations withGriddedTile:griddedTile];
-    int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
-    int tileHeight = (int)elevations.count;
+-(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values{
+    float * pixels = [self pixelValuesOfDoubleArrayValues:values withGriddedTile:griddedTile];
+    int tileWidth = (int)((NSArray *)[values objectAtIndex: 0]).count;
+    int tileHeight = (int)values.count;
     GPKGCoverageDataTiffImage * tileImage = [self drawTileWithFloatPixelValues:pixels andTileWidth:tileWidth andTileHeight:tileHeight];
     free(pixels);
     return tileImage;
 }
 
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations{
-    GPKGCoverageDataTiffImage * image = [self drawTileWithGriddedTile:griddedTile andDoubleArrayElevations:elevations];
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values{
+    GPKGCoverageDataTiffImage * image = [self drawTileWithGriddedTile:griddedTile andDoubleArrayValues:values];
     NSData * data = [image imageData];
     return data;
 }
@@ -260,27 +260,27 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     return pixels;
 }
 
--(float *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile{
-    float * pixels = [self allocatePixelsWithCount:(int)elevations.count];
-    for(int i = 0; i < elevations.count; i++){
-        NSDecimalNumber * elevation = [elevations objectAtIndex:i];
-        float pixelValue = [self pixelValueWithGriddedTile:griddedTile andElevation:elevation];
+-(float *) pixelValuesOfValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile{
+    float * pixels = [self allocatePixelsWithCount:(int)values.count];
+    for(int i = 0; i < values.count; i++){
+        NSDecimalNumber * value = [values objectAtIndex:i];
+        float pixelValue = [self pixelValueWithGriddedTile:griddedTile andValue:value];
         pixels[i] = pixelValue;
     }
     return pixels;
 }
 
--(float *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile{
+-(float *) pixelValuesOfDoubleArrayValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile{
     
-    int tileWidth = (int)((NSArray *)[elevations objectAtIndex: 0]).count;
-    int tileHeight = (int)elevations.count;
+    int tileWidth = (int)((NSArray *)[values objectAtIndex: 0]).count;
+    int tileHeight = (int)values.count;
     
     float * pixels = [self allocatePixelsWithWidth:tileWidth andHeight:tileHeight];
     for(int y = 0; y < tileHeight; y++){
-        NSArray * rowValues = [elevations objectAtIndex:y];
+        NSArray * rowValues = [values objectAtIndex:y];
         for(int x = 0; x < tileWidth; x++){
-            NSDecimalNumber * elevation = [rowValues objectAtIndex:x];
-            float pixelValue = [self pixelValueWithGriddedTile:griddedTile andElevation:elevation];
+            NSDecimalNumber * value = [rowValues objectAtIndex:x];
+            float pixelValue = [self pixelValueWithGriddedTile:griddedTile andValue:value];
             pixels[(y * tileWidth) + x] = pixelValue;
         }
     }

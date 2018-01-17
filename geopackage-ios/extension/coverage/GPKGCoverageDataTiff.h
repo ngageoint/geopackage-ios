@@ -98,7 +98,7 @@
  *            x coordinate
  * @param y
  *            y coordinate
- * @return elevation value
+ * @return coverage data value
  */
 -(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(GPKGCoverageDataTiffImage *)image andX:(int)x andY:(int)y;
 
@@ -109,12 +109,12 @@
  *            gridded tile
  * @param imageData
  *            image data
- * @return elevation values
+ * @return coverage data values
  */
 -(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData;
 
 /**
- * Draw an elevation image tile from the flat array of float pixel values of
+ * Draw a coverage data image tile from the flat array of float pixel values of
  * length tileWidth * tileHeight where each pixel is at: (y * tileWidth) + x
  *
  * @param pixelValues
@@ -123,12 +123,12 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(GPKGCoverageDataTiffImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile from the flat array of float pixel values of
+ * Draw a coverage data image tile from the flat array of float pixel values of
  * length tileWidth * tileHeight where each pixel is at: (y * tileWidth) + x
  *
  * @param pixelValues
@@ -137,12 +137,12 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(GPKGCoverageDataTiffImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile and format as TIFF bytes from the flat array
+ * Draw a coverage data image tile and format as TIFF bytes from the flat array
  * of float pixel values of length tileWidth * tileHeight where
  * each pixel is at: (y * tileWidth) + x
  *
@@ -152,86 +152,86 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
 -(NSData *) drawTileDataWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation tile from the double array of float pixel
+ * Draw a coverage data tile from the double array of float pixel
  * values formatted as float[row][width]
  *
  * @param pixelValues
  *            float pixel values as [row][width]
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(GPKGCoverageDataTiffImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues;
 
 /**
- * Draw an elevation tile and format as TIFF bytes from the double array of
+ * Draw a coverage data tile and format as TIFF bytes from the double array of
  * float pixel values formatted as float[row][width]
  *
  * @param pixelValues
  *            float pixel values as [row][width]
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
 -(NSData *) drawTileDataWithDoubleArrayPixelValues:(NSArray *)pixelValues;
 
 /**
- * Draw an elevation image tile from the flat array of elevations of length
- * tileWidth * tileHeight where each elevation is at: (y * tileWidth) + x
+ * Draw a coverage data image tile from the flat array of coverage data values of length
+ * tileWidth * tileHeight where each value is at: (y * tileWidth) + x
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations of length tileWidth * tileHeight
+ * @param values
+ *            coverage data values of length tileWidth * tileHeight
  * @param tileWidth
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
--(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile and format as TIFF bytes from the flat array
- * of elevations of length tileWidth * tileHeight where each elevation is
+ * Draw a coverage data image tile and format as TIFF bytes from the flat array
+ * of coverage data values of length tileWidth * tileHeight where each value is
  * at: (y * tileWidth) + x
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations of length tileWidth * tileHeight
+ * @param values
+ *            coverage data values of length tileWidth * tileHeight
  * @param tileWidth
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile from the double array of elevations
+ * Draw a coverage data image tile from the double array of coverage data values
  * formatted as Double[row][width]
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations as [row][width]
- * @return elevation image tile
+ * @param values
+ *            coverage data values as [row][width]
+ * @return coverage data image tile
  */
--(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
+-(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
- * Draw an elevation image tile and format as TIFF bytes from the double
- * array of elevations formatted as Double[row][width]
+ * Draw a coverage data image tile and format as TIFF bytes from the double
+ * array of coverage data values formatted as Double[row][width]
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations as [row][width]
- * @return elevation image tile bytes
+ * @param values
+ *            coverage data values as [row][width]
+ * @return coverage data image tile bytes
  */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
  * Create a new image
@@ -297,29 +297,29 @@
 -(float *) pixelValuesDoubleArrayToFloat: (NSArray *) pixelValues;
 
 /**
- * Convert the elevation array to a float pixel array
+ * Convert the coverage data array to a float pixel array
  *
- * @param elevations
- *            elevation values
+ * @param values
+ *            coverage data values
  * @param griddedTile
  *            gridded tile
  * @return float pixel array
  */
--(float *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+-(float *) pixelValuesOfValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
- * Convert the elevation double array to a float pixel array
+ * Convert the coverage data values double array to a float pixel array
  *
- * @param elevations
- *            elevation values
+ * @param values
+ *            coverage data values
  * @param griddedTile
  *            gridded tile
  * @return float pixel array
  */
--(float *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+-(float *) pixelValuesOfDoubleArrayValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
- * Create the elevation tile table with metadata and extension
+ * Create the coverage data tile table with metadata and extension
  *
  * @param geoPackage GeoPackage
  * @param tableName table name
@@ -327,7 +327,7 @@
  * @param contentsSrsId contents srs id
  * @param tileMatrixSetBoundingBox tile matrix set bounding box
  * @param tileMatrixSetSrsId tile matrix set srs id
- * @return elevation tiles
+ * @return coverage data tiles
  */
 +(GPKGCoverageDataTiff *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
 

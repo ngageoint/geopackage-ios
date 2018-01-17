@@ -104,7 +104,7 @@
 -(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
 
 /**
- * Draw an elevation image tile from the flat array of unsigned short
+ * Draw a coverage data image tile from the flat array of unsigned short
  * pixel values of length tileWidth * tileHeight where each pixel is at: (y
  * * tileWidth) + x
  *
@@ -114,12 +114,12 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(UIImage *) drawTileWithUnsignedShortPixelValues: (unsigned short *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile from the flat array of unsigned short
+ * Draw a coverage data image tile from the flat array of unsigned short
  * pixel values of length tileWidth * tileHeight where each pixel is at: (y
  * * tileWidth) + x
  *
@@ -129,12 +129,12 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(UIImage *) drawTileWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile and format as PNG bytes from the flat array
+ * Draw a coverage data image tile and format as PNG bytes from the flat array
  * of unsigned short pixel values of length tileWidth * tileHeight where
  * each pixel is at: (y * tileWidth) + x
  *
@@ -144,86 +144,86 @@
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
 -(NSData *) drawTileDataWithPixelValues: (NSArray *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation tile from the double array of unsigned short pixel
+ * Draw a coverage data tile from the double array of unsigned short pixel
  * values formatted as short[row][width]
  *
  * @param pixelValues
  *            unsigned short pixel values as [row][width]
- * @return elevation image tile
+ * @return coverage data image tile
  */
 -(UIImage *) drawTileWithDoubleArrayPixelValues:(NSArray *)pixelValues;
 
 /**
- * Draw an elevation tile and format as PNG bytes from the double array of
+ * Draw a coverage data tile and format as PNG bytes from the double array of
  * "unsigned short" pixel values formatted as short[row][width]
  *
  * @param pixelValues
  *            "unsigned short" pixel values as [row][width]
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
 -(NSData *) drawTileDataWithDoubleArrayPixelValues:(NSArray *)pixelValues;
 
 /**
- * Draw an elevation image tile from the flat array of elevations of length
- * tileWidth * tileHeight where each elevation is at: (y * tileWidth) + x
+ * Draw a coverage data image tile from the flat array of coverage data values of length
+ * tileWidth * tileHeight where each value is at: (y * tileWidth) + x
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations of length tileWidth * tileHeight
+ * @param values
+ *            coverage data values of length tileWidth * tileHeight
  * @param tileWidth
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile
+ * @return coverage data image tile
  */
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile and format as PNG bytes from the flat array
- * of elevations of length tileWidth * tileHeight where each elevation is
+ * Draw a coverage data image tile and format as PNG bytes from the flat array
+ * of coverage data values of length tileWidth * tileHeight where each value is
  * at: (y * tileWidth) + x
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations of length tileWidth * tileHeight
+ * @param values
+ *            coverage data values of length tileWidth * tileHeight
  * @param tileWidth
  *            tile width
  * @param tileHeight
  *            tile height
- * @return elevation image tile bytes
+ * @return coverage data image tile bytes
  */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevations: (NSArray *) elevations andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw an elevation image tile from the double array of elevations
+ * Draw a coverage data image tile from the double array of coverage data values
  * formatted as Double[row][width]
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations as [row][width]
- * @return elevation image tile
+ * @param values
+ *            coverage data values as [row][width]
+ * @return coverage data image tile
  */
--(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
+-(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
- * Draw an elevation image tile and format as PNG bytes from the double
- * array of elevations formatted as Double[row][width]
+ * Draw a coverage data image tile and format as PNG bytes from the double
+ * array of coverage data values formatted as Double[row][width]
  *
  * @param griddedTile
  *            gridded tile
- * @param elevations
- *            elevations as [row][width]
- * @return elevation image tile bytes
+ * @param values
+ *            coverage data values as [row][width]
+ * @return coverage data image tile bytes
  */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayElevations: (NSArray *) elevations;
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
  * Get the image as PNG bytes
@@ -279,29 +279,29 @@
 -(unsigned short *) pixelValuesDoubleArrayToUnsignedShort: (NSArray *) pixelValues;
 
 /**
- * Convert the elevation array to an unsigned short pixel array
+ * Convert the coverage data array to an unsigned short pixel array
  *
- * @param elevations
- *            elevation values
+ * @param values
+ *            coverage data values
  * @param griddedTile
  *            gridded tile
  * @return unsigned short pixel array
  */
--(unsigned short *) pixelValuesOfElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+-(unsigned short *) pixelValuesOfValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
- * Convert the elevation double array to an unsigned short pixel array
+ * Convert the coverage data double array to an unsigned short pixel array
  *
- * @param elevations
- *            elevation values
+ * @param values
+ *            coverage data values
  * @param griddedTile
  *            gridded tile
  * @return unsigned short pixel array
  */
--(unsigned short *) pixelValuesOfDoubleArrayElevations: (NSArray *) elevations withGriddedTile: (GPKGGriddedTile *) griddedTile;
+-(unsigned short *) pixelValuesOfDoubleArrayValues: (NSArray *) values withGriddedTile: (GPKGGriddedTile *) griddedTile;
 
 /**
- * Create the elevation tile table with metadata and extension
+ * Create the coverage data tile table with metadata and extension
  *
  * @param geoPackage GeoPackage
  * @param tableName table name
@@ -309,7 +309,7 @@
  * @param contentsSrsId contents srs id
  * @param tileMatrixSetBoundingBox tile matrix set bounding box
  * @param tileMatrixSetSrsId tile matrix set srs id
- * @return elevation tiles
+ * @return coverage data tiles
  */
 +(GPKGCoverageDataPng *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
 

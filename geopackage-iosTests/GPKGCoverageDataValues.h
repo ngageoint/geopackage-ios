@@ -11,9 +11,9 @@
 @interface GPKGCoverageDataValues : NSObject
 
 @property (nonatomic, strong) NSMutableArray *tilePixels;
-@property (nonatomic, strong) NSMutableArray *tileElevations;
+@property (nonatomic, strong) NSMutableArray *coverageData;
 @property (nonatomic, strong) NSMutableArray *tilePixelsFlat;
-@property (nonatomic, strong) NSMutableArray *tileElevationsFlat;
+@property (nonatomic, strong) NSMutableArray *coverageDataFlat;
 
 -(int) width;
 
@@ -33,8 +33,8 @@
 
 -(float) tilePixelFlatAsFloatWithIndex: (int) index;
 
--(NSDecimalNumber *) tileElevationWithY: (int) y andX: (int) x;
+-(NSDecimalNumber *) valueWithY: (int) y andX: (int) x;
 
--(NSDecimalNumber *) tileElevationFlatWithWidth: (int) width andY: (int) y andX: (int) x;
+-(NSDecimalNumber *) valueFlatWithWidth: (int) width andY: (int) y andX: (int) x;
 
 @end

@@ -259,9 +259,9 @@
     
     GPKGCoverageDataValues * values = [[GPKGCoverageDataValues alloc] init];
     values.tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
-    values.tileElevations = [[NSMutableArray alloc] initWithCapacity:tileHeight];
+    values.coverageData = [[NSMutableArray alloc] initWithCapacity:tileHeight];
     values.tilePixelsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
-    values.tileElevationsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
+    values.coverageDataFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
     
     GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
     [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
@@ -277,8 +277,8 @@
         NSMutableArray * tilePixelsRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
         [values.tilePixels addObject:tilePixelsRow];
         
-        NSMutableArray * tileElevationsRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
-        [values.tileElevations addObject:tileElevationsRow];
+        NSMutableArray * coverageDataRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+        [values.coverageData addObject:coverageDataRow];
         
         for (int x = 0; x < tileWidth; x++) {
             unsigned short pixelValue;
@@ -291,22 +291,22 @@
             NSNumber * pixelValueNumber = [NSNumber numberWithUnsignedShort:pixelValue];
             [tilePixelsRow addObject:pixelValueNumber];
             NSDecimalNumber * value = [coverageData valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
-            [GPKGUtils addObject:value toArray:tileElevationsRow];
+            [GPKGUtils addObject:value toArray:coverageDataRow];
             
             [values.tilePixelsFlat addObject:pixelValueNumber];
-            [GPKGUtils addObject:value toArray:values.tileElevationsFlat];
+            [GPKGUtils addObject:value toArray:values.coverageDataFlat];
         }
     }
     
     NSData * imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
     
-    NSData * imageData2 = [coverageData drawTileDataWithGriddedTile:griddedTile andDoubleArrayElevations:values.tileElevations];
+    NSData * imageData2 = [coverageData drawTileDataWithGriddedTile:griddedTile andDoubleArrayValues:values.coverageData];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData2];
     
     NSData * imageData3 = [coverageData drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData3];
     
-    NSData * imageData4 = [coverageData drawTileDataWithGriddedTile:griddedTile andElevations:values.tileElevationsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData * imageData4 = [coverageData drawTileDataWithGriddedTile:griddedTile andValues:values.coverageDataFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData4];
     
     self.coverageDataValues = values;
