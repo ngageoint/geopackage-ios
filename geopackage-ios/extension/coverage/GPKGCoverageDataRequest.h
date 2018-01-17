@@ -10,12 +10,12 @@
 #import "GPKGBoundingBox.h"
 
 /**
- * Coverage Data request to retrieve elevation values for a point or bounding box
+ * Coverage Data request to retrieve coverage data values for a point or bounding box
  */
 @interface GPKGCoverageDataRequest : NSObject
 
 /**
- * Bounding box projected to the elevation tiles projection
+ * Bounding box projected to the coverage data projection
  */
 @property (nonatomic, strong) GPKGBoundingBox *projectedBoundingBox;
 
@@ -24,7 +24,7 @@
  *
  *  @param boundingBox bounding box
  *
- *  @return new elevation request
+ *  @return new coverage data request
  */
 -(instancetype) initWithBoundingBox: (GPKGBoundingBox *) boundingBox;
 
@@ -34,7 +34,7 @@
  *  @param latitude latitude coordinate
  *  @param longitude longitude coordinate
  *
- *  @return new elevation request
+ *  @return new coverage data request
  */
 -(instancetype) initWithLatitude: (double) latitude andLongitude: (double) longitude;
 
@@ -54,12 +54,12 @@
 
 /**
  *  Get the bounding box overlap between the projected bounding box and the
- *  elevation bounding box
+ *  coverage data bounding box
  *
- *  @param projectedElevation projected elevation
+ *  @param projectedCoverage projected coverage
  *
  *  @return overlap bounding box
  */
--(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) projectedElevation;
+-(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) projectedCoverage;
 
 @end

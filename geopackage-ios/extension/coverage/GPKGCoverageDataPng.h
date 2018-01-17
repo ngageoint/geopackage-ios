@@ -78,7 +78,7 @@
 +(void) validateImageType: (UIImage *) image;
 
 /**
- * Get the elevation value
+ * Get the coverage data value
  *
  * @param griddedTile
  *            gridded tile
@@ -88,20 +88,20 @@
  *            x coordinate
  * @param y
  *            y coordinate
- * @return elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y;
+-(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y;
 
 /**
- * Get the elevation values
+ * Get the coverage data values
  *
  * @param griddedTile
  *            gridded tile
  * @param image
  *            tile image
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
+-(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
 
 /**
  * Draw an elevation image tile from the flat array of unsigned short

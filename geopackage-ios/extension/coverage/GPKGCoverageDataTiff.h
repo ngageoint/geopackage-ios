@@ -88,7 +88,7 @@
 +(void) validateImageType: (TIFFFileDirectory *) directory;
 
 /**
- * Get the elevation value
+ * Get the coverage data value
  *
  * @param griddedTile
  *            gridded tile
@@ -100,10 +100,10 @@
  *            y coordinate
  * @return elevation value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(GPKGCoverageDataTiffImage *)image andX:(int)x andY:(int)y;
+-(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(GPKGCoverageDataTiffImage *)image andX:(int)x andY:(int)y;
 
 /**
- * Get the elevation values
+ * Get the coverage data values
  *
  * @param griddedTile
  *            gridded tile
@@ -111,7 +111,7 @@
  *            image data
  * @return elevation values
  */
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData;
+-(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData;
 
 /**
  * Draw an elevation image tile from the flat array of float pixel values of

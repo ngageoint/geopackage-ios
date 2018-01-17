@@ -16,7 +16,7 @@
 @property (nonatomic) GPKGTileMatrix * tileMatrix;
 
 /**
- * Elevation tile results
+ * Coverage Data tile results
  */
 @property (nonatomic) GPKGResultSet * tileResults;
 

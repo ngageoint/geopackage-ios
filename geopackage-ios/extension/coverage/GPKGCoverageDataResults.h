@@ -14,22 +14,22 @@
 /**
  *  Initialize
  *
- *  @param elevations elevation results
+ *  @param values coverage data results
  *  @param tileMatrix tile matrix
  *
- *  @return new elevation tile results
+ *  @return new coverage data results
  */
--(instancetype) initWithValues: (NSArray *) elevations andTileMatrix: (GPKGTileMatrix *) tileMatrix;
+-(instancetype) initWithValues: (NSArray *) values andTileMatrix: (GPKGTileMatrix *) tileMatrix;
 
 /**
- * Get the double array of elevations stored as [row][column]
+ * Get the double array of coverage data values stored as [row][column]
  *
- * @return elevations
+ * @return coverage data values
  */
 -(NSArray *) values;
 
 /**
- * Get the tile matrix used to find the elevations
+ * Get the tile matrix used to find the coverage data values
  *
  * @return tile matrix
  */
@@ -50,13 +50,13 @@
 -(int) width;
 
 /**
- * Get the elevation at the row and column
+ * Get the coverage data value at the row and column
  *
  * @param row
  *            row index
  * @param column
  *            column index
- * @return elevation
+ * @return coverage data value
  */
 -(NSDecimalNumber *) valueAtRow: (int) row andColumn: (int) column;
 

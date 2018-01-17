@@ -1,5 +1,5 @@
 //
-//  GPKGImportElevationTilesGeoPackageTestCase.h
+//  GPKGImportCoverageDataTiffGeoPackageTestCase.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 12/1/16.
@@ -8,6 +8,6 @@
 
 #import "GPKGGeoPackageTestCase.h"
 
-@interface GPKGImportElevationTilesGeoPackageTestCase : GPKGGeoPackageTestCase
+@interface GPKGImportCoverageDataTiffGeoPackageTestCase : GPKGGeoPackageTestCase
 
 @end

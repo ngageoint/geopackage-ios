@@ -41,7 +41,7 @@
  *  @param max max value
  *  @param offset pixel offset
  *
- *  @return new elevation source pixel
+ *  @return new value source pixel
  */
 -(instancetype) initWithPixel: (float) pixel andMin: (int) min andMax: (int) max andOffset: (float) offset;
 

@@ -1,5 +1,5 @@
 //
-//  GPKGElevationTileValues.h
+//  GPKGCoverageDataValues.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 12/6/16.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GPKGElevationTileValues : NSObject
+@interface GPKGCoverageDataValues : NSObject
 
 @property (nonatomic, strong) NSMutableArray *tilePixels;
 @property (nonatomic, strong) NSMutableArray *tileElevations;

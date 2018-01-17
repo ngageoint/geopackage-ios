@@ -1,17 +1,17 @@
 //
-//  GPKGImportElevationTilesGeoPackageTestCase.m
+//  GPKGImportCoverageDataGeoPackageTestCase.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 12/1/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGImportElevationTilesGeoPackageTestCase.h"
+#import "GPKGImportCoverageDataGeoPackageTestCase.h"
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
 
-@implementation GPKGImportElevationTilesGeoPackageTestCase
+@implementation GPKGImportCoverageDataGeoPackageTestCase
 
 -(GPKGGeoPackage *) getGeoPackage{
     
@@ -20,7 +20,7 @@
     // Delete
     [manager delete:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     
-    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGImportElevationTilesGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_FILE_NAME];
+    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGImportCoverageDataGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_FILE_NAME];
     
     // Import
     [manager importGeoPackageFromPath:filePath withName:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];

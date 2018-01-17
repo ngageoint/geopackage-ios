@@ -240,29 +240,29 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(unsigned short) pixelValueWithUnsignedShortValues:(unsigned short *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
 
 /**
- * Get the elevation value for the unsigned short pixel value
+ * Get the coverage data value for the unsigned short pixel value
  *
  * @param griddedTile
  *            gridded tile
  * @param pixelValue
  *            pixel value as an unsigned short
- * @return elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue;
 
 /**
- * Get the elevation values from the unsigned short pixel values
+ * Get the coverage data values from the unsigned short pixel values
  *
  * @param griddedTile
  *            gridded tile
  * @param pixelValues
  *            pixel values as "unsigned shorts"
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues;
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues;
 
 /**
- * Get the elevation values from the unsigned short pixel values
+ * Get the coverage data values from the unsigned short pixel values
  *
  * @param griddedTile
  *            gridded tile
@@ -270,9 +270,9 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *            pixel values as unsigned shorts
  * @param count
  *            pixel count
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count;
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count;
 
 /**
  * Create the elevation tile table with metadata
@@ -328,29 +328,29 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(float) pixelValueWithRawFloatValues: (float *) pixelValues andWidth: (int) width andX: (int) x andY: (int) y;
 
 /**
- * Get the elevation value for the pixel value
+ * Get the coverage data value for the pixel value
  *
  * @param griddedTile
  *            gridded tile
  * @param pixelValue
  *            pixel value
- * @return elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValue: (float) pixelValue;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValue: (float) pixelValue;
 
 /**
- * Get the elevation values from the pixel values
+ * Get the coverage data values from the pixel values
  *
  * @param griddedTile
  *            gridded tile
  * @param pixelValues
  *            pixel values
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues;
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues;
 
 /**
- * Get the elevation values from the pixel values
+ * Get the coverage data values from the pixel values
  *
  * @param griddedTile
  *            gridded tile
@@ -358,9 +358,9 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *            pixel values as floats
  * @param count
  *            pixel count
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationValuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count;
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count;
 
 /**
  * Get the pixel value of the elevation
@@ -374,16 +374,16 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevation: (NSDecimalNumber *) elevation;
 
 /**
- * Create an elevation image
+ * Create a coverage data image
  *
  * @param tileRow
  *            tile row
- * @return elevation image
+ * @return coverage data image
  */
--(NSObject<GPKGCoverageDataImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow;
+-(NSObject<GPKGCoverageDataImage> *) createImageWithTileRow: (GPKGTileRow *) tileRow;
 
 /**
- * Get the elevation value of the pixel in the tile row image
+ * Get the coverage data value of the pixel in the tile row image
  *
  * @param griddedTile
  *            gridded tile
@@ -393,24 +393,24 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *            x coordinate
  * @param y
  *            y coordinate
- * @return elevation value
+ * @return coverage data value
  */
--(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
+-(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
 
 /**
- * Get the elevation value from the image at the coordinate
+ * Get the coverage data value from the image at the coordinate
  *
  * @param griddedTile
  *            gridded tile
  * @param image
- *            elevation image
+ *            coverage data image
  * @param x
  *            x coordinate
  * @param y
  *            y coordinate
- * @return elevation
+ * @return coverage data value
  */
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y;
 
 /**
  * Get the tile dao
@@ -498,7 +498,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(GPKGCoverageDataResults *) elevationsUnboundedWithElevationRequest: (GPKGCoverageDataRequest *) request;
 
 /**
- * Get the elevation value of the pixel in the tile row image
+ * Get the coverage data value of the pixel in the tile row image
  *
  * @param tileRow
  *            tile row
@@ -506,8 +506,8 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *            x coordinate
  * @param y
  *            y coordinate
- * @return elevation value
+ * @return coverage data value
  */
--(double) elevationValueWithTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
+-(double) valueWithTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
 
 @end

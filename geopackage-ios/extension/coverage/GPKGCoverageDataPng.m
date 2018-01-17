@@ -25,19 +25,19 @@
     return [self initWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
--(NSObject<GPKGCoverageDataImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow{
+-(NSObject<GPKGCoverageDataImage> *) createImageWithTileRow: (GPKGTileRow *) tileRow{
     return [[GPKGCoverageDataPngImage alloc] initWithTileRow:tileRow];
 }
 
--(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
+-(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
     UIImage * image = [tileRow getTileDataImage];
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile: griddedTile andImage: image andX: x andY: y];
-    return elevation.doubleValue;
+    NSDecimalNumber * value = [self valueWithGriddedTile: griddedTile andImage: image andX: x andY: y];
+    return value.doubleValue;
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
     GPKGCoverageDataPngImage * pngImage = (GPKGCoverageDataPngImage *) image;
-    return [self elevationValueWithGriddedTile: griddedTile andImage: [pngImage image] andX: x andY: y];
+    return [self valueWithGriddedTile: griddedTile andImage: [pngImage image] andX: x andY: y];
 }
 
 -(unsigned short) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y{
@@ -75,17 +75,17 @@
     }
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
+-(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
     unsigned short pixelValue = [self pixelValueWithImage: image andX: x andY: y];
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValue];
-    return elevation;
+    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+    return value;
 }
 
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
+-(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
     unsigned short * pixelValues = [self pixelValuesWithImage:image];
-    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelValues:pixelValues andCount:image.size.width * image.size.height];
+    NSArray * values = [self valuesWithGriddedTile:griddedTile andPixelValues:pixelValues andCount:image.size.width * image.size.height];
     free(pixelValues);
-    return elevations;
+    return values;
 }
 
 -(UIImage *) drawTileWithUnsignedShortPixelValues: (unsigned short *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{

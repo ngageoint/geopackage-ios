@@ -50,12 +50,12 @@
 }
 
 
--(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) projectedElevation{
+-(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) projectedCoverage{
     GPKGBoundingBox * overlap = nil;
     if(self.point){
         overlap = self.projectedBoundingBox;
     }else{
-        overlap = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:self.projectedBoundingBox andBoundingBox:projectedElevation];
+        overlap = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:self.projectedBoundingBox andBoundingBox:projectedCoverage];
     }
     return overlap;
 }

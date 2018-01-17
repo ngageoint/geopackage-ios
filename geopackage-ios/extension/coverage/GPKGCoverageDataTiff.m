@@ -36,31 +36,31 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     return [self initWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
--(NSObject<GPKGCoverageDataImage> *) createElevationImageWithTileRow: (GPKGTileRow *) tileRow{
+-(NSObject<GPKGCoverageDataImage> *) createImageWithTileRow: (GPKGTileRow *) tileRow{
     return [[GPKGCoverageDataTiffImage alloc] initWithTileRow:tileRow];
 }
 
--(double) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
+-(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
     NSData * imageData = [tileRow getTileData];
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile: griddedTile andData: imageData andX: x andY: y];
-    return elevation.doubleValue;
+    NSDecimalNumber * value = [self valueWithGriddedTile: griddedTile andData: imageData andX: x andY: y];
+    return value.doubleValue;
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andElevationImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
     GPKGCoverageDataTiffImage * tiffImage = (GPKGCoverageDataTiffImage *) image;
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andImage:tiffImage andX:x andY:y];
-    return elevation;
+    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andImage:tiffImage andX:x andY:y];
+    return value;
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (GPKGCoverageDataTiffImage *) image andX: (int) x andY: (int) y{
-    NSDecimalNumber * elevation = nil;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (GPKGCoverageDataTiffImage *) image andX: (int) x andY: (int) y{
+    NSDecimalNumber * value = nil;
     if ([image directory]  != nil) {
         float pixelValue = [image pixelAtX:x andY:y];
-        elevation = [self elevationValueWithGriddedTile:griddedTile andPixelFloatValue:pixelValue];
+        value = [self valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValue];
     } else {
-        elevation = [self elevationValueWithGriddedTile:griddedTile andData:[image imageData] andX:x andY:y];
+        value = [self valueWithGriddedTile:griddedTile andData:[image imageData] andX:x andY:y];
     }
-    return elevation;
+    return value;
 }
 
 -(float) pixelValueWithData: (NSData *) imageData andX: (int) x andY: (int) y{
@@ -111,18 +111,18 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     }
 }
 
--(NSDecimalNumber *) elevationValueWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData andX:(int)x andY:(int)y{
+-(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData andX:(int)x andY:(int)y{
     float pixelValue = [self pixelValueWithData: imageData andX: x andY: y];
-    NSDecimalNumber * elevation = [self elevationValueWithGriddedTile:griddedTile andPixelValue:pixelValue];
-    return elevation;
+    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+    return value;
 }
 
--(NSArray *) elevationValuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData{
-    NSArray * values = [self pixelArrayValuesWithData: imageData];
-    float *pixelValues = [self pixelValuesArrayToFloat:values];
-    NSArray * elevations = [self elevationValuesWithGriddedTile:griddedTile andPixelFloatValues:pixelValues andCount:(int)values.count];
+-(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData{
+    NSArray * pixelValuesArray = [self pixelArrayValuesWithData: imageData];
+    float *pixelValues = [self pixelValuesArrayToFloat:pixelValuesArray];
+    NSArray * values = [self valuesWithGriddedTile:griddedTile andPixelFloatValues:pixelValues andCount:(int)pixelValuesArray.count];
     free(pixelValues);
-    return elevations;
+    return values;
 }
 
 -(GPKGCoverageDataTiffImage *) drawTileWithFloatPixelValues: (float *) pixelValues andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{

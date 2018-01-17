@@ -12,22 +12,22 @@
 @interface GPKGCoverageDataResults()
 
 /**
- * Double array of elevations stored as [row][column]
+ * Double array of coverage data values stored as [row][column]
  */
 @property (nonatomic, strong) NSArray *values;
 
 /**
- * Tile matrix used to find the elevations
+ * Tile matrix used to find the coverage data values
  */
 @property (nonatomic, strong) GPKGTileMatrix *tileMatrix;
 
 /**
- * Elevation results height
+ * Coverage Data results height
  */
 @property (nonatomic) int height;
 
 /**
- * Elevation results width
+ * Coverage Data results width
  */
 @property (nonatomic) int width;
 

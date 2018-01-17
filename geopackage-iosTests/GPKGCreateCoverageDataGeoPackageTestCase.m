@@ -1,12 +1,12 @@
 //
-//  GPKGCreateElevationTilesGeoPackageTestCase.m
+//  GPKGCreateCoverageDataGeoPackageTestCase.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 12/1/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGCreateElevationTilesGeoPackageTestCase.h"
+#import "GPKGCreateCoverageDataGeoPackageTestCase.h"
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
@@ -16,7 +16,7 @@
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGUtils.h"
 
-@implementation GPKGCreateElevationTilesGeoPackageTestCase
+@implementation GPKGCreateCoverageDataGeoPackageTestCase
 
 -(BOOL) shouldAllowNils{
     return true;
@@ -150,7 +150,7 @@
     
     // Just draw one image and re-use
     coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
-    NSData * imageData = [self drawTileWithElevationTiles:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
+    NSData * imageData = [self drawTileWithCoverageData:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
     
     GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
     
@@ -255,9 +255,9 @@
     [super tearDown];
 }
 
--(NSData *) drawTileWithElevationTiles: (GPKGCoverageDataPng *) elevationTiles andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
+-(NSData *) drawTileWithCoverageData: (GPKGCoverageDataPng *) coverageData andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
     
-    GPKGElevationTileValues * values = [[GPKGElevationTileValues alloc] init];
+    GPKGCoverageDataValues * values = [[GPKGCoverageDataValues alloc] init];
     values.tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
     values.tileElevations = [[NSMutableArray alloc] initWithCapacity:tileHeight];
     values.tilePixelsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
@@ -281,35 +281,35 @@
         [values.tileElevations addObject:tileElevationsRow];
         
         for (int x = 0; x < tileWidth; x++) {
-            unsigned short value;
+            unsigned short pixelValue;
             if (self.allowNils && [GPKGTestUtils randomDouble] < .05) {
-                value = [griddedCoverage.dataNull unsignedShortValue];
+                pixelValue = [griddedCoverage.dataNull unsignedShortValue];
             } else {
-                value = floor([GPKGTestUtils randomDouble] * USHRT_MAX);
+                pixelValue = floor([GPKGTestUtils randomDouble] * USHRT_MAX);
             }
             
-            NSNumber * pixelValue = [NSNumber numberWithUnsignedShort:value];
-            [tilePixelsRow addObject:pixelValue];
-            NSDecimalNumber * elevation = [elevationTiles elevationValueWithGriddedTile:griddedTile andPixelValue:value];
-            [GPKGUtils addObject:elevation toArray:tileElevationsRow];
+            NSNumber * pixelValueNumber = [NSNumber numberWithUnsignedShort:pixelValue];
+            [tilePixelsRow addObject:pixelValueNumber];
+            NSDecimalNumber * value = [coverageData valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+            [GPKGUtils addObject:value toArray:tileElevationsRow];
             
-            [values.tilePixelsFlat addObject:pixelValue];
-            [GPKGUtils addObject:elevation toArray:values.tileElevationsFlat];
+            [values.tilePixelsFlat addObject:pixelValueNumber];
+            [GPKGUtils addObject:value toArray:values.tileElevationsFlat];
         }
     }
     
-    NSData * imageData = [elevationTiles drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
+    NSData * imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
     
-    NSData * imageData2 = [elevationTiles drawTileDataWithGriddedTile:griddedTile andDoubleArrayElevations:values.tileElevations];
+    NSData * imageData2 = [coverageData drawTileDataWithGriddedTile:griddedTile andDoubleArrayElevations:values.tileElevations];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData2];
     
-    NSData * imageData3 = [elevationTiles drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData * imageData3 = [coverageData drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData3];
     
-    NSData * imageData4 = [elevationTiles drawTileDataWithGriddedTile:griddedTile andElevations:values.tileElevationsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData * imageData4 = [coverageData drawTileDataWithGriddedTile:griddedTile andElevations:values.tileElevationsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData4];
     
-    self.elevationTileValues = values;
+    self.coverageDataValues = values;
     
     return imageData;
 }

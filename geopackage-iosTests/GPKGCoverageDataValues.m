@@ -1,14 +1,14 @@
 //
-//  GPKGElevationTileValues.m
+//  GPKGCoverageDataValues.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 12/6/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGElevationTileValues.h"
+#import "GPKGCoverageDataValues.h"
 
-@implementation GPKGElevationTileValues
+@implementation GPKGCoverageDataValues
 
 -(int) width{
     return (int)((NSArray *)[self.tileElevations objectAtIndex:0]).count;
