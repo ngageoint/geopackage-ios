@@ -200,40 +200,40 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Reproject the elevations to the requested projection
+ * Reproject the coverage data values to the requested projection
  *
- * @param elevations
- *            elevations
- * @param requestedElevationsWidth
- *            requested elevations width
- * @param requestedElevationsHeight
- *            requested elevations height
+ * @param values
+ *            coverage data values
+ * @param requestedWidth
+ *            requested coverage data width
+ * @param requestedHeight
+ *            requested coverage data height
  * @param requestBoundingBox
  *            request bounding box in the request projection
- * @param transformRequestToElevation
- *            transformation from request to elevations
- * @param elevationBoundingBox
- *            elevations bounding box
- * @return projected elevations
+ * @param transformRequestToCoverage
+ *            transformation from request to coverage data
+ * @param covergeBoundingBox
+ *            coverage bounding box
+ * @return projected coverage data values
  */
--(NSArray *) reprojectElevations: (NSArray *) elevations withWidth: (int) requestedElevationsWidth andHeight: (int) requestedElevationsHeight andRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andProjectionTransform: (GPKGProjectionTransform *) transformRequestToCoverage andCoverageBoundingBox: (GPKGBoundingBox *) coverageBoundingBox{
+-(NSArray *) reprojectValues: (NSArray *) values withWidth: (int) requestedWidth andHeight: (int) requestedHeight andRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andProjectionTransform: (GPKGProjectionTransform *) transformRequestToCoverage andCoverageBoundingBox: (GPKGBoundingBox *) coverageBoundingBox{
     
-    double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedElevationsWidth;
-    double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedElevationsHeight;
+    double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedWidth;
+    double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedHeight;
     
     double tilesDistanceWidth = [coverageBoundingBox.maxLongitude doubleValue] - [coverageBoundingBox.minLongitude doubleValue];
     double tilesDistanceHeight = [coverageBoundingBox.maxLatitude doubleValue] - [coverageBoundingBox.minLatitude doubleValue];
     
-    int width = [self countInDoubleArray:elevations atIndex1:0];
-    int height = (int) elevations.count;
+    int width = [self countInDoubleArray:values atIndex1:0];
+    int height = (int) values.count;
     
-    NSMutableArray * projectedElevations = [[NSMutableArray alloc] initWithCapacity:requestedElevationsHeight];
+    NSMutableArray * projectedValues = [[NSMutableArray alloc] initWithCapacity:requestedHeight];
     
-    // Retrieve each elevation in the unprojected elevations
-    for (int y = 0; y < requestedElevationsHeight; y++) {
-        NSMutableArray * elevationsRow = [[NSMutableArray alloc] initWithCapacity:requestedElevationsWidth];
-        [projectedElevations addObject:elevationsRow];
-        for (int x = 0; x < requestedElevationsWidth; x++) {
+    // Retrieve each coverage data value in the unprojected coverage data
+    for (int y = 0; y < requestedHeight; y++) {
+        NSMutableArray * coverageDataRow = [[NSMutableArray alloc] initWithCapacity:requestedWidth];
+        [projectedValues addObject:coverageDataRow];
+        for (int x = 0; x < requestedWidth; x++) {
             
             double longitude = [requestBoundingBox.minLongitude doubleValue]
             + (x * requestedWidthUnitsPerPixel);
@@ -255,48 +255,48 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
             yPixel = MAX(0, yPixel);
             yPixel = MIN(height - 1, yPixel);
             
-            NSDecimalNumber * elevation = (NSDecimalNumber *)[self objectInDoubleArray:elevations atIndex1:yPixel andIndex2:xPixel];
-            [GPKGUtils addObject:elevation toArray:elevationsRow];
+            NSDecimalNumber * value = (NSDecimalNumber *)[self objectInDoubleArray:values atIndex1:yPixel andIndex2:xPixel];
+            [GPKGUtils addObject:value toArray:coverageDataRow];
         }
     }
     
-    return projectedElevations;
+    return projectedValues;
 }
 
 /**
- * Get the elevations from the rows dictionary
+ * Get the coverage data values from the rows dictionary
  *
  * @param row
  *            row number
  * @param column
  *            column number
- * @return elevations
+ * @return coverage data values
  */
--(NSArray *) getElevationsFromDictionary: (NSDictionary *) dictionary atRow: (int) row andColumn: (int) column{
+-(NSArray *) getValuesFromDictionary: (NSDictionary *) dictionary atRow: (int) row andColumn: (int) column{
     return (NSArray *)[((NSDictionary *)[dictionary objectForKey:[NSNumber numberWithInt:row]]) objectForKey:[NSNumber numberWithInt:column]];
 }
 
 /**
- * Get the elevations from the elevation dictionary
+ * Get the coverage data values from the coverage data dictionary
  *
  * @param row
  *            row number
  * @param column
  *            column number
- * @return elevations
+ * @return coverage data values
  */
--(NSArray *) getElevationsFromElevationDictionary: (GPKGCoverageDictionary *) elevationDictionary atRow: (int) row andColumn: (int) column{
-    return (NSMutableArray *)[((GPKGCoverageDictionary *)[elevationDictionary objectForKey:[NSNumber numberWithInt:row]]) objectForKey:[NSNumber numberWithInt:column]];
+-(NSArray *) getValuesFromCoverageDataDictionary: (GPKGCoverageDictionary *) coverageDataDictionary atRow: (int) row andColumn: (int) column{
+    return (NSMutableArray *)[((GPKGCoverageDictionary *)[coverageDataDictionary objectForKey:[NSNumber numberWithInt:row]]) objectForKey:[NSNumber numberWithInt:column]];
 }
 
 /**
- * Format the unbounded results from elevation tiles into a single double
- * array of elevation
+ * Format the unbounded results from coverage data into a single double
+ * array of coverage data values
  *
  * @param tileMatrix
  *            tile matrix
- * @param elevationDictionary
- *            elevation dictionary
+ * @param coverageDictionary
+ *            coverage data dictionary
  * @param tileCount
  *            tile count
  * @param minRow
@@ -307,26 +307,26 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            min column
  * @param maxColumn
  *            max column
- * @return elevations
+ * @return coverage data values
  */
 -(NSArray *) formatUnboundedResultsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andCoverageDictionary: (GPKGCoverageDictionary *) coverageDictionary andTileCount: (int) tileCount andMinRow: (int) minRow andMaxRow: (int) maxRow andMinColumn: (int) minColumn andMaxColumn: (int) maxColumn{
     
     // Handle formatting the results
-    NSMutableArray * elevations = nil;
+    NSMutableArray * values = nil;
     if(coverageDictionary.dictionary.count != 0){
         
-        // If only one tile result, use the elevations as the result
+        // If only one tile result, use the coverage data values as the result
         if (tileCount == 1) {
-            elevations = (NSMutableArray *)[self getElevationsFromElevationDictionary:coverageDictionary atRow:minRow andColumn:minColumn];
+            values = (NSMutableArray *)[self getValuesFromCoverageDataDictionary:coverageDictionary atRow:minRow andColumn:minColumn];
         } else {
             
-            // Else, combine all results into a single elevations result
+            // Else, combine all results into a single coverage data values result
             
-            // Get the top left and bottom right elevations
-            NSArray * topLeft = [self getElevationsFromElevationDictionary:coverageDictionary atRow:minRow andColumn:minColumn];
-            NSArray * bottomRight = [self getElevationsFromElevationDictionary:coverageDictionary atRow:maxRow andColumn:maxColumn];
+            // Get the top left and bottom right coverage data values
+            NSArray * topLeft = [self getValuesFromCoverageDataDictionary:coverageDictionary atRow:minRow andColumn:minColumn];
+            NSArray * bottomRight = [self getValuesFromCoverageDataDictionary:coverageDictionary atRow:maxRow andColumn:maxColumn];
             
-            // Determine the width and height of the top left elevation results
+            // Determine the width and height of the top left coverage data results
             int firstWidth = [self countInDoubleArray:topLeft atIndex1:0];
             int firstHeight = (int) topLeft.count;
             
@@ -348,10 +348,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 }
             }
             
-            // Create the elevation result array
-            elevations = [self createNullFilledDoubleArrayWithSize1:height andSize2:width];
+            // Create the coverage data result array
+            values = [self createNullFilledDoubleArrayWithSize1:height andSize2:width];
             
-            // Copy the elevation values from each tile results into the
+            // Copy the coverage data values from each tile results into the
             // final result arrays
             for(NSNumber * rowKey in coverageDictionary.keys){
                 
@@ -376,19 +376,19 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                             + (int) ((column - minColumn - 1) * [tileMatrix.tileWidth intValue]);
                     }
                     
-                    // Get the tiles elevation values
+                    // Get the tiles coverage data values
                     NSArray * values = [columnsDictionary objectForKey:columnKey];
                     
-                    // Copy the columns array at each local elevation row to
+                    // Copy the columns array at each local coverage data row to
                     // the global row and column result location
                     for (int localRow = 0; localRow < values.count; localRow++) {
                         
                         int globalRow = baseRow + localRow;
                         
                         NSArray * localRowArray = [values objectAtIndex:localRow];
-                        NSMutableArray * elevationsRowArray = [elevations objectAtIndex:globalRow];
+                        NSMutableArray * coverageDataRowArray = [values objectAtIndex:globalRow];
                         
-                        [elevationsRowArray replaceObjectsInRange:NSMakeRange(baseColumn, localRowArray.count) withObjectsFromArray:localRowArray];
+                        [coverageDataRowArray replaceObjectsInRange:NSMakeRange(baseColumn, localRowArray.count) withObjectsFromArray:localRowArray];
                     }
                 }
             }
@@ -396,7 +396,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         }
     }
     
-    return elevations;
+    return values;
 }
 
 /**
@@ -453,7 +453,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     
     NSMutableArray * results = [[NSMutableArray alloc] init];
     
-    // Get the elevation source pixels for x and y
+    // Get the coverage data source pixels for x and y
     GPKGCoverageDataSourcePixel * xPixel = [self minAndMaxOfSource:xSource];
     GPKGCoverageDataSourcePixel * yPixel = [self minAndMaxOfSource:ySource];
     
@@ -545,22 +545,22 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the Bilinear Interpolation elevation value
+ * Get the Bilinear Interpolation coverage data value
  *
  * @param sourcePixelX
  *            source pixel x
  * @param sourcePixelY
  *            source pixel y
  * @param values
- *            2 x 2 elevation values as [y][x]
- * @return elevation
+ *            2 x 2 coverage data values as [y][x]
+ * @return coverage data value
  */
--(NSDecimalNumber *) bilinearInterpolationElevationWithSourcePixelX: (GPKGCoverageDataSourcePixel *) sourcePixelX andSourcePixelY: (GPKGCoverageDataSourcePixel *) sourcePixelY andValues: (NSArray *) values{
-    return [self bilinearInterpolationElevationWithOffsetX:sourcePixelX.offset andOffsetY:sourcePixelY.offset andMinX:sourcePixelX.min andMaxX:sourcePixelX.max andMinY:sourcePixelY.min andMaxY:sourcePixelY.max andValues:values];
+-(NSDecimalNumber *) bilinearInterpolationValueWithSourcePixelX: (GPKGCoverageDataSourcePixel *) sourcePixelX andSourcePixelY: (GPKGCoverageDataSourcePixel *) sourcePixelY andValues: (NSArray *) values{
+    return [self bilinearInterpolationValueWithOffsetX:sourcePixelX.offset andOffsetY:sourcePixelY.offset andMinX:sourcePixelX.min andMaxX:sourcePixelX.max andMinY:sourcePixelY.min andMaxY:sourcePixelY.max andValues:values];
 }
 
 /**
- * Get the Bilinear Interpolation elevation value
+ * Get the Bilinear Interpolation coverage data value
  *
  * @param offsetX
  *            x source pixel offset
@@ -575,12 +575,12 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @param maxY
  *            max y value
  * @param values
- *            2 x 2 elevation values as [y][x]
- * @return elevation
+ *            2 x 2 coverage data values as [y][x]
+ * @return coverage data value
  */
--(NSDecimalNumber *) bilinearInterpolationElevationWithOffsetX: (float) offsetX andOffsetY: (float) offsetY andMinX: (float) minX andMaxX: (float) maxX andMinY: (float) minY andMaxY: (float) maxY andValues: (NSArray *) values{
+-(NSDecimalNumber *) bilinearInterpolationValueWithOffsetX: (float) offsetX andOffsetY: (float) offsetY andMinX: (float) minX andMaxX: (float) maxX andMinY: (float) minY andMaxY: (float) maxY andValues: (NSArray *) values{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     if (values != nil) {
         NSArray * top = [values objectAtIndex:0];
@@ -589,14 +589,14 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         NSDecimalNumber * topRight = (NSDecimalNumber *)[GPKGUtils objectAtIndex:1 inArray:top];
         NSDecimalNumber * bottomLeft = (NSDecimalNumber *)[GPKGUtils objectAtIndex:0 inArray:bottom];
         NSDecimalNumber * bottomRight = (NSDecimalNumber *)[GPKGUtils objectAtIndex:1 inArray:bottom];
-        elevation = [self bilinearInterpolationElevationWithOffsetX:offsetX andOffsetY:offsetY andMinX:minX andMaxX:maxX andMinY:minY andMaxY:maxY andTopLeft:topLeft andTopRight:topRight andBottomLeft:bottomLeft andBottomRight:bottomRight];
+        value = [self bilinearInterpolationValueWithOffsetX:offsetX andOffsetY:offsetY andMinX:minX andMaxX:maxX andMinY:minY andMaxY:maxY andTopLeft:topLeft andTopRight:topRight andBottomLeft:bottomLeft andBottomRight:bottomRight];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
- * Get the Bilinear Interpolation elevation value
+ * Get the Bilinear Interpolation coverage data value
  *
  * @param offsetX
  *            x source pixel offset
@@ -611,18 +611,18 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @param maxY
  *            max y value
  * @param topLeft
- *            top left elevation
+ *            top left coverage data value
  * @param topRight
- *            top right elevation
+ *            top right coverage data value
  * @param bottomLeft
- *            bottom left elevation
+ *            bottom left coverage data value
  * @param bottomRight
- *            bottom right elevation
- * @return elevation
+ *            bottom right coverage data value
+ * @return coverage data value
  */
--(NSDecimalNumber *) bilinearInterpolationElevationWithOffsetX: (float) offsetX andOffsetY: (float) offsetY andMinX: (float) minX andMaxX: (float) maxX andMinY: (float) minY andMaxY: (float) maxY andTopLeft: (NSDecimalNumber *) topLeft andTopRight: (NSDecimalNumber *) topRight andBottomLeft: (NSDecimalNumber *) bottomLeft andBottomRight: (NSDecimalNumber *) bottomRight{
+-(NSDecimalNumber *) bilinearInterpolationValueWithOffsetX: (float) offsetX andOffsetY: (float) offsetY andMinX: (float) minX andMaxX: (float) maxX andMinY: (float) minY andMaxY: (float) maxY andTopLeft: (NSDecimalNumber *) topLeft andTopRight: (NSDecimalNumber *) topRight andBottomLeft: (NSDecimalNumber *) bottomLeft andBottomRight: (NSDecimalNumber *) bottomRight{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     if (topLeft != nil && (topRight != nil || minX == maxX)
         && (bottomLeft != nil || minY == maxY)
@@ -656,41 +656,41 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 + ((diffTop / diffY) * bottomRow);
         }
         
-        elevation = [[NSDecimalNumber alloc] initWithDouble:result];
+        value = [[NSDecimalNumber alloc] initWithDouble:result];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
- * Get the bicubic interpolation elevation from the 4 x 4 elevation values
+ * Get the bicubic interpolation coverage data value from the 4 x 4 coverage data values
  *
  * @param values
- *            elevation values
+ *            coverage data values
  * @param sourcePixelX
  *            source pixel x
  * @param sourcePixelY
  *            source pixel y
- * @return bicubic elevation
+ * @return bicubic coverage data value
  */
--(NSDecimalNumber *) bicubicInterpolationElevationWithValues: (NSArray *) values andSourcePixelX: (GPKGCoverageDataSourcePixel *) sourcePixelX andSourcePixelY: (GPKGCoverageDataSourcePixel *) sourcePixelY{
-    return [self bicubicInterpolationElevationWithValues:values andOffsetX:sourcePixelX.offset andOffsetY:sourcePixelY.offset];
+-(NSDecimalNumber *) bicubicInterpolationValueWithValues: (NSArray *) values andSourcePixelX: (GPKGCoverageDataSourcePixel *) sourcePixelX andSourcePixelY: (GPKGCoverageDataSourcePixel *) sourcePixelY{
+    return [self bicubicInterpolationValueWithValues:values andOffsetX:sourcePixelX.offset andOffsetY:sourcePixelY.offset];
 }
 
 /**
- * Get the bicubic interpolation elevation from the 4 x 4 elevation values
+ * Get the bicubic interpolation coverage data value from the 4 x 4 coverage data values
  *
  * @param values
- *            elevation values
+ *            coverage data values
  * @param offsetX
  *            x source pixel offset
  * @param offsetY
  *            y source pixel offset
- * @return bicubic elevation
+ * @return bicubic coverage data value
  */
--(NSDecimalNumber *) bicubicInterpolationElevationWithValues: (NSArray *) values andOffsetX: (float) offsetX andOffsetY: (float) offsetY{
+-(NSDecimalNumber *) bicubicInterpolationValueWithValues: (NSArray *) values andOffsetX: (float) offsetX andOffsetY: (float) offsetY{
 
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     NSMutableArray * rowValues = [[NSMutableArray alloc] initWithCapacity:4];
     
@@ -700,41 +700,41 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         NSDecimalNumber * value1 = [GPKGUtils objectAtIndex:1 inArray:yValues];
         NSDecimalNumber * value2 = [GPKGUtils objectAtIndex:2 inArray:yValues];
         NSDecimalNumber * value3 = [GPKGUtils objectAtIndex:3 inArray:yValues];
-        NSDecimalNumber * rowElevation = [self cubicInterpolationElevationWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offsetX];
-        if (rowElevation == nil) {
+        NSDecimalNumber * rowValue = [self cubicInterpolationValueWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offsetX];
+        if (rowValue == nil) {
             rowValues = nil;
             break;
         }
-        [rowValues addObject:rowElevation];
+        [rowValues addObject:rowValue];
     }
     
     if (rowValues != nil) {
-        elevation = [self cubicInterpolationElevationWithValues:rowValues andOffset:offsetY];
+        value = [self cubicInterpolationValueWithValues:rowValues andOffset:offsetY];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
  * Interpolate 4 values using the offset between value1 and value2
  *
  * @param values
- *            elevation values
+ *            coverage data values
  * @param offset
  *            offset between the middle two pixels
- * @return value elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) cubicInterpolationElevationWithValues: (NSArray *) values andOffset: (double) offset{
+-(NSDecimalNumber *) cubicInterpolationValueWithValues: (NSArray *) values andOffset: (double) offset{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     if (values != nil) {
         NSDecimalNumber * value0 = [GPKGUtils objectAtIndex:0 inArray:values];
         NSDecimalNumber * value1 = [GPKGUtils objectAtIndex:1 inArray:values];
         NSDecimalNumber * value2 = [GPKGUtils objectAtIndex:2 inArray:values];
         NSDecimalNumber * value3 = [GPKGUtils objectAtIndex:3 inArray:values];
-        elevation = [self cubicInterpolationElevationWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offset];
+        value = [self cubicInterpolationValueWithValue0:value0 andValue1:value1 andValue2:value2 andValue3:value3 andOffset:offset];
     }
-    return elevation;
+    return value;
 }
 
 /**
@@ -750,11 +750,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            index 3 value
  * @param offset
  *            offset between the middle two pixels
- * @return value elevation value
+ * @return coverage data value
  */
--(NSDecimalNumber *) cubicInterpolationElevationWithValue0: (NSDecimalNumber *) value0 andValue1: (NSDecimalNumber *) value1 andValue2: (NSDecimalNumber *) value2 andValue3: (NSDecimalNumber *) value3 andOffset: (double) offset{
+-(NSDecimalNumber *) cubicInterpolationValueWithValue0: (NSDecimalNumber *) value0 andValue1: (NSDecimalNumber *) value1 andValue2: (NSDecimalNumber *) value2 andValue3: (NSDecimalNumber *) value3 andOffset: (double) offset{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     if (value0 != nil && value1 != nil && value2 != nil && value3 != nil) {
         
@@ -762,12 +762,12 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         double coefficient1 = [value2 doubleValue] - [value0 doubleValue];
         double coefficient2 = 2 * [value0 doubleValue] - 5 * [value1 doubleValue] + 4 * [value2 doubleValue] - [value3 doubleValue];
         double coefficient3 = -[value0 doubleValue] + 3 * [value1 doubleValue] - 3 * [value2 doubleValue] + [value3 doubleValue];
-        double elevationDouble = (coefficient3 * offset * offset * offset + coefficient2
+        double valueDouble = (coefficient3 * offset * offset * offset + coefficient2
                      * offset * offset + coefficient1 * offset + coefficient0) / 2;
-        elevation = [[NSDecimalNumber alloc] initWithDouble:elevationDouble];
+        value = [[NSDecimalNumber alloc] initWithDouble:valueDouble];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
@@ -802,15 +802,15 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 -(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (unsigned short) pixelValue{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     if (![self isDataNull:pixelValue]) {
-        elevation = [self pixelValueToElevationWithGriddedTile:griddedTile andPixelValue:[[NSDecimalNumber alloc] initWithUnsignedShort:pixelValue]];
+        value = [self pixelValueToValueWithGriddedTile:griddedTile andPixelValue:[[NSDecimalNumber alloc] initWithUnsignedShort:pixelValue]];
     }
     
-    return elevation;
+    return value;
 }
 
--(NSDecimalNumber *) pixelValueToElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (NSDecimalNumber *) pixelValue{
+-(NSDecimalNumber *) pixelValueToValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValue: (NSDecimalNumber *) pixelValue{
 
     NSDecimalNumber * valueNumber = pixelValue;
     
@@ -833,19 +833,19 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues{
-    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
     for(int i = 0; i < pixelValues.count; i++){
-        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]] toArray:elevations];
+        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]] toArray:values];
     }
-    return elevations;
+    return values;
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count{
-    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:count];
     for(int i = 0; i < count; i++){
-        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:pixelValues[i]] toArray:elevations];
+        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:pixelValues[i]] toArray:values];
     }
-    return elevations;
+    return values;
 }
 
 +(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
@@ -876,8 +876,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *
  * @param griddedTile
  *            gridded tile
- * @param elevation
- *            elevation value
+ * @param value
+ *            coverage data value
  * @return pixel value
  */
 -(double) valueToPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andValue: (double) value{
@@ -909,28 +909,28 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 -(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValue: (float) pixelValue{
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     if(![self isDataNull:pixelValue]){
-        elevation = [self pixelValueToElevationWithGriddedTile:griddedTile andPixelValue:[[NSDecimalNumber alloc] initWithFloat:pixelValue]];
+        value = [self pixelValueToValueWithGriddedTile:griddedTile andPixelValue:[[NSDecimalNumber alloc] initWithFloat:pixelValue]];
     }
     
-    return elevation;
+    return value;
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues{
-    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
     for (int i = 0; i < pixelValues.count; i++) {
-        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]] toArray:elevations];
+        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]] toArray:values];
     }
-    return elevations;
+    return values;
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count{
-    NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:count];
     for(int i = 0; i < count; i++){
-        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]] toArray:elevations];
+        [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]] toArray:values];
     }
-    return elevations;
+    return values;
 }
 
 -(float) floatPixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andValue: (NSDecimalNumber *) value{
@@ -950,17 +950,17 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSObject<GPKGCoverageDataImage> *) createImageWithTileRow: (GPKGTileRow *) tileRow{
-    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
     return nil;
 }
 
 -(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
-    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
     return 0;
 }
 
 -(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
-    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending elevation tiles type"];
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
     return nil;
 }
 
@@ -1000,12 +1000,12 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     
     GPKGCoverageDataResults * coverageResults = nil;
     
-    // Transform to the projection of the elevation tiles
-    GPKGProjectionTransform * transformRequestToElevation = nil;
+    // Transform to the projection of the coverage data
+    GPKGProjectionTransform * transformRequestToCoverage = nil;
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
-        transformRequestToElevation = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
-        requestProjectedBoundingBox = [transformRequestToElevation transformWithBoundingBox:requestProjectedBoundingBox];
+        transformRequestToCoverage = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
+        requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];
     
@@ -1021,7 +1021,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     }
     
     // Find the tile matrix and results
-    GPKGCoverageDataTileMatrixResults * results = [self resultsWithElevationRequest: request andBoundingBox: requestProjectedBoundingBox andOverlappingPixels: overlappingPixels];
+    GPKGCoverageDataTileMatrixResults * results = [self resultsWithCoverageDataRequest: request andBoundingBox: requestProjectedBoundingBox andOverlappingPixels: overlappingPixels];
     
     if(results != nil){
         
@@ -1030,14 +1030,14 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         
         @try {
             
-            // Determine the requested elevation dimensions, or use the
-            // dimensions of a single tile matrix elevation tile
-            int requestedElevationsWidth = width != nil ? [width intValue] : [tileMatrix.tileWidth intValue];
-            int requestedElevationsHeight = height != nil ? [height intValue] : [tileMatrix.tileHeight intValue];
+            // Determine the requested coverage data dimensions, or use the
+            // dimensions of a single tile matrix coverage data tile
+            int requestedWidth = width != nil ? [width intValue] : [tileMatrix.tileWidth intValue];
+            int requestedHeight = height != nil ? [height intValue] : [tileMatrix.tileHeight intValue];
             
-            // Determine the size of the non projected elevation results
-            int tileWidth = requestedElevationsWidth;
-            int tileHeight = requestedElevationsHeight;
+            // Determine the size of the non projected coverage data results
+            int tileWidth = requestedWidth;
+            int tileHeight = requestedHeight;
             if (!self.sameProjection) {
                 int projectedWidth = (int) round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
                 if (projectedWidth > 0) {
@@ -1049,12 +1049,12 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 }
             }
             
-            // Retrieve the elevations from the results
-            NSArray * values = [self elevationsWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request andTileWidth: tileWidth andTileHeight: tileHeight andOverlappingPixels: overlappingPixels];
+            // Retrieve the coverage data values from the results
+            NSArray * values = [self valuesWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request andTileWidth: tileWidth andTileHeight: tileHeight andOverlappingPixels: overlappingPixels];
             
-            // Project the elevations if needed
+            // Project the coverage data values if needed
             if (values != nil && !self.sameProjection && !request.isPoint) {
-                values = [self reprojectElevations:values withWidth:requestedElevationsWidth andHeight:requestedElevationsHeight andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andCoverageBoundingBox:requestProjectedBoundingBox];
+                values = [self reprojectValues:values withWidth:requestedWidth andHeight:requestedHeight andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToCoverage andCoverageBoundingBox:requestProjectedBoundingBox];
             }
             
             // Create the results
@@ -1078,17 +1078,17 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     
     GPKGCoverageDataResults * coverageResults = nil;
     
-    // Transform to the projection of the elevation tiles
-    GPKGProjectionTransform * transformRequestToElevation = nil;
+    // Transform to the projection of the coverage data tiles
+    GPKGProjectionTransform * transformRequestToCoverage = nil;
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
-        transformRequestToElevation = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
-        requestProjectedBoundingBox = [transformRequestToElevation transformWithBoundingBox:requestProjectedBoundingBox];
+        transformRequestToCoverage = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
+        requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];
     
     // Find the tile matrix and results
-    GPKGCoverageDataTileMatrixResults * results = [self resultsWithElevationRequest: request andBoundingBox: requestProjectedBoundingBox];
+    GPKGCoverageDataTileMatrixResults * results = [self resultsWithCoverageDataRequest: request andBoundingBox: requestProjectedBoundingBox];
     
     if(results != nil){
         
@@ -1097,12 +1097,12 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         
         @try {
             
-            // Retrieve the elevations from the results
-            NSArray * values = [self elevationsUnboundedWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request];
+            // Retrieve the coverage data values from the results
+            NSArray * values = [self valuesUnboundedWithTileMatrix: tileMatrix andTileResults: tileResults andRequest: request];
             
-            // Project the elevations if needed
+            // Project the coverage data values if needed
             if (values != nil && !self.sameProjection && !request.isPoint) {
-                values = [self reprojectElevations:values withWidth:[self countInDoubleArray:values atIndex1:0] andHeight:(int)values.count andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToElevation andCoverageBoundingBox:requestProjectedBoundingBox];
+                values = [self reprojectValues:values withWidth:[self countInDoubleArray:values atIndex1:0] andHeight:(int)values.count andRequestBoundingBox:request.boundingBox andProjectionTransform:transformRequestToCoverage andCoverageBoundingBox:requestProjectedBoundingBox];
             }
             
             // Create the results
@@ -1119,37 +1119,37 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation tile results by finding the tile matrix with values
+ * Get the coverage data results by finding the tile matrix with values
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @param requestProjectedBoundingBox
  *            request projected bounding box
  * @return tile matrix results
  */
--(GPKGCoverageDataTileMatrixResults *) resultsWithElevationRequest: (GPKGCoverageDataRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox{
-    return [self resultsWithElevationRequest:request andBoundingBox:requestProjectedBoundingBox andOverlappingPixels:0];
+-(GPKGCoverageDataTileMatrixResults *) resultsWithCoverageDataRequest: (GPKGCoverageDataRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox{
+    return [self resultsWithCoverageDataRequest:request andBoundingBox:requestProjectedBoundingBox andOverlappingPixels:0];
 }
 
 /**
- * Get the elevation tile results by finding the tile matrix with values
+ * Get the coverage data results by finding the tile matrix with values
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @param requestProjectedBoundingBox
  *            request projected bounding box
  * @param overlappingPixels
  *            overlapping request pixels
  * @return tile matrix results
  */
--(GPKGCoverageDataTileMatrixResults *) resultsWithElevationRequest: (GPKGCoverageDataRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andOverlappingPixels: (int) overlappingPixels{
-    // Try to get the elevation from the current zoom level
+-(GPKGCoverageDataTileMatrixResults *) resultsWithCoverageDataRequest: (GPKGCoverageDataRequest *) request andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andOverlappingPixels: (int) overlappingPixels{
+    // Try to get the coverage data from the current zoom level
     GPKGTileMatrix * tileMatrix = [self tileMatrixWithRequest: request];
     GPKGCoverageDataTileMatrixResults * results = nil;
     if (tileMatrix != nil) {
         results = [self resultsWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
         
-        // Try to zoom in or out to find a matching elevation
+        // Try to zoom in or out to find matching coverage data
         if (results == nil) {
             results = [self resultsZoomWithBoundingBox: requestProjectedBoundingBox andTileMatrix: tileMatrix andOverlappingPixels: overlappingPixels];
         }
@@ -1158,7 +1158,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation tile results for a specified tile matrix
+ * Get the coverage data results for a specified tile matrix
  *
  * @param requestProjectedBoundingBox
  *            request projected bounding box
@@ -1183,7 +1183,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation tile results by zooming in or out as needed from the
+ * Get the coverage data results by zooming in or out as needed from the
  * provided tile matrix to find values
  *
  * @param requestProjectedBoundingBox
@@ -1212,7 +1212,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation tile results by zooming in from the provided tile
+ * Get the coverage data results by zooming in from the provided tile
  * matrix
  *
  * @param requestProjectedBoundingBox
@@ -1240,7 +1240,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation tile results by zooming out from the provided tile
+ * Get the coverage data results by zooming out from the provided tile
  * matrix
  *
  * @param requestProjectedBoundingBox
@@ -1268,7 +1268,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the elevation values from the tile results scaled to the provided
+ * Get the coverage data values from the tile results scaled to the provided
  * dimensions
  *
  * @param tileMatrix
@@ -1276,21 +1276,21 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @param tileResults
  *            tile results
  * @param request
- *            elevation request
+ *            coverage data request
  * @param tileWidth
  *            tile width
  * @param tileHeight
  *            tile height
  * @param overlappingPixels
  *            overlapping request pixels
- * @return elevation values
+ * @return coverage data values
  */
--(NSArray *) elevationsWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGCoverageDataRequest *) request andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andOverlappingPixels: (int) overlappingPixels{
+-(NSArray *) valuesWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGCoverageDataRequest *) request andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andOverlappingPixels: (int) overlappingPixels{
 
-    NSMutableArray * elevations = nil;
+    NSMutableArray * values = nil;
     
     // Tiles are ordered by rows and then columns. Track the last column
-    // elevations of the tile to the left and the last rows of the tiles in
+    // coverage data values of the tile to the left and the last rows of the tiles in
     // the row above
     NSMutableArray * leftLastColumns = nil;
     NSMutableDictionary * lastRowsByColumn = nil;
@@ -1299,11 +1299,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     int previousRow = -1;
     int previousColumn = INT_MAX;
     
-    // Process each elevation tile
+    // Process each coverage data tile
     GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileMatrix.tableName];
     while ([tileResults moveToNext]) {
         
-        // Get the next elevation tile
+        // Get the next coverage data tile
         GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
         
         int currentRow = [tileRow getTileRow];
@@ -1333,22 +1333,22 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
             leftLastColumns = nil;
         }
         
-        // Get the bounding box of the elevation
+        // Get the bounding box of the coverage data
         GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.coverageBoundingBox andTileMatrix:tileMatrix andTileColumn:currentColumn andTileRow:currentRow];
         
-        // Get the bounding box where the request and elevation tile overlap
+        // Get the bounding box where the request and coverage data tile overlap
         GPKGBoundingBox * overlap = [request overlapWithBoundingBox:tileBoundingBox];
         
         // Get the gridded tile value for the tile
         GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
         
-        // Get the elevation tile image
+        // Get the coverage data tile image
         NSObject<GPKGCoverageDataImage> * image = [self createImageWithTileRow:tileRow];
         
         // If the tile overlaps with the requested box
         if (overlap != nil) {
             
-            // Get the rectangle of the tile elevation with matching values
+            // Get the rectangle of the tile coverage data with matching values
             CGRect src = [GPKGTileBoundingBoxUtils getRectangleWithWidth:[tileMatrix.tileWidth intValue] andHeight:[tileMatrix.tileHeight intValue] andBoundingBox:tileBoundingBox andSection:overlap];
             
             // Get the rectangle of where to store the results
@@ -1370,9 +1370,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
             if (src.size.width >= 0 && src.size.height >= 0
                 && dest.size.width >= 0 && dest.size.height >= 0) {
                 
-                // Create the elevations array first time through
-                if (elevations == nil) {
-                    elevations = [self createNullFilledDoubleArrayWithSize1:tileHeight andSize2:tileWidth];
+                // Create the coverage data array first time through
+                if (values == nil) {
+                    values = [self createNullFilledDoubleArrayWithSize1:tileHeight andSize2:tileWidth];
                 }
                 
                 // Get the destination widths
@@ -1423,7 +1423,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 maxDestY = MIN(maxDestY, tileHeight - 1);
                 maxDestX = MIN(maxDestX, tileWidth - 1);
                 
-                // Read and set the elevation values
+                // Read and set the coverage data values
                 for (int y = minDestY; y <= maxDestY; y++) {
                     for (int x = minDestX; x <= maxDestX; x++) {
                         
@@ -1432,20 +1432,20 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                         NSDecimalNumber * value = nil;
                         switch (self.algorithm) {
                             case GPKG_ETA_NEAREST_NEIGHBOR:
-                                value = [self nearestNeighborElevation:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                value = [self nearestNeighborValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
                             case GPKG_ETA_BILINEAR:
-                                value = [self bilinearInterpolationElevationWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                value = [self bilinearInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
                             case GPKG_ETA_BICUBIC:
-                                value = [self bicubicInterpolationElevation:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                value = [self bicubicInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
                             default:
                                 [NSException raise:@"Unsupported Algorithm" format:@"Algorithm is not supported: %u", self.algorithm];
                         }
                         
                         if (value != nil) {
-                            [self replaceObjectInDoubleArray:elevations atIndex1:y andIndex2:x withValue:value];
+                            [self replaceObjectInDoubleArray:values atIndex1:y andIndex2:x withValue:value];
                         }
                         
                     }
@@ -1454,7 +1454,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
             }
         }
         
-        // Determine and store the elevations of the last columns and rows
+        // Determine and store the coverage data values of the last columns and rows
         leftLastColumns = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
         NSMutableArray * lastRows = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
         [lastRowsByColumn setObject:lastRows forKey:[NSNumber numberWithInt:currentColumn]];
@@ -1462,7 +1462,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         // For each overlapping pixel
         for (int lastIndex = 0; lastIndex < overlappingPixels; lastIndex++) {
             
-            // Store the last column row elevation values
+            // Store the last column row coverage data values
             NSMutableArray * leftLastColumnsRow = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileHeight intValue]];
             [leftLastColumns addObject:leftLastColumnsRow];
             int lastColumnIndex = [tileMatrix.tileWidth intValue] - lastIndex - 1;
@@ -1471,7 +1471,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 [GPKGUtils addObject:value toArray:leftLastColumnsRow];
             }
             
-            // Store the last row column elevation values
+            // Store the last row column coverage data values
             NSMutableArray * lastRowsColumn = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileWidth intValue]];
             [lastRows addObject:lastRowsColumn];
             int lastRowIndex = [tileMatrix.tileHeight intValue] - lastIndex - 1;
@@ -1487,11 +1487,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         previousColumn = currentColumn;
     }
     
-    return elevations;
+    return values;
 }
 
 /**
- * Get the bilinear interpolation elevation
+ * Get the bilinear interpolation coverage data value
  *
  * @param griddedTile
  *            gridded tile
@@ -1519,9 +1519,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            source top most pixel
  * @param srcLeft
  *            source left most pixel
- * @return bilinear elevation
+ * @return bilinear coverage data value
  */
--(NSDecimalNumber *) bilinearInterpolationElevationWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) bilinearInterpolationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1533,17 +1533,17 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     NSMutableArray * values = [self createNullFilledDoubleArrayWithSize1:2 andSize2:2];
     [self populateValues:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andPixelX:sourcePixelX andPixelY:sourcePixelY andValues:values];
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     if (values != nil) {
-        elevation = [self bilinearInterpolationElevationWithSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY andValues:values];
+        value = [self bilinearInterpolationValueWithSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY andValues:values];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
- * Get the bicubic interpolation elevation
+ * Get the bicubic interpolation coverage data value
  *
  * @param griddedTile
  *            gridded tile
@@ -1571,9 +1571,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            source top most pixel
  * @param srcLeft
  *            source left most pixel
- * @return bicubic elevation
+ * @return bicubic coverage data value
  */
--(NSDecimalNumber *) bicubicInterpolationElevation: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) bicubicInterpolationValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1590,13 +1590,13 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     NSMutableArray * values = [self createNullFilledDoubleArrayWithSize1:4 andSize2:4];
     [self populateValues:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andPixelX:sourcePixelX andPixelY:sourcePixelY andValues:values];
     
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     if (values != nil) {
-        elevation = [self bicubicInterpolationElevationWithValues:values andSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY];
+        value = [self bicubicInterpolationValueWithValues:values andSourcePixelX:sourcePixelX andSourcePixelY:sourcePixelY];
     }
     
-    return elevation;
+    return value;
 }
 
 /**
@@ -1665,7 +1665,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the nearest neighbor elevation
+ * Get the nearest neighbor coverage data value
  *
  * @param griddedTile
  *            gridded tile
@@ -1693,9 +1693,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            source top most pixel
  * @param srcLeft
  *            source left most pixel
- * @return nearest neighbor elevation
+ * @return nearest neighbor coverage data value
  */
--(NSDecimalNumber *) nearestNeighborElevation: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
+-(NSDecimalNumber *) nearestNeighborValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andY: (int) y andX: (int) x andWidthRatio: (float) widthRatio andHeightRatio: (float) heightRatio andDestTop: (float) destTop andDestLeft: (float) destLeft andSrcTop: (float) srcTop andSrcLeft: (float) srcLeft{
 
     // Determine which source pixel to use
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
@@ -1704,17 +1704,17 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     // Get the closest nearest neighbors
     NSArray * nearestNeighbors = [self nearestNeighborsWithXSource:xSource andYSource:ySource];
     
-    // Get the elevation value from the source pixel nearest neighbors until
+    // Get the coverage data value from the source pixel nearest neighbors until
     // one is found
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     for (NSArray * nearestNeighbor in nearestNeighbors) {
-        elevation = [self valueOverBordersWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andX:[((NSNumber *)[nearestNeighbor objectAtIndex:0]) intValue] andY:[((NSNumber *)[nearestNeighbor objectAtIndex:1]) intValue]];
-        if (elevation != nil) {
+        value = [self valueOverBordersWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andX:[((NSNumber *)[nearestNeighbor objectAtIndex:0]) intValue] andY:[((NSNumber *)[nearestNeighbor objectAtIndex:1]) intValue]];
+        if (value != nil) {
             break;
         }
     }
     
-    return elevation;
+    return value;
 }
 
 /**
@@ -1740,7 +1740,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  */
 -(NSDecimalNumber *) valueOverBordersWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andLeftLastColumns: (NSArray *) leftLastColumns andTopLeftRows: (NSArray *) topLeftRows andTopRows: (NSArray *) topRows andX: (int) x andY: (int) y{
 
-    NSDecimalNumber * elevation = nil;
+    NSDecimalNumber * value = nil;
     
     // Only handle locations in the current tile, to the left, top left, or
     // top tiles. Tiles are processed sorted by rows and columns, so values
@@ -1749,7 +1749,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     if (x < [image width] && y < [image height]) {
         
         if (x >= 0 && y >= 0) {
-            elevation = [self valueWithGriddedTile:griddedTile andCoverageDataImage:image andX:x andY:y];
+            value = [self valueWithGriddedTile:griddedTile andCoverageDataImage:image andX:x andY:y];
         } else if (x < 0 && y < 0) {
             // Try to get the coverage data value from the top left tile values
             if (topLeftRows != nil) {
@@ -1757,7 +1757,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 if (row < topLeftRows.count) {
                     int column = x + [self countInDoubleArray:topLeftRows atIndex1:row];
                     if (column >= 0) {
-                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:topLeftRows atIndex1:row andIndex2:column];
+                        value = (NSDecimalNumber *)[self objectInDoubleArray:topLeftRows atIndex1:row andIndex2:column];
                     }
                 }
             }
@@ -1768,18 +1768,18 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 if (column < leftLastColumns.count) {
                     int row = y;
                     if (row < [self countInDoubleArray:leftLastColumns atIndex1:column]) {
-                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:leftLastColumns atIndex1:column andIndex2:row];
+                        value = (NSDecimalNumber *)[self objectInDoubleArray:leftLastColumns atIndex1:column andIndex2:row];
                     }
                 }
             }
         } else {
-            // Try to get the elevation from the top tile values
+            // Try to get the coverage data value from the top tile values
             if (topRows != nil) {
                 int row = (-1 * y) - 1;
                 if (row < topRows.count) {
                     int column = x;
                     if (column < [self countInDoubleArray:topRows atIndex1:row]) {
-                        elevation = (NSDecimalNumber *)[self objectInDoubleArray:topRows atIndex1:row andIndex2:column];
+                        value = (NSDecimalNumber *)[self objectInDoubleArray:topRows atIndex1:row andIndex2:column];
                     }
                 }
             }
@@ -1787,21 +1787,21 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         
     }
     
-    return elevation;
+    return value;
 }
 
 /**
- * Get the elevation values from the tile results unbounded in result size
+ * Get the coverage data values from the tile results unbounded in result size
  *
  * @param tileMatrix
  *            tile matrix
  * @param tileResults
  *            tile results
  * @param request
- *            elevation request
- * @return elevation values
+ *            coverage data request
+ * @return coverage data values
  */
--(NSArray *) elevationsUnboundedWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGCoverageDataRequest *) request{
+-(NSArray *) valuesUnboundedWithTileMatrix: (GPKGTileMatrix *) tileMatrix andTileResults: (GPKGResultSet *) tileResults andRequest: (GPKGCoverageDataRequest *) request{
 
     // Build a map of rows to maps of columns and values
     GPKGCoverageDictionary * rowsMap = [[GPKGCoverageDictionary alloc] init];
@@ -1817,22 +1817,22 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     
     GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileMatrix.tableName];
     
-    // Process each elevation tile row
+    // Process each coverage data tile row
     while([tileResults moveToNext]){
         
-        // Get the next elevation tile
+        // Get the next coverage data tile
         GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
         
-        // Get the bounding box of the elevation
+        // Get the bounding box of the coverage data
         GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.coverageBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
         
-        // Get the bounding box where the request and elevation tile overlap
+        // Get the bounding box where the request and coverage data tile overlap
         GPKGBoundingBox * overlap = [request overlapWithBoundingBox:tileBoundingBox];
         
-        // If the elevation tile overlaps with the requested box
+        // If the coverage data tile overlaps with the requested box
         if (overlap != nil) {
             
-            // Get the rectangle of the tile elevation with matching values
+            // Get the rectangle of the tile coverage data with matching values
             CGRect src = [GPKGTileBoundingBoxUtils getRectangleWithWidth:[tileMatrix.tileWidth intValue] andHeight:[tileMatrix.tileHeight intValue] andBoundingBox:tileBoundingBox andSection:overlap];
             
             if (src.size.width >= 0 && src.size.height >= 0) {
@@ -1846,11 +1846,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 // Get the gridded tile value for the tile
                 GPKGGriddedTile * griddedTile = [self griddedTileWithTileId:[[tileRow getId] intValue]];
                 
-                // Get the elevation tile image
+                // Get the coverage data tile image
                 NSObject<GPKGCoverageDataImage> * image = [self createImageWithTileRow:tileRow];
                 
-                // Create the elevation results for this tile
-                NSMutableArray * elevations = [[NSMutableArray alloc] initWithCapacity:srcBottom - srcTop + 1];
+                // Create the coverage data results for this tile
+                NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:srcBottom - srcTop + 1];
                 
                 // Get or add the columns map to the rows map
                 GPKGCoverageDictionary * columnsMap = [rowsMap.dictionary objectForKey:[NSNumber numberWithInt:[tileRow getTileRow]]];
@@ -1859,23 +1859,23 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                     [rowsMap setObject:columnsMap forKey:[NSNumber numberWithInt:[tileRow getTileRow]]];
                 }
                 
-                // Read and set the elevation values
+                // Read and set the coverage data values
                 for (int y = srcTop; y <= srcBottom; y++) {
                     
-                    NSMutableArray * innerElevations = [[NSMutableArray alloc] initWithCapacity:srcRight - srcLeft + 1];
-                    [elevations addObject:innerElevations];
+                    NSMutableArray * innerValues = [[NSMutableArray alloc] initWithCapacity:srcRight - srcLeft + 1];
+                    [values addObject:innerValues];
                     
                     for (int x = srcLeft; x <= srcRight; x++) {
                         
-                        // Get the elevation value from the source pixel
-                        NSDecimalNumber * elevation = [self valueWithGriddedTile:griddedTile andCoverageDataImage:image andX:x andY:y];
+                        // Get the coverage data value from the source pixel
+                        NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andCoverageDataImage:image andX:x andY:y];
                         
-                        [GPKGUtils addObject:elevation toArray:innerElevations];
+                        [GPKGUtils addObject:value toArray:innerValues];
                     }
                 }
                 
-                // Set the elevations in the results map
-                [columnsMap setObject:elevations forKey:[NSNumber numberWithInt:[tileRow getTileColumn]]];
+                // Set the coverage data values in the results map
+                [columnsMap setObject:values forKey:[NSNumber numberWithInt:[tileRow getTileColumn]]];
                 
                 // Increase the contributing tiles count
                 tileCount++;
@@ -1890,9 +1890,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     }
     
     // Handle formatting the results
-    NSArray * elevations = [self formatUnboundedResultsWithTileMatrix:tileMatrix andCoverageDictionary:rowsMap andTileCount:tileCount andMinRow:[minRow intValue] andMaxRow:[maxRow intValue] andMinColumn:[minColumn intValue] andMaxColumn:[maxColumn intValue]];
+    NSArray * values = [self formatUnboundedResultsWithTileMatrix:tileMatrix andCoverageDictionary:rowsMap andTileCount:tileCount andMinRow:[minRow intValue] andMaxRow:[maxRow intValue] andMinColumn:[minColumn intValue] andMaxColumn:[maxColumn intValue]];
     
-    return elevations;
+    return values;
 }
 
 /**
@@ -1900,14 +1900,14 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * request
  *
  * @param request
- *            elevation request
+ *            coverage data request
  * @return tile matrix or null
  */
 -(GPKGTileMatrix *) tileMatrixWithRequest: (GPKGCoverageDataRequest *) request{
 
     GPKGTileMatrix * tileMatrix = nil;
     
-    // Check if the request overlaps elevation bounding box
+    // Check if the request overlaps coverage data bounding box
     if([request overlapWithBoundingBox:self.coverageBoundingBox] != nil){
         
         // Get the tile distance
@@ -1928,11 +1928,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
- * Get the tile row results of elevation tiles needed to create the
- * requested bounding box elevations, sorted by row and then column
+ * Get the tile row results of coverage data needed to create the
+ * requested bounding box coverage data, sorted by row and then column
  *
  * @param projectedRequestBoundingBox
- *            bounding box projected to the elevations
+ *            bounding box projected to the coverage data
  * @param tileMatrix
  *            tile matrix
  * @return tile results or null
