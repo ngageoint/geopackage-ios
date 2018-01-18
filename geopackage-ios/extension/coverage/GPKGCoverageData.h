@@ -1,5 +1,5 @@
 //
-//  GPKGCoverageDataCore.h
+//  GPKGCoverageData.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/11/16.
@@ -16,9 +16,9 @@
 extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 
 /**
- *  Tiled Gridded Coverage Core Data Extension
+ *  Tiled Gridded Coverage Data Extension
  */
-@interface GPKGCoverageDataCore : GPKGBaseExtension
+@interface GPKGCoverageData : GPKGBaseExtension
 
 /**
  *  Extension name

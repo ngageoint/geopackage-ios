@@ -6,12 +6,12 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGCoverageDataCore.h"
+#import "GPKGCoverageData.h"
 
 /**
  * Tiled Gridded Coverage Data, PNG Encoding, Extension
  */
-@interface GPKGCoverageDataPng : GPKGCoverageDataCore
+@interface GPKGCoverageDataPng : GPKGCoverageData
 
 /**
  *  Initialize

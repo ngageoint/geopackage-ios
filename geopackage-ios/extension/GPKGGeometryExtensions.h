@@ -68,6 +68,15 @@
 +(BOOL) isExtension: (enum WKBGeometryType) geometryType;
 
 /**
+ * Determine if the geometry type is non standard
+ *
+ * @param geometryType geometry type
+ *
+ * @return true if non standard
+ */
++(BOOL) isNonStandard: (enum WKBGeometryType) geometryType;
+
+/**
  *  Determine if the geometry type is a GeoPackage extension
  *
  *  @param geometryType geometry type

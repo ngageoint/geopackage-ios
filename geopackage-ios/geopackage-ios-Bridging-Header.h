@@ -69,7 +69,7 @@
 #import "GPKGCoverageDataTileMatrixResults.h"
 #import "GPKGCoverageDataResults.h"
 #import "GPKGCoverageDataAlgorithms.h"
-#import "GPKGCoverageDataCore.h"
+#import "GPKGCoverageData.h"
 #import "GPKGCoverageDataPng.h"
 #import "GPKGCoverageDataTiff.h"
 #import "GPKGGriddedCoverage.h"
@@ -193,5 +193,7 @@
 #import "GPKGLocationBoundingBox.h"
 #import "GPKGFeatureInfoBuilder.h"
 #import "GPKGMapTolerance.h"
+#import "GPKGRTreeIndexExtension.h"
+#import "GPKGGriddedCoverageEncodingTypes.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

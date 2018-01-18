@@ -6,14 +6,14 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGCoverageDataCore.h"
+#import "GPKGCoverageData.h"
 #import "TIFFFileDirectory.h"
 #import "GPKGCoverageDataTiffImage.h"
 
 /**
  * Tiled Gridded Coverage Data, TIFF Encoding, Extension
  */
-@interface GPKGCoverageDataTiff : GPKGCoverageDataCore
+@interface GPKGCoverageDataTiff : GPKGCoverageData
 
 /**
  *  Initialize

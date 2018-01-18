@@ -26,14 +26,14 @@ NSString * const GPKG_PROP_WEBP_EXTENSION_DEFINITION = @"geopackage.extensions.w
 
 -(GPKGExtensions *) getOrCreateWithTableName: (NSString *) tableName{
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:tableName andColumnName:GPKG_TT_COLUMN_TILE_ROW andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:tableName andColumnName:GPKG_TT_COLUMN_TILE_DATA andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
 
 -(BOOL) hasWithTableName: (NSString *) tableName{
     
-    BOOL exists = [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:GPKG_TT_COLUMN_TILE_ROW];
+    BOOL exists = [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:GPKG_TT_COLUMN_TILE_DATA];
     
     return exists;
 }

@@ -17,7 +17,7 @@ enum GPKGGriddedCoverageDataType{
 };
 
 /**
- *  Contents data type names
+ *  Gridded Coverage data type names
  */
 extern NSString * const GPKG_GCDT_INTEGER_NAME;
 extern NSString * const GPKG_GCDT_FLOAT_NAME;

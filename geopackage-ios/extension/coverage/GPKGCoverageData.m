@@ -1,12 +1,12 @@
 //
-//  GPKGCoverageDataCore.m
+//  GPKGCoverageData.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 11/11/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGCoverageDataCore.h"
+#import "GPKGCoverageData.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGCoverageDataAlgorithms.h"
@@ -49,7 +49,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 @end
 
-@interface GPKGCoverageDataCore ()
+@interface GPKGCoverageData ()
 
 @property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
 @property (nonatomic, strong) GPKGGriddedCoverageDao *griddedCoverageDao;
@@ -62,7 +62,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 @end
 
-@implementation GPKGCoverageDataCore
+@implementation GPKGCoverageData
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
     self = [super initWithGeoPackage:geoPackage];

@@ -46,6 +46,10 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
     return [WKBGeometryTypes code:geometryType] > [WKBGeometryTypes code:WKB_GEOMETRYCOLLECTION];
 }
 
++(BOOL) isNonStandard: (enum WKBGeometryType) geometryType{
+    return [WKBGeometryTypes code:geometryType] > [WKBGeometryTypes code:WKB_SURFACE];
+}
+
 +(BOOL) isGeoPackageExtension: (enum WKBGeometryType) geometryType{
     int geometryCode = [WKBGeometryTypes code:geometryType];
     return geometryCode >= [WKBGeometryTypes code:WKB_CIRCULARSTRING] && geometryCode <= [WKBGeometryTypes code:WKB_SURFACE];
