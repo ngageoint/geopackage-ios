@@ -377,15 +377,15 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                     }
                     
                     // Get the tiles coverage data values
-                    NSArray * values = [columnsDictionary objectForKey:columnKey];
+                    NSArray * localValues = [columnsDictionary objectForKey:columnKey];
                     
                     // Copy the columns array at each local coverage data row to
                     // the global row and column result location
-                    for (int localRow = 0; localRow < values.count; localRow++) {
+                    for (int localRow = 0; localRow < localValues.count; localRow++) {
                         
                         int globalRow = baseRow + localRow;
                         
-                        NSArray * localRowArray = [values objectAtIndex:localRow];
+                        NSArray * localRowArray = [localValues objectAtIndex:localRow];
                         NSMutableArray * coverageDataRowArray = [values objectAtIndex:globalRow];
                         
                         [coverageDataRowArray replaceObjectsInRange:NSMakeRange(baseColumn, localRowArray.count) withObjectsFromArray:localRowArray];
