@@ -128,23 +128,23 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) createMinXFunction{
-    //TODO
+    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MIN_X_FUNCTION];
 }
 
 -(void) createMaxXFunction{
-    //TODO
+    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MAX_X_FUNCTION];
 }
 
 -(void) createMinYFunction{
-    //TODO
+    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MIN_Y_FUNCTION];
 }
 
 -(void) createMaxYFunction{
-    //TODO
+    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MAX_Y_FUNCTION];
 }
 
 -(void) createIsEmptyFunction{
-    //TODO
+    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_IS_EMPTY_FUNCTION];
 }
 
 -(void) loadRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -417,6 +417,15 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
     }
     
     return substituted;
+}
+
+/**
+ * Create the function for the connection
+ *
+ * @param name function name
+ */
+-(void) createFunctionWithName: (NSString *) name {
+    [NSException raise:@"Unsupported" format:@"User defined SQL functions are not supported. name: %@", name];
 }
 
 @end
