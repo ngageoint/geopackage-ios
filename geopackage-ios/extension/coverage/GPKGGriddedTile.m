@@ -8,17 +8,17 @@
 
 #import "GPKGGriddedTile.h"
 
-NSString * const GPKG_EGT_TABLE_NAME = @"gpkg_2d_gridded_tile_ancillary";
-NSString * const GPKG_EGT_COLUMN_PK = @"id";
-NSString * const GPKG_EGT_COLUMN_ID = @"id";
-NSString * const GPKG_EGT_COLUMN_TABLE_NAME = @"tpudt_name";
-NSString * const GPKG_EGT_COLUMN_TABLE_ID = @"tpudt_id";
-NSString * const GPKG_EGT_COLUMN_SCALE = @"scale";
-NSString * const GPKG_EGT_COLUMN_OFFSET = @"offset";
-NSString * const GPKG_EGT_COLUMN_MIN = @"min";
-NSString * const GPKG_EGT_COLUMN_MAX = @"max";
-NSString * const GPKG_EGT_COLUMN_MEAN = @"mean";
-NSString * const GPKG_EGT_COLUMN_STANDARD_DEVIATION = @"std_dev";
+NSString * const GPKG_CDGT_TABLE_NAME = @"gpkg_2d_gridded_tile_ancillary";
+NSString * const GPKG_CDGT_COLUMN_PK = @"id";
+NSString * const GPKG_CDGT_COLUMN_ID = @"id";
+NSString * const GPKG_CDGT_COLUMN_TABLE_NAME = @"tpudt_name";
+NSString * const GPKG_CDGT_COLUMN_TABLE_ID = @"tpudt_id";
+NSString * const GPKG_CDGT_COLUMN_SCALE = @"scale";
+NSString * const GPKG_CDGT_COLUMN_OFFSET = @"offset";
+NSString * const GPKG_CDGT_COLUMN_MIN = @"min";
+NSString * const GPKG_CDGT_COLUMN_MAX = @"max";
+NSString * const GPKG_CDGT_COLUMN_MEAN = @"mean";
+NSString * const GPKG_CDGT_COLUMN_STANDARD_DEVIATION = @"std_dev";
 
 @implementation GPKGGriddedTile
 

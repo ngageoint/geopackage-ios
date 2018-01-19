@@ -81,17 +81,17 @@
         // Test the 3 extension rows
         GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
         
-        GPKGExtensions * griddedCoverageExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:GPKG_EGC_TABLE_NAME andColumnName:nil];
+        GPKGExtensions * griddedCoverageExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:GPKG_CDGC_TABLE_NAME andColumnName:nil];
         [GPKGTestUtils assertNotNil:griddedCoverageExtension];
-        [GPKGTestUtils assertEqualWithValue:GPKG_EGC_TABLE_NAME andValue2:griddedCoverageExtension.tableName];
+        [GPKGTestUtils assertEqualWithValue:GPKG_CDGC_TABLE_NAME andValue2:griddedCoverageExtension.tableName];
         [GPKGTestUtils assertNil:griddedCoverageExtension.columnName];
         [GPKGTestUtils assertEqualWithValue:coverageData.extensionName andValue2:griddedCoverageExtension.extensionName];
         [GPKGTestUtils assertEqualWithValue:coverageData.definition andValue2:griddedCoverageExtension.definition];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_EST_READ_WRITE andValue2:[griddedCoverageExtension getExtensionScopeType]];
         
-        GPKGExtensions * griddedTileExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:GPKG_EGT_TABLE_NAME andColumnName:nil];
+        GPKGExtensions * griddedTileExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:GPKG_CDGT_TABLE_NAME andColumnName:nil];
         [GPKGTestUtils assertNotNil:griddedTileExtension];
-        [GPKGTestUtils assertEqualWithValue:GPKG_EGT_TABLE_NAME andValue2:griddedTileExtension.tableName];
+        [GPKGTestUtils assertEqualWithValue:GPKG_CDGT_TABLE_NAME andValue2:griddedTileExtension.tableName];
         [GPKGTestUtils assertNil:griddedTileExtension.columnName];
         [GPKGTestUtils assertEqualWithValue:coverageData.extensionName andValue2:griddedTileExtension.extensionName];
         [GPKGTestUtils assertEqualWithValue:coverageData.definition andValue2:griddedTileExtension.definition];
@@ -237,7 +237,7 @@
         for (int y = 0; y < [coverageDataResults height]; y++) {
             for (int x = 0; x < [coverageDataResults width]; x++) {
                 switch(algorithm) {
-                    case GPKG_ETA_BICUBIC:
+                    case GPKG_CDA_BICUBIC:
                     {
                         // Don't test the edges
                         if (y > 1
@@ -268,7 +268,7 @@
                         }
                     }
                         break;
-                    case GPKG_ETA_BILINEAR:
+                    case GPKG_CDA_BILINEAR:
                     {
                         // Don't test the edges
                         if (y > 0
@@ -299,7 +299,7 @@
                         }
                     }
                         break;
-                    case GPKG_ETA_NEAREST_NEIGHBOR:
+                    case GPKG_CDA_NEAREST_NEIGHBOR:
                     {
                         if (!allowNils) {
                             [GPKGTestUtils assertEqualDecimalNumberWithValue:[coverageDataValues valueWithY:y andX:x] andValue2:[coverageDataResults valueAtRow:y andColumn:x] andDelta:.000001];

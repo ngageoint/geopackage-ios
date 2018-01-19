@@ -12,17 +12,17 @@
 /**
  *  Gridded Tile table constants
  */
-extern NSString * const GPKG_EGT_TABLE_NAME;
-extern NSString * const GPKG_EGT_COLUMN_PK;
-extern NSString * const GPKG_EGT_COLUMN_ID;
-extern NSString * const GPKG_EGT_COLUMN_TABLE_NAME;
-extern NSString * const GPKG_EGT_COLUMN_TABLE_ID;
-extern NSString * const GPKG_EGT_COLUMN_SCALE;
-extern NSString * const GPKG_EGT_COLUMN_OFFSET;
-extern NSString * const GPKG_EGT_COLUMN_MIN;
-extern NSString * const GPKG_EGT_COLUMN_MAX;
-extern NSString * const GPKG_EGT_COLUMN_MEAN;
-extern NSString * const GPKG_EGT_COLUMN_STANDARD_DEVIATION;
+extern NSString * const GPKG_CDGT_TABLE_NAME;
+extern NSString * const GPKG_CDGT_COLUMN_PK;
+extern NSString * const GPKG_CDGT_COLUMN_ID;
+extern NSString * const GPKG_CDGT_COLUMN_TABLE_NAME;
+extern NSString * const GPKG_CDGT_COLUMN_TABLE_ID;
+extern NSString * const GPKG_CDGT_COLUMN_SCALE;
+extern NSString * const GPKG_CDGT_COLUMN_OFFSET;
+extern NSString * const GPKG_CDGT_COLUMN_MIN;
+extern NSString * const GPKG_CDGT_COLUMN_MAX;
+extern NSString * const GPKG_CDGT_COLUMN_MEAN;
+extern NSString * const GPKG_CDGT_COLUMN_STANDARD_DEVIATION;
 
 /**
  * Gridded Tile object

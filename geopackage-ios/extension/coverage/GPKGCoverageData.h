@@ -12,6 +12,7 @@
 #import "GPKGCoverageDataImage.h"
 #import "GPKGCoverageDataRequest.h"
 #import "GPKGCoverageDataResults.h"
+#import "GPKGGriddedCoverageEncodingTypes.h"
 
 extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 
@@ -61,6 +62,11 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  * Interpolation algorithm
  */
 @property (nonatomic) enum GPKGCoverageDataAlgorithm algorithm;
+
+/**
+ * Value pixel encoding type
+ */
+@property (nonatomic) enum GPKGGriddedCoverageEncodingType encoding;
 
 /**
  * Tile DAO
@@ -151,7 +157,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(GPKGGriddedCoverage *) griddedCoverage;
 
 /**
- *  Query and updated the gridded coverage
+ *  Query and update the gridded coverage
  *
  *  @return gridded coverage
  */

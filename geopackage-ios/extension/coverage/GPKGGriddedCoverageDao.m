@@ -14,9 +14,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.tableName = GPKG_EGC_TABLE_NAME;
-        self.idColumns = @[GPKG_EGC_COLUMN_PK];
-        self.columns = @[GPKG_EGC_COLUMN_ID, GPKG_EGC_COLUMN_TILE_MATRIX_SET_NAME, GPKG_EGC_COLUMN_DATATYPE, GPKG_EGC_COLUMN_SCALE, GPKG_EGC_COLUMN_OFFSET, GPKG_EGC_COLUMN_PRECISION, GPKG_EGC_COLUMN_DATA_NULL];
+        self.tableName = GPKG_CDGC_TABLE_NAME;
+        self.idColumns = @[GPKG_CDGC_COLUMN_PK];
+        self.columns = @[GPKG_CDGC_COLUMN_ID, GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME, GPKG_CDGC_COLUMN_DATATYPE, GPKG_CDGC_COLUMN_SCALE, GPKG_CDGC_COLUMN_OFFSET, GPKG_CDGC_COLUMN_PRECISION, GPKG_CDGC_COLUMN_DATA_NULL, GPKG_CDGC_COLUMN_GRID_CELL_ENCODING, GPKG_CDGC_COLUMN_UOM, GPKG_CDGC_COLUMN_FIELD_NAME, GPKG_CDGC_COLUMN_QUANTITY_DEFINITION];
         [self initializeColumnIndex];
     }
     return self;
@@ -51,6 +51,18 @@
             break;
         case 6:
             setObject.dataNull = (NSDecimalNumber *) value;
+            break;
+        case 7:
+            setObject.gridCellEncoding = (NSString *) value;
+            break;
+        case 8:
+            setObject.uom = (NSString *) value;
+            break;
+        case 9:
+            setObject.fieldName = (NSString *) value;
+            break;
+        case 10:
+            setObject.quantityDefinition = (NSString *) value;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -87,6 +99,18 @@
         case 6:
             value = getObject.dataNull;
             break;
+        case 7:
+            value = getObject.gridCellEncoding;
+            break;
+        case 8:
+            value = getObject.uom;
+            break;
+        case 9:
+            value = getObject.fieldName;
+            break;
+        case 10:
+            value = getObject.quantityDefinition;
+            break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
             break;
@@ -106,7 +130,7 @@
 }
 
 -(GPKGGriddedCoverage *) queryByTileMatrixSetName: (NSString *) tileMatrixSetName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_EGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
+    GPKGResultSet * results = [self queryForEqWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
     GPKGGriddedCoverage * griddedCoverage = (GPKGGriddedCoverage *)[self getFirstObject:results];
     return griddedCoverage;
 }
@@ -116,7 +140,7 @@
 }
 
 -(int) deleteByTileMatrixSetName: (NSString *) tileMatrixSetName{
-    NSString * where = [self buildWhereWithField:GPKG_EGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
+    NSString * where = [self buildWhereWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
     NSArray * whereArgs = [self buildWhereArgsWithValue:tileMatrixSetName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;

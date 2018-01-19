@@ -72,7 +72,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         self.zoomIn = true;
         self.zoomOut = true;
         self.zoomInBeforeOut = true;
-        self.algorithm = GPKG_ETA_NEAREST_NEIGHBOR;
+        self.algorithm = GPKG_CDA_NEAREST_NEIGHBOR;
+        self.encoding = GPKG_GCET_CENTER;
         
         self.tileDao = tileDao;
         self.tileMatrixSet = tileDao.tileMatrixSet;
@@ -132,8 +133,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     
     NSMutableArray * extensions = [[NSMutableArray alloc] init];
     
-    GPKGExtensions * coverage = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_EGC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
-    GPKGExtensions * tile = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_EGT_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * coverage = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_CDGC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * tile = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_CDGT_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     GPKGExtensions * table = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tileMatrixSet.tableName andColumnName:GPKG_TT_COLUMN_TILE_DATA andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     
     [extensions addObject:coverage];
@@ -409,14 +410,15 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @param srcLeft
  *            source left most pixel
  * @param widthRatio
- *            source over destination width radio
+ *            source over destination width ratio
  * @return x source pixel
  */
 -(float) xSourceWithX: (int) x andDestLeft: (float) destLeft andSrcLeft: (float) srcLeft andWidthRatio: (float) widthRatio{
-    float middleOfXDestPixel = (x - destLeft) + 0.5f;
-    float xSourcePixel = middleOfXDestPixel * widthRatio;
-    float xSource = srcLeft + xSourcePixel;
-    return xSource;
+    
+    float dest = [self encodedLocationWithX:x andEncoding:self.encoding];
+    float source = [self sourceWithDest:dest andDestMin:destLeft andSrcMin:srcLeft andRatio:widthRatio];
+    
+    return source;
 }
 
 /**
@@ -429,14 +431,92 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @param srcTop
  *            source top most pixel
  * @param heightRatio
- *            source over destination height radio
+ *            source over destination height ratio
  * @return y source pixel
  */
 -(float) ySourceWithY: (int) y andDestTop: (float) destTop andSrcTop: (float) srcTop andHeightRatio: (float) heightRatio{
-    float middleOfYDestPixel = (y - destTop) + 0.5f;
-    float ySourcePixel = middleOfYDestPixel * heightRatio;
-    float ySource = srcTop + ySourcePixel;
+    
+    float dest = [self encodedLocationWithY:y andEncoding:self.encoding];
+    float source = [self sourceWithDest:dest andDestMin:destTop andSrcMin:srcTop andRatio:heightRatio];
+    
+    return source;
+}
+
+/**
+ * Determine the source pixel location
+ *
+ * @param dest
+ *            destination pixel location
+ * @param destMin
+ *            destination minimum most pixel
+ * @param srcMin
+ *            source minimum most pixel
+ * @param ratio
+ *            source over destination length ratio
+ * @return source pixel
+ */
+-(float) sourceWithDest: (float) dest andDestMin: (float) destMin andSrcMin: (float) srcMin andRatio: (float) ratio {
+    
+    float destDistance = dest - destMin;
+    float srcDistance = destDistance * ratio;
+    float ySource = srcMin + srcDistance;
+    
     return ySource;
+}
+
+/**
+ * Get the X encoded location from the base provided x
+ *
+ * @param x
+ *            x location
+ * @param encodingType
+ *            pixel encoding type
+ * @return encoded x location
+ */
+-(float) encodedLocationWithX: (float) x andEncoding: (enum GPKGGriddedCoverageEncodingType) encodingType{
+    
+    float xLocation = x;
+    
+    switch (encodingType) {
+        case GPKG_GCET_CENTER:
+        case GPKG_GCET_AREA:
+            xLocation += 0.5f;
+            break;
+        case GPKG_GCET_CORNER:
+            break;
+        default:
+            [NSException raise:@"Unsupported Encoding Type" format:@"Unsupported Encoding Type: %u", encodingType];
+    }
+    
+    return xLocation;
+}
+
+/**
+ * Get the Y encoded location from the base provided y
+ *
+ * @param y
+ *            y location
+ * @param encodingType
+ *            pixel encoding type
+ * @return encoded y location
+ */
+-(float) encodedLocationWithY: (float) y andEncoding: (enum GPKGGriddedCoverageEncodingType) encodingType{
+    
+    float yLocation = y;
+    
+    switch (encodingType) {
+        case GPKG_GCET_CENTER:
+        case GPKG_GCET_AREA:
+            yLocation += 0.5f;
+            break;
+        case GPKG_GCET_CORNER:
+            yLocation += 1.0f;
+            break;
+        default:
+            [NSException raise:@"Unsupported Encoding Type" format:@"Unsupported Encoding Type: %u", encodingType];
+    }
+    
+    return yLocation;
 }
 
 /**
@@ -454,8 +534,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     NSMutableArray * results = [[NSMutableArray alloc] init];
     
     // Get the coverage data source pixels for x and y
-    GPKGCoverageDataSourcePixel * xPixel = [self minAndMaxOfSource:xSource];
-    GPKGCoverageDataSourcePixel * yPixel = [self minAndMaxOfSource:ySource];
+    GPKGCoverageDataSourcePixel * xPixel = [self minAndMaxOfXSource:xSource];
+    GPKGCoverageDataSourcePixel * yPixel = [self minAndMaxOfYSource:ySource];
     
     // Determine which x pixel is the closest, the second closest, and the
     // distance to the second pixel
@@ -521,24 +601,59 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 /**
+ * Get the min, max, and offset of the source X pixel
+ *
+ * @param source
+ *            source x pixel
+ * @return source x pixel information
+ */
+-(GPKGCoverageDataSourcePixel *) minAndMaxOfXSource: (float) source{
+    
+    int floor = (int) floorf(source);
+    float valueLocation = [self encodedLocationWithX:floor andEncoding:[self.griddedCoverage getGridCellEncodingType]];
+    
+    GPKGCoverageDataSourcePixel *pixel = [self minAndMaxOfSource:source withFloor:floor andValueLocation:valueLocation];
+    return pixel;
+}
+
+/**
+ * Get the min, max, and offset of the source Y pixel
+ *
+ * @param source
+ *            source y pixel
+ * @return source y pixel information
+ */
+-(GPKGCoverageDataSourcePixel *) minAndMaxOfYSource: (float) source{
+    
+    int floor = (int) floorf(source);
+    float valueLocation = [self encodedLocationWithY:floor andEncoding:[self.griddedCoverage getGridCellEncodingType]];
+    
+    GPKGCoverageDataSourcePixel *pixel = [self minAndMaxOfSource:source withFloor:floor andValueLocation:valueLocation];
+    return pixel;
+}
+
+/**
  * Get the min, max, and offset of the source pixel
  *
  * @param source
  *            source pixel
+ * @param sourceFloor
+ *            source floor value
+ * @param valueLocation
+ *            value location
  * @return source pixel information
  */
--(GPKGCoverageDataSourcePixel *) minAndMaxOfSource: (float) source{
+-(GPKGCoverageDataSourcePixel *) minAndMaxOfSource: (float) source withFloor: (int) sourceFloor andValueLocation: (float) valueLocation{
     
-    int floor = (int) floorf(source);
-    int min = floor;
-    int max = floor;
-    float offset = source - floor;
-    if (offset < .5) {
+    int min = sourceFloor;
+    int max = sourceFloor;
+    float offset;
+    if (source < valueLocation) {
         min--;
-        offset += .5f;
-    } else if (offset >= .5) {
+        offset = 1.0f - (valueLocation - source);
+    } else {
         max++;
-        offset -= .5f;
+        offset = source - valueLocation;
     }
     
     return [[GPKGCoverageDataSourcePixel alloc] initWithPixel:source andMin:min andMax:max andOffset:offset];
@@ -1013,7 +1128,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     // algorithm
     int overlappingPixels;
     switch (self.algorithm) {
-        case GPKG_ETA_BICUBIC:
+        case GPKG_CDA_BICUBIC:
             overlappingPixels = 3;
             break;
         default:
@@ -1431,13 +1546,13 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                         // selected algorithm
                         NSDecimalNumber * value = nil;
                         switch (self.algorithm) {
-                            case GPKG_ETA_NEAREST_NEIGHBOR:
+                            case GPKG_CDA_NEAREST_NEIGHBOR:
                                 value = [self nearestNeighborValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
-                            case GPKG_ETA_BILINEAR:
+                            case GPKG_CDA_BILINEAR:
                                 value = [self bilinearInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
-                            case GPKG_ETA_BICUBIC:
+                            case GPKG_CDA_BICUBIC:
                                 value = [self bicubicInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
                                 break;
                             default:
@@ -1527,8 +1642,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
     float ySource =[self ySourceWithY:y andDestTop:destTop andSrcTop:srcTop andHeightRatio:heightRatio];
     
-    GPKGCoverageDataSourcePixel * sourcePixelX = [self minAndMaxOfSource:xSource];
-    GPKGCoverageDataSourcePixel * sourcePixelY = [self minAndMaxOfSource:ySource];
+    GPKGCoverageDataSourcePixel * sourcePixelX = [self minAndMaxOfXSource:xSource];
+    GPKGCoverageDataSourcePixel * sourcePixelY = [self minAndMaxOfYSource:ySource];
     
     NSMutableArray * values = [self createNullFilledDoubleArrayWithSize1:2 andSize2:2];
     [self populateValues:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andPixelX:sourcePixelX andPixelY:sourcePixelY andValues:values];
@@ -1579,11 +1694,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     float xSource =[self xSourceWithX:x andDestLeft:destLeft andSrcLeft:srcLeft andWidthRatio:widthRatio];
     float ySource =[self ySourceWithY:y andDestTop:destTop andSrcTop:srcTop andHeightRatio:heightRatio];
     
-    GPKGCoverageDataSourcePixel * sourcePixelX = [self minAndMaxOfSource:xSource];
+    GPKGCoverageDataSourcePixel * sourcePixelX = [self minAndMaxOfXSource:xSource];
     [sourcePixelX setMin:sourcePixelX.min - 1];
     [sourcePixelX setMax:sourcePixelX.max + 1];
     
-    GPKGCoverageDataSourcePixel * sourcePixelY = [self minAndMaxOfSource:ySource];
+    GPKGCoverageDataSourcePixel * sourcePixelY = [self minAndMaxOfYSource:ySource];
     [sourcePixelY setMin:sourcePixelY.min - 1];
     [sourcePixelY setMax:sourcePixelY.max + 1];
     

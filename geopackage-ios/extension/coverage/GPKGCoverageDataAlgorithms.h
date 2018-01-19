@@ -17,27 +17,27 @@ enum GPKGCoverageDataAlgorithm{
      * Selects the value of the nearest point and does not consider the values
      * of neighboring points at all
      */
-    GPKG_ETA_NEAREST_NEIGHBOR,
+    GPKG_CDA_NEAREST_NEIGHBOR,
     
     /**
      * Performs linear interpolation first in one direction, and then again in
      * the other direction
      */
-    GPKG_ETA_BILINEAR,
+    GPKG_CDA_BILINEAR,
     
     /**
      * Considers 16 pixels to interpolate each value
      */
-    GPKG_ETA_BICUBIC
+    GPKG_CDA_BICUBIC
     
 };
 
 /**
  *  Tile Gridded Coverage Data Algorithm names
  */
-extern NSString * const GPKG_ETA_NEAREST_NEIGHBOR_NAME;
-extern NSString * const GPKG_ETA_BILINEAR_NAME;
-extern NSString * const GPKG_ETA_BICUBIC_NAME;
+extern NSString * const GPKG_CDA_NEAREST_NEIGHBOR_NAME;
+extern NSString * const GPKG_CDA_BILINEAR_NAME;
+extern NSString * const GPKG_CDA_BICUBIC_NAME;
 
 
 @interface GPKGCoverageDataAlgorithms : NSObject

@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "GPKGTileMatrix.h"
 
+/**
+ * Tiled Gridded Coverage Data results containing the coverage values from a
+ * requested area from a tile matrix zoom level
+ */
 @interface GPKGCoverageDataResults : NSObject
 
 /**

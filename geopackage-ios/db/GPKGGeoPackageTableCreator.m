@@ -75,11 +75,11 @@
 }
 
 -(int) createGriddedCoverage{
-    return [self createTable:GPKG_EGC_TABLE_NAME];
+    return [self createTable:GPKG_CDGC_TABLE_NAME];
 }
 
 -(int) createGriddedTile{
-    return [self createTable:GPKG_EGT_TABLE_NAME];
+    return [self createTable:GPKG_CDGT_TABLE_NAME];
 }
 
 -(int) createTableIndex{

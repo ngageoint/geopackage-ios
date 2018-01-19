@@ -24,7 +24,7 @@ static BOOL allowNulls = true;
  * Nearest Neighbor Algorithm
  */
 - (void)testNearestNeighbor {
-    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:allowNulls];
+    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:allowNulls];
 }
 
 /**
@@ -32,7 +32,7 @@ static BOOL allowNulls = true;
  * Bilinear Algorithm
  */
 - (void)testBilinear {
-    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:allowNulls];
+    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:allowNulls];
 }
 
 /**
@@ -40,28 +40,28 @@ static BOOL allowNulls = true;
  * Bicubic Algorithm
  */
 - (void)testBicubic {
-    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:allowNulls];
+    [GPKGCoverageDataTiffTestUtils testCoverageDataWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:allowNulls];
 }
 
 /**
  * Test a random bounding box using the Nearest Neighbor Algorithm
  */
 - (void)testRandomBoundingBoxNearestNeighbor {
-    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_NEAREST_NEIGHBOR andAllowNils:true];
+    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:true];
 }
 
 /**
  * Test a random bounding box using the Bilinear Algorithm
  */
 - (void)testRandomBoundingBoxBilinear {
-    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BILINEAR andAllowNils:true];
+    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:true];
 }
 
 /**
  * Test a random bounding box using the Bicubic Algorithm
  */
 - (void)testRandomBoundingBoxBicubic {
-    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_ETA_BICUBIC andAllowNils:true];
+    [GPKGCoverageDataTiffTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:true];
 }
 
 /**
@@ -177,7 +177,7 @@ static BOOL allowNulls = true;
     [log appendString:@"\n\n"];
     NSLog(log, nil);
     
-    for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
+    for(int i = GPKG_CDA_NEAREST_NEIGHBOR; i <= GPKG_CDA_BICUBIC; i++){
         enum GPKGCoverageDataAlgorithm algorithm = (enum GPKGCoverageDataAlgorithm)i;
         
         NSMutableString * log = [[NSMutableString alloc] init];
@@ -288,7 +288,7 @@ static BOOL allowNulls = true;
         [log appendString:@"\n\n"];
         NSLog(log, nil);
         
-        for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
+        for(int i = GPKG_CDA_NEAREST_NEIGHBOR; i <= GPKG_CDA_BICUBIC; i++){
             enum GPKGCoverageDataAlgorithm algorithm = (enum GPKGCoverageDataAlgorithm)i;
             
             NSMutableString * log = [[NSMutableString alloc] init];
@@ -298,7 +298,7 @@ static BOOL allowNulls = true;
                 for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
                     NSDecimalNumber * value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
                     [log appendFormat:@"   %@", value];
-                    if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude && lon < maxLongitude)){
+                    if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude && lon < maxLongitude)){
                         if (!allowNulls) {
                             [GPKGTestUtils assertNotNil:value];
                         }
@@ -306,7 +306,7 @@ static BOOL allowNulls = true;
                 }
                 NSDecimalNumber * value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:maxLongitude andEpsg:geoPackageEpsg];
                 [log appendFormat:@"   %@", value];
-                if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+                if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR){
                     if (!allowNulls) {
                         [GPKGTestUtils assertNotNil:value];
                     }
@@ -316,7 +316,7 @@ static BOOL allowNulls = true;
             for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
                 NSDecimalNumber * value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:lon andEpsg:geoPackageEpsg];
                 [log appendFormat:@"   %@", value];
-                if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+                if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR){
                     if (!allowNulls) {
                         [GPKGTestUtils assertNotNil:value];
                     }
@@ -324,7 +324,7 @@ static BOOL allowNulls = true;
             }
             NSDecimalNumber * value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude andLongitude:maxLongitude andEpsg:geoPackageEpsg];
             [log appendFormat:@"   %@", value];
-            if(algorithm == GPKG_ETA_NEAREST_NEIGHBOR){
+            if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR){
                 if (!allowNulls) {
                     [GPKGTestUtils assertNotNil:value];
                 }
@@ -366,7 +366,7 @@ static BOOL allowNulls = true;
                     value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
                     NSArray * point = [wgs84Transform transformWithX:minLongitude2 andY:maxLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
-                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == 0)) {
+                    if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == 0 || column == 0)) {
                         [GPKGTestUtils assertNil:value];
                     } else {
                         if (!allowNulls) {
@@ -377,7 +377,7 @@ static BOOL allowNulls = true;
                     value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
                     point = [wgs84Transform transformWithX:maxLongitude2 andY:maxLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)\n", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
-                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == 0 || column == [tileMatrix.matrixWidth intValue] - 1)) {
+                    if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == 0 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:value];
                     } else {
                         if (!allowNulls) {
@@ -388,7 +388,7 @@ static BOOL allowNulls = true;
                     value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
                     point = [wgs84Transform transformWithX:minLongitude2 andY:minLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
-                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == 0)) {
+                    if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == 0)) {
                         [GPKGTestUtils assertNil:value];
                     } else {
                         if (!allowNulls) {
@@ -399,7 +399,7 @@ static BOOL allowNulls = true;
                     value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
                     point = [wgs84Transform transformWithX:maxLongitude2 andY:minLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)\n", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
-                    if (algorithm != GPKG_ETA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
+                    if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:value];
                     } else {
                         if (!allowNulls) {
@@ -447,7 +447,7 @@ static BOOL allowNulls = true;
     [log appendFormat:@"\n\nLatitude: %f\n", latitude];
     [log appendFormat:@"Longitude: %f\n", longitude];
     
-    for(int i = GPKG_ETA_NEAREST_NEIGHBOR; i <= GPKG_ETA_BICUBIC; i++){
+    for(int i = GPKG_CDA_NEAREST_NEIGHBOR; i <= GPKG_CDA_BICUBIC; i++){
         enum GPKGCoverageDataAlgorithm algorithm = (enum GPKGCoverageDataAlgorithm)i;
         NSDecimalNumber * value = [GPKGCoverageDataTiffTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:latitude andLongitude:longitude andEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         [log appendFormat:@"%@: %@\n", [GPKGCoverageDataAlgorithms name:algorithm], value];
