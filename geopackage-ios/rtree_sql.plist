@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>substitute.table</key>
+	<string>&lt;t&gt;</string>
+	<key>substitute.geometry_column</key>
+	<string>&lt;c&gt;</string>
+	<key>substitute.pk_column</key>
+	<string>&lt;i&gt;</string>
+	<key>substitute.trigger</key>
+	<string>&lt;n&gt;</string>
+	<key>create</key>
+	<array>
+		<string>CREATE VIRTUAL TABLE rtree_&lt;t&gt;_&lt;c&gt; USING rtree(id, minx, maxx, miny, maxy)</string>
+	</array>
+	<key>load</key>
+	<array>
+		<string>INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt;
+  SELECT &lt;i&gt;, st_minx(&lt;c&gt;), st_maxx(&lt;c&gt;), st_miny(&lt;c&gt;), st_maxy(&lt;c&gt;) FROM &lt;t&gt;;</string>
+	</array>
+	<key>drop</key>
+	<array>
+		<string>DROP TABLE rtree_&lt;t&gt;_&lt;c&gt;</string>
+	</array>
+	<key>trigger.insert</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_insert AFTER INSERT ON &lt;t&gt;
+  WHEN (new.&lt;c&gt; NOT NULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+BEGIN
+  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
+    NEW.&lt;i&gt;,
+    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
+    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update1</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update1 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
+  WHEN OLD.&lt;i&gt; = NEW.&lt;i&gt; AND
+       (NEW.&lt;c&gt; NOTNULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+BEGIN
+  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
+    NEW.&lt;i&gt;,
+    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
+    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update2</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update2 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
+  WHEN OLD.&lt;i&gt; = NEW.&lt;i&gt; AND
+       (NEW.&lt;c&gt; ISNULL OR ST_IsEmpty(NEW.&lt;c&gt;))
+BEGIN
+  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
+END;</string>
+	</array>
+	<key>trigger.update3</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update3 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
+  WHEN OLD.&lt;i&gt; != NEW.&lt;i&gt; AND
+       (NEW.&lt;c&gt; NOTNULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+BEGIN
+  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
+  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
+    NEW.&lt;i&gt;,
+    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
+    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update4</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update4 AFTER UPDATE ON &lt;t&gt;
+  WHEN OLD.&lt;i&gt; != NEW.&lt;i&gt; AND
+       (NEW.&lt;c&gt; ISNULL OR ST_IsEmpty(NEW.&lt;c&gt;))
+BEGIN
+  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id IN (OLD.&lt;i&gt;, NEW.&lt;i&gt;);
+END;</string>
+	</array>
+	<key>trigger.delete</key>
+	<array>
+		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_delete AFTER DELETE ON &lt;t&gt;
+  WHEN old.&lt;c&gt; NOT NULL
+BEGIN
+  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
+END;</string>
+	</array>
+	<key>trigger.drop</key>
+	<array>
+		<string>DROP TRIGGER IF EXISTS rtree_&lt;t&gt;_&lt;c&gt;_&lt;n&gt;</string>
+	</array>
+</dict>
+</plist>

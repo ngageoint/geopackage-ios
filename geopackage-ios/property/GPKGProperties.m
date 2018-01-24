@@ -15,6 +15,10 @@ static NSDictionary * properties;
 
 @implementation GPKGProperties
 
++(NSString *) combineBaseProperty: (NSString *) base withProperty: (NSString *) property{
+    return [NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property];
+}
+
 +(NSString *) getValueOfProperty: (NSString *) property{
     return [self getValueOfProperty:property andRequired:true];
 }
@@ -37,7 +41,7 @@ static NSDictionary * properties;
 }
 
 +(NSString *) getValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+    return [self getValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(NSNumber *) getNumberValueOfProperty: (NSString *) property{
@@ -60,7 +64,7 @@ static NSDictionary * properties;
 }
 
 +(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getNumberValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+    return [self getNumberValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(BOOL) getBoolValueOfProperty: (NSString *) property{
@@ -81,7 +85,7 @@ static NSDictionary * properties;
 }
 
 +(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getBoolValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+    return [self getBoolValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(NSArray *) getArrayValueOfProperty: (NSString *) property{
@@ -106,7 +110,7 @@ static NSDictionary * properties;
 }
 
 +(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getArrayValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+    return [self getArrayValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property{
@@ -131,7 +135,7 @@ static NSDictionary * properties;
 }
 
 +(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getDictionaryValueOfProperty:[NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property] andRequired:required];
+    return [self getDictionaryValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(void) initializeProperties{

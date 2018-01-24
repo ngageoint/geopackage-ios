@@ -14,6 +14,16 @@
 @interface GPKGProperties : NSObject
 
 /**
+ *  Combine the base property with the property to create a single combined property
+ *
+ *  @param base     base property
+ *  @param property property
+ *
+ *  @return string value
+ */
++(NSString *) combineBaseProperty: (NSString *) base withProperty: (NSString *) property;
+
+/**
  *  Get the string value of the property
  *
  *  @param property property

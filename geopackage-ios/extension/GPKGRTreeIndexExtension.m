@@ -10,30 +10,44 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
+#import "GPKGIOUtils.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION = @"geopackage.extensions.rtree_index";
 
-NSString * const GPKG_PROP_RTREE_INDEX_MIN_X_FUNCTION = @"ST_MinX";
-NSString * const GPKG_PROP_RTREE_INDEX_MAX_X_FUNCTION = @"ST_MaxX";
-NSString * const GPKG_PROP_RTREE_INDEX_MIN_Y_FUNCTION = @"ST_MinY";
-NSString * const GPKG_PROP_RTREE_INDEX_MAX_Y_FUNCTION = @"ST_MaxY";
-NSString * const GPKG_PROP_RTREE_INDEX_IS_EMPTY_FUNCTION = @"ST_IsEmpty";
+NSString * const GPKG_RTREE_INDEX_RESOURCES_SQL = @"rtree_sql";
 
-NSString * const GPKG_PROP_RTREE_INDEX_CREATE_PROPERTY = @"create";
-NSString * const GPKG_PROP_RTREE_INDEX_LOAD_PROPERTY = @"load";
-NSString * const GPKG_PROP_RTREE_INDEX_DROP_PROPERTY = @"drop";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_INSERT_NAME = @"insert";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE2_NAME = @"update2";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE4_NAME = @"update4";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DELETE_NAME = @"delete";
-NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
+NSString * const GPKG_RTREE_INDEX_MIN_X_FUNCTION = @"ST_MinX";
+NSString * const GPKG_RTREE_INDEX_MAX_X_FUNCTION = @"ST_MaxX";
+NSString * const GPKG_RTREE_INDEX_MIN_Y_FUNCTION = @"ST_MinY";
+NSString * const GPKG_RTREE_INDEX_MAX_Y_FUNCTION = @"ST_MaxY";
+NSString * const GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION = @"ST_IsEmpty";
+
+NSString * const GPKG_PROP_RTREE_INDEX_CREATE = @"create";
+NSString * const GPKG_PROP_RTREE_INDEX_LOAD = @"load";
+NSString * const GPKG_PROP_RTREE_INDEX_DROP = @"drop";
+NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_BASE = @"trigger";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME = @"insert";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE2_NAME = @"update2";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME = @"update3";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME = @"update4";
+NSString * const GPKG_RTREE_INDEX_TRIGGER_DELETE_NAME = @"delete";
+NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP = @"trigger.drop";
+
+NSString * const GPKG_PROP_RTREE_INDEX_TABLE_SUBSTITUTE = @"substitute.table";
+NSString * const GPKG_PROP_RTREE_INDEX_GEOMETRY_COLUMN_SUBSTITUTE = @"substitute.geometry_column";
+NSString * const GPKG_PROP_RTREE_INDEX_PK_COLUMN_SUBSTITUTE = @"substitute.pk_column";
+NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger";
 
 @interface GPKGRTreeIndexExtension()
 
-@property (nonatomic, strong)  GPKGConnection * connection;
+@property (nonatomic, strong) GPKGConnection *connection;
+@property (nonatomic, strong) NSDictionary *sqlStatements;
+@property (nonatomic, strong) NSString *tableSubstitute;
+@property (nonatomic, strong) NSString *geometryColumnSubstitute;
+@property (nonatomic, strong) NSString *pkColumnSubstitute;
+@property (nonatomic, strong) NSString *triggerSubstitute;
 
 @end
 
@@ -45,6 +59,14 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
         self.connection = geoPackage.database;
         self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_RTREE_INDEX_EXTENSION_NAME];
         self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
+        
+        NSString * sqlProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
+        self.sqlStatements = [NSDictionary dictionaryWithContentsOfFile:sqlProperties];
+        
+        self.tableSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_TABLE_SUBSTITUTE];
+        self.geometryColumnSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_GEOMETRY_COLUMN_SUBSTITUTE];
+        self.pkColumnSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_PK_COLUMN_SUBSTITUTE];
+        self.triggerSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE];
     }
     return self;
 }
@@ -112,11 +134,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) createRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(SQL_PROPERTY, CREATE_PROPERTY);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self executeSQLWithName:GPKG_PROP_RTREE_INDEX_CREATE andTableName:tableName andGeometryColumnName:geometryColumnName];
 }
 
 -(void) createAllFunctions{
@@ -128,23 +146,23 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) createMinXFunction{
-    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MIN_X_FUNCTION];
+    [self createFunctionWithName:GPKG_RTREE_INDEX_MIN_X_FUNCTION];
 }
 
 -(void) createMaxXFunction{
-    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MAX_X_FUNCTION];
+    [self createFunctionWithName:GPKG_RTREE_INDEX_MAX_X_FUNCTION];
 }
 
 -(void) createMinYFunction{
-    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MIN_Y_FUNCTION];
+    [self createFunctionWithName:GPKG_RTREE_INDEX_MIN_Y_FUNCTION];
 }
 
 -(void) createMaxYFunction{
-    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_MAX_Y_FUNCTION];
+    [self createFunctionWithName:GPKG_RTREE_INDEX_MAX_Y_FUNCTION];
 }
 
 -(void) createIsEmptyFunction{
-    [self createFunctionWithName:GPKG_PROP_RTREE_INDEX_IS_EMPTY_FUNCTION];
+    [self createFunctionWithName:GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION];
 }
 
 -(void) loadRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -152,11 +170,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) loadRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName {
-    
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(SQL_PROPERTY, LOAD_PROPERTY);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    [self executeSQLWithName:GPKG_PROP_RTREE_INDEX_LOAD andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createAllTriggersWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -176,50 +190,38 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 
 -(void) createInsertTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_INSERT_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createUpdate1TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_UPDATE1_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createUpdate2TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_UPDATE2_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE2_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createUpdate3TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_UPDATE3_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_UPDATE4_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) createDeleteTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_DELETE_NAME);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
+    NSString *name = [GPKGProperties combineBaseProperty:GPKG_PROP_RTREE_INDEX_TRIGGER_BASE withProperty:GPKG_RTREE_INDEX_TRIGGER_DELETE_NAME];
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName];
 }
 
 -(void) deleteWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -256,11 +258,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) dropRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(SQL_PROPERTY, DROP_PROPERTY);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName];
+    [self executeSQLWithName:GPKG_PROP_RTREE_INDEX_DROP andTableName:tableName andGeometryColumnName:geometryColumnName];
 }
 
 -(void) dropTriggersWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -291,58 +289,54 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
 }
 
 -(void) dropInsertTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_INSERT_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME];
 }
 
 -(void) dropUpdate1TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE1_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME];
 }
 
 -(void) dropUpdate2TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE2_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE2_NAME];
 }
 
 -(void) dropUpdate3TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE3_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE3_NAME];
 }
 
 -(void) dropUpdate4TriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_UPDATE4_NAME];
 }
 
 -(void) dropDeleteTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_PROP_RTREE_INDEX_TRIGGER_DELETE_NAME];
+    [self dropTriggerWithTableName:tableName andGeometryColumnName:geometryColumnName andTriggerName:GPKG_RTREE_INDEX_TRIGGER_DELETE_NAME];
 }
 
 -(void) dropTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andTriggerName: (NSString *) triggerName{
-    
-    NSString *sqlName = nil;
-    //TODO
-    //String sqlName = GeoPackageProperties.getProperty(TRIGGER_PROPERTY, TRIGGER_DROP_PROPERTY);
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:nil andTriggerName:triggerName];
+    [self executeSQLWithName:GPKG_PROP_RTREE_INDEX_TRIGGER_DROP andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:nil andTriggerName:triggerName];
 }
 
 /**
  * Execute the SQL for the SQL file name while substituting values for the
  * table and geometry column
  *
- * @param sqlName
- *            sql file name
+ * @param name
+ *            sql property name
  * @param tableName
  *            table name
  * @param geometryColumnName
  *            geometry column name
  */
--(void) executeSQLWithName: (NSString *) sqlName andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:nil];
+-(void) executeSQLWithName: (NSString *) name andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:nil];
 }
 
 /**
  * Execute the SQL for the SQL file name while substituting values for the
  * table, geometry column, and id column
  *
- * @param sqlName
- *            sql file name
+ * @param name
+ *            sql property name
  * @param tableName
  *            table name
  * @param geometryColumnName
@@ -350,16 +344,16 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
  * @param idColumnName
  *            id column name
  */
--(void) executeSQLWithName: (NSString *) sqlName andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
-    [self executeSQLWithName:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName andTriggerName:nil];
+-(void) executeSQLWithName: (NSString *) name andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
+    [self executeSQLWithName:name andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName andTriggerName:nil];
 }
 
 /**
  * Execute the SQL for the SQL file name while substituting values for the
  * table, geometry column, id column, and trigger name
  *
- * @param sqlName
- *            sql file name
+ * @param name
+ *            sql property name
  * @param tableName
  *            table name
  * @param geometryColumnName
@@ -369,11 +363,12 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
  * @param triggerName
  *            trigger name
  */
--(void) executeSQLWithName: (NSString *) sqlName andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName andTriggerName: (NSString *) triggerName{
+-(void) executeSQLWithName: (NSString *) name andTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName andTriggerName: (NSString *) triggerName{
     
-    NSArray *statements = nil;
-    // TODO
-    //List<String> statements = ResourceIOUtils.parseSQLStatements(SQL_DIRECTORY, sqlName);
+    NSArray *statements = [self.sqlStatements objectForKey:name];
+    if(statements == nil){
+        [NSException raise:@"RTree SQL" format:@"Failed to find SQL statements for RTree name: %@, in resource: %@", name, GPKG_RTREE_INDEX_RESOURCES_SQL];
+    }
     
     for (NSString *statement in statements) {
         NSString *sql = [self substituteSqlArgumentsWithSql:statement andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName andTriggerName:triggerName];
@@ -402,18 +397,15 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_DROP_PROPERTY = @"drop";
     
     NSString *substituted = sql;
     
-    // TODO
-    //substituted = substituted.replaceAll(TABLE_SUBSTITUTE, tableName);
-    //substituted = substituted.replaceAll(GEOMETRY_COLUMN_SUBSTITUTE, geometryColumnName);
+    substituted = [substituted stringByReplacingOccurrencesOfString:self.tableSubstitute withString:tableName];
+    substituted = [substituted stringByReplacingOccurrencesOfString:self.geometryColumnSubstitute withString:geometryColumnName];
     
     if (idColumnName != nil) {
-        // TODO
-        //substituted = substituted.replaceAll(PK_COLUMN_SUBSTITUTE, idColumnName);
+        substituted = [substituted stringByReplacingOccurrencesOfString:self.pkColumnSubstitute withString:idColumnName];
     }
     
     if (triggerName != nil) {
-        // TODO
-        //substituted = substituted.replaceAll(TRIGGER_SUBSTITUTE, triggerName);
+        substituted = [substituted stringByReplacingOccurrencesOfString:self.triggerSubstitute withString:triggerName];
     }
     
     return substituted;

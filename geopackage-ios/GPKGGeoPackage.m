@@ -18,6 +18,7 @@
 #import "GPKGMetadataExtension.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGAttributesTableReader.h"
+#import "GPKGRTreeIndexExtension.h"
 
 @interface GPKGGeoPackage()
 
@@ -536,10 +537,12 @@
     GPKGFeatureTable * featureTable = [tableReader readFeatureTableWithConnection:self.database];
     GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns andMetadataDb:self.metadataDb];
     
-    // TODO
-    // GeoPackages created with SQLite version 4.2.0+ with GeoPackage
-    // support are not fully supported in previous sqlite versions
-    [self dropSQLiteTriggers:geometryColumns];
+    // If the GeoPackage is writable and the feature table has a RTree Index
+    // extension, drop the RTree triggers.  User defined functions are currently not supported.
+    if(self.writable) {
+        GPKGRTreeIndexExtension *rtree = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:self];
+        [rtree dropAllTriggersWithFeatureTable:featureTable];
+    }
     
     return dao;
 }
@@ -698,24 +701,6 @@
         }
     }
     return resultSet;
-}
-
--(void) dropSQLiteTriggers: (GPKGGeometryColumns *) geometryColumns{
-    
-    if (self.writable) {
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_insert", geometryColumns.tableName, geometryColumns.columnName]]]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update1", geometryColumns.tableName, geometryColumns.columnName]]]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update2", geometryColumns.tableName, geometryColumns.columnName]]]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update3", geometryColumns.tableName, geometryColumns.columnName]]]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_update4", geometryColumns.tableName, geometryColumns.columnName]]]];
-        [self.database exec:[NSString stringWithFormat:@"DROP TRIGGER IF EXISTS %@",
-            [GPKGSqlUtils quoteWrapName:[NSString stringWithFormat:@"rtree_%@_%@_delete", geometryColumns.tableName, geometryColumns.columnName]]]];
-    }
 }
 
 -(GPKGGriddedCoverageDao *) getGriddedCoverageDao{
