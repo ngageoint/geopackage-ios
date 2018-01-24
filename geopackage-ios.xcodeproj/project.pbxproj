@@ -1139,7 +1139,6 @@
 				042FC73C1B964D8C00549A4B /* features */,
 				042FC74D1B964D8C00549A4B /* geom */,
 				042FC7701B964D8C00549A4B /* geopackage-ios-Prefix.pch */,
-				042FC7711B964D8C00549A4B /* geopackage.plist */,
 				042FC7721B964D8C00549A4B /* GPKGBoundingBox.h */,
 				042FC7731B964D8C00549A4B /* GPKGBoundingBox.m */,
 				042FC7741B964D8C00549A4B /* GPKGGeoPackage.h */,
@@ -1152,11 +1151,8 @@
 				0413B1141F6B26EA0075916A /* map */,
 				042FC7821B964D8C00549A4B /* metadata */,
 				042FC78E1B964D8C00549A4B /* projection */,
-				042FC79B1B964D8C00549A4B /* projections.epsg.plist */,
-				0405219B1F1E9FB3003A11A2 /* projections.none.plist */,
 				042FC79C1B964D8C00549A4B /* property */,
 				042FC7A11B964D8C00549A4B /* schema */,
-				042FC7AC1B964D8C00549A4B /* tables.plist */,
 				042FC7AD1B964D8C00549A4B /* tiles */,
 				042FC7DD1B964D8C00549A4B /* user */,
 				042FC7EC1B964D8C00549A4B /* validate */,
@@ -1166,7 +1162,8 @@
 				048EC17E1BD563E4008426A7 /* GPKGDateTimeUtils.m */,
 				0431EDEC1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h */,
 				0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */,
-				04C503282018F98700862DA9 /* rtree_sql.plist */,
+				042FC7711B964D8C00549A4B /* geopackage.plist */,
+				042FC7AC1B964D8C00549A4B /* tables.plist */,
 				045717E71C03723F0031A027 /* geopackage-ios-Bridging-Header.h */,
 			);
 			path = "geopackage-ios";
@@ -1375,6 +1372,7 @@
 				0447FA1D1CDAA46500418104 /* GPKGZoomOtherExtension.m */,
 				04C5032020113B9600862DA9 /* GPKGRTreeIndexExtension.h */,
 				04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */,
+				04C503282018F98700862DA9 /* rtree_sql.plist */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -1544,6 +1542,8 @@
 				0471DF681C4D51AA0089933A /* GPKGGeometryProjectionTransform.m */,
 				0405219D1F1FB06D003A11A2 /* GPKGAuthorityProjections.h */,
 				0405219E1F1FB06D003A11A2 /* GPKGAuthorityProjections.m */,
+				042FC79B1B964D8C00549A4B /* projections.epsg.plist */,
+				0405219B1F1E9FB3003A11A2 /* projections.none.plist */,
 			);
 			path = projection;
 			sourceTree = "<group>";
