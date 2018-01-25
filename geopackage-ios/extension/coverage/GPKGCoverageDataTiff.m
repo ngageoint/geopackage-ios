@@ -111,13 +111,13 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
     }
 }
 
--(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData andX:(int)x andY:(int)y{
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData andX: (int) x andY: (int) y{
     float pixelValue = [self pixelValueWithData: imageData andX: x andY: y];
     NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
     return value;
 }
 
--(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData{
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData{
     NSArray * pixelValuesArray = [self pixelArrayValuesWithData: imageData];
     float *pixelValues = [self pixelValuesArrayToFloat:pixelValuesArray];
     NSArray * values = [self valuesWithGriddedTile:griddedTile andPixelFloatValues:pixelValues andCount:(int)pixelValuesArray.count];
@@ -297,12 +297,7 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
 
 +(GPKGCoverageDataTiff *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
     
-    GPKGTileMatrixSet * tileMatrixSet = [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
-    
-    GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
-    GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
-    [coverageData getOrCreate];
-    
+    GPKGCoverageDataTiff *coverageData = (GPKGCoverageDataTiff *) [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId andDataType:GPKG_GCDT_FLOAT];
     return coverageData;
 }
 

@@ -17,9 +17,53 @@
 extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 
 /**
- *  Tiled Gridded Coverage Data Extension
+ *  Tiled Gridded Coverage Data, Common Encoding, Extension
  */
 @interface GPKGCoverageData : GPKGBaseExtension
+
+/**
+ * Get a Tiled Gridded Coverage Data
+ *
+ * @param geoPackage        GeoPackage
+ * @param tileDao           tile dao
+ * @param width             coverage data response width
+ * @param height            coverage data response height
+ * @param requestProjection request projection
+ */
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection;
+
+/**
+ * Get a Tiled Gridded Coverage Data, use the coverage data pixel tile size
+ * as the request size width and height
+ *
+ * @param geoPackage GeoPackage
+ * @param tileDao    tile dao
+ */
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao;
+
+/**
+ * Get a Tiled Gridded Coverage Data, use the coverage data pixel tile size
+ * as the request size width and height, request as the specified projection
+ *
+ * @param geoPackage        GeoPackage
+ * @param tileDao           tile dao
+ * @param requestProjection request projection
+ */
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (GPKGProjection *) requestProjection;
+
+/**
+ * Create the coverage data tile table with metadata and extension
+ *
+ * @param geoPackage               GeoPackage
+ * @param tableName                table name
+ * @param contentsBoundingBox      contents bounding box
+ * @param contentsSrsId            contents srs id
+ * @param tileMatrixSetBoundingBox tile matrix set bounding box
+ * @param tileMatrixSetSrsId       tile matrix set srs id
+ * @param dataType                 gridded coverage data type
+ * @return coverage data
+ */
++(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId andDataType: (enum GPKGGriddedCoverageDataType) dataType;
 
 /**
  *  Extension name
@@ -402,6 +446,61 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  * @return coverage data value
  */
 -(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y;
+
+/**
+ * Get the coverage data value
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param imageData
+ *            image data
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return coverage data value
+ */
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData andX: (int) x andY: (int) y;
+
+/**
+ * Get the coverage data values
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param imageData
+ *            image data
+ * @return coverage data values
+ */
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData;
+
+/**
+ * Draw a coverage data image tile and format as PNG bytes from the flat
+ * array of coverage data values of length tileWidth * tileHeight where each
+ * coverage data value is at: (y * tileWidth) + x
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param values
+ *            coverage data values of length tileWidth * tileHeight
+ * @param tileWidth
+ *            tile width
+ * @param tileHeight
+ *            tile height
+ * @return coverage data image tile data
+ */
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
+
+/**
+ * Draw a coverage data image tile and format as bytes from the double
+ * array of unsigned coverage data values formatted as Double[row][width]
+ *
+ * @param griddedTile
+ *            gridded tile
+ * @param values
+ *            coverage data values as [row][width]
+ * @return coverage data image tile data
+ */
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
  * Get the coverage data value from the image at the coordinate

@@ -100,18 +100,7 @@
  *            y coordinate
  * @return coverage data value
  */
--(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(GPKGCoverageDataTiffImage *)image andX:(int)x andY:(int)y;
-
-/**
- * Get the coverage data values
- *
- * @param griddedTile
- *            gridded tile
- * @param imageData
- *            image data
- * @return coverage data values
- */
--(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andData:(NSData *)imageData;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (GPKGCoverageDataTiffImage *) image andX: (int) x andY: (int) y;
 
 /**
  * Draw a coverage data image tile from the flat array of float pixel values of
@@ -193,23 +182,6 @@
 -(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw a coverage data image tile and format as TIFF bytes from the flat array
- * of coverage data values of length tileWidth * tileHeight where each value is
- * at: (y * tileWidth) + x
- *
- * @param griddedTile
- *            gridded tile
- * @param values
- *            coverage data values of length tileWidth * tileHeight
- * @param tileWidth
- *            tile width
- * @param tileHeight
- *            tile height
- * @return coverage data image tile bytes
- */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
-
-/**
  * Draw a coverage data image tile from the double array of coverage data values
  * formatted as Double[row][width]
  *
@@ -220,18 +192,6 @@
  * @return coverage data image tile
  */
 -(GPKGCoverageDataTiffImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
-
-/**
- * Draw a coverage data image tile and format as TIFF bytes from the double
- * array of coverage data values formatted as Double[row][width]
- *
- * @param griddedTile
- *            gridded tile
- * @param values
- *            coverage data values as [row][width]
- * @return coverage data image tile bytes
- */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
  * Create a new image

@@ -49,6 +49,13 @@
     return pixel;
 }
 
+-(unsigned short) pixelValueWithData: (NSData *) imageData andX: (int) x andY: (int) y{
+    
+    UIImage *image = [GPKGImageConverter toImage:imageData];
+    unsigned short pixel = [self pixelValueWithImage:image andX:x andY:y];
+    return pixel;
+}
+
 -(unsigned short *) pixelValuesWithImage: (UIImage *) image{
     [GPKGCoverageDataPng validateImageType:image];
 
@@ -66,6 +73,13 @@
     return pixels;
 }
 
+-(unsigned short *) pixelValuesWithData: (NSData *) imageData{
+    
+    UIImage *image = [GPKGImageConverter toImage:imageData];
+    unsigned short * pixels = [self pixelValuesWithImage:image];
+    return pixels;
+}
+
 +(void) validateImageType: (UIImage *) image{
     if (image == nil) {
         [NSException raise:@"Nil Image" format:@"The image is nil"];
@@ -75,13 +89,25 @@
     }
 }
 
--(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y{
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData andX: (int) x andY: (int) y{
+    UIImage *image = [GPKGImageConverter toImage:imageData];
+    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andImage:image andX:x andY:y];
+    return value;
+}
+
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (UIImage *) image andX: (int) x andY: (int) y{
     unsigned short pixelValue = [self pixelValueWithImage: image andX: x andY: y];
     NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
     return value;
 }
 
--(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image{
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData{
+    UIImage *image = [GPKGImageConverter toImage:imageData];
+    NSArray * values = [self valuesWithGriddedTile:griddedTile andImage:image];
+    return values;
+}
+
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (UIImage *) image{
     unsigned short * pixelValues = [self pixelValuesWithImage:image];
     NSArray * values = [self valuesWithGriddedTile:griddedTile andPixelValues:pixelValues andCount:image.size.width * image.size.height];
     free(pixelValues);
@@ -236,14 +262,8 @@
 
 +(GPKGCoverageDataPng *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
     
-    GPKGTileMatrixSet * tileMatrixSet = [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
-    
-    GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
-    GPKGCoverageDataPng * coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
-    [coverageData getOrCreate];
-    
+    GPKGCoverageDataPng *coverageData = (GPKGCoverageDataPng *) [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId andDataType:GPKG_GCDT_INTEGER];
     return coverageData;
 }
-
 
 @end

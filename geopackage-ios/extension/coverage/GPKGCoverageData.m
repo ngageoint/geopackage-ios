@@ -16,6 +16,8 @@
 #import "GPKGCoverageDataTileMatrixResults.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGUtils.h"
+#import "GPKGCoverageDataPng.h"
+#import "GPKGCoverageDataTiff.h"
 
 NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME = @"2d_gridded_coverage";
 NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.extensions.2d_gridded_coverage";
@@ -63,6 +65,67 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 @end
 
 @implementation GPKGCoverageData
+
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
+    
+    GPKGTileMatrixSet *tileMatrixSet = tileDao.tileMatrixSet;
+    GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
+    
+    GPKGGriddedCoverage *griddedCoverage = nil;
+    @try {
+        if ([griddedCoverageDao tableExists]) {
+            griddedCoverage = [griddedCoverageDao queryByTileMatrixSet:tileMatrixSet];
+        }
+    } @catch (NSException *e) {
+        [NSException raise:@"Gridded Coverage" format:@"Failed to get Gridded Coverage for table name: %@, error: %@", tileMatrixSet.tableName, [e description]];
+    }
+    
+    GPKGCoverageData *coverageData = nil;
+    
+    enum GPKGGriddedCoverageDataType dataType = [griddedCoverage getGriddedCoverageDataType];
+    switch (dataType) {
+        case GPKG_GCDT_INTEGER:
+            coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andWidth:width andHeight:height andProjection:requestProjection];
+            break;
+        case GPKG_GCDT_FLOAT:
+            coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao andWidth:width andHeight:height andProjection:requestProjection];
+            break;
+        default:
+            [NSException raise:@"Unsupported Data Type" format:@"Unsupported Gridded Coverage Data Type: %u", dataType];
+    }
+    
+    return coverageData;
+}
+
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao{
+    return [self coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:tileDao.projection];
+}
+
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (GPKGProjection *) requestProjection{
+    return [self coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
+}
+
++(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId andDataType: (enum GPKGGriddedCoverageDataType) dataType{
+    
+    GPKGTileMatrixSet *tileMatrixSet = [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
+    GPKGTileDao *tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+    
+    GPKGCoverageData *coverageData = nil;
+    switch (dataType) {
+        case GPKG_GCDT_INTEGER:
+            coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
+            break;
+        case GPKG_GCDT_FLOAT:
+            coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
+            break;
+        default:
+            [NSException raise:@"Unsupported Data Type" format:@"Unsupported Gridded Coverage Data Type: %u", dataType];
+    }
+    
+    [coverageData getOrCreate];
+    
+    return coverageData;
+}
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
     self = [super initWithGeoPackage:geoPackage];
@@ -1074,6 +1137,26 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return 0;
 }
 
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData andX: (int) x andY: (int) y{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
+    return 0;
+}
+
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
+    return 0;
+}
+
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
+    return 0;
+}
+
+-(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values{
+    [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
+    return 0;
+}
+
 -(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andCoverageDataImage: (NSObject<GPKGCoverageDataImage> *) image andX: (int) x andY: (int) y{
     [NSException raise:@"No Core Implementation" format:@"Implementation must be provided by an extending coverage data type"];
     return nil;
@@ -1092,7 +1175,6 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     }
     return value;
 }
-
 
 -(GPKGCoverageDataResults *) valuesWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
     GPKGCoverageDataRequest * request = [[GPKGCoverageDataRequest alloc] initWithBoundingBox:requestBoundingBox];

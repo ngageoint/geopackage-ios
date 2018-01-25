@@ -61,6 +61,19 @@
 -(unsigned short) pixelValueWithImage: (UIImage *) image andX: (int) x andY: (int) y;
 
 /**
+ * Get the pixel value as an unsigned short
+ *
+ * @param imageData
+ *            image data
+ * @param x
+ *            x coordinate
+ * @param y
+ *            y coordinate
+ * @return unsigned short pixel value
+ */
+-(unsigned short) pixelValueWithData: (NSData *) imageData andX: (int) x andY: (int) y;
+
+/**
  * Get the pixel values of the image as unsigned shorts
  *
  * @param image
@@ -68,6 +81,15 @@
  * @return unsigned short pixel values
  */
 -(unsigned short *) pixelValuesWithImage: (UIImage *) image;
+
+/**
+ * Get the pixel values of the image as unsigned shorts
+ *
+ * @param imageData
+ *            image data
+ * @return unsigned short pixel values
+ */
+-(unsigned short *) pixelValuesWithData: (NSData *) imageData;
 
 /**
  * Validate that the image type is an unsigned short
@@ -90,7 +112,7 @@
  *            y coordinate
  * @return coverage data value
  */
--(NSDecimalNumber *) valueWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image andX:(int)x andY:(int)y;
+-(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (UIImage *) image andX: (int) x andY: (int) y;
 
 /**
  * Get the coverage data values
@@ -101,7 +123,7 @@
  *            tile image
  * @return coverage data values
  */
--(NSArray *) valuesWithGriddedTile:(GPKGGriddedTile *)griddedTile andImage:(UIImage *)image;
+-(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andImage: (UIImage *) image;
 
 /**
  * Draw a coverage data image tile from the flat array of unsigned short
@@ -185,23 +207,6 @@
 -(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
 
 /**
- * Draw a coverage data image tile and format as PNG bytes from the flat array
- * of coverage data values of length tileWidth * tileHeight where each value is
- * at: (y * tileWidth) + x
- *
- * @param griddedTile
- *            gridded tile
- * @param values
- *            coverage data values of length tileWidth * tileHeight
- * @param tileWidth
- *            tile width
- * @param tileHeight
- *            tile height
- * @return coverage data image tile bytes
- */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andValues: (NSArray *) values andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight;
-
-/**
  * Draw a coverage data image tile from the double array of coverage data values
  * formatted as Double[row][width]
  *
@@ -212,18 +217,6 @@
  * @return coverage data image tile
  */
 -(UIImage *) drawTileWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
-
-/**
- * Draw a coverage data image tile and format as PNG bytes from the double
- * array of coverage data values formatted as Double[row][width]
- *
- * @param griddedTile
- *            gridded tile
- * @param values
- *            coverage data values as [row][width]
- * @return coverage data image tile bytes
- */
--(NSData *) drawTileDataWithGriddedTile: (GPKGGriddedTile *) griddedTile andDoubleArrayValues: (NSArray *) values;
 
 /**
  * Get the image as PNG bytes
