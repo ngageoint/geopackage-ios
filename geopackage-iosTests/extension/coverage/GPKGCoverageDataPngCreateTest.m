@@ -8,6 +8,7 @@
 
 #import "GPKGCoverageDataPngCreateTest.h"
 #import "GPKGCoverageDataPngTestUtils.h"
+#import "GPKGCoverageDataTestUtils.h"
 
 @implementation GPKGCoverageDataPngCreateTest
 
@@ -43,21 +44,28 @@
  * Test a random bounding box using the Nearest Neighbor Algorithm
  */
 - (void)testRandomBoundingBoxNearestNeighbor {
-    [GPKGCoverageDataPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:self.allowNils];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:self.allowNils];
 }
 
 /**
  * Test a random bounding box using the Bilinear Algorithm
  */
 - (void)testRandomBoundingBoxBilinear {
-    [GPKGCoverageDataPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:self.allowNils];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:self.allowNils];
 }
 
 /**
  * Test a random bounding box using the Bicubic Algorithm
  */
 - (void)testRandomBoundingBoxBicubic {
-    [GPKGCoverageDataPngTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:self.allowNils];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:self.coverageDataValues andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:self.allowNils];
+}
+
+/**
+ * Test the pixel encoding
+ */
+- (void) testPixelEncoding {
+    [GPKGCoverageDataTestUtils testPixelEncodingWithGeoPackage:self.geoPackage andAllowNils:self.allowNils];
 }
 
 @end

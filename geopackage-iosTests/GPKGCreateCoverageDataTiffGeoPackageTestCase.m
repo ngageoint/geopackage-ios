@@ -66,6 +66,16 @@
         defaultPrecision = false;
     }
     [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:SHRT_MAX - SHRT_MIN]];
+    enum GPKGGriddedCoverageEncodingType encoding;
+    double randomEncoding = [GPKGTestUtils randomDouble];
+    if(randomEncoding < 1.0 / 3.0){
+        encoding = GPKG_GCET_AREA;
+    } else if(randomEncoding < 2.0 / 3.0){
+        encoding = GPKG_GCET_CENTER;
+    } else{
+        encoding = GPKG_GCET_CORNER;
+    }
+    [griddedCoverage setGridCellEncodingType:encoding];
     int griddedCoverageId = (int)[griddedCoverageDao create:griddedCoverage];
     [GPKGTestUtils assertTrue:griddedCoverageId >= 0];
     
@@ -81,6 +91,10 @@
     }else{
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0.0 && [griddedCoverage.precision doubleValue] <= 10.0];
     }
+    [GPKGTestUtils assertEqualIntWithValue:encoding andValue2:[griddedCoverage getGridCellEncodingType]];
+    [GPKGTestUtils assertEqualWithValue:[GPKGGriddedCoverageEncodingTypes name:encoding] andValue2:griddedCoverage.gridCellEncoding];
+    [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.fieldName];
+    [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.quantityDefinition];
     
     GPKGGriddedTile * commonGriddedTile = [[GPKGGriddedTile alloc] init];
     GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
