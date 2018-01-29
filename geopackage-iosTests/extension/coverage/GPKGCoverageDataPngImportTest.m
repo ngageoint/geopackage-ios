@@ -304,7 +304,7 @@ static BOOL allowNulls = false;
                 for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
                     NSDecimalNumber * value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:lat andLongitude:lon andEpsg:geoPackageEpsg];
                     [log appendFormat:@"   %@", value];
-                    if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude && lon < maxLongitude)){
+                    if(algorithm == GPKG_CDA_NEAREST_NEIGHBOR || (lat < maxLatitude && lon > minLongitude && lat > minLatitude + heightPixelDistance && lon < maxLongitude)){
                         if(!allowNulls){
                             [GPKGTestUtils assertNotNil:value];
                         }

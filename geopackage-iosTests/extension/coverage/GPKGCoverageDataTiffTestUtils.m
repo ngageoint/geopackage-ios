@@ -78,6 +78,8 @@
         GPKGCoverageDataTiff * coverageData = [[GPKGCoverageDataTiff alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
         [GPKGTestUtils assertTrue:[coverageData has]];
         [coverageData setAlgorithm:algorithm];
+        enum GPKGGriddedCoverageEncodingType encoding = [[coverageData griddedCoverage] getGridCellEncodingType];
+        [coverageData setEncoding:encoding];
         
         // Test the 3 extension rows
         GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
@@ -119,6 +121,14 @@
         [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedCoverage.scale doubleValue]];
         [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedCoverage.offset doubleValue]];
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0];
+        if(coverageDataValues != nil){
+            [GPKGTestUtils assertEqualIntWithValue:encoding andValue2:[griddedCoverage getGridCellEncodingType]];
+            [GPKGTestUtils assertEqualWithValue:[GPKGGriddedCoverageEncodingTypes name:encoding] andValue2:griddedCoverage.gridCellEncoding];
+            [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.fieldName];
+            [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.quantityDefinition];
+        }else{
+            [GPKGTestUtils assertTrue:(int)[griddedCoverage getGridCellEncodingType] > -1];
+        }
         
         // Test the Gridded Tile
         GPKGResultSet * griddedTiles = [coverageData griddedTile];

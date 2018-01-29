@@ -8,6 +8,7 @@
 
 #import "GPKGGriddedTileDao.h"
 #import "GPKGContentsDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGGriddedTileDao
 
@@ -41,22 +42,22 @@
             setObject.tableId = (NSNumber *) value;
             break;
         case 3:
-            setObject.scale = (NSDecimalNumber *) value;
+            setObject.scale = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 4:
-            setObject.offset = (NSDecimalNumber *) value;
+            setObject.offset = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 5:
-            setObject.min = (NSDecimalNumber *) value;
+            setObject.min = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 6:
-            setObject.max = (NSDecimalNumber *) value;
+            setObject.max = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 7:
-            setObject.mean = (NSDecimalNumber *) value;
+            setObject.mean = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 8:
-            setObject.standardDeviation = (NSDecimalNumber *) value;
+            setObject.standardDeviation = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

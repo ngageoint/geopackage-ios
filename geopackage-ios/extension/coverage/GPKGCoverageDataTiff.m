@@ -113,7 +113,7 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
 
 -(NSDecimalNumber *) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andData: (NSData *) imageData andX: (int) x andY: (int) y{
     float pixelValue = [self pixelValueWithData: imageData andX: x andY: y];
-    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+    NSDecimalNumber * value = [self valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValue];
     return value;
 }
 

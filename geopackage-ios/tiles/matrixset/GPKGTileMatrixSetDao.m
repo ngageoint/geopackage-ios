@@ -9,6 +9,7 @@
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
 #import "GPKGSpatialReferenceSystemDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGTileMatrixSetDao
 
@@ -39,16 +40,16 @@
             setObject.srsId = (NSNumber *) value;
             break;
         case 2:
-            setObject.minX = (NSDecimalNumber *) value;
+            setObject.minX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 3:
-            setObject.minY = (NSDecimalNumber *) value;
+            setObject.minY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 4:
-            setObject.maxX = (NSDecimalNumber *) value;
+            setObject.maxX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 5:
-            setObject.maxY = (NSDecimalNumber *) value;
+            setObject.maxY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

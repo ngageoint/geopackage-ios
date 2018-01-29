@@ -8,6 +8,7 @@
 
 #import "GPKGGriddedCoverageDao.h"
 #import "GPKGTileMatrixSetDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGGriddedCoverageDao
 
@@ -41,16 +42,16 @@
             setObject.datatype = (NSString *) value;
             break;
         case 3:
-            setObject.scale = (NSDecimalNumber *) value;
+            setObject.scale = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 4:
-            setObject.offset = (NSDecimalNumber *) value;
+            setObject.offset = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 5:
-            setObject.precision = (NSDecimalNumber *) value;
+            setObject.precision = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 6:
-            setObject.dataNull = (NSDecimalNumber *) value;
+            setObject.dataNull = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 7:
             setObject.gridCellEncoding = (NSString *) value;

@@ -78,6 +78,8 @@
         GPKGCoverageDataPng * coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
         [GPKGTestUtils assertTrue:[coverageData has]];
         [coverageData setAlgorithm:algorithm];
+        enum GPKGGriddedCoverageEncodingType encoding = [[coverageData griddedCoverage] getGridCellEncodingType];
+        [coverageData setEncoding:encoding];
 
         // Test the 3 extension rows
         GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
@@ -121,6 +123,14 @@
             [GPKGTestUtils assertTrue:[griddedCoverage.offset doubleValue] >= 0];
         }
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0];
+        if(coverageDataValues != nil){
+            [GPKGTestUtils assertEqualIntWithValue:encoding andValue2:[griddedCoverage getGridCellEncodingType]];
+            [GPKGTestUtils assertEqualWithValue:[GPKGGriddedCoverageEncodingTypes name:encoding] andValue2:griddedCoverage.gridCellEncoding];
+            [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.fieldName];
+            [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.quantityDefinition];
+        }else{
+            [GPKGTestUtils assertTrue:(int)[griddedCoverage getGridCellEncodingType] > -1];
+        }
         
         // Test the Gridded Tile
         GPKGResultSet * griddedTiles = [coverageData griddedTile];
@@ -231,10 +241,10 @@
     
     double xDistance = [tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue];
     double xDistance2 = [tileMatrix.matrixWidth intValue] * [tileMatrix.tileWidth intValue] * [tileMatrix.pixelXSize doubleValue];
-    [GPKGTestUtils assertEqualDoubleWithValue:xDistance andValue2:xDistance2 andDelta:.0000000001];
+    [GPKGTestUtils assertEqualDoubleWithValue:xDistance andValue2:xDistance2 andDelta:.00000001];
     double yDistance = [tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue];
     double yDistance2 = [tileMatrix.matrixHeight intValue] * [tileMatrix.tileHeight intValue] * [tileMatrix.pixelYSize doubleValue];
-    [GPKGTestUtils assertEqualDoubleWithValue:yDistance andValue2:yDistance2 andDelta:.0000000001];
+    [GPKGTestUtils assertEqualDoubleWithValue:yDistance andValue2:yDistance2 andDelta:.00000001];
     
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
     GPKGCoverageDataResults * coverageDataResults = [coverageData valuesWithBoundingBox:boundingBox];

@@ -9,6 +9,7 @@
 #import "GPKGTileMatrixDao.h"
 #import "GPKGContentsDao.h"
 #import "GPKGTileMatrixSetDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGTileMatrixDao
 
@@ -51,10 +52,10 @@
             setObject.tileHeight = (NSNumber *) value;
             break;
         case 6:
-            setObject.pixelXSize = (NSDecimalNumber *) value;
+            setObject.pixelXSize = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 7:
-            setObject.pixelYSize = (NSDecimalNumber *) value;
+            setObject.pixelYSize = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
