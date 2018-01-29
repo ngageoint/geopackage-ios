@@ -10,6 +10,19 @@
 		0405219C1F1E9FB3003A11A2 /* projections.none.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0405219B1F1E9FB3003A11A2 /* projections.none.plist */; };
 		0405219F1F1FB06D003A11A2 /* GPKGAuthorityProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = 0405219D1F1FB06D003A11A2 /* GPKGAuthorityProjections.h */; };
 		040521A01F1FB06D003A11A2 /* GPKGAuthorityProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = 0405219E1F1FB06D003A11A2 /* GPKGAuthorityProjections.m */; };
+		040D0C2E201F96F2000ACD6C /* 24877.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1B201F96F1000ACD6C /* 24877.png */; };
+		040D0C2F201F96F2000ACD6C /* 24876.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1C201F96F1000ACD6C /* 24876.png */; };
+		040D0C30201F96F2000ACD6C /* 25104.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1E201F96F1000ACD6C /* 25104.png */; };
+		040D0C31201F96F2000ACD6C /* 25103.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1F201F96F1000ACD6C /* 25103.png */; };
+		040D0C32201F96F2000ACD6C /* 25104.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C21201F96F1000ACD6C /* 25104.png */; };
+		040D0C33201F96F2000ACD6C /* 25103.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C22201F96F1000ACD6C /* 25103.png */; };
+		040D0C34201F96F2000ACD6C /* 12438.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C25201F96F1000ACD6C /* 12438.png */; };
+		040D0C35201F96F2000ACD6C /* 12438.webp in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C26201F96F1000ACD6C /* 12438.webp */; };
+		040D0C36201F96F2000ACD6C /* 12552.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C28201F96F1000ACD6C /* 12552.png */; };
+		040D0C37201F96F2000ACD6C /* 12551.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C29201F96F1000ACD6C /* 12551.png */; };
+		040D0C38201F96F2000ACD6C /* 49753.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C2C201F96F2000ACD6C /* 49753.png */; };
+		040D0C39201F96F2000ACD6C /* 49754.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C2D201F96F2000ACD6C /* 49754.png */; };
+		040D0C3C201FA110000ACD6C /* GPKGGeoPackageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */; };
 		0413B1121F6AE20C0075916A /* GPKGFeatureShapes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0413B1101F6AE20C0075916A /* GPKGFeatureShapes.h */; };
 		0413B1131F6AE20C0075916A /* GPKGFeatureShapes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413B1111F6AE20C0075916A /* GPKGFeatureShapes.m */; };
 		0413B1171F6B271F0075916A /* GPKGMapUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0413B1151F6B271F0075916A /* GPKGMapUtils.h */; };
@@ -468,6 +481,20 @@
 		0405219B1F1E9FB3003A11A2 /* projections.none.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = projections.none.plist; sourceTree = "<group>"; };
 		0405219D1F1FB06D003A11A2 /* GPKGAuthorityProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGAuthorityProjections.h; sourceTree = "<group>"; };
 		0405219E1F1FB06D003A11A2 /* GPKGAuthorityProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAuthorityProjections.m; sourceTree = "<group>"; };
+		040D0C1B201F96F1000ACD6C /* 24877.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 24877.png; sourceTree = "<group>"; };
+		040D0C1C201F96F1000ACD6C /* 24876.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 24876.png; sourceTree = "<group>"; };
+		040D0C1E201F96F1000ACD6C /* 25104.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 25104.png; sourceTree = "<group>"; };
+		040D0C1F201F96F1000ACD6C /* 25103.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 25103.png; sourceTree = "<group>"; };
+		040D0C21201F96F1000ACD6C /* 25104.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 25104.png; sourceTree = "<group>"; };
+		040D0C22201F96F1000ACD6C /* 25103.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 25103.png; sourceTree = "<group>"; };
+		040D0C25201F96F1000ACD6C /* 12438.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12438.png; sourceTree = "<group>"; };
+		040D0C26201F96F1000ACD6C /* 12438.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = 12438.webp; sourceTree = "<group>"; };
+		040D0C28201F96F1000ACD6C /* 12552.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12552.png; sourceTree = "<group>"; };
+		040D0C29201F96F1000ACD6C /* 12551.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12551.png; sourceTree = "<group>"; };
+		040D0C2C201F96F2000ACD6C /* 49753.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 49753.png; sourceTree = "<group>"; };
+		040D0C2D201F96F2000ACD6C /* 49754.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 49754.png; sourceTree = "<group>"; };
+		040D0C3A201FA110000ACD6C /* GPKGGeoPackageExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGeoPackageExample.h; sourceTree = "<group>"; };
+		040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGGeoPackageExample.m; sourceTree = "<group>"; };
 		0413B1101F6AE20C0075916A /* GPKGFeatureShapes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureShapes.h; sourceTree = "<group>"; };
 		0413B1111F6AE20C0075916A /* GPKGFeatureShapes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureShapes.m; sourceTree = "<group>"; };
 		0413B1151F6B271F0075916A /* GPKGMapUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGMapUtils.h; sourceTree = "<group>"; };
@@ -1008,6 +1035,87 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040D0C19201F96F1000ACD6C /* 16 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C1A201F96F1000ACD6C /* 13689 */,
+				040D0C1D201F96F1000ACD6C /* 18715 */,
+				040D0C20201F96F1000ACD6C /* 18714 */,
+			);
+			path = 16;
+			sourceTree = "<group>";
+		};
+		040D0C1A201F96F1000ACD6C /* 13689 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C1B201F96F1000ACD6C /* 24877.png */,
+				040D0C1C201F96F1000ACD6C /* 24876.png */,
+			);
+			path = 13689;
+			sourceTree = "<group>";
+		};
+		040D0C1D201F96F1000ACD6C /* 18715 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C1E201F96F1000ACD6C /* 25104.png */,
+				040D0C1F201F96F1000ACD6C /* 25103.png */,
+			);
+			path = 18715;
+			sourceTree = "<group>";
+		};
+		040D0C20201F96F1000ACD6C /* 18714 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C21201F96F1000ACD6C /* 25104.png */,
+				040D0C22201F96F1000ACD6C /* 25103.png */,
+			);
+			path = 18714;
+			sourceTree = "<group>";
+		};
+		040D0C23201F96F1000ACD6C /* 15 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C24201F96F1000ACD6C /* 6844 */,
+				040D0C27201F96F1000ACD6C /* 9357 */,
+			);
+			path = 15;
+			sourceTree = "<group>";
+		};
+		040D0C24201F96F1000ACD6C /* 6844 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C25201F96F1000ACD6C /* 12438.png */,
+				040D0C26201F96F1000ACD6C /* 12438.webp */,
+			);
+			path = 6844;
+			sourceTree = "<group>";
+		};
+		040D0C27201F96F1000ACD6C /* 9357 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C28201F96F1000ACD6C /* 12552.png */,
+				040D0C29201F96F1000ACD6C /* 12551.png */,
+			);
+			path = 9357;
+			sourceTree = "<group>";
+		};
+		040D0C2A201F96F2000ACD6C /* 17 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C2B201F96F2000ACD6C /* 27378 */,
+			);
+			path = 17;
+			sourceTree = "<group>";
+		};
+		040D0C2B201F96F2000ACD6C /* 27378 */ = {
+			isa = PBXGroup;
+			children = (
+				040D0C2C201F96F2000ACD6C /* 49753.png */,
+				040D0C2D201F96F2000ACD6C /* 49754.png */,
+			);
+			path = 27378;
+			sourceTree = "<group>";
+		};
 		0413B1141F6B26EA0075916A /* map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1240,6 +1348,8 @@
 				04A1CE2F1D1087F800731963 /* webMercator.png */,
 				04A1CE301D1087F800731963 /* wgs84.png */,
 				042FC6F01B964BC800549A4B /* Supporting Files */,
+				040D0C3A201FA110000ACD6C /* GPKGGeoPackageExample.h */,
+				040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */,
 			);
 			path = "geopackage-iosTests";
 			sourceTree = "<group>";
@@ -1761,6 +1871,9 @@
 		042FC8E31B964DA200549A4B /* tiles */ = {
 			isa = PBXGroup;
 			children = (
+				040D0C23201F96F1000ACD6C /* 15 */,
+				040D0C19201F96F1000ACD6C /* 16 */,
+				040D0C2A201F96F2000ACD6C /* 17 */,
 				049675071D08BDFB00D65851 /* retriever */,
 				045BCA051BFB6D6C0080B967 /* user */,
 				042FC8E41B964DA200549A4B /* features */,
@@ -2375,15 +2488,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				042FC8F41B964DA200549A4B /* import_db.gpkg in Resources */,
+				040D0C30201F96F2000ACD6C /* 25104.png in Resources */,
 				04A1CE321D1087F800731963 /* wgs84.png in Resources */,
+				040D0C36201F96F2000ACD6C /* 12552.png in Resources */,
 				042B88AC1DFF4AC3006C2A4F /* coverage_data.gpkg in Resources */,
+				040D0C35201F96F2000ACD6C /* 12438.webp in Resources */,
+				040D0C32201F96F2000ACD6C /* 25104.png in Resources */,
+				040D0C39201F96F2000ACD6C /* 49754.png in Resources */,
 				042FC8F51B964DA200549A4B /* tile.png in Resources */,
 				042FC8E81B964DA200549A4B /* InfoPlist.strings in Resources */,
+				040D0C38201F96F2000ACD6C /* 49753.png in Resources */,
+				040D0C33201F96F2000ACD6C /* 25103.png in Resources */,
 				0488E4B81CF6561E0026DD1B /* tiles2.gpkg in Resources */,
 				0488E4B71CF6561E0026DD1B /* tiles.gpkg in Resources */,
+				040D0C2F201F96F2000ACD6C /* 24876.png in Resources */,
+				040D0C34201F96F2000ACD6C /* 12438.png in Resources */,
+				040D0C37201F96F2000ACD6C /* 12551.png in Resources */,
 				042B88AB1DFF4AC3006C2A4F /* coverage_data_tiff.gpkg in Resources */,
 				042FC8F31B964DA200549A4B /* import_db_corrupt.gpkg in Resources */,
+				040D0C2E201F96F2000ACD6C /* 24877.png in Resources */,
 				04A1CE311D1087F800731963 /* webMercator.png in Resources */,
+				040D0C31201F96F2000ACD6C /* 25103.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2670,6 +2795,7 @@
 			files = (
 				0422BB2D1DF0E3E2002709B6 /* GPKGCreateCoverageDataTiffGeoPackageTestCase.m in Sources */,
 				0422BB4D1DF0E9E9002709B6 /* GPKGAttributesCreateTest.m in Sources */,
+				040D0C3C201FA110000ACD6C /* GPKGGeoPackageExample.m in Sources */,
 				048EC1791BD5503B008426A7 /* GPKGFeatureTableIndexImportTest.m in Sources */,
 				049675061D08774F00D65851 /* GPKGTilesGeoPackageTestCase.m in Sources */,
 				04DCAEB01F28EC8400FA9B9F /* GPKGSpatialReferenceSystemCreateTest.m in Sources */,
