@@ -65,7 +65,7 @@
         [griddedCoverage setPrecision:[[NSDecimalNumber alloc] initWithDouble:10.0 * [GPKGTestUtils randomDouble]]];
         defaultPrecision = false;
     }
-    [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:SHRT_MAX - SHRT_MIN]];
+    [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:FLT_MAX]];
     enum GPKGGriddedCoverageEncodingType encoding;
     double randomEncoding = [GPKGTestUtils randomDouble];
     if(randomEncoding < 1.0 / 3.0){
