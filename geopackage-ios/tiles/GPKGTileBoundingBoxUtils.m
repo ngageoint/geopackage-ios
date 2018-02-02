@@ -637,4 +637,55 @@
 				/ tilesPerLon;
 }
 
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomFrom: (int) fromZoom to: (int) toZoom{
+    
+    GPKGTileGrid *newTileGrid = nil;
+    
+    int zoomChange = toZoom - fromZoom;
+    if(zoomChange > 0){
+        newTileGrid = [self tileGrid:tileGrid zoomIncrease:zoomChange];
+    }else if(zoomChange < 0){
+        zoomChange = abs(zoomChange);
+        newTileGrid = [self tileGrid:tileGrid zoomDecrease:zoomChange];
+    }else{
+        newTileGrid = tileGrid;
+    }
+    
+    return newTileGrid;
+}
+
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomIncrease: (int) zoomLevels{
+    int minX = [self tileGridMin:tileGrid.minX zoomIncrease:zoomLevels];
+    int maxX = [self tileGridMax:tileGrid.maxX zoomIncrease:zoomLevels];
+    int minY = [self tileGridMin:tileGrid.minY zoomIncrease:zoomLevels];
+    int maxY = [self tileGridMax:tileGrid.maxY zoomIncrease:zoomLevels];
+    GPKGTileGrid *newTileGrid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    return newTileGrid;
+}
+
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomDecrease: (int) zoomLevels{
+    int minX = [self tileGridMin:tileGrid.minX zoomDecrease:zoomLevels];
+    int maxX = [self tileGridMax:tileGrid.maxX zoomDecrease:zoomLevels];
+    int minY = [self tileGridMin:tileGrid.minY zoomDecrease:zoomLevels];
+    int maxY = [self tileGridMax:tileGrid.maxY zoomDecrease:zoomLevels];
+    GPKGTileGrid *newTileGrid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    return newTileGrid;
+}
+
++(int) tileGridMin: (int) min zoomIncrease: (int) zoomLevels{
+    return min * pow(2, zoomLevels);
+}
+
++(int) tileGridMax: (int) max zoomIncrease: (int) zoomLevels{
+    return (max + 1) * pow(2, zoomLevels) - 1;
+}
+
++(int) tileGridMin: (int) min zoomDecrease: (int) zoomLevels{
+    return floor(min / pow(2, zoomLevels));
+}
+
++(int) tileGridMax: (int) max zoomDecrease: (int) zoomLevels{
+    return ceil((max + 1) / pow(2, zoomLevels) - 1);
+}
+
 @end

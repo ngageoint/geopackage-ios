@@ -439,39 +439,37 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
     
-    NSString *tilesPath = @"tiles/";
+    NSString *resourcePath  = [[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath];
+    
+    GPKGTileGrid *tileGrid = totalTileGrid;
     
     for (int zoom = minZoomLevel; zoom <= maxZoomLevel; zoom++) {
         
-        NSString *zoomPath = [NSString stringWithFormat:@"%@%d/", tilesPath, zoom];
+        NSString *zoomPath = [NSString stringWithFormat:@"%@/%d_", resourcePath, zoom];
         
         NSNumber *tileWidth = nil;
         NSNumber *tileHeight = nil;
         
-        GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:totalBoundingBox andZoom:zoom];
         GPKGTileDao *dao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
         
         for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
             
-            NSString *xPath = [NSString stringWithFormat:@"%@%d/", zoomPath, x];
+            NSString *xPath = [NSString stringWithFormat:@"%@%d_", zoomPath, x];
             
             for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
                 
-                NSString *yPath = [NSString stringWithFormat:@"%@%ld.%@", xPath, y, extension];
+                NSString *yPath = [NSString stringWithFormat:@"%@%d.%@", xPath, y, extension];
                 
-                @try {
+                if([[NSFileManager defaultManager] fileExistsAtPath:yPath]){
                     
-                    NSData *tileData = nil;
-                    // TODO
-                    //byte[] tileBytes = TestUtils.getAssetFileBytes(context,yPath);
+                    NSData *tileData = [[NSFileManager defaultManager] contentsAtPath:yPath];
                     
                     if (tileWidth == nil || tileHeight == nil) {
-                        // TODO
-                        //Bitmap tileImage = BitmapConverter.toBitmap(tileBytes);
-                        //if (tileImage != null) {
-                        //    tileHeight = tileImage.getHeight();
-                        //    tileWidth = tileImage.getWidth();
-                        //}
+                        UIImage * tileImage = [UIImage imageWithContentsOfFile:yPath];
+                        if (tileImage != nil) {
+                            tileHeight = [NSNumber numberWithInt:tileImage.size.height];
+                            tileWidth = [NSNumber numberWithInt:tileImage.size.width];
+                        }
                     }
                     
                     GPKGTileRow *newRow = [dao newRow];
@@ -482,11 +480,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
                     [newRow setTileData:tileData];
                     
                     [dao create:newRow];
-                    
-                } @catch (NSException *e) {
-                    // skip tile
                 }
-                
+
             }
         }
         
@@ -499,8 +494,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
         
         long matrixWidth = tileGrid.maxX - tileGrid.minX + 1;
         long matrixHeight = tileGrid.maxY - tileGrid.minY + 1;
-        double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidth * (int)tileWidth);
-        double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixHeight * (int)tileHeight);
+        double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidth * [tileWidth intValue]);
+        double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixHeight * [tileHeight intValue]);
         
         GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
         [tileMatrix setContents:contents];
@@ -512,6 +507,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
         [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]];
         [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]];
         [tileMatrixDao create:tileMatrix];
+        
+        tileGrid = [GPKGTileBoundingBoxUtils tileGrid:tileGrid zoomIncrease:1];
         
     }
     
