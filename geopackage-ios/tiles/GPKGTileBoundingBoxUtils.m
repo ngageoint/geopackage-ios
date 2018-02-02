@@ -11,6 +11,8 @@
 #import "GPKGProjectionFactory.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGGeoPackageConstants.h"
+#import "GPKGProperties.h"
+#import "GPKGPropertyConstants.h"
 
 #define degreesToRadians(x) (M_PI * x / PROJ_WGS84_HALF_WORLD_LON_WIDTH)
 #define radiansToDegrees(x) (x * PROJ_WGS84_HALF_WORLD_LON_WIDTH / M_PI)
@@ -459,13 +461,25 @@
     
     double worldLength = PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH * 2;
     
-    int widthTiles = (int) (worldLength / ([webMercatorBoundingBox.maxLongitude doubleValue] - [webMercatorBoundingBox.minLongitude doubleValue]));
-    int heightTiles = (int) (worldLength / ([webMercatorBoundingBox.maxLatitude doubleValue] - [webMercatorBoundingBox.minLatitude doubleValue]));
+    double longitudeDistance = [webMercatorBoundingBox.maxLongitude doubleValue] - [webMercatorBoundingBox.minLongitude doubleValue];
+    double latitudeDistance = [webMercatorBoundingBox.maxLatitude doubleValue] - [webMercatorBoundingBox.minLatitude doubleValue];
     
-    int tilesPerSide = MIN(widthTiles, heightTiles);
-    tilesPerSide = MAX(tilesPerSide, 1);
+    int maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     
-    int zoom = [self zoomFromTilesPerSide:tilesPerSide];
+    int zoom;
+    if(longitudeDistance > 0 && latitudeDistance > 0){
+    
+        int widthTiles = (int) (worldLength / longitudeDistance);
+        int heightTiles = (int) (worldLength / latitudeDistance);
+        
+        int tilesPerSide = MIN(widthTiles, heightTiles);
+        tilesPerSide = MAX(tilesPerSide, 1);
+        
+        zoom = [self zoomFromTilesPerSide:tilesPerSide];
+        tilesPerSide = MIN(maxZoom, zoom);
+    }else{
+        zoom = maxZoom;
+    }
     
     return zoom;
 }
