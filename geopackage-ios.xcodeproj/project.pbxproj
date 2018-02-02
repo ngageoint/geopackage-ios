@@ -3017,6 +3017,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 316F133D9F4C3C4631556BC9 /* Pods-geopackage-iosTests.debug.xcconfig */;
 			buildSettings = {
+				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -3028,6 +3029,7 @@
 				INFOPLIST_FILE = "geopackage-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = geopackage_iosTests;
+				STRIP_PNG_TEXT = NO;
 			};
 			name = Debug;
 		};
@@ -3035,6 +3037,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2238D6F65D3DC8F0551140F1 /* Pods-geopackage-iosTests.release.xcconfig */;
 			buildSettings = {
+				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -3042,6 +3045,7 @@
 				INFOPLIST_FILE = "geopackage-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = geopackage_iosTests;
+				STRIP_PNG_TEXT = NO;
 			};
 			name = Release;
 		};
