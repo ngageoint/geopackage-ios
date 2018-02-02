@@ -119,6 +119,9 @@
 }
 
 -(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint{
+    if(self.uniqueConstraints == nil){
+        self.uniqueConstraints = [[NSMutableArray alloc] init];
+    }
     [GPKGUtils addObject:uniqueConstraint toArray:self.uniqueConstraints];
 }
 
