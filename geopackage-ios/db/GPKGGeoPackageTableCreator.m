@@ -128,7 +128,7 @@
         if(i > 0){
             [sql appendString:@","];
         }
-        [sql appendFormat:@"\n %@ %@", [GPKGSqlUtils quoteWrapName:column.name], [GPKGDataTypes name:column.dataType]];
+        [sql appendFormat:@"\n %@ %@", [GPKGSqlUtils quoteWrapName:column.name], [column getTypeName]];
         if(column.max != nil){
             [sql appendFormat:@"(%@)", column.max];
         }
