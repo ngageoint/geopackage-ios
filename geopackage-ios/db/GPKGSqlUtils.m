@@ -476,7 +476,11 @@
 +(NSString *) quoteWrapName: (NSString *) name{
     NSString * quoteName = nil;
     if(name != nil){
-        quoteName = [NSString stringWithFormat:@"\"%@\"", name];
+        if([name hasPrefix:@"\""] && [name hasSuffix:@"\""]){
+            quoteName = name;
+        }else{
+            quoteName = [NSString stringWithFormat:@"\"%@\"", name];
+        }
     }
     return quoteName;
 }
