@@ -12,85 +12,85 @@
 	<string>&lt;n&gt;</string>
 	<key>create</key>
 	<array>
-		<string>CREATE VIRTUAL TABLE rtree_&lt;t&gt;_&lt;c&gt; USING rtree(id, minx, maxx, miny, maxy)</string>
+		<string>CREATE VIRTUAL TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; USING rtree(id, minx, maxx, miny, maxy)</string>
 	</array>
 	<key>load</key>
 	<array>
-		<string>INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt;
-  SELECT &lt;i&gt;, st_minx(&lt;c&gt;), st_maxx(&lt;c&gt;), st_miny(&lt;c&gt;), st_maxy(&lt;c&gt;) FROM &lt;t&gt;;</string>
+		<string>INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;
+  SELECT &quot;&lt;i&gt;&quot;, st_minx(&quot;&lt;c&gt;&quot;), st_maxx(&quot;&lt;c&gt;&quot;), st_miny(&quot;&lt;c&gt;&quot;), st_maxy(&quot;&lt;c&gt;&quot;) FROM &quot;&lt;t&gt;&quot;;</string>
 	</array>
 	<key>drop</key>
 	<array>
-		<string>DROP TABLE rtree_&lt;t&gt;_&lt;c&gt;</string>
+		<string>DROP TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;</string>
 	</array>
 	<key>trigger.insert</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_insert AFTER INSERT ON &lt;t&gt;
-  WHEN (new.&lt;c&gt; NOT NULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_insert&quot; AFTER INSERT ON &quot;&lt;t&gt;&quot;
+  WHEN (new.&quot;&lt;c&gt;&quot; NOT NULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN
-  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
-    NEW.&lt;i&gt;,
-    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
-    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
   );
 END;</string>
 	</array>
 	<key>trigger.update1</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update1 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
-  WHEN OLD.&lt;i&gt; = NEW.&lt;i&gt; AND
-       (NEW.&lt;c&gt; NOTNULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update1&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN
-  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
-    NEW.&lt;i&gt;,
-    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
-    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
   );
 END;</string>
 	</array>
 	<key>trigger.update2</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update2 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
-  WHEN OLD.&lt;i&gt; = NEW.&lt;i&gt; AND
-       (NEW.&lt;c&gt; ISNULL OR ST_IsEmpty(NEW.&lt;c&gt;))
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update2&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; ISNULL OR ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN
-  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
 END;</string>
 	</array>
 	<key>trigger.update3</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update3 AFTER UPDATE OF &lt;c&gt; ON &lt;t&gt;
-  WHEN OLD.&lt;i&gt; != NEW.&lt;i&gt; AND
-       (NEW.&lt;c&gt; NOTNULL AND NOT ST_IsEmpty(NEW.&lt;c&gt;))
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update3&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN
-  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
-  INSERT OR REPLACE INTO rtree_&lt;t&gt;_&lt;c&gt; VALUES (
-    NEW.&lt;i&gt;,
-    ST_MinX(NEW.&lt;c&gt;), ST_MaxX(NEW.&lt;c&gt;),
-    ST_MinY(NEW.&lt;c&gt;), ST_MaxY(NEW.&lt;c&gt;)
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
   );
 END;</string>
 	</array>
 	<key>trigger.update4</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_update4 AFTER UPDATE ON &lt;t&gt;
-  WHEN OLD.&lt;i&gt; != NEW.&lt;i&gt; AND
-       (NEW.&lt;c&gt; ISNULL OR ST_IsEmpty(NEW.&lt;c&gt;))
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update4&quot; AFTER UPDATE ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; ISNULL OR ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN
-  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id IN (OLD.&lt;i&gt;, NEW.&lt;i&gt;);
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id IN (OLD.&quot;&lt;i&gt;&quot;, NEW.&quot;&lt;i&gt;&quot;);
 END;</string>
 	</array>
 	<key>trigger.delete</key>
 	<array>
-		<string>CREATE TRIGGER rtree_&lt;t&gt;_&lt;c&gt;_delete AFTER DELETE ON &lt;t&gt;
-  WHEN old.&lt;c&gt; NOT NULL
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_delete&quot; AFTER DELETE ON &quot;&lt;t&gt;&quot;
+  WHEN old.&quot;&lt;c&gt;&quot; NOT NULL
 BEGIN
-  DELETE FROM rtree_&lt;t&gt;_&lt;c&gt; WHERE id = OLD.&lt;i&gt;;
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
 END;</string>
 	</array>
 	<key>trigger.drop</key>
 	<array>
-		<string>DROP TRIGGER IF EXISTS rtree_&lt;t&gt;_&lt;c&gt;_&lt;n&gt;</string>
+		<string>DROP TRIGGER IF EXISTS &quot;rtree_&lt;t&gt;_&lt;c&gt;_&lt;n&gt;&quot;</string>
 	</array>
 </dict>
 </plist>
