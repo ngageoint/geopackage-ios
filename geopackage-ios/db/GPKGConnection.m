@@ -289,7 +289,7 @@
 }
 
 -(void) dropTable: (NSString *) table{
-    [self exec:[NSString stringWithFormat:@"drop table if exists %@", table]];
+    [self exec:[NSString stringWithFormat:@"drop table if exists %@", [GPKGSqlUtils quoteWrapName:table]]];
 }
 
 @end
