@@ -7,7 +7,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 2.0.1 (TBD)
 
 * Coverage Data extension (previously Elevation Extension)
+* WebP extension column name fix
+* Zoom Other extension column name fix
 * RTree Index Extension minimal support (user functions not supported)
+* Extended Geometry bit encoding fix, set only for non standard geometries
+* Tile Grid zoom increase and decrease utilities
 * Tile Generator contents bounding box fix to use the requested bounds
 * Database Decimal Number data type fix for database reads
 * Zoom level determination fix for bounds resulting in a single point
