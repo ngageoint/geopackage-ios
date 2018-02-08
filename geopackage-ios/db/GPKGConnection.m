@@ -12,6 +12,7 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGConnectionPool.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGConnectionFunction.h"
 
 @interface GPKGConnection()
 
@@ -290,6 +291,11 @@
 
 -(void) dropTable: (NSString *) table{
     [self exec:[NSString stringWithFormat:@"drop table if exists %@", [GPKGSqlUtils quoteWrapName:table]]];
+}
+
+-(void) addWriteFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs{
+    GPKGConnectionFunction *connectionFunction = [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:numArgs];
+    [self.connectionPool addWriteFunction:connectionFunction];
 }
 
 @end

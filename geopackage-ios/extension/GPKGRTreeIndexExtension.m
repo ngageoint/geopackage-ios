@@ -11,6 +11,8 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGIOUtils.h"
+#import "GPKGSqlUtils.h"
+#import "WKBGeometryEnvelopeBuilder.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION = @"geopackage.extensions.rtree_index";
@@ -88,7 +90,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(BOOL) has{
-    return [self hasWithExtensionName:self.extensionName andTableName:nil andColumnName:nil];
+    return [self hasWithExtensionName:self.extensionName];
 }
 
 -(BOOL) createFunctionsWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -145,24 +147,122 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     [self createIsEmptyFunction];
 }
 
+/**
+ * Retrieve the Geometry Data from the custom function blob argument value
+ *
+ * @param count
+ *            function argument count
+ * @param args
+ *            function arguments
+ * @return geometry data
+ */
++(GPKGGeometryData *) geometryDataFunctionWithCount: (int) count andArguments: (sqlite3_value **) args{
+    
+    if(count != 1){
+        [NSException raise:@"Function Arguments" format:@"Single argument is required. args: %d", count];
+    }
+    
+    GPKGGeometryData *geometryData = nil;
+    
+    const void * bytes = sqlite3_value_blob(args[0]);
+    int byteCount = sqlite3_value_bytes(args[0]);
+    if(byteCount > 0){
+        NSData *data = [NSData dataWithBytes:bytes length:byteCount];
+        if(data != nil){
+            geometryData = [[GPKGGeometryData alloc] initWithData:data];
+        }
+    }
+    
+    return geometryData;
+}
+
+/**
+ * Retrieve or build a Geometry Envelope from the Geometry Data
+ *
+ * @param data
+ *            geometry data
+ * @return geometry envelope
+ */
++(WKBGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
+    WKBGeometryEnvelope *envelope = nil;
+    if(data != nil){
+        envelope = data.envelope;
+        if(envelope == nil){
+            WKBGeometry *geometry = data.geometry;
+            if(geometry != nil){
+                envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+            }
+        }
+    }
+    if(envelope == nil){
+        envelope = [[WKBGeometryEnvelope alloc] init];
+    }
+    return envelope;
+}
+
+/**
+ *  Min X SQL function
+ */
+void minXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
+    GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    NSDecimalNumber *minX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minX;
+    sqlite3_result_double(context, [minX doubleValue]);
+}
+
+/**
+ *  Min Y SQL function
+ */
+void minYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
+    GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    NSDecimalNumber *minY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].minY;
+    sqlite3_result_double(context, [minY doubleValue]);
+}
+
+/**
+ *  Max X SQL function
+ */
+void maxXFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
+    GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    NSDecimalNumber *maxX = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxX;
+    sqlite3_result_double(context, [maxX doubleValue]);
+}
+
+/**
+ *  Max Y SQL function
+ */
+void maxYFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
+    GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    NSDecimalNumber *maxY = [GPKGRTreeIndexExtension envelopeOfGeometryData:data].maxY;
+    sqlite3_result_double(context, [maxY doubleValue]);
+}
+
+/**
+ *  Is Empty SQL function
+ */
+void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) {
+    GPKGGeometryData *data = [GPKGRTreeIndexExtension geometryDataFunctionWithCount:argc andArguments:argv];
+    BOOL empty = data == nil || data.empty || data.geometry == nil;
+    sqlite3_result_int(context, empty ? 1 : 0);
+}
+
 -(void) createMinXFunction{
-    [self createFunctionWithName:GPKG_RTREE_INDEX_MIN_X_FUNCTION];
+    [self addFunction:minXFunction withName:GPKG_RTREE_INDEX_MIN_X_FUNCTION];
 }
 
 -(void) createMaxXFunction{
-    [self createFunctionWithName:GPKG_RTREE_INDEX_MAX_X_FUNCTION];
+    [self addFunction:maxXFunction withName:GPKG_RTREE_INDEX_MAX_X_FUNCTION];
 }
 
 -(void) createMinYFunction{
-    [self createFunctionWithName:GPKG_RTREE_INDEX_MIN_Y_FUNCTION];
+    [self addFunction:minYFunction withName:GPKG_RTREE_INDEX_MIN_Y_FUNCTION];
 }
 
 -(void) createMaxYFunction{
-    [self createFunctionWithName:GPKG_RTREE_INDEX_MAX_Y_FUNCTION];
+    [self addFunction:maxYFunction withName:GPKG_RTREE_INDEX_MAX_Y_FUNCTION];
 }
 
 -(void) createIsEmptyFunction{
-    [self createFunctionWithName:GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION];
+    [self addFunction:isEmptyFunction withName:GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION];
 }
 
 -(void) loadRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -412,12 +512,13 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 /**
- * Create the function for the connection
+ * Add the function for database connections
  *
+ * @param function function
  * @param name function name
  */
--(void) createFunctionWithName: (NSString *) name {
-    [NSException raise:@"Unsupported" format:@"User defined SQL functions are not supported. name: %@", name];
+-(void) addFunction: (void *) function withName: (NSString *) name{
+    [self.connection addWriteFunction:function withName:name andNumArgs:1];
 }
 
 @end

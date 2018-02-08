@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSDate * lastConnectionCheck;
 @property (nonatomic, strong) NSMutableDictionary * resultConnections;
 @property (nonatomic, strong) GPKGDbConnection * writeConnection;
+@property (nonatomic, strong) NSMutableArray<GPKGConnectionFunction *> *writeFunctions;
 
 @end
 
@@ -142,6 +143,7 @@ static BOOL maintainStackTraces = false;
         self.idCounter = 1;
         self.lastConnectionCheck = [NSDate date];
         self.resultConnections = [[NSMutableDictionary alloc] init];
+        self.writeFunctions = [[NSMutableArray alloc] init];
         asl_add_log_file(NULL, STDERR_FILENO);
         
         // Open a database connection
@@ -208,6 +210,7 @@ static BOOL maintainStackTraces = false;
             connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writeConnection andReleasable:false];
         }else{
             GPKGSqliteConnection * sqlConnection = [self getSqliteConnection];
+            [self createWriteFunctionsOnConnection:sqlConnection];
             [self.resultConnections setObject:sqlConnection forKey:[sqlConnection getConnectionId]];
             connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
         }
@@ -232,6 +235,7 @@ static BOOL maintainStackTraces = false;
                 connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:false andWriteReleasable:true];
             }else{
                 sqlConnection = [self getSqliteConnection];
+                [self createWriteFunctionsOnConnection:sqlConnection];
                 connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
             }
             self.writeConnection = connection;
@@ -389,6 +393,36 @@ static BOOL maintainStackTraces = false;
         self.lastConnectionCheck = [NSDate date];
     }
         
+}
+
+-(void) addWriteFunction: (GPKGConnectionFunction *) function{
+    [self.writeFunctions addObject:function];
+}
+
+/**
+ *  Create the write functions on the connection
+ *
+ *  @param connection sqlite connection
+ */
+-(void) createWriteFunctionsOnConnection: (GPKGSqliteConnection *) connection{
+    for(GPKGConnectionFunction *function in self.writeFunctions){
+        [self createFunction:function onConnection:connection];
+    }
+}
+
+/**
+ *  Create the write function on the connection
+ *
+ *  @param function connection function
+ *  @param connection sqlite connection
+ */
+-(void) createFunction: (GPKGConnectionFunction *) function onConnection: (GPKGSqliteConnection *) connection{
+
+    int result = sqlite3_create_function([connection getConnection], [[function name] cStringUsingEncoding:NSUTF8StringEncoding], [function numArgs], SQLITE_ANY, NULL, [function function], NULL, NULL);
+    if(result != SQLITE_OK){
+        NSLog(@"Failed to create SQL function: %@, SQLITE Error Code: %d", [function name], result);
+    }
+    
 }
 
 @end

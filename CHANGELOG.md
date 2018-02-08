@@ -9,7 +9,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Coverage Data extension (previously Elevation Extension)
 * WebP extension column name fix
 * Zoom Other extension column name fix
-* RTree Index Extension minimal support (user functions not supported)
+* RTree Index Extension support
 * Extended Geometry bit encoding fix, set only for non standard geometries
 * Tile Grid zoom increase and decrease utilities
 * Tile Generator contents bounding box fix to use the requested bounds

@@ -158,6 +158,12 @@
 }
 
 -(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
+    // If the GeoPackage is writable and has a RTree Index
+    // extension, create the SQL functions
+    if(self.writable) {
+        GPKGRTreeIndexExtension *rtree = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:self];
+        [rtree createFunctions];
+    }
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
@@ -538,10 +544,10 @@
     GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns andMetadataDb:self.metadataDb];
     
     // If the GeoPackage is writable and the feature table has a RTree Index
-    // extension, drop the RTree triggers.  User defined functions are currently not supported.
+    // extension, create the SQL functions
     if(self.writable) {
         GPKGRTreeIndexExtension *rtree = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:self];
-        [rtree dropAllTriggersWithFeatureTable:featureTable];
+        [rtree createFunctionsWithFeatureTable:featureTable];
     }
     
     return dao;

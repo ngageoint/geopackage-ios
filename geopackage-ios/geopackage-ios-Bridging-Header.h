@@ -195,5 +195,6 @@
 #import "GPKGMapTolerance.h"
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGGriddedCoverageEncodingTypes.h"
+#import "GPKGConnectionFunction.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

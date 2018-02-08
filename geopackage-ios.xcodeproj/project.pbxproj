@@ -10,6 +10,8 @@
 		0405219C1F1E9FB3003A11A2 /* projections.none.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0405219B1F1E9FB3003A11A2 /* projections.none.plist */; };
 		0405219F1F1FB06D003A11A2 /* GPKGAuthorityProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = 0405219D1F1FB06D003A11A2 /* GPKGAuthorityProjections.h */; };
 		040521A01F1FB06D003A11A2 /* GPKGAuthorityProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = 0405219E1F1FB06D003A11A2 /* GPKGAuthorityProjections.m */; };
+		040C4E7C202BC3C8003037E2 /* GPKGConnectionFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 040C4E7A202BC3C8003037E2 /* GPKGConnectionFunction.h */; };
+		040C4E7D202BC3C8003037E2 /* GPKGConnectionFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 040C4E7B202BC3C8003037E2 /* GPKGConnectionFunction.m */; };
 		040D0C2E201F96F2000ACD6C /* 16_13689_24877.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1B201F96F1000ACD6C /* 16_13689_24877.png */; };
 		040D0C2F201F96F2000ACD6C /* 16_13689_24876.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1C201F96F1000ACD6C /* 16_13689_24876.png */; };
 		040D0C30201F96F2000ACD6C /* 16_18715_25104.png in Resources */ = {isa = PBXBuildFile; fileRef = 040D0C1E201F96F1000ACD6C /* 16_18715_25104.png */; };
@@ -481,6 +483,8 @@
 		0405219B1F1E9FB3003A11A2 /* projections.none.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = projections.none.plist; sourceTree = "<group>"; };
 		0405219D1F1FB06D003A11A2 /* GPKGAuthorityProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGAuthorityProjections.h; sourceTree = "<group>"; };
 		0405219E1F1FB06D003A11A2 /* GPKGAuthorityProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAuthorityProjections.m; sourceTree = "<group>"; };
+		040C4E7A202BC3C8003037E2 /* GPKGConnectionFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGConnectionFunction.h; sourceTree = "<group>"; };
+		040C4E7B202BC3C8003037E2 /* GPKGConnectionFunction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGConnectionFunction.m; sourceTree = "<group>"; };
 		040D0C1B201F96F1000ACD6C /* 16_13689_24877.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 16_13689_24877.png; sourceTree = "<group>"; };
 		040D0C1C201F96F1000ACD6C /* 16_13689_24876.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 16_13689_24876.png; sourceTree = "<group>"; };
 		040D0C1E201F96F1000ACD6C /* 16_18715_25104.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 16_18715_25104.png; sourceTree = "<group>"; };
@@ -1403,6 +1407,8 @@
 				042FC7081B964D8C00549A4B /* dao */,
 				042FC70F1B964D8C00549A4B /* GPKGConnection.h */,
 				042FC7101B964D8C00549A4B /* GPKGConnection.m */,
+				040C4E7A202BC3C8003037E2 /* GPKGConnectionFunction.h */,
+				040C4E7B202BC3C8003037E2 /* GPKGConnectionFunction.m */,
 				042FC7111B964D8C00549A4B /* GPKGDataTypes.h */,
 				042FC7121B964D8C00549A4B /* GPKGDataTypes.m */,
 				042FC7131B964D8C00549A4B /* GPKGFeatureIndexer.h */,
@@ -2396,6 +2402,7 @@
 				045717E81C03723F0031A027 /* geopackage-ios-Bridging-Header.h in Headers */,
 				0488A03A1FAA4087006B5C75 /* GPKGFeatureInfoBuilder.h in Headers */,
 				0413B1171F6B271F0075916A /* GPKGMapUtils.h in Headers */,
+				040C4E7C202BC3C8003037E2 /* GPKGConnectionFunction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2733,6 +2740,7 @@
 				042FC8BE1B964D8C00549A4B /* GPKGUserTable.m in Sources */,
 				0419CFF51FB0F6F600470036 /* GPKGMapTolerance.m in Sources */,
 				042FC8781B964D8C00549A4B /* GPKGProjectionRetriever.m in Sources */,
+				040C4E7D202BC3C8003037E2 /* GPKGConnectionFunction.m in Sources */,
 				042FC87F1B964D8C00549A4B /* GPKGProperties.m in Sources */,
 				040521A01F1FB06D003A11A2 /* GPKGAuthorityProjections.m in Sources */,
 				0488A0361FA756B3006B5C75 /* GPKGLocationBoundingBox.m in Sources */,
