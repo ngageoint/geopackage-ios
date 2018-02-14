@@ -276,7 +276,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            request bounding box in the request projection
  * @param transformRequestToCoverage
  *            transformation from request to coverage data
- * @param covergeBoundingBox
+ * @param coverageBoundingBox
  *            coverage bounding box
  * @return projected coverage data values
  */

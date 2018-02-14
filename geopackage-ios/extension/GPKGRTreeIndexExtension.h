@@ -286,8 +286,8 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
  * Conditions: Update of any column
  *             Row ID change
  *             Non-empty geometry
- * Actions   : Remove record from rtree for old <i>
- *             Insert record into rtree for new <i>
+ * Actions   : Remove record from rtree for old &lt;i&gt;
+ *             Insert record into rtree for new &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -306,7 +306,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
  * Conditions: Update of any column
  *             Row ID change
  *             Empty geometry
- * Actions   : Remove record from rtree for old and new <i>
+ * Actions   : Remove record from rtree for old and new &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -323,7 +323,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
  *
  * <pre>
  * Conditions: Row deleted
- * Actions   : Remove record from rtree for old <i>
+ * Actions   : Remove record from rtree for old &lt;i&gt;
  * </pre>
  *
  * @param tableName
@@ -494,8 +494,11 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
  * Drop the trigger for the table, geometry column, and trigger name
  *
  * @param tableName
+ *            table name
  * @param geometryColumnName
+ *            geometry column name
  * @param triggerName
+ *            trigger name
  */
 -(void) dropTriggerWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andTriggerName: (NSString *) triggerName;
 
