@@ -8,6 +8,7 @@
 
 #import "GPKGDataColumnConstraintsDao.h"
 #import "GPKGDataColumnsDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGDataColumnConstraintsDao
 
@@ -41,13 +42,13 @@
             setObject.value = (NSString *) value;
             break;
         case 3:
-            setObject.min = (NSDecimalNumber *) value;
+            setObject.min = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 4:
             setObject.minIsInclusive = (NSNumber *) value;
             break;
         case 5:
-            setObject.max = (NSDecimalNumber *) value;
+            setObject.max = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 6:
             setObject.maxIsInclusive = (NSNumber *) value;

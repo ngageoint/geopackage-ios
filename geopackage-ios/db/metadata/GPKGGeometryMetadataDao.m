@@ -8,6 +8,7 @@
 
 #import "GPKGGeometryMetadataDao.h"
 #import "GPKGGeoPackageMetadataDao.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGGeometryMetadataDao
 
@@ -41,28 +42,28 @@
             setObject.id = (NSNumber *) value;
             break;
         case 3:
-            setObject.minX = (NSDecimalNumber *) value;
+            setObject.minX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 4:
-            setObject.maxX = (NSDecimalNumber *) value;
+            setObject.maxX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 5:
-            setObject.minY = (NSDecimalNumber *) value;
+            setObject.minY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 6:
-            setObject.maxY = (NSDecimalNumber *) value;
+            setObject.maxY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 7:
-            setObject.minZ = (NSDecimalNumber *) value;
+            setObject.minZ = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 8:
-            setObject.maxZ = (NSDecimalNumber *) value;
+            setObject.maxZ = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 9:
-            setObject.minM = (NSDecimalNumber *) value;
+            setObject.minM = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 10:
-            setObject.maxM = (NSDecimalNumber *) value;
+            setObject.maxM = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

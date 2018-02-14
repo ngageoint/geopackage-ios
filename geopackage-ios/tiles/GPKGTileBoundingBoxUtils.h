@@ -621,4 +621,90 @@
  */
 +(double) tileSizeLonWithWgs84TilesPerSide: (int) tilesPerLon;
 
+/**
+ * Get the tile grid starting from the tile grid and current zoom to the new
+ * zoom level
+ *
+ * @param tileGrid
+ *            current tile grid
+ * @param fromZoom
+ *            current zoom level
+ * @param toZoom
+ *            new zoom level
+ * @return tile grid at new zoom level
+ */
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomFrom: (int) fromZoom to: (int) toZoom;
+
+/**
+ * Get the tile grid starting from the tile grid and zooming in / increasing
+ * the number of levels
+ *
+ * @param tileGrid
+ *            current tile grid
+ * @param zoomLevels
+ *            number of zoom levels to increase by
+ * @return tile grid at new zoom level
+ */
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomIncrease: (int) zoomLevels;
+
+/**
+ * Get the tile grid starting from the tile grid and zooming out /
+ * decreasing the number of levels
+ *
+ * @param tileGrid
+ *            current tile grid
+ * @param zoomLevels
+ *            number of zoom levels to decrease by
+ * @return tile grid at new zoom level
+ */
++(GPKGTileGrid *) tileGrid: (GPKGTileGrid *) tileGrid zoomDecrease: (int) zoomLevels;
+
+/**
+ * Get the new tile grid min value starting from the tile grid min and
+ * zooming in / increasing the number of levels
+ *
+ * @param min
+ *            tile grid min value
+ * @param zoomLevels
+ *            number of zoom levels to increase by
+ * @return tile grid min value at new zoom level
+ */
++(int) tileGridMin: (int) min zoomIncrease: (int) zoomLevels;
+
+/**
+ * Get the new tile grid max value starting from the tile grid max and
+ * zooming in / increasing the number of levels
+ *
+ * @param max
+ *            tile grid max value
+ * @param zoomLevels
+ *            number of zoom levels to increase by
+ * @return tile grid max value at new zoom level
+ */
++(int) tileGridMax: (int) max zoomIncrease: (int) zoomLevels;
+
+/**
+ * Get the new tile grid min value starting from the tile grid min and
+ * zooming out / decreasing the number of levels
+ *
+ * @param min
+ *            tile grid min value
+ * @param zoomLevels
+ *            number of zoom levels to decrease by
+ * @return tile grid min value at new zoom level
+ */
++(int) tileGridMin: (int) min zoomDecrease: (int) zoomLevels;
+
+/**
+ * Get the new tile grid max value starting from the tile grid max and
+ * zooming out / decreasing the number of levels
+ *
+ * @param max
+ *            tile grid max value
+ * @param zoomLevels
+ *            number of zoom levels to decrease by
+ * @return tile grid max value at new zoom level
+ */
++(int) tileGridMax: (int) max zoomDecrease: (int) zoomLevels;
+
 @end

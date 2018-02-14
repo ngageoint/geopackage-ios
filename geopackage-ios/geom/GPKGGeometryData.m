@@ -260,7 +260,7 @@
     _geometry = geometry;
     self.empty = geometry == nil;
     if(geometry != nil){
-        self.extended = [GPKGGeometryExtensions isExtension:geometry.geometryType];
+        self.extended = [GPKGGeometryExtensions isNonStandard:geometry.geometryType];
     }
 }
 

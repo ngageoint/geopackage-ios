@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>substitute.table</key>
+	<string>&lt;t&gt;</string>
+	<key>substitute.geometry_column</key>
+	<string>&lt;c&gt;</string>
+	<key>substitute.pk_column</key>
+	<string>&lt;i&gt;</string>
+	<key>substitute.trigger</key>
+	<string>&lt;n&gt;</string>
+	<key>create</key>
+	<array>
+		<string>CREATE VIRTUAL TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; USING rtree(id, minx, maxx, miny, maxy)</string>
+	</array>
+	<key>load</key>
+	<array>
+		<string>INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;
+  SELECT &quot;&lt;i&gt;&quot;, ST_MinX(&quot;&lt;c&gt;&quot;), ST_MaxX(&quot;&lt;c&gt;&quot;), ST_MinY(&quot;&lt;c&gt;&quot;), ST_MaxY(&quot;&lt;c&gt;&quot;) FROM &quot;&lt;t&gt;&quot;;</string>
+	</array>
+	<key>drop</key>
+	<array>
+		<string>DROP TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;</string>
+	</array>
+	<key>trigger.insert</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_insert&quot; AFTER INSERT ON &quot;&lt;t&gt;&quot;
+  WHEN (new.&quot;&lt;c&gt;&quot; NOT NULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update1</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update1&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update2</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update2&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; = NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; ISNULL OR ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
+END;</string>
+	</array>
+	<key>trigger.update3</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update3&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
+  INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; VALUES (
+    NEW.&quot;&lt;i&gt;&quot;,
+    ST_MinX(NEW.&quot;&lt;c&gt;&quot;), ST_MaxX(NEW.&quot;&lt;c&gt;&quot;),
+    ST_MinY(NEW.&quot;&lt;c&gt;&quot;), ST_MaxY(NEW.&quot;&lt;c&gt;&quot;)
+  );
+END;</string>
+	</array>
+	<key>trigger.update4</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update4&quot; AFTER UPDATE ON &quot;&lt;t&gt;&quot;
+  WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
+       (NEW.&quot;&lt;c&gt;&quot; ISNULL OR ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
+BEGIN
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id IN (OLD.&quot;&lt;i&gt;&quot;, NEW.&quot;&lt;i&gt;&quot;);
+END;</string>
+	</array>
+	<key>trigger.delete</key>
+	<array>
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_delete&quot; AFTER DELETE ON &quot;&lt;t&gt;&quot;
+  WHEN old.&quot;&lt;c&gt;&quot; NOT NULL
+BEGIN
+  DELETE FROM &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; WHERE id = OLD.&quot;&lt;i&gt;&quot;;
+END;</string>
+	</array>
+	<key>trigger.drop</key>
+	<array>
+		<string>DROP TRIGGER IF EXISTS &quot;rtree_&lt;t&gt;_&lt;c&gt;_&lt;n&gt;&quot;</string>
+	</array>
+</dict>
+</plist>

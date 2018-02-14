@@ -41,6 +41,40 @@
     return extension;
 }
 
+-(GPKGResultSet *) getWithExtensionName: (NSString *) extensionName{
+    
+    GPKGResultSet * extensions = nil;
+    if([self.extensionsDao tableExists]){
+        extensions = [self.extensionsDao queryByExtension:extensionName];
+    }
+    return extensions;
+}
+
+-(BOOL) hasWithExtensionName: (NSString *) extensionName{
+    
+    GPKGResultSet * extensions = [self getWithExtensionName:extensionName];
+    BOOL has = extensions.count > 0;
+    [extensions close];
+    return has;
+}
+
+-(GPKGResultSet *) getWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName{
+    
+    GPKGResultSet * extensions = nil;
+    if([self.extensionsDao tableExists]){
+        extensions = [self.extensionsDao queryByExtension:extensionName andTable:tableName];
+    }
+    return extensions;
+}
+
+-(BOOL) hasWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName{
+    
+    GPKGResultSet * extensions = [self getWithExtensionName:extensionName andTableName:tableName];
+    BOOL has = extensions.count > 0;
+    [extensions close];
+    return has;
+}
+
 -(GPKGExtensions *) getWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     
     GPKGExtensions * extension = nil;

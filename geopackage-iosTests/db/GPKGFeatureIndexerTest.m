@@ -173,24 +173,24 @@
                 if([id intValue] == id1){
                     id1Found = true;
                     [GPKGTestUtils assertEqualWithValue:WKB_POINT_NAME andValue2:[WKBGeometryTypes name:geometryType]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.minX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.maxY doubleValue]];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.maxY doubleValue] andDelta:.00000000000001];
                 } else if([id intValue] == id2){
                     id2Found = true;
                     [GPKGTestUtils assertEqualWithValue:WKB_LINESTRING_NAME andValue2:[WKBGeometryTypes name:geometryType]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxY andValue2:[metadata.maxY doubleValue]];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxY andValue2:[metadata.maxY doubleValue] andDelta:.00000000000001];
                 } else if([id intValue] == id3){
                     id3Found = true;
                     [GPKGTestUtils assertEqualWithValue:WKB_POLYGON_NAME andValue2:[WKBGeometryTypes name:geometryType]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue]];
-                    [GPKGTestUtils assertEqualDoubleWithValue:maxY andValue2:[metadata.maxY doubleValue]];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue] andDelta:.00000000000001];
+                    [GPKGTestUtils assertEqualDoubleWithValue:maxY andValue2:[metadata.maxY doubleValue] andDelta:.00000000000001];
                 }
             }
         }

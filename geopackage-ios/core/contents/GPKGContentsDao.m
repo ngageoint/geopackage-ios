@@ -12,6 +12,7 @@
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGTileMatrixDao.h"
 #import "GPKGDateTimeUtils.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGContentsDao
 
@@ -51,16 +52,16 @@
             setObject.lastChange = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
             break;
         case 5:
-            setObject.minX = (NSDecimalNumber *) value;
+            setObject.minX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 6:
-            setObject.minY = (NSDecimalNumber *) value;
+            setObject.minY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 7:
-            setObject.maxX = (NSDecimalNumber *) value;
+            setObject.maxX = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 8:
-            setObject.maxY = (NSDecimalNumber *) value;
+            setObject.maxY = [GPKGUtils decimalNumberFromNumber:(NSNumber *) value];
             break;
         case 9:
             setObject.srsId = (NSNumber *) value;
@@ -142,7 +143,7 @@
         case GPKG_CDT_TILES:
                 [self verifyTiles:dataType];
             break;
-        case GPKG_CDT_ELEVATION_TILES:
+        case GPKG_CDT_GRIDDED_COVERAGE:
                 [self verifyTiles:dataType];
             break;
         case GPKG_CDT_ATTRIBUTES:

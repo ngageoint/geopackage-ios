@@ -352,4 +352,13 @@
  */
 -(void) dropTable: (NSString *) table;
 
+/**
+ *  Add a custom function to be created on write connections
+ *
+ *  @param function write connection function
+ *  @param name function name
+ *  @param numArgs number of function arguments
+ */
+-(void) addWriteFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs;
+
 @end

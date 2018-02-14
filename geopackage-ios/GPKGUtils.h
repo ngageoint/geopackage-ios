@@ -82,4 +82,13 @@
  */
 +(UIColor *) getColor: (NSDictionary *) color;
 
+/**
+ *  Get a decimal number from the number
+ *
+ *  @param number number value
+ *
+ *  @return decimal number
+ */
++(NSDecimalNumber *) decimalNumberFromNumber: (NSNumber *) number;
+
 @end

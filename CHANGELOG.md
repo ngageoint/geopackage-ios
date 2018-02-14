@@ -4,9 +4,22 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 2.0.1 (TBD)
+## [2.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.1) (02-14-2018)
 
-* TBD
+* Coverage Data extension (previously Elevation Extension)
+* WebP extension column name fix
+* Zoom Other extension column name fix
+* RTree Index Extension support
+* Extended Geometry bit encoding fix, set only for non standard geometries
+* Tile Grid zoom increase and decrease utilities
+* Tile Generator contents bounding box fix to use the requested bounds
+* Database Decimal Number data type fix for database reads
+* Zoom level determination fix for bounds resulting in a single point
+* Correct Geometry Type fix for created Feature Tables
+* User table unique constraint fix for created tables
+* Quote wrapping improvements and additional wrapping of names in SQL operations
+* GeoPackage creation example
+* wkb version update to 1.0.9
 
 ## [2.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.0) (11-21-2017)
 

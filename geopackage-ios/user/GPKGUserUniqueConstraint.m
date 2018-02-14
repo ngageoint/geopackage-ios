@@ -12,7 +12,7 @@
 @implementation GPKGUserUniqueConstraint
 
 -(instancetype) init{
-    return [super init];
+    return [self initWithColumns:[[NSMutableArray alloc] init]];
 }
 
 -(instancetype) initWithColumns: (NSMutableArray *) columns{

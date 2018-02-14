@@ -274,9 +274,13 @@
   offset REAL NOT NULL DEFAULT 0.0,
   precision REAL DEFAULT 1.0,
   data_null REAL,
+  grid_cell_encoding TEXT DEFAULT &apos;grid-value-is-center&apos;,
+  uom TEXT,
+  field_name TEXT DEFAULT &apos;Height&apos;,
+  quantity_definition TEXT DEFAULT &apos;Height&apos;,
   CONSTRAINT fk_g2dgtct_name FOREIGN KEY(&apos;tile_matrix_set_name&apos;) REFERENCES gpkg_tile_matrix_set ( table_name )
   CHECK (datatype in (&apos;integer&apos;,&apos;float&apos;))
- );</string>
+);</string>
 	</array>
 	<key>gpkg_2d_gridded_tile_ancillary</key>
 	<array>

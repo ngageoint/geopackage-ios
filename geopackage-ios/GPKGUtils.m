@@ -67,4 +67,16 @@
     return createdColor;
 }
 
++(NSDecimalNumber *) decimalNumberFromNumber: (NSNumber *) number{
+    NSDecimalNumber *decimalNumber = nil;
+    if(number != nil){
+        if([number isKindOfClass:[NSDecimalNumber class]]){
+            decimalNumber = (NSDecimalNumber *) number;
+        }else{
+            decimalNumber = [[NSDecimalNumber alloc] initWithDouble:[number doubleValue]];
+        }
+    }
+    return decimalNumber;
+}
+
 @end

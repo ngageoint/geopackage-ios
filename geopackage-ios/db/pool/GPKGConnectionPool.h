@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGDbConnection.h"
+#import "GPKGConnectionFunction.h"
 
 @class GPKGDbConnection;
 
@@ -161,5 +162,12 @@
  *  @return connection count
  */
 -(NSUInteger) connectionCount;
+
+/**
+ *  Add a custom function to be created on write connections
+ *
+ *  @param function write connection function
+ */
+-(void) addWriteFunction: (GPKGConnectionFunction *) function;
 
 @end
