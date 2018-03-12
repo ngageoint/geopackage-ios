@@ -121,6 +121,133 @@
     return zoomLevel;
 }
 
+/**
+ * Determine if the length at the index is closer by a factor of two to the
+ * next zoomed in level / lower index
+ *
+ * @param lengths
+ *            sorted lengths
+ * @param length
+ *            current length
+ * @param lengthIndex
+ *            length index
+ * @return true if closer to zoomed in length
+ */
++(BOOL) closerToZoomInWithLengths: (NSArray *) lengths andLength: (double) length andLengthIndex: (int) lengthIndex{
+    
+    // Zoom level distance to the zoomed in length
+    double zoomInDistance = log(length / [[lengths objectAtIndex:lengthIndex - 1] doubleValue]) / log(2.0);
+    
+    // Zoom level distance to the zoomed out length
+    double zoomOutDistance = log(length / [[lengths objectAtIndex:lengthIndex] doubleValue]) / log(0.5);
+    
+    BOOL zoomIn = zoomInDistance < zoomOutDistance;
+    
+    return zoomIn;
+}
+
+/**
+ * Get the tile matrix represented by the current length index
+ *
+ * @param tileMatrices
+ *            tile matrices
+ * @param index
+ *            index location in sorted lengths
+ * @return tile matrix
+ */
++(GPKGTileMatrix *) tileMatrixFromTileMatrices: (NSArray *) tileMatrices atIndex: (int) index{
+    return [tileMatrices objectAtIndex:tileMatrices.count - index - 1];
+}
+
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self approximateZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:length andHeight:length];
+}
+
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    
+    NSNumber *widthZoomLevel = [self approximateZoomLevelWithLengths:widths andTileMatrices:tileMatrices andLength:width];
+    NSNumber *heightZoomLevel = [self approximateZoomLevelWithLengths:heights andTileMatrices:tileMatrices andLength:height];
+    
+    NSNumber *expectedZoomLevel;
+    if (widthZoomLevel == nil) {
+        expectedZoomLevel = heightZoomLevel;
+    } else if (heightZoomLevel == nil) {
+        expectedZoomLevel = widthZoomLevel;
+    } else {
+        expectedZoomLevel = [widthZoomLevel compare:heightZoomLevel] == NSOrderedDescending ? widthZoomLevel : heightZoomLevel;
+    }
+    
+    return expectedZoomLevel;
+}
+
+/**
+ * Get the approximate zoom level for length using the factor of 2 rule
+ * between zoom levels
+ *
+ * @param lengths
+ *            sorted lengths
+ * @param tileMatrices
+ *            tile matrices
+ * @param length
+ *            length in default units
+ * @return approximate zoom level
+ */
++(NSNumber *) approximateZoomLevelWithLengths: (NSArray *) lengths andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    
+    return nil; // TODO
+    /*
+    Long lengthZoomLevel = null;
+    
+    double minLength = lengths[0];
+    double maxLength = lengths[lengths.length - 1];
+    
+    // Length is zoomed in further than available tiles
+    if (length < minLength) {
+        double levelsIn = Math.log(length / minLength) / Math.log(.5);
+        long zoomAbove = (long) Math.floor(levelsIn);
+        long zoomBelow = (long) Math.ceil(levelsIn);
+        double lengthAbove = minLength * Math.pow(.5, zoomAbove);
+        double lengthBelow = minLength * Math.pow(.5, zoomBelow);
+        lengthZoomLevel = tileMatrices.get(tileMatrices.size() - 1)
+        .getZoomLevel();
+        if (lengthAbove - length <= length - lengthBelow) {
+            lengthZoomLevel += zoomAbove;
+        } else {
+            lengthZoomLevel += zoomBelow;
+        }
+    }
+    // Length is zoomed out further than available tiles
+    else if (length > maxLength) {
+        double levelsOut = Math.log(length / maxLength) / Math.log(2);
+        long zoomAbove = (long) Math.ceil(levelsOut);
+        long zoomBelow = (long) Math.floor(levelsOut);
+        double lengthAbove = maxLength * Math.pow(2, zoomAbove);
+        double lengthBelow = maxLength * Math.pow(2, zoomBelow);
+        lengthZoomLevel = tileMatrices.get(0).getZoomLevel();
+        if (length - lengthBelow <= lengthAbove - length) {
+            lengthZoomLevel -= zoomBelow;
+        } else {
+            lengthZoomLevel -= zoomAbove;
+        }
+    }
+    // Length is between the available tiles
+    else {
+        int lengthIndex = Arrays.binarySearch(lengths, length);
+        if (lengthIndex < 0) {
+            lengthIndex = (lengthIndex + 1) * -1;
+        }
+        double zoomDistance = Math.log(length / lengths[lengthIndex])
+        / Math.log(.5);
+        long zoomLevelAbove = getTileMatrixAtLengthIndex(tileMatrices,
+                                                         lengthIndex).getZoomLevel();
+        zoomLevelAbove += Math.round(zoomDistance);
+        lengthZoomLevel = zoomLevelAbove;
+    }
+    
+    return lengthZoomLevel;
+     */
+}
+
 +(double) maxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{
     double maxWidth = [self maxLength:widths];
     double maxHeight = [self maxLength:heights];

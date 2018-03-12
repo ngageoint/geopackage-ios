@@ -63,4 +63,20 @@
  */
 +(void) deleteFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ *  Delete the Tile Scaling extensions for the table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table      table name
+ */
++(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ *  Delete the Tile Scaling extension including the extension entries and
+ *  custom tables
+ *
+ *  @param geoPackage GeoPackage
+ */
++(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

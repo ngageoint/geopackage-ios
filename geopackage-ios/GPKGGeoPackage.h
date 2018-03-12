@@ -32,6 +32,7 @@
 #import "GPKGGriddedTileDao.h"
 #import "GPKGAttributesTable.h"
 #import "GPKGAttributesDao.h"
+#import "GPKGTileScalingDao.h"
 
 /**
  *  A single GeoPackage database connection
@@ -771,5 +772,19 @@
  */
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                        andColumns: (NSArray *) columns;
+
+/**
+ * Get a Tile Scaling DAO
+ *
+ * @return tile scaling dao
+ */
+-(GPKGTileScalingDao *) getTileScalingDao;
+
+/**
+ * Create the Tile Scaling Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createTileScalingTable;
 
 @end

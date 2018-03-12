@@ -218,4 +218,8 @@
     return [[NSArray alloc] initWithObjects:[NSDecimalNumber numberWithDouble:toCoord.longitude], [NSDecimalNumber numberWithDouble:toCoord.latitude], nil];
 }
 
+-(BOOL) isSameProjection{
+    return [self.fromProjection isEqualToProjection:self.toProjection];
+}
+
 @end

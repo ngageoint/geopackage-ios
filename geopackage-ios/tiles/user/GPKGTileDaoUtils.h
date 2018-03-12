@@ -88,6 +88,44 @@
 +(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
 
 /**
+ * Get the approximate zoom level for the provided length in the default
+ * units. Tiles may or may not exist for the returned zoom level. The
+ * approximate zoom level is determined using a factor of 2 from the zoom
+ * levels with tiles.
+ *
+ * @param widths
+ *            sorted widths
+ * @param heights
+ *            sorted heights
+ * @param tileMatrices
+ *            tile matrices
+ * @param length
+ *            length in default units
+ * @return actual or approximate tile matrix zoom level
+ */
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
+
+/**
+ * Get the approximate zoom level for the provided width and height in the
+ * default units. Tiles may or may not exist for the returned zoom level.
+ * The approximate zoom level is determined using a factor of 2 from the
+ * zoom levels with tiles.
+ *
+ * @param widths
+ *            sorted widths
+ * @param heights
+ *            sorted heights
+ * @param tileMatrices
+ *            tile matrices
+ * @param width
+ *            width in default units
+ * @param height
+ *            height in default units
+ * @return actual or approximate tile matrix zoom level
+ */
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
+
+/**
  *  Get the max distance length that matches the tile widths and heights
  *
  *  @param widths  sorted tile matrix widths

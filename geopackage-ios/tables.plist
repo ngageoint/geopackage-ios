@@ -227,6 +227,17 @@
   CONSTRAINT pk_nftl PRIMARY KEY (feature_table_name, tile_table_name)
 );</string>
 	</array>
+	<key>nga_tile_scaling</key>
+	<array>
+		<string>CREATE TABLE nga_tile_scaling (
+  table_name TEXT PRIMARY KEY NOT NULL,
+  scaling_type TEXT NOT NULL,
+  zoom_in INTEGER,
+  zoom_out INTEGER,
+  CONSTRAINT fk_nts_gtms_tn FOREIGN KEY(&apos;table_name&apos;) REFERENCES gpkg_tile_matrix_set(&apos;table_name&apos;)
+  CHECK (scaling_type in (&apos;in&apos;,&apos;out&apos;,&apos;in_out&apos;,&apos;out_in&apos;,&apos;closest_in_out&apos;,&apos;closest_out_in&apos;))
+);</string>
+	</array>
 	<key>geopackage</key>
 	<array>
 		<string>CREATE TABLE geopackage(

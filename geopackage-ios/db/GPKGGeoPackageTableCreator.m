@@ -25,6 +25,7 @@
 #import "GPKGFeatureTileLink.h"
 #import "GPKGGriddedCoverage.h"
 #import "GPKGGriddedTile.h"
+#import "GPKGTileScaling.h"
 #import "GPKGSqlUtils.h"
 
 @implementation GPKGGeoPackageTableCreator
@@ -92,6 +93,10 @@
 
 -(int) createFeatureTileLink{
     return [self createTable:GPKG_FTL_TABLE_NAME];
+}
+
+-(int) createTileScaling{
+    return [self createTable:GPKG_TS_TABLE_NAME];
 }
 
 -(int) createTable: (NSString *) tableName{
