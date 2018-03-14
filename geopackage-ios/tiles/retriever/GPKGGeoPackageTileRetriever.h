@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGTileRetriever.h"
 #import "GPKGTileDao.h"
+#import "GPKGTileScaling.h"
 
 /**
  *  GeoPackage Tile Retriever, assumes the Standard Maps API zoom level and z,x,y grid
@@ -41,5 +42,19 @@
  *  @return web mercator bounding box
  */
 -(GPKGBoundingBox *) getWebMercatorBoundingBox;
+
+/**
+ * Get the Tile Scaling options
+ *
+ * @return tile scaling options
+ */
+-(GPKGTileScaling *) getScaling;
+
+/**
+ * Set the Tile Scaling options
+ *
+ * @param scaling tile scaling options
+ */
+-(void) setScaling: (GPKGTileScaling *) scaling;
 
 @end

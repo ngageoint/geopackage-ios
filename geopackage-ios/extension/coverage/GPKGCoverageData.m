@@ -1624,27 +1624,30 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 for (int y = minDestY; y <= maxDestY; y++) {
                     for (int x = minDestX; x <= maxDestX; x++) {
                         
-                        // Determine the coverage data value based upon the
-                        // selected algorithm
-                        NSDecimalNumber * value = nil;
-                        switch (self.algorithm) {
-                            case GPKG_CDA_NEAREST_NEIGHBOR:
-                                value = [self nearestNeighborValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
-                                break;
-                            case GPKG_CDA_BILINEAR:
-                                value = [self bilinearInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
-                                break;
-                            case GPKG_CDA_BICUBIC:
-                                value = [self bicubicInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
-                                break;
-                            default:
-                                [NSException raise:@"Unsupported Algorithm" format:@"Algorithm is not supported: %u", self.algorithm];
+                        if([self objectInDoubleArray:values atIndex1:y andIndex2:x] == nil){
+                            
+                            // Determine the coverage data value based upon the
+                            // selected algorithm
+                            NSDecimalNumber * value = nil;
+                            switch (self.algorithm) {
+                                case GPKG_CDA_NEAREST_NEIGHBOR:
+                                    value = [self nearestNeighborValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                    break;
+                                case GPKG_CDA_BILINEAR:
+                                    value = [self bilinearInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                    break;
+                                case GPKG_CDA_BICUBIC:
+                                    value = [self bicubicInterpolationValueWithGriddedTile:griddedTile andCoverageDataImage:image andLeftLastColumns:leftLastColumns andTopLeftRows:topLeftRows andTopRows:topRows andY:y andX:x andWidthRatio:widthRatio andHeightRatio:heightRatio andDestTop:dest.origin.y andDestLeft:dest.origin.x andSrcTop:src.origin.y andSrcLeft:src.origin.x];
+                                    break;
+                                default:
+                                    [NSException raise:@"Unsupported Algorithm" format:@"Algorithm is not supported: %u", self.algorithm];
+                            }
+                            
+                            if (value != nil) {
+                                [self replaceObjectInDoubleArray:values atIndex1:y andIndex2:x withValue:value];
+                            }
+                            
                         }
-                        
-                        if (value != nil) {
-                            [self replaceObjectInDoubleArray:values atIndex1:y andIndex2:x withValue:value];
-                        }
-                        
                     }
                 }
                 

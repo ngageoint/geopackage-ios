@@ -71,4 +71,12 @@
     return self.setWebMercatorBoundingBox;
 }
 
+-(GPKGTileScaling *) getScaling{
+    return self.tileCreator.scaling;
+}
+
+-(void) setScaling: (GPKGTileScaling *) scaling{
+    [self.tileCreator setScaling:scaling];
+}
+
 @end

@@ -224,6 +224,29 @@
 -(NSNumber *) closestZoomLevelWithWidth: (double) width andHeight: (double) height;
 
 /**
+ * Get the approximate zoom level for the provided length in the default
+ * units. Tiles may or may not exist for the returned zoom level. The
+ * approximate zoom level is determined using a factor of 2 from the zoom
+ * levels with tiles.
+ *
+ * @param length length in default units
+ * @return approximate zoom level
+ */
+-(NSNumber *) approximateZoomLevelWithLength: (double) length;
+
+/**
+ * Get the approximate zoom level for the provided width and height in the
+ * default units. Tiles may or may not exist for the returned zoom level.
+ * The approximate zoom level is determined using a factor of 2 from the
+ * zoom levels with tiles.
+ *
+ * @param width  width in default units
+ * @param height height in default units
+ * @return approximate zoom level
+ */
+-(NSNumber *) approximateZoomLevelWithWidth: (double) width andHeight: (double) height;
+
+/**
  *  Query by tile grid and zoom level
  *
  *  @param tileGrid  tile grid
