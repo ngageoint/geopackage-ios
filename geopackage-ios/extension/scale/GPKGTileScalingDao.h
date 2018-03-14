@@ -7,7 +7,17 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGTileScaling.h"
 
 @interface GPKGTileScalingDao : GPKGBaseDao
+
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new tile scaling dao
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 @end

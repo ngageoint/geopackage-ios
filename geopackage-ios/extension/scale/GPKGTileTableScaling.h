@@ -18,10 +18,41 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *  Initialize
  *
  *  @param geoPackage GeoPackage
+ *  @param tileMatrixSet tile matrix set
  *
  *  @return new tile table scaling
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tileMatrix tile matrix
+ *
+ *  @return new tile table scaling
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrix: (GPKGTileMatrix *) tileMatrix;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tileDao tile dao
+ *
+ *  @return new tile table scaling
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName table name
+ *
+ *  @return new tile table scaling
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName;
 
 /**
  *  Get the GeoPackage
@@ -50,5 +81,62 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *  @return extension definition
  */
 -(NSString *) getExtensionDefinition;
+
+/**
+ * Determine if the GeoPackage has the extension
+ *
+ * @return true if has extension
+ */
+-(BOOL) has;
+
+/**
+ * Get the tile scaling
+ *
+ * @return tile scaling
+ */
+-(BOOL) get;
+
+/**
+ * Create the tile scaling (same as calling
+ * createOrUpdate(TileScaling))
+ *
+ * @param tileScaling
+ *            tile scaling
+ * @return true upon success
+ */
+-(void) create: (GPKGTileScaling *) tileScaling;
+
+/**
+ * Update the tile scaling (same as calling
+ * createOrUpdate(TileScaling))
+ *
+ * @param tileScaling
+ *            tile scaling
+ * @return true upon success
+ */
+-(void) update: (GPKGTileScaling *) tileScaling;
+
+/**
+ * Create or update the tile scaling
+ *
+ * @param tileScaling
+ *            tile scaling
+ * @return true upon success
+ */
+-(void) createOrUpdate: (GPKGTileScaling *) tileScaling;
+
+/**
+ * Delete the tile table scaling for the tile table
+ *
+ * @return true if deleted
+ */
+-(BOOL) delete;
+
+/**
+ * Get the extension
+ *
+ * @return extensions object or null if one does not exist
+ */
+-(GPKGExtensions *) getExtension;
 
 @end
