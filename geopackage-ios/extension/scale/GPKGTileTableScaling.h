@@ -62,6 +62,13 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
 -(GPKGGeoPackage *) getGeoPackage;
 
 /**
+ *  Get the table name
+ *
+ *  @return table name
+ */
+-(NSString *) getTableName;
+
+/**
  *  Get the Tile Scaling DAO
  *
  *  @return tile scaling dao
@@ -94,7 +101,7 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @return tile scaling
  */
--(BOOL) get;
+-(GPKGTileScaling *) get;
 
 /**
  * Create the tile scaling (same as calling

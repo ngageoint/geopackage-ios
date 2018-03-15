@@ -51,6 +51,10 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     return self.geoPackage;
 }
 
+-(NSString *) getTableName{
+    return self.tableName;
+}
+
 -(GPKGTileScalingDao *) getDao{
     return self.tileScalingDao;
 }
@@ -72,7 +76,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     return exists;
 }
 
--(BOOL) get{
+-(GPKGTileScaling *) get{
     GPKGTileScaling *tileScaling = nil;
     if([self has]){
         tileScaling = (GPKGTileScaling *)[self.tileScalingDao queryForIdObject:self.tableName];

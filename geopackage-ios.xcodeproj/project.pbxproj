@@ -35,6 +35,9 @@
 		041695411DC93DEC008476AB /* GPKGAttributesColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 0416953F1DC93DEC008476AB /* GPKGAttributesColumn.m */; };
 		041695441DC93E35008476AB /* GPKGAttributesTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 041695421DC93E35008476AB /* GPKGAttributesTable.h */; };
 		041695451DC93E35008476AB /* GPKGAttributesTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 041695431DC93E35008476AB /* GPKGAttributesTable.m */; };
+		0418DCCC205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0418DCCB205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m */; };
+		0418DCCF205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0418DCCE205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.m */; };
+		0418DCD2205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0418DCD1205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m */; };
 		0419CFF41FB0F6F600470036 /* GPKGMapTolerance.h in Headers */ = {isa = PBXBuildFile; fileRef = 0419CFF21FB0F6F600470036 /* GPKGMapTolerance.h */; };
 		0419CFF51FB0F6F600470036 /* GPKGMapTolerance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0419CFF31FB0F6F600470036 /* GPKGMapTolerance.m */; };
 		0422BAE51DD38A38002709B6 /* GPKGCoverageDataRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BAE31DD38A38002709B6 /* GPKGCoverageDataRequest.h */; };
@@ -517,6 +520,12 @@
 		0416953F1DC93DEC008476AB /* GPKGAttributesColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAttributesColumn.m; sourceTree = "<group>"; };
 		041695421DC93E35008476AB /* GPKGAttributesTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGAttributesTable.h; sourceTree = "<group>"; };
 		041695431DC93E35008476AB /* GPKGAttributesTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGAttributesTable.m; sourceTree = "<group>"; };
+		0418DCCA205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileTableScalingCreateTest.h; sourceTree = "<group>"; };
+		0418DCCB205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileTableScalingCreateTest.m; sourceTree = "<group>"; };
+		0418DCCD205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileTableScalingImportTest.h; sourceTree = "<group>"; };
+		0418DCCE205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileTableScalingImportTest.m; sourceTree = "<group>"; };
+		0418DCD0205AE11400A4F9F2 /* GPKGTileTableScalingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileTableScalingUtils.h; sourceTree = "<group>"; };
+		0418DCD1205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileTableScalingUtils.m; sourceTree = "<group>"; };
 		0419CFF21FB0F6F600470036 /* GPKGMapTolerance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGMapTolerance.h; sourceTree = "<group>"; };
 		0419CFF31FB0F6F600470036 /* GPKGMapTolerance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGMapTolerance.m; sourceTree = "<group>"; };
 		0422BAE31DD38A38002709B6 /* GPKGCoverageDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataRequest.h; sourceTree = "<group>"; };
@@ -1163,6 +1172,19 @@
 				0422BB151DDE445E002709B6 /* GPKGAttributesTableReader.m */,
 			);
 			path = attributes;
+			sourceTree = "<group>";
+		};
+		0418DCC9205AE04600A4F9F2 /* scale */ = {
+			isa = PBXGroup;
+			children = (
+				0418DCCA205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.h */,
+				0418DCCB205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m */,
+				0418DCCD205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.h */,
+				0418DCCE205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.m */,
+				0418DCD0205AE11400A4F9F2 /* GPKGTileTableScalingUtils.h */,
+				0418DCD1205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m */,
+			);
+			path = scale;
 			sourceTree = "<group>";
 		};
 		0422BAE21DCD214B002709B6 /* coverage */ = {
@@ -2080,6 +2102,7 @@
 				0422BB351DF0E686002709B6 /* coverage */,
 				0447FA2C1CDBFB7800418104 /* link */,
 				048EC1731BD54F6C008426A7 /* index */,
+				0418DCC9205AE04600A4F9F2 /* scale */,
 				0447FA201CDBE8D700418104 /* GPKGCrsWktExtensionTest.h */,
 				0447FA211CDBE8D700418104 /* GPKGCrsWktExtensionTest.m */,
 				0447FA231CDBFA6200418104 /* GPKGGeometryExtensionsTest.h */,
@@ -2859,6 +2882,7 @@
 				04DCAEB01F28EC8400FA9B9F /* GPKGSpatialReferenceSystemCreateTest.m in Sources */,
 				0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */,
 				042FC8F01B964DA200549A4B /* GPKGTestConstants.m in Sources */,
+				0418DCCF205AE0DF00A4F9F2 /* GPKGTileTableScalingImportTest.m in Sources */,
 				04DCAEAA1F27CD9E00FA9B9F /* GPKGContentsCreateTest.m in Sources */,
 				0447FA2F1CDBFBB900418104 /* GPKGFeatureTileTableLinkerCreateTest.m in Sources */,
 				0422BB3E1DF0E8F9002709B6 /* GPKGCoverageDataPngNoNullsCreateTest.m in Sources */,
@@ -2909,11 +2933,13 @@
 				04FEE5791D131380004B8113 /* GPKGFeatureTilesTest.m in Sources */,
 				04DCAEBA1F2A19C100FA9B9F /* GPKGFeatureUtils.m in Sources */,
 				042FC8F61B964DA200549A4B /* GPKGFeatureTileUtils.m in Sources */,
+				0418DCCC205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m in Sources */,
 				0422BB381DF0E8B8002709B6 /* GPKGCoverageDataPngCreateTest.m in Sources */,
 				045BCA041BFA8FA50080B967 /* GPKGGeoPackageTestUtils.m in Sources */,
 				0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */,
 				04C5032C201A7AA300862DA9 /* GPKGCoverageDataTestUtils.m in Sources */,
 				042FC8EF1B964DA200549A4B /* GPKGImportGeoPackageTestCase.m in Sources */,
+				0418DCD2205AE11400A4F9F2 /* GPKGTileTableScalingUtils.m in Sources */,
 				045BC9FB1BFA6EE00080B967 /* GPKGCreateTestCase.m in Sources */,
 				048EC17C1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m in Sources */,
 				042FC8E91B964DA200549A4B /* GPKGGeoPackageGeometryDataCreateTest.m in Sources */,
