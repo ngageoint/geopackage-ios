@@ -9,6 +9,7 @@
 #import <MapKit/MapKit.h>
 #import "GPKGTileDao.h"
 #import "GPKGBoundedOverlay.h"
+#import "GPKGTileScaling.h"
 
 /**
  *  GeoPackage Tile Overlay
@@ -53,5 +54,27 @@
  *  @return new tile dao
  */
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height;
+
+/**
+ *  Initialize
+ *
+ *  @param tileDao tile dao
+ *  @param scaling tile scaling
+ *
+ *  @return new tile dao
+ */
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling;
+
+/**
+ *  Initialize
+ *
+ *  @param tileDao tile dao
+ *  @param width   tile width
+ *  @param height  tile height
+ *  @param scaling tile scaling
+ *
+ *  @return new tile dao
+ */
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height andScaling: (GPKGTileScaling *) scaling;
 
 @end

@@ -22,15 +22,25 @@
 @implementation GPKGGeoPackageOverlay
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
-    self = [self initWithTileDao:tileDao andWidth:512 andHeight:512];
-    return self;
+    return [self initWithTileDao:tileDao andScaling:nil];
 }
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height{
+    return [self initWithTileDao:tileDao andWidth:width andHeight:height andScaling:nil];
+}
+
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling{
+    return [self initWithTileDao:tileDao andWidth:512 andHeight:512 andScaling:scaling];
+}
+
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height andScaling: (GPKGTileScaling *) scaling{
     self = [super init];
     if(self != nil){
         self.tileSize = CGSizeMake(width, height);
         GPKGGeoPackageTileRetriever * retriever = [[GPKGGeoPackageTileRetriever alloc] initWithTileDao:tileDao andWidth:[NSNumber numberWithInt:width] andHeight:[NSNumber numberWithInt:height]];
+        if(scaling != nil){
+            [retriever setScaling:scaling];
+        }
         [self initHelperWithRetriever:retriever];
     }
     return self;
