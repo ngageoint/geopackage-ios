@@ -279,56 +279,59 @@
         
         GPKGResultSet *tileResultSet = [tileDao queryforTileWithZoomLevel:tileDao.maxZoom];
         [GPKGTestUtils assertNotNil:tileResultSet];
-        [GPKGTestUtils assertTrue:tileResultSet.count > 0];
-        while([tileResultSet moveToNext]){
-            GPKGTileRow * tileRow = [tileDao getTileRow:tileResultSet];
-            
-            GPKGTileMatrix *tileMatrix = [tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
-            [GPKGTestUtils assertNotNil:tileMatrix];
-            
-            GPKGGriddedTile *griddedTile = [coverageData griddedTileWithTileId:[[tileRow getId] intValue]];
-            [GPKGTestUtils assertNotNil:griddedTile];
-            
-            NSData *tileData = [tileRow getTileData];
-            [GPKGTestUtils assertNotNil:tileData];
-            
-            GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
-            
-            int tileHeight = [tileMatrix.tileHeight intValue];
-            int tileWidth = [tileMatrix.tileWidth intValue];
-            
-            int heightChunk = MAX(tileHeight / 10, 1);
-            int widthChunk = MAX(tileWidth / 10, 1);
-            
-            for (int y = 0; y < tileHeight; y = MIN(y + heightChunk,
-                                                         y == tileHeight - 1 ? tileHeight : tileHeight - 1)) {
-                for (int x = 0; x < tileWidth; x = MIN(x + widthChunk,
-                                                            x == tileWidth - 1 ? tileWidth : tileWidth - 1)) {
-                    
-                    NSDecimalNumber *pixelValue = [coverageData valueWithGriddedTile:griddedTile andData:tileData andX:x andY:y];
-                    double pixelLongitude = [boundingBox.minLongitude doubleValue] + (x * [tileMatrix.pixelXSize doubleValue]);
-                    double pixelLatitude = [boundingBox.maxLatitude doubleValue] - (y * [tileMatrix.pixelYSize doubleValue]);
-                    switch (encoding) {
-                        case GPKG_GCET_CENTER:
-                        case GPKG_GCET_AREA:
-                            pixelLongitude += ([tileMatrix.pixelXSize doubleValue] / 2.0);
-                            pixelLatitude -= ([tileMatrix.pixelYSize doubleValue] / 2.0);
-                            break;
-                        case GPKG_GCET_CORNER:
-                            pixelLatitude -= [tileMatrix.pixelYSize doubleValue];
-                            break;
-                    }
-                    NSDecimalNumber *value = [coverageData valueWithLatitude:pixelLatitude andLongitude:pixelLongitude];
-                    
-                    if (!allowNils || pixelValue != nil) {
-                        [GPKGTestUtils assertEqualDecimalNumberWithValue:pixelValue andValue2:value andDelta:0];
+        @try{
+            [GPKGTestUtils assertTrue:tileResultSet.count > 0];
+            while([tileResultSet moveToNext]){
+                GPKGTileRow * tileRow = [tileDao getTileRow:tileResultSet];
+                
+                GPKGTileMatrix *tileMatrix = [tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
+                [GPKGTestUtils assertNotNil:tileMatrix];
+                
+                GPKGGriddedTile *griddedTile = [coverageData griddedTileWithTileId:[[tileRow getId] intValue]];
+                [GPKGTestUtils assertNotNil:griddedTile];
+                
+                NSData *tileData = [tileRow getTileData];
+                [GPKGTestUtils assertNotNil:tileData];
+                
+                GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+                
+                int tileHeight = [tileMatrix.tileHeight intValue];
+                int tileWidth = [tileMatrix.tileWidth intValue];
+                
+                int heightChunk = MAX(tileHeight / 10, 1);
+                int widthChunk = MAX(tileWidth / 10, 1);
+                
+                for (int y = 0; y < tileHeight; y = MIN(y + heightChunk,
+                                                             y == tileHeight - 1 ? tileHeight : tileHeight - 1)) {
+                    for (int x = 0; x < tileWidth; x = MIN(x + widthChunk,
+                                                                x == tileWidth - 1 ? tileWidth : tileWidth - 1)) {
+                        
+                        NSDecimalNumber *pixelValue = [coverageData valueWithGriddedTile:griddedTile andData:tileData andX:x andY:y];
+                        double pixelLongitude = [boundingBox.minLongitude doubleValue] + (x * [tileMatrix.pixelXSize doubleValue]);
+                        double pixelLatitude = [boundingBox.maxLatitude doubleValue] - (y * [tileMatrix.pixelYSize doubleValue]);
+                        switch (encoding) {
+                            case GPKG_GCET_CENTER:
+                            case GPKG_GCET_AREA:
+                                pixelLongitude += ([tileMatrix.pixelXSize doubleValue] / 2.0);
+                                pixelLatitude -= ([tileMatrix.pixelYSize doubleValue] / 2.0);
+                                break;
+                            case GPKG_GCET_CORNER:
+                                pixelLatitude -= [tileMatrix.pixelYSize doubleValue];
+                                break;
+                        }
+                        NSDecimalNumber *value = [coverageData valueWithLatitude:pixelLatitude andLongitude:pixelLongitude];
+                        
+                        if (!allowNils || pixelValue != nil) {
+                            [GPKGTestUtils assertEqualDecimalNumberWithValue:pixelValue andValue2:value andDelta:0];
+                        }
                     }
                 }
+                
+                break;
             }
-            
-            break;
+        }@finally{
+            [tileResultSet close];
         }
-        [tileResultSet close];
     }
     
 }

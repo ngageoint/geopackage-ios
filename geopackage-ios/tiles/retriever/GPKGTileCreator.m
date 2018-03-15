@@ -102,15 +102,20 @@
     GPKGProjectionTransform * transformRequestToTiles = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
     
-    GPKGTileMatrix * tileMatrix = [self getTileMatrix:tilesBoundingBox];
+    NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
+
+    for(int i = 0; !hasTile && i < tileMatrices.count; i++){
     
-    GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
-    if(tileResults != nil){
+        GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
         
-        @try{
-            hasTile = tileResults.count > 0;
-        } @finally{
-            [tileResults close];
+        GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
+        if(tileResults != nil){
+            
+            @try{
+                hasTile = tileResults.count > 0;
+            } @finally{
+                [tileResults close];
+            }
         }
     }
     
@@ -125,51 +130,56 @@
     GPKGProjectionTransform * transformRequestToTiles = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
     
-    GPKGTileMatrix * tileMatrix = [self getTileMatrix:tilesBoundingBox];
+    NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
     
-    GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
-    if(tileResults != nil){
+    for(int i = 0; tile == nil && i < tileMatrices.count; i++){
+    
+        GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
         
-        @try{
+        GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
+        if(tileResults != nil){
             
-            if(tileResults.count > 0){
+            @try{
                 
-                GPKGBoundingBox * requestProjectedBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
-                
-                // Determine the requested tile dimensions, or use the dimensions of a single tile matrix tile
-                int requestedTileWidth = self.width != nil ? [self.width intValue] : [tileMatrix.tileWidth intValue];
-                int requestedTileHeight = self.height != nil ? [self.height intValue] : [tileMatrix.tileHeight intValue];
-                
-                // Determine the size of the tile to initially draw
-                int tileWidth = requestedTileWidth;
-                int tileHeight = requestedTileHeight;
-                if (!self.sameProjection) {
-                    tileWidth = round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
-                    tileHeight = round(([requestProjectedBoundingBox.maxLatitude doubleValue] - [requestProjectedBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
-                }
-                
-                // Draw the resulting bitmap with the matching tiles
-                UIImage * tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:requestProjectedBoundingBox andWidth:tileWidth andHeight:tileHeight];
-                
-                // Create the tile
-                if(tileImage != nil){
+                if(tileResults.count > 0){
                     
-                    // Project the tile if needed
-                    if(!self.sameProjection){
-                        UIImage * reprojectTile = [self reprojectTileWithImage:tileImage andWidth:requestedTileWidth andHeight:requestedTileHeight andBoundingBox:requestBoundingBox andTransform:transformRequestToTiles andBoundingBox:tilesBoundingBox];
-                        tileImage = reprojectTile;
+                    GPKGBoundingBox * requestProjectedBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
+                    
+                    // Determine the requested tile dimensions, or use the dimensions of a single tile matrix tile
+                    int requestedTileWidth = self.width != nil ? [self.width intValue] : [tileMatrix.tileWidth intValue];
+                    int requestedTileHeight = self.height != nil ? [self.height intValue] : [tileMatrix.tileHeight intValue];
+                    
+                    // Determine the size of the tile to initially draw
+                    int tileWidth = requestedTileWidth;
+                    int tileHeight = requestedTileHeight;
+                    if (!self.sameProjection) {
+                        tileWidth = round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
+                        tileHeight = round(([requestProjectedBoundingBox.maxLatitude doubleValue] - [requestProjectedBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
                     }
                     
-                    NSData * tileData = [GPKGImageConverter toData:tileImage andFormat:GPKG_CF_PNG];
-                    tile = [[GPKGGeoPackageTile alloc] initWithWidth:requestedTileWidth andHeight:requestedTileHeight andData:tileData];
+                    // Draw the resulting bitmap with the matching tiles
+                    UIImage * tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:requestProjectedBoundingBox andWidth:tileWidth andHeight:tileHeight];
+                    
+                    // Create the tile
+                    if(tileImage != nil){
+                        
+                        // Project the tile if needed
+                        if(!self.sameProjection){
+                            UIImage * reprojectTile = [self reprojectTileWithImage:tileImage andWidth:requestedTileWidth andHeight:requestedTileHeight andBoundingBox:requestBoundingBox andTransform:transformRequestToTiles andBoundingBox:tilesBoundingBox];
+                            tileImage = reprojectTile;
+                        }
+                        
+                        NSData * tileData = [GPKGImageConverter toData:tileImage andFormat:GPKG_CF_PNG];
+                        tile = [[GPKGGeoPackageTile alloc] initWithWidth:requestedTileWidth andHeight:requestedTileHeight andData:tileData];
+                    }
+                    
                 }
                 
+            }@finally{
+                [tileResults close];
             }
             
-        }@finally{
-            [tileResults close];
         }
-        
     }
     
     return tile;
@@ -303,9 +313,9 @@
     return projectedTileImage;
 }
 
--(GPKGTileMatrix *) getTileMatrix: (GPKGBoundingBox *) projectedRequestBoundingBox{
+-(NSArray<GPKGTileMatrix *> *) getTileMatrices: (GPKGBoundingBox *) projectedRequestBoundingBox{
 
-    GPKGTileMatrix * tileMatrix = nil;
+    NSMutableArray<GPKGTileMatrix *> *tileMatrices = [[NSMutableArray alloc] init];
     
     // Check if the request overlaps the tile matrix set
     if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:projectedRequestBoundingBox andBoundingBox:self.tileSetBoundingBox] != nil){
@@ -317,16 +327,115 @@
         - [projectedRequestBoundingBox.minLatitude doubleValue];
         
         // Get the zoom level to request based upon the tile size
-        NSNumber * zoomLevel = [self.tileDao zoomLevelWithWidth: distanceWidth andHeight: distanceHeight];
+        NSNumber * requestZoomLevel = nil;
+        if(self.scaling != nil){
+            // When options are provided, get the approximate zoom level regardless of whether a tile level exists
+            requestZoomLevel = [self.tileDao approximateZoomLevelWithWidth:distanceWidth andHeight:distanceHeight];
+        }else{
+            // Get the closest existing zoom level
+            requestZoomLevel = [self.tileDao zoomLevelWithWidth: distanceWidth andHeight: distanceHeight];
+        }
         
         // If there is a matching zoom level
-        if (zoomLevel != nil) {
-            tileMatrix = [self.tileDao getTileMatrixWithZoomLevel:[zoomLevel intValue]];
+        if (requestZoomLevel != nil) {
+        
+            NSMutableArray<NSNumber *> *zoomLevels = nil;
+            
+            // If options are configured, build the possible zoom levels in order to request
+            if (self.scaling != nil && self.scaling.scalingType != nil) {
+                
+                // Find zoom in levels
+                NSMutableArray<NSNumber *> *zoomInLevels = [[NSMutableArray alloc] init];
+                if ([self.scaling isZoomIn]) {
+                    int zoomIn = self.scaling.zoomIn != nil ? [requestZoomLevel intValue] + [self.scaling.zoomIn intValue] : self.tileDao.maxZoom;
+                    for (int zoomLevel = [requestZoomLevel intValue] + 1; zoomLevel <= zoomIn; zoomLevel++) {
+                        [zoomInLevels addObject:[NSNumber numberWithInt:zoomLevel]];
+                    }
+                }
+                
+                // Find zoom out levels
+                NSMutableArray<NSNumber *> *zoomOutLevels = [[NSMutableArray alloc] init];
+                if ([self.scaling isZoomOut]) {
+                    int zoomOut = self.scaling.zoomOut != nil ? [requestZoomLevel intValue] - [self.scaling.zoomOut intValue] : self.tileDao.minZoom;
+                    for (int zoomLevel = [requestZoomLevel intValue] - 1; zoomLevel >= zoomOut; zoomLevel--) {
+                        [zoomOutLevels addObject:[NSNumber numberWithInt:zoomLevel]];
+                    }
+                }
+                
+                if (zoomInLevels.count == 0) {
+                    // Only zooming out
+                    zoomLevels = zoomOutLevels;
+                } else if (zoomOutLevels.count == 0) {
+                    // Only zooming in
+                    zoomLevels = zoomInLevels;
+                } else {
+                    // Determine how to order the zoom in and zoom out levels
+                    enum GPKGTileScalingType type = [self.scaling getTileScalingType];
+                    switch (type) {
+                        case GPKG_TSC_IN:
+                        case GPKG_TSC_IN_OUT:
+                            // Order zoom in levels before zoom out levels
+                            zoomLevels = zoomInLevels;
+                            [zoomLevels addObjectsFromArray:zoomOutLevels];
+                            break;
+                        case GPKG_TSC_OUT:
+                        case GPKG_TSC_OUT_IN:
+                            // Order zoom out levels before zoom in levels
+                            zoomLevels = zoomOutLevels;
+                            [zoomLevels addObjectsFromArray:zoomInLevels];
+                            break;
+                        case GPKG_TSC_CLOSEST_IN_OUT:
+                        case GPKG_TSC_CLOSEST_OUT_IN:
+                            // Alternate the zoom in and out levels
+                            {
+                                NSMutableArray<NSNumber *> *firstLevels;
+                                NSMutableArray<NSNumber *> *secondLevels;
+                                if (type == GPKG_TSC_CLOSEST_IN_OUT) {
+                                    // Alternate starting with zoom in
+                                    firstLevels = zoomInLevels;
+                                    secondLevels = zoomOutLevels;
+                                } else {
+                                    // Alternate starting with zoom out
+                                    firstLevels = zoomOutLevels;
+                                    secondLevels = zoomInLevels;
+                                }
+                                
+                                zoomLevels = [[NSMutableArray alloc] init];
+                                int maxLevels = (int)MAX(firstLevels.count, secondLevels.count);
+                                for (int i = 0; i < maxLevels; i++) {
+                                    if (i < firstLevels.count) {
+                                        [zoomLevels addObject:[firstLevels objectAtIndex:i]];
+                                    }
+                                    if (i < secondLevels.count) {
+                                        [zoomLevels addObject:[secondLevels objectAtIndex:i]];
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            [NSException raise:@"Unsupported Tile Scaling Type" format:@"Unsupported Tile Scaling Type: %u", type];
+                    }
+                }
+                
+            }else{
+                zoomLevels = [[NSMutableArray alloc] init];
+            }
+            
+            // Always check the request zoom level first
+            [zoomLevels insertObject:requestZoomLevel atIndex:0];
+            
+            // Build a list of tile matrices that exist for the zoom levels
+            for (NSNumber *zoomLevel in zoomLevels) {
+                GPKGTileMatrix *tileMatrix = [self.tileDao getTileMatrixWithZoomLevel:[zoomLevel intValue]];
+                if (tileMatrix != nil) {
+                    [tileMatrices addObject:tileMatrix];
+                }
+            }
+            
         }
     }
     
-    return tileMatrix;
-    
+    return tileMatrices;
 }
 
 -(GPKGResultSet *) retrieveTileResultsWithBoundingBox: (GPKGBoundingBox *) projectedRequestBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{

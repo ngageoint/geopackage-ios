@@ -58,6 +58,12 @@
     return self.featureDao;
 }
 
+-(void) close{
+    if(self.indexManager != nil){
+        [self.indexManager close];
+    }
+}
+
 -(void) calculateDrawOverlap{
     
     if(self.pointIcon != nil){

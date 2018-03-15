@@ -126,6 +126,11 @@
 -(GPKGFeatureDao *) getFeatureDao;
 
 /**
+ * Close the feature tiles connection
+ */
+-(void) close;
+
+/**
  * Call after making changes to the point icon, point radius, or paint stroke widths.
  * Determines the pixel overlap between tiles
  */

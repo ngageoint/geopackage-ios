@@ -562,6 +562,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [indexer setIndexLocation:GPKG_FIT_GEOPACKAGE];
         [indexer index];
+        [indexer close];
     }
     
 }
@@ -593,6 +594,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         GPKGTileGenerator *tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:requestBoundingBox andProjection:requestProjection];
         
         [tileGenerator generateTiles];
+        [featureTiles close];
     }
     
 }

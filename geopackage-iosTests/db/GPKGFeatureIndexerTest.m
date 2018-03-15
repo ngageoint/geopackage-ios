@@ -140,6 +140,8 @@
     [GPKGTestUtils assertTrue:[indexer indexFeatureRow:pointRow]];
     [GPKGTestUtils assertTrue:[indexer isIndexed]];
 
+    [indexer close];
+    
     WKBGeometryEnvelope * envelope = [[WKBGeometryEnvelope alloc] init];
     [envelope setMinX:[[NSDecimalNumber alloc] initWithDouble:minX]];
     [envelope setMaxX:[[NSDecimalNumber alloc] initWithDouble:maxX]];

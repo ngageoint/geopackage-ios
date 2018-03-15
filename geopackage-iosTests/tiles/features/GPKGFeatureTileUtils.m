@@ -74,11 +74,26 @@
     return count;
 }
 
-+(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
++(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andUseIcon: (BOOL) useIcon{
     
     GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
     
-    [featureTiles setPointColor:[UIColor yellowColor]];
+    if(useIcon){
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(5.f, 5.f), NO, 0.0f);
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(ctx);
+        CGRect rect = CGRectMake(0, 0, 5, 5);
+        CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
+        CGContextFillEllipseInRect(ctx, rect);
+        CGContextRestoreGState(ctx);
+        UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        GPKGFeatureTilePointIcon *pointIcon = [[GPKGFeatureTilePointIcon alloc] initWithIcon:image];
+        [pointIcon centerIcon];
+        [featureTiles setPointIcon:pointIcon];
+    }else{
+        [featureTiles setPointColor:[UIColor yellowColor]];
+    }
     [featureTiles setLineColor:[UIColor greenColor]];
     [featureTiles setPolygonColor:[UIColor redColor]];
     [featureTiles setFillPolygon:[UIColor redColor]];
