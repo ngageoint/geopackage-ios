@@ -6,7 +6,14 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 2.0.2 (TBD)
 
-* TBD
+* Tile Scaling extension for displaying missing tiles using nearby zoom levels
+* Projection Transform "is same projection" method
+* Tile DAO zoom level improvements and approximate zoom level determinations
+* Skip tiles drawn from features when no features overlap the tile
+* Tile Generator fix to save updated bounds in the Tile Matrix Set
+* Tile Generator projection transformations only when projections differ
+* Stream closing improvements
+* Feature Tiles close method
 
 ## [2.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.1) (02-14-2018)
 
