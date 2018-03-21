@@ -14,6 +14,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Tile Generator projection transformations only when projections differ
 * Stream closing improvements
 * Feature Tiles close method
+* RTree Trigger Update 3 spec fix
 
 ## [2.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.1) (02-14-2018)
 
