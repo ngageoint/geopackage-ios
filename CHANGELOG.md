@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 2.0.2 (TBD)
+## [2.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.2) (03-21-2018)
 
 * Tile Scaling extension for displaying missing tiles using nearby zoom levels
 * Projection Transform "is same projection" method
