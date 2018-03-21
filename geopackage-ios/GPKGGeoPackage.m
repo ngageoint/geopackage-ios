@@ -799,6 +799,23 @@
     return table;
 }
 
+-(GPKGTileScalingDao *) getTileScalingDao{
+    return [[GPKGTileScalingDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createTileScalingTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGTileScalingDao * dao = [self getTileScalingDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createTileScaling] > 0;
+    }
+    
+    return created;
+}
+
 -(GPKGSpatialReferenceSystem *) getSrs: (NSNumber *) srsId{
     GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:srsId];

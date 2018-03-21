@@ -180,6 +180,14 @@
     return [GPKGTileDaoUtils closestZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andWidth:width andHeight:height];
 }
 
+-(NSNumber *) approximateZoomLevelWithLength: (double) length{
+    return [GPKGTileDaoUtils approximateZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andLength:length];
+}
+
+-(NSNumber *) approximateZoomLevelWithWidth: (double) width andHeight: (double) height{
+    return [GPKGTileDaoUtils approximateZoomLevelWithWidths:self.widths andHeights:self.heights andTileMatrices:self.tileMatrices andWidth:width andHeight:height];
+}
+
 -(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel{
     return [self queryByTileGrid:tileGrid andZoomLevel:zoomLevel andOrderBy:nil];
 }

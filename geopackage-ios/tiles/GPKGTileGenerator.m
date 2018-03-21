@@ -12,6 +12,7 @@
 #import "GPKGUtils.h"
 #import "GPKGProjectionTransform.h"
 #import "GPKGImageConverter.h"
+#import "GPKGTileTableScaling.h"
 
 @implementation GPKGTileGenerator
 
@@ -67,7 +68,10 @@
             requestBoundingBox = self.boundingBox;
         }else{
             GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-            requestBoundingBox = [transform transformWithBoundingBox:self.boundingBox];
+            requestBoundingBox = self.boundingBox;
+            if(![transform isSameProjection]){
+                requestBoundingBox = [transform transformWithBoundingBox:requestBoundingBox];
+            }
         }
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
             // Get the tile grid that includes the entire bounding box
@@ -123,6 +127,12 @@
     }
     
     [self preTileGeneration];
+    
+    // If tile scaling is set, create the tile scaling extension entry
+    if (self.scaling != nil) {
+        GPKGTileTableScaling  *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:self.geoPackage andTileMatrixSet:tileMatrixSet];
+        [tileTableScaling createOrUpdate:self.scaling];
+    }
     
     // Create the tiles
     @try {
@@ -244,7 +254,10 @@
     GPKGBoundingBox * previousContentsBoundingBox = [contents getBoundingBox];
     if(previousContentsBoundingBox != nil){
         GPKGProjectionTransform * transformProjectionToContents = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao getProjection:contents]];
-        GPKGBoundingBox * contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:self.boundingBox];
+        GPKGBoundingBox * contentsBoundingBox = self.boundingBox;
+        if(![transformProjectionToContents isSameProjection]){
+            contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:contentsBoundingBox];
+        }
         contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
         
         // Update the contents if modified
@@ -262,17 +275,28 @@
         
         // Adjust the bounds to include the request and existing bounds
         GPKGProjectionTransform * transformProjectionToTileMatrixSet = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:tileMatrixProjection];
-        GPKGBoundingBox * updateBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:self.boundingBox];
+        BOOL sameProjection = [transformProjectionToTileMatrixSet isSameProjection];
+        GPKGBoundingBox * updateBoundingBox = self.boundingBox;
+        if(!sameProjection){
+            updateBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateBoundingBox];
+        }
         int minNewOrUpdateZoom = MIN(self.minZoom, tileDao.minZoom);
         [self adjustBoundsWithBoundingBox:updateBoundingBox andZoom:minNewOrUpdateZoom];
         
         // Update the tile matrix set if modified
-        GPKGBoundingBox * updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:self.tileGridBoundingBox];
+        GPKGBoundingBox * updateTileGridBoundingBox = self.tileGridBoundingBox;
+        if(!sameProjection){
+            updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateTileGridBoundingBox];
+        }
         if(![previousTileMatrixSetBoundingBox equals:updateTileGridBoundingBox]){
             updateTileGridBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:updateTileGridBoundingBox andBoundingBox:previousTileMatrixSetBoundingBox];
+            [self adjustBoundsWithBoundingBox:updateTileGridBoundingBox andZoom:minNewOrUpdateZoom];
+            updateTileGridBoundingBox = self.tileGridBoundingBox;
+            if(!sameProjection){
+                updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateTileGridBoundingBox];
+            }
             [tileMatrixSet setBoundingBox:updateTileGridBoundingBox];
             [tileMatrixSetDao update:tileMatrixSet];
-            [self adjustBoundsWithBoundingBox:updateTileGridBoundingBox andZoom:minNewOrUpdateZoom];
         }
         
         GPKGTileMatrixDao * tileMatrixDao = [self.geoPackage getTileMatrixDao];
@@ -313,9 +337,11 @@
                         int newTileColumn = [GPKGTileBoundingBoxUtils getTileColumnWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:zoomMatrixWidth andLongitude:midLongitude];
                         
                         // Update the tile row
-                        [tileRow setTileRow:newTileRow];
-                        [tileRow setTileColumn:newTileColumn];
-                        [tileDao update:tileRow];
+                        if([tileRow getTileRow] != newTileRow || [tileRow getTileColumn] != newTileColumn){
+                            [tileRow setTileRow:newTileRow];
+                            [tileRow setTileColumn:newTileColumn];
+                            [tileDao update:tileRow];
+                        }
                     }
                 }
                 @finally {

@@ -59,7 +59,7 @@ END;</string>
 	</array>
 	<key>trigger.update3</key>
 	<array>
-		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update3&quot; AFTER UPDATE OF &quot;&lt;c&gt;&quot; ON &quot;&lt;t&gt;&quot;
+		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_update3&quot; AFTER UPDATE ON &quot;&lt;t&gt;&quot;
   WHEN OLD.&quot;&lt;i&gt;&quot; != NEW.&quot;&lt;i&gt;&quot; AND
        (NEW.&quot;&lt;c&gt;&quot; NOTNULL AND NOT ST_IsEmpty(NEW.&quot;&lt;c&gt;&quot;))
 BEGIN

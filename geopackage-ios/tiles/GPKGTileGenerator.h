@@ -99,6 +99,11 @@
 @property (nonatomic) int matrixWidth;
 
 /**
+ *  Tile scaling settings
+ */
+@property (nonatomic, strong) GPKGTileScaling *scaling;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage

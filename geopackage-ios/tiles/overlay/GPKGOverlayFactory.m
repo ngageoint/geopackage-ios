@@ -16,6 +16,10 @@
     return [self getBoundedOverlay:tileDao];
 }
 
++(MKTileOverlay *) getTileOverlayWithTileDao: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling{
+    return [self getBoundedOverlay:tileDao andScaling:scaling];
+}
+
 +(GPKGBoundedOverlay *) getBoundedOverlay: (GPKGTileDao *) tileDao{
     
     GPKGBoundedOverlay * overlay = nil;
@@ -27,6 +31,10 @@
     }
     
     return overlay;
+}
+
++(GPKGBoundedOverlay *) getBoundedOverlay: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling{
+    return [[GPKGGeoPackageOverlay alloc] initWithTileDao:tileDao andScaling:scaling];
 }
 
 @end

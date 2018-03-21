@@ -80,8 +80,7 @@
         } else {
             widthIndex = widthIndex - 1;
         }
-    } else if (width - [(NSDecimalNumber *)[widths objectAtIndex:widthIndex-1] doubleValue] <
-               [(NSDecimalNumber *)[widths objectAtIndex:widthIndex] doubleValue] - width) {
+    } else if ([self closerToZoomInWithLengths:widths andLength:width andLengthIndex:widthIndex]) {
         widthIndex--;
     }
     
@@ -96,8 +95,7 @@
         } else {
             heightIndex = heightIndex - 1;
         }
-    } else if (height - [(NSDecimalNumber *)[heights objectAtIndex:heightIndex-1] doubleValue] <
-               [(NSDecimalNumber *)[heights objectAtIndex:heightIndex] doubleValue] - height) {
+    } else if ([self closerToZoomInWithLengths:heights andLength:height andLengthIndex:heightIndex]) {
         heightIndex--;
     }
     
@@ -113,12 +111,136 @@
             index = widthIndex < heightIndex ? widthIndex : heightIndex;
         }
         
-        GPKGTileMatrix * tileMatrix = [tileMatrices objectAtIndex:[tileMatrices count]
-                                       - index - 1];
+        GPKGTileMatrix *tileMatrix = [self tileMatrixFromTileMatrices:tileMatrices atIndex:index];
         zoomLevel = tileMatrix.zoomLevel;
     }
     
     return zoomLevel;
+}
+
+/**
+ * Determine if the length at the index is closer by a factor of two to the
+ * next zoomed in level / lower index
+ *
+ * @param lengths
+ *            sorted lengths
+ * @param length
+ *            current length
+ * @param lengthIndex
+ *            length index
+ * @return true if closer to zoomed in length
+ */
++(BOOL) closerToZoomInWithLengths: (NSArray *) lengths andLength: (double) length andLengthIndex: (int) lengthIndex{
+    
+    // Zoom level distance to the zoomed in length
+    double zoomInDistance = log(length / [(NSDecimalNumber *)[lengths objectAtIndex:lengthIndex - 1] doubleValue]) / log(2.0);
+
+    // Zoom level distance to the zoomed out length
+    double zoomOutDistance = log(length / [(NSDecimalNumber *)[lengths objectAtIndex:lengthIndex] doubleValue]) / log(0.5);
+    
+    BOOL zoomIn = zoomInDistance < zoomOutDistance;
+    
+    return zoomIn;
+}
+
+/**
+ * Get the tile matrix represented by the current length index
+ *
+ * @param tileMatrices
+ *            tile matrices
+ * @param index
+ *            index location in sorted lengths
+ * @return tile matrix
+ */
++(GPKGTileMatrix *) tileMatrixFromTileMatrices: (NSArray *) tileMatrices atIndex: (int) index{
+    return [tileMatrices objectAtIndex:tileMatrices.count - index - 1];
+}
+
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    return [self approximateZoomLevelWithWidths:widths andHeights:heights andTileMatrices:tileMatrices andWidth:length andHeight:length];
+}
+
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height{
+    
+    NSNumber *widthZoomLevel = [self approximateZoomLevelWithLengths:widths andTileMatrices:tileMatrices andLength:width];
+    NSNumber *heightZoomLevel = [self approximateZoomLevelWithLengths:heights andTileMatrices:tileMatrices andLength:height];
+    
+    NSNumber *expectedZoomLevel;
+    if (widthZoomLevel == nil) {
+        expectedZoomLevel = heightZoomLevel;
+    } else if (heightZoomLevel == nil) {
+        expectedZoomLevel = widthZoomLevel;
+    } else {
+        expectedZoomLevel = [widthZoomLevel compare:heightZoomLevel] == NSOrderedDescending ? widthZoomLevel : heightZoomLevel;
+    }
+    
+    return expectedZoomLevel;
+}
+
+/**
+ * Get the approximate zoom level for length using the factor of 2 rule
+ * between zoom levels
+ *
+ * @param lengths
+ *            sorted lengths
+ * @param tileMatrices
+ *            tile matrices
+ * @param length
+ *            length in default units
+ * @return approximate zoom level
+ */
++(NSNumber *) approximateZoomLevelWithLengths: (NSArray *) lengths andTileMatrices: (NSArray *) tileMatrices andLength: (double) length{
+    
+    NSNumber *lengthZoomLevel = nil;
+    
+    double minLength = [(NSDecimalNumber *)[lengths objectAtIndex:0] doubleValue];
+    double maxLength = [(NSDecimalNumber *)[lengths objectAtIndex:lengths.count - 1] doubleValue];
+    
+    // Length is zoomed in further than available tiles
+    if (length < minLength) {
+        double levelsIn = log(length / minLength) / log(0.5);
+        int zoomAbove = (int) floor(levelsIn);
+        int zoomBelow = (int) ceil(levelsIn);
+        double lengthAbove = minLength * pow(.5, zoomAbove);
+        double lengthBelow = minLength * pow(.5, zoomBelow);
+        lengthZoomLevel = [[tileMatrices objectAtIndex:tileMatrices.count - 1] zoomLevel];
+        if (lengthAbove - length <= length - lengthBelow) {
+            lengthZoomLevel = [[NSNumber alloc] initWithInt:[lengthZoomLevel intValue] + zoomAbove];
+        } else {
+            lengthZoomLevel = [[NSNumber alloc] initWithInt:[lengthZoomLevel intValue] + zoomBelow];
+        }
+    }
+    // Length is zoomed out further than available tiles
+    else if (length > maxLength) {
+        double levelsOut = log(length / maxLength) / log(2.0);
+        int zoomAbove = (int) ceil(levelsOut);
+        int zoomBelow = (int) floor(levelsOut);
+        double lengthAbove = maxLength * pow(2.0, zoomAbove);
+        double lengthBelow = maxLength * pow(2.0, zoomBelow);
+        lengthZoomLevel = [[tileMatrices objectAtIndex:0] zoomLevel];
+        if (length - lengthBelow <= lengthAbove - length) {
+            lengthZoomLevel = [[NSNumber alloc] initWithInt:[lengthZoomLevel intValue] - zoomBelow];
+        } else {
+            lengthZoomLevel = [[NSNumber alloc] initWithInt:[lengthZoomLevel intValue] - zoomAbove];
+        }
+    }
+    // Length is between the available tiles
+    else {
+        NSDecimalNumber * lengthNumber = [[NSDecimalNumber alloc] initWithDouble:length];
+        int lengthIndex = (int)[lengths indexOfObject:lengthNumber
+                                      inSortedRange:NSMakeRange(0, [lengths count])
+                                            options:NSBinarySearchingInsertionIndex
+                                    usingComparator:^(id obj1, id obj2)
+                               {
+                                   return [obj1 compare:obj2];
+                               }];
+        double zoomDistance = log(length / [(NSDecimalNumber *)[lengths objectAtIndex:lengthIndex] doubleValue]) / log(0.5);
+        NSNumber *zoomLevelAbove = [[self tileMatrixFromTileMatrices:tileMatrices atIndex:lengthIndex] zoomLevel];
+        zoomLevelAbove = [NSNumber numberWithInt:[zoomLevelAbove intValue] + (int) round(zoomDistance)];
+        lengthZoomLevel = zoomLevelAbove;
+    }
+    
+    return lengthZoomLevel;
 }
 
 +(double) maxLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights{

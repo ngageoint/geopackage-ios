@@ -181,6 +181,8 @@
         [featureIndexResults close];
         [GPKGTestUtils assertTrue:featureFound];
         [GPKGTestUtils assertTrue:resultCount >= 1];
+        
+        [featureIndexManager close];
     }
     
     // Delete the extensions
@@ -211,6 +213,8 @@
         
         [GPKGTestUtils assertFalse:[featureIndexManager isIndexed]];
         everyOther = !everyOther;
+        
+        [featureIndexManager close];
     }
     
 }

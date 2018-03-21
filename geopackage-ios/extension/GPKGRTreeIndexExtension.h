@@ -12,7 +12,6 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
 
 /**
  * RTree Index Extension
- * TODO Not currently supported for Android, user defined functions are not supported.
  */
 @interface GPKGRTreeIndexExtension : GPKGBaseExtension
 

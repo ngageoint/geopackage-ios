@@ -250,4 +250,11 @@
  */
 -(NSArray *) transformWithX: (double) x andY: (double) y;
 
+/**
+ * Is the from and to projection the same?
+ *
+ * @return true if the same projection
+ */
+-(BOOL) isSameProjection;
+
 @end

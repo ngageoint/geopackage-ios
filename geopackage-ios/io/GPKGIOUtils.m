@@ -105,12 +105,13 @@
     NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
     NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
     
-    [from open];
     [to open];
-    
-    [self copyInputStream:from toOutputStream:to];
-    
-    [to close];
+    @try {
+        [from open];
+        [self copyInputStream:from toOutputStream:to];
+    } @finally {
+        [to close];
+    }
 }
 
 +(void) copyInputStream: (NSInputStream *) copyFrom toFile: (NSString *) copyTo{
@@ -121,10 +122,11 @@
     
     NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
     [outputStream open];
-    
-    [self copyInputStream:copyFrom toOutputStream:outputStream withProgress:progress];
-    
-    [outputStream close];
+    @try {
+        [self copyInputStream:copyFrom toOutputStream:outputStream withProgress:progress];
+    } @finally {
+        [outputStream close];
+    }
     
     // Try to delete the file if progress was cancelled
     if(progress != nil && ![progress isActive] && [progress cleanupOnCancel]){
@@ -147,14 +149,17 @@
 
 +(NSData *) streamData: (NSInputStream *) stream{
     
+    NSData *data = nil;
+    
     NSOutputStream * outputStream = [NSOutputStream outputStreamToMemory];
     [outputStream open];
+    @try {
+        [self copyInputStream:stream toOutputStream:outputStream];
     
-    [self copyInputStream:stream toOutputStream:outputStream];
-    
-    NSData *data = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-    
-    [outputStream close];
+        data = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+    } @finally {
+        [outputStream close];
+    }
     
     return data;
 }
@@ -164,22 +169,28 @@
 }
 
 +(void) copyInputStream: (NSInputStream *) copyFrom toOutputStream: (NSOutputStream *) copyTo withProgress: (NSObject<GPKGProgress> *) progress{
-    NSInteger bufferSize = 1024;
-    NSInteger length;
-    uint8_t buffer[bufferSize];
-    while((progress == nil || [progress isActive])
-          && (length = [copyFrom read:buffer maxLength:bufferSize]) != 0) {
-        if(length > 0) {
-            [copyTo write:buffer maxLength:length];
-            if(progress != nil){
-                [progress addProgress:(int)length];
+    
+    @try {
+    
+        NSInteger bufferSize = 1024;
+        NSInteger length;
+        uint8_t buffer[bufferSize];
+        while((progress == nil || [progress isActive])
+              && (length = [copyFrom read:buffer maxLength:bufferSize]) != 0) {
+            if(length > 0) {
+                [copyTo write:buffer maxLength:length];
+                if(progress != nil){
+                    [progress addProgress:(int)length];
+                }
+            } else {
+                [NSException raise:@"Copy Stream Error" format:@"%@", [[copyFrom streamError] localizedDescription]];
             }
-        } else {
-            [NSException raise:@"Copy Stream Error" format:@"%@", [[copyFrom streamError] localizedDescription]];
         }
+    
+    } @finally {
+        [copyFrom close];
     }
     
-    [copyFrom close];
 }
 
 +(BOOL) deleteFile: (NSString *) file{

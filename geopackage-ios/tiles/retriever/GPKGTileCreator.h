@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "GPKGTileDao.h"
 #import "GPKGGeoPackageTile.h"
+#import "GPKGTileScaling.h"
 
 @interface GPKGTileCreator : NSObject
+
+/**
+ *  Tile Scaling options
+ */
+@property (nonatomic, strong) GPKGTileScaling *scaling;
 
 /**
  *  Initializer, specified tile size and projection

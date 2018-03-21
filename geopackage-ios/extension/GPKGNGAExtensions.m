@@ -10,6 +10,7 @@
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGFeatureTileLinkDao.h"
 #import "GPKGFeatureTileTableLinker.h"
+#import "GPKGTileTableScaling.h"
 
 @implementation GPKGNGAExtensions
 
@@ -17,6 +18,7 @@
     
     [self deleteGeometryIndexWithGeoPackage:geoPackage andTable:table];
     [self deleteFeatureTileLinkWithGeoPackage:geoPackage andTable:table];
+    [self deleteTileScalingWithGeoPackage:geoPackage andTable:table];
     
     // Delete future extensions for the table here
 }
@@ -25,6 +27,7 @@
     
     [self deleteGeometryIndexExtensionWithGeoPackage:geoPackage];
     [self deleteFeatureTileLinkExtensionWithGeoPackage:geoPackage];
+    [self deleteTileScalingExtensionWithGeoPackage:geoPackage];
     
     // Delete future extension tables here
 }
@@ -84,6 +87,36 @@
         NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension];
     }
+}
+
++(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+    
+    GPKGTileScalingDao *tileScalingDao = [geoPackage getTileScalingDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    
+    if([tileScalingDao tableExists]){
+        [tileScalingDao deleteById:table];
+    }
+    if([extensionsDao tableExists]){
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+        [extensionsDao deleteByExtension:extension andTable:table];
+    }
+    
+}
+
++(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGTileScalingDao *tileScalingDao = [geoPackage getTileScalingDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    
+    if([tileScalingDao tableExists]){
+        [tileScalingDao dropTable];
+    }
+    if([extensionsDao tableExists]){
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+        [extensionsDao deleteByExtension:extension];
+    }
+    
 }
 
 @end

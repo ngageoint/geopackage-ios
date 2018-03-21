@@ -196,5 +196,9 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGGriddedCoverageEncodingTypes.h"
 #import "GPKGConnectionFunction.h"
+#import "GPKGTileScaling.h"
+#import "GPKGTileScalingDao.h"
+#import "GPKGTileScalingTypes.h"
+#import "GPKGTileTableScaling.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

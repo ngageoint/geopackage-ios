@@ -128,6 +128,13 @@
 -(int) createFeatureTileLink;
 
 /**
+ *  Create Tile Scaling table
+ *
+ *  @return tables created
+ */
+-(int) createTileScaling;
+
+/**
  *  Create the user table
  *
  *  @param table user table
