@@ -63,7 +63,7 @@ extern NSString * const GPKG_TSC_CLOSEST_OUT_IN_NAME;
 /**
  *  Get the name of the tile scaling type
  *
- *  @param griddedCoverageEncodingType tile scaling type
+ *  @param tileScalingType tile scaling type
  *
  *  @return tile scaling type name
  */

@@ -109,7 +109,6 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @param tileScaling
  *            tile scaling
- * @return true upon success
  */
 -(void) create: (GPKGTileScaling *) tileScaling;
 
@@ -119,7 +118,6 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @param tileScaling
  *            tile scaling
- * @return true upon success
  */
 -(void) update: (GPKGTileScaling *) tileScaling;
 
@@ -128,7 +126,6 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @param tileScaling
  *            tile scaling
- * @return true upon success
  */
 -(void) createOrUpdate: (GPKGTileScaling *) tileScaling;
 
