@@ -31,7 +31,7 @@
 	<key>geopackage.extensions.rtree_index</key>
 	<string>http://www.geopackage.org/spec/#extension_rtree</string>
 	<key>geopackage.extensions.2d_gridded_coverage</key>
-	<string>TBD</string>
+	<string>http://docs.opengeospatial.org/is/17-066r1/17-066r1.html</string>
 	<key>geopackage.extensions.geometry_index</key>
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</string>
 	<key>geopackage.extensions.feature_tile_link</key>
