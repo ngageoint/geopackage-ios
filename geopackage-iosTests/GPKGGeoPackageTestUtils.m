@@ -17,7 +17,7 @@
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata"];
     [geometryColumns setColumnName:@"geom"];
-    [geometryColumns setGeometryType:WKB_POINT];
+    [geometryColumns setGeometryType:SF_POINT];
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
@@ -34,7 +34,7 @@
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata2"];
     [geometryColumns setColumnName:@"geom2"];
-    [geometryColumns setGeometryType:WKB_POINT];
+    [geometryColumns setGeometryType:SF_POINT];
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
@@ -52,7 +52,7 @@
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata3"];
     [geometryColumns setColumnName:@"geom3"];
-    [geometryColumns setGeometryType:WKB_POINT];
+    [geometryColumns setGeometryType:SF_POINT];
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
@@ -71,7 +71,7 @@
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata4"];
     [geometryColumns setColumnName:@"geom4"];
-    [geometryColumns setGeometryType:WKB_POINT];
+    [geometryColumns setGeometryType:SF_POINT];
     [geometryColumns setZ:[NSNumber numberWithInt:1]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     

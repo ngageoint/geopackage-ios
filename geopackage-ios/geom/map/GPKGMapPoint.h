@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
-#import "WKBPoint.h"
+#import "SFPoint.h"
 #import "GPKGMapPointOptions.h"
 
 /**
@@ -72,7 +72,7 @@
  *
  *  @return new map point
  */
-- (id)initWithPoint: (WKBPoint *) point;
+- (id)initWithPoint: (SFPoint *) point;
 
 /**
  *  Initialize with MapKit map point

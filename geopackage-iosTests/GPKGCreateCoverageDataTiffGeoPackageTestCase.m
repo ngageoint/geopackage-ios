@@ -11,7 +11,7 @@
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
 #import "GPKGTestUtils.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGCoverageDataTiff.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGUtils.h"

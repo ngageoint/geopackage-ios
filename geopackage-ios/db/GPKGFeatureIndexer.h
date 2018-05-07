@@ -140,7 +140,7 @@
  * @param envelope geometry envelope
  * @return geometry metadata results
  */
--(GPKGResultSet *) queryWithEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGResultSet *) queryWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for Geometry Metadata count within the Geometry Envelope
@@ -148,7 +148,7 @@
  * @param envelope geometry envelope
  * @return count
  */
--(int) countWithEnvelope: (WKBGeometryEnvelope *) envelope;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for Geometry Metadata within the bounding box in
@@ -158,7 +158,7 @@
  * @param projection  projection of the provided bounding box
  * @return geometry metadata results
  */
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  * Query for Geometry Metadata count within the bounding box in
@@ -168,7 +168,7 @@
  * @param projection  projection of the provided bounding box
  * @return count
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  * Get the Geometry Metadata for the current place in the cursor

@@ -8,7 +8,7 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGGeometryMetadata.h"
-#import "WKBGeometryEnvelope.h"
+#import "SFGeometryEnvelope.h"
 #import "GPKGBoundingBox.h"
 
 /**
@@ -35,7 +35,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) createMetadataWithGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGGeometryMetadata *) createMetadataWithGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Create geometry metadata
@@ -47,7 +47,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) createMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGGeometryMetadata *) createMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Populate geometry metadata
@@ -59,7 +59,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) populateMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGGeometryMetadata *) populateMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Delete geometry metadata
@@ -281,7 +281,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for all geometry metadata count matching the envelope
@@ -292,7 +292,7 @@
  *
  *  @return count
  */
--(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for all geometry metadata matching the envelope
@@ -303,7 +303,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for all geometry metadata count matching the envelope
@@ -314,7 +314,7 @@
  *
  *  @return count
  */
--(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope;
+-(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Get GeoPackage id for the GeoPackage name

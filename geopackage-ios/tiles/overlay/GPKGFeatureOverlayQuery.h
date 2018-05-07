@@ -160,7 +160,7 @@
  *
  *  @return tile feature count
  */
--(int) tileFeatureCountWithPoint: (WKBPoint *) point andDoubleZoom: (double) zoom;
+-(int) tileFeatureCountWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom;
 
 /**
  *  Get the count of features in the tile at the point and zoom level
@@ -170,7 +170,7 @@
  *
  *  @return tile feature count
  */
--(int) tileFeatureCountWithPoint: (WKBPoint *) point andZoom: (int) zoom;
+-(int) tileFeatureCountWithPoint: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  *  Determine if the provided count of features in the tile is more than the configured max features per tile
@@ -198,7 +198,7 @@
  *
  *  @return feature index results, must be closed
  */
--(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection;
+-(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
 
 /**
  *  Check if the features are indexed
@@ -245,7 +245,7 @@
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (SFPProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build a info message
@@ -270,7 +270,7 @@
  *
  *  @return information message on what was clicked, or nil
  */
--(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (SFPProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -291,7 +291,7 @@
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (SFPProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -316,6 +316,6 @@
  *
  *  @return table data on what was clicked, or nil
  */
--(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (SFPProjection *) projection;
 
 @end

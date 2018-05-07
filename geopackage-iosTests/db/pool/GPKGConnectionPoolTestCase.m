@@ -8,7 +8,7 @@
 
 #import "GPKGConnectionPoolTestCase.h"
 #import "GPKGTestUtils.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGConnectionPoolTestCase
 
@@ -110,7 +110,7 @@
             [GPKGTestUtils assertNotNil:featureRow];
             
             GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-            [geomData setGeometry:[[WKBPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
+            [geomData setGeometry:[[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
             [featureRow setGeometry:geomData];
             
             int updated = [featureDao update:featureRow];
@@ -370,7 +370,7 @@
     [GPKGTestUtils assertNotNil:featureRow];
     
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    [geomData setGeometry:[[WKBPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
+    [geomData setGeometry:[[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
     [featureRow setGeometry:geomData];
     
     int updated = [featureDao update:featureRow];
@@ -407,13 +407,13 @@
         GPKGGeometryData * geomData = [featureRow getGeometry];
         [GPKGTestUtils assertNotNil:geomData];
         
-        WKBGeometry * geometry = geomData.geometry;
+        SFGeometry * geometry = geomData.geometry;
         [GPKGTestUtils assertNotNil:geometry];
         
-        enum WKBGeometryType geometryType = geometry.geometryType;
-        [GPKGTestUtils assertEqualWithValue:[WKBGeometryTypes name:WKB_POINT] andValue2:[WKBGeometryTypes name:geometryType]];
+        enum SFGeometryType geometryType = geometry.geometryType;
+        [GPKGTestUtils assertEqualWithValue:[SFGeometryTypes name:SF_POINT] andValue2:[SFGeometryTypes name:geometryType]];
         
-        WKBPoint * point = (WKBPoint *) geometry;
+        SFPoint * point = (SFPoint *) geometry;
         [GPKGTestUtils assertNotNil:point];
         
         [GPKGTestUtils assertEqualDoubleWithValue:45.1 andValue2:[point.x doubleValue]];
@@ -423,11 +423,11 @@
         if(featureRow != nil){
             GPKGGeometryData * geomData = [featureRow getGeometry];
             if(geomData != nil){
-                WKBGeometry * geometry = geomData.geometry;
+                SFGeometry * geometry = geomData.geometry;
                 if(geometry != nil){
-                    enum WKBGeometryType geometryType = geometry.geometryType;
-                    if([WKBGeometryTypes name:WKB_POINT] == [WKBGeometryTypes name:geometryType]){
-                        WKBPoint * point = (WKBPoint *) geometry;
+                    enum SFGeometryType geometryType = geometry.geometryType;
+                    if([SFGeometryTypes name:SF_POINT] == [SFGeometryTypes name:geometryType]){
+                        SFPoint * point = (SFPoint *) geometry;
                         if(point != nil){
                             if([point.x doubleValue] == 45.1 && [point.y doubleValue] == 23.2){
                                 [NSException raise:@"Rollback Failed" format:@"Rollback failed and update was made"];

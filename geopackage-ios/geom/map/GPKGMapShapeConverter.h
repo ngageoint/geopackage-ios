@@ -8,28 +8,28 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
-#import "GPKGProjection.h"
-#import "WKBPoint.h"
+#import "SFPProjection.h"
+#import "SFPoint.h"
 #import "GPKGMapPoint.h"
-#import "WKBLineString.h"
-#import "WKBCircularString.h"
-#import "WKBPolygon.h"
+#import "SFLineString.h"
+#import "SFCircularString.h"
+#import "SFPolygon.h"
 #import "GPKGMultiPoint.h"
-#import "WKBMultiPoint.h"
+#import "SFMultiPoint.h"
 #import "GPKGMultiPolyline.h"
-#import "WKBMultiLineString.h"
-#import "WKBCompoundCurve.h"
+#import "SFMultiLineString.h"
+#import "SFCompoundCurve.h"
 #import "GPKGMultiPolygon.h"
-#import "WKBMultiPolygon.h"
-#import "WKBPolyhedralSurface.h"
+#import "SFMultiPolygon.h"
+#import "SFPolyhedralSurface.h"
 #import "GPKGMapShape.h"
-#import "WKBGeometry.h"
+#import "SFGeometry.h"
 #import "GPKGMapShapePoints.h"
 #import "GPKGPolylinePoints.h"
 #import "GPKGPolygonPoints.h"
 #import "GPKGMultiPolylinePoints.h"
-#import "WKBTIN.h"
-#import "WKBTriangle.h"
+#import "SFTIN.h"
+#import "SFTriangle.h"
 #import "GPKGMultiPolygonPoints.h"
 
 @class GPKGPolylinePoints;
@@ -45,7 +45,7 @@
 /**
  *  Geometry shape projection
  */
-@property (nonatomic, strong) GPKGProjection *projection;
+@property (nonatomic, strong) SFPProjection *projection;
 
 /**
  * Convert polygon exteriors to specified orientation
@@ -83,7 +83,7 @@
  *
  *  @return new map shape converter
  */
--(instancetype) initWithProjection: (GPKGProjection *) projection;
+-(instancetype) initWithProjection: (SFPProjection *) projection;
 
 /**
  *  Set the simplify tolerance in meters to simplify lines and polygons to similar curves with fewer points
@@ -99,7 +99,7 @@
  *
  *  @return wgs84 point
  */
--(WKBPoint *) toWgs84WithPoint: (WKBPoint *) point;
+-(SFPoint *) toWgs84WithPoint: (SFPoint *) point;
 
 /**
  *  Transform a WGS84 WKB point to the projection
@@ -108,7 +108,7 @@
  *
  *  @return projection point
  */
--(WKBPoint *) toProjectionWithPoint: (WKBPoint *) point;
+-(SFPoint *) toProjectionWithPoint: (SFPoint *) point;
 
 /**
  *  Convert a WKB point to a map point
@@ -117,7 +117,7 @@
  *
  *  @return map point
  */
--(GPKGMapPoint *) toMapPointWithPoint: (WKBPoint *) point;
+-(GPKGMapPoint *) toMapPointWithPoint: (SFPoint *) point;
 
 /**
  *  Convert a WKB point to a MapKit map point
@@ -126,7 +126,7 @@
  *
  *  @return MK map point
  */
--(MKMapPoint) toMKMapPointWithPoint: (WKBPoint *) point;
+-(MKMapPoint) toMKMapPointWithPoint: (SFPoint *) point;
 
 /**
  *  Convert a map point to a WKB point
@@ -135,7 +135,7 @@
  *
  *  @return wkb point
  */
--(WKBPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint;
+-(SFPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint;
 
 /**
  *  Convert a map point to a WKB point
@@ -146,7 +146,7 @@
  *
  *  @return wkb point
  */
--(WKBPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert a MapKit map point to a WKB point
@@ -155,7 +155,7 @@
  *
  *  @return wkb point
  */
--(WKBPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint;
+-(SFPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint;
 
 /**
  *  Convert a MapKit map point to a WKB point
@@ -166,7 +166,7 @@
  *
  *  @return wkb point
  */
--(WKBPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert a WKB line string to a polyline
@@ -175,7 +175,7 @@
  *
  *  @return polyline
  */
--(MKPolyline *) toMapPolylineWithLineString: (WKBLineString *) lineString;
+-(MKPolyline *) toMapPolylineWithLineString: (SFLineString *) lineString;
 
 /**
  *  Convert a MapKit polyline to a WKB line string
@@ -184,7 +184,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline;
+-(SFLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline;
 
 /**
  *  Convert a MapKit polyline to a WKB line string
@@ -195,7 +195,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert a pointer array of MapKit map points to a WKB line string
@@ -205,7 +205,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
+-(SFLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
 
 /**
  *  Convert a pointer array of MapKit map points to a WKB line string
@@ -217,7 +217,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert an array of map points to a WKB line string
@@ -226,7 +226,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints;
+-(SFLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints;
 
 /**
  *  Convert an array of map points to a WKB line string
@@ -237,7 +237,7 @@
  *
  *  @return wkb line string
  */
--(WKBLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert an array of map points to a WKB circular string
@@ -246,7 +246,7 @@
  *
  *  @return wkb circular string
  */
--(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints;
+-(SFCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints;
 
 /**
  *  Convert an array of map points to a WKB circular string
@@ -257,7 +257,7 @@
  *
  *  @return wkb circular string
  */
--(WKBCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Populate a WKB line string with MapKit map points from a pointer array
@@ -266,7 +266,7 @@
  *  @param mapPoints  MK map points pointer
  *  @param pointCount number of points at pointer
  */
--(void) populateLineString: (WKBLineString *) lineString withMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
+-(void) populateLineString: (SFLineString *) lineString withMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount;
 
 /**
  *  Populate a WKB line string with an array of map points
@@ -274,7 +274,7 @@
  *  @param lineString wkb line string
  *  @param mapPoints  map points
  */
--(void) populateLineString: (WKBLineString *) lineString withMapPoints: (NSArray *) mapPoints;
+-(void) populateLineString: (SFLineString *) lineString withMapPoints: (NSArray *) mapPoints;
 
 /**
  *  Convert WKB polygon to a MapKit polygon
@@ -283,7 +283,7 @@
  *
  *  @return MK polygon
  */
--(MKPolygon *) toMapPolygonWithPolygon: (WKBPolygon *) polygon;
+-(MKPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon;
 
 /**
  *  Convert WKB curve polygon to a MapKit polygon
@@ -292,7 +292,7 @@
  *
  *  @return MK polygon
  */
--(MKPolygon *) toMapCurvePolygonWithPolygon: (WKBCurvePolygon *) curvePolygon;
+-(MKPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon;
 
 /**
  *  Convert a MapKit polygon to a WKB polygon
@@ -301,7 +301,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon;
+-(SFPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon;
 
 /**
  *  Convert a MapKit polygon to a WKB polygon
@@ -312,7 +312,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert a pointer array of MapKit map points and MapKit polygon holes to a WKB polygon
@@ -323,7 +323,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes;
+-(SFPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes;
 
 /**
  *  Convert a pointer array of MapKit map points and MapKit polygon holes to a WKB polygon
@@ -336,7 +336,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert an array of map points and array of hole map point arrays to a WKB polygon
@@ -346,7 +346,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes;
+-(SFPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes;
 
 /**
  *  Convert an array of map points and array of hole map point arrays to a WKB polygon
@@ -358,7 +358,7 @@
  *
  *  @return WKB polygon
  */
--(WKBPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  When drawShortestDirection is enabled, create a new line string where each point is
@@ -368,7 +368,7 @@
  *
  *  @return line string with shortest longitude distance points
  */
--(WKBLineString *) shortestDirectionWithLineString: (WKBLineString *) lineString;
+-(SFLineString *) shortestDirectionWithLineString: (SFLineString *) lineString;
 
 /**
  *  Convert WKB multi point to multi point
@@ -377,7 +377,7 @@
  *
  *  @return multi point
  */
--(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (WKBMultiPoint *) multiPoint;
+-(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (SFMultiPoint *) multiPoint;
 
 /**
  *  Convert multi point to WKB multi point
@@ -386,7 +386,7 @@
  *
  *  @return wkb multi point
  */
--(WKBMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint;
+-(SFMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint;
 
 /**
  *  Convert multi point to WKB multi point
@@ -397,7 +397,7 @@
  *
  *  @return wkb multi point
  */
--(WKBMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert map points to WKB multi point
@@ -406,7 +406,7 @@
  *
  *  @return wkb multi point
  */
--(WKBMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints;
+-(SFMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints;
 
 /**
  *  Convert map points to WKB multi point
@@ -417,7 +417,7 @@
  *
  *  @return wkb multi point
  */
--(WKBMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert WKB multi line string to multi polyline
@@ -426,7 +426,7 @@
  *
  *  @return multi polyline
  */
--(GPKGMultiPolyline *) toMapMultiPolylineWithMultiLineString: (WKBMultiLineString *) multiLineString;
+-(GPKGMultiPolyline *) toMapMultiPolylineWithMultiLineString: (SFMultiLineString *) multiLineString;
 
 /**
  *  Convert polylines to WKB multi line string
@@ -435,7 +435,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines;
+-(SFMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines;
 
 /**
  *  Convert polylines to WKB multi line string
@@ -446,7 +446,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert polyline point arrays to WKB multi line string
@@ -455,7 +455,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray;
+-(SFMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray;
 
 /**
  *  Convert polyline point arrays to WKB multi line string
@@ -466,7 +466,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert polyline point arrays to WKB compound curve
@@ -475,7 +475,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray;
+-(SFCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray;
 
 /**
  *  Convert polyline point arrays to WKB compound curve
@@ -486,7 +486,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert multi polyline to WKB multi line string
@@ -495,7 +495,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline;
+-(SFMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline;
 
 /**
  *  Convert multi polyline to WKB multi line string
@@ -506,7 +506,7 @@
  *
  *  @return wkb multi line string
  */
--(WKBMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert multi polyline to WKB compound curve
@@ -515,7 +515,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline;
+-(SFCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline;
 
 /**
  *  Convert multi polyline to WKB compound curve
@@ -526,7 +526,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert WKB multi polygon to multi polygon
@@ -535,7 +535,7 @@
  *
  *  @return multi polygon
  */
--(GPKGMultiPolygon *) toMapMultiPolygonWithMultiPolygon: (WKBMultiPolygon *) multiPolygon;
+-(GPKGMultiPolygon *) toMapMultiPolygonWithMultiPolygon: (SFMultiPolygon *) multiPolygon;
 
 /**
  *  Convert polygons to WKB multi polygon
@@ -544,7 +544,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons;
+-(SFMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons;
 
 /**
  *  Convert polygons to WKB multi polygon
@@ -555,7 +555,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Create WKB multi polygon with WKB polygons
@@ -564,7 +564,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons;
+-(SFMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons;
 
 /**
  *  Create WKB multi polygon with WKB polygons
@@ -575,7 +575,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert multi polygon to WKB multi polygon
@@ -584,7 +584,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon;
+-(SFMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon;
 
 /**
  *  Convert multi polygon to WKB multi polygon
@@ -595,7 +595,7 @@
  *
  *  @return wkb multi polygon
  */
--(WKBMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert WKB compound curve to multi polyline
@@ -604,7 +604,7 @@
  *
  *  @return multi polyline
  */
--(GPKGMultiPolyline *) toMapMultiPolylineWithCompoundCurve: (WKBCompoundCurve *) compoundCurve;
+-(GPKGMultiPolyline *) toMapMultiPolylineWithCompoundCurve: (SFCompoundCurve *) compoundCurve;
 
 /**
  *  Convert polylines to WKB compound curve
@@ -613,7 +613,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines;
+-(SFCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines;
 
 /**
  *  Convert polylines to WKB compound curve
@@ -624,7 +624,7 @@
  *
  *  @return wkb compound curve
  */
--(WKBCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert WKB polyhedral surface to multi polygon
@@ -633,7 +633,7 @@
  *
  *  @return multi polygon
  */
--(GPKGMultiPolygon *) toMapMultiPolygonWithPolyhedralSurface: (WKBPolyhedralSurface *) polyhedralSurface;
+-(GPKGMultiPolygon *) toMapMultiPolygonWithPolyhedralSurface: (SFPolyhedralSurface *) polyhedralSurface;
 
 /**
  *  Convert polygons to WKB polyhedral surface
@@ -642,7 +642,7 @@
  *
  *  @return wkb polyhedral surface
  */
--(WKBPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons;
+-(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons;
 
 /**
  *  Convert polygons to WKB polyhedral surface
@@ -653,7 +653,7 @@
  *
  *  @return wkb polyhedral surface
  */
--(WKBPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert multi polygon to WKB polyhedral surface
@@ -662,7 +662,7 @@
  *
  *  @return wkb polyhedral surface
  */
--(WKBPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon;
+-(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon;
 
 /**
  *  Convert multi polygon to WKB polyhedral surface
@@ -673,7 +673,7 @@
  *
  *  @return wkb polyhedral surface
  */
--(WKBPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
+-(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 /**
  *  Convert a WKB Geometry to a Map shape
@@ -682,7 +682,7 @@
  *
  *  @return map shape
  */
--(GPKGMapShape *) toShapeWithGeometry: (WKBGeometry *) geometry;
+-(GPKGMapShape *) toShapeWithGeometry: (SFGeometry *) geometry;
 
 /**
  *  Convert a WKB Geometry Collection to an array of Map shapes
@@ -691,7 +691,7 @@
  *
  *  @return array of Map shapes
  */
--(NSArray *) toShapesWithGeometryCollection: (WKBGeometryCollection *) geometryCollection;
+-(NSArray *) toShapesWithGeometryCollection: (SFGeometryCollection *) geometryCollection;
 
 /**
  *  Convert a WKB Geometry to a Map shape and add it to the map view
@@ -701,7 +701,7 @@
  *
  *  @return map shape
  */
--(GPKGMapShape *) addGeometry: (WKBGeometry *) geometry toMapView: (MKMapView *) mapView;
+-(GPKGMapShape *) addGeometry: (SFGeometry *) geometry toMapView: (MKMapView *) mapView;
 
 /**
  *  Add a shape to the map view
@@ -814,7 +814,7 @@
  *
  *  @return map shapes
  */
--(NSArray *) addGeometryCollection: (WKBGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView;
+-(NSArray *) addGeometryCollection: (SFGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView;
 
 /**
  *  Add a shape to the map view as points
@@ -917,6 +917,6 @@
  *
  *  @return wkb geometry
  */
--(WKBGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
+-(SFGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
 
 @end

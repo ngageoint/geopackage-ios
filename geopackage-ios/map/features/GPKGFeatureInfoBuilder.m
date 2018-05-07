@@ -9,19 +9,19 @@
 #import "GPKGFeatureInfoBuilder.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "WKBGeometryPrinter.h"
+#import "SFGeometryPrinter.h"
 #import "GPKGDataColumnsDao.h"
 #import "GPKGSpatialReferenceSystemDao.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGFeatureIndexListResults.h"
 #import "GPKGMapShapeConverter.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGMapUtils.h"
 
 @interface GPKGFeatureInfoBuilder ()
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
-@property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic) enum SFGeometryType geometryType;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *ignoreGeometryTypes;
 
 @end
@@ -49,11 +49,11 @@
     return self;
 }
 
--(enum WKBGeometryType) geometryType{
+-(enum SFGeometryType) geometryType{
     return _geometryType;
 }
 
--(void) ignoreGeometryType: (enum WKBGeometryType) geometryType{
+-(void) ignoreGeometryType: (enum SFGeometryType) geometryType{
     [self.ignoreGeometryTypes addObject:[NSNumber numberWithInt:geometryType]];
 }
 
@@ -61,15 +61,15 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (GPKGProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (SFPProjection *) projection{
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:nil andPoint:nil andProjection:projection];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point{
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -83,7 +83,7 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection{
     
     NSMutableString * message = nil;
     
@@ -94,7 +94,7 @@
     if(featureCount > 0){
         
         int maxFeatureInfo = 0;
-        if(self.geometryType == WKB_POINT){
+        if(self.geometryType == SF_POINT){
             maxFeatureInfo = self.maxPointDetailedInfo;
         } else{
             maxFeatureInfo = self.maxFeatureDetailedInfo;
@@ -140,7 +140,7 @@
                 if(geomData != nil && geomData.geometry != nil){
                     
                     BOOL printFeatures = false;
-                    if(geomData.geometry.geometryType == WKB_POINT){
+                    if(geomData.geometry.geometryType == SF_POINT){
                         printFeatures = self.detailedInfoPrintPoints;
                     } else{
                         printFeatures = self.detailedInfoPrintFeatures;
@@ -150,7 +150,7 @@
                         if(projection != nil){
                             [self projectGeometry:geomData withProjection:projection];
                         }
-                        [message appendFormat:@"\n\n%@", [WKBGeometryPrinter getGeometryString:geomData.geometry]];
+                        [message appendFormat:@"\n\n%@", [SFGeometryPrinter getGeometryString:geomData.geometry]];
                     }
                 }
             }
@@ -159,8 +159,8 @@
             [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
             if(CLLocationCoordinate2DIsValid(locationCoordinate)){
                 [message appendString:@" near location:\n"];
-                WKBPoint *point = [[WKBPoint alloc] initWithXValue:locationCoordinate.longitude andYValue:locationCoordinate.latitude];
-                [message appendFormat:@"%@", [WKBGeometryPrinter getGeometryString:point]];
+                SFPoint *point = [[SFPoint alloc] initWithXValue:locationCoordinate.longitude andYValue:locationCoordinate.latitude];
+                [message appendFormat:@"%@", [SFGeometryPrinter getGeometryString:point]];
             }
         }
     }
@@ -170,11 +170,11 @@
     return message;
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point{
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -188,7 +188,7 @@
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection{
     
     GPKGFeatureTableData * tableData = nil;
     
@@ -199,7 +199,7 @@
     if(featureCount > 0){
         
         int maxFeatureInfo = 0;
-        if(self.geometryType == WKB_POINT){
+        if(self.geometryType == SF_POINT){
             maxFeatureInfo = self.maxPointDetailedInfo;
         } else{
             maxFeatureInfo = self.maxFeatureDetailedInfo;
@@ -255,7 +255,7 @@
     return tableData;
 }
 
--(void) projectGeometry: (GPKGGeometryData *) geometryData withProjection: (GPKGProjection *) projection{
+-(void) projectGeometry: (GPKGGeometryData *) geometryData withProjection: (SFPProjection *) projection{
     
     if(geometryData.geometry != nil){
         
@@ -265,10 +265,10 @@
         
         if(![projection isEqualToAuthority:srs.organization andNumberCode:srs.organizationCoordsysId]){
             
-            GPKGProjection * geomProjection = [GPKGProjectionFactory projectionWithSrs:srs];
-            GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
+            SFPProjection * geomProjection = [SFPProjectionFactory projectionWithSrs:srs];
+            SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
             
-            WKBGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
+            SFGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
             NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
             GPKGSpatialReferenceSystem *projectionSrs = [srsDao getOrCreateWithOrganization:[projection authority] andCoordsysId:coordsysId];
@@ -321,7 +321,7 @@
             
             GPKGGeometryData *geomData = [featureRow getGeometry];
             if (geomData != nil) {
-                WKBGeometry *geometry = geomData.geometry;
+                SFGeometry *geometry = geomData.geometry;
                 if (geometry != nil) {
                     
                     if(![self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:geometry.geometryType]]){

@@ -7,11 +7,11 @@
 //
 
 #import "GPKGSpatialReferenceSystemDao.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGCrsWktExtension.h"
@@ -110,9 +110,9 @@
     return value;
 }
 
--(GPKGProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) getProjection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:projectionObject];
+    SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:projectionObject];
     return projection;
 }
 

@@ -12,9 +12,9 @@
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGUtils.h"
 #import "GPKGTileDaoUtils.h"
-#import "GPKGProjectionTransform.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionTransform.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGTileDao
@@ -292,7 +292,7 @@
     
     // Convert the bounding box to wgs84
     GPKGBoundingBox * boundingBox = [self.tileMatrixSet getBoundingBox];
-    GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox * wgs84BoundingBox = [transform transformWithBoundingBox:boundingBox];
 
     BOOL isFormat = false;

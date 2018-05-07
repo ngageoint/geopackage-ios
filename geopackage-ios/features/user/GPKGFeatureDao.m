@@ -9,7 +9,7 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGContentsDao.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionTransform.h"
 
 @implementation GPKGFeatureDao
 
@@ -55,7 +55,7 @@
     return self.geometryColumns.columnName;
 }
 
--(enum WKBGeometryType) getGeometryType{
+-(enum SFGeometryType) getGeometryType{
     return [self.geometryColumns getGeometryType];
 }
 
@@ -74,9 +74,9 @@
     GPKGBoundingBox * boundingBox = [contents getBoundingBox];
     if(boundingBox != nil){
         GPKGContentsDao * contentsDao = [self getContentsDao];
-        GPKGProjection * contentsProjection = [contentsDao getProjection:contents];
+        SFPProjection * contentsProjection = [contentsDao getProjection:contents];
         if(![self.projection isEqual:contentsProjection]){
-            GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
+            SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
             boundingBox = [transform transformWithBoundingBox:boundingBox];
         }
     }

@@ -50,7 +50,7 @@
  *
  *  @return geometry
  */
--(WKBGeometry *) getGeometry;
+-(SFGeometry *) getGeometry;
 
 /**
  *  Build a JSON compatible object

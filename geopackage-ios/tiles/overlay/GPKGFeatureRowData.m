@@ -7,7 +7,6 @@
 //
 
 #import "GPKGFeatureRowData.h"
-#import "WKBGeometryJSONCompatible.h"
 
 @interface GPKGFeatureRowData ()
 
@@ -39,7 +38,7 @@
     return (GPKGGeometryData *) [self.values objectForKey:self.geometryColumn];
 }
 
--(WKBGeometry *) getGeometry{
+-(SFGeometry *) getGeometry{
     return [self getGeometryData].geometry;
 }
 
@@ -65,8 +64,9 @@
         if([key isEqualToString:self.geometryColumn]){
             GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
             if(geometryData.geometry != nil){
-                if(includeGeometries || (includePoints && geometryData.geometry.geometryType == WKB_POINT)){
-                    jsonValue = [WKBGeometryJSONCompatible getJSONCompatibleGeometry:geometryData.geometry];
+                if(includeGeometries || (includePoints && geometryData.geometry.geometryType == SF_POINT)){
+                    jsonValue = nil; //TODO
+                    //jsonValue = [SFGeometryJSONCompatible getJSONCompatibleGeometry:geometryData.geometry];
                 }
             }
         }else{

@@ -39,7 +39,7 @@
 /**
  *  Tiles projection
  */
-@property (nonatomic, strong) GPKGProjection * projection;
+@property (nonatomic, strong) SFPProjection * projection;
 
 /**
  *  Total tile count
@@ -115,7 +115,7 @@
  *
  *  @return new tile generator
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  *  Set the compress quality as an integer percentage, 0 to 100

@@ -7,8 +7,8 @@
 //
 
 #import "GPKGGeoPackageOverlay.h"
-#import "GPKGProjectionTransform.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionTransform.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGGeoPackageTileRetriever.h"
 
 @interface GPKGGeoPackageOverlay ()
@@ -48,7 +48,7 @@
 
 -(void) initHelperWithRetriever: (GPKGGeoPackageTileRetriever *) retriever{
     self.retriever = retriever;
-    GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox * boundingBox = [transform transformWithBoundingBox:[retriever getWebMercatorBoundingBox]];
     self.mapRect = [boundingBox getMapRect];
     self.center = [boundingBox getCenter];

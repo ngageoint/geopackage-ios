@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WKBPoint.h"
+#import "SFPoint.h"
 
 /**
  *  Geometry Utilities
@@ -22,7 +22,7 @@
  * @param path A closed path in degree units.
  * @return The path's area in square meters.
  */
-+(double) computeAreaOfDegreesPath: (NSArray<WKBPoint *> *) path;
++(double) computeAreaOfDegreesPath: (NSArray<SFPoint *> *) path;
 
 /**
  * Returns the signed area of a closed path on Earth. The sign of the area may be used to
@@ -34,7 +34,7 @@
  * @param path A closed path in degree units.
  * @return The loop's area in square meters.
  */
-+(double) computeSignedAreaOfDegreesPath: (NSArray<WKBPoint *> *) path;
++(double) computeSignedAreaOfDegreesPath: (NSArray<SFPoint *> *) path;
 
 /**
  * Check if the polygon points create a closed polygon with the first and last points at the same location
@@ -42,7 +42,7 @@
  * @param points polygon points
  * @return true if points create a closed polygon
  */
-+(BOOL) isClosedPolygonWithPoints: (NSArray<WKBPoint *> *) points;
++(BOOL) isClosedPolygonWithPoints: (NSArray<SFPoint *> *) points;
 
 /**
  * Convert degrees to radians

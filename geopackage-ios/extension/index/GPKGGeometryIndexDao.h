@@ -9,7 +9,7 @@
 #import "GPKGBaseDao.h"
 #import "GPKGGeometryIndex.h"
 #import "GPKGTableIndex.h"
-#import "WKBGeometryEnvelope.h"
+#import "SFGeometryEnvelope.h"
 
 /**
  * Geometry Index Data Access Object
@@ -61,6 +61,6 @@
  *
  *  @return geometry index
  */
--(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 @end

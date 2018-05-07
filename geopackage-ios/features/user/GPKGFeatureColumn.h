@@ -7,7 +7,7 @@
 //
 
 #import "GPKGUserColumn.h"
-#import "WKBGeometryTypes.h"
+#import "SFGeometryTypes.h"
 
 /**
  *  Feature column
@@ -17,7 +17,7 @@
 /**
  *  Geometry type if a geometry column
  */
-@property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic) enum SFGeometryType geometryType;
 
 /**
  *  Create a new primary key column
@@ -43,7 +43,7 @@
  */
 +(GPKGFeatureColumn *) createGeometryColumnWithIndex: (int) index
                       andName: (NSString *) name
-                      andGeometryType: (enum WKBGeometryType) type
+                      andGeometryType: (enum SFGeometryType) type
                       andNotNull: (BOOL) notNull
                       andDefaultValue: (NSObject *) defaultValue;
 
@@ -104,7 +104,7 @@
                       andNotNull: (BOOL) notNull
                       andDefaultValue: (NSObject *) defaultValue
                       andPrimaryKey: (BOOL) primaryKey
-                      andGeometryType: (enum WKBGeometryType) geometryType;
+                      andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
  *  Determine if this column is a geometry

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGContents.h"
 #import "GPKGSpatialReferenceSystem.h"
-#import "WKBGeometryTypes.h"
+#import "SFGeometryTypes.h"
 
 /**
  *  Geometry Columns table constants
@@ -66,14 +66,14 @@ extern NSString * const GPKG_GC_COLUMN_M;
  *
  *  @return geometry type
  */
--(enum WKBGeometryType) getGeometryType;
+-(enum SFGeometryType) getGeometryType;
 
 /**
  *  Set the geometry type
  *
  *  @param geometryType geometry type
  */
--(void) setGeometryType: (enum WKBGeometryType) geometryType;
+-(void) setGeometryType: (enum SFGeometryType) geometryType;
 
 /**
  *  Set the z

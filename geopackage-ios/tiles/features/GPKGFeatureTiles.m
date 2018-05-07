@@ -10,17 +10,17 @@
 #import "GPKGImageConverter.h"
 #import "GPKGTileBoundingBoxUtils.h"
 @import MapKit;
-#import "WKBPoint.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPoint.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGMapPoint.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGMapShapeConverter.h"
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
-#import "GPKGProjectionFactory.h"
-#import "WKBGeometryEnvelopeBuilder.h"
+#import "SFPProjectionFactory.h"
+#import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @interface GPKGFeatureTiles ()
@@ -146,7 +146,7 @@
                 CGContextRef context = UIGraphicsGetCurrentContext();
                 
                 // WGS84 to web mercator projection and shape converter
-                GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+                SFPProjectionTransform * wgs84ToWebMercatorTransform =[[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
                 GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
                 GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:webMercatorBoundingBox];
                 
@@ -211,7 +211,7 @@
     GPKGBoundingBox *expandedQueryBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     return results;
 }
@@ -275,7 +275,7 @@
         UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        SFPProjectionTransform * wgs84ToWebMercatorTransform =[[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
         GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:boundingBox];
         
@@ -306,7 +306,7 @@
     UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
     CGContextRef context = UIGraphicsGetCurrentContext();
         
-    GPKGProjectionTransform * wgs84ToWebMercatorTransform =[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    SFPProjectionTransform * wgs84ToWebMercatorTransform =[[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
     GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:boundingBox];
     
@@ -327,22 +327,22 @@
     return image;
 }
 
--(BOOL) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
+-(BOOL) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andTransform: (SFPProjectionTransform *) transform andContext: (CGContextRef) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
     
     BOOL drawn = NO;
     
     @try{
         GPKGGeometryData * geomData = [row getGeometry];
         if(geomData != nil){
-            WKBGeometry * geometry = geomData.geometry;
+            SFGeometry * geometry = geomData.geometry;
             if(geometry != nil){
                 
-                WKBGeometryEnvelope *envelope = geomData.envelope;
+                SFGeometryEnvelope *envelope = geomData.envelope;
                 if(envelope == nil){
-                    envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+                    envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
                 }
                 GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
-                GPKGBoundingBox *transformedBoundingBox = [transform transformWithBoundingBox:geometryBoundingBox];
+                GPKGBoundingBox *transformedBoundingBox = [geometryBoundingBox transform:transform];
                 
                 if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:expandedBoundingBox andBoundingBox:transformedBoundingBox andAllowEmpty:YES] != nil){
                 
@@ -360,7 +360,7 @@
     return drawn;
 }
 
--(void) drawShapeWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andMapShape: (GPKGMapShape *) shape{
+-(void) drawShapeWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform andContext: (CGContextRef) context andMapShape: (GPKGMapShape *) shape{
     
     NSObject * shapeObject = shape.shape;
     
@@ -453,14 +453,14 @@
     CGPathRelease(path);
 }
 
--(void) addPolyline: (MKPolyline *) polyline toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+-(void) addPolyline: (MKPolyline *) polyline toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform{
     
     if(polyline.pointCount >= 2){
         [self addMultiPoint:polyline toPath:path withBoundingBox:boundingBox andTransform:transform];
     }
 }
 
--(void) addPolygon: (MKPolygon *) polygon toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+-(void) addPolygon: (MKPolygon *) polygon toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform{
 
     
         if(polygon.pointCount >= 2){
@@ -474,20 +474,20 @@
         }
 }
 
--(void) addRing: (MKPolygon *) ring toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+-(void) addRing: (MKPolygon *) ring toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform{
     
     [self addMultiPoint:ring toPath:path withBoundingBox:boundingBox andTransform:transform];
     CGPathCloseSubpath(path);
 }
 
--(void) addMultiPoint: (MKMultiPoint *) multiPoint toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform{
+-(void) addMultiPoint: (MKMultiPoint *) multiPoint toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform{
 
     for(int i = 0; i < multiPoint.pointCount; i++){
         MKMapPoint mkMapPoint = multiPoint.points[i];
         GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
-        WKBPoint * wkbPoint = [self getPointWithTransform:transform andPoint:mapPoint];
-        double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[wkbPoint.x doubleValue]];
-        double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[wkbPoint.y doubleValue]];
+        SFPoint * SFPoint = [self getPointWithTransform:transform andPoint:mapPoint];
+        double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[SFPoint.x doubleValue]];
+        double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[SFPoint.y doubleValue]];
         if(i == 0){
             CGPathMoveToPoint(path, NULL, x, y);
         }else{
@@ -496,11 +496,11 @@
     }
 }
 
--(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (GPKGProjectionTransform *) transform andContext: (CGContextRef) context andPoint: (GPKGMapPoint *) point{
+-(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andTransform: (SFPProjectionTransform *) transform andContext: (CGContextRef) context andPoint: (GPKGMapPoint *) point{
     
-    WKBPoint * wkbPoint = [self getPointWithTransform:transform andPoint:point];
-    double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[wkbPoint.x doubleValue]];
-    double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[wkbPoint.y doubleValue]];
+    SFPoint * SFPoint = [self getPointWithTransform:transform andPoint:point];
+    double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[SFPoint.x doubleValue]];
+    double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[SFPoint.y doubleValue]];
     
     if(self.pointIcon != nil){
         
@@ -524,9 +524,9 @@
     }
 }
 
--(WKBPoint *) getPointWithTransform: (GPKGProjectionTransform *) transform andPoint: (GPKGMapPoint *) point{
+-(SFPoint *) getPointWithTransform: (SFPProjectionTransform *) transform andPoint: (GPKGMapPoint *) point{
     NSArray * lonLat = [transform transformWithX:point.coordinate.longitude andY:point.coordinate.latitude];
-    return [[WKBPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
+    return [[SFPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
 }
 
 @end

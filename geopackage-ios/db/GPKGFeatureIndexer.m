@@ -9,8 +9,8 @@
 #import "GPKGFeatureIndexer.h"
 #import "GPKGMetadataDb.h"
 #import "GPKGGeometryColumnsDao.h"
-#import "WKBGeometryEnvelopeBuilder.h"
-#import "GPKGProjectionTransform.h"
+#import "SFGeometryEnvelopeBuilder.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGUserRowSync.h"
 
 @interface GPKGFeatureIndexer()
@@ -122,13 +122,13 @@
     if(geomData != nil){
         
         // Get the envelope
-        WKBGeometryEnvelope * envelope = geomData.envelope;
+        SFGeometryEnvelope * envelope = geomData.envelope;
         
         // If not envelope, build on from the geometry
         if(envelope == nil){
-            WKBGeometry * geometry = geomData.geometry;
+            SFGeometry * geometry = geomData.geometry;
             if(geometry != nil){
-                envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
             }
         }
         
@@ -218,30 +218,30 @@
     return count;
 }
 
--(GPKGResultSet *) queryWithEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGResultSet *) queryWithEnvelope: (SFGeometryEnvelope *) envelope{
     GPKGResultSet * results = [self.geometryMetadataDataSource queryByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andEnvelope:envelope];
     return results;
 }
 
--(int) countWithEnvelope: (WKBGeometryEnvelope *) envelope{
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope{
     int count = [self.geometryMetadataDataSource countByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName andEnvelope:envelope];
     return count;
 }
 
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
     GPKGResultSet * results = [self queryWithBoundingBox:featureBoundingBox];
     return results;
 }
 
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
     int count = [self countWithBoundingBox:featureBoundingBox];
     return count;
 }
 
--(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
-    GPKGProjectionTransform * projectionTransform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
+-(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+    SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
     GPKGBoundingBox * featureBoundingBox = [projectionTransform transformWithBoundingBox:boundingBox];
     return featureBoundingBox;
 }

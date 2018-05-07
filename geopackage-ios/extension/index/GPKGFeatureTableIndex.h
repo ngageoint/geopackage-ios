@@ -205,7 +205,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *
  *  @return geometry indices result set
  */
--(GPKGResultSet *) queryWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGResultSet *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for Geometry Index count within the Geometry Envelope
@@ -214,7 +214,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *
  *  @return count
  */
--(int) countWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for Geometry Index objects within the bounding box in
@@ -224,7 +224,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param projection  projection of the provided bounding box
  * @return geometry indices result set
  */
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  * Query for Geometry Index count within the bounding box in
@@ -234,7 +234,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param projection  projection of the provided bounding box
  * @return count
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  * Get the Geometry Index for the current place in the cursor

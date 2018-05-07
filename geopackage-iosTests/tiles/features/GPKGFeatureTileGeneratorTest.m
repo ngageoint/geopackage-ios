@@ -10,11 +10,11 @@
 #import "GPKGFeatureTileUtils.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "GPKGProjectionTransform.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionTransform.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTileGenerator.h"
 #import "GPKGFeatureTileGenerator.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGTestUtils.h"
 #import "GPKGNumberFeaturesTile.h"
 
@@ -76,8 +76,8 @@
         
         GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
         boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
-        boundingBox = [[[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR] transformWithBoundingBox:boundingBox];
-        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:[GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+        boundingBox = [[[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR] transformWithBoundingBox:boundingBox];
+        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
         [tileGenerator setStandardWebMercatorFormat:false];
         
         int tiles = [tileGenerator generateTiles];

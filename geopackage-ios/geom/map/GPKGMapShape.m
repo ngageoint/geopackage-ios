@@ -15,11 +15,11 @@
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
 #import "GPKGMapPoint.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGMapShape
 
--(instancetype) initWithGeometryType: (enum WKBGeometryType) geometryType andShapeType: (enum GPKGMapShapeType) shapeType andShape: (NSObject *) shape{
+-(instancetype) initWithGeometryType: (enum SFGeometryType) geometryType andShapeType: (enum GPKGMapShapeType) shapeType andShape: (NSObject *) shape{
     self = [super init];
     if(self != nil){
         self.geometryType = geometryType;

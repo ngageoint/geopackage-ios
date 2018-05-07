@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WKBGeometryTypes.h"
+#import "SFGeometryTypes.h"
 #import "GPKGMapShapeTypes.h"
 @import MapKit;
 #import "GPKGBoundingBox.h"
@@ -20,7 +20,7 @@
 /**
  *  Geometry type
  */
-@property (nonatomic) enum WKBGeometryType geometryType;
+@property (nonatomic) enum SFGeometryType geometryType;
 
 /**
  *  Shape type
@@ -41,7 +41,7 @@
  *
  *  @return new map shape
  */
--(instancetype) initWithGeometryType: (enum WKBGeometryType) geometryType andShapeType: (enum GPKGMapShapeType) shapeType andShape: (NSObject *) shape;
+-(instancetype) initWithGeometryType: (enum SFGeometryType) geometryType andShapeType: (enum GPKGMapShapeType) shapeType andShape: (NSObject *) shape;
 
 /**
  *  Remove the shape from the map view

@@ -8,9 +8,9 @@
 
 #import "GPKGCoverageDataTiffImportTest.h"
 #import "GPKGCoverageDataTiffTestUtils.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionConstants.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGTestUtils.h"
 #import "GPKGCoverageDataTiff.h"
 #import "GPKGTileBoundingBoxUtils.h"
@@ -105,9 +105,9 @@ static BOOL allowNulls = true;
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
         NSNumber * srsId = tileMatrixSet.srsId;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
-        GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
-        GPKGProjection * requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        GPKGProjectionTransform * coverageToRequest = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+        SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        SFPProjectionTransform * coverageToRequest = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
         projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
     }
     
@@ -152,9 +152,9 @@ static BOOL allowNulls = true;
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
-    GPKGProjection * projection = [GPKGProjectionFactory projectionWithEpsgInt:requestEpsg];
-    GPKGProjection * printProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+    SFPProjection * projection = [SFPProjectionFactory projectionWithEpsgInt:requestEpsg];
+    SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
     
     NSMutableString * log = [[NSMutableString alloc] init];
     [log appendString:@"\n\nBounds Test\n\n"];
@@ -244,9 +244,9 @@ static BOOL allowNulls = true;
         GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];
         
-        GPKGProjection * projection = [GPKGProjectionFactory projectionWithSrs:srs];
-        GPKGProjection * printProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        GPKGProjectionTransform * wgs84Transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+        SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+        SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
         

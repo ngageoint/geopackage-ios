@@ -37,10 +37,10 @@
     
     BOOL geometry = [name isEqualToString:self.geometryColumns.columnName];
     
-    enum WKBGeometryType geometryType = WKB_NONE;
+    enum SFGeometryType geometryType = SF_NONE;
     enum GPKGDataType dataType = GPKG_DT_GEOMETRY;
     if(geometry){
-        geometryType = [WKBGeometryTypes fromName:type];
+        geometryType = [SFGeometryTypes fromName:type];
     }else{
         dataType = [GPKGDataTypes fromName:type];
     }

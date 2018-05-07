@@ -12,12 +12,12 @@
 
 +(GPKGFeatureColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                andName: (NSString *) name{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:true andGeometryType:WKB_NONE];
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:true andGeometryType:SF_NONE];
 }
 
 +(GPKGFeatureColumn *) createGeometryColumnWithIndex: (int) index
                                              andName: (NSString *) name
-                                     andGeometryType: (enum WKBGeometryType) type
+                                     andGeometryType: (enum SFGeometryType) type
                                           andNotNull: (BOOL) notNull
                                      andDefaultValue: (NSObject *) defaultValue{
     return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_GEOMETRY andMax:nil andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:type];
@@ -37,7 +37,7 @@
                                       andMax: (NSNumber *) max
                                   andNotNull: (BOOL) notNull
                              andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:WKB_NONE];
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:SF_NONE];
 }
 
 -(instancetype) initWithIndex: (int) index
@@ -47,11 +47,11 @@
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
                 andPrimaryKey: (BOOL) primaryKey
-              andGeometryType: (enum WKBGeometryType) geometryType{
+              andGeometryType: (enum SFGeometryType) geometryType{
     self = [super initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
     if(self != nil){
         self.geometryType = geometryType;
-        if(geometryType == WKB_NONE && dataType == GPKG_DT_GEOMETRY){
+        if(geometryType == SF_NONE && dataType == GPKG_DT_GEOMETRY){
             [NSException raise:@"Data or Geometry Type" format:@"Data or Geometry Type is required to create column: %@", name];
         }
     }
@@ -61,7 +61,7 @@
 -(NSString *) getTypeName{
     NSString * type = nil;
     if([self isGeometry]){
-        type = [WKBGeometryTypes name:self.geometryType];
+        type = [SFGeometryTypes name:self.geometryType];
     }else {
         type = [super getTypeName];
     }
@@ -70,7 +70,7 @@
 
 -(BOOL) isGeometry
 {
-    return self.geometryType != WKB_NONE;
+    return self.geometryType != SF_NONE;
 }
 
 @end

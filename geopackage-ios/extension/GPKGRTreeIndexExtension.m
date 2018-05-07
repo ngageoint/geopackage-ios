@@ -12,7 +12,7 @@
 #import "GPKGPropertyConstants.h"
 #import "GPKGIOUtils.h"
 #import "GPKGSqlUtils.h"
-#import "WKBGeometryEnvelopeBuilder.h"
+#import "SFGeometryEnvelopeBuilder.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION = @"geopackage.extensions.rtree_index";
@@ -183,19 +183,19 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
  *            geometry data
  * @return geometry envelope
  */
-+(WKBGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
-    WKBGeometryEnvelope *envelope = nil;
++(SFGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
+    SFGeometryEnvelope *envelope = nil;
     if(data != nil){
         envelope = data.envelope;
         if(envelope == nil){
-            WKBGeometry *geometry = data.geometry;
+            SFGeometry *geometry = data.geometry;
             if(geometry != nil){
-                envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
             }
         }
     }
     if(envelope == nil){
-        envelope = [[WKBGeometryEnvelope alloc] init];
+        envelope = [[SFGeometryEnvelope alloc] init];
     }
     return envelope;
 }

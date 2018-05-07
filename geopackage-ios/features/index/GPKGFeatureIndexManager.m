@@ -393,7 +393,7 @@
     return count;
 }
 
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     GPKGFeatureIndexResults * results = nil;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch(type){
@@ -415,7 +415,7 @@
     return results;
 }
 
--(int) countWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     int count = 0;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch (type) {
@@ -431,7 +431,7 @@
     return count;
 }
 
--(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     GPKGFeatureIndexResults * results = nil;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch(type){
@@ -453,7 +453,7 @@
     return results;
 }
 
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     int count = 0;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch (type) {

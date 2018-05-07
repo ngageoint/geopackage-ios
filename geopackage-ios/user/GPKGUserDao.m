@@ -8,8 +8,8 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGUserRow.h"
-#import "GPKGProjectionTransform.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionTransform.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGUserDao
@@ -49,7 +49,7 @@
     return value;
 }
 
--(GPKGProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) getProjection: (NSObject *) object{
     return self.projection;
 }
 
@@ -95,11 +95,11 @@
     GPKGBoundingBox * boundingBox = [self getBoundingBox];
     if(boundingBox != nil){
         
-        if([self.projection getUnit] == GPKG_UNIT_DEGREES){
+        if([self.projection getUnit] == SFP_UNIT_DEGREES){
             boundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:boundingBox];
         }
-        GPKGProjectionTransform * webMercatorTransform = [[GPKGProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-        GPKGBoundingBox * webMercatorBoundingBox = [webMercatorTransform transformWithBoundingBox:boundingBox];
+        SFPProjectionTransform * webMercatorTransform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        GPKGBoundingBox * webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
         zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;

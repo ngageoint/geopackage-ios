@@ -24,7 +24,7 @@
 /**
  *  Projection
  */
-@property (nonatomic, strong) GPKGProjection * projection;
+@property (nonatomic, strong) SFPProjection * projection;
 
 /**
  *  Initialize

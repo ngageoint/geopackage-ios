@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
-#import "WKBPoint.h"
-#import "WKBLineString.h"
-#import "WKBPolygon.h"
+#import "SFPoint.h"
+#import "SFLineString.h"
+#import "SFPolygon.h"
 
 extern NSString * const GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT;
 extern NSString * const GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT;
@@ -49,9 +49,9 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage;
 
-+(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType;
++(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType;
 
-+(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType;
++(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType;
 
 +(GPKGTileTable *) buildTileTableWithTableName: (NSString *) tableName;
 
@@ -59,11 +59,11 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void) addRowsToTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrix: (GPKGTileMatrix *) tileMatrix andData: (NSData *) tileData;
 
-+(WKBPoint *) createPointWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
++(SFPoint *) createPointWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
-+(WKBLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring;
++(SFLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring;
 
-+(WKBPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
++(SFPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM;
 
 +(NSDecimalNumber *) roundDouble: (double) value;
 

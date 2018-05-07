@@ -96,7 +96,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
@@ -143,7 +143,7 @@
  *                              on the screen must be to be included in a click query
  * @return tolerance distance in meters and screen pixels
  */
-+(GPKGMapTolerance *) toleranceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
++(GPKGMapTolerance *) toleranceWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
@@ -176,7 +176,7 @@
  *                              on the screen must be to be included in a click query
  * @return tolerance distance in meters
  */
-+(double) toleranceDistanceWithPoint: (WKBPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
++(double) toleranceDistanceWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.

@@ -96,11 +96,11 @@
     return value;
 }
 
--(GPKGProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) getProjection: (NSObject *) object{
     GPKGDataColumns *projectionObject = (GPKGDataColumns*) object;
     GPKGContents *contents = [self getContents:projectionObject];
     GPKGContentsDao *contentsDao = [self getContentsDao];
-    GPKGProjection * projection = [contentsDao getProjection:contents];
+    SFPProjection * projection = [contentsDao getProjection:contents];
     return projection;
 }
 

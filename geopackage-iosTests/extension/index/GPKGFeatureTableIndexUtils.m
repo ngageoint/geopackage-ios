@@ -10,10 +10,10 @@
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTestGeoPackageProgress.h"
-#import "WKBGeometryEnvelopeBuilder.h"
-#import "GPKGProjectionConstants.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionTransform.h"
+#import "SFGeometryEnvelopeBuilder.h"
+#import "SFPProjectionConstants.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGGeoPackageExtensions.h"
 
 @implementation GPKGFeatureTableIndexUtils
@@ -90,9 +90,9 @@
         
         // Test the query by envelope
         GPKGGeometryData * geometryData = [testFeatureRow getGeometry];
-        WKBGeometryEnvelope * envelope = geometryData.envelope;
+        SFGeometryEnvelope * envelope = geometryData.envelope;
         if(envelope == nil){
-            envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometryData.geometry];
+            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometryData.geometry];
         }
         [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - .000001)]];
         [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + .000001)]];
@@ -128,13 +128,13 @@
                                                                        andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
                                                                       andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
                                                                        andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
-        GPKGProjection * projection = nil;
+        SFPProjection * projection = nil;
         if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){
-            projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+            projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         }else{
-            projection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+            projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         }
-        GPKGProjectionTransform * transform = [[GPKGProjectionTransform alloc] initWithFromProjection:featureDao.projection andToProjection:projection];
+        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:featureDao.projection andToProjection:projection];
         GPKGBoundingBox * transformedBoundingBox = [transform transformWithBoundingBox:boundingBox];
         
         // Test the query by projected bounding box
@@ -156,7 +156,7 @@
         
         // Update a Geometry and update the index of a single feature row
         geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
-        WKBPoint * point = [[WKBPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        SFPoint * point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
         [geometryData setGeometry:point];
         [testFeatureRow setGeometry:geometryData];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];
@@ -167,7 +167,7 @@
         [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
         
         // Verify the index was updated for the feature row
-        envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
+        envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
         resultCount = 0;
         featureFound = false;
         [GPKGTestUtils assertTrue:[featureTableIndex countWithGeometryEnvelope:envelope] >= 1];
@@ -298,11 +298,11 @@
     [GPKGTestUtils assertEqualWithValue:[featureTableIndex getTableName] andValue2:geometryIndex.tableName];
     [GPKGTestUtils assertEqualIntWithValue:[geometryIndex.geomId intValue] andValue2:[[featureRow getId] intValue]];
     GPKGGeometryData * geometryData = [featureRow getGeometry];
-    WKBGeometryEnvelope * envelope = geometryData.envelope;
+    SFGeometryEnvelope * envelope = geometryData.envelope;
     if(envelope == nil){
-        WKBGeometry * geometry = geometryData.geometry;
+        SFGeometry * geometry = geometryData.geometry;
         if(geometry != nil){
-            envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
         }
     }
     

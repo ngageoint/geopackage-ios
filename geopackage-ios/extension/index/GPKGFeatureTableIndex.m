@@ -8,8 +8,8 @@
 
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGProperties.h"
-#import "WKBGeometryEnvelopeBuilder.h"
-#import "GPKGProjectionTransform.h"
+#import "SFGeometryEnvelopeBuilder.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGUserRowSync.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR = @"nga";
@@ -134,13 +134,13 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(geomData != nil){
         
         // Get the envelope
-        WKBGeometryEnvelope * envelope = geomData.envelope;
+        SFGeometryEnvelope * envelope = geomData.envelope;
         
         // If no envelope, build one from the geometry
         if(envelope == nil){
-            WKBGeometry * geometry = geomData.geometry;
+            SFGeometry * geometry = geomData.geometry;
             if(geometry != nil){
-                envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
             }
         }
         
@@ -308,7 +308,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    WKBGeometryEnvelope * envelope = [boundingBox buildEnvelope];
+    SFGeometryEnvelope * envelope = [boundingBox buildEnvelope];
     GPKGResultSet * geometryResults = [self queryWithGeometryEnvelope:envelope];
     return geometryResults;
 }
@@ -320,7 +320,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return count;
 }
 
--(GPKGResultSet *) queryWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGResultSet *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
@@ -380,14 +380,14 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return results;
 }
 
--(int) countWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     GPKGResultSet * results = [self queryWithGeometryEnvelope:envelope];
     int count = results.count;
     [results close];
     return count;
 }
 
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     
     GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
     GPKGResultSet * results = [self queryWithBoundingBox:featureBoundingBox];
@@ -395,15 +395,15 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return results;
 }
 
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     GPKGResultSet * results = [self queryWithBoundingBox:boundingBox andProjection:projection];
     int count = results.count;
     [results close];
     return count;
 }
 
--(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection{
-    GPKGProjectionTransform * projectionTransform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
+-(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+    SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
     GPKGBoundingBox * featureBoundingBox = [projectionTransform transformWithBoundingBox:boundingBox];
     return featureBoundingBox;
 }

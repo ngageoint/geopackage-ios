@@ -8,9 +8,9 @@
 
 #import "GPKGTileCreatorGetTileTest.h"
 #import "GPKGTestConstants.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTestUtils.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGTileCreator.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
@@ -35,7 +35,7 @@
     
     [tileDao adjustTileMatrixLengths];
     
-    GPKGProjection * wgs84 = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPProjection * wgs84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     NSNumber * width = [NSNumber numberWithInt:256];
     NSNumber * height = [NSNumber numberWithInt:140];

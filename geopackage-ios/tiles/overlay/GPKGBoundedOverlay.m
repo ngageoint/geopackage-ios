@@ -7,8 +7,8 @@
 //
 
 #import "GPKGBoundedOverlay.h"
-#import "GPKGProjectionTransform.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionTransform.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGBoundedOverlay
@@ -18,13 +18,13 @@
     return self;
 }
 
--(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (GPKGProjection *) projection{
-    GPKGProjectionTransform * projectionToWebMercator = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+    SFPProjectionTransform * projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.webMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:boundingBox];
 }
 
--(GPKGBoundingBox *) getBoundingBoxWithProjection: (GPKGProjection *) projection{
-    GPKGProjectionTransform * webMercatorToProjection = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
+-(GPKGBoundingBox *) getBoundingBoxWithProjection: (SFPProjection *) projection{
+    SFPProjectionTransform * webMercatorToProjection = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
     return [webMercatorToProjection transformWithBoundingBox:self.webMercatorBoundingBox];
 }
 

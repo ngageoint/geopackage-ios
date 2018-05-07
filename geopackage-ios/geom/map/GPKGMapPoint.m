@@ -27,7 +27,7 @@ static NSUInteger idCounter = 0;
     return [self initWithLocation:theCoordinate];
 }
 
-- (id)initWithPoint: (WKBPoint *) point {
+- (id)initWithPoint: (SFPoint *) point {
     return [self initWithLatitude:[point.y doubleValue] andLongitude:[point.x doubleValue]];
 }
 

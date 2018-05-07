@@ -8,25 +8,25 @@
 
 #import "GPKGGeometryUtils.h"
 #import "GPKGGeoPackageConstants.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGGeometryUtils
 
-+(double) computeAreaOfDegreesPath: (NSArray<WKBPoint *> *) path{
++(double) computeAreaOfDegreesPath: (NSArray<SFPoint *> *) path{
     return fabs([self computeAreaOfDegreesPath:path]);
 }
 
-+(double) computeSignedAreaOfDegreesPath: (NSArray<WKBPoint *> *) path{
++(double) computeSignedAreaOfDegreesPath: (NSArray<SFPoint *> *) path{
     NSUInteger size = path.count;
     if (size < 3) { return 0; }
     double total = 0;
-    WKBPoint * prev = [path objectAtIndex:size - 1];
+    SFPoint * prev = [path objectAtIndex:size - 1];
 
     double prevTanLat = tan((M_PI / 2.0 - [self toRadiansWithDegrees:[prev.y doubleValue]]) / 2.0);
     double prevLng = [self toRadiansWithDegrees:[prev.x doubleValue]];
     // For each edge, accumulate the signed area of the triangle formed by the North Pole
     // and that edge ("polar triangle").
-    for (WKBPoint * point in path) {
+    for (SFPoint * point in path) {
         double tanLat = tan((M_PI / 2.0 - [self toRadiansWithDegrees:[point.y doubleValue]]) / 2.0);
         double lng = [self toRadiansWithDegrees:[point.x doubleValue]];
         total += [self polarTriangleAreaWithTan1:tanLat andLng1:lng andTan2:prevTanLat andLng2:prevLng];
@@ -42,9 +42,9 @@
     return 2 * atan2(t * sin(deltaLng), 1 + t * cos(deltaLng));
 }
 
-+(BOOL) isClosedPolygonWithPoints: (NSArray<WKBPoint *> *) points{
-    WKBPoint * firstPoint = [points objectAtIndex:0];
-    WKBPoint * lastPoint = [points objectAtIndex:points.count - 1];
++(BOOL) isClosedPolygonWithPoints: (NSArray<SFPoint *> *) points{
+    SFPoint * firstPoint = [points objectAtIndex:0];
+    SFPoint * lastPoint = [points objectAtIndex:points.count - 1];
     BOOL closed = [firstPoint.x isEqualToNumber:lastPoint.x] && [firstPoint.y isEqualToNumber:lastPoint.y];
     return closed;
 }

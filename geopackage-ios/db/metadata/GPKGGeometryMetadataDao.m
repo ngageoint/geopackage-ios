@@ -120,18 +120,18 @@
     return value;
 }
 
--(GPKGGeometryMetadata *) createMetadataWithGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGGeometryMetadata *) createMetadataWithGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
     return [self createMetadataWithGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andId:geomId andEnvelope:envelope];
 }
 
--(GPKGGeometryMetadata *) createMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGGeometryMetadata *) createMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
     
     GPKGGeometryMetadata * metadata = [self populateMetadataWithGeoPackageId:geoPackageId andTableName:tableName andId:geomId andEnvelope:envelope];
     [self create:metadata];
     return metadata;
 }
 
--(GPKGGeometryMetadata *) populateMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGGeometryMetadata *) populateMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
     
     GPKGGeometryMetadata * metadata = [[GPKGGeometryMetadata alloc] init];
     [metadata setGeoPackageId:geoPackageId];
@@ -309,7 +309,7 @@
 }
 
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    WKBGeometryEnvelope * envelope = [[WKBGeometryEnvelope alloc] init];
+    SFGeometryEnvelope * envelope = [[SFGeometryEnvelope alloc] init];
     [envelope setMinX:boundingBox.minLongitude];
     [envelope setMaxX:boundingBox.maxLongitude];
     [envelope setMinY:boundingBox.minLatitude];
@@ -324,15 +324,15 @@
     return count;
 }
 
--(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
     return [self queryByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
 }
 
--(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
     return [self countByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
 }
 
--(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
     
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_GEOPACKAGE_ID andValue:geoPackageId]];
@@ -395,7 +395,7 @@
     return results;
 }
 
--(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (WKBGeometryEnvelope *) envelope{
+-(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
     GPKGResultSet * results = [self queryByGeoPackageId:geoPackageId andTableName:tableName andEnvelope:envelope];
     int count = results.count;
     [results close];

@@ -19,12 +19,12 @@
         // Find the geometry
         for(GPKGFeatureColumn *column in columns){
             if([column isGeometry]){
-                [self duplicateCheckWithIndex:column.index andPreviousIndex:geometry andColumn:WKB_GEOMETRY_NAME];
+                [self duplicateCheckWithIndex:column.index andPreviousIndex:geometry andColumn:SF_GEOMETRY_NAME];
                 geometry = [NSNumber numberWithInt:column.index];
             }
         }
         
-        [self missingCheckWithIndex:geometry andColumn:WKB_GEOMETRY_NAME];
+        [self missingCheckWithIndex:geometry andColumn:SF_GEOMETRY_NAME];
         self.geometryIndex = [geometry intValue];
     }
     return self;

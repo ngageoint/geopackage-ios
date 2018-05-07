@@ -15,7 +15,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "WKBByteReader.h"
+#import "SFByteReader.h"
 #import "GPKGSessionTaskData.h"
 #import <objc/runtime.h>
 
@@ -883,7 +883,7 @@ didCompleteWithError:(nullable NSError *)error{
         uint8_t buffer[bufferSize];
         if([is read:buffer maxLength:bufferSize] == bufferSize){
             NSData * data = [[NSData alloc] initWithBytes:buffer length:bufferSize];
-            WKBByteReader * byteReader = [[WKBByteReader alloc] initWithData:data];
+            SFByteReader * byteReader = [[SFByteReader alloc] initWithData:data];
             NSString * header = [byteReader readString:(int)bufferSize];
             NSString * headerPrefix = [header substringToIndex:[GPKG_SQLITE_HEADER_PREFIX length]];
             validHeader = [headerPrefix caseInsensitiveCompare:GPKG_SQLITE_HEADER_PREFIX] == NSOrderedSame;

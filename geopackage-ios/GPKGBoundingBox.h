@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
-#import "WKBGeometryEnvelope.h"
+#import "SFGeometryEnvelope.h"
+#import "SFPProjectionTransform.h"
 
 /**
  *  Bounding box width and height struct
@@ -88,14 +89,14 @@ struct GPKGBoundingBoxSize{
  *
  *  @return new bounding box
  */
--(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(instancetype) initWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Build a Geometry Envelope from the bounding box
  *
  * @return geometry envelope
  */
--(WKBGeometryEnvelope *) buildEnvelope;
+-(SFGeometryEnvelope *) buildEnvelope;
 
 /**
  *  Determine if equal to the provided bounding box
@@ -217,5 +218,14 @@ struct GPKGBoundingBoxSize{
  * @return expanded bounding box
  */
 -(GPKGBoundingBox *) expandWebMercatorCoordinates;
+
+/**
+ * Transform the bounding box using the provided projection transform
+ *
+ * @param transform
+ *            projection transform
+ * @return transformed bounding box
+ */
+-(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform;
 
 @end

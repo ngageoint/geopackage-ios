@@ -9,7 +9,7 @@
 #import <MapKit/MapKit.h>
 #import "GPKGBoundingBox.h"
 #import "GPKGFeatureTiles.h"
-#import "GPKGProjection.h"
+#import "SFPProjection.h"
 #import "GPKGBoundedOverlay.h"
 
 /**

@@ -7,8 +7,8 @@
 //
 
 #import "GPKGFeatureShapes.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGMapUtils.h"
 
@@ -246,7 +246,7 @@
                 BOOL delete = YES;
                 for(GPKGMapShape *mapShape in mapShapes){
                     GPKGBoundingBox *mapShapeBoundingBox = [mapShape boundingBox];
-                    BOOL allowEmpty = mapShape.geometryType == WKB_POINT;
+                    BOOL allowEmpty = mapShape.geometryType == SF_POINT;
                     if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:mapShapeBoundingBox andBoundingBox:boundingBox withMaxLongitude:PROJ_WGS84_HALF_WORLD_LON_WIDTH andAllowEmpty:allowEmpty] != nil){
                         delete = NO;
                         break;

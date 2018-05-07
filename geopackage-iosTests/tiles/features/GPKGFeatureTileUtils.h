@@ -8,7 +8,7 @@
 
 #import "GPKGCreateGeoPackageTestCase.h"
 #import "GPKGFeatureTiles.h"
-#import "WKBLineString.h"
+#import "SFLineString.h"
 
 @interface GPKGFeatureTileUtils : GPKGCreateGeoPackageTestCase
 
@@ -34,7 +34,7 @@
 
 +(long long) insertLineWithFeatureDao: (GPKGFeatureDao *) featureDao andPoints: (NSArray *) points;
 
-+(WKBLineString *) getLineStringWithPoints: (NSArray *) points;
++(SFLineString *) getLineStringWithPoints: (NSArray *) points;
 
 +(long long) insertPolygonWithFeatureDao: (GPKGFeatureDao *) featureDao andLines: (NSArray *) lines;
 

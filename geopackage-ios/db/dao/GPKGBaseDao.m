@@ -61,7 +61,7 @@
     return [self.database tableExists:self.tableName];
 }
 
--(GPKGProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) getProjection: (NSObject *) object{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }

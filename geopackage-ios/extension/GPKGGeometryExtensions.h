@@ -7,7 +7,7 @@
 //
 
 #import "GPKGBaseExtension.h"
-#import "WKBGeometryTypes.h"
+#import "SFGeometryTypes.h"
 
 /**
  *  Geometry Extensions utility methods and constants
@@ -45,7 +45,7 @@
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum WKBGeometryType) geometryType;
+-(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType;
 
 /**
  *  Determine if the GeoPackage has the extension, non-linear geometry type
@@ -56,7 +56,7 @@
  *
  *  @return true if has extension
  */
--(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum WKBGeometryType) geometryType;
+-(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType;
 
 /**
  *  Determine if the geometry type is an extension
@@ -65,7 +65,7 @@
  *
  *  @return true if an extension
  */
-+(BOOL) isExtension: (enum WKBGeometryType) geometryType;
++(BOOL) isExtension: (enum SFGeometryType) geometryType;
 
 /**
  * Determine if the geometry type is non standard
@@ -74,7 +74,7 @@
  *
  * @return true if non standard
  */
-+(BOOL) isNonStandard: (enum WKBGeometryType) geometryType;
++(BOOL) isNonStandard: (enum SFGeometryType) geometryType;
 
 /**
  *  Determine if the geometry type is a GeoPackage extension
@@ -83,7 +83,7 @@
  *
  *  @return true if a GeoPackage extension
  */
-+(BOOL) isGeoPackageExtension: (enum WKBGeometryType) geometryType;
++(BOOL) isGeoPackageExtension: (enum SFGeometryType) geometryType;
 
 /**
  *  Get the extension name of a GeoPackage extension Geometry
@@ -92,7 +92,7 @@
  *
  *  @return extension name
  */
-+(NSString *) getExtensionName: (enum WKBGeometryType) geometryType;
++(NSString *) getExtensionName: (enum SFGeometryType) geometryType;
 
 /**
  *  Get or create the extension, user defined geometry type
@@ -107,7 +107,7 @@
  *             remove this extension from the standard due to
  *             interoperability concerns. (GeoPackage version 1.2)
  */
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
+-(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
 
 /**
  *  Determine if the GeoPackage has the extension, user defined geometry type
@@ -122,7 +122,7 @@
  *             remove this extension from the standard due to
  *             interoperability concerns. (GeoPackage version 1.2)
  */
--(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
+-(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
 
 /**
  *  Get the extension name of an extension Geometry, either user-defined or
@@ -136,6 +136,6 @@
  *             remove this extension from the standard due to
  *             interoperability concerns. (GeoPackage version 1.2)
  */
-+(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum WKBGeometryType) geometryType __attribute__((deprecated));
++(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
 
 @end

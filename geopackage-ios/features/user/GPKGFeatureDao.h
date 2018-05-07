@@ -9,7 +9,7 @@
 #import "GPKGUserDao.h"
 #import "GPKGGeometryColumns.h"
 #import "GPKGFeatureRow.h"
-#import "WKBGeometryTypes.h"
+#import "SFGeometryTypes.h"
 #import "GPKGMetadataDb.h"
 
 /**
@@ -84,6 +84,6 @@
  *
  *  @return geometry type
  */
--(enum WKBGeometryType) getGeometryType;
+-(enum SFGeometryType) getGeometryType;
 
 @end

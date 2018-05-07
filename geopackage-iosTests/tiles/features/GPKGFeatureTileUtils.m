@@ -7,8 +7,8 @@
 //
 
 #import "GPKGFeatureTileUtils.h"
-#import "GPKGProjectionConstants.h"
-#import "WKBPolygon.h"
+#import "SFPProjectionConstants.h"
+#import "SFPolygon.h"
 #import "GPKGFeatureTiles.h"
 
 @implementation GPKGFeatureTileUtils
@@ -20,7 +20,7 @@
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_tiles"];
     [geometryColumns setColumnName:@"gome"];
-    [geometryColumns setGeometryType:WKB_GEOMETRY];
+    [geometryColumns setGeometryType:SF_GEOMETRY];
     [geometryColumns setZ:[NSNumber numberWithInt:0]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
@@ -166,7 +166,7 @@
 
 +(void) setPointWithFeatureRow: (GPKGFeatureRow *) featureRow andX: (double) x andY: (double) y{
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    WKBPoint * point = [[WKBPoint alloc] initWithHasZ:false andHasM:false andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
+    SFPoint * point = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
     [geomData setGeometry:point];
     [featureRow setGeometry:geomData];
 }
@@ -174,18 +174,18 @@
 +(long long) insertLineWithFeatureDao: (GPKGFeatureDao *) featureDao andPoints: (NSArray *) points{
     GPKGFeatureRow * featureRow = [featureDao newRow];
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    WKBLineString * lineString = [self getLineStringWithPoints:points];
+    SFLineString * lineString = [self getLineStringWithPoints:points];
     [geomData setGeometry:lineString];
     [featureRow setGeometry:geomData];
     return [featureDao insert:featureRow];
 }
 
-+(WKBLineString *) getLineStringWithPoints: (NSArray *) points{
-    WKBLineString * lineString = [[WKBLineString alloc] initWithHasZ:false andHasM:false];
++(SFLineString *) getLineStringWithPoints: (NSArray *) points{
+    SFLineString * lineString = [[SFLineString alloc] initWithHasZ:false andHasM:false];
     for(NSArray * point in points){
         NSDecimalNumber * x = [point objectAtIndex:0];
         NSDecimalNumber * y = [point objectAtIndex:1];
-        WKBPoint * point = [[WKBPoint alloc] initWithHasZ:false andHasM:false andX:x andY:y];
+        SFPoint * point = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:x andY:y];
         [lineString addPoint:point];
     }
     return lineString;
@@ -194,9 +194,9 @@
 +(long long) insertPolygonWithFeatureDao: (GPKGFeatureDao *) featureDao andLines: (NSArray *) lines{
     GPKGFeatureRow * featureRow = [featureDao newRow];
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:false andHasM:false];
+    SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:false andHasM:false];
     for(NSArray * ring in lines){
-        WKBLineString * lineString = [self getLineStringWithPoints:ring];
+        SFLineString * lineString = [self getLineStringWithPoints:ring];
         [polygon addRing:lineString];
     }
     [geomData setGeometry:polygon];

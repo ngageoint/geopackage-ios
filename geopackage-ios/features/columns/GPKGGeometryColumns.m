@@ -21,12 +21,12 @@ NSString * const GPKG_GC_COLUMN_M = @"m";
 
 @implementation GPKGGeometryColumns
 
--(enum WKBGeometryType) getGeometryType{
-    return [WKBGeometryTypes fromName:self.geometryTypeName];
+-(enum SFGeometryType) getGeometryType{
+    return [SFGeometryTypes fromName:self.geometryTypeName];
 }
 
--(void) setGeometryType: (enum WKBGeometryType) geometryType{
-    self.geometryTypeName = [WKBGeometryTypes name:geometryType];
+-(void) setGeometryType: (enum SFGeometryType) geometryType{
+    self.geometryTypeName = [SFGeometryTypes name:geometryType];
 }
 
 -(void) setZ:(NSNumber *)z{

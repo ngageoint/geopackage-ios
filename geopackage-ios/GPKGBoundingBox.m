@@ -8,7 +8,7 @@
 
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGBoundingBox
 
@@ -48,12 +48,12 @@
     return [self initWithMinLongitude:boundingBox.minLongitude andMinLatitude:boundingBox.minLatitude andMaxLongitude:boundingBox.maxLongitude andMaxLatitude:boundingBox.maxLatitude];
 }
 
--(instancetype) initWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope{
+-(instancetype) initWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
--(WKBGeometryEnvelope *) buildEnvelope{
-    WKBGeometryEnvelope * envelope = [[WKBGeometryEnvelope alloc] init];
+-(SFGeometryEnvelope *) buildEnvelope{
+    SFGeometryEnvelope * envelope = [[SFGeometryEnvelope alloc] init];
     [envelope setMinX:self.minLongitude];
     [envelope setMaxX:self.maxLongitude];
     [envelope setMinY:self.minLatitude];
@@ -219,6 +219,13 @@
 
 -(GPKGBoundingBox *) expandWebMercatorCoordinates{
     return [self expandCoordinatesWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
+-(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform{
+    SFGeometryEnvelope *envelope = [self buildEnvelope];
+    SFGeometryEnvelope *transformedEnvelope = [transform transformWithGeometryEnvelope:envelope];
+    GPKGBoundingBox *transformed = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:transformedEnvelope];
+    return transformed;
 }
 
 @end

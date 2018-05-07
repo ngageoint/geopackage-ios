@@ -10,8 +10,8 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGCoverageDataAlgorithms.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGCoverageDataSourcePixel.h"
 #import "GPKGCoverageDataTileMatrixResults.h"
 #import "GPKGTileBoundingBoxUtils.h"
@@ -57,8 +57,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 @property (nonatomic, strong) GPKGGriddedCoverageDao *griddedCoverageDao;
 @property (nonatomic, strong) GPKGGriddedTileDao *griddedTileDao;
 @property (nonatomic, strong) GPKGGriddedCoverage *griddedCoverage;
-@property (nonatomic, strong) GPKGProjection *requestProjection;
-@property (nonatomic, strong) GPKGProjection *coverageProjection;
+@property (nonatomic, strong) SFPProjection *requestProjection;
+@property (nonatomic, strong) SFPProjection *coverageProjection;
 @property (nonatomic, strong) GPKGBoundingBox *coverageBoundingBox;
 @property (nonatomic) BOOL sameProjection;
 
@@ -66,7 +66,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 @implementation GPKGCoverageData
 
-+(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
     
     GPKGTileMatrixSet *tileMatrixSet = tileDao.tileMatrixSet;
     GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
@@ -101,7 +101,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return [self coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:tileDao.projection];
 }
 
-+(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (GPKGProjection *) requestProjection{
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (SFPProjection *) requestProjection{
     return [self coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
@@ -127,7 +127,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return coverageData;
 }
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_GRIDDED_COVERAGE_EXTENSION_NAME];
@@ -147,7 +147,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         self.width = width;
         self.height = height;
         self.requestProjection = requestProjection;
-        self.coverageProjection = [GPKGProjectionFactory projectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
+        self.coverageProjection = [SFPProjectionFactory projectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
         self.coverageBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units
@@ -172,11 +172,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return _griddedTileDao;
 }
 
--(GPKGProjection *) requestProjection{
+-(SFPProjection *) requestProjection{
     return _requestProjection;
 }
 
--(GPKGProjection *) coverageProjection{
+-(SFPProjection *) coverageProjection{
     return _coverageProjection;
 }
 
@@ -280,7 +280,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  *            coverage bounding box
  * @return projected coverage data values
  */
--(NSArray *) reprojectValues: (NSArray *) values withWidth: (int) requestedWidth andHeight: (int) requestedHeight andRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andProjectionTransform: (GPKGProjectionTransform *) transformRequestToCoverage andCoverageBoundingBox: (GPKGBoundingBox *) coverageBoundingBox{
+-(NSArray *) reprojectValues: (NSArray *) values withWidth: (int) requestedWidth andHeight: (int) requestedHeight andRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andProjectionTransform: (SFPProjectionTransform *) transformRequestToCoverage andCoverageBoundingBox: (GPKGBoundingBox *) coverageBoundingBox{
     
     double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedWidth;
     double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedHeight;
@@ -1198,10 +1198,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     GPKGCoverageDataResults * coverageResults = nil;
     
     // Transform to the projection of the coverage data
-    GPKGProjectionTransform * transformRequestToCoverage = nil;
+    SFPProjectionTransform * transformRequestToCoverage = nil;
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
-        transformRequestToCoverage = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
+        transformRequestToCoverage = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
         requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];
@@ -1276,10 +1276,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     GPKGCoverageDataResults * coverageResults = nil;
     
     // Transform to the projection of the coverage data tiles
-    GPKGProjectionTransform * transformRequestToCoverage = nil;
+    SFPProjectionTransform * transformRequestToCoverage = nil;
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
-        transformRequestToCoverage = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
+        transformRequestToCoverage = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
         requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];

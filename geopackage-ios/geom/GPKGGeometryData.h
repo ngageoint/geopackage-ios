@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WKBGeometryEnvelope.h"
-#import "WKBGeometry.h"
+#import "SFGeometryEnvelope.h"
+#import "SFGeometry.h"
 
 /**
  *  GeoPackage Geometry Data
@@ -43,17 +43,17 @@
 /**
  *  Geometry envelope
  */
-@property (nonatomic, strong) WKBGeometryEnvelope * envelope;
+@property (nonatomic, strong) SFGeometryEnvelope * envelope;
 
 /**
  *  Well-Known Binary Geometry index of where the bytes start
  */
-@property (nonatomic) int wkbGeometryIndex;
+@property (nonatomic) int SFGeometryIndex;
 
 /**
  *  Geometry
  */
-@property (nonatomic, strong) WKBGeometry * geometry;
+@property (nonatomic, strong) SFGeometry * geometry;
 
 /**
  *  Initialize
@@ -93,7 +93,7 @@
  *
  *  @param geometry geometry
  */
--(void) setGeometry:(WKBGeometry *) geometry;
+-(void) setGeometry:(SFGeometry *) geometry;
 
 /**
  *  Get the GeoPackage header byte data
@@ -118,6 +118,6 @@
  *
  *  @return flag indicator
  */
-+(int) getIndicatorWithEnvelope: (WKBGeometryEnvelope *) envelope;
++(int) getIndicatorWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 @end

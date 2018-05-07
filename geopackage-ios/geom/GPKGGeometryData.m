@@ -7,12 +7,12 @@
 //
 
 #import "GPKGGeometryData.h"
-#import "WKBByteReader.h"
+#import "SFByteReader.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeometryExtensions.h"
-#import "WKBGeometryReader.h"
-#import "WKBByteWriter.h"
-#import "WKBGeometryWriter.h"
+#import "SFWGeometryReader.h"
+#import "SFByteWriter.h"
+#import "SFWGeometryWriter.h"
 
 @implementation GPKGGeometryData
 
@@ -42,7 +42,7 @@
 {
     self.bytes = bytes;
     
-    WKBByteReader * reader = [[WKBByteReader alloc] initWithData:bytes];
+    SFByteReader * reader = [[SFByteReader alloc] initWithData:bytes];
     
     // Get 2 bytes as the magic number and validate
     NSString * magic = [reader readString:2];
@@ -67,18 +67,18 @@
     self.envelope = [self readEnvelopeWithIndicator:envelopeIndicator andByteReader:reader];
     
     // Save off where the WKB bytes start
-    self.wkbGeometryIndex = reader.nextByte;
+    self.SFGeometryIndex = reader.nextByte;
     
     // Read the Well-Known Binary Geometry if not marked as empty
     if(!self.empty){
-        self.geometry = [WKBGeometryReader readGeometryWithReader:reader];
+        self.geometry = [SFWGeometryReader readGeometryWithReader:reader];
     }
     
 }
 
 -(NSData *) toData
 {
-    WKBByteWriter * writer = [[WKBByteWriter alloc] init];
+    SFByteWriter * writer = [[SFByteWriter alloc] init];
     
     // Write GP as the 2 byte magic number
     [writer writeString:GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER];
@@ -98,11 +98,11 @@
     [self writeEnvelopeWithByteWriter:writer];
     
     // Save off where the WKB bytes start
-    self.wkbGeometryIndex = [writer size];
+    self.SFGeometryIndex = [writer size];
     
     // Write the Well-Known Binary Geometry if not marked as empty
     if (!self.empty) {
-        [WKBGeometryWriter writeGeometry:self.geometry withWriter:writer];
+        [SFWGeometryWriter writeGeometry:self.geometry withWriter:writer];
     }
     
     // Get the bytes
@@ -176,9 +176,9 @@
     return [NSNumber numberWithInt:flag];
 }
 
--(WKBGeometryEnvelope *) readEnvelopeWithIndicator: (int) envelopeIndicator andByteReader: (WKBByteReader *) reader{
+-(SFGeometryEnvelope *) readEnvelopeWithIndicator: (int) envelopeIndicator andByteReader: (SFByteReader *) reader{
     
-    WKBGeometryEnvelope * envelope = nil;
+    SFGeometryEnvelope * envelope = nil;
     
     if(envelopeIndicator > 0){
         
@@ -210,7 +210,7 @@
             maxM = [reader readDouble];
         }
         
-        envelope = [[WKBGeometryEnvelope alloc] initWithHasZ:hasZ andHasM:hasM];
+        envelope = [[SFGeometryEnvelope alloc] initWithHasZ:hasZ andHasM:hasM];
         
         [envelope setMinX:minX];
         [envelope setMaxX:maxX];
@@ -232,7 +232,7 @@
     return envelope;
 }
 
--(void) writeEnvelopeWithByteWriter: (WKBByteWriter *) writer{
+-(void) writeEnvelopeWithByteWriter: (SFByteWriter *) writer{
     
     if (self.envelope != nil) {
         
@@ -256,7 +256,7 @@
     }
 }
 
--(void) setGeometry:(WKBGeometry *) geometry{
+-(void) setGeometry:(SFGeometry *) geometry{
     _geometry = geometry;
     self.empty = geometry == nil;
     if(geometry != nil){
@@ -266,16 +266,16 @@
 
 -(NSData *) getHeaderData
 {
-    return [self.bytes subdataWithRange:NSMakeRange(0, self.wkbGeometryIndex)];
+    return [self.bytes subdataWithRange:NSMakeRange(0, self.SFGeometryIndex)];
 }
 
 -(NSData *) getWkbData
 {
-    int wkbByteCount = (int)[self.bytes length] - self.wkbGeometryIndex;
-    return [self.bytes subdataWithRange:NSMakeRange(self.wkbGeometryIndex, wkbByteCount)];
+    int wkbByteCount = (int)[self.bytes length] - self.SFGeometryIndex;
+    return [self.bytes subdataWithRange:NSMakeRange(self.SFGeometryIndex, wkbByteCount)];
 }
 
-+(int) getIndicatorWithEnvelope: (WKBGeometryEnvelope *) envelope{
++(int) getIndicatorWithEnvelope: (SFGeometryEnvelope *) envelope{
     int indicator = 1;
     if(envelope.hasZ){
         indicator++;

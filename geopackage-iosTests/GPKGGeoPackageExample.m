@@ -13,23 +13,23 @@
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGIOUtils.h"
-#import "GPKGProjectionConstants.h"
-#import "WKBPoint.h"
-#import "WKBLineString.h"
-#import "WKBPolygon.h"
-#import "WKBGeometryEnvelopeBuilder.h"
+#import "SFPProjectionConstants.h"
+#import "SFPoint.h"
+#import "SFLineString.h"
+#import "SFPolygon.h"
+#import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGDateTimeUtils.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGFeatureTiles.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGFeatureTileGenerator.h"
 #import "GPKGGeometryExtensions.h"
-#import "WKBCircularString.h"
-#import "WKBCompoundCurve.h"
-#import "WKBMultiLineString.h"
-#import "WKBMultiPolygon.h"
+#import "SFCircularString.h"
+#import "SFCompoundCurve.h"
+#import "SFMultiLineString.h"
+#import "SFMultiPolygon.h"
 #import "GPKGWebPExtension.h"
 #import "GPKGCrsWktExtension.h"
 #import "GPKGRTreeIndexExtension.h"
@@ -184,87 +184,87 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [geoPackage createGeometryColumnsTable];
     
-    WKBPoint *point1 = [[WKBPoint alloc] initWithXValue:-104.801918 andYValue:39.720014];
+    SFPoint *point1 = [[SFPoint alloc] initWithXValue:-104.801918 andYValue:39.720014];
     NSString *point1Name = @"BIT Systems";
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point1" andType:WKB_POINT andGeometry:point1 andName:point1Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point1" andType:SF_POINT andGeometry:point1 andName:point1Name];
     
-    WKBPoint *point2 = [[WKBPoint alloc] initWithXValue:-77.196736 andYValue:38.753370];
+    SFPoint *point2 = [[SFPoint alloc] initWithXValue:-77.196736 andYValue:38.753370];
     NSString *point2Name = @"NGA";
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point2" andType:WKB_POINT andGeometry:point2 andName:point2Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point2" andType:SF_POINT andGeometry:point2 andName:point2Name];
     
-    WKBLineString *line1 = [[WKBLineString alloc] init];
+    SFLineString *line1 = [[SFLineString alloc] init];
     NSString *line1Name = @"East Lockheed Drive";
-    [line1 addPoint:[[WKBPoint alloc] initWithXValue:-104.800614 andYValue:39.720721]];
-    [line1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802174 andYValue:39.720726]];
-    [line1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802584 andYValue:39.720660]];
-    [line1 addPoint:[[WKBPoint alloc] initWithXValue:-104.803088 andYValue:39.720477]];
-    [line1 addPoint:[[WKBPoint alloc] initWithXValue:-104.803474 andYValue:39.720209]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.800614 andYValue:39.720721]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.802174 andYValue:39.720726]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.802584 andYValue:39.720660]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.803088 andYValue:39.720477]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.803474 andYValue:39.720209]];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line1" andType:WKB_LINESTRING andGeometry:line1 andName:line1Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line1" andType:SF_LINESTRING andGeometry:line1 andName:line1Name];
     
-    WKBLineString *line2 = [[WKBLineString alloc] init];
+    SFLineString *line2 = [[SFLineString alloc] init];
     NSString *line2Name = @"NGA";
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.196650 andYValue:38.756501]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.196414 andYValue:38.755979]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195518 andYValue:38.755208]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195303 andYValue:38.755272]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195351 andYValue:38.755459]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195863 andYValue:38.755697]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.196328 andYValue:38.756069]];
-    [line2 addPoint:[[WKBPoint alloc] initWithXValue:-77.196568 andYValue:38.756526]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196650 andYValue:38.756501]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196414 andYValue:38.755979]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195518 andYValue:38.755208]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195303 andYValue:38.755272]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195351 andYValue:38.755459]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195863 andYValue:38.755697]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196328 andYValue:38.756069]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196568 andYValue:38.756526]];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line2" andType:WKB_LINESTRING andGeometry:line2 andName:line2Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line2" andType:SF_LINESTRING andGeometry:line2 andName:line2Name];
     
-    WKBPolygon *polygon1 = [[WKBPolygon alloc] init];
+    SFPolygon *polygon1 = [[SFPolygon alloc] init];
     NSString *polygon1Name = @"BIT Systems";
-    WKBLineString *ring1 = [[WKBLineString alloc] init];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802246 andYValue:39.719753]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802183 andYValue:39.719754]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802184 andYValue:39.719719]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802138 andYValue:39.719694]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802097 andYValue:39.719691]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802096 andYValue:39.719648]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801646 andYValue:39.719648]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801644 andYValue:39.719722]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801550 andYValue:39.719723]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801549 andYValue:39.720207]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801648 andYValue:39.720207]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.801648 andYValue:39.720341]];
-    [ring1 addPoint:[[WKBPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
+    SFLineString *ring1 = [[SFLineString alloc] init];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.719753]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802183 andYValue:39.719754]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802184 andYValue:39.719719]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802138 andYValue:39.719694]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802097 andYValue:39.719691]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802096 andYValue:39.719648]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801646 andYValue:39.719648]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801644 andYValue:39.719722]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801550 andYValue:39.719723]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801549 andYValue:39.720207]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801648 andYValue:39.720207]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.801648 andYValue:39.720341]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
     [polygon1 addRing:ring1];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon1" andType:WKB_POLYGON andGeometry:polygon1 andName:polygon1Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon1" andType:SF_POLYGON andGeometry:polygon1 andName:polygon1Name];
     
-    WKBPolygon *polygon2 = [[WKBPolygon alloc] init];
+    SFPolygon *polygon2 = [[SFPolygon alloc] init];
     NSString *polygon2Name = @"NGA Visitor Center";
-    WKBLineString *ring2 = [[WKBLineString alloc] init];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195203 andYValue:38.755080]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195410 andYValue:38.754930]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195350 andYValue:38.754884]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195228 andYValue:38.754966]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195135 andYValue:38.754889]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195048 andYValue:38.754956]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.194986 andYValue:38.754906]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.194897 andYValue:38.754976]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.194953 andYValue:38.755025]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.194763 andYValue:38.755173]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.194827 andYValue:38.755224]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195012 andYValue:38.755082]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195041 andYValue:38.755104]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195028 andYValue:38.755116]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195090 andYValue:38.755167]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195106 andYValue:38.755154]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195205 andYValue:38.755233]];
-    [ring2 addPoint:[[WKBPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
+    SFLineString *ring2 = [[SFLineString alloc] init];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195203 andYValue:38.755080]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195410 andYValue:38.754930]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195350 andYValue:38.754884]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195228 andYValue:38.754966]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195135 andYValue:38.754889]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195048 andYValue:38.754956]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194986 andYValue:38.754906]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194897 andYValue:38.754976]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194953 andYValue:38.755025]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194763 andYValue:38.755173]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194827 andYValue:38.755224]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195012 andYValue:38.755082]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195041 andYValue:38.755104]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195028 andYValue:38.755116]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195090 andYValue:38.755167]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195106 andYValue:38.755154]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195205 andYValue:38.755233]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
     [polygon2 addRing:ring2];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon2" andType:WKB_POLYGON andGeometry:polygon2 andName:polygon2Name];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon2" andType:SF_POLYGON andGeometry:polygon2 andName:polygon2Name];
     
-    NSMutableArray<WKBGeometry *> *geometries1 = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries1 = [[NSMutableArray alloc] init];
     NSMutableArray<NSString *> *geometries1Names = [[NSMutableArray alloc] init];
     [geometries1 addObject:point1];
     [geometries1Names addObject:point1Name];
@@ -273,9 +273,9 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [geometries1 addObject:polygon1];
     [geometries1Names addObject:polygon1Name];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry1" andType:WKB_GEOMETRY andGeometries:geometries1 andNames:geometries1Names];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry1" andType:SF_GEOMETRY andGeometries:geometries1 andNames:geometries1Names];
     
-    NSMutableArray<WKBGeometry *> *geometries2 = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries2 = [[NSMutableArray alloc] init];
     NSMutableArray<NSString *> *geometries2Names = [[NSMutableArray alloc] init];
     [geometries2 addObject:point2];
     [geometries2Names addObject:point2Name];
@@ -284,13 +284,13 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [geometries2 addObject:polygon2];
     [geometries2Names addObject:polygon2Name];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry2" andType:WKB_GEOMETRY andGeometries:geometries2 andNames:geometries2Names];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry2" andType:SF_GEOMETRY andGeometries:geometries2 andNames:geometries2Names];
     
 }
 
-+(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs andTableName: (NSString *) tableName andType: (enum WKBGeometryType) type andGeometry: (WKBGeometry *) geometry andName: (NSString *) name{
++(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs andTableName: (NSString *) tableName andType: (enum SFGeometryType) type andGeometry: (SFGeometry *) geometry andName: (NSString *) name{
     
-    NSMutableArray<WKBGeometry *> *geometries = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
     [geometries addObject:geometry];
     NSMutableArray<NSString *> *names = [[NSMutableArray alloc] init];
     [names addObject:name];
@@ -298,14 +298,14 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:tableName andType:type andGeometries:geometries andNames:names];
 }
 
-+(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs andTableName: (NSString *) tableName andType: (enum WKBGeometryType) type andGeometries: (NSArray<WKBGeometry *> *) geometries andNames: (NSArray<NSString *> *) names{
++(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs andTableName: (NSString *) tableName andType: (enum SFGeometryType) type andGeometries: (NSArray<SFGeometry *> *) geometries andNames: (NSArray<NSString *> *) names{
 
-    WKBGeometryEnvelope *envelope = nil;
-    for(WKBGeometry *geometry in geometries){
+    SFGeometryEnvelope *envelope = nil;
+    for(SFGeometry *geometry in geometries){
         if(envelope == nil){
-            envelope = [WKBGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
         }else{
-            [WKBGeometryEnvelopeBuilder buildEnvelope:envelope andGeometry:geometry];
+            [SFGeometryEnvelopeBuilder buildEnvelope:envelope andGeometry:geometry];
         }
     }
     
@@ -357,7 +357,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     for (int i = 0; i < geometries.count; i++) {
         
-        WKBGeometry *geometry = [geometries objectAtIndex:i];
+        SFGeometry *geometry = [geometries objectAtIndex:i];
         NSString *name = nil;
         if(names != nil){
             name = [names objectAtIndex:i];
@@ -579,10 +579,10 @@ static NSString *DATETIME_COLUMN = @"datetime";
         [featureTiles setIndexManager:indexer];
         
         GPKGBoundingBox *boundingBox = [featureDao getBoundingBox];
-        GPKGProjection *projection = featureDao.projection;
+        SFPProjection *projection = featureDao.projection;
         
-        GPKGProjection *requestProjection = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-        GPKGProjectionTransform *transform = [[GPKGProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        SFPProjection *requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
         GPKGBoundingBox *requestBoundingBox = [transform transformWithBoundingBox:boundingBox];
         
         int zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
@@ -735,65 +735,65 @@ static int dataColumnConstraintIndex = 0;
     NSMutableArray *geometries = [[NSMutableArray alloc] init];
     NSMutableArray *geometryNames = [[NSMutableArray alloc] init];
     
-    WKBCircularString *circularString = [[WKBCircularString alloc] init];
-    [circularString addPoint:[[WKBPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
-    [circularString addPoint:[[WKBPoint alloc] initWithXValue:-122.348 andYValue:47.649]];
-    [circularString addPoint:[[WKBPoint alloc] initWithXValue:-122.348 andYValue:47.658]];
-    [circularString addPoint:[[WKBPoint alloc] initWithXValue:-122.358 andYValue:47.658]];
-    [circularString addPoint:[[WKBPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
+    SFCircularString *circularString = [[SFCircularString alloc] init];
+    [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
+    [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.348 andYValue:47.649]];
+    [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.348 andYValue:47.658]];
+    [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.358 andYValue:47.658]];
+    [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
     
-    for(int i = (int)WKB_CIRCULARSTRING; i <= (int)WKB_SURFACE; i++){
+    for(int i = (int)SF_CIRCULARSTRING; i <= (int)SF_SURFACE; i++){
         
-        enum WKBGeometryType geometryType = i;
+        enum SFGeometryType geometryType = i;
         [extensions getOrCreateWithTable:tableName andColumn:GEOMETRY_COLUMN andType:geometryType];
         
-        WKBGeometry *geometry = nil;
-        NSString *name = [WKBGeometryTypes name:geometryType];
+        SFGeometry *geometry = nil;
+        NSString *name = [SFGeometryTypes name:geometryType];
         
         switch (geometryType) {
-            case WKB_CIRCULARSTRING:
+            case SF_CIRCULARSTRING:
                 geometry = circularString;
                 break;
-            case WKB_COMPOUNDCURVE:
+            case SF_COMPOUNDCURVE:
                 {
-                    WKBCompoundCurve *compoundCurve = [[WKBCompoundCurve alloc] init];
+                    SFCompoundCurve *compoundCurve = [[SFCompoundCurve alloc] init];
                     [compoundCurve addLineString:circularString];
                     geometry = compoundCurve;
                 }
                 break;
-            case WKB_CURVEPOLYGON:
+            case SF_CURVEPOLYGON:
                 {
-                    WKBCurvePolygon *curvePolygon = [[WKBCurvePolygon alloc] init];
+                    SFCurvePolygon *curvePolygon = [[SFCurvePolygon alloc] init];
                     [curvePolygon addRing:circularString];
                     geometry = curvePolygon;
                 }
                 break;
-            case WKB_MULTICURVE:
+            case SF_MULTICURVE:
                 {
-                    WKBMultiLineString *multiCurve = [[WKBMultiLineString alloc] init];
+                    SFMultiLineString *multiCurve = [[SFMultiLineString alloc] init];
                     [multiCurve addLineString:circularString];
                     geometry = multiCurve;
                 }
                 break;
-            case WKB_MULTISURFACE:
+            case SF_MULTISURFACE:
                 {
-                    WKBMultiPolygon *multiSurface = [[WKBMultiPolygon alloc] init];
-                    WKBPolygon *polygon = [[WKBPolygon alloc] init];
+                    SFMultiPolygon *multiSurface = [[SFMultiPolygon alloc] init];
+                    SFPolygon *polygon = [[SFPolygon alloc] init];
                     [polygon addRing:circularString];
                     [multiSurface addPolygon:polygon];
                     geometry = multiSurface;
                 }
                 break;
-            case WKB_CURVE:
+            case SF_CURVE:
                 {
-                    WKBCompoundCurve *curve = [[WKBCompoundCurve alloc] init];
+                    SFCompoundCurve *curve = [[SFCompoundCurve alloc] init];
                     [curve addLineString:circularString];
                     geometry = curve;
                 }
                 break;
-            case WKB_SURFACE:
+            case SF_SURFACE:
                 {
-                    WKBCurvePolygon *surface = [[WKBCurvePolygon alloc] init];
+                    SFCurvePolygon *surface = [[SFCurvePolygon alloc] init];
                     [surface addRing:circularString];
                     geometry = surface;
                 }
@@ -807,7 +807,7 @@ static int dataColumnConstraintIndex = 0;
         
     }
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:tableName andType:WKB_GEOMETRY andGeometries:geometries andNames:geometryNames];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:tableName andType:SF_GEOMETRY andGeometries:geometries andNames:geometryNames];
     
 }
 
@@ -932,7 +932,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGProjectionTransform *transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
+    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
     GPKGBoundingBox *contentsBoundingBox = [transform transformWithBoundingBox:bbox];
     
     GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
@@ -1015,7 +1015,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGProjectionTransform *transform = [[GPKGProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
+    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
     GPKGBoundingBox *contentsBoundingBox = [transform transformWithBoundingBox:bbox];
     
     GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];

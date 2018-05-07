@@ -8,15 +8,15 @@
 
 #import "GPKGTileCreatorImageTest.h"
 #import "GPKGTestConstants.h"
-#import "GPKGProjectionConstants.h"
+#import "SFPProjectionConstants.h"
 #import "GPKGTestUtils.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGTileCreator.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGImageConverter.h"
-#import "GPKGProjectionFactory.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionTransform.h"
 
 @implementation GPKGTileCreatorImageTest
 
@@ -33,8 +33,8 @@
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    GPKGProjection * webMercator = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-    GPKGProjection * wgs84 = [GPKGProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPProjection * webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    SFPProjection * wgs84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     NSNumber * width = [NSNumber numberWithInt:256];
     NSNumber * height = [NSNumber numberWithInt:256];
@@ -42,7 +42,7 @@
     GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
-    GPKGBoundingBox * wgs84BoundingBox = [[[GPKGProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84] transformWithBoundingBox:webMercatorBoundingBox];
+    GPKGBoundingBox * wgs84BoundingBox = [[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84] transformWithBoundingBox:webMercatorBoundingBox];
     
     [GPKGTestUtils assertTrue:[webMeractorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];

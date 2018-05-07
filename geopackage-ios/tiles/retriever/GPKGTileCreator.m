@@ -7,9 +7,9 @@
 //
 
 #import "GPKGTileCreator.h"
-#import "GPKGProjectionFactory.h"
+#import "SFPProjectionFactory.h"
 #import "GPKGTileMatrixSetDao.h"
-#import "GPKGProjectionTransform.h"
+#import "SFPProjectionTransform.h"
 #import "GPKGImageConverter.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
@@ -19,8 +19,8 @@
 @property (nonatomic, strong) NSNumber *width;
 @property (nonatomic, strong) NSNumber *height;
 @property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
-@property (nonatomic, strong) GPKGProjection *requestProjection;
-@property (nonatomic, strong) GPKGProjection *tilesProjection;
+@property (nonatomic, strong) SFPProjection *requestProjection;
+@property (nonatomic, strong) SFPProjection *tilesProjection;
 @property (nonatomic, strong) GPKGBoundingBox *tileSetBoundingBox;
 @property (nonatomic) BOOL sameProjection;
 
@@ -31,7 +31,7 @@
  */
 @implementation GPKGTileCreator
 
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (GPKGProjection *) requestProjection{
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
     self = [super init];
     if(self != nil){
         self.tileDao = tileDao;
@@ -58,7 +58,7 @@
     return [self initWithTileDao:tileDao andWidth:width andHeight:height andProjection:tileDao.projection];
 }
 
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (GPKGProjection *) requestProjection{
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (SFPProjection *) requestProjection{
     return [self initWithTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
@@ -78,11 +78,11 @@
     return _tileMatrixSet;
 }
 
--(GPKGProjection *) requestProjection{
+-(SFPProjection *) requestProjection{
     return _requestProjection;
 }
 
--(GPKGProjection *) tilesProjection{
+-(SFPProjection *) tilesProjection{
     return _tilesProjection;
 }
 
@@ -99,7 +99,7 @@
     BOOL hasTile = false;
     
     // Transform to the projection of the tiles
-    GPKGProjectionTransform * transformRequestToTiles = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
+    SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
@@ -127,7 +127,7 @@
     GPKGGeoPackageTile * tile = nil;
     
     // Transform to the projection of the tiles
-    GPKGProjectionTransform * transformRequestToTiles = [[GPKGProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
+    SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
@@ -246,7 +246,7 @@
     return tileImage;
 }
 
--(UIImage *) reprojectTileWithImage: (UIImage *) tile andWidth: (int) requestedTileWidth andHeight: (int) requestedTileHeight andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTransform: (GPKGProjectionTransform *) transformRequestToTiles andBoundingBox: (GPKGBoundingBox *) tilesBoundingBox{
+-(UIImage *) reprojectTileWithImage: (UIImage *) tile andWidth: (int) requestedTileWidth andHeight: (int) requestedTileHeight andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTransform: (SFPProjectionTransform *) transformRequestToTiles andBoundingBox: (GPKGBoundingBox *) tilesBoundingBox{
     
     double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedTileWidth;
     double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedTileHeight;

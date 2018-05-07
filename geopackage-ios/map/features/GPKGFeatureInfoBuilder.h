@@ -10,7 +10,7 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGFeatureTableData.h"
 #import "GPKGFeatureIndexResults.h"
-#import "WKBPoint.h"
+#import "SFPoint.h"
 #import "GPKGMapTolerance.h"
 
 @interface GPKGFeatureInfoBuilder : NSObject
@@ -52,14 +52,14 @@
  *
  *  @return geometry type
  */
--(enum WKBGeometryType) geometryType;
+-(enum SFGeometryType) geometryType;
 
 /**
  * Add a geomtetry type to ignore
  *
  * @param geometryType geometry type
  */
--(void) ignoreGeometryType: (enum WKBGeometryType) geometryType;
+-(void) ignoreGeometryType: (enum SFGeometryType) geometryType;
 
 /**
  *  Build a feature results information message and close the results
@@ -78,7 +78,7 @@
  *
  *  @return results message or null if no results
  */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (GPKGProjection *) projection;
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (SFPProjection *) projection;
 
 /**
  *  Build a feature results information message
@@ -89,7 +89,7 @@
  *
  *  @return results message or null if no results
  */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point;
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point;
 
 /**
  *  Build a feature results information message
@@ -101,7 +101,7 @@
  *
  *  @return results message or null if no results
  */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection;
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection;
 
 /**
  *  Build a feature results information message
@@ -124,7 +124,7 @@
  *
  *  @return results message or null if no results
  */
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection;
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection;
 
 /**
  *  Build feature table data results
@@ -135,7 +135,7 @@
  *
  *  @return feature table data or nil if not results
  */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point;
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point;
 
 /**
  *  Build feature table data results
@@ -147,7 +147,7 @@
  *
  *  @return feature table data or nil if not results
  */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (WKBPoint *) point andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection;
 
 /**
  *  Build feature table data results
@@ -170,6 +170,6 @@
  *
  *  @return table data or nil if not results
  */
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection;
 
 @end

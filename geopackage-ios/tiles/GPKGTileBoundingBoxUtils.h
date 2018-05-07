@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "GPKGBoundingBox.h"
 #import "GPKGTileGrid.h"
-#import "GPKGProjection.h"
+#import "SFPProjection.h"
 #import "GPKGTileMatrix.h"
-#import "WKBPoint.h"
+#import "SFPoint.h"
 
 /**
  *  Tile Bounding Box utility methods
@@ -70,7 +70,7 @@
  *
  *  @return YES if within the bounding box
  */
-+(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox;
++(BOOL) isPoint: (SFPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Determine if the point is within the bounding box
@@ -81,7 +81,7 @@
  *
  *  @return YES if within the bounding box
  */
-+(BOOL) isPoint: (WKBPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox withMaxLongitude: (double) maxLongitude;
++(BOOL) isPoint: (SFPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox withMaxLongitude: (double) maxLongitude;
 
 /**
  *  Get the union bounding box combining the two bounding boxes
@@ -210,7 +210,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
  * Get the Projected tile bounding box from the Standard Maps API tile
@@ -247,7 +247,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (GPKGProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  *  Get the tile grid for the location specified as WGS84
@@ -257,7 +257,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridFromWGS84Point: (WKBPoint *) point andZoom: (int) zoom;
++(GPKGTileGrid *) getTileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  *  Get the tile grid for the location specified as the projection
@@ -268,7 +268,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridFromPoint: (WKBPoint *) point andZoom: (int) zoom andProjection: (GPKGProjection *) projection;
++(GPKGTileGrid *) getTileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection;
 
 /**
  *  Get the tile grid that includes the entire tile bounding box

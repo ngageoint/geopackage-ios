@@ -230,7 +230,7 @@
     [contents setSrs:srs];
     
     // Create the feature table
-    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:contents.tableName andGeometryColumn:@"geom" andGeometryType:WKB_GEOMETRY]];
+    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:contents.tableName andGeometryColumn:@"geom" andGeometryType:SF_GEOMETRY]];
     
     [geoPackage createGeometryColumnsTable];
     
@@ -285,7 +285,7 @@
     [GPKGTestUtils assertFalse:[[dao getId:queryContents] isEqual:[dao getId:copyContents]]];
     [GPKGTestUtils assertFalse:[queryContents.identifier isEqual:copyContents.identifier]];
     
-    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:copyContents.tableName andGeometryColumn:@"geom" andGeometryType:WKB_GEOMETRY]];
+    [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:copyContents.tableName andGeometryColumn:@"geom" andGeometryType:SF_GEOMETRY]];
     
     [dao create:copyContents];
     

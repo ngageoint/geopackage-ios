@@ -163,7 +163,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [dao create:sampleGlob];
 }
 
-+(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType{
++(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType{
     
     GPKGFeatureTable * table = [self buildFeatureTableWithTableName:contents.tableName andGeometryColumn:geometryColumn andGeometryType:geometryType];
     [geoPackage createFeatureTable:table];
@@ -197,7 +197,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     return table;
 }
 
-+(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum WKBGeometryType) geometryType{
++(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType{
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
     
@@ -249,17 +249,17 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                 
                 if([column isGeometry]){
                     
-                    WKBGeometry * geometry = nil;
+                    SFGeometry * geometry = nil;
                     
                     switch(column.geometryType){
                             
-                        case WKB_POINT:
+                        case SF_POINT:
                             geometry = [self createPointWithHasZ:hasZ andHasM:hasM];
                             break;
-                        case WKB_LINESTRING:
+                        case SF_LINESTRING:
                             geometry = [self createLineStringWithHasZ:hasZ andHasM:hasM andRing:false];
                             break;
-                        case WKB_POLYGON:
+                        case SF_POLYGON:
                             geometry = [self createPolygonWithHasZ:hasZ andHasM:hasM];
                             break;
                         default:
@@ -354,7 +354,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     }
 }
 
-+(WKBPoint *) createPointWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
++(SFPoint *) createPointWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
     double x = [self randomDoubleLessThan:180.0] * ([self randomDouble] < .5 ? 1 : -1);
     double y = [self randomDoubleLessThan:90.0] * ([self randomDouble] < .5 ? 1 : -1);
@@ -362,7 +362,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     NSDecimalNumber * xNumber = [self roundDouble:x];
     NSDecimalNumber * yNumber = [self roundDouble:y];
     
-    WKBPoint * point = [[WKBPoint alloc] initWithHasZ:hasZ andHasM:hasM andX:xNumber andY:yNumber];
+    SFPoint * point = [[SFPoint alloc] initWithHasZ:hasZ andHasM:hasM andX:xNumber andY:yNumber];
     
     if(hasZ){
         double z = [self randomDoubleLessThan:1000.0];
@@ -379,9 +379,9 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
        return point;
 }
 
-+(WKBLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring{
++(SFLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring{
     
-    WKBLineString * lineString = [[WKBLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    SFLineString * lineString = [[SFLineString alloc] initWithHasZ:hasZ andHasM:hasM];
     
     int numPoints = 2 + [self randomIntLessThan:9];
     
@@ -396,9 +396,9 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     return lineString;
 }
 
-+(WKBPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
++(SFPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    WKBPolygon * polygon = [[WKBPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
+    SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
     
     int numLineStrings = 1 + [self randomIntLessThan:5];
     

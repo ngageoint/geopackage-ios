@@ -328,7 +328,7 @@
  *
  *  @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for feature index count within the Geometry Envelope
@@ -337,7 +337,7 @@
  *
  *  @return count
  */
--(int) countWithGeometryEnvelope: (WKBGeometryEnvelope *) envelope;
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for feature index results within the bounding box in
@@ -348,7 +348,7 @@
  *
  *  @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 /**
  *  Query for feature index count within the bounding box in
@@ -359,6 +359,6 @@
  *
  *  @return count
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (GPKGProjection *) projection;
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
 @end
