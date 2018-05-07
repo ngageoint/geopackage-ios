@@ -4,8 +4,8 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'geopackage-ios' do
-  pod 'proj4-ios', '~> 4.9.3'
-  pod 'wkb-ios', '~> 1.0.9'
+  pod 'sf-wkb-ios', '~> 2.0.0'
+  pod 'sf-proj-ios', '~> 2.0.0'
   pod 'tiff-ios', '~> 1.1.0'
 
   target 'geopackage-iosTests' do
