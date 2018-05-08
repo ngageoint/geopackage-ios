@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SFPProjection.h"
+#import "SFPProjectionTransform.h"
 
 /**
  *  Spatial Reference System table constants
@@ -63,5 +65,22 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
  *  Well-known Text [34] Representation of the Spatial Reference System
  */
 @property (nonatomic, strong) NSString *definition_12_063;
+
+/**
+ * Get the projection for the Spatial Reference System
+ *
+ * @return projection
+ */
+-(SFPProjection *) projection;
+
+/**
+ * Get the projection transform from the provided projection to the Spatial
+ * Reference System projection
+ *
+ * @param projection
+ *            from projection
+ * @return projection transform
+ */
+-(SFPProjectionTransform *) transformationFromProjection: (SFPProjection *) projection;
 
 @end

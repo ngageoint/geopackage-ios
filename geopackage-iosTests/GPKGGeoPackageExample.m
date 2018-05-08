@@ -583,7 +583,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         
         SFPProjection *requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-        GPKGBoundingBox *requestBoundingBox = [transform transformWithBoundingBox:boundingBox];
+        GPKGBoundingBox *requestBoundingBox = [boundingBox transform:transform];
         
         int zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
         zoomLevel = MIN(zoomLevel, 19);
@@ -933,7 +933,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
     SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
-    GPKGBoundingBox *contentsBoundingBox = [transform transformWithBoundingBox:bbox];
+    GPKGBoundingBox *contentsBoundingBox = [bbox transform:transform];
     
     GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
     GPKGTileDao *tileDao = [coverageData tileDao];
@@ -1016,7 +1016,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
     SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
-    GPKGBoundingBox *contentsBoundingBox = [transform transformWithBoundingBox:bbox];
+    GPKGBoundingBox *contentsBoundingBox = [bbox transform:transform];
     
     GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
     GPKGTileDao *tileDao = [coverageData tileDao];

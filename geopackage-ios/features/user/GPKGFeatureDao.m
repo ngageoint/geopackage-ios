@@ -77,7 +77,7 @@
         SFPProjection * contentsProjection = [contentsDao getProjection:contents];
         if(![self.projection isEqual:contentsProjection]){
             SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
-            boundingBox = [transform transformWithBoundingBox:boundingBox];
+            boundingBox = [boundingBox transform:transform];
         }
     }
     

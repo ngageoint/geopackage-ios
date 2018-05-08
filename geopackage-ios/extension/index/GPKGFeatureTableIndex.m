@@ -404,7 +404,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
-    GPKGBoundingBox * featureBoundingBox = [projectionTransform transformWithBoundingBox:boundingBox];
+    GPKGBoundingBox * featureBoundingBox = [boundingBox transform:projectionTransform];
     return featureBoundingBox;
 }
 

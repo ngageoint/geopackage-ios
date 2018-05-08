@@ -135,7 +135,7 @@
             projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         }
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:featureDao.projection andToProjection:projection];
-        GPKGBoundingBox * transformedBoundingBox = [transform transformWithBoundingBox:boundingBox];
+        GPKGBoundingBox * transformedBoundingBox = [boundingBox transform:transform];
         
         // Test the query by projected bounding box
         resultCount = 0;

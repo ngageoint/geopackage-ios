@@ -293,7 +293,7 @@
     // Convert the bounding box to wgs84
     GPKGBoundingBox * boundingBox = [self.tileMatrixSet getBoundingBox];
     SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGBoundingBox * wgs84BoundingBox = [transform transformWithBoundingBox:boundingBox];
+    GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:transform];
 
     BOOL isFormat = false;
     

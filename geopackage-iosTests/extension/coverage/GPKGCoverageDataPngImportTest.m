@@ -105,10 +105,10 @@ static BOOL allowNulls = false;
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
         NSNumber * srsId = tileMatrixSet.srsId;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
-        SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+        SFPProjection * projection = [srs projection];
         SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         SFPProjectionTransform * coverageToRequest = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-        projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
+        projectedBoundingBox = [boundingBox transform:coverageToRequest];
     }
     
     NSMutableString * log = [[NSMutableString alloc] init];
@@ -165,7 +165,7 @@ static BOOL allowNulls = false;
     [log appendFormat:@"   Result Height: %d\n", height];
     
     [log appendString:@"\n\nWGS84 REQUEST\n\n"];
-    GPKGBoundingBox * wgs84BoundingBox = [wgs84Transform transformWithBoundingBox:boundingBox];
+    GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:wgs84Transform];
     [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
     [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
     [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];
@@ -242,7 +242,7 @@ static BOOL allowNulls = false;
         GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];
         
-        SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+        SFPProjection * projection = [srs projection];
         SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
         
@@ -267,7 +267,7 @@ static BOOL allowNulls = false;
         [log appendFormat:@"   Result Height: %d\n", height];
         
         [log appendString:@"\n\nWGS84 REQUEST\n\n"];
-        GPKGBoundingBox * wgs84BoundingBox = [wgs84Transform transformWithBoundingBox:boundingBox];
+        GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:wgs84Transform];
         [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
         [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
         [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];

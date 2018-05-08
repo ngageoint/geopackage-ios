@@ -70,7 +70,7 @@
             SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
             requestBoundingBox = self.boundingBox;
             if(![transform isSameProjection]){
-                requestBoundingBox = [transform transformWithBoundingBox:requestBoundingBox];
+                requestBoundingBox = [requestBoundingBox transform:transform];
             }
         }
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
@@ -207,7 +207,7 @@
     // Set the tile matrix set bounding box to be the world
     GPKGBoundingBox * standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
     SFPProjectionTransform * wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    self.tileGridBoundingBox = [wgs84ToWebMercatorTransform transformWithBoundingBox:standardWgs84Box];
+    self.tileGridBoundingBox = [standardWgs84Box transform:wgs84ToWebMercatorTransform];
 }
 
 -(void) adjustGeoPackageBoundsWithWgs84BoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
@@ -256,7 +256,7 @@
         SFPProjectionTransform * transformProjectionToContents = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao getProjection:contents]];
         GPKGBoundingBox * contentsBoundingBox = self.boundingBox;
         if(![transformProjectionToContents isSameProjection]){
-            contentsBoundingBox = [transformProjectionToContents transformWithBoundingBox:contentsBoundingBox];
+            contentsBoundingBox = [contentsBoundingBox transform:transformProjectionToContents];
         }
         contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
         
@@ -278,7 +278,7 @@
         BOOL sameProjection = [transformProjectionToTileMatrixSet isSameProjection];
         GPKGBoundingBox * updateBoundingBox = self.boundingBox;
         if(!sameProjection){
-            updateBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateBoundingBox];
+            updateBoundingBox = [updateBoundingBox transform:transformProjectionToTileMatrixSet];
         }
         int minNewOrUpdateZoom = MIN(self.minZoom, tileDao.minZoom);
         [self adjustBoundsWithBoundingBox:updateBoundingBox andZoom:minNewOrUpdateZoom];
@@ -286,14 +286,14 @@
         // Update the tile matrix set if modified
         GPKGBoundingBox * updateTileGridBoundingBox = self.tileGridBoundingBox;
         if(!sameProjection){
-            updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateTileGridBoundingBox];
+            updateTileGridBoundingBox = [updateTileGridBoundingBox transform:transformProjectionToTileMatrixSet];
         }
         if(![previousTileMatrixSetBoundingBox equals:updateTileGridBoundingBox]){
             updateTileGridBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:updateTileGridBoundingBox andBoundingBox:previousTileMatrixSetBoundingBox];
             [self adjustBoundsWithBoundingBox:updateTileGridBoundingBox andZoom:minNewOrUpdateZoom];
             updateTileGridBoundingBox = self.tileGridBoundingBox;
             if(!sameProjection){
-                updateTileGridBoundingBox = [transformProjectionToTileMatrixSet transformWithBoundingBox:updateTileGridBoundingBox];
+                updateTileGridBoundingBox = [updateTileGridBoundingBox transform:transformProjectionToTileMatrixSet];
             }
             [tileMatrixSet setBoundingBox:updateTileGridBoundingBox];
             [tileMatrixSetDao update:tileMatrixSet];

@@ -147,7 +147,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         self.width = width;
         self.height = height;
         self.requestProjection = requestProjection;
-        self.coverageProjection = [SFPProjectionFactory projectionWithSrs:[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet]];
+        self.coverageProjection = [[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet] projection];
         self.coverageBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units
@@ -1202,7 +1202,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
         transformRequestToCoverage = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
-        requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
+        requestProjectedBoundingBox = [requestProjectedBoundingBox transform:transformRequestToCoverage];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];
     
@@ -1280,7 +1280,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     GPKGBoundingBox * requestProjectedBoundingBox = request.boundingBox;
     if (!self.sameProjection) {
         transformRequestToCoverage = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.coverageProjection];
-        requestProjectedBoundingBox = [transformRequestToCoverage transformWithBoundingBox:requestProjectedBoundingBox];
+        requestProjectedBoundingBox = [requestProjectedBoundingBox transform:transformRequestToCoverage];
     }
     [request setProjectedBoundingBox:requestProjectedBoundingBox];
     

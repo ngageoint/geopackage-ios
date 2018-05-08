@@ -198,7 +198,7 @@
     
     if(code != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
-        boundingBox = [transform transformWithBoundingBox:boundingBox];
+        boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;
@@ -210,7 +210,7 @@
     
     if(projection != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
-        boundingBox = [transform transformWithBoundingBox:boundingBox];
+        boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;
@@ -226,7 +226,7 @@
     
     if(code != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
-        boundingBox = [transform transformWithBoundingBox:boundingBox];
+        boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;
@@ -238,7 +238,7 @@
     
     if(projection != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
-        boundingBox = [transform transformWithBoundingBox:boundingBox];
+        boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;

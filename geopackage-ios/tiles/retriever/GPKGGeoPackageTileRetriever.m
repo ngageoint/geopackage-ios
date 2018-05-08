@@ -42,7 +42,7 @@
         if([[self.tileCreator tilesProjection] getUnit] == SFP_UNIT_DEGREES){
             tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
-        self.setWebMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:tileSetBoundingBox];
+        self.setWebMercatorBoundingBox = [tileSetBoundingBox transform:projectionToWebMercator];
     }
     return self;
 }

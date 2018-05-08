@@ -265,7 +265,7 @@
         
         if(![projection isEqualToAuthority:srs.organization andNumberCode:srs.organizationCoordsysId]){
             
-            SFPProjection * geomProjection = [SFPProjectionFactory projectionWithSrs:srs];
+            SFPProjection * geomProjection = [srs projection];
             SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
             
             SFGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];

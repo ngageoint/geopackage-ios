@@ -34,7 +34,7 @@
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
     
     NSNumber * epsg = srs.organizationCoordsysId;
-    SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+    SFPProjection * projection = [srs projection];
     int requestEpsg = -1;
     if ([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM) {
         requestEpsg = PROJ_EPSG_WEB_MERCATOR;
@@ -43,7 +43,7 @@
     }
     SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:requestEpsg];
     SFPProjectionTransform * coverageToRequest = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-    GPKGBoundingBox * projectedBoundingBox = [coverageToRequest transformWithBoundingBox:boundingBox];
+    GPKGBoundingBox * projectedBoundingBox = [boundingBox transform:coverageToRequest];
     
     // Get a random coordinate
     double latDistance = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];

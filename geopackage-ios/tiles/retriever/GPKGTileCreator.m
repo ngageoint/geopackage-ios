@@ -100,7 +100,7 @@
     
     // Transform to the projection of the tiles
     SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
-    GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
+    GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
 
@@ -128,7 +128,7 @@
     
     // Transform to the projection of the tiles
     SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
-    GPKGBoundingBox * tilesBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
+    GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
     
@@ -143,7 +143,7 @@
                 
                 if(tileResults.count > 0){
                     
-                    GPKGBoundingBox * requestProjectedBoundingBox = [transformRequestToTiles transformWithBoundingBox:requestBoundingBox];
+                    GPKGBoundingBox * requestProjectedBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
                     
                     // Determine the requested tile dimensions, or use the dimensions of a single tile matrix tile
                     int requestedTileWidth = self.width != nil ? [self.width intValue] : [tileMatrix.tileWidth intValue];

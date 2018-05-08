@@ -42,7 +42,7 @@
     GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
-    GPKGBoundingBox * wgs84BoundingBox = [[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84] transformWithBoundingBox:webMercatorBoundingBox];
+    GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84]];
     
     [GPKGTestUtils assertTrue:[webMeractorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];

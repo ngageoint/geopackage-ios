@@ -112,7 +112,7 @@
 
 -(SFPProjection *) getProjection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:projectionObject];
+    SFPProjection * projection = [projectionObject projection];
     return projection;
 }
 

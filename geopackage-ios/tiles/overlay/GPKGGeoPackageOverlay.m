@@ -49,7 +49,7 @@
 -(void) initHelperWithRetriever: (GPKGGeoPackageTileRetriever *) retriever{
     self.retriever = retriever;
     SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGBoundingBox * boundingBox = [transform transformWithBoundingBox:[retriever getWebMercatorBoundingBox]];
+    GPKGBoundingBox * boundingBox = [[retriever getWebMercatorBoundingBox] transform:transform];
     self.mapRect = [boundingBox getMapRect];
     self.center = [boundingBox getCenter];
     

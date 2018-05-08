@@ -25,6 +25,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "SFPProjectionTransform.h"
+#import "SFWGeometryCodes.h"
 
 @implementation GPKGGeoPackageGeometryDataUtils
 
@@ -130,7 +131,7 @@
                         NSNumber * srsId = geometryData.srsId;
                         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
-                        SFPProjection * projection = [SFPProjectionFactory projectionWithSrs:srs];
+                        SFPProjection * projection = [srs projection];
                         int toEpsg = -1;
                         if([srs.organizationCoordsysId intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
                             toEpsg = PROJ_EPSG_WEB_MERCATOR;
@@ -285,7 +286,7 @@
     [GPKGTestUtils assertEqualIntWithValue:expected.geometryType andValue2:actual.geometryType];
     [GPKGTestUtils assertEqualBoolWithValue:expected.hasZ andValue2:actual.hasZ];
     [GPKGTestUtils assertEqualBoolWithValue:expected.hasM andValue2:actual.hasM];
-    [GPKGTestUtils assertEqualIntWithValue:[expected getWkbCode] andValue2:[actual getWkbCode]];
+    [GPKGTestUtils assertEqualIntWithValue:[SFWGeometryCodes codeFromGeometry:expected] andValue2:[SFWGeometryCodes codeFromGeometry:actual]];
 }
 
 +(void) comparePointWithExpected: (SFPoint *) expected andActual: (SFPoint *) actual andDelta: (double) delta{
@@ -306,97 +307,97 @@
 
 +(void) compareLineStringWithExpected: (SFLineString *) expected andActual: (SFLineString *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
-    for(int i = 0; i < [[expected numPoints] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPoints] andValue2:[actual numPoints]];
+    for(int i = 0; i < [expected numPoints]; i++){
         [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) comparePolygonWithExpected: (SFPolygon *) expected andActual: (SFPolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
-    for(int i = 0; i < [[expected numRings] intValue]; i++){
-        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i] andDelta:delta];
+    [GPKGTestUtils assertEqualIntWithValue:[expected numRings] andValue2:[actual numRings]];
+    for(int i = 0; i < [expected numRings]; i++){
+        [self compareLineStringWithExpected:[expected.lineStrings objectAtIndex:i] andActual:[actual.lineStrings objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareMultiPointWithExpected: (SFMultiPoint *) expected andActual: (SFMultiPoint *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
-    for(int i = 0; i < [[expected numPoints] intValue]; i++){
-        [self comparePointWithExpected:[[expected getPoints] objectAtIndex:i] andActual:[[actual getPoints] objectAtIndex:i] andDelta:delta];
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPoints] andValue2:[actual numPoints]];
+    for(int i = 0; i < [expected numPoints]; i++){
+        [self comparePointWithExpected:[[expected points] objectAtIndex:i] andActual:[[actual points] objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareMultiLineStringWithExpected: (SFMultiLineString *) expected andActual: (SFMultiLineString *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
-    for(int i = 0; i < [[expected numLineStrings] intValue]; i++){
-        [self compareLineStringWithExpected:[[expected getLineStrings] objectAtIndex:i] andActual:[[actual getLineStrings] objectAtIndex:i] andDelta:delta];
+    [GPKGTestUtils assertEqualIntWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
+    for(int i = 0; i < [expected numLineStrings]; i++){
+        [self compareLineStringWithExpected:[[expected lineStrings] objectAtIndex:i] andActual:[[actual lineStrings] objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareMultiPolygonWithExpected: (SFMultiPolygon *) expected andActual: (SFMultiPolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
-    for(int i = 0; i < [[expected numPolygons] intValue]; i++){
-        [self comparePolygonWithExpected:[[expected getPolygons] objectAtIndex:i] andActual:[[actual getPolygons] objectAtIndex:i] andDelta:delta];
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
+    for(int i = 0; i < [expected numPolygons]; i++){
+        [self comparePolygonWithExpected:[[expected polygons] objectAtIndex:i] andActual:[[actual polygons] objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareGeometryCollectionWithExpected: (SFGeometryCollection *) expected andActual: (SFGeometryCollection *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numGeometries] andValue2:[actual numGeometries]];
-    for(int i = 0; i < [[expected numGeometries] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numGeometries] andValue2:[actual numGeometries]];
+    for(int i = 0; i < [expected numGeometries]; i++){
         [self compareGeometriesWithExpected:[expected.geometries objectAtIndex:i] andActual:[actual.geometries objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareCircularStringWithExpected: (SFCircularString *) expected andActual: (SFCircularString *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPoints] andValue2:[actual numPoints]];
-    for(int i = 0; i < [[expected numPoints] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPoints] andValue2:[actual numPoints]];
+    for(int i = 0; i < [expected numPoints]; i++){
         [self comparePointWithExpected:[expected.points objectAtIndex:i] andActual:[actual.points objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareCompoundCurveWithExpected: (SFCompoundCurve *) expected andActual: (SFCompoundCurve *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
-    for(int i = 0; i < [[expected numLineStrings] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numLineStrings] andValue2:[actual numLineStrings]];
+    for(int i = 0; i < [expected numLineStrings]; i++){
         [self compareLineStringWithExpected:[expected.lineStrings objectAtIndex:i] andActual:[actual.lineStrings objectAtIndex:i] andDelta:delta];
     }
 }
 
 +(void) compareCurvePolygonWithExpected: (SFCurvePolygon *) expected andActual: (SFCurvePolygon *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
-    for(int i = 0; i < [[expected numRings] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numRings] andValue2:[actual numRings]];
+    for(int i = 0; i < [expected numRings]; i++){
         [self compareGeometriesWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i]];
     }
 }
 
 +(void) comparePolyhedralSurfaceWithExpected: (SFPolyhedralSurface *) expected andActual: (SFPolyhedralSurface *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
-    for(int i = 0; i < [[expected numPolygons] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
+    for(int i = 0; i < [expected numPolygons]; i++){
         [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i]];
     }
 }
 
 +(void) compareTINWithExpected: (SFTIN *) expected andActual: (SFTIN *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
-    for(int i = 0; i < [[expected numPolygons] intValue]; i++){
+    [GPKGTestUtils assertEqualIntWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
+    for(int i = 0; i < [expected numPolygons]; i++){
         [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i]];
     }
 }
 
 +(void) compareTriangleWithExpected: (SFTriangle *) expected andActual: (SFTriangle *) actual andDelta: (double) delta{
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
-    [GPKGTestUtils assertEqualWithValue:[expected numRings] andValue2:[actual numRings]];
-    for(int i = 0; i < [[expected numRings] intValue]; i++){
-        [self compareLineStringWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i] andDelta:delta];
+    [GPKGTestUtils assertEqualIntWithValue:[expected numRings] andValue2:[actual numRings]];
+    for(int i = 0; i < [expected numRings]; i++){
+        [self compareLineStringWithExpected:[expected.lineStrings objectAtIndex:i] andActual:[actual.lineStrings objectAtIndex:i] andDelta:delta];
     }
 }
 

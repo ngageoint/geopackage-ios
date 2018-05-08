@@ -20,12 +20,12 @@
 
 -(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
     SFPProjectionTransform * projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    self.webMercatorBoundingBox = [projectionToWebMercator transformWithBoundingBox:boundingBox];
+    self.webMercatorBoundingBox = [boundingBox transform:projectionToWebMercator];
 }
 
 -(GPKGBoundingBox *) getBoundingBoxWithProjection: (SFPProjection *) projection{
     SFPProjectionTransform * webMercatorToProjection = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
-    return [webMercatorToProjection transformWithBoundingBox:self.webMercatorBoundingBox];
+    return [self.webMercatorBoundingBox transform:webMercatorToProjection];
 }
 
 -(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
