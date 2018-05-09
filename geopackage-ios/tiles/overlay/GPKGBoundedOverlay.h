@@ -66,6 +66,26 @@
 -(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
 
 /**
+ * Check if there is a tile to retrieve without performing a tile is within bounds check
+ *
+ * @param x    x coordinate
+ * @param y    y coordinate
+ * @param zoom zoom value
+ * @return true if there is a tile
+ */
+-(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
+
+/**
+ * Retrieve the tile
+ *
+ * @param x    x coordinate
+ * @param y    y coordinate
+ * @param zoom zoom value
+ * @return tile
+ */
+-(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
+
+/**
  *  Is the tile within the zoom and bounding box bounds
  *
  *  @param x x coordinate

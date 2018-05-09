@@ -191,5 +191,6 @@
 #import "GPKGTileScalingDao.h"
 #import "GPKGTileScalingTypes.h"
 #import "GPKGTileTableScaling.h"
+#import "GPKGCompositeOverlay.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
