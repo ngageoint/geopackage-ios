@@ -436,6 +436,8 @@
 		04C637FB1E1C373D00B429FE /* GPKGCoverageDataTiffImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F91E1C373D00B429FE /* GPKGCoverageDataTiffImage.m */; };
 		04D5DC1120A35EE700AFFF23 /* GPKGCompositeOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5DC0F20A35EE700AFFF23 /* GPKGCompositeOverlay.h */; };
 		04D5DC1220A35EE700AFFF23 /* GPKGCompositeOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D5DC1020A35EE700AFFF23 /* GPKGCompositeOverlay.m */; };
+		04D5DC1520A470E700AFFF23 /* GPKGGeometryJSONCompatible.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D5DC1320A470E700AFFF23 /* GPKGGeometryJSONCompatible.h */; };
+		04D5DC1620A470E700AFFF23 /* GPKGGeometryJSONCompatible.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D5DC1420A470E700AFFF23 /* GPKGGeometryJSONCompatible.m */; };
 		04DCAEA71F27CD5F00FA9B9F /* GPKGContentsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCAEA61F27CD5F00FA9B9F /* GPKGContentsUtils.m */; };
 		04DCAEAA1F27CD9E00FA9B9F /* GPKGContentsCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCAEA91F27CD9E00FA9B9F /* GPKGContentsCreateTest.m */; };
 		04DCAEAD1F27CDC300FA9B9F /* GPKGContentsImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCAEAC1F27CDC300FA9B9F /* GPKGContentsImportTest.m */; };
@@ -962,6 +964,8 @@
 		04C637FC1E1C386E00B429FE /* GPKGCoverageDataImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataImage.h; sourceTree = "<group>"; };
 		04D5DC0F20A35EE700AFFF23 /* GPKGCompositeOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGCompositeOverlay.h; sourceTree = "<group>"; };
 		04D5DC1020A35EE700AFFF23 /* GPKGCompositeOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGCompositeOverlay.m; sourceTree = "<group>"; };
+		04D5DC1320A470E700AFFF23 /* GPKGGeometryJSONCompatible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGeometryJSONCompatible.h; sourceTree = "<group>"; };
+		04D5DC1420A470E700AFFF23 /* GPKGGeometryJSONCompatible.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGGeometryJSONCompatible.m; sourceTree = "<group>"; };
 		04DCAEA51F27CD5F00FA9B9F /* GPKGContentsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGContentsUtils.h; sourceTree = "<group>"; };
 		04DCAEA61F27CD5F00FA9B9F /* GPKGContentsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGContentsUtils.m; sourceTree = "<group>"; };
 		04DCAEA81F27CD9E00FA9B9F /* GPKGContentsCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGContentsCreateTest.h; sourceTree = "<group>"; };
@@ -1776,6 +1780,8 @@
 				042FC7CD1B964D8C00549A4B /* GPKGOverlayFactory.m */,
 				042FC7CE1B964D8C00549A4B /* GPKGStandardFormatOverlay.h */,
 				042FC7CF1B964D8C00549A4B /* GPKGStandardFormatOverlay.m */,
+				04D5DC1320A470E700AFFF23 /* GPKGGeometryJSONCompatible.h */,
+				04D5DC1420A470E700AFFF23 /* GPKGGeometryJSONCompatible.m */,
 			);
 			path = overlay;
 			sourceTree = "<group>";
@@ -2222,6 +2228,7 @@
 				048EC16C1BCFDEF1008426A7 /* GPKGFeatureIndexResults.h in Headers */,
 				048A7B991C90774E007BCA5D /* GPKGGeoPackageTileRetriever.h in Headers */,
 				0422BAF11DD4EC3F002709B6 /* GPKGCoverageDataAlgorithms.h in Headers */,
+				04D5DC1520A470E700AFFF23 /* GPKGGeometryJSONCompatible.h in Headers */,
 				042FC8861B964D8C00549A4B /* GPKGDataColumnConstraints.h in Headers */,
 				048A7B911C906E9E007BCA5D /* GPKGGeoPackageTile.h in Headers */,
 				042FC8391B964D8C00549A4B /* GPKGMapPointInitializer.h in Headers */,
@@ -2633,6 +2640,7 @@
 				046417D61BCBF584007624D4 /* GPKGTableIndexDao.m in Sources */,
 				042FC8871B964D8C00549A4B /* GPKGDataColumnConstraints.m in Sources */,
 				0422BAFE1DD5309E002709B6 /* GPKGGriddedCoverageDao.m in Sources */,
+				04D5DC1620A470E700AFFF23 /* GPKGGeometryJSONCompatible.m in Sources */,
 				042FC8701B964D8C00549A4B /* GPKGMetadataReferenceDao.m in Sources */,
 				0422BB271DEE2302002709B6 /* GPKGCoverageDataTiff.m in Sources */,
 				042FC8591B964D8C00549A4B /* GPKGBoundingBox.m in Sources */,
