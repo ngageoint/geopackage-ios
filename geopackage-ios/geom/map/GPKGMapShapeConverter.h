@@ -919,4 +919,40 @@
  */
 -(SFGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape;
 
+/**
+ *  Transform the bounding box in the feature projection to web mercator
+ *
+ *  @param boundingBox bounding box in feature projection
+ *
+ *  @return bounding box in web mercator
+ */
+-(GPKGBoundingBox *) boundingBoxToWebMercator: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Transform the bounding box in the feature projection to WGS84
+ *
+ *  @param boundingBox bounding box in feature projection
+ *
+ *  @return bounding box in WGS84
+ */
+-(GPKGBoundingBox *) boundingBoxToWgs84: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Transform the bounding box in web mercator to the feature projection
+ *
+ *  @param boundingBox bounding box in web mercator
+ *
+ *  @return bounding box in the feature projection
+ */
+-(GPKGBoundingBox *) boundingBoxFromWebMercator: (GPKGBoundingBox *) boundingBox;
+
+/**
+ *  Transform the bounding box in WGS84 to the feature projection
+ *
+ *  @param boundingBox bounding box in WGS84
+ *
+ *  @return bounding box in the feature projection
+ */
+-(GPKGBoundingBox *) boundingBoxFromWgs84: (GPKGBoundingBox *) boundingBox;
+
 @end

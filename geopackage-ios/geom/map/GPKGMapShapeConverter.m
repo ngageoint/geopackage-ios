@@ -1417,4 +1417,20 @@
     return geometry;
 }
 
+-(GPKGBoundingBox *) boundingBoxToWebMercator: (GPKGBoundingBox *) boundingBox{
+    return [boundingBox transform:self.toWebMercator];
+}
+
+-(GPKGBoundingBox *) boundingBoxToWgs84: (GPKGBoundingBox *) boundingBox{
+    return [boundingBox transform:self.toWgs84];
+}
+
+-(GPKGBoundingBox *) boundingBoxFromWebMercator: (GPKGBoundingBox *) boundingBox{
+    return [boundingBox transform:self.fromWebMercator];
+}
+
+-(GPKGBoundingBox *) boundingBoxFromWgs84: (GPKGBoundingBox *) boundingBox{
+    return [boundingBox transform:self.fromWgs84];
+}
+
 @end
