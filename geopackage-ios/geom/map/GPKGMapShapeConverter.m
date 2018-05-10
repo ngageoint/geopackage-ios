@@ -436,7 +436,7 @@
     if(self.simplifyTolerance != nil){
         
         // Reproject to web mercator if not in meters
-        if([self.projection getUnit] != SFP_UNIT_METERS){
+        if(self.projection != nil && [self.projection getUnit] != SFP_UNIT_METERS){
             points = [self.toWebMercator transformWithPoints:points];
         }
         
@@ -444,7 +444,7 @@
         simplifiedPoints = [SFGeometryUtils simplifyPoints:points withTolerance:[self.simplifyTolerance doubleValue]];
         
         // Reproject back to the original projection
-        if([self.projection getUnit] != SFP_UNIT_METERS){
+        if(self.projection != nil && [self.projection getUnit] != SFP_UNIT_METERS){
             simplifiedPoints = [self.fromWebMercator transformWithPoints:simplifiedPoints];
         }
     }else{
@@ -1418,18 +1418,30 @@
 }
 
 -(GPKGBoundingBox *) boundingBoxToWebMercator: (GPKGBoundingBox *) boundingBox{
+    if(self.projection == nil){
+        [NSException raise:@"Nil Projection" format:@"Shape Converter projection is nil"];
+    }
     return [boundingBox transform:self.toWebMercator];
 }
 
 -(GPKGBoundingBox *) boundingBoxToWgs84: (GPKGBoundingBox *) boundingBox{
+    if(self.projection == nil){
+        [NSException raise:@"Nil Projection" format:@"Shape Converter projection is nil"];
+    }
     return [boundingBox transform:self.toWgs84];
 }
 
 -(GPKGBoundingBox *) boundingBoxFromWebMercator: (GPKGBoundingBox *) boundingBox{
+    if(self.projection == nil){
+        [NSException raise:@"Nil Projection" format:@"Shape Converter projection is nil"];
+    }
     return [boundingBox transform:self.fromWebMercator];
 }
 
 -(GPKGBoundingBox *) boundingBoxFromWgs84: (GPKGBoundingBox *) boundingBox{
+    if(self.projection == nil){
+        [NSException raise:@"Nil Projection" format:@"Shape Converter projection is nil"];
+    }
     return [boundingBox transform:self.fromWgs84];
 }
 
