@@ -9,7 +9,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * WKB dependency updated to use new [Simple Features WKB library](https://github.com/ngageoint/simple-features-wkb-ios)
   * Class prefixes in dependent classes must be updated from "WKB" to "SF" or "SFW"
   * GeometryType code calls must be replaced using GeometryCodes
-* Common projection code moved to [Simple Features Projections library](https://github.com/ngageoint/simple-features-proj-java)
+* Common projection code moved to [Simple Features Projections library](https://github.com/ngageoint/simple-features-proj-ios)
   * Class prefixes in dependent classes must be updated from "GPKG" to "SFP"
   * ProjectionFactory SRS calls must be replaced using SpatialReferenceSystem projection method
   * ProjectionTransform bounding box calls must be replaced using BoundingBox transform method
