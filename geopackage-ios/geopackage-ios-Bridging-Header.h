@@ -9,7 +9,8 @@
 #ifndef geopackage_ios_Bridging_Header_h
 #define geopackage_ios_Bridging_Header_h
 
-#import "wkb-ios-Bridging-Header.h"
+#import "sf-wkb-ios-Bridging-Header.h"
+#import "sf-proj-ios-Bridging-Header.h"
 #import "tiff-ios-Bridging-Header.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGDateTimeUtils.h"

@@ -4,9 +4,22 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 2.0.3 (TBD)
+## 3.0.0 (TBD)
 
-* TBD
+* WKB dependency updated to use new [Simple Features WKB library](https://github.com/ngageoint/simple-features-wkb-ios)
+  * Class prefixes in dependent classes must be updated from "WKB" to "SF" or "SFW"
+  * GeometryType code calls must be replaced using GeometryCodes
+* Common projection code moved to [Simple Features Projections library](https://github.com/ngageoint/simple-features-proj-java)
+  * Class prefixes in dependent classes must be updated from "GPKG" to "SFP"
+  * ProjectionFactory SRS calls must be replaced using SpatialReferenceSystem projection method
+  * ProjectionTransform bounding box calls must be replaced using BoundingBox transform method
+* Feature Tiles projection bug fix when drawing tiles from features
+* Bounding Box projection transform method
+* Spatial Reference System projection and transformation methods
+* Gridded Coverage Data extension definition url
+* Composite Overlay for combining multiple overlays into a single map overlay
+* Overlay Factory composite overlay and linked feature overlay creation methods
+* Map Shape Converter bounding box transformation methods
 
 ## [2.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/2.0.2) (03-21-2018)
 
