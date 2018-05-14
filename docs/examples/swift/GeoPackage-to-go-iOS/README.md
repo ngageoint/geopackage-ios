@@ -1,13 +1,15 @@
-# GeoPackage To Go: Offline maps from web to mobile
-## FOSS4G NA 2018 - St. Louis, MO
+# GeoPackage To Go: Offline Maps from Web to Mobile
+## FOSS4G North America 2018 - St. Louis, MO
 
-A [GeoPackage](https://www.geopackage.org/) example using the [GeoPackage iOS library](https://github.com/ngageoint/geopackage-ios) from the session at [FOSS4G](https://2018.foss4g-na.org/session/geopackage-go-offline-maps-web-mobile). There are also examples for [Android](https://github.com/ngageoint/geopackage-android-map/tree/master/docs/examples/kotlin/GeoPackageToGoAndroid) and the web.
+A [GeoPackage](https://www.geopackage.org/) example using the [GeoPackage iOS library](https://github.com/ngageoint/geopackage-ios) from the session at [FOSS4G](https://2018.foss4g-na.org/session/geopackage-go-offline-maps-web-mobile). There are also examples for [Android](https://github.com/ngageoint/geopackage-android-map/tree/master/docs/examples/kotlin/GeoPackageToGoAndroid) and the [web](https://github.com/ngageoint/geopackage-js/tree/master/docs/examples/GeoPackageToGo).
 
 ![iOS GeoPackage Example Screenshot](gp.png)
 
 Disclaimer: Some images appearing in this example app use map layers from [OpenStreetMap](https://www.openstreetmap.org/) or the native platform mapping services from the mobile device. Map layers from native platform mapping services are used in accordance with NGA’s developer license agreement with Apple.
 
-This example page opens a GeoPackage with local landmarks, pizza restaurants, vectors of the parks, and OpenStreetMap tiles from St. Louis and displays them on a Leaflet map.
+This is a demo application that showcases how you might interact with a GeoPackage on iOS using the GeoPackage iOS Library. The [sample GeoPackage](https://github.com/ngageoint/geopackage-ios/blob/master/docs/examples/swift/GeoPackage-to-go-iOS/GeoPackage-iOS-example/StLouis.gpkg?raw=true) contains some information about pizza shops and points of interest near in the St. Louis area.
+
+Want to learn more? See the full API [documentation] (http://cocoadocs.org/docsets/geopackage-ios/1.3.0/).
 
 ### Run
 
@@ -36,7 +38,7 @@ use_frameworks!
 
 ### Code Walkthrough
 
-To view the full example see ViewController.swift.
+To view the full example see [ViewController.swift](https://github.com/ngageoint/geopackage-ios/blob/master/docs/examples/swift/GeoPackage-to-go-iOS/GeoPackage-iOS-example/ViewController.swift).
 
 First we grab the GeoPackage out of the app bundle.
 
@@ -80,7 +82,7 @@ for case let featureTable as String in features {
         icon = UIImage(named: "pizza")
     }
 
-    while(featureResults.moveToNext()){
+    while (featureResults.moveToNext()) {
         let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
         let geometryData: GPKGGeometryData = featureRow.getGeometry();
         let shape: GPKGMapShape = converter.toShape(with: geometryData.geometry);
