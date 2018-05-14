@@ -1,0 +1,115 @@
+import UIKit
+import MapKit
+
+class ViewController: UIViewController, MKMapViewDelegate {
+
+    @IBOutlet weak var mapView: MKMapView!
+    let _manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.getManager();
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        mapView.mapType = .satellite
+        mapView.delegate = self
+        let geoPackagePath:String = Bundle.main.path(forResource:"StLouis", ofType: "gpkg")!
+        _manager.importGeoPackage(fromPath: geoPackagePath, andOverride: true)
+        let geoPackage: GPKGGeoPackage = _manager.open("StLouis")
+        
+        // Query Tiles - Do this first so that they tiles display on the bottom
+        let tiles: NSArray = geoPackage.getTileTables() as NSArray;
+        let tileTable: String = tiles.object(at: 0) as! String;
+        let tileDao: GPKGTileDao = geoPackage.getTileDao(withTableName: tileTable);
+        
+        // Tile Overlay
+        let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlay(with: tileDao);
+        tileOverlay.canReplaceMapContent = false;
+        
+        // Add the tile overlay to the map on the main thread, otherwise the tiles wont show up.
+        DispatchQueue.main.async { [unowned self] in
+            self.mapView.add(tileOverlay);
+        }
+        
+        
+        // Query Features
+        let features: NSArray = geoPackage.getFeatureTables() as NSArray;
+        for case let featureTable as String in features {
+            let featureDao: GPKGFeatureDao = geoPackage.getFeatureDao(withTableName: featureTable);
+            let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
+            let featureResults: GPKGResultSet = featureDao.queryForAll();
+            
+            var icon = UIImage(named: "poi")
+            if (featureTable == "Pizza") {
+                icon = UIImage(named: "pizza")
+            }
+            
+            while(featureResults.moveToNext()){
+                let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
+                let geometryData: GPKGGeometryData = featureRow.getGeometry();
+                let shape: GPKGMapShape = converter.toShape(with: geometryData.geometry);
+                
+                // Add the feature to the map on the main thread, otherwise it wont show up.
+                DispatchQueue.main.async { [unowned self] in
+                    let mapShape = GPKGMapShapeConverter.add(shape, to: self.mapView);
+                    
+                    if (mapShape?.shapeType == GPKG_MST_POINT) {
+                        let mapPoint:GPKGMapPoint = mapShape?.shape as! GPKGMapPoint
+                        mapPoint.title = featureRow.getValueWithColumnName("name") as! String
+                        mapPoint.options.image = icon
+                    }
+                }
+            }
+            
+            featureResults.close();
+        }
+        
+        
+        // Find the data and set the bounds
+        let boundingBox: GPKGBoundingBox = tileDao.getBoundingBox(withZoomLevel: 12)
+        let transform: GPKGProjectionTransform = GPKGProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
+        let transformedBoundingBox: GPKGBoundingBox = transform.transform(with: boundingBox)
+        let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.getCenter(), span: transformedBoundingBox.getSpan())
+        mapView.setRegion(region, animated: true)
+        
+        // Close the database and manager when you are done
+        geoPackage.close();
+        _manager.close();
+    }
+
+
+    // Override the map delegate method to hand back the correct type of renderer for our map data.
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        var renderer: MKOverlayRenderer = MKOverlayRenderer.init()
+        if (overlay is MKPolygon) { // Style the polygons for the park vectors
+            let polygonRenderer = MKPolygonRenderer.init(polygon: overlay as! MKPolygon)
+            polygonRenderer.fillColor = UIColor.init(red: 0.0, green: 1.0, blue: 0.6, alpha: 0.5)
+            polygonRenderer.lineWidth = 1
+            polygonRenderer.strokeColor = UIColor.black
+            renderer = polygonRenderer
+        } else if (overlay is MKTileOverlay) {
+            renderer = MKTileOverlayRenderer.init(tileOverlay: overlay as! MKTileOverlay)
+        }
+        return renderer
+    }
+    
+    
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseIdentifier = "pin"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+        
+        if (annotation.isKind(of: GPKGMapPoint.classForCoder())) {
+            let mapPoint = annotation as! GPKGMapPoint
+            
+            if annotationView == nil {
+                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseIdentifier)
+                annotationView?.canShowCallout = true
+            } else {
+                annotationView?.annotation = annotation
+            }
+            
+            annotationView?.image = mapPoint.options.image
+            annotationView?.centerOffset = mapPoint.options.imageCenterOffset
+        }
+        
+        return annotationView
+    }
+}
