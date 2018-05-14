@@ -9,7 +9,7 @@ Disclaimer: Some images appearing in this example app use map layers from [OpenS
 
 This is a demo application that showcases how you might interact with a GeoPackage on iOS using the GeoPackage iOS Library. The [sample GeoPackage](https://github.com/ngageoint/geopackage-ios/blob/master/docs/examples/swift/GeoPackage-to-go-iOS/GeoPackage-iOS-example/StLouis.gpkg?raw=true) contains some information about pizza shops and points of interest near in the St. Louis area.
 
-Want to learn more? See the full API [documentation] (http://cocoadocs.org/docsets/geopackage-ios/1.3.0/).
+Want to learn more? See the full API [documentation](http://cocoadocs.org/docsets/geopackage-ios/1.3.0/).
 
 ### Run
 
