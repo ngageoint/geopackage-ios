@@ -275,6 +275,6 @@ Run tests from Xcode or from command line:
 
 ### Remote Dependencies ###
 
-* [WKB](https://github.com/ngageoint/geopackage-wkb-ios) (The MIT License (MIT)) - GeoPackage Well Known Binary Lib
+* [Simple Features WKB](https://github.com/ngageoint/simple-features-wkb-ios) (The MIT License (MIT)) - Simple Features Well Known Binary Lib
+* [Simple Features Projection](https://github.com/ngageoint/simple-features-proj-ios) (The MIT License (MIT)) - Simple Features Projection Lib
 * [TIFF](https://github.com/ngageoint/tiff-ios) (The MIT License (MIT)) - Tagged Image File Format Lib
-* [proj4](https://trac.osgeo.org/proj/) (The MIT License (MIT)) - Cartographic projection software
