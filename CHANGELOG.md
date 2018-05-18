@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.0.0 (TBD)
+## [3.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.0) (05-18-2018)
 
 * WKB dependency updated to use new [Simple Features WKB library](https://github.com/ngageoint/simple-features-wkb-ios)
   * Class prefixes in dependent classes must be updated from "WKB" to "SF" or "SFW"
