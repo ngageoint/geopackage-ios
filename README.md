@@ -47,7 +47,7 @@ Include as local project:
 
 ### Usage ###
 
-View the latest [Appledoc on CocoaDocs](http://cocoadocs.org/docsets/geopackage-ios).
+View the latest [Appledoc](http://ngageoint.github.io/geopackage-ios/docs/api/).
 
 #### Example Apps ####
 
