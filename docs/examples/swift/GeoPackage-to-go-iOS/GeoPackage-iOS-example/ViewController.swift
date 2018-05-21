@@ -20,7 +20,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let tileDao: GPKGTileDao = geoPackage.getTileDao(withTableName: tileTable);
         
         // Tile Overlay
-        let tileOverlay: MKTileOverlay = GPKGOverlayFactory.getTileOverlay(with: tileDao);
+        let tileOverlay: MKTileOverlay = GPKGOverlayFactory.tileOverlay(with: tileDao);
         tileOverlay.canReplaceMapContent = false;
         
         // Add the tile overlay to the map on the main thread, otherwise the tiles wont show up.
@@ -64,8 +64,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         // Find the data and set the bounds
         let boundingBox: GPKGBoundingBox = tileDao.getBoundingBox(withZoomLevel: 12)
-        let transform: GPKGProjectionTransform = GPKGProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
-        let transformedBoundingBox: GPKGBoundingBox = transform.transform(with: boundingBox)
+        let transform: SFPProjectionTransform = SFPProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
+        let transformedBoundingBox: GPKGBoundingBox = boundingBox.transform(transform)
         let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.getCenter(), span: transformedBoundingBox.getSpan())
         mapView.setRegion(region, animated: true)
         

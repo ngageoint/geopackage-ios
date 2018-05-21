@@ -172,15 +172,19 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/geopackage-ios/geopackage_ios.framework",
 				"${BUILT_PRODUCTS_DIR}/proj4-ios/proj4_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/sf-ios/sf_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/sf-proj-ios/sf_proj_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/sf-wkb-ios/sf_wkb_ios.framework",
 				"${BUILT_PRODUCTS_DIR}/tiff-ios/tiff_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/wkb-ios/wkb_ios.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geopackage_ios.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/proj4_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_proj_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_wkb_ios.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/tiff_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/wkb_ios.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
