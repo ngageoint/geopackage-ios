@@ -232,7 +232,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database];
     NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
     
-    GPKGConnection * connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsDatabasePath];
+    GPKGConnection * connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsDatabasePath andName:database];
     @try {
         
         // Set the GeoPackage application id and user version
@@ -596,7 +596,7 @@ didCompleteWithError:(nullable NSError *)error{
         // Validate the database if validation is enabled
         [self validateDatabaseFile:documentsPath andValidateHeader:self.openHeaderValidation andValidateIntegrity:self.openIntegrityValidation];
         
-        GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:documentsPath];
+        GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:documentsPath andName:database];
         geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable andMetadataDb:self.metadataDb];
     }
 

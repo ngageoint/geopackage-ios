@@ -35,6 +35,16 @@
 -(instancetype)initWithDatabaseFilename:(NSString *) filename;
 
 /**
+ *  Initialize
+ *
+ *  @param filename GeoPackage filename
+ *  @param name GeoPackage name
+ *
+ *  @return new connection
+ */
+-(instancetype)initWithDatabaseFilename:(NSString *) filename andName:(NSString *) name;
+
+/**
  *  Close the connection
  */
 -(void)close;

@@ -23,13 +23,20 @@
 @implementation GPKGConnection
 
 -(instancetype)initWithDatabaseFilename:(NSString *) filename{
+    return [self initWithDatabaseFilename:filename andName:nil];
+}
+
+-(instancetype)initWithDatabaseFilename:(NSString *) filename andName:(NSString *) name{
     self = [super init];
     if(self){
         self.filename = filename;
-        self.name = [[filename lastPathComponent] stringByDeletingPathExtension];
+        if(name == nil){
+            name = [[filename lastPathComponent] stringByDeletingPathExtension];
+        }
+        self.name = name;
         self.connectionPool = [[GPKGConnectionPool alloc] initWithDatabaseFilename:filename];
     }
-
+    
     return self;
 }
 

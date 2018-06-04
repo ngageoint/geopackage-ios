@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.1 (TBD)
 
-* TBD
+* Database name fix when opening a GeoPackage with a name different from the file name
 
 ## [3.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.0) (05-18-2018)
 
