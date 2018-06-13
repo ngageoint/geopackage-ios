@@ -37,6 +37,15 @@
 -(NSArray *) getTablesOfType: (enum GPKGContentsDataType) dataType;
 
 /**
+ * Get table names by data type
+ *
+ * @param dataType
+ *            data type
+ * @return table names
+ */
+-(NSArray *) getTablesOfTypeName: (NSString *) dataType;
+
+/**
  * Get contents by data type
  *
  * @param dataType
@@ -44,6 +53,15 @@
  * @return contents result set
  */
 -(GPKGResultSet *) getContentsOfType: (enum GPKGContentsDataType) dataType;
+
+/**
+ * Get contents by data type
+ *
+ * @param dataType
+ *            data type
+ * @return contents result set
+ */
+-(GPKGResultSet *) getContentsOfTypeName: (NSString *) dataType;
 
 /**
  * Get table names

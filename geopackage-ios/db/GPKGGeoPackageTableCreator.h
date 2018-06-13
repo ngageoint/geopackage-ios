@@ -107,6 +107,13 @@
 -(int) createGriddedTile;
 
 /**
+ * Create the Extended Relations table
+ *
+ * @return executed statements
+ */
+-(int) createExtendedRelations;
+
+/**
  *  Create Table Index table
  *
  *  @return tables created

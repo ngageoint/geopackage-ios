@@ -50,7 +50,9 @@ NSString * const GPKG_CDT_GRIDDED_COVERAGE_NAME = @"2d-gridded-coverage";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGContentsDataType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGContentsDataType)[enumValue intValue];
+        }
     }
     
     return value;

@@ -83,6 +83,10 @@
     return [self createTable:GPKG_CDGT_TABLE_NAME];
 }
 
+-(int) createExtendedRelations{
+    return [self createTable:GPKG_ER_TABLE_NAME];
+}
+
 -(int) createTableIndex{
     return [self createTable:GPKG_TI_TABLE_NAME];
 }

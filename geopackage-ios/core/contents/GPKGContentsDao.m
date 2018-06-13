@@ -175,7 +175,11 @@
 }
 
 -(NSArray *) getTablesOfType: (enum GPKGContentsDataType) dataType{
-    GPKGResultSet * contents = [self getContentsOfType:dataType];
+    return [self getTablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
+}
+
+-(NSArray *) getTablesOfTypeName: (NSString *) dataType{
+    GPKGResultSet * contents = [self getContentsOfTypeName:dataType];
     NSMutableArray * tableNames = [[NSMutableArray alloc] init];
     while([contents moveToNext]){
         GPKGContents * content = (GPKGContents *)[self getObject:contents];
@@ -186,7 +190,11 @@
 }
 
 -(GPKGResultSet *) getContentsOfType: (enum GPKGContentsDataType) dataType{
-    GPKGResultSet * contents = [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:[GPKGContentsDataTypes name:dataType]];
+    return [self getContentsOfTypeName:[GPKGContentsDataTypes name:dataType]];
+}
+
+-(GPKGResultSet *) getContentsOfTypeName: (NSString *) dataType{
+    GPKGResultSet * contents = [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
     return contents;
 }
 
@@ -207,33 +215,60 @@
     
     if(contents != nil){
         
-        // Delete Geometry Columns
-        GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
-        if([geometryColumnsDao tableExists]){
-            GPKGGeometryColumns * geometryColumns = [self getGeometryColumns:contents];
-            if(geometryColumns != nil){
-                [geometryColumnsDao delete:geometryColumns];
-            }
-        }
+        int dataType = [contents getContentsDataType];
         
-        // Delete Tile Matrix
-        GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
-        if([tileMatrixDao tableExists]){
-            GPKGResultSet * tileMatrixResults = [self getTileMatrix:contents];
-            while([tileMatrixResults moveToNext]){
-                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:tileMatrixResults];
-                [tileMatrixDao delete:tileMatrix];
+        if(dataType > -1){
+            
+            switch(dataType){
+                    
+                case GPKG_CDT_FEATURES:
+                    {
+                        // Delete Geometry Columns
+                        GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
+                        if([geometryColumnsDao tableExists]){
+                            GPKGGeometryColumns * geometryColumns = [self getGeometryColumns:contents];
+                            if(geometryColumns != nil){
+                                [geometryColumnsDao delete:geometryColumns];
+                            }
+                        }
+                    }
+                    break;
+                    
+                case GPKG_CDT_TILES:
+                case GPKG_CDT_GRIDDED_COVERAGE:
+                    {
+                        // Delete Tile Matrix
+                        GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+                        if([tileMatrixDao tableExists]){
+                            GPKGResultSet * tileMatrixResults = [self getTileMatrix:contents];
+                            while([tileMatrixResults moveToNext]){
+                                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:tileMatrixResults];
+                                [tileMatrixDao delete:tileMatrix];
+                            }
+                            [tileMatrixResults close];
+                        }
+                        
+                        // Delete Tile Matrix Set
+                        GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+                        if([tileMatrixSetDao tableExists]){
+                            GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:contents];
+                            if(tileMatrixSet != nil){
+                                [tileMatrixSetDao delete:tileMatrixSet];
+                            }
+                        }
+                    }
+                    break;
+                    
+                case GPKG_CDT_ATTRIBUTES:
+                    {
+                        [self.database dropTable:contents.tableName];
+                    }
+                    break;
+                    
             }
-            [tileMatrixResults close];
-        }
-        
-        // Delete Tile Matrix Set
-        GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
-        if([tileMatrixSetDao tableExists]){
-            GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:contents];
-            if(tileMatrixSet != nil){
-                [tileMatrixSetDao delete:tileMatrixSet];
-            }
+            
+        } else{
+            [self.database dropTable:contents.tableName];
         }
         
         // Delete

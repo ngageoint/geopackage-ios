@@ -145,6 +145,15 @@
 -(NSArray *)getTablesByType: (enum GPKGContentsDataType) type;
 
 /**
+ * Get the tables for the contents data type
+ *
+ * @param type
+ *            data type
+ * @return table names
+ */
+-(NSArray *)getTablesByTypeName: (NSString *) type;
+
+/**
  *  Get the feature and tile tables
  *
  *  @return table names
@@ -187,6 +196,16 @@
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type;
 
 /**
+ *  Check if the table is the provided type
+ *
+ *  @param table table name
+ *  @param type contents data type
+ *
+ *  @return true if the type of table
+ */
+-(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type;
+
+/**
  *  Check if the table exists as a feature or tile table
  *
  *  @param table table name
@@ -203,6 +222,24 @@
  * @return true if a user table
  */
 -(BOOL) isTable: (NSString *) table;
+
+/**
+ * Get the contents of the user table
+ *
+ * @param table
+ *            table name
+ * @return contents
+ */
+-(GPKGContents *) contentsOfTable: (NSString *) table;
+
+/**
+ * Get the contents data type of the user table
+ *
+ * @param table
+ *            table name
+ * @return table type
+ */
+-(NSString *) typeOfTable: (NSString *) table;
 
 /**
  *  Get the feature table count
@@ -786,5 +823,27 @@
  * @return true if created
  */
 -(BOOL) createTileScalingTable;
+
+/**
+ * Get an Extended Relations DAO
+ *
+ * @return tile scaling dao
+ */
+-(GPKGExtendedRelationsDao *) getExtendedRelationsDao;
+
+/**
+ * Create the Extended Relations Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createExtendedRelationsTable;
+
+/**
+ * Create a new user table
+ *
+ * @param table
+ *            user table
+ */
+-(void) createUserTable: (GPKGUserTable *) table;
 
 @end
