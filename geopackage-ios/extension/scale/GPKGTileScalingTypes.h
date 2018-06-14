@@ -58,7 +58,7 @@ extern NSString * const GPKG_TSC_OUT_IN_NAME;
 extern NSString * const GPKG_TSC_CLOSEST_IN_OUT_NAME;
 extern NSString * const GPKG_TSC_CLOSEST_OUT_IN_NAME;
 
-@interface GPKGTileScalingTypes : GPKGBaseDao
+@interface GPKGTileScalingTypes : NSObject
 
 /**
  *  Get the name of the tile scaling type

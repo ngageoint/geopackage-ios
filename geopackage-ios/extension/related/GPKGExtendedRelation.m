@@ -7,6 +7,7 @@
 //
 
 #import "GPKGExtendedRelation.h"
+#import "GPKGRelationTypes.h"
 
 NSString * const GPKG_ER_TABLE_NAME = @"gpkgext_relations";
 NSString * const GPKG_ER_COLUMN_PK = @"id";

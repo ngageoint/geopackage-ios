@@ -33,6 +33,7 @@
 #import "GPKGAttributesTable.h"
 #import "GPKGAttributesDao.h"
 #import "GPKGTileScalingDao.h"
+#import "GPKGExtendedRelationsDao.h"
 
 /**
  *  A single GeoPackage database connection

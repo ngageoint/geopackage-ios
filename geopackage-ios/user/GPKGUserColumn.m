@@ -32,6 +32,10 @@
     return self;
 }
 
+-(BOOL) isNamed: (NSString *) name{
+    return [self.name isEqualToString:name];
+}
+
 -(NSString *) getTypeName{
     NSString * type = nil;
     if(self.dataType != GPKG_DT_GEOMETRY){

@@ -26,6 +26,7 @@
 #import "GPKGGriddedCoverage.h"
 #import "GPKGGriddedTile.h"
 #import "GPKGTileScaling.h"
+#import "GPKGExtendedRelation.h"
 #import "GPKGSqlUtils.h"
 
 @implementation GPKGGeoPackageTableCreator

@@ -71,6 +71,15 @@
                       andPrimaryKey: (BOOL) primaryKey;
 
 /**
+ * Determine if this column is named the provided name
+ *
+ * @param name
+ *            column name
+ * @return true if named the provided name
+ */
+-(BOOL) isNamed: (NSString *) name;
+
+/**
  *  Get the database type name
  *
  *  @return type name

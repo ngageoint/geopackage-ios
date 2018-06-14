@@ -309,5 +309,17 @@
   UNIQUE (tpudt_name, tpudt_id)
 );</string>
 	</array>
+	<key>gpkgext_relations</key>
+	<array>
+		<string>CREATE TABLE &apos;gpkgext_relations&apos; (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  base_table_name TEXT NOT NULL,
+  base_primary_column TEXT NOT NULL DEFAULT &apos;id&apos;,
+  related_table_name TEXT NOT NULL,
+  related_primary_column TEXT NOT NULL DEFAULT &apos;id&apos;,
+  relation_name TEXT NOT NULL,
+  mapping_table_name TEXT NOT NULL UNIQUE
+ );</string>
+	</array>
 </dict>
 </plist>
