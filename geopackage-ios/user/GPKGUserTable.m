@@ -58,11 +58,22 @@
         if(pk != nil){
             self.pkIndex = [pk intValue];
         }else{
-            // Permit views without primary keys
-            NSLog(@"No primary key column was found for table '%@'", tableName);
             self.pkIndex = -1;
         }
 
+    }
+    return self;
+}
+
+-(instancetype) initWithUserTable: (GPKGUserTable *) userTable{
+    self = [super init];
+    if(self != nil){
+        self.tableName = userTable.tableName;
+        self.columnNames = userTable.columnNames;
+        self.columns = userTable.columns;
+        self.nameToIndex = userTable.nameToIndex;
+        self.pkIndex = userTable.pkIndex;
+        self.uniqueConstraints = userTable.uniqueConstraints;
     }
     return self;
 }
@@ -106,13 +117,21 @@
     return [self getColumnWithIndex:[self getColumnIndexWithColumnName:columnName]];
 }
 
+-(BOOL) hasColumnWithColumnName: (NSString *) columnName{
+    return [self.nameToIndex objectForKey:columnName] != nil;
+}
+
 -(int) columnCount{
     return (int)[self.columns count];
 }
 
+-(BOOL) hasPkColumn{
+    return self.pkIndex >= 0;
+}
+
 -(GPKGUserColumn *) getPkColumn{
     GPKGUserColumn * column = nil;
-    if(self.pkIndex >= 0){
+    if([self hasPkColumn]){
         column = [GPKGUtils objectAtIndex:self.pkIndex inArray:self.columns];
     }
     return column;

@@ -100,7 +100,9 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGDataType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGDataType)[enumValue intValue];
+        }
     }
     
     return value;

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * Media Requirements Class User-Defined Related Data Table
+ */
 @interface GPKGMediaTable : NSObject
 
 // TODO

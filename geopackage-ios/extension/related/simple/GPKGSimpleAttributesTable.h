@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * Simple Attributes Requirements Class User-Defined Related Data Table
+ */
 @interface GPKGSimpleAttributesTable : NSObject
 
 // TODO

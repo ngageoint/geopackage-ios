@@ -56,6 +56,15 @@
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
 /**
+ *  Initialize
+ *
+ *  @param userTable user table
+ *
+ *  @return new user table
+ */
+-(instancetype) initWithUserTable: (GPKGUserTable *) userTable;
+
+/**
  *  Check for duplicate column names
  *
  *  @param index         index
@@ -117,11 +126,27 @@
 -(GPKGUserColumn *) getColumnWithColumnName: (NSString *) columnName;
 
 /**
+ * Check if the table has the column
+ *
+ * @param columnName
+ *            column name
+ * @return true if has the column
+ */
+-(BOOL) hasColumnWithColumnName: (NSString *) columnName;
+
+/**
  *  Get the column count
  *
  *  @return column count
  */
 -(int) columnCount;
+
+/**
+ * Check if the table has a primary key column
+ *
+ * @return true if has a primary key
+ */
+-(BOOL) hasPkColumn;
 
 /**
  *  Get the primary key column index

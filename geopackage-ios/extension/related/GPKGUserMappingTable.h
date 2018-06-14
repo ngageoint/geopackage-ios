@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * Contains user mapping table factory and utility methods
+ */
 @interface GPKGUserMappingTable : NSObject
 
 // TODO
