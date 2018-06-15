@@ -194,5 +194,17 @@
 #import "GPKGTileTableScaling.h"
 #import "GPKGCompositeOverlay.h"
 #import "GPKGGeometryJSONCompatible.h"
+#import "GPKGExtendedRelation.h"
+#import "GPKGExtendedRelationsDao.h"
+#import "GPKGRelatedTablesExtension.h"
+#import "GPKGRelationTypes.h"
+#import "GPKGUserMappingTable.h"
+#import "GPKGUserRelatedTable.h"
+#import "GPKGDublinCoreMetadata.h"
+#import "GPKGDublinCoreTypes.h"
+#import "GPKGMediaTable.h"
+#import "GPKGSimpleAttributesTable.h"
+#import "GPKGUserCustomColumn.h"
+#import "GPKGUserCustomTable.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
