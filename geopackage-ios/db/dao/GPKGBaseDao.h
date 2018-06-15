@@ -209,6 +209,43 @@
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
+ *  Query for field like
+ *
+ *  @param field field
+ *  @param value value
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ *  Query for field like
+ *
+ *  @param field   field
+ *  @param value   value
+ *  @param groupBy group by clause
+ *  @param having  having clause
+ *  @param orderBy order by clause
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
+ *  Query for field like
+ *
+ *  @param field field
+ *  @param value column value
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
  *  Query for field values
  *
  *  @param fieldValues field values
@@ -455,6 +492,13 @@
 -(long long) createOrUpdate: (NSObject *) object;
 
 /**
+ *  Determine if the table has an id
+ *
+ *  @return true if has an id
+ */
+-(BOOL) hasId;
+
+/**
  *  Get the id of the object
  *
  *  @param object object
@@ -487,6 +531,15 @@
  *  @param idValues id values
  */
 -(void) setMultiId: (NSObject *) object withIdValues: (NSArray *) idValues;
+
+/**
+ *  Get the column values of the object
+ *
+ *  @param object object
+ *
+ *  @return column values
+ */
+-(GPKGColumnValues *) values: (NSObject *) object;
 
 /**
  *  Build primary key where clause with id value
@@ -564,6 +617,16 @@
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value;
 
 /**
+ *  Build where LIKE clause with field and value
+ *
+ *  @param field field
+ *  @param value value
+ *
+ *  @return where clause
+ */
+-(NSString *) buildWhereLikeWithField: (NSString *) field andValue: (NSObject *) value;
+
+/**
  *  Build where clause with field, value, and operation
  *
  *  @param field     field
@@ -583,6 +646,16 @@
  *  @return where clause
  */
 -(NSString *) buildWhereWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ *  Build where LIKE clause with field and column value
+ *
+ *  @param field field
+ *  @param value column value
+ *
+ *  @return where clause
+ */
+-(NSString *) buildWhereLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
  *  Build where args with column values

@@ -9,6 +9,7 @@
 #import "GPKGUserTableReader.h"
 #import "GPKGUtils.h"
 #import "GPKGSqlUtils.h"
+#import "SFGeometryTypes.h"
 
 NSString * const GPKG_UTR_CID = @"cid";
 NSString * const GPKG_UTR_NAME = @"name";
@@ -88,6 +89,21 @@ NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
     }
     
     return [self createTableWithName:self.tableName andColumns:columnList];
+}
+
+-(enum GPKGDataType) dataType: (NSString *) type{
+    
+    enum GPKGDataType dataType = [GPKGDataTypes fromName:type];
+    
+    if((int)dataType < 0){
+        // Check if a geometry and convert to a blob
+        if((int)[SFGeometryTypes fromName:type] < 0){
+            [NSException raise:@"Unsupported Data Type" format:@"Unsupported column data type %@", type];
+        }
+        dataType = GPKG_DT_BLOB;
+    }
+    
+    return dataType;
 }
 
 @end

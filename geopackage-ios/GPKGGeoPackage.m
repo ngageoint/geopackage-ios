@@ -81,8 +81,12 @@
 }
 
 -(NSArray *)getTablesByType: (enum GPKGContentsDataType) type{
+    return [self getTablesByTypeName:[GPKGContentsDataTypes name:type]];
+}
+
+-(NSArray *)getTablesByTypeName: (NSString *) type{
     GPKGContentsDao * contentsDao = [self getContentsDao];
-    NSArray * tableNames = [contentsDao getTablesOfType:type];
+    NSArray *tableNames = [contentsDao getTablesOfTypeName:type];
     return tableNames;
 }
 
@@ -110,8 +114,11 @@
 }
 
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
-    NSSet * tables = [[NSSet alloc] initWithArray:[self getTablesByType:type]];
-    return [tables containsObject:table];
+    return [self isTable:table ofTypeName:[GPKGContentsDataTypes name:type]];
+}
+
+-(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type{
+    return [type isEqualToString:[self typeOfTable:type]];
 }
 
 -(BOOL) isFeatureOrTileTable: (NSString *) table{
@@ -122,6 +129,21 @@
 -(BOOL) isTable: (NSString *) table{
     NSSet * tables = [[NSSet alloc] initWithArray:[self getTables]];
     return [tables containsObject:table];
+}
+
+-(GPKGContents *) contentsOfTable: (NSString *) table{
+    GPKGContentsDao *contentsDao = [self getContentsDao];
+    GPKGContents *contents = (GPKGContents *)[contentsDao queryForIdObject:table];
+    return contents;
+}
+
+-(NSString *) typeOfTable: (NSString *) table{
+    NSString *tableType = nil;
+    GPKGContents *contents = [self contentsOfTable:table];
+    if(contents != nil){
+        tableType = contents.dataType;
+    }
+    return tableType;
 }
 
 -(int)getFeatureTableCount{
@@ -180,9 +202,7 @@
 }
 
 -(void) createFeatureTable: (GPKGFeatureTable *) table{
-    [self verifyWritable];
-    
-    [self.tableCreator createUserTable:table];
+    [self createUserTable:table];
 }
 
 -(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
@@ -305,9 +325,7 @@
 }
 
 -(void) createTileTable: (GPKGTileTable *) table{
-    [self verifyWritable];
-    
-    [self.tableCreator createUserTable:table];
+    [self createUserTable:table];
 }
 
 -(GPKGTileMatrixSet *) createTileTableWithTableName: (NSString *) tableName
@@ -744,9 +762,7 @@
 }
 
 -(void) createAttributesTable: (GPKGAttributesTable *) table{
-    [self verifyWritable];
-    
-    [self.tableCreator createUserTable:table];
+    [self createUserTable:table];
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
@@ -823,6 +839,29 @@
         [NSException raise:@"No SRS" format:@"Spatial Reference System could not be found. SRS ID: %@", srsId];
     }
     return srs;
+}
+
+-(GPKGExtendedRelationsDao *) getExtendedRelationsDao{
+    return [[GPKGExtendedRelationsDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createExtendedRelationsTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = false;
+    GPKGExtendedRelationsDao * dao = [self getExtendedRelationsDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createExtendedRelations] > 0;
+    }
+    
+    return created;
+}
+
+-(void) createUserTable: (GPKGUserTable *) table{
+    [self verifyWritable];
+    
+    [self.tableCreator createUserTable:table];
 }
 
 @end

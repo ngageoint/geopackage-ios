@@ -154,11 +154,27 @@
 -(GPKGUserColumn *) getColumnWithColumnName: (NSString *) columnName;
 
 /**
+ *  Check if the row has the column
+ *
+ *  @param columnName column name
+ *
+ *  @return true if has the column
+ */
+-(BOOL) hasColumnWithColumnName: (NSString *) columnName;
+
+/**
  *  Get the id value, which is the value of the primary key
  *
  *  @return id value
  */
 -(NSNumber *) getId;
+
+/**
+ *  Check if the row has an id column
+ *
+ *  @return true if has an id column
+ */
+-(BOOL) hasIdColumn;
 
 /**
  *  Check if the row has an id value

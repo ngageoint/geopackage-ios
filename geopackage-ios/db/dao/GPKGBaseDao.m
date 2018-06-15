@@ -17,6 +17,7 @@
     if(self != nil){
         self.database = database;
         self.databaseName = database.name;
+        self.idColumns = [[NSArray alloc] init];
     }
     return self;
 }
@@ -171,6 +172,28 @@
     return results;
 }
 
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field andValue: (NSObject *) value{
+    return [self queryForLikeWithField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+}
+
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
+    NSString *whereString = [self buildWhereLikeWithField:field andValue:value];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:value];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    return results;
+}
+
+-(GPKGResultSet *) queryForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    NSString *whereString = [self buildWhereLikeWithField:field andColumnValue:value];
+    NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return results;
+}
+
 -(GPKGResultSet *) queryForFieldValues:(GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
@@ -278,7 +301,14 @@
 }
 
 -(int) delete: (NSObject *) object{
-    return [self deleteByMultiId:[self getMultiId:object]];
+    int numDeleted;
+    if([self hasId]){
+        numDeleted = [self deleteByMultiId:[self getMultiId:object]];
+    }else{
+        GPKGColumnValues *values = [self values: object];
+        numDeleted = [self deleteWhere:[self buildWhereWithFields:values] andWhereArgs:[self buildWhereArgsWithValues:values]];
+    }
+    return numDeleted;
 }
 
 -(int) deleteById: (NSObject *) idValue{
@@ -348,6 +378,10 @@
     return id;
 }
 
+-(BOOL) hasId{
+    return self.idColumns.count > 0;
+}
+
 -(NSObject *) getId: (NSObject *) object{
     return [self getValueFromObject:object withColumnName:[GPKGUtils objectAtIndex:0 inArray:self.idColumns]];
 }
@@ -369,6 +403,15 @@
     for(int i = 0; i < [idValues count]; i++){
         [self setValueInObject:object withColumnName:[GPKGUtils objectAtIndex:i inArray:self.idColumns] withValue:[GPKGUtils objectAtIndex:i inArray:idValues]];
     }
+}
+
+-(GPKGColumnValues *) values: (NSObject *) object{
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
+    for(NSString * column in self.columns){
+        NSObject * value = [self getValueFromObject:object withColumnName:column];
+        [values addColumn:column withValue:value];
+    }
+    return values;
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
@@ -430,6 +473,10 @@
     return [self buildWhereWithField:field andValue:value andOperation:@"="];
 }
 
+-(NSString *) buildWhereLikeWithField: (NSString *) field andValue: (NSObject *) value{
+    return [self buildWhereWithField:field andValue:value andOperation:@"LIKE"];
+}
+
 -(NSString *) buildWhereWithField: (NSString *) field andValue: (NSObject *) value andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
     [whereString appendFormat:@"%@ ", [GPKGSqlUtils quoteWrapName:field]];
@@ -452,7 +499,23 @@
             [whereString appendString:[self buildWhereWithField:field andValue:value.value]];
         }
     }else{
-        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:@"="]];
+        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:nil]];
+    }
+    
+    return whereString;
+}
+
+-(NSString *) buildWhereLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    
+    NSMutableString *whereString = [NSMutableString string];
+    
+    if(value != nil){
+        if(value.tolerance != nil){
+            [NSException raise:@"LIKE Tolerance" format:@"Field value tolerance not supported for LIKE query, Field: %@, Value: %@", field, value.tolerance];
+        }
+        [whereString appendString:[self buildWhereLikeWithField:field andValue:value.value]];
+    }else{
+        [whereString appendString:[self buildWhereWithField:field andValue:nil andOperation:nil]];
     }
     
     return whereString;

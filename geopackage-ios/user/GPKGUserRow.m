@@ -113,6 +113,10 @@
     return [self.table getColumnWithColumnName:columnName];
 }
 
+-(BOOL) hasColumnWithColumnName: (NSString *) columnName{
+    return [self.table hasColumnWithColumnName:columnName];
+}
+
 -(NSNumber *) getId{
     
     NSNumber * id = nil;
@@ -128,9 +132,17 @@
     return id;
 }
 
+-(BOOL) hasIdColumn{
+    return [self.table hasPkColumn];
+}
+
 -(BOOL) hasId{
-    NSObject * objectValue = [self getValueWithIndex:[self getPkColumnIndex]];
-    return objectValue != nil && [objectValue isKindOfClass:[NSNumber class]];
+    BOOL hasId = NO;
+    if([self hasIdColumn]){
+        NSObject * objectValue = [self getValueWithIndex:[self getPkColumnIndex]];
+        hasId = objectValue != nil && [objectValue isKindOfClass:[NSNumber class]];
+    }
+    return hasId;
 }
 
 -(int) getPkColumnIndex{
@@ -157,7 +169,9 @@
 }
 
 -(void) setId: (NSNumber *) id{
-    [GPKGUtils replaceObjectAtIndex:[self getPkColumnIndex] withObject:id inArray:self.values];
+    if([self hasIdColumn]){
+        [GPKGUtils replaceObjectAtIndex:[self getPkColumnIndex] withObject:id inArray:self.values];
+    }
 }
 
 -(void) resetId{
