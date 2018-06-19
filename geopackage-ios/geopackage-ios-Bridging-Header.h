@@ -206,5 +206,14 @@
 #import "GPKGSimpleAttributesTable.h"
 #import "GPKGUserCustomColumn.h"
 #import "GPKGUserCustomTable.h"
+#import "GPKGUserCustomDao.h"
+#import "GPKGUserCustomRow.h"
+#import "GPKGUserCustomTableReader.h"
+#import "GPKGUserMappingDao.h"
+#import "GPKGUserMappingRow.h"
+#import "GPKGMediaDao.h"
+#import "GPKGMediaRow.h"
+#import "GPKGSimpleAttributesDao.h"
+#import "GPKGSimpleAttributesRow.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
