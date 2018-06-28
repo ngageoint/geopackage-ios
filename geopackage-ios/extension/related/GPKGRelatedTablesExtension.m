@@ -8,6 +8,7 @@
 
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGProperties.h"
+#import "GPKGUserCustomTableReader.h"
 
 NSString * const GPKG_EXTENSION_RELATED_TABLES_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR = @"related_tables";
@@ -75,7 +76,12 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 
 -(NSString *) primaryKeyColumnNameOfTable: (NSString *) tableName{
-    return nil; // TODO
+    GPKGUserCustomTable *table = [GPKGUserCustomTableReader readTableWithConnection:self.geoPackage.database andTableName:tableName];
+    GPKGUserColumn *pkColumn = [table getPkColumn];
+    if(pkColumn == nil){
+        [NSException raise:@"No Primary Key" format:@"Found no primary key for table %@", tableName];
+    }
+    return pkColumn.name;
 }
 
 -(void) setContentsInTable: (GPKGUserRelatedTable *) table{

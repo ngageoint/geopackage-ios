@@ -7,9 +7,105 @@
 //
 
 #import "GPKGUserCustomRow.h"
+#import "GPKGUserMappingTable.h"
 
+/**
+ * User Mapping Row containing the values from a single result set row
+ */
 @interface GPKGUserMappingRow : GPKGUserCustomRow
 
-// TODO
+/**
+ *  Initialize
+ *
+ *  @param table       user mapping table
+ *  @param columnTypes column types
+ *  @param values      values
+ *
+ *  @return new user mapping row
+ */
+-(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+/**
+ *  Initialize
+ *
+ *  @param table user mapping table
+ *
+ *  @return new user mapping row
+ */
+-(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table;
+
+/**
+ *  Initialize
+ *
+ *  @param userCustomRow user custom row
+ *
+ *  @return new user mapping row
+ */
+-(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
+
+/**
+ *  Get the user mapping table
+ *
+ *  @return user mapping table
+ */
+-(GPKGUserMappingTable *) table;
+
+/**
+ *  Get the base ID column index
+ *
+ *  @return base ID column index
+ */
+-(int) baseIdColumnIndex;
+
+/**
+ * Get the base ID column
+ *
+ * @return base ID column
+ */
+-(GPKGUserCustomColumn *) baseIdColumn;
+
+/**
+ * Get the base ID
+ *
+ * @return base ID
+ */
+-(int) baseId;
+
+/**
+ * Set the base ID
+ *
+ * @param baseId
+ *            base ID
+ */
+-(void) setBaseId: (int) baseId;
+
+/**
+ *  Get the related ID column index
+ *
+ *  @return related ID column index
+ */
+-(int) relatedIdColumnIndex;
+
+/**
+ * Get the related ID column
+ *
+ * @return related ID column
+ */
+-(GPKGUserCustomColumn *) relatedIdColumn;
+
+/**
+ * Get the related ID
+ *
+ * @return related ID
+ */
+-(int) relatedId;
+
+/**
+ * Set the related ID
+ *
+ * @param relatedId
+ *            related ID
+ */
+-(void) setRelatedId: (int) relatedId;
 
 @end

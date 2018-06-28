@@ -30,7 +30,7 @@ NSString * const GPKG_ER_COLUMN_MAPPING_TABLE_NAME = @"mapping_table_name";
     self.id = nil;
 }
 
--(enum GPKGRelationType) getRelationType{
+-(enum GPKGRelationType) relationType{
     enum GPKGRelationType value = -1;
     
     if(self.relationName != nil){

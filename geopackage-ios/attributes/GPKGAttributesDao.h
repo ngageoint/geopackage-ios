@@ -19,7 +19,7 @@
  * Constructor
  *
  * @param database        database connection
- * @param table           feature table
+ * @param table           attributes table
  * @return new attributes dao
  */
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGAttributesTable *) table;

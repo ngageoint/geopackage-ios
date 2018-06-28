@@ -42,6 +42,24 @@
     return self;
 }
 
+-(instancetype) initWithRow: (GPKGUserRow *) row{
+    self = [super init];
+    if(self != nil){
+        self.table = row.table;
+        self.columnTypes = row.columnTypes;
+        self.values = [[NSMutableArray alloc] init];
+        for(int i = 0; i < row.values.count; i++){
+            NSObject *value = [GPKGUtils objectAtIndex:i inArray:row.values];
+            if(value != nil){
+                GPKGUserColumn *column = [row getColumnWithIndex:i];
+                value = [self copyValue:value forColumn:column];
+            }
+            [GPKGUtils addObject:value toArray:self.values];
+        }
+    }
+    return self;
+}
+
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
     [self doesNotRecognizeSelector:_cmd];
     return nil;

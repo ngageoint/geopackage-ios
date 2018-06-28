@@ -50,6 +50,15 @@
 -(instancetype) initWithTable: (GPKGUserTable *) table;
 
 /**
+ *  Copy Initializer
+ *
+ *  @param row user row
+ *
+ *  @return new user row
+ */
+-(instancetype) initWithRow: (GPKGUserRow *) row;
+
+/**
  *  Get the column count
  *
  *  @return column count

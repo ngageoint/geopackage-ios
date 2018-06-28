@@ -78,6 +78,6 @@ extern NSString * const GPKG_ER_COLUMN_MAPPING_TABLE_NAME;
  *
  *  @return relation type
  */
--(enum GPKGRelationType) getRelationType;
+-(enum GPKGRelationType) relationType;
 
 @end
