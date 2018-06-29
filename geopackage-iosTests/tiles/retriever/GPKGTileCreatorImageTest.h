@@ -6,9 +6,9 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGTilesGeoPackageTestCase.h"
+#import "GPKGLoadGeoPackageTestCase.h"
 
-@interface GPKGTileCreatorImageTest : GPKGTilesGeoPackageTestCase
+@interface GPKGTileCreatorImageTest : GPKGLoadGeoPackageTestCase
 
 @property (nonatomic) int colorTolerance;
 

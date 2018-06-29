@@ -1,17 +1,17 @@
 //
-//  GPKGTilesGeoPackageTestCase.m
+//  GPKGLoadGeoPackageTestCase.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 6/8/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGTilesGeoPackageTestCase.h"
+#import "GPKGLoadGeoPackageTestCase.h"
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGTestConstants.h"
 
-@implementation GPKGTilesGeoPackageTestCase
+@implementation GPKGLoadGeoPackageTestCase
 
 -(instancetype) initWithName: (NSString *) name andFile: (NSString *) file{
     self = [super init];
@@ -28,7 +28,7 @@
     // Delete
     [manager delete:self.dbName];
     
-    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGTilesGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:self.file];
+    NSString *filePath  = [[[NSBundle bundleForClass:[GPKGLoadGeoPackageTestCase class]] resourcePath] stringByAppendingPathComponent:self.file];
     
     // Import
     [manager importGeoPackageFromPath:filePath withName:self.dbName];

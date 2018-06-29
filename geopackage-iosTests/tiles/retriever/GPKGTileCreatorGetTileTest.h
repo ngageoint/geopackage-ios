@@ -6,8 +6,8 @@
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGTilesGeoPackageTestCase.h"
+#import "GPKGLoadGeoPackageTestCase.h"
 
-@interface GPKGTileCreatorGetTileTest : GPKGTilesGeoPackageTestCase
+@interface GPKGTileCreatorGetTileTest : GPKGLoadGeoPackageTestCase
 
 @end

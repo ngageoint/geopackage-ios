@@ -1,5 +1,5 @@
 //
-//  GPKGTilesGeoPackageTestCase.h
+//  GPKGLoadGeoPackageTestCase.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 6/8/16.
@@ -8,7 +8,7 @@
 
 #import "GPKGGeoPackageTestCase.h"
 
-@interface GPKGTilesGeoPackageTestCase : GPKGGeoPackageTestCase
+@interface GPKGLoadGeoPackageTestCase : GPKGGeoPackageTestCase
 
 @property (nonatomic, strong) NSString *dbName;
 @property (nonatomic, strong) NSString *file;
