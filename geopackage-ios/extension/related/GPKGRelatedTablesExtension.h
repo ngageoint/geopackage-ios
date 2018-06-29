@@ -11,6 +11,10 @@
 #import "GPKGUserMappingTable.h"
 #import "GPKGMediaTable.h"
 #import "GPKGSimpleAttributesTable.h"
+#import "GPKGUserCustomDao.h"
+#import "GPKGUserMappingDao.h"
+#import "GPKGMediaDao.h"
+#import "GPKGSimpleAttributesDao.h"
 
 extern NSString * const GPKG_EXTENSION_RELATED_TABLES_AUTHOR;
 extern NSString * const GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR;
@@ -392,5 +396,130 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  * @return custom relation name
  */
 -(NSString *) buildRelationNameWithAuthor: (NSString *) author andName: (NSString *) name;
+
+/**
+ * Get a User Custom DAO from a table name
+ *
+ * @param tableName
+ *            table name
+ * @return user custom dao
+ */
+-(GPKGUserCustomDao *) userDaoForTableName: (NSString *) tableName;
+
+/**
+ * Get a User Mapping DAO from an extended relation
+ *
+ * @param extendedRelation
+ *            extended relation
+ * @return user mapping dao
+ */
+-(GPKGUserMappingDao *) mappingDaoForRelation: (GPKGExtendedRelation *) extendedRelation;
+
+/**
+ * Get a User Mapping DAO from a table name
+ *
+ * @param tableName
+ *            mapping table name
+ * @return user mapping dao
+ */
+-(GPKGUserMappingDao *) mappingDaoForTableName: (NSString *) tableName;
+
+/**
+ * Get a related media table DAO
+ *
+ * @param mediaTable
+ *            media table
+ * @return media DAO
+ */
+-(GPKGMediaDao *) mediaDaoForTable: (GPKGMediaTable *) mediaTable;
+
+/**
+ * Get a related media table DAO
+ *
+ * @param extendedRelation
+ *            extended relation
+ * @return media DAO
+ */
+-(GPKGMediaDao *) mediaDaoForRelation: (GPKGExtendedRelation *) extendedRelation;
+
+/**
+ * Get a related media table DAO
+ *
+ * @param tableName
+ *            media table name
+ * @return media DAO
+ */
+-(GPKGMediaDao *) mediaDaoForTableName: (NSString *) tableName;
+
+/**
+ * Get a related simple attributes table DAO
+ *
+ * @param simpleAttributesTable
+ *            simple attributes table
+ * @return simple attributes DAO
+ */
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForTable: (GPKGSimpleAttributesTable *) simpleAttributesTable;
+
+/**
+ * Get a related simple attributes table DAO
+ *
+ * @param extendedRelation
+ *            extended relation
+ * @return simple attributes DAO
+ */
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForRelation: (GPKGExtendedRelation *) extendedRelation;
+
+/**
+ * Get a related simple attributes table DAO
+ *
+ * @param tableName
+ *            simple attributes table name
+ * @return simple attributes DAO
+ */
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForTableName: (NSString *) tableName;
+
+/**
+ * Get the related id mappings for the base id
+ *
+ * @param extendedRelation
+ *            extended relation
+ * @param baseId
+ *            base id
+ * @return IDs representing the matching related IDs
+ */
+-(NSArray<NSNumber *> *) mappingsForRelation: (GPKGExtendedRelation *) extendedRelation withBaseId: (int) baseId;
+
+/**
+ * Get the related id mappings for the base id
+ *
+ * @param tableName
+ *            mapping table name
+ * @param baseId
+ *            base id
+ * @return IDs representing the matching related IDs
+ */
+-(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withBaseId: (int) baseId;
+
+/**
+ * Get the base id mappings for the related id
+ *
+ * @param extendedRelation
+ *            extended relation
+ * @param relatedId
+ *            related id
+ * @return IDs representing the matching base IDs
+ */
+-(NSArray<NSNumber *> *) mappingsForRelation: (GPKGExtendedRelation *) extendedRelation withRelatedId: (int) relatedId;
+
+/**
+ * Get the base id mappings for the related id
+ *
+ * @param tableName
+ *            mapping table name
+ * @param relatedId
+ *            related id
+ * @return IDs representing the matching base IDs
+ */
+-(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withRelatedId: (int) relatedId;
 
 @end

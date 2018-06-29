@@ -374,4 +374,88 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return [NSString stringWithFormat:@"x-%@_%@", author, name];
 }
 
+-(GPKGUserCustomDao *) userDaoForTableName: (NSString *) tableName{
+    return [GPKGUserCustomDao readTableWithDatabase:self.geoPackage.name andConnection:self.geoPackage.database andTable:tableName];
+}
+
+-(GPKGUserMappingDao *) mappingDaoForRelation: (GPKGExtendedRelation *) extendedRelation{
+    return [self mappingDaoForTableName:extendedRelation.mappingTableName];
+}
+
+-(GPKGUserMappingDao *) mappingDaoForTableName: (NSString *) tableName{
+    return [[GPKGUserMappingDao alloc] initWithDao:[self userDaoForTableName:tableName]];
+}
+
+-(GPKGMediaDao *) mediaDaoForTable: (GPKGMediaTable *) mediaTable{
+    return [self mediaDaoForTableName:mediaTable.tableName];
+}
+
+-(GPKGMediaDao *) mediaDaoForRelation: (GPKGExtendedRelation *) extendedRelation{
+    return [self mediaDaoForTableName:extendedRelation.relatedTableName];
+}
+
+-(GPKGMediaDao *) mediaDaoForTableName: (NSString *) tableName{
+    GPKGMediaDao *mediaDao = [[GPKGMediaDao alloc] initWithDao:[self userDaoForTableName:tableName]];
+    [self setContentsInTable:[mediaDao table]];
+    return mediaDao;
+}
+
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForTable: (GPKGSimpleAttributesTable *) simpleAttributesTable{
+    return [self simpleAttributesDaoForTableName:simpleAttributesTable.tableName];
+}
+
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForRelation: (GPKGExtendedRelation *) extendedRelation{
+    return [self simpleAttributesDaoForTableName:extendedRelation.relatedTableName];
+}
+
+-(GPKGSimpleAttributesDao *) simpleAttributesDaoForTableName: (NSString *) tableName{
+    GPKGSimpleAttributesDao *simpleAttributesDao = [[GPKGSimpleAttributesDao alloc] initWithDao:[self userDaoForTableName:tableName]];
+    [self setContentsInTable:[simpleAttributesDao table]];
+    return simpleAttributesDao;
+}
+
+-(NSArray<NSNumber *> *) mappingsForRelation: (GPKGExtendedRelation *) extendedRelation withBaseId: (int) baseId{
+    return [self mappingsForTableName:extendedRelation.mappingTableName withBaseId:baseId];
+}
+
+-(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withBaseId: (int) baseId{
+    
+    NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
+    
+    GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
+    GPKGResultSet *resultSet = [userMappingDao queryByBaseId:baseId];
+    @try{
+        while([resultSet moveToNext]){
+            GPKGUserMappingRow *row = [userMappingDao row:resultSet];
+            [relatedIds addObject:[NSNumber numberWithInt:row.relatedId]];
+        }
+    }@finally{
+        [resultSet close];
+    }
+    
+    return relatedIds;
+}
+
+-(NSArray<NSNumber *> *) mappingsForRelation: (GPKGExtendedRelation *) extendedRelation withRelatedId: (int) relatedId{
+    return [self mappingsForTableName:extendedRelation.mappingTableName withRelatedId:relatedId];
+}
+
+-(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withRelatedId: (int) relatedId{
+    
+    NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
+    
+    GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
+    GPKGResultSet *resultSet = [userMappingDao queryByRelatedId:relatedId];
+    @try{
+        while([resultSet moveToNext]){
+            GPKGUserMappingRow *row = [userMappingDao row:resultSet];
+            [baseIds addObject:[NSNumber numberWithInt:row.baseId]];
+        }
+    }@finally{
+        [resultSet close];
+    }
+    
+    return baseIds;
+}
+
 @end

@@ -19,4 +19,6 @@
 
 +(void)testCreateFeatureTableWithMetadataIdColumnAdditionalColumns: (GPKGGeoPackage *) geoPackage;
 
++(void)testDeleteTables: (GPKGGeoPackage *) geoPackage;
+
 @end

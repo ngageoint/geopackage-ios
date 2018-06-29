@@ -138,4 +138,62 @@
     }
 }
 
++(void)testDeleteTables: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    
+    [GPKGTestUtils assertTrue:[geometryColumnsDao tableExists] || [tileMatrixSetDao tableExists]];
+    
+    if([geometryColumnsDao tableExists]){
+        
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getFeatureTables].count andValue2:[geometryColumnsDao count]];
+        for(NSString *featureTable in [geoPackage getFeatureTables]){
+            [GPKGTestUtils assertTrue:[geoPackage isTable:featureTable]];
+            [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:featureTable]];
+            [geoPackage deleteUserTable:featureTable];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:featureTable]];
+            [GPKGTestUtils assertNil:[contentsDao queryForIdObject:featureTable]];
+        }
+        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[geometryColumnsDao count]];
+        
+        [geoPackage dropTable:GPKG_GC_TABLE_NAME];
+        
+        [GPKGTestUtils assertFalse:[geometryColumnsDao tableExists]];
+    }
+    
+    if([tileMatrixSetDao tableExists]){
+        GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+        
+        [GPKGTestUtils assertTrue:[tileMatrixSetDao tableExists]];
+        [GPKGTestUtils assertTrue:[tileMatrixDao tableExists]];
+        
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTileTables].count andValue2:[tileMatrixSetDao count]];
+        for(NSString *tileTable in [geoPackage getTileTables]){
+            [GPKGTestUtils assertTrue:[geoPackage isTable:tileTable]];
+            [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:tileTable]];
+            [geoPackage deleteUserTable:tileTable];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:tileTable]];
+            [GPKGTestUtils assertNil:[contentsDao queryForIdObject:tileTable]];
+        }
+        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[tileMatrixSetDao count]];
+        
+        [geoPackage dropTable:GPKG_TM_TABLE_NAME];
+        [geoPackage dropTable:GPKG_TMS_TABLE_NAME];
+        
+        [GPKGTestUtils assertFalse:[tileMatrixSetDao tableExists]];
+        [GPKGTestUtils assertFalse:[tileMatrixDao tableExists]];
+    }
+    
+    for(NSString *attributeTable in [geoPackage getAttributesTables]){
+        [GPKGTestUtils assertTrue:[geoPackage isTable:attributeTable]];
+        [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:attributeTable]];
+        [geoPackage deleteUserTable:attributeTable];
+        [GPKGTestUtils assertFalse:[geoPackage isTable:attributeTable]];
+        [GPKGTestUtils assertNil:[contentsDao queryForIdObject:attributeTable]];
+    }
+    
+}
+
 @end

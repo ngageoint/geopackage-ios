@@ -74,7 +74,9 @@
 
 -(long long) insert: (NSObject *) object{
     long long id = [super insert:object];
-    [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
+    if([self.table hasPkColumn]){
+        [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
+    }
     return id;
 }
 

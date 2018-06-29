@@ -35,4 +35,10 @@
     
 }
 
+- (void)testDeleteTables {
+    
+    [GPKGGeoPackageTestUtils testDeleteTables:self.geoPackage];
+    
+}
+
 @end

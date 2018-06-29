@@ -36,7 +36,7 @@
                        andDefaultValueIndex: (int) defaultValueIndex
                               andPrimaryKey: (BOOL) primaryKey{
     
-    enum GPKGDataType dataType = [GPKGDataTypes fromName:type];
+    enum GPKGDataType dataType = [self dataType:type];
     
     NSObject * defaultValue = [results getValueWithIndex:defaultValueIndex];
     
