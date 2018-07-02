@@ -26,7 +26,7 @@
 }
 
 -(GPKGMediaTable *) table{
-    return (GPKGMediaTable *) super.userCustomTable;
+    return (GPKGMediaTable *) [super table];
 }
 
 -(int) idColumnIndex{

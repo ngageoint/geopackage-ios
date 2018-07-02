@@ -12,26 +12,21 @@
 
 -(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
     self = [super initWithTable:table andColumnTypes:columnTypes andValues:values];
-    if(self != nil){
-        self.userCustomTable = table;
-    }
     return self;
 }
 
 -(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table{
     self = [super initWithTable:table];
-    if(self != nil){
-        self.userCustomTable = table;
-    }
     return self;
 }
 
 -(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow{
     self = [super initWithRow:userCustomRow];
-    if(self != nil){
-        self.userCustomTable = (GPKGUserCustomTable *) self.table;
-    }
     return self;
+}
+
+-(GPKGUserCustomTable *) table{
+    return (GPKGUserCustomTable *) super.table;
 }
 
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
@@ -44,7 +39,6 @@
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUserCustomRow *userCustomRow = [super mutableCopyWithZone:zone];
-    userCustomRow.userCustomTable = _userCustomTable;
     return userCustomRow;
 }
 

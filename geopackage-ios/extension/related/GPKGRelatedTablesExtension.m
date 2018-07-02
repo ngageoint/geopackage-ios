@@ -9,8 +9,8 @@
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGProperties.h"
 #import "GPKGUserCustomTableReader.h"
+#import "GPKGGeoPackageConstants.h"
 
-NSString * const GPKG_EXTENSION_RELATED_TABLES_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR = @"related_tables";
 NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.extensions.extended_relations";
 
@@ -18,7 +18,6 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 @property (nonatomic, strong) NSString *extensionName;
 @property (nonatomic, strong) NSString *extensionDefinition;
-@property (nonatomic, strong) NSString *tableName;
 @property (nonatomic, strong) GPKGExtendedRelationsDao *extendedRelationsDao;
 
 @end
@@ -28,7 +27,8 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_RELATED_TABLES_AUTHOR andExtensionName:GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR];
+        // TODO Remove the commented sections when extension is adopted
+        self.extensionName = /*[GPKGExtensions buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:*/GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR/*]*/;
         self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION];
         self.extendedRelationsDao = [geoPackage getExtendedRelationsDao];
     }
@@ -52,7 +52,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     // Create table
     [self.geoPackage createExtendedRelationsTable];
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
@@ -67,7 +67,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(BOOL) has{
-    return [self hasWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:nil];
+    return [self hasWithExtensionName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil];
 }
 
 -(BOOL) hasWithMappingTable: (NSString *) mappingTable{
@@ -427,7 +427,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     @try{
         while([resultSet moveToNext]){
             GPKGUserMappingRow *row = [userMappingDao row:resultSet];
-            [relatedIds addObject:[NSNumber numberWithInt:row.relatedId]];
+            [relatedIds addObject:[NSNumber numberWithInt:[row relatedId]]];
         }
     }@finally{
         [resultSet close];
@@ -449,7 +449,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     @try{
         while([resultSet moveToNext]){
             GPKGUserMappingRow *row = [userMappingDao row:resultSet];
-            [baseIds addObject:[NSNumber numberWithInt:row.baseId]];
+            [baseIds addObject:[NSNumber numberWithInt:[row baseId]]];
         }
     }@finally{
         [resultSet close];

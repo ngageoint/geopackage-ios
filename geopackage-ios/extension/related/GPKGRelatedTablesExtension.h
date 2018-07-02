@@ -16,7 +16,6 @@
 #import "GPKGMediaDao.h"
 #import "GPKGSimpleAttributesDao.h"
 
-extern NSString * const GPKG_EXTENSION_RELATED_TABLES_AUTHOR;
 extern NSString * const GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 

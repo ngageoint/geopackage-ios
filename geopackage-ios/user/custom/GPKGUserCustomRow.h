@@ -15,11 +15,6 @@
 @interface GPKGUserCustomRow : GPKGUserRow
 
 /**
- *  User Custom Table
- */
-@property (nonatomic, strong) GPKGUserCustomTable *userCustomTable;
-
-/**
  *  Initialize
  *
  *  @param table       user custom table
@@ -49,5 +44,12 @@
  *  @return new user custom row
  */
 -(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
+
+/**
+ *  Get the user custom table
+ *
+ *  @return user custom table
+ */
+-(GPKGUserCustomTable *) table;
 
 @end

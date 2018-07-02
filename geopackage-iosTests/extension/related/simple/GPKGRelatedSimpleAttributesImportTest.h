@@ -1,5 +1,5 @@
 //
-//  GPKGRelatedMediaImportTest.h
+//  GPKGRelatedSimpleAttributesImportTest.h
 //  geopackage-iosTests
 //
 //  Created by Brian Osborn on 6/29/18.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GPKGImportGeoPackageTestCase.h"
 
-@interface GPKGRelatedMediaImportTest : GPKGImportGeoPackageTestCase
+@interface GPKGRelatedSimpleAttributesImportTest : GPKGImportGeoPackageTestCase
 
 @end

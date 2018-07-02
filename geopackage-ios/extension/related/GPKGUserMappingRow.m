@@ -26,7 +26,7 @@
 }
 
 -(GPKGUserMappingTable *) table{
-    return (GPKGUserMappingTable *) super.userCustomTable;
+    return (GPKGUserMappingTable *) [super table];
 }
 
 -(int) baseIdColumnIndex{

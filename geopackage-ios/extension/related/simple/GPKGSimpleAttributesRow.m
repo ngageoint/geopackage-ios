@@ -26,7 +26,7 @@
 }
 
 -(GPKGSimpleAttributesTable *) table{
-    return (GPKGSimpleAttributesTable *) super.userCustomTable;
+    return (GPKGSimpleAttributesTable *) [super table];
 }
 
 -(int) idColumnIndex{
