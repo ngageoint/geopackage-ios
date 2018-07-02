@@ -21,9 +21,9 @@
 }
 
 /**
- *  Test get tile
+ *  Test read relationships
  */
--(void) testGetRelationships{
+-(void) testReadRelationships{
     
     // 1. has
     GPKGRelatedTablesExtension *rte = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:self.geoPackage];

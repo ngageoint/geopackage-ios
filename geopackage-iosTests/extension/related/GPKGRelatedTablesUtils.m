@@ -30,6 +30,7 @@
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_DATE] andDataType:GPKG_DT_DATETIME andNotNull:notNull andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_DESCRIPTION] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_SOURCE] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_TITLE] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
     
     // Add test columns for common data types, some with limits
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:@""] toArray:columns];
