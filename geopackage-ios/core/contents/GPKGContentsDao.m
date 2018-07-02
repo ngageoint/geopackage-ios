@@ -333,6 +333,8 @@
         GPKGContents *contents = (GPKGContents *) [self queryForIdObject:id];
         if(contents != nil){
             count = [self deleteCascade:contents andUserTable:userTable];
+        }else if(userTable){
+            [self.database dropTable:id];
         }
     }
     return count;
