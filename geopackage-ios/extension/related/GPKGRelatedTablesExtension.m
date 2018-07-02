@@ -336,14 +336,18 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         [whereValues addColumn:GPKG_ER_COLUMN_RELATION_NAME withValue:relationName];
         NSString *where = [self.extendedRelationsDao buildWhereWithFields:whereValues];
         NSArray *whereArgs = [self.extendedRelationsDao buildWhereArgsWithValues:whereValues];
-        GPKGResultSet *extendedRelations = [self.extendedRelationsDao queryWhere:where andWhereArgs:whereArgs];
+        NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [[NSMutableArray alloc] init];
+        GPKGResultSet *extendedRelationsResultSet = [self.extendedRelationsDao queryWhere:where andWhereArgs:whereArgs];
         @try {
-            while([extendedRelations moveToNext]){
-                GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self.extendedRelationsDao getObject:extendedRelations];
-                [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
+            while([extendedRelationsResultSet moveToNext]){
+                GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self.extendedRelationsDao getObject:extendedRelationsResultSet];
+                [extendedRelations addObject:extendedRelation];
             }
         } @finally {
-            [extendedRelations close];
+            [extendedRelationsResultSet close];
+        }
+        for(GPKGExtendedRelation *extendedRelation in extendedRelations){
+            [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
         }
         [self.extendedRelationsDao deleteWhere:where andWhereArgs:whereArgs];
     }
