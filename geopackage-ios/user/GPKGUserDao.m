@@ -36,6 +36,20 @@
     return [[GPKGUserRow alloc] init];
 }
 
+-(NSObject *) queryForIdObject: (NSObject *) idValue{
+    
+    NSObject * objectResult = nil;
+    GPKGResultSet *results = [self queryForId:idValue];
+    @try{
+        if([results moveToNext]){
+            objectResult = [self getRow:results];
+        }
+    }@finally{
+        [results close];
+    }
+    return objectResult;
+}
+
 -(void) setValueInObject: (NSObject*) object withColumnIndex: (int) columnIndex withValue: (NSObject *) value{
     
     GPKGUserRow *setObject = (GPKGUserRow*) object;

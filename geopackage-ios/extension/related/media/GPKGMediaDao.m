@@ -42,9 +42,9 @@
 -(NSArray<GPKGMediaRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
     NSMutableArray<GPKGMediaRow *> *mediaRows = [[NSMutableArray alloc] init];
     for(NSNumber *id in ids){
-        GPKGUserCustomRow *userCustomRow = (GPKGUserCustomRow *)[self queryForIdObject:id];
-        if(userCustomRow != nil){
-            [mediaRows addObject:[self rowFromUserCustomRow:userCustomRow]];
+        GPKGMediaRow *row = (GPKGMediaRow *)[self queryForIdObject:id];
+        if(row != nil){
+            [mediaRows addObject:row];
         }
     }
     return mediaRows;

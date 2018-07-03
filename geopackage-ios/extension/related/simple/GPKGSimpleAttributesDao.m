@@ -42,9 +42,9 @@
 -(NSArray<GPKGSimpleAttributesRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
     NSMutableArray<GPKGSimpleAttributesRow *> *simpleAttributesRows = [[NSMutableArray alloc] init];
     for(NSNumber *id in ids){
-        GPKGUserCustomRow *userCustomRow = (GPKGUserCustomRow *)[self queryForIdObject:id];
-        if(userCustomRow != nil){
-            [simpleAttributesRows addObject:[self rowFromUserCustomRow:userCustomRow]];
+        GPKGSimpleAttributesRow *row = (GPKGSimpleAttributesRow *)[self queryForIdObject:id];
+        if(row != nil){
+            [simpleAttributesRows addObject:row];
         }
     }
     return simpleAttributesRows;
