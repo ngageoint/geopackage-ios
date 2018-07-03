@@ -304,8 +304,8 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         [contents setDataType:[relatedTable relationName]];
         [contents setIdentifier:relatedTableName];
         GPKGContentsDao *contentsDao = [self.geoPackage getContentsDao];
-        long long contentsId = [contentsDao create:contents];
-        contents = (GPKGContents *)[contentsDao queryForIdObject:[NSNumber numberWithLongLong:contentsId]];
+        [contentsDao create:contents];
+        contents = (GPKGContents *)[contentsDao queryForIdObject:relatedTableName];
         
         [relatedTable setContents:contents];
         

@@ -46,11 +46,11 @@
     return columns;
 }
 
-+(NSArray<GPKGUserCustomColumn *> *) creatSimpleUserColumnsAtIndex: (int) startingIndex{
-    return [self creatSimpleUserColumnsAtIndex:startingIndex andNotNil:YES];
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex{
+    return [self createSimpleUserColumnsAtIndex:startingIndex andNotNil:YES];
 }
 
-+(NSArray<GPKGUserCustomColumn *> *) creatSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull{
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull{
     
     NSMutableArray<GPKGUserCustomColumn *> *simpleUserColumns = [[NSMutableArray alloc] init];
     int columnIndex = startingIndex;

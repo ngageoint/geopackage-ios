@@ -131,26 +131,28 @@
     GPKGContents *validateObject = (GPKGContents*) object;
     enum GPKGContentsDataType dataType = [validateObject getContentsDataType];
     
-    switch (dataType) {
-        case GPKG_CDT_FEATURES:{
-                // Features require Geometry Columns table (Spec Requirement 21)
-                GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
-                if(![geometryColumnsDao tableExists]){
-                    [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_GC_TABLE_NAME];
+    if((int)dataType >= 0){
+        switch (dataType) {
+            case GPKG_CDT_FEATURES:{
+                    // Features require Geometry Columns table (Spec Requirement 21)
+                    GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
+                    if(![geometryColumnsDao tableExists]){
+                        [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_GC_TABLE_NAME];
+                    }
                 }
-            }
-            break;
-        case GPKG_CDT_TILES:
-                [self verifyTiles:dataType];
-            break;
-        case GPKG_CDT_GRIDDED_COVERAGE:
-                [self verifyTiles:dataType];
-            break;
-        case GPKG_CDT_ATTRIBUTES:
-            break;
-        default:
-            [NSException raise:@"Illegal Data Type" format:@"Unsupported data type: %d", dataType];
-            break;
+                break;
+            case GPKG_CDT_TILES:
+                    [self verifyTiles:dataType];
+                break;
+            case GPKG_CDT_GRIDDED_COVERAGE:
+                    [self verifyTiles:dataType];
+                break;
+            case GPKG_CDT_ATTRIBUTES:
+                break;
+            default:
+                [NSException raise:@"Illegal Data Type" format:@"Unsupported data type: %d", dataType];
+                break;
+        }
     }
     
     // Verify the feature or tile table exists

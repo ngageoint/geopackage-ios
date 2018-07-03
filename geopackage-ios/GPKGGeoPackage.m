@@ -118,7 +118,7 @@
 }
 
 -(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type{
-    return [type isEqualToString:[self typeOfTable:type]];
+    return [type isEqualToString:[self typeOfTable:table]];
 }
 
 -(BOOL) isFeatureOrTileTable: (NSString *) table{

@@ -25,6 +25,7 @@
         }else{
             self.idColumns = @[];
         }
+        self.autoIncrementId = YES;
         self.columns = table.columnNames;
         [self initializeColumnIndex];
     }

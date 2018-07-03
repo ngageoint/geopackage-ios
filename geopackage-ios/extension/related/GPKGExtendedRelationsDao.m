@@ -15,6 +15,7 @@
     if(self != nil){
         self.tableName = GPKG_ER_TABLE_NAME;
         self.idColumns = @[GPKG_ER_COLUMN_PK];
+        self.autoIncrementId = YES;
         self.columns = @[GPKG_ER_COLUMN_ID, GPKG_ER_COLUMN_BASE_TABLE_NAME, GPKG_ER_COLUMN_BASE_PRIMARY_COLUMN, GPKG_ER_COLUMN_RELATED_TABLE_NAME, GPKG_ER_COLUMN_RELATED_PRIMARY_COLUMN, GPKG_ER_COLUMN_RELATION_NAME, GPKG_ER_COLUMN_MAPPING_TABLE_NAME];
         [self initializeColumnIndex];
     }

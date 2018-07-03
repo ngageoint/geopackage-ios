@@ -17,6 +17,7 @@
     if(self != nil){
         self.tableName = GPKG_CDGT_TABLE_NAME;
         self.idColumns = @[GPKG_CDGT_COLUMN_PK];
+        self.autoIncrementId = YES;
         self.columns = @[GPKG_CDGT_COLUMN_ID, GPKG_CDGT_COLUMN_TABLE_NAME, GPKG_CDGT_COLUMN_TABLE_ID, GPKG_CDGT_COLUMN_SCALE, GPKG_CDGT_COLUMN_OFFSET, GPKG_CDGT_COLUMN_MIN, GPKG_CDGT_COLUMN_MAX, GPKG_CDGT_COLUMN_MEAN, GPKG_CDGT_COLUMN_STANDARD_DEVIATION];
         [self initializeColumnIndex];
     }

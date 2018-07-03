@@ -86,8 +86,8 @@
     GPKGUserMappingRow *userMappingRow = nil;
     for(int i = 0; i < 10; i++){
         userMappingRow = [dao newRow];
-        [userMappingRow setBaseId:(int)floor([GPKGTestUtils randomDouble] * baseCount)];
-        [userMappingRow setRelatedId:(int)floor([GPKGTestUtils randomDouble] * relatedCount)];
+        [userMappingRow setBaseId:(int)([GPKGTestUtils randomDouble] * baseCount)];
+        [userMappingRow setRelatedId:(int)([GPKGTestUtils randomDouble] * relatedCount)];
         [GPKGRelatedTablesUtils populateUserRowWithTable:userMappingTable andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
         [GPKGTestUtils assertTrue:[dao create:userMappingRow] > 0];
     }

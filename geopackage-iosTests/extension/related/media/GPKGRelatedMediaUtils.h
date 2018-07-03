@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGGeoPackage.h"
 
 @interface GPKGRelatedMediaUtils : NSObject
+
+/**
+ * Test related media tables
+ *
+ * @param geoPackage
+ */
++(void) testMedia: (GPKGGeoPackage *) geoPackage;
 
 @end

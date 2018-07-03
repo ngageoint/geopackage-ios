@@ -15,6 +15,10 @@
     return self;
 }
 
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
 -(GPKGSimpleAttributesTable *) table{
     return (GPKGSimpleAttributesTable *)[super table];
 }

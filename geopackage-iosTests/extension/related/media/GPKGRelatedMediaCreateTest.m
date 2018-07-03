@@ -7,7 +7,15 @@
 //
 
 #import "GPKGRelatedMediaCreateTest.h"
+#import "GPKGRelatedMediaUtils.h"
 
 @implementation GPKGRelatedMediaCreateTest
+
+/**
+ * Test related media tables
+ */
+- (void)testMedia {
+    [GPKGRelatedMediaUtils testMedia:self.geoPackage];
+}
 
 @end

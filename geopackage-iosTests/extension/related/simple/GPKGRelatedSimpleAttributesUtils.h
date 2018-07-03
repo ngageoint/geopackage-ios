@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGGeoPackage.h"
 
 @interface GPKGRelatedSimpleAttributesUtils : NSObject
+
+/**
+ * Test related simple attributes tables
+ *
+ * @param geoPackage
+ */
++(void) testSimpleAttributes: (GPKGGeoPackage *) geoPackage;
 
 @end

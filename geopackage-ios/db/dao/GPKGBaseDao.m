@@ -18,6 +18,7 @@
         self.database = database;
         self.databaseName = database.name;
         self.idColumns = [[NSArray alloc] init];
+        self.autoIncrementId = NO;
     }
     return self;
 }
@@ -336,9 +337,11 @@
     
     GPKGContentValues *values = [[GPKGContentValues alloc]init];
     for(NSString * column in self.columns){
-        NSObject * value = [self getValueFromObject:object withColumnName:column];
-        if(value != nil){
-            [values putKey:column withValue:value];
+        if(!self.autoIncrementId || ![self.idColumns containsObject:column]){
+            NSObject * value = [self getValueFromObject:object withColumnName:column];
+            if(value != nil){
+                [values putKey:column withValue:value];
+            }
         }
     }
     if([values size] == 0){

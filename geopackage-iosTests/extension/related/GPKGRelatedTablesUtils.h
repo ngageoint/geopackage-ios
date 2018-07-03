@@ -41,7 +41,7 @@
  *            starting index
  * @return simple user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) creatSimpleUserColumnsAtIndex: (int) startingIndex;
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex;
 
 /**
  * Create simple user table columns
@@ -52,7 +52,7 @@
  *            columns not nil value
  * @return simple user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) creatSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull;
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull;
 
 /**
  * Populate the user row additional column values

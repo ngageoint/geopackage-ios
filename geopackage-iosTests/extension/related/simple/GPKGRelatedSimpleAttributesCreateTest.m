@@ -7,7 +7,15 @@
 //
 
 #import "GPKGRelatedSimpleAttributesCreateTest.h"
+#import "GPKGRelatedSimpleAttributesUtils.h"
 
 @implementation GPKGRelatedSimpleAttributesCreateTest
+
+/**
+ * Test related simple attributes tables
+ */
+- (void)testSimpleAttributes {
+    [GPKGRelatedSimpleAttributesUtils testSimpleAttributes:self.geoPackage];
+}
 
 @end

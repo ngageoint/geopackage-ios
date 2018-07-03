@@ -12,7 +12,12 @@
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
     self = [super initWithDao:dao andTable:[[GPKGUserMappingTable alloc] initWithTable:[dao table]]];
+    self.autoIncrementId = NO;
     return self;
+}
+
+-(NSObject *) createObject{
+    return [self newRow];
 }
 
 -(GPKGUserMappingTable *) table{

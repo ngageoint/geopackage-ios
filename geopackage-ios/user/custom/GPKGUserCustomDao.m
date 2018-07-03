@@ -24,6 +24,10 @@
     return [self initWithDatabase:dao.database andTable:table];
 }
 
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
 -(GPKGUserCustomTable *) table{
     return (GPKGUserCustomTable *) super.table;
 }

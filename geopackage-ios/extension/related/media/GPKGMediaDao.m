@@ -15,6 +15,10 @@
     return self;
 }
 
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
 -(GPKGMediaTable *) table{
     return (GPKGMediaTable *)[super table];
 }

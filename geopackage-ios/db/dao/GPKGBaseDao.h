@@ -33,6 +33,11 @@
 @property (nonatomic, strong) NSArray *idColumns;
 
 /**
+ *  auto increment id flag
+ */
+@property (nonatomic) BOOL autoIncrementId;
+
+/**
  *  Columns
  */
 @property (nonatomic, strong) NSArray *columns;
