@@ -125,267 +125,231 @@
     [GPKGTestUtils assertEqualIntWithValue:simpleRowId + 1 andValue2:copySimpleRowId];
     [GPKGTestUtils assertEqualIntWithValue:simpleCount andValue2:(int)simpleDao.count];
     
-    /*
     // Build the Attributes ids
-    AttributesDao attributesDao = geoPackage
-    .getAttributesDao(baseTableName);
-    AttributesResultSet attributesResultSet = attributesDao.queryForAll();
-    int attributesCount = attributesResultSet.getCount();
-    List<Long> attributeIds = new ArrayList<>();
-    while (attributesResultSet.moveToNext()) {
-        attributeIds.add(attributesResultSet.getRow().getId());
+    GPKGAttributesDao *attributesDao = [geoPackage getAttributesDaoWithTableName:baseTableName];
+    GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
+    int attributesCount = attributesResultSet.count;
+    NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
+    while([attributesResultSet moveToNext]){
+        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] getId]];
     }
-    attributesResultSet.close();
+    [attributesResultSet close];
     
     // Build the Simple Attribute ids
-    UserCustomResultSet simpleResultSet = simpleDao.queryForAll();
-    simpleCount = simpleResultSet.getCount();
-    List<Long> simpleIds = new ArrayList<>();
-    while (simpleResultSet.moveToNext()) {
-        simpleIds.add(simpleResultSet.getRow().getId());
+    GPKGResultSet *simpleResultSet = [simpleDao queryForAll];
+    simpleCount = simpleResultSet.count;
+    NSMutableArray<NSNumber *> *simpleIds = [[NSMutableArray alloc] init];
+    while([simpleResultSet moveToNext]){
+        [simpleIds addObject:[NSNumber numberWithInt:[[simpleDao row:simpleResultSet] id]]];
     }
-    simpleResultSet.close();
+    [simpleResultSet close];
     
     // Insert user mapping rows between attribute ids and simple attribute
     // ids
-    UserMappingDao dao = rte.getMappingDao(mappingTableName);
-    UserMappingRow userMappingRow = null;
+    GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
+    GPKGUserMappingRow *userMappingRow = nil;
     for (int i = 0; i < 10; i++) {
-        userMappingRow = dao.newRow();
-        userMappingRow
-        .setBaseId(attributeIds.get((int) (Math.random() * attributesCount)));
-        userMappingRow
-        .setRelatedId(simpleIds.get((int) (Math.random() * simpleCount)));
-        RelatedTablesUtils.populateUserRow(userMappingTable,
-                                           userMappingRow, UserMappingTable.requiredColumns());
-        TestCase.assertTrue(dao.create(userMappingRow) > 0);
+        userMappingRow = [dao newRow];
+        [userMappingRow setBaseId:[[attributeIds objectAtIndex:(int)([GPKGTestUtils randomDouble] * attributesCount)] intValue]];
+        [userMappingRow setRelatedId:[[simpleIds objectAtIndex:(int)([GPKGTestUtils randomDouble] * simpleCount)] intValue]];
+        [GPKGRelatedTablesUtils populateUserRowWithTable:userMappingTable andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
+        [GPKGTestUtils assertTrue:[dao create:userMappingRow] > 0];
     }
-    TestCase.assertEquals(10, dao.count());
+    [GPKGTestUtils assertEqualIntWithValue:10 andValue2:[dao count]];
     
     // Validate the user mapping rows
-    userMappingTable = dao.getTable();
-    String[] mappingColumns = userMappingTable.getColumnNames();
-    UserCustomResultSet resultSet = dao.queryForAll();
-    int count = resultSet.getCount();
-    TestCase.assertEquals(10, count);
+    userMappingTable = [dao table];
+    NSArray<NSString *> *mappingColumns = userMappingTable.columnNames;
+    GPKGResultSet *resultSet = [dao queryForAll];
+    int count = resultSet.count;
+    [GPKGTestUtils assertEqualIntWithValue:10 andValue2:count];
     int manualCount = 0;
-    while (resultSet.moveToNext()) {
+    while([resultSet moveToNext]){
         
-        UserMappingRow resultRow = dao.getRow(resultSet);
-        TestCase.assertFalse(resultRow.hasId());
-        TestCase.assertTrue(attributeIds.contains(resultRow.getBaseId()));
-        TestCase.assertTrue(simpleIds.contains(resultRow.getRelatedId()));
-        RelatedTablesUtils.validateUserRow(mappingColumns, resultRow);
-        RelatedTablesUtils.validateDublinCoreColumns(resultRow);
+        GPKGUserMappingRow *resultRow = [dao row:resultSet];
+        [GPKGTestUtils assertFalse:[resultRow hasId]];
+        [GPKGTestUtils assertTrue:[attributeIds containsObject:[NSNumber numberWithInt:[resultRow baseId]]]];
+        [GPKGTestUtils assertTrue:[simpleIds containsObject:[NSNumber numberWithInt:[resultRow relatedId]]]];
+        [GPKGRelatedTablesUtils validateUserRow:resultRow withColumns:mappingColumns];
+        [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:resultRow];
         
         manualCount++;
     }
-    TestCase.assertEquals(count, manualCount);
-    resultSet.close();
+    [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
+    [resultSet close];
     
-    ExtendedRelationsDao extendedRelationsDao = rte
-    .getExtendedRelationsDao();
+    GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
     
     // Get the relations starting from the attributes table
-    List<ExtendedRelation> attributesExtendedRelations = extendedRelationsDao
-    .getBaseTableRelations(attributesDao.getTableName());
-    List<ExtendedRelation> attributesExtendedRelations2 = extendedRelationsDao
-    .getTableRelations(attributesDao.getTableName());
-    TestCase.assertEquals(1, attributesExtendedRelations.size());
-    TestCase.assertEquals(1, attributesExtendedRelations2.size());
-    TestCase.assertEquals(attributesExtendedRelations.get(0).getId(),
-                          attributesExtendedRelations2.get(0).getId());
-    TestCase.assertTrue(extendedRelationsDao.getRelatedTableRelations(
-                                                                      attributesDao.getTableName()).isEmpty());
+    GPKGResultSet *attributesExtendedRelations = [extendedRelationsDao relationsToBaseTable:attributesDao.tableName];
+    GPKGResultSet *attributesExtendedRelations2 = [extendedRelationsDao relationsToTable:attributesDao.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:attributesExtendedRelations.count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:attributesExtendedRelations2.count];
+    GPKGExtendedRelation *extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToBaseTable:attributesDao.tableName]];
+    GPKGExtendedRelation *extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:attributesExtendedRelations2];
+    [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
+    [attributesExtendedRelations2 close];
+    GPKGResultSet *attributesExtendedRelations3 = [extendedRelationsDao relationsToRelatedTable:attributesDao.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:attributesExtendedRelations3.count];
+    [attributesExtendedRelations3 close];
     
     // Test the attributes table relations
-    for (ExtendedRelation attributesRelation : attributesExtendedRelations) {
+    while([attributesExtendedRelations moveToNext]){
+        GPKGExtendedRelation *attributesRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:attributesExtendedRelations];
         
         // Test the relation
-        TestCase.assertTrue(attributesRelation.getId() >= 0);
-        TestCase.assertEquals(attributesDao.getTableName(),
-                              attributesRelation.getBaseTableName());
-        TestCase.assertEquals(attributesDao.getTable().getPkColumn()
-                              .getName(), attributesRelation.getBasePrimaryColumn());
-        TestCase.assertEquals(simpleDao.getTableName(),
-                              attributesRelation.getRelatedTableName());
-        TestCase.assertEquals(simpleDao.getTable().getPkColumn().getName(),
-                              attributesRelation.getRelatedPrimaryColumn());
-        TestCase.assertEquals(
-                              SimpleAttributesTable.RELATION_TYPE.getName(),
-                              attributesRelation.getRelationName());
-        TestCase.assertEquals(mappingTableName,
-                              attributesRelation.getMappingTableName());
+        [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
+        [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:attributesRelation.baseTableName];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:attributesRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:attributesRelation.relatedTableName];
+        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] getPkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:attributesRelation.relationName];
+        [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:attributesRelation.mappingTableName];
         
         // Test the user mappings from the relation
-        UserMappingDao userMappingDao = rte
-        .getMappingDao(attributesRelation);
-        int totalMappedCount = userMappingDao.count();
-        UserCustomResultSet mappingResultSet = userMappingDao.queryForAll();
-        while (mappingResultSet.moveToNext()) {
-            userMappingRow = userMappingDao.getRow(mappingResultSet);
-            TestCase.assertTrue(attributeIds.contains(userMappingRow
-                                                      .getBaseId()));
-            TestCase.assertTrue(simpleIds.contains(userMappingRow
-                                                   .getRelatedId()));
-            RelatedTablesUtils.validateUserRow(mappingColumns,
-                                               userMappingRow);
-            RelatedTablesUtils.validateDublinCoreColumns(userMappingRow);
+        GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:attributesRelation];
+        int totalMappedCount = userMappingDao.count;
+        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
+        while([mappingResultSet moveToNext]){
+            userMappingRow = [userMappingDao row:mappingResultSet];
+            [GPKGTestUtils assertTrue:[attributeIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
+            [GPKGTestUtils assertTrue:[simpleIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
+            [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
+            [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:userMappingRow];
         }
-        mappingResultSet.close();
+        [mappingResultSet close];
         
         // Get and test the simple attributes DAO
-        simpleDao = rte.getSimpleAttributesDao(attributesRelation);
-        TestCase.assertNotNull(simpleDao);
-        simpleTable = simpleDao.getTable();
-        TestCase.assertNotNull(simpleTable);
-        validateContents(simpleTable, simpleTable.getContents());
+        simpleDao = [rte simpleAttributesDaoForRelation:attributesRelation];
+        [GPKGTestUtils assertNotNil:simpleDao];
+        simpleTable = [simpleDao table];
+        [GPKGTestUtils assertNotNil:simpleTable];
+        [self validateContents:simpleTable.contents withTable:simpleTable];
         
         // Get and test the Simple Attributes Rows mapped to each
         // Attributes Row
-        attributesResultSet = attributesDao.queryForAll();
+        attributesResultSet = [attributesDao queryForAll];
         int totalMapped = 0;
-        while (attributesResultSet.moveToNext()) {
-            AttributesRow attributesRow = attributesResultSet.getRow();
-            List<Long> mappedIds = rte.getMappingsForBase(
-                                                          attributesRelation, attributesRow.getId());
-            List<SimpleAttributesRow> simpleRows = simpleDao
-            .getRows(mappedIds);
-            TestCase.assertEquals(mappedIds.size(), simpleRows.size());
+        while([attributesResultSet moveToNext]){
+            GPKGAttributesRow *attributesRow = [attributesDao getAttributesRow:attributesResultSet];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:attributesRelation withBaseId:[[attributesRow getId] intValue]];
+            NSArray<GPKGSimpleAttributesRow *> *simpleRows = [simpleDao rowsWithIds:mappedIds];
+            [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)simpleRows.count];
             
-            for (SimpleAttributesRow simpleRow : simpleRows) {
-                TestCase.assertTrue(simpleRow.hasId());
-                TestCase.assertTrue(simpleRow.getId() >= 0);
-                TestCase.assertTrue(simpleIds.contains(simpleRow.getId()));
-                TestCase.assertTrue(mappedIds.contains(simpleRow.getId()));
-                RelatedTablesUtils
-                .validateUserRow(simpleColumns, simpleRow);
-                RelatedTablesUtils
-                .validateSimpleDublinCoreColumns(simpleRow);
+            for(GPKGSimpleAttributesRow *simpleRow in simpleRows){
+                [GPKGTestUtils assertTrue:[simpleRow hasId]];
+                [GPKGTestUtils assertTrue:[[simpleRow getId] intValue] >= 0];
+                [GPKGTestUtils assertTrue:[simpleIds containsObject:[NSNumber numberWithInt:simpleRow.id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[NSNumber numberWithInt:simpleRow.id]]];
+                [GPKGRelatedTablesUtils validateUserRow:simpleRow withColumns:simpleColumns];
+                [GPKGRelatedTablesUtils validateSimpleDublinCoreColumnsWithRow:simpleRow];
             }
             
-            totalMapped += mappedIds.size();
+            totalMapped += mappedIds.count;
         }
-        attributesResultSet.close();
-        TestCase.assertEquals(totalMappedCount, totalMapped);
+        [attributesResultSet close];
+        [GPKGTestUtils assertEqualIntWithValue:totalMappedCount andValue2:totalMapped];
     }
+    [attributesExtendedRelations close];
     
     // Get the relations starting from the simple attributes table
-    List<ExtendedRelation> simpleExtendedRelations = extendedRelationsDao
-    .getRelatedTableRelations(simpleTable.getTableName());
-    List<ExtendedRelation> simpleExtendedRelations2 = extendedRelationsDao
-    .getTableRelations(simpleTable.getTableName());
-    TestCase.assertEquals(1, simpleExtendedRelations.size());
-    TestCase.assertEquals(1, simpleExtendedRelations2.size());
-    TestCase.assertEquals(simpleExtendedRelations.get(0).getId(),
-                          simpleExtendedRelations2.get(0).getId());
-    TestCase.assertTrue(extendedRelationsDao.getBaseTableRelations(
-                                                                   simpleTable.getTableName()).isEmpty());
+    GPKGResultSet *simpleExtendedRelations = [extendedRelationsDao relationsToRelatedTable:simpleTable.tableName];
+    GPKGResultSet *simpleExtendedRelations2 = [extendedRelationsDao relationsToTable:simpleTable.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:simpleExtendedRelations.count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:simpleExtendedRelations2.count];
+    extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToRelatedTable:simpleTable.tableName]];
+    extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:simpleExtendedRelations2];
+    [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
+    [simpleExtendedRelations2 close];
+    GPKGResultSet *simpleExtendedRelations3 = [extendedRelationsDao relationsToBaseTable:simpleTable.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:simpleExtendedRelations3.count];
+    [simpleExtendedRelations3 close];
     
     // Test the simple attributes table relations
-    for (ExtendedRelation simpleRelation : simpleExtendedRelations) {
+    while([simpleExtendedRelations moveToNext]){
+        GPKGExtendedRelation *simpleRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:simpleExtendedRelations];
         
         // Test the relation
-        TestCase.assertTrue(simpleRelation.getId() >= 0);
-        TestCase.assertEquals(attributesDao.getTableName(),
-                              simpleRelation.getBaseTableName());
-        TestCase.assertEquals(attributesDao.getTable().getPkColumn()
-                              .getName(), simpleRelation.getBasePrimaryColumn());
-        TestCase.assertEquals(simpleDao.getTableName(),
-                              simpleRelation.getRelatedTableName());
-        TestCase.assertEquals(simpleDao.getTable().getPkColumn().getName(),
-                              simpleRelation.getRelatedPrimaryColumn());
-        TestCase.assertEquals(
-                              SimpleAttributesTable.RELATION_TYPE.getName(),
-                              simpleRelation.getRelationName());
-        TestCase.assertEquals(mappingTableName,
-                              simpleRelation.getMappingTableName());
+        [GPKGTestUtils assertTrue:[simpleRelation.id intValue] >= 0];
+        [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:simpleRelation.baseTableName];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:simpleRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:simpleRelation.relatedTableName];
+        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] getPkColumn].name andValue2:simpleRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:simpleRelation.relationName];
+        [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:simpleRelation.mappingTableName];
         
         // Test the user mappings from the relation
-        UserMappingDao userMappingDao = rte.getMappingDao(simpleRelation);
-        int totalMappedCount = userMappingDao.count();
-        UserCustomResultSet mappingResultSet = userMappingDao.queryForAll();
-        while (mappingResultSet.moveToNext()) {
-            userMappingRow = userMappingDao.getRow(mappingResultSet);
-            TestCase.assertTrue(attributeIds.contains(userMappingRow
-                                                      .getBaseId()));
-            TestCase.assertTrue(simpleIds.contains(userMappingRow
-                                                   .getRelatedId()));
-            RelatedTablesUtils.validateUserRow(mappingColumns,
-                                               userMappingRow);
-            RelatedTablesUtils.validateDublinCoreColumns(userMappingRow);
+        GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:simpleRelation];
+        int totalMappedCount = userMappingDao.count;
+        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
+        while([mappingResultSet moveToNext]){
+            userMappingRow = [userMappingDao row:mappingResultSet];
+            [GPKGTestUtils assertTrue:[attributeIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
+            [GPKGTestUtils assertTrue:[simpleIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
+            [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
+            [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:userMappingRow];
         }
-        mappingResultSet.close();
+        [mappingResultSet close];
         
         // Get and test the attributes DAO
-        attributesDao = geoPackage.getAttributesDao(attributesDao
-                                                    .getTableName());
-        TestCase.assertNotNull(attributesDao);
-        AttributesTable attributesTable = attributesDao.getTable();
-        TestCase.assertNotNull(attributesTable);
-        Contents attributesContents = attributesTable.getContents();
-        TestCase.assertNotNull(attributesContents);
-        TestCase.assertEquals(ContentsDataType.ATTRIBUTES,
-                              attributesContents.getDataType());
-        TestCase.assertEquals(ContentsDataType.ATTRIBUTES.getName(),
-                              attributesContents.getDataTypeString());
-        TestCase.assertEquals(attributesTable.getTableName(),
-                              attributesContents.getTableName());
-        TestCase.assertNotNull(attributesContents.getLastChange());
+        attributesDao = [geoPackage getAttributesDaoWithTableName:attributesDao.tableName];
+        [GPKGTestUtils assertNotNil: attributesDao];
+        GPKGAttributesTable *attributesTable = [attributesDao getAttributesTable];
+        [GPKGTestUtils assertNotNil: attributesTable];
+        GPKGContents *attributesContents = attributesTable.contents;
+        [GPKGTestUtils assertNotNil: attributesContents];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents getContentsDataType]];
+        [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES] andValue2:attributesContents.dataType];
+        [GPKGTestUtils assertEqualWithValue:attributesTable.tableName andValue2:attributesContents.tableName];
+        [GPKGTestUtils assertNotNil:attributesContents.lastChange];
         
         // Get and test the Attributes Rows mapped to each Simple Attributes
         // Row
-        simpleResultSet = simpleDao.queryForAll();
+        simpleResultSet = [simpleDao queryForAll];
         int totalMapped = 0;
-        while (simpleResultSet.moveToNext()) {
-            SimpleAttributesRow simpleRow = simpleDao
-            .getRow(simpleResultSet);
-            List<Long> mappedIds = rte.getMappingsForRelated(
-                                                             simpleRelation, simpleRow.getId());
-            for (long mappedId : mappedIds) {
-                AttributesRow attributesRow = attributesDao
-                .queryForIdRow(mappedId);
-                TestCase.assertNotNull(attributesRow);
+        while([simpleResultSet moveToNext]){
+            GPKGSimpleAttributesRow *simpleRow = [simpleDao row:simpleResultSet];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:simpleRelation withRelatedId:[[simpleRow getId] intValue]];
+            for(NSNumber *mappedId in mappedIds){
+                GPKGAttributesRow *attributesRow = (GPKGAttributesRow *)[attributesDao queryForIdObject:mappedId];
+                [GPKGTestUtils assertNotNil:attributesRow];
                 
-                TestCase.assertTrue(attributesRow.hasId());
-                TestCase.assertTrue(attributesRow.getId() >= 0);
-                TestCase.assertTrue(attributeIds.contains(attributesRow
-                                                          .getId()));
-                TestCase.assertTrue(mappedIds.contains(attributesRow
-                                                       .getId()));
+                [GPKGTestUtils assertTrue:[attributesRow hasId]];
+                [GPKGTestUtils assertTrue:[[attributesRow getId] intValue] >= 0];
+                [GPKGTestUtils assertTrue:[attributeIds containsObject:[attributesRow getId]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[attributesRow getId]]];
             }
             
-            totalMapped += mappedIds.size();
+            totalMapped += mappedIds.count;
         }
-        simpleResultSet.close();
-        TestCase.assertEquals(totalMappedCount, totalMapped);
+        [simpleResultSet close];
+        [GPKGTestUtils assertEqualIntWithValue:totalMappedCount andValue2:totalMapped];
     }
+    [simpleExtendedRelations close];
     
     // Delete a single mapping
-    int countOfIds = dao.countByIds(userMappingRow);
-    TestCase.assertEquals(countOfIds, dao.deleteByIds(userMappingRow));
-    TestCase.assertEquals(10 - countOfIds, dao.count());
+    int countOfIds = [dao countByIdsFromRow:userMappingRow];
+    [GPKGTestUtils assertEqualIntWithValue:countOfIds andValue2:[dao deleteByIdsFromRow:userMappingRow]];
+    [GPKGTestUtils assertEqualIntWithValue:10 - countOfIds andValue2:[dao count]];
     
     // Delete the relationship and user mapping table
-    rte.removeRelationship(extendedRelation);
-    TestCase.assertFalse(rte.has(userMappingTable.getTableName()));
-    extendedRelations = rte.getRelationships();
-    TestCase.assertEquals(0, extendedRelations.size());
-    TestCase.assertFalse(geoPackage.getDatabase().tableExists(
-                                                              mappingTableName));
+    [rte removeRelationship:extendedRelation];
+    [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
+    extendedRelations = [rte relationships];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)extendedRelations.count];
+    [GPKGTestUtils assertFalse:[geoPackage.database tableExists:mappingTableName]];
     
     // Delete the simple attributes table and contents row
-    TestCase.assertTrue(geoPackage.isTable(simpleTable.getTableName()));
-    TestCase.assertNotNull(contentsDao.queryForId(simpleTable
-                                                  .getTableName()));
-    geoPackage.deleteTable(simpleTable.getTableName());
-    TestCase.assertFalse(geoPackage.isTable(simpleTable.getTableName()));
-    TestCase.assertNull(contentsDao.queryForId(simpleTable.getTableName()));
+    [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName]];
+    [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:simpleTable.tableName]];
+    [geoPackage deleteUserTable:simpleTable.tableName];
+    [GPKGTestUtils assertFalse:[geoPackage isTable:simpleTable.tableName]];
+    [GPKGTestUtils assertNil:[contentsDao queryForIdObject:simpleTable.tableName]];
     
     // Delete the related tables extension
-    rte.removeExtension();
-    TestCase.assertFalse(rte.has());
-    */
+    [rte removeExtension];
+    [GPKGTestUtils assertFalse:[rte has]];
+
 }
 
 /**
