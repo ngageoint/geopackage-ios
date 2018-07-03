@@ -144,7 +144,7 @@
     [whereValues addColumn:GPKG_ER_COLUMN_BASE_TABLE_NAME withValue:table];
     [whereValues addColumn:GPKG_ER_COLUMN_RELATED_TABLE_NAME withValue:table];
     
-    NSString * where = [self buildWhereWithFields:whereValues];
+    NSString * where = [self buildWhereWithFields:whereValues andOperation:@"or"];
     NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
     
     return [self queryWhere:where andWhereArgs:whereArgs];
