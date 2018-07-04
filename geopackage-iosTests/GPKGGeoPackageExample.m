@@ -35,6 +35,9 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGCoverageDataPng.h"
 #import "GPKGCoverageDataTiff.h"
+#import "GPKGRelatedTablesExtension.h"
+#import "GPKGRelatedTablesUtils.h"
+#import "GPKGDublinCoreMetadata.h"
 
 @implementation GPKGGeoPackageExample
 
@@ -50,6 +53,9 @@ static BOOL WEBP = YES;
 static BOOL CRS_WKT = YES;
 static BOOL METADATA = YES;
 static BOOL COVERAGE_DATA = YES;
+static BOOL RELATED_TABLES_MEDIA = YES;
+static BOOL RELATED_TABLES_FEATURES = YES;
+static BOOL RELATED_TABLES_SIMPLE_ATTRIBUTES = YES;
 static BOOL GEOMETRY_INDEX = YES;
 static BOOL FEATURE_TILE_LINK = YES;
 
@@ -105,12 +111,24 @@ static NSString *DATETIME_COLUMN = @"datetime";
             [GPKGGeoPackageExample createRTreeSpatialIndexExtensionWithGeoPackage:geoPackage];
         }
         
+        NSLog(@"Related Tables Media Extension: %s", RELATED_TABLES_MEDIA ? "Yes" : "No");
+        if (RELATED_TABLES_MEDIA) {
+            [GPKGGeoPackageExample createRelatedTablesMediaExtensionWithGeoPackage:geoPackage];
+        }
+        
+        NSLog(@"Related Tables Features Extension: %s", RELATED_TABLES_FEATURES ? "Yes" : "No");
+        if (RELATED_TABLES_FEATURES) {
+            [GPKGGeoPackageExample createRelatedTablesFeaturesExtensionWithGeoPackage:geoPackage];
+        }
+        
     } else {
         NSLog(@"Schema Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Geometry Index Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Feature Tile Link Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Non-Linear Geometry Types Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"RTree Spatial Index Extension: %s", FEATURES ? "Yes" : "No");
+        NSLog(@"Related Tables Media Extension: %s", FEATURES ? "Yes" : "No");
+        NSLog(@"Related Tables Features Extension: %s", FEATURES ? "Yes" : "No");
     }
     
     NSLog(@"Tiles: %s", TILES ? "Yes" : "No");
@@ -130,6 +148,14 @@ static NSString *DATETIME_COLUMN = @"datetime";
     NSLog(@"Attributes: %s", ATTRIBUTES ? "Yes" : "No");
     if (ATTRIBUTES) {
         [GPKGGeoPackageExample createAttributesWithGeoPackage:geoPackage];
+        
+        NSLog(@"Related Tables Simple Attributes Extension: %s", RELATED_TABLES_SIMPLE_ATTRIBUTES ? "Yes" : "No");
+        if (RELATED_TABLES_SIMPLE_ATTRIBUTES) {
+            [GPKGGeoPackageExample createRelatedTablesSimpleAttributesExtensionWithGeoPackage:geoPackage];
+        }
+
+    }else{
+        NSLog(@"Related Tables Simple Attributes Extension: %s", ATTRIBUTES ? "Yes" : "No");
     }
     
     NSLog(@"Metadata: %s", METADATA ? "Yes" : "No");
@@ -1113,6 +1139,82 @@ static int dataColumnConstraintIndex = 0;
         [extension createWithFeatureTable:featureTable];
     }
     
+}
+
++(void) createRelatedTablesMediaExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGMediaTable numRequiredColumns]];
+    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"media" andAdditionalColumns:additionalMediaColumns];
+    
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    
+    NSString *tableName1 = @"geometry1";
+    GPKGUserMappingTable *userMappingTable1 = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName1, mediaTable.tableName] andAdditionalColumns:additionalMappingColumns];
+    GPKGExtendedRelation *relation1 = [relatedTables addMediaRelationshipWithBaseTable:tableName1 andMediaTable:mediaTable andUserMappingTable:userMappingTable1];
+    
+    [self insertRelatedTablesMediaExtensionRowsWithGeoPackage:geoPackage andRelation:relation1 andQuery:@"BIT Systems%" andName:@"BIT Systems" andFile:@"BITSystems_Logo.png" andContentType:@"image/png" andDescription:@"BIT Systems Logo" andSource:@"http://www.bit-sys.com"];
+    
+    NSString *tableName2 = @"geometry2";
+    GPKGUserMappingTable *userMappingTable2 = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName2, mediaTable.tableName] andAdditionalColumns:additionalMappingColumns];
+    GPKGExtendedRelation *relation2 = [relatedTables addMediaRelationshipWithBaseTable:tableName2 andMediaTable:mediaTable andUserMappingTable:userMappingTable2];
+    
+    [self insertRelatedTablesMediaExtensionRowsWithGeoPackage:geoPackage andRelation:relation2 andQuery:@"NGA%" andName:@"NGA" andFile:@"NGA_Logo.png" andContentType:@"image/png" andDescription:@"NGA Logo" andSource:@"http://www.nga.mil"];
+    [self insertRelatedTablesMediaExtensionRowsWithGeoPackage:geoPackage andRelation:relation2 andQuery:@"NGA" andName:@"NGA" andFile:@"NGA.jpg" andContentType:@"image/jpeg" andDescription:@"Aerial View of NGA East" andSource:@"http://www.nga.mil"];
+    
+}
+
++(void) insertRelatedTablesMediaExtensionRowsWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelation: (GPKGExtendedRelation *) relation andQuery: (NSString *) query andName: (NSString *) name andFile: (NSString *) file andContentType: (NSString *) contentType andDescription: (NSString *) description andSource: (NSString *) source{
+    
+    GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:relation.baseTableName];
+    GPKGMediaDao *mediaDao = [relatedTables mediaDaoForRelation:relation];
+    GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
+    
+    GPKGMediaRow *mediaRow = [mediaDao newRow];
+    NSString *mediaPath  = [[[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath] stringByAppendingPathComponent:file];
+    NSData *mediaData = [[NSFileManager defaultManager] contentsAtPath:mediaPath];
+    [mediaRow setData:mediaData];
+    [mediaRow setContentType:contentType];
+    [GPKGRelatedTablesUtils populateUserRowWithTable:[mediaDao table] andRow:mediaRow andSkipColumns:[GPKGMediaTable requiredColumns]];
+    [GPKGDublinCoreMetadata setValue:name asColumn:GPKG_DCM_TITLE inRow:mediaRow];
+    [GPKGDublinCoreMetadata setValue:description asColumn:GPKG_DCM_DESCRIPTION inRow:mediaRow];
+    [GPKGDublinCoreMetadata setValue:source asColumn:GPKG_DCM_SOURCE inRow:mediaRow];
+    int mediaRowId = (int)[mediaDao create:mediaRow];
+    
+    GPKGResultSet *featureResultSet = [featureDao queryForLikeWithField:TEXT_COLUMN andValue:query];
+    while([featureResultSet moveToNext]){
+        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+        GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
+        [userMappingRow setBaseId:[[featureRow getId] intValue]];
+        [userMappingRow setRelatedId:mediaRowId];
+        [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao table] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
+        NSString *featureName = (NSString *)[featureRow getValueWithColumnName:TEXT_COLUMN];
+        [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", featureName, name] asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
+        [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", featureName, description] asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
+        [GPKGDublinCoreMetadata setValue:source asColumn:GPKG_DCM_SOURCE inRow:userMappingRow];
+        [userMappingDao create:userMappingRow];
+    }
+    [featureResultSet close];
+    
+}
+
++(void) createRelatedTablesFeaturesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    // TODO
+}
+
++(void) createRelatedTablesFeaturesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName1: (NSString *) tableName1 andTableName2: (NSString *) tableName2{
+    // TODO
+}
+
++(void) insertRelatedTablesFeaturesExtensionRowsWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelation: (GPKGExtendedRelation *) relation{
+    // TODO
+}
+
++(void) createRelatedTablesSimpleAttributesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    // TODO
 }
 
 @end
