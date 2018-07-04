@@ -14,6 +14,7 @@
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGTestConstants.h"
 #import "GPKGImageConverter.h"
+#import "GPKGGeoPackageGeometryDataUtils.h"
 
 @implementation GPKGRelatedMediaUtils
 
@@ -180,193 +181,164 @@
     
     GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
     
-     /*
-    
-    // Get the relations starting from the feature table
-    List<ExtendedRelation> featureExtendedRelations = extendedRelationsDao
-    .getBaseTableRelations(featureDao.getTableName());
-    List<ExtendedRelation> featureExtendedRelations2 = extendedRelationsDao
-    .getTableRelations(featureDao.getTableName());
-    TestCase.assertEquals(1, featureExtendedRelations.size());
-    TestCase.assertEquals(1, featureExtendedRelations2.size());
-    TestCase.assertEquals(featureExtendedRelations.get(0).getId(),
-                          featureExtendedRelations2.get(0).getId());
-    TestCase.assertTrue(extendedRelationsDao.getRelatedTableRelations(
-                                                                      featureDao.getTableName()).isEmpty());
+    GPKGResultSet *featureExtendedRelations = [extendedRelationsDao relationsToBaseTable:featureDao.tableName];
+    GPKGResultSet *featureExtendedRelations2 = [extendedRelationsDao relationsToTable:featureDao.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:featureExtendedRelations.count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:featureExtendedRelations2.count];
+    GPKGExtendedRelation *extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToBaseTable:featureDao.tableName]];
+    GPKGExtendedRelation *extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:featureExtendedRelations2];
+    [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
+    [featureExtendedRelations2 close];
+    GPKGResultSet *featureExtendedRelations3 = [extendedRelationsDao relationsToRelatedTable:featureDao.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:featureExtendedRelations3.count];
+    [featureExtendedRelations3 close];
     
     // Test the feature table relations
-    for (ExtendedRelation featureRelation : featureExtendedRelations) {
+    while([featureExtendedRelations moveToNext]){
+        GPKGExtendedRelation *featureRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:featureExtendedRelations];
         
         // Test the relation
-        TestCase.assertTrue(featureRelation.getId() >= 0);
-        TestCase.assertEquals(featureDao.getTableName(),
-                              featureRelation.getBaseTableName());
-        TestCase.assertEquals(
-                              featureDao.getTable().getPkColumn().getName(),
-                              featureRelation.getBasePrimaryColumn());
-        TestCase.assertEquals(mediaDao.getTableName(),
-                              featureRelation.getRelatedTableName());
-        TestCase.assertEquals(mediaDao.getTable().getPkColumn().getName(),
-                              featureRelation.getRelatedPrimaryColumn());
-        TestCase.assertEquals(MediaTable.RELATION_TYPE.getName(),
-                              featureRelation.getRelationName());
-        TestCase.assertEquals(mappingTableName,
-                              featureRelation.getMappingTableName());
+        [GPKGTestUtils assertTrue:[featureRelation.id intValue] >= 0];
+        [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featureRelation.baseTableName];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:featureRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:featureRelation.relatedTableName];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] getPkColumn].name andValue2:featureRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:featureRelation.relationName];
+        [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featureRelation.mappingTableName];
         
         // Test the user mappings from the relation
-        UserMappingDao userMappingDao = rte.getMappingDao(featureRelation);
-        int totalMappedCount = userMappingDao.count();
-        UserCustomResultSet mappingResultSet = userMappingDao.queryForAll();
-        while (mappingResultSet.moveToNext()) {
-            userMappingRow = userMappingDao.getRow(mappingResultSet);
-            TestCase.assertTrue(featureIds.contains(userMappingRow
-                                                    .getBaseId()));
-            TestCase.assertTrue(mediaIds.contains(userMappingRow
-                                                  .getRelatedId()));
-            RelatedTablesUtils.validateUserRow(mappingColumns,
-                                               userMappingRow);
-            RelatedTablesUtils.validateDublinCoreColumns(userMappingRow);
+        GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:featureRelation];
+        int totalMappedCount = userMappingDao.count;
+        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
+        while([mappingResultSet moveToNext]){
+            userMappingRow = [userMappingDao row:mappingResultSet];
+            [GPKGTestUtils assertTrue:[featureIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
+            [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
+            [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
+            [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:userMappingRow];
         }
-        mappingResultSet.close();
+        [mappingResultSet close];
         
         // Get and test the media DAO
-        mediaDao = rte.getMediaDao(featureRelation);
-        TestCase.assertNotNull(mediaDao);
-        mediaTable = mediaDao.getTable();
-        TestCase.assertNotNull(mediaTable);
-        validateContents(mediaTable, mediaTable.getContents());
+        mediaDao = [rte mediaDaoForRelation:featureRelation];
+        [GPKGTestUtils assertNotNil:mediaDao];
+        mediaTable = [mediaDao table];
+        [GPKGTestUtils assertNotNil:mediaTable];
+        [self validateContents:mediaTable.contents withTable:mediaTable];
         
         // Get and test the Media Rows mapped to each Feature Row
-        featureResultSet = featureDao.queryForAll();
+        featureResultSet = [featureDao queryForAll];
         int totalMapped = 0;
-        while (featureResultSet.moveToNext()) {
-            FeatureRow featureRow = featureResultSet.getRow();
-            List<Long> mappedIds = rte.getMappingsForBase(featureRelation,
-                                                          featureRow.getId());
-            List<MediaRow> mediaRows = mediaDao.getRows(mappedIds);
-            TestCase.assertEquals(mappedIds.size(), mediaRows.size());
+        while([featureResultSet moveToNext]){
+            GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[[featureRow getId] intValue]];
+            NSArray<GPKGMediaRow *> *mediaRows = [mediaDao rowsWithIds:mappedIds];
+            [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)mediaRows.count];
             
-            for (MediaRow mediaRow : mediaRows) {
-                TestCase.assertTrue(mediaRow.hasId());
-                TestCase.assertTrue(mediaRow.getId() >= 0);
-                TestCase.assertTrue(mediaIds.contains(mediaRow.getId()));
-                TestCase.assertTrue(mappedIds.contains(mediaRow.getId()));
-                GeoPackageGeometryDataUtils.compareByteArrays(mediaData,
-                                                              mediaRow.getData());
-                TestCase.assertEquals(contentType,
-                                      mediaRow.getContentType());
-                RelatedTablesUtils.validateUserRow(mediaColumns, mediaRow);
-                RelatedTablesUtils.validateDublinCoreColumns(mediaRow);
-                validateDublinCoreColumns(mediaRow);
-                BufferedImage image = ImageUtils.getImage(mediaRow
-                                                          .getData());
-                TestCase.assertNotNull(image);
-                TestCase.assertEquals(imageWidth, image.getWidth());
-                TestCase.assertEquals(imageHeight, image.getHeight());
+            for(GPKGMediaRow *mediaRow in mediaRows){
+                [GPKGTestUtils assertTrue:[mediaRow hasId]];
+                [GPKGTestUtils assertTrue:[[mediaRow getId] intValue] >= 0];
+                [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:mediaRow.id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[NSNumber numberWithInt:mediaRow.id]]];
+                [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:mediaData andActual:[mediaRow data]];
+                [GPKGTestUtils assertEqualWithValue:contentType andValue2:[mediaRow contentType]];
+                [GPKGRelatedTablesUtils validateUserRow:mediaRow withColumns:mediaColumns];
+                [GPKGRelatedTablesUtils validateSimpleDublinCoreColumnsWithRow:mediaRow];
+                [self validateDublinCoreColumnsInRow:mediaRow];
+                UIImage *image = [GPKGImageConverter toImage:[mediaRow data]];
+                [GPKGTestUtils assertNotNil:image];
+                [GPKGTestUtils assertEqualIntWithValue:imageWidth andValue2:image.size.width];
+                [GPKGTestUtils assertEqualIntWithValue:imageHeight andValue2:image.size.height];
             }
             
-            totalMapped += mappedIds.size();
+            totalMapped += mappedIds.count;
         }
-        featureResultSet.close();
-        TestCase.assertEquals(totalMappedCount, totalMapped);
+        [featureResultSet close];
+        [GPKGTestUtils assertEqualIntWithValue:totalMappedCount andValue2:totalMapped];
     }
+    [featureExtendedRelations close];
     
     // Get the relations starting from the media table
-    List<ExtendedRelation> mediaExtendedRelations = extendedRelationsDao
-    .getRelatedTableRelations(mediaTable.getTableName());
-    List<ExtendedRelation> mediaExtendedRelations2 = extendedRelationsDao
-    .getTableRelations(mediaTable.getTableName());
-    TestCase.assertEquals(1, mediaExtendedRelations.size());
-    TestCase.assertEquals(1, mediaExtendedRelations2.size());
-    TestCase.assertEquals(mediaExtendedRelations.get(0).getId(),
-                          mediaExtendedRelations2.get(0).getId());
-    TestCase.assertTrue(extendedRelationsDao.getBaseTableRelations(
-                                                                   mediaTable.getTableName()).isEmpty());
+    GPKGResultSet *mediaExtendedRelations = [extendedRelationsDao relationsToRelatedTable:mediaTable.tableName];
+    GPKGResultSet *mediaExtendedRelations2 = [extendedRelationsDao relationsToTable:mediaTable.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:mediaExtendedRelations.count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:mediaExtendedRelations2.count];
+    extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToRelatedTable:mediaTable.tableName]];
+    extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:mediaExtendedRelations2];
+    [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
+    [mediaExtendedRelations2 close];
+    GPKGResultSet *mediaExtendedRelations3 = [extendedRelationsDao relationsToBaseTable:mediaTable.tableName];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:mediaExtendedRelations3.count];
+    [mediaExtendedRelations3 close];
     
     // Test the media table relations
-    for (ExtendedRelation mediaRelation : mediaExtendedRelations) {
+    while([mediaExtendedRelations moveToNext]){
+        GPKGExtendedRelation *mediaRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:mediaExtendedRelations];
         
         // Test the relation
-        TestCase.assertTrue(mediaRelation.getId() >= 0);
-        TestCase.assertEquals(featureDao.getTableName(),
-                              mediaRelation.getBaseTableName());
-        TestCase.assertEquals(
-                              featureDao.getTable().getPkColumn().getName(),
-                              mediaRelation.getBasePrimaryColumn());
-        TestCase.assertEquals(mediaDao.getTableName(),
-                              mediaRelation.getRelatedTableName());
-        TestCase.assertEquals(mediaDao.getTable().getPkColumn().getName(),
-                              mediaRelation.getRelatedPrimaryColumn());
-        TestCase.assertEquals(MediaTable.RELATION_TYPE.getName(),
-                              mediaRelation.getRelationName());
-        TestCase.assertEquals(mappingTableName,
-                              mediaRelation.getMappingTableName());
+        [GPKGTestUtils assertTrue:[mediaRelation.id intValue] >= 0];
+        [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:mediaRelation.baseTableName];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:mediaRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:mediaRelation.relatedTableName];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] getPkColumn].name andValue2:mediaRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:mediaRelation.relationName];
+        [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:mediaRelation.mappingTableName];
         
         // Test the user mappings from the relation
-        UserMappingDao userMappingDao = rte.getMappingDao(mediaRelation);
-        int totalMappedCount = userMappingDao.count();
-        UserCustomResultSet mappingResultSet = userMappingDao.queryForAll();
-        while (mappingResultSet.moveToNext()) {
-            userMappingRow = userMappingDao.getRow(mappingResultSet);
-            TestCase.assertTrue(featureIds.contains(userMappingRow
-                                                    .getBaseId()));
-            TestCase.assertTrue(mediaIds.contains(userMappingRow
-                                                  .getRelatedId()));
-            RelatedTablesUtils.validateUserRow(mappingColumns,
-                                               userMappingRow);
-            RelatedTablesUtils.validateDublinCoreColumns(userMappingRow);
+        GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:mediaRelation];
+        int totalMappedCount = userMappingDao.count;
+        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
+        while([mappingResultSet moveToNext]){
+            userMappingRow = [userMappingDao row:mappingResultSet];
+            [GPKGTestUtils assertTrue:[featureIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
+            [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
+            [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
+            [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:userMappingRow];
         }
-        mappingResultSet.close();
+        [mappingResultSet close];
         
         // Get and test the feature DAO
-        featureDao = geoPackage.getFeatureDao(featureDao.getTableName());
-        TestCase.assertNotNull(featureDao);
-        FeatureTable featureTable = featureDao.getTable();
-        TestCase.assertNotNull(featureTable);
-        Contents featureContents = featureDao.getGeometryColumns()
-        .getContents();
-        TestCase.assertNotNull(featureContents);
-        TestCase.assertEquals(ContentsDataType.FEATURES,
-                              featureContents.getDataType());
-        TestCase.assertEquals(ContentsDataType.FEATURES.getName(),
-                              featureContents.getDataTypeString());
-        TestCase.assertEquals(featureTable.getTableName(),
-                              featureContents.getTableName());
-        TestCase.assertNotNull(featureContents.getLastChange());
+        featureDao = [geoPackage getFeatureDaoWithTableName:featureDao.tableName];
+        [GPKGTestUtils assertNotNil: featureDao];
+        GPKGFeatureTable *featureTable = [featureDao getFeatureTable];
+        [GPKGTestUtils assertNotNil: featureTable];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+        GPKGContents *featureContents = [geometryColumnsDao getContents:featureDao.geometryColumns];
+        [GPKGTestUtils assertNotNil: featureContents];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[featureContents getContentsDataType]];
+        [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_FEATURES] andValue2:featureContents.dataType];
+        [GPKGTestUtils assertEqualWithValue:featureTable.tableName andValue2:featureContents.tableName];
+        [GPKGTestUtils assertNotNil:featureContents.lastChange];
         
         // Get and test the Feature Rows mapped to each Media Row
-        mediaResultSet = mediaDao.queryForAll();
+        mediaResultSet = [mediaDao queryForAll];
         int totalMapped = 0;
-        while (mediaResultSet.moveToNext()) {
-            MediaRow mediaRow = mediaDao.getRow(mediaResultSet);
-            List<Long> mappedIds = rte.getMappingsForRelated(mediaRelation,
-                                                             mediaRow.getId());
-            for (long mappedId : mappedIds) {
-                FeatureRow featureRow = featureDao.queryForIdRow(mappedId);
-                TestCase.assertNotNull(featureRow);
+        while([mediaResultSet moveToNext]){
+            GPKGMediaRow *mediaRow = [mediaDao row:mediaResultSet];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:mediaRelation withRelatedId:[[mediaRow getId] intValue]];
+            for(NSNumber *mappedId in mappedIds){
+                GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:mappedId];
+                [GPKGTestUtils assertNotNil:featureRow];
                 
-                TestCase.assertTrue(featureRow.hasId());
-                TestCase.assertTrue(featureRow.getId() >= 0);
-                TestCase.assertTrue(featureIds.contains(featureRow.getId()));
-                TestCase.assertTrue(mappedIds.contains(featureRow.getId()));
-                if (featureRow
-                    .getValue(featureRow.getGeometryColumnIndex()) != null) {
-                    GeoPackageGeometryData geometryData = featureRow
-                    .getGeometry();
-                    TestCase.assertNotNull(geometryData);
-                    if (!geometryData.isEmpty()) {
-                        TestCase.assertNotNull(geometryData.getGeometry());
+                [GPKGTestUtils assertTrue:[featureRow hasId]];
+                [GPKGTestUtils assertTrue:[[featureRow getId] intValue] >= 0];
+                [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow getId]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow getId]]];
+                if([featureRow getValueWithIndex:[featureRow getGeometryColumnIndex]] != nil){
+                    GPKGGeometryData *geometryData = [featureRow getGeometry];
+                    [GPKGTestUtils assertNotNil:geometryData];
+                    if(!geometryData.empty){
+                        [GPKGTestUtils assertNotNil:geometryData.geometry];
                     }
                 }
             }
             
-            totalMapped += mappedIds.size();
+            totalMapped += mappedIds.count;
         }
-        mediaResultSet.close();
-        TestCase.assertEquals(totalMappedCount, totalMapped);
+        [mediaResultSet close];
+        [GPKGTestUtils assertEqualIntWithValue:totalMappedCount andValue2:totalMapped];
     }
-    
-    */
+    [mediaExtendedRelations close];
     
     // Delete a single mapping
     int countOfIds = [dao countByIdsFromRow:userMappingRow];
