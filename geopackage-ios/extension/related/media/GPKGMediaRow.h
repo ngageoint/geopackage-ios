@@ -35,15 +35,6 @@
 -(instancetype) initWithMediaTable: (GPKGMediaTable *) table;
 
 /**
- *  Initialize
- *
- *  @param userCustomRow user custom row
- *
- *  @return new media row
- */
--(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
-
-/**
  *  Get the media table
  *
  *  @return media table

@@ -35,15 +35,6 @@
 -(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table;
 
 /**
- *  Initialize
- *
- *  @param userCustomRow user custom row
- *
- *  @return new user mapping row
- */
--(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
-
-/**
  *  Get the user mapping table
  *
  *  @return user mapping table

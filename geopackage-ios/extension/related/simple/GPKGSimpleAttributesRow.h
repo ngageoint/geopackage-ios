@@ -35,15 +35,6 @@
 -(instancetype) initWithSimpleAttributesTable: (GPKGSimpleAttributesTable *) table;
 
 /**
- *  Initialize
- *
- *  @param userCustomRow user custom row
- *
- *  @return new simple attributes row
- */
--(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
-
-/**
  *  Get the simple attributes table
  *
  *  @return simple attributes table

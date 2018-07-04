@@ -36,10 +36,6 @@
     return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self table]];
 }
 
--(GPKGUserMappingRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row{
-    return [[GPKGUserMappingRow alloc] initWithUserCustomRow:row];
-}
-
 -(GPKGResultSet *) queryByBaseIdFromRow: (GPKGUserMappingRow *) userMappingRow{
     return [self queryByBaseId:[userMappingRow baseId]];
 }

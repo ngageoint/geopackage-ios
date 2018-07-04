@@ -34,7 +34,6 @@
  */
 -(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table;
 
-
 /**
  * Copy Initialize
  *

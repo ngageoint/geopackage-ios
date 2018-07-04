@@ -58,15 +58,6 @@
 -(GPKGMediaRow *) newRow;
 
 /**
- * Get a media row from the user custom row
- *
- * @param row
- *            custom row
- * @return media row
- */
--(GPKGMediaRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row;
-
-/**
  * Get the media rows that exist with the provided ids
  *
  * @param ids

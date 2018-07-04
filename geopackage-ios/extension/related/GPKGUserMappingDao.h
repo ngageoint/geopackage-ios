@@ -58,15 +58,6 @@
 -(GPKGUserMappingRow *) newRow;
 
 /**
- * Get a user mapping row from the user custom row
- *
- * @param row
- *            custom row
- * @return user mapping row
- */
--(GPKGUserMappingRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row;
-
-/**
  * Query by base id
  *
  * @param userMappingRow

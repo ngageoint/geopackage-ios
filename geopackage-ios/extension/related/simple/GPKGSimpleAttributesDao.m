@@ -35,10 +35,6 @@
     return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self table]];
 }
 
--(GPKGSimpleAttributesRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row{
-    return [[GPKGSimpleAttributesRow alloc] initWithUserCustomRow:row];
-}
-
 -(NSArray<GPKGSimpleAttributesRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
     NSMutableArray<GPKGSimpleAttributesRow *> *simpleAttributesRows = [[NSMutableArray alloc] init];
     for(NSNumber *id in ids){

@@ -20,11 +20,6 @@
     return self;
 }
 
--(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow{
-    self = [super initWithUserCustomRow:userCustomRow];
-    return self;
-}
-
 -(GPKGMediaTable *) table{
     return (GPKGMediaTable *) [super table];
 }

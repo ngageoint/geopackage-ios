@@ -35,10 +35,6 @@
     return [[GPKGMediaRow alloc] initWithMediaTable:[self table]];
 }
 
--(GPKGMediaRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row{
-    return [[GPKGMediaRow alloc] initWithUserCustomRow:row];
-}
-
 -(NSArray<GPKGMediaRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
     NSMutableArray<GPKGMediaRow *> *mediaRows = [[NSMutableArray alloc] init];
     for(NSNumber *id in ids){

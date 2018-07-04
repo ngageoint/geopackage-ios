@@ -58,15 +58,6 @@
 -(GPKGSimpleAttributesRow *) newRow;
 
 /**
- * Get a simple attributes row from the user custom row
- *
- * @param row
- *            custom row
- * @return simple attributes row
- */
--(GPKGSimpleAttributesRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row;
-
-/**
  * Get the simple attributes rows that exist with the provided ids
  *
  * @param ids
