@@ -120,7 +120,7 @@
         [GPKGTestUtils assertTrue:mediaRowId > 0];
     }
     // Copy the last row insert and insert the final media row
-    GPKGMediaRow *mediaRowToCopy = [[GPKGMediaRow alloc] initWithUserCustomRow:(GPKGMediaRow *)[mediaDao queryForIdObject:[NSNumber numberWithInt:mediaRowId]]];
+    GPKGMediaRow *mediaRowToCopy = (GPKGMediaRow *)[mediaDao queryForIdObject:[NSNumber numberWithInt:mediaRowId]];
     GPKGMediaRow *mediaRowCopy = [mediaRowToCopy mutableCopy];
     int copyMediaRowId = (int)[mediaDao create:mediaRowCopy];
     [GPKGTestUtils assertTrue:copyMediaRowId > 0];

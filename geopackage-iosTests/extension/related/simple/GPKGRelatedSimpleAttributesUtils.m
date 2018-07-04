@@ -118,7 +118,7 @@
         [GPKGTestUtils assertTrue:simpleRowId > 0];
     }
     // Copy the last row insert and insert the final simple attributes row
-    GPKGSimpleAttributesRow *simpleRowToCopy = [[GPKGSimpleAttributesRow alloc] initWithUserCustomRow:(GPKGSimpleAttributesRow *)[simpleDao queryForIdObject:[NSNumber numberWithInt:simpleRowId]]];
+    GPKGSimpleAttributesRow *simpleRowToCopy = (GPKGSimpleAttributesRow *)[simpleDao queryForIdObject:[NSNumber numberWithInt:simpleRowId]];
     GPKGSimpleAttributesRow *simpleRowCopy = [simpleRowToCopy mutableCopy];
     int copySimpleRowId = (int)[simpleDao create:simpleRowCopy];
     [GPKGTestUtils assertTrue:copySimpleRowId > 0];
