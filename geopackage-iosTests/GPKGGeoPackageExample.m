@@ -1202,15 +1202,65 @@ static int dataColumnConstraintIndex = 0;
 }
 
 +(void) createRelatedTablesFeaturesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    // TODO
+    
+    [self createRelatedTablesFeaturesExtensionWithGeoPackage:geoPackage andTableName1:@"point1" andTableName2:@"polygon1"];
+    
+    [self createRelatedTablesFeaturesExtensionWithGeoPackage:geoPackage andTableName1:@"point2" andTableName2:@"line2"];
+    
 }
 
 +(void) createRelatedTablesFeaturesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName1: (NSString *) tableName1 andTableName2: (NSString *) tableName2{
-    // TODO
+
+    GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    
+    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName1, tableName2] andAdditionalColumns:additionalMappingColumns];
+    GPKGExtendedRelation *relation = [relatedTables addFeaturesRelationshipWithBaseTable:tableName1 andRelatedTable:tableName2 andUserMappingTable:userMappingTable];
+    
+    [self insertRelatedTablesFeaturesExtensionRowsWithGeoPackage:geoPackage andRelation:relation];
+
 }
 
 +(void) insertRelatedTablesFeaturesExtensionRowsWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelation: (GPKGExtendedRelation *) relation{
-    // TODO
+
+    GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
+    
+    GPKGFeatureDao *featureDao1 = [geoPackage getFeatureDaoWithTableName:relation.baseTableName];
+    GPKGFeatureDao *featureDao2 = [geoPackage getFeatureDaoWithTableName:relation.relatedTableName];
+    
+    NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [[NSMutableArray alloc] init];
+    
+    GPKGResultSet *featureResultSet1 = [featureDao1 queryForAll];
+    while([featureResultSet1 moveToNext]){
+        
+        GPKGFeatureRow *featureRow1 = [featureDao1 getFeatureRow:featureResultSet1];
+        NSString *featureName = (NSString *)[featureRow1 getValueWithColumnName:TEXT_COLUMN];
+        
+        GPKGResultSet *featureResultSet2 = [featureDao2 queryForEqWithField:TEXT_COLUMN andValue:featureName];
+        while([featureResultSet2 moveToNext]){
+            
+            GPKGFeatureRow *featureRow2 = [featureDao2 getFeatureRow:featureResultSet2];
+            
+            GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
+            [userMappingRow setBaseId:[[featureRow1 getId] intValue]];
+            [userMappingRow setRelatedId:[[featureRow2 getId] intValue]];
+            [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao table] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_SOURCE inRow:userMappingRow];
+            [userMappingRows addObject:userMappingRow];
+        }
+        [featureResultSet2 close];
+        
+    }
+    [featureResultSet1 close];
+    
+    for(GPKGUserMappingRow *userMappingRow in userMappingRows){
+        [userMappingDao create:userMappingRow];
+    }
+    
 }
 
 +(void) createRelatedTablesSimpleAttributesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
