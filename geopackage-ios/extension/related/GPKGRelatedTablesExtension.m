@@ -99,8 +99,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         GPKGResultSet *resultSet = [self.extendedRelationsDao queryForAll];
         @try {
             while([resultSet moveToNext]){
-                GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self.extendedRelationsDao getObject:resultSet];
-                [relationships addObject:extendedRelation];
+                [relationships addObject:[self.extendedRelationsDao relation:resultSet]];
             }
         } @finally {
             [resultSet close];
@@ -340,8 +339,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         GPKGResultSet *extendedRelationsResultSet = [self.extendedRelationsDao queryWhere:where andWhereArgs:whereArgs];
         @try {
             while([extendedRelationsResultSet moveToNext]){
-                GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self.extendedRelationsDao getObject:extendedRelationsResultSet];
-                [extendedRelations addObject:extendedRelation];
+                [extendedRelations addObject:[self.extendedRelationsDao relation:extendedRelationsResultSet]];
             }
         } @finally {
             [extendedRelationsResultSet close];
@@ -360,7 +358,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         GPKGResultSet *extendedRelations = [self.extendedRelationsDao queryForAll];
         @try {
             while([extendedRelations moveToNext]){
-                GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self.extendedRelationsDao getObject:extendedRelations];
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
                 [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
             }
             [self.extendedRelationsDao dropTable];

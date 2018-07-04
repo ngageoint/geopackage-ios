@@ -185,8 +185,8 @@
     GPKGResultSet *attributesExtendedRelations2 = [extendedRelationsDao relationsToTable:attributesDao.tableName];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:attributesExtendedRelations.count];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:attributesExtendedRelations2.count];
-    GPKGExtendedRelation *extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToBaseTable:attributesDao.tableName]];
-    GPKGExtendedRelation *extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:attributesExtendedRelations2];
+    GPKGExtendedRelation *extendedRelation1 = [extendedRelationsDao firstRelation:[extendedRelationsDao relationsToBaseTable:attributesDao.tableName]];
+    GPKGExtendedRelation *extendedRelation2 = [extendedRelationsDao firstRelation:attributesExtendedRelations2];
     [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
     [attributesExtendedRelations2 close];
     GPKGResultSet *attributesExtendedRelations3 = [extendedRelationsDao relationsToRelatedTable:attributesDao.tableName];
@@ -195,7 +195,7 @@
     
     // Test the attributes table relations
     while([attributesExtendedRelations moveToNext]){
-        GPKGExtendedRelation *attributesRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:attributesExtendedRelations];
+        GPKGExtendedRelation *attributesRelation = [extendedRelationsDao relation:attributesExtendedRelations];
         
         // Test the relation
         [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
@@ -257,8 +257,8 @@
     GPKGResultSet *simpleExtendedRelations2 = [extendedRelationsDao relationsToTable:simpleTable.tableName];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:simpleExtendedRelations.count];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:simpleExtendedRelations2.count];
-    extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToRelatedTable:simpleTable.tableName]];
-    extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:simpleExtendedRelations2];
+    extendedRelation1 = [extendedRelationsDao firstRelation:[extendedRelationsDao relationsToRelatedTable:simpleTable.tableName]];
+    extendedRelation2 = [extendedRelationsDao firstRelation:simpleExtendedRelations2];
     [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
     [simpleExtendedRelations2 close];
     GPKGResultSet *simpleExtendedRelations3 = [extendedRelationsDao relationsToBaseTable:simpleTable.tableName];
@@ -267,7 +267,7 @@
     
     // Test the simple attributes table relations
     while([simpleExtendedRelations moveToNext]){
-        GPKGExtendedRelation *simpleRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:simpleExtendedRelations];
+        GPKGExtendedRelation *simpleRelation = [extendedRelationsDao relation:simpleExtendedRelations];
         
         // Test the relation
         [GPKGTestUtils assertTrue:[simpleRelation.id intValue] >= 0];

@@ -185,8 +185,8 @@
     GPKGResultSet *featureExtendedRelations2 = [extendedRelationsDao relationsToTable:featureDao.tableName];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:featureExtendedRelations.count];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:featureExtendedRelations2.count];
-    GPKGExtendedRelation *extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToBaseTable:featureDao.tableName]];
-    GPKGExtendedRelation *extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:featureExtendedRelations2];
+    GPKGExtendedRelation *extendedRelation1 = [extendedRelationsDao firstRelation:[extendedRelationsDao relationsToBaseTable:featureDao.tableName]];
+    GPKGExtendedRelation *extendedRelation2 = [extendedRelationsDao firstRelation:featureExtendedRelations2];
     [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
     [featureExtendedRelations2 close];
     GPKGResultSet *featureExtendedRelations3 = [extendedRelationsDao relationsToRelatedTable:featureDao.tableName];
@@ -195,7 +195,7 @@
     
     // Test the feature table relations
     while([featureExtendedRelations moveToNext]){
-        GPKGExtendedRelation *featureRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:featureExtendedRelations];
+        GPKGExtendedRelation *featureRelation = [extendedRelationsDao relation:featureExtendedRelations];
         
         // Test the relation
         [GPKGTestUtils assertTrue:[featureRelation.id intValue] >= 0];
@@ -263,8 +263,8 @@
     GPKGResultSet *mediaExtendedRelations2 = [extendedRelationsDao relationsToTable:mediaTable.tableName];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:mediaExtendedRelations.count];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:mediaExtendedRelations2.count];
-    extendedRelation1 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:[extendedRelationsDao relationsToRelatedTable:mediaTable.tableName]];
-    extendedRelation2 = (GPKGExtendedRelation *)[extendedRelationsDao getFirstObject:mediaExtendedRelations2];
+    extendedRelation1 = [extendedRelationsDao firstRelation:[extendedRelationsDao relationsToRelatedTable:mediaTable.tableName]];
+    extendedRelation2 = [extendedRelationsDao firstRelation:mediaExtendedRelations2];
     [GPKGTestUtils assertEqualWithValue:extendedRelation1.id andValue2:extendedRelation2.id];
     [mediaExtendedRelations2 close];
     GPKGResultSet *mediaExtendedRelations3 = [extendedRelationsDao relationsToBaseTable:mediaTable.tableName];
@@ -273,7 +273,7 @@
     
     // Test the media table relations
     while([mediaExtendedRelations moveToNext]){
-        GPKGExtendedRelation *mediaRelation = (GPKGExtendedRelation *)[extendedRelationsDao getObject:mediaExtendedRelations];
+        GPKGExtendedRelation *mediaRelation = [extendedRelationsDao relation:mediaExtendedRelations];
         
         // Test the relation
         [GPKGTestUtils assertTrue:[mediaRelation.id intValue] >= 0];

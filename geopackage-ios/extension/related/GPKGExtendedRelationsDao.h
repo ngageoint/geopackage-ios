@@ -24,6 +24,24 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 /**
+ *  Get the extended relation for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return extended relation
+ */
+-(GPKGExtendedRelation *) relation: (GPKGResultSet *) results;
+
+/**
+ *  Get the first extended relation in the result set and close it
+ *
+ *  @param results result set
+ *
+ *  @return first extended relation
+ */
+-(GPKGExtendedRelation *) firstRelation: (GPKGResultSet *) results;
+
+/**
  * Get all the base table names
  *
  * @return base table names

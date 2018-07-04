@@ -95,6 +95,14 @@
     return value;
 }
 
+-(GPKGExtendedRelation *) relation: (GPKGResultSet *) results{
+    return (GPKGExtendedRelation *) [self getObject:results];
+}
+
+-(GPKGExtendedRelation *) firstRelation: (GPKGResultSet *) results{
+    return (GPKGExtendedRelation *) [self getFirstObject:results];
+}
+
 -(NSArray<NSString *> *) baseTables{
     
     NSMutableArray *baseTables = [[NSMutableArray alloc] init];
@@ -102,7 +110,7 @@
     GPKGResultSet *results = [self queryForAll];
     @try {
         while([results moveToNext]){
-            GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self getObject:results];
+            GPKGExtendedRelation *extendedRelation = [self relation:results];
             [baseTables addObject:extendedRelation.baseTableName];
         }
     } @finally {
@@ -119,7 +127,7 @@
     GPKGResultSet *results = [self queryForAll];
     @try {
         while([results moveToNext]){
-            GPKGExtendedRelation *extendedRelation = (GPKGExtendedRelation *)[self getObject:results];
+            GPKGExtendedRelation *extendedRelation = [self relation:results];
             [relatedTables addObject:extendedRelation.relatedTableName];
         }
     } @finally {
