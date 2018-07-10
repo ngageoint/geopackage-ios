@@ -60,7 +60,9 @@ NSString * const GPKG_TSC_CLOSEST_OUT_IN_NAME = @"closest_out_in";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGTileScalingType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGTileScalingType)[enumValue intValue];
+        }
     }
     
     return value;

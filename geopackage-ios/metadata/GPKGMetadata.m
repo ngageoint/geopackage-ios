@@ -66,7 +66,9 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
                                          nil
                                          ];
         NSNumber *enumValue = [GPKGUtils objectForKey:self.scope inDictionary:scopeTypes];
-        value = (enum GPKGMetadataScopeType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGMetadataScopeType)[enumValue intValue];
+        }
     }
     
     return value;

@@ -45,7 +45,9 @@ NSString * const GPKG_CDA_BICUBIC_NAME = @"Bicubic";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGCoverageDataAlgorithm)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGCoverageDataAlgorithm)[enumValue intValue];
+        }
     }
     
     return value;

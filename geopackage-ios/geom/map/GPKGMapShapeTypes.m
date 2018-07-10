@@ -85,7 +85,9 @@ NSString * const GPKG_MST_COLLECTION_NAME = @"COLLECTION";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGMapShapeType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGMapShapeType)[enumValue intValue];
+        }
     }
     
     return value;

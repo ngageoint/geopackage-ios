@@ -2703,7 +2703,6 @@
 				042FC6E71B964BC800549A4B /* Sources */,
 				042FC6E81B964BC800549A4B /* Frameworks */,
 				042FC6E91B964BC800549A4B /* Resources */,
-				49F77B26AC6D9580342B9EAF /* [CP] Embed Pods Frameworks */,
 				0525C5044E383BFAD2725287 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -2862,21 +2861,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		49F77B26AC6D9580342B9EAF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		652E1CF31776DBA88A07D372 /* [CP] Check Pods Manifest.lock */ = {

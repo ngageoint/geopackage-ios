@@ -39,7 +39,9 @@ NSString * const GPKG_RST_ROW_COL_NAME = @"row/col";
                                     nil
                                     ];
         NSNumber *enumValue = [GPKGUtils objectForKey:self.referenceScope inDictionary:scopeTypes];
-        value = (enum GPKGReferenceScopeType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGReferenceScopeType)[enumValue intValue];
+        }
     }
     
     return value;

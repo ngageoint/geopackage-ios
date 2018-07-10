@@ -45,7 +45,9 @@ NSString * const GPKG_GCET_CORNER_NAME = @"grid-value-is-corner";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGGriddedCoverageEncodingType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGGriddedCoverageEncodingType)[enumValue intValue];
+        }
     }
     
     return value;

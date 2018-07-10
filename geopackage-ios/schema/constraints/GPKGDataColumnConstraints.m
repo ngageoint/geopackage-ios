@@ -36,7 +36,9 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
                                    nil
                                    ];
         NSNumber *enumValue = [GPKGUtils objectForKey:self.constraintType inDictionary:constraintTypes];
-        value = (enum GPKGDataColumnConstraintType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGDataColumnConstraintType)[enumValue intValue];
+        }
     }
     
     return value;

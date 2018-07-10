@@ -40,7 +40,9 @@ NSString * const GPKG_GCDT_FLOAT_NAME = @"float";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGGriddedCoverageDataType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGGriddedCoverageDataType)[enumValue intValue];
+        }
     }
     
     return value;

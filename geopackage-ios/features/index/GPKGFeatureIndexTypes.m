@@ -45,7 +45,9 @@ NSString * const GPKG_FIT_NONE_NAME = @"NONE";
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
-        value = (enum GPKGFeatureIndexType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGFeatureIndexType)[enumValue intValue];
+        }
     }
     
     return value;

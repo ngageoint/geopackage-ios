@@ -32,7 +32,9 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
                                     nil
                                     ];
         NSNumber *enumValue = [GPKGUtils objectForKey:self.scope inDictionary:scopeTypes];
-        value = (enum GPKGExtensionScopeType)[enumValue intValue];
+        if(enumValue != nil){
+            value = (enum GPKGExtensionScopeType)[enumValue intValue];
+        }
     }
     
     return value;
