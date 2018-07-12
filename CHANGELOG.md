@@ -7,6 +7,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 3.0.1 (TBD)
 
 * Database name fix when opening a GeoPackage with a name different from the file name
+* Related Tables Extension support
+* Additional table, table type, and contents methods and improvements
+* Base DAO and User DAO support for id-less and auto increment id tables
+* Base DAO "like" query support
+* Custom User table, column, DAO, row, and table reader implementations
 
 ## [3.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.0) (05-18-2018)
 
