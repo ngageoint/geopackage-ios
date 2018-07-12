@@ -12,6 +12,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Base DAO and User DAO support for id-less and auto increment id tables
 * Base DAO "like" query support
 * Custom User table, column, DAO, row, and table reader implementations
+* Recommended project updates
 
 ## [3.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.0) (05-18-2018)
 
