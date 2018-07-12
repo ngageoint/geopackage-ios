@@ -1273,7 +1273,7 @@ static int dataColumnConstraintIndex = 0;
     NSString *tableName = [[geoPackage getAttributesTables] objectAtIndex:0];
     
     NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
-    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@ %@", tableName, simpleTable.tableName] andAdditionalColumns:additionalMappingColumns];
+    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName, simpleTable.tableName] andAdditionalColumns:additionalMappingColumns];
     GPKGExtendedRelation *relation = [relatedTables addSimpleAttributesRelationshipWithBaseTable:tableName andSimpleAttributesTable:simpleTable andUserMappingTable:userMappingTable];
     
     GPKGSimpleAttributesDao *simpleAttributesDao = [relatedTables simpleAttributesDaoForTable:simpleTable];
