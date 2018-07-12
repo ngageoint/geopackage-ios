@@ -103,6 +103,7 @@
         GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
         GPKGResultSet * featureResults = [featureDao queryForAll];
         NSNumber * connectionId1 = [featureResults.connection getConnectionId];
+        [GPKGTestUtils assertNotNil:connectionId1];
         
         while([featureResults moveToNext]){
             

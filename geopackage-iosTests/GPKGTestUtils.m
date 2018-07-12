@@ -168,7 +168,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     GPKGFeatureTable * table = [self buildFeatureTableWithTableName:contents.tableName andGeometryColumn:geometryColumn andGeometryType:geometryType];
     [geoPackage createFeatureTable:table];
     
-    srandom(time(NULL));
+    srandom((unsigned int)time(NULL));
     int random = [self randomIntLessThan:3];
     
     GPKGDataColumnsDao * dataColumnsDao = [geoPackage getDataColumnsDao];
@@ -231,7 +231,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     
     GPKGFeatureDao * dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
     
-    srandom(time(NULL));
+    srandom((unsigned int)time(NULL));
     
     for(int i = 0; i < numRows; i++){
         
