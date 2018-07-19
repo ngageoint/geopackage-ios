@@ -13,7 +13,7 @@
 @implementation GPKGGeometryUtils
 
 +(double) computeAreaOfDegreesPath: (NSArray<SFPoint *> *) path{
-    return fabs([self computeAreaOfDegreesPath:path]);
+    return fabs([self computeSignedAreaOfDegreesPath:path]);
 }
 
 +(double) computeSignedAreaOfDegreesPath: (NSArray<SFPoint *> *) path{
