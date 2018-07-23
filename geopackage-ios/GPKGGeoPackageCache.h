@@ -77,6 +77,13 @@
 -(void) add: (GPKGGeoPackage *) geoPackage;
 
 /**
+ *  Add the collection of GeoPackages
+ *
+ *  @param geoPackages GeoPackages
+ */
+-(void) addAll: (NSArray<GPKGGeoPackage *> *) geoPackages;
+
+/**
  *  Remove the GeoPackage with the name but does not close it,
  *  callse close to close and remove
  *

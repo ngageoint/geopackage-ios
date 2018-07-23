@@ -62,6 +62,12 @@
     [self.cache setObject:geoPackage forKey:geoPackage.name];
 }
 
+-(void) addAll: (NSArray<GPKGGeoPackage *> *) geoPackages{
+    for(GPKGGeoPackage *geoPackage in geoPackages){
+        [self add:geoPackage];
+    }
+}
+
 -(GPKGGeoPackage *) remove: (NSString *) name{
     GPKGGeoPackage * geoPackage = [self get:name];
     if(geoPackage != nil){
