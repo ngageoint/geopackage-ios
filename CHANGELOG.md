@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.2 (TBD)
 
-* TBD
+* Geometry Utils computeAreaOfDegreesPath fix
 
 ## [3.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.1) (07-16-2018)
 
