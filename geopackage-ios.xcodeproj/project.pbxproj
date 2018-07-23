@@ -1354,6 +1354,13 @@
 			path = 27378;
 			sourceTree = "<group>";
 		};
+		040FC07921064D09001EAA8E /* properties */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = properties;
+			sourceTree = "<group>";
+		};
 		0413B1141F6B26EA0075916A /* map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1514,7 +1521,6 @@
 				042FC77A1B964D8C00549A4B /* io */,
 				0413B1141F6B26EA0075916A /* map */,
 				042FC7821B964D8C00549A4B /* metadata */,
-				042FC78E1B964D8C00549A4B /* projection */,
 				042FC79C1B964D8C00549A4B /* property */,
 				042FC7A11B964D8C00549A4B /* schema */,
 				042FC7AD1B964D8C00549A4B /* tiles */,
@@ -1718,10 +1724,11 @@
 			isa = PBXGroup;
 			children = (
 				0422BAE21DCD214B002709B6 /* coverage */,
-				046877E51C62BCBF00967470 /* link */,
 				046417C21BCBF2BC007624D4 /* index */,
-				04329B972056AB4E00F3EBBE /* scale */,
+				046877E51C62BCBF00967470 /* link */,
+				040FC07921064D09001EAA8E /* properties */,
 				0409CC9420D1B1F50069B797 /* related */,
+				04329B972056AB4E00F3EBBE /* scale */,
 				042FC7311B964D8C00549A4B /* GPKGExtensions.h */,
 				042FC7321B964D8C00549A4B /* GPKGExtensions.m */,
 				042FC7331B964D8C00549A4B /* GPKGExtensionsDao.h */,
@@ -1895,13 +1902,6 @@
 				042FC78D1B964D8C00549A4B /* GPKGMetadataReferenceDao.m */,
 			);
 			path = reference;
-			sourceTree = "<group>";
-		};
-		042FC78E1B964D8C00549A4B /* projection */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = projection;
 			sourceTree = "<group>";
 		};
 		042FC79C1B964D8C00549A4B /* property */ = {
