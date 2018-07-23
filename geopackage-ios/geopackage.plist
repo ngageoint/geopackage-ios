@@ -40,6 +40,8 @@
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html</string>
 	<key>geopackage.extensions.extended_relations</key>
 	<string>TBD</string>
+	<key>geopackage.extensions.properties</key>
+	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html</string>
 	<key>geopackage.srs.wgs84.srs_name</key>
 	<string>WGS 84 geodetic</string>
 	<key>geopackage.srs.wgs84.srs_id</key>
