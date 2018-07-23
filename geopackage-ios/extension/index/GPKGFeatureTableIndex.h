@@ -41,13 +41,6 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao;
 
 /**
- *  Get the GeoPackage
- *
- *  @return GeoPackage
- */
--(GPKGGeoPackage *) getGeoPackage;
-
-/**
  *  Get the Feature DAO
  *
  *  @return feature dao

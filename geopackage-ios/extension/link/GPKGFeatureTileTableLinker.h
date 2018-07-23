@@ -26,13 +26,6 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
- *  Get the GeoPackage
- *
- *  @return GeoPackage
- */
--(GPKGGeoPackage *) getGeoPackage;
-
-/**
  *  Get the Feature Tile Link DAO
  *
  *  @return feature tile link dao

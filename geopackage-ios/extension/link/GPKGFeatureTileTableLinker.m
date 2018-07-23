@@ -34,10 +34,6 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     return self;
 }
 
--(GPKGGeoPackage *) getGeoPackage{
-    return self.geoPackage;
-}
-
 -(GPKGFeatureTileLinkDao *) getDao{
     return self.featureTileLinkDao;
 }

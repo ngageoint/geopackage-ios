@@ -215,5 +215,7 @@
 #import "GPKGMediaRow.h"
 #import "GPKGSimpleAttributesDao.h"
 #import "GPKGSimpleAttributesRow.h"
+#import "GPKGPropertyNames.h"
+#import "GPKGPropertiesExtension.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

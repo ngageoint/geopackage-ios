@@ -46,10 +46,6 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return self;
 }
 
--(GPKGGeoPackage *) getGeoPackage{
-    return self.geoPackage;
-}
-
 -(GPKGFeatureDao *) getFeatureDao{
     return self.featureDao;
 }

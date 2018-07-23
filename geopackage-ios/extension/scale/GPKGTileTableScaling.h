@@ -55,13 +55,6 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName;
 
 /**
- *  Get the GeoPackage
- *
- *  @return GeoPackage
- */
--(GPKGGeoPackage *) getGeoPackage;
-
-/**
  *  Get the table name
  *
  *  @return table name

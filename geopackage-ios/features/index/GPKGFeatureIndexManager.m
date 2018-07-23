@@ -491,7 +491,7 @@
     
     // Verify features are indexed
     if(indexType == GPKG_FIT_NONE){
-        [NSException raise:@"Features Not Indexed" format:@"Features are not indexed. GeoPackage: %@, Table: %@", [self.featureTableIndex getGeoPackage].name, [self.featureTableIndex getTableName]];
+        [NSException raise:@"Features Not Indexed" format:@"Features are not indexed. GeoPackage: %@, Table: %@", self.featureTableIndex.geoPackage.name, [self.featureTableIndex getTableName]];
     }
     
     return indexType;

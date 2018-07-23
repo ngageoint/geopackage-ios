@@ -47,10 +47,6 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     return self;
 }
 
--(GPKGGeoPackage *) getGeoPackage{
-    return self.geoPackage;
-}
-
 -(NSString *) getTableName{
     return self.tableName;
 }
