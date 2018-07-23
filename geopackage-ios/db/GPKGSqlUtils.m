@@ -113,10 +113,10 @@
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
-    return [self singleResultQueryWithDatabase:connection andStatement:countStatement andArgs:args];
+    return [self singleIntResultQueryWithDatabase:connection andStatement:countStatement andArgs:args];
 }
 
-+(int) singleResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) singleIntResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
     int result = 0;
     
@@ -163,6 +163,29 @@
     return result;
 }
 
++(NSArray<NSString *> *) singleColumnStringResultsQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    
+    NSMutableArray<NSString *> *result = [[NSMutableArray alloc] init];
+    
+    sqlite3_stmt *compiledStatement;
+    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+    if(prepareStatementResult == SQLITE_OK) {
+        [self setArguments:args inStatement:compiledStatement];
+        while(sqlite3_step(compiledStatement) == SQLITE_ROW){
+            char* resultChars = (char *)sqlite3_column_text(compiledStatement, 0);
+            if (resultChars != nil){
+                [result addObject:[NSString stringWithCString:resultChars encoding:NSUTF8StringEncoding]];
+            }
+        }
+    } else{
+        [NSException raise:@"SQL Failed" format:@"Failed to query for single column string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    }
+    
+    [self closeStatement:compiledStatement];
+    
+    return result;
+}
+
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * min = nil;
@@ -179,7 +202,7 @@
             [minStatement appendString:where];
         }
         
-        min = [NSNumber numberWithInt:[self singleResultQueryWithDatabase:connection andStatement:minStatement andArgs:whereArgs]];
+        min = [NSNumber numberWithInt:[self singleIntResultQueryWithDatabase:connection andStatement:minStatement andArgs:whereArgs]];
     }
     
     return min;
@@ -201,7 +224,7 @@
             [maxStatement appendString:where];
         }
         
-        max = [NSNumber numberWithInt:[self singleResultQueryWithDatabase:connection andStatement:maxStatement andArgs:whereArgs]];
+        max = [NSNumber numberWithInt:[self singleIntResultQueryWithDatabase:connection andStatement:maxStatement andArgs:whereArgs]];
     }
     
     return max;

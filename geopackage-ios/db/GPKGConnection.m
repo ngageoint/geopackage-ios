@@ -236,9 +236,23 @@
     [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", [GPKGSqlUtils quoteWrapName:tableName], [GPKGSqlUtils quoteWrapName:columnName], columndef]];
 }
 
+-(int) querySingleIntResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    int result = [GPKGSqlUtils singleIntResultQueryWithDatabase:connection andStatement:sql andArgs:args];
+    [self.connectionPool releaseConnection:connection];
+    return result;
+}
+
 -(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
     GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     NSString * result = [GPKGSqlUtils singleStringResultQueryWithDatabase:connection andStatement:sql andArgs:args];
+    [self.connectionPool releaseConnection:connection];
+    return result;
+}
+
+-(NSArray<NSString *> *) querySingleColumnStringResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    NSArray<NSString *> *result = [GPKGSqlUtils singleColumnStringResultsQueryWithDatabase:connection andStatement:sql andArgs:args];
     [self.connectionPool releaseConnection:connection];
     return result;
 }

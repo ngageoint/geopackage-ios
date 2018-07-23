@@ -324,6 +324,12 @@
     return [self.database deleteWithTable:self.tableName andWhere:where andWhereArgs:whereArgs];
 }
 
+-(int) deleteByFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *whereString = [self buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
+    return [self deleteWhere:whereString andWhereArgs:whereArgs];
+}
+
 -(int) deleteAll{
     return[self.database deleteWithTable:self.tableName andWhere:nil];
 }
@@ -599,6 +605,18 @@
 
 -(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
     return [self.database maxWithTable:self.tableName andColumn:column andWhere:where andWhereArgs:args];
+}
+
+-(int) querySingleIntResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self.database querySingleIntResultWithSql:sql andArgs:args];
+}
+
+-(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self.database querySingleStringResultWithSql:sql andArgs:args];
+}
+
+-(NSArray<NSString *> *) querySingleColumnStringResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self.database querySingleColumnStringResultsWithSql:sql andArgs:args];
 }
 
 -(NSArray *) getValueToleranceRange: (GPKGColumnValue *) value{

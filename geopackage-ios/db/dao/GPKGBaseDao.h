@@ -454,6 +454,15 @@
 -(int) deleteWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ *  Delete by field values
+ *
+ *  @param fieldValues field values
+ *
+ *  @return result set
+ */
+-(int) deleteByFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
  *  Delete all rows
  *
  *  @return rows deleted
@@ -754,5 +763,35 @@
  *  @return max or nil
  */
 -(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
+/**
+ *  Query for a single result int
+ *
+ *  @param sql  sql statement
+ *  @param args sql arguments
+ *
+ *  @return single result int
+ */
+-(int) querySingleIntResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ *  Query for a single result string
+ *
+ *  @param sql  sql statement
+ *  @param args sql arguments
+ *
+ *  @return single result string
+ */
+-(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ *  Query for a single column result strings
+ *
+ *  @param sql  sql statement
+ *  @param args sql arguments
+ *
+ *  @return single column result strings
+ */
+-(NSArray<NSString *> *) querySingleColumnStringResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 @end
