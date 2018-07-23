@@ -24,11 +24,6 @@ NSString * const GPKG_DC_COLUMN_CONSTRAINT_NAME = @"constraint_name";
 
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
-        // Verify the Contents have a data type
-        enum GPKGContentsDataType dataType = contents.getContentsDataType;
-        if(dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_FEATURES){
-            [NSException raise:@"Contents Type" format:@"The Contents of Data Columns must have a data type of tiles or features"];
-        }
         self.tableName = contents.tableName;
     }else{
         self.tableName = nil;
