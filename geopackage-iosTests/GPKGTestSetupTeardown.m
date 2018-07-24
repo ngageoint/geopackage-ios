@@ -34,17 +34,21 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
 @implementation GPKGTestSetupTeardown
 
 +(GPKGGeoPackage *) setUpCreateWithFeatures: (BOOL) features andTiles: (BOOL) tiles{
+    return [self setUpCreateWithName:GPKG_TEST_DB_NAME andFeatures:features andTiles:tiles];
+}
+
++(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andTiles: (BOOL) tiles{
     
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     
     // Delete
-    [manager delete:GPKG_TEST_DB_NAME];
+    [manager delete:name];
     
     // Create
-    [manager create:GPKG_TEST_DB_NAME];
+    [manager create:name];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_DB_NAME];
+    GPKGGeoPackage * geoPackage = [manager open:name];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
