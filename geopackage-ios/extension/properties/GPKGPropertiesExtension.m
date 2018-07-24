@@ -9,6 +9,7 @@
 #import "GPKGPropertiesExtension.h"
 #import "GPKGProperties.h"
 #import "GPKGAttributesColumn.h"
+#import "GPKGNGAExtensions.h"
 
 NSString * const GPKG_EXTENSION_PROPERTIES_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR = @"properties";
@@ -134,8 +135,8 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
     BOOL added = NO;
     if (![self hasValue:value withProperty:property]) {
         GPKGAttributesRow *row = [self newRow];
-        [row setValue:property forKey:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY];
-        [row setValue:value forKey:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
+        [row setValueWithColumnName:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andValue:property];
+        [row setValueWithColumnName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE andValue:value];
         [[self dao] insert:row];
         added = YES;
     }
@@ -159,7 +160,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(void) removeExtension{
-    // TODO
+    [GPKGNGAExtensions deletePropertiesExtensionWithGeoPackage:self.geoPackage];
 }
 
 /**

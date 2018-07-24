@@ -79,4 +79,11 @@
  */
 +(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ *  Delete the properties extension from the GeoPackage
+ *
+ *  @param geoPackage GeoPackage
+ */
++(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

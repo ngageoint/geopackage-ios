@@ -11,6 +11,7 @@
 #import "GPKGFeatureTileLinkDao.h"
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGTileTableScaling.h"
+#import "GPKGPropertiesExtension.h"
 
 @implementation GPKGNGAExtensions
 
@@ -117,6 +118,20 @@
         [extensionsDao deleteByExtension:extension];
     }
     
+}
+
++(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    
+    if([geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+        [geoPackage deleteUserTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    }
+    
+    if([extensionsDao tableExists]){
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_PROPERTIES_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
+        [extensionsDao deleteByExtension:extension andTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    }
 }
 
 @end
