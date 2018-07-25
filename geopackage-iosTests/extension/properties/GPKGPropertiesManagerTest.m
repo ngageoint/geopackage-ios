@@ -153,395 +153,255 @@ static int COLOR_BLUE_COUNT;
     }
     [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:[manager numGeoPackages]];
     
-    /*
-    
     // numProperties
-    TestCase.assertEquals(numProperties, manager.numProperties());
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
     
     // getProperties
-    Set<String> properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TITLE));
-    TestCase.assertTrue(properties.contains(PropertyNames.IDENTIFIER));
-    TestCase.assertTrue(properties.contains(EVEN_PROPERTY));
-    TestCase.assertTrue(properties.contains(ODD_PROPERTY));
-    TestCase.assertTrue(properties.contains(PropertyNames.TAG));
+    NSSet<NSString *> *properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertTrue:[properties containsObject:EVEN_PROPERTY]];
+    [GPKGTestUtils assertTrue:[properties containsObject:ODD_PROPERTY]];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TAG]];
     
     // hasProperty
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT, manager
-                          .hasProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT, manager
-                          .hasProperty(PropertyNames.IDENTIFIER).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT, manager
-                          .hasProperty(EVEN_PROPERTY).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT / 2, manager
-                          .hasProperty(ODD_PROPERTY).size());
-    TestCase.assertEquals(numTagged, manager.hasProperty(PropertyNames.TAG)
-                          .size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT andValue2:(int)[manager hasProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT andValue2:(int)[manager hasProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT andValue2:(int)[manager hasProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager hasProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:numTagged andValue2:(int)[manager hasProperty:GPKG_PE_TAG].count];
     
     // missingProperty
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT, manager
-                          .missingProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT, manager
-                          .missingProperty(PropertyNames.IDENTIFIER).size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT, manager
-                          .missingProperty(EVEN_PROPERTY).size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT
-                          + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2, manager
-                          .missingProperty(ODD_PROPERTY).size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT
-                          + (GEOPACKAGE_WITH_PROPERTIES_COUNT - numTagged), manager
-                          .missingProperty(PropertyNames.TAG).size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT andValue2:(int)[manager missingProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT andValue2:(int)[manager missingProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT andValue2:(int)[manager missingProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager missingProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT + (GEOPACKAGE_WITH_PROPERTIES_COUNT - numTagged) andValue2:(int)[manager missingProperty:GPKG_PE_TAG].count];
     
     // numValues
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT,
-                          manager.numValues(PropertyNames.TITLE));
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT,
-                          manager.numValues(PropertyNames.IDENTIFIER));
-    TestCase.assertEquals(2, manager.numValues(EVEN_PROPERTY));
-    TestCase.assertEquals(1, manager.numValues(ODD_PROPERTY));
-    TestCase.assertEquals(3, manager.numValues(PropertyNames.TAG));
-    TestCase.assertEquals(0, manager.numValues(PropertyNames.CREATOR));
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT andValue2:[manager numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT andValue2:[manager numValuesOfProperty:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertEqualIntWithValue:2 andValue2:[manager numValuesOfProperty:EVEN_PROPERTY]];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[manager numValuesOfProperty:ODD_PROPERTY]];
+    [GPKGTestUtils assertEqualIntWithValue:3 andValue2:[manager numValuesOfProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numValuesOfProperty:GPKG_PE_CREATOR]];
     
     // hasValues
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TITLE));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.IDENTIFIER));
-    TestCase.assertTrue(manager.hasValues(EVEN_PROPERTY));
-    TestCase.assertTrue(manager.hasValues(ODD_PROPERTY));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TAG));
-    TestCase.assertFalse(manager.hasValues(PropertyNames.CREATOR));
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:EVEN_PROPERTY]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:ODD_PROPERTY]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertFalse:[manager hasValuesWithProperty:GPKG_PE_CREATOR]];
     
     // getValues
-    Set<String> titles = manager.getValues(PropertyNames.TITLE);
-    Set<String> identifiers = manager.getValues(PropertyNames.IDENTIFIER);
+    NSSet<NSString *> *titles = [manager valuesOfProperty:GPKG_PE_TITLE];
+    NSSet<NSString *> *identifiers = [manager valuesOfProperty:GPKG_PE_IDENTIFIER];
     for (int i = 0; i < GEOPACKAGE_WITH_PROPERTIES_COUNT; i++) {
-        TestCase.assertTrue(titles.contains(GEOPACKAGE_NAME + (i + 1)));
-        TestCase.assertTrue(identifiers.contains(Integer.toString(i)));
+        [GPKGTestUtils assertTrue:[titles containsObject:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, i+1]]];
+        [GPKGTestUtils assertTrue:[identifiers containsObject:[NSString stringWithFormat:@"%d", i]]];
     }
-    Set<String> evenValues = manager.getValues(EVEN_PROPERTY);
-    TestCase.assertTrue(evenValues.contains(Boolean.TRUE.toString()));
-    TestCase.assertTrue(evenValues.contains(Boolean.FALSE.toString()));
-    Set<String> oddValues = manager.getValues(ODD_PROPERTY);
-    TestCase.assertTrue(oddValues.contains(Boolean.TRUE.toString()));
-    Set<String> tags = manager.getValues(PropertyNames.TAG);
-    TestCase.assertTrue(tags.contains(COLOR_RED));
-    TestCase.assertTrue(tags.contains(COLOR_GREEN));
-    TestCase.assertTrue(tags.contains(COLOR_BLUE));
-    TestCase.assertTrue(manager.getValues(PropertyNames.CREATOR).isEmpty());
+    NSSet<NSString *> *evenValues = [manager valuesOfProperty:EVEN_PROPERTY];
+    [GPKGTestUtils assertTrue:[evenValues containsObject:TRUE_VALUE]];
+    [GPKGTestUtils assertTrue:[evenValues containsObject:FALSE_VALUE]];
+    NSSet<NSString *> *oddValues = [manager valuesOfProperty:ODD_PROPERTY];
+    [GPKGTestUtils assertTrue:[oddValues containsObject:TRUE_VALUE]];
+    NSSet<NSString *> *tags = [manager valuesOfProperty:GPKG_PE_TAG];
+    [GPKGTestUtils assertTrue:[tags containsObject:COLOR_RED]];
+    [GPKGTestUtils assertTrue:[tags containsObject:COLOR_GREEN]];
+    [GPKGTestUtils assertTrue:[tags containsObject:COLOR_BLUE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager valuesOfProperty:GPKG_PE_CREATOR].count];
     
     // hasValue
     for (int i = 0; i < GEOPACKAGE_WITH_PROPERTIES_COUNT; i++) {
-        TestCase.assertEquals(
-                              1,
-                              manager.hasValue(PropertyNames.TITLE,
-                                               GEOPACKAGE_NAME + (i + 1)).size());
-        TestCase.assertEquals(
-                              1,
-                              manager.hasValue(PropertyNames.IDENTIFIER,
-                                               Integer.toString(i)).size());
+        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, i+1] withProperty:GPKG_PE_TITLE].count];
+        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%d", i] withProperty:GPKG_PE_IDENTIFIER].count];
     }
-    TestCase.assertEquals(
-                          0,
-                          manager.hasValue(
-                                           PropertyNames.TITLE,
-                                           GEOPACKAGE_NAME
-                                           + (GEOPACKAGE_WITH_PROPERTIES_COUNT + 1))
-                          .size());
-    TestCase.assertEquals(
-                          0,
-                          manager.hasValue(PropertyNames.IDENTIFIER,
-                                           Integer.toString(GEOPACKAGE_WITH_PROPERTIES_COUNT))
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT / 2, manager
-                          .hasValue(EVEN_PROPERTY, Boolean.TRUE.toString()).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT / 2, manager
-                          .hasValue(EVEN_PROPERTY, Boolean.FALSE.toString()).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT / 2, manager
-                          .hasValue(ODD_PROPERTY, Boolean.TRUE.toString()).size());
-    TestCase.assertEquals(0,
-                          manager.hasValue(ODD_PROPERTY, Boolean.FALSE.toString()).size());
-    TestCase.assertEquals(COLOR_RED_COUNT,
-                          manager.hasValue(PropertyNames.TAG, COLOR_RED).size());
-    TestCase.assertEquals(COLOR_GREEN_COUNT,
-                          manager.hasValue(PropertyNames.TAG, COLOR_GREEN).size());
-    TestCase.assertEquals(COLOR_BLUE_COUNT,
-                          manager.hasValue(PropertyNames.TAG, COLOR_BLUE).size());
-    TestCase.assertEquals(0, manager.hasValue(PropertyNames.TAG, "Yellow")
-                          .size());
-    TestCase.assertEquals(0,
-                          manager.hasValue(PropertyNames.CREATOR, CREATOR).size());
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, GEOPACKAGE_WITH_PROPERTIES_COUNT+1] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%d", GEOPACKAGE_WITH_PROPERTIES_COUNT] withProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager hasValue:TRUE_VALUE withProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager hasValue:FALSE_VALUE withProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager hasValue:TRUE_VALUE withProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:FALSE_VALUE withProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_RED_COUNT andValue2:(int)[manager hasValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_GREEN_COUNT andValue2:(int)[manager hasValue:COLOR_GREEN withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_BLUE_COUNT andValue2:(int)[manager hasValue:COLOR_BLUE withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:@"Yellow" withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:CREATOR withProperty:GPKG_PE_CREATOR].count];
     
     // missingValue
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT
-                          + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2,
-                          manager.missingValue(EVEN_PROPERTY, Boolean.TRUE.toString())
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT
-                          + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2,
-                          manager.missingValue(EVEN_PROPERTY, Boolean.FALSE.toString())
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT
-                          + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2,
-                          manager.missingValue(ODD_PROPERTY, Boolean.TRUE.toString())
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(ODD_PROPERTY, Boolean.FALSE.toString())
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - COLOR_RED_COUNT, manager
-                          .missingValue(PropertyNames.TAG, COLOR_RED).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - COLOR_GREEN_COUNT, manager
-                          .missingValue(PropertyNames.TAG, COLOR_GREEN).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - COLOR_BLUE_COUNT, manager
-                          .missingValue(PropertyNames.TAG, COLOR_BLUE).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TAG, "Yellow").size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.CREATOR, CREATOR).size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager missingValue:TRUE_VALUE withProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager missingValue:FALSE_VALUE withProperty:EVEN_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT + GEOPACKAGE_WITH_PROPERTIES_COUNT / 2 andValue2:(int)[manager missingValue:TRUE_VALUE withProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:FALSE_VALUE withProperty:ODD_PROPERTY].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - COLOR_RED_COUNT andValue2:(int)[manager missingValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - COLOR_GREEN_COUNT andValue2:(int)[manager missingValue:COLOR_GREEN withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - COLOR_BLUE_COUNT andValue2:(int)[manager missingValue:COLOR_BLUE withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:@"Yellow" withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:CREATOR withProperty:GPKG_PE_CREATOR].count];
     
     // Add a property value to all GeoPackages
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.addValue(PropertyNames.CREATOR, CREATOR));
-    TestCase.assertEquals(++numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.CREATOR));
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.hasProperty(PropertyNames.CREATOR).size());
-    TestCase.assertEquals(0, manager.missingProperty(PropertyNames.CREATOR)
-                          .size());
-    TestCase.assertEquals(1, manager.numValues(PropertyNames.CREATOR));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.CREATOR));
-    TestCase.assertTrue(manager.getValues(PropertyNames.CREATOR).contains(
-                                                                          CREATOR));
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.hasValue(PropertyNames.CREATOR, CREATOR).size());
-    TestCase.assertEquals(0,
-                          manager.missingValue(PropertyNames.CREATOR, CREATOR).size());
-    
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:[manager addValue:CREATOR withProperty:GPKG_PE_CREATOR]];
+    [GPKGTestUtils assertEqualIntWithValue:++numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_CREATOR]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager hasProperty:GPKG_PE_CREATOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager missingProperty:GPKG_PE_CREATOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[manager numValuesOfProperty:GPKG_PE_CREATOR]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_CREATOR]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_CREATOR] containsObject:CREATOR]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager hasValue:CREATOR withProperty:GPKG_PE_CREATOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager missingValue:CREATOR withProperty:GPKG_PE_CREATOR].count];
+
     // Add a property value to a single GeoPackage
-    TestCase.assertFalse(manager.addValue(GEOPACKAGE_NAME
-                                          + GEOPACKAGE_COUNT, PropertyNames.CREATOR, CREATOR));
-    TestCase.assertTrue(manager.addValue(
-                                         GEOPACKAGE_NAME + GEOPACKAGE_COUNT, PropertyNames.CONTRIBUTOR,
-                                         CREATOR));
-    TestCase.assertEquals(++numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.CONTRIBUTOR));
-    TestCase.assertEquals(1, manager.hasProperty(PropertyNames.CONTRIBUTOR)
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - 1,
-                          manager.missingProperty(PropertyNames.CONTRIBUTOR).size());
-    TestCase.assertEquals(1, manager.numValues(PropertyNames.CONTRIBUTOR));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.CONTRIBUTOR));
-    TestCase.assertTrue(manager.getValues(PropertyNames.CONTRIBUTOR)
-                        .contains(CREATOR));
-    TestCase.assertEquals(1,
-                          manager.hasValue(PropertyNames.CONTRIBUTOR, CREATOR).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - 1,
-                          manager.missingValue(PropertyNames.CONTRIBUTOR, CREATOR).size());
+    [GPKGTestUtils assertFalse:[manager addValue:CREATOR withProperty:GPKG_PE_CREATOR inGeoPackage:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, GEOPACKAGE_COUNT]]];
+    [GPKGTestUtils assertTrue:[manager addValue:CREATOR withProperty:GPKG_PE_CONTRIBUTOR inGeoPackage:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, GEOPACKAGE_COUNT]]];
+    [GPKGTestUtils assertEqualIntWithValue:++numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_CONTRIBUTOR]];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasProperty:GPKG_PE_CONTRIBUTOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - 1 andValue2:(int)[manager missingProperty:GPKG_PE_CONTRIBUTOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[manager numValuesOfProperty:GPKG_PE_CONTRIBUTOR]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_CONTRIBUTOR]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_CONTRIBUTOR] containsObject:CREATOR]];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasValue:CREATOR withProperty:GPKG_PE_CONTRIBUTOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - 1 andValue2:(int)[manager missingValue:CREATOR withProperty:GPKG_PE_CONTRIBUTOR].count];
     
     // Add an identifier to GeoPackages without one, one at a time
-    List<GeoPackage> missingIdentifiers = manager
-    .missingProperty(PropertyNames.IDENTIFIER);
-    TestCase.assertEquals(GEOPACKAGE_WITHOUT_PROPERTIES_COUNT,
-                          missingIdentifiers.size());
+    NSArray<GPKGGeoPackage *> *missingIdentifiers = [manager missingProperty:GPKG_PE_IDENTIFIER];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITHOUT_PROPERTIES_COUNT andValue2:(int)missingIdentifiers.count];
     int indentifierIndex = 100;
-    for (GeoPackage missingIdentifierGeoPackage : missingIdentifiers) {
-        TestCase.assertTrue(manager.addValue(
-                                             missingIdentifierGeoPackage.getName(),
-                                             PropertyNames.IDENTIFIER,
-                                             Integer.toString(indentifierIndex++)));
+    for(GPKGGeoPackage *missingIdentifierGeoPackage in missingIdentifiers){
+        [GPKGTestUtils assertTrue:[manager addValue:[NSString stringWithFormat:@"%d", indentifierIndex++] withProperty:GPKG_PE_IDENTIFIER inGeoPackage:missingIdentifierGeoPackage.name]];
     }
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.hasProperty(PropertyNames.IDENTIFIER).size());
-    TestCase.assertEquals(0,
-                          manager.missingProperty(PropertyNames.IDENTIFIER).size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager hasProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager missingProperty:GPKG_PE_IDENTIFIER].count];
     
     // Add an identifier to GeoPackages without one, all at once
-    TestCase.assertEquals(GEOPACKAGE_COUNT - 1,
-                          manager.addValue(PropertyNames.CONTRIBUTOR, CREATOR));
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.hasProperty(PropertyNames.CONTRIBUTOR).size());
-    TestCase.assertEquals(0,
-                          manager.missingProperty(PropertyNames.CONTRIBUTOR).size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - 1 andValue2:[manager addValue:CREATOR withProperty:GPKG_PE_CONTRIBUTOR]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager hasProperty:GPKG_PE_CONTRIBUTOR].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager missingProperty:GPKG_PE_CONTRIBUTOR].count];
     
     // Delete a property from all GeoPackages
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.deleteProperty(PropertyNames.IDENTIFIER));
-    TestCase.assertEquals(--numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertFalse(properties.contains(PropertyNames.IDENTIFIER));
-    TestCase.assertEquals(0, manager.hasProperty(PropertyNames.IDENTIFIER)
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingProperty(PropertyNames.IDENTIFIER).size());
-    TestCase.assertEquals(0, manager.numValues(PropertyNames.IDENTIFIER));
-    TestCase.assertFalse(manager.hasValues(PropertyNames.IDENTIFIER));
-    TestCase.assertEquals(0, manager.getValues(PropertyNames.IDENTIFIER)
-                          .size());
-    TestCase.assertEquals(0, manager
-                          .hasValue(PropertyNames.IDENTIFIER, "1").size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.IDENTIFIER, "1").size());
-    
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:[manager deleteProperty:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertEqualIntWithValue:--numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertFalse:[properties containsObject:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numValuesOfProperty:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertFalse:[manager hasValuesWithProperty:GPKG_PE_IDENTIFIER]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager valuesOfProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:@"1" withProperty:GPKG_PE_IDENTIFIER].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:@"1" withProperty:GPKG_PE_IDENTIFIER].count];
+
     // Delete a property from a single GeoPackage
-    TestCase.assertTrue(manager.deleteProperty(GEOPACKAGE_NAME + "1",
-                                               PropertyNames.TAG));
-    TestCase.assertEquals(numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TAG));
-    TestCase.assertEquals(--numTagged,
-                          manager.hasProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - numTagged, manager
-                          .missingProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(3, manager.numValues(PropertyNames.TAG));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TAG));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TAG).contains(
-                                                                      COLOR_RED));
-    TestCase.assertEquals(COLOR_RED_COUNT - 1,
-                          manager.hasValue(PropertyNames.TAG, COLOR_RED).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - (COLOR_RED_COUNT - 1), manager
-                          .missingValue(PropertyNames.TAG, COLOR_RED).size());
-    
+    [GPKGTestUtils assertTrue:[manager deleteProperty:GPKG_PE_TAG inGeoPackage:[NSString stringWithFormat:@"%@1", GEOPACKAGE_NAME]]];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TAG]];
+    [GPKGTestUtils assertEqualIntWithValue:--numTagged andValue2:(int)[manager hasProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - numTagged andValue2:(int)[manager missingProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:3 andValue2:[manager numValuesOfProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_TAG] containsObject:COLOR_RED]];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_RED_COUNT - 1 andValue2:(int)[manager hasValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - (COLOR_RED_COUNT - 1) andValue2:(int)[manager missingValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
+
     // Delete a property value from all GeoPackages
-    TestCase.assertEquals(COLOR_RED_COUNT - 1,
-                          manager.deleteValue(PropertyNames.TAG, COLOR_RED));
-    TestCase.assertEquals(numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TAG));
-    TestCase.assertEquals(--numTagged,
-                          manager.hasProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - numTagged, manager
-                          .missingProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(2, manager.numValues(PropertyNames.TAG));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TAG));
-    TestCase.assertFalse(manager.getValues(PropertyNames.TAG).contains(
-                                                                       COLOR_RED));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TAG).contains(
-                                                                      COLOR_GREEN));
-    TestCase.assertEquals(0, manager.hasValue(PropertyNames.TAG, COLOR_RED)
-                          .size());
-    TestCase.assertEquals(COLOR_GREEN_COUNT - 1,
-                          manager.hasValue(PropertyNames.TAG, COLOR_GREEN).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TAG, COLOR_RED).size());
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_RED_COUNT - 1 andValue2:[manager deleteValue:COLOR_RED withProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TAG]];
+    [GPKGTestUtils assertEqualIntWithValue:--numTagged andValue2:(int)[manager hasProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - numTagged andValue2:(int)[manager missingProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:2 andValue2:[manager numValuesOfProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertFalse:[[manager valuesOfProperty:GPKG_PE_TAG] containsObject:COLOR_RED]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_TAG] containsObject:COLOR_GREEN]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_GREEN_COUNT - 1 andValue2:(int)[manager hasValue:COLOR_GREEN withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:COLOR_RED withProperty:GPKG_PE_TAG].count];
     
     // Delete a property value from a single GeoPackage
-    TestCase.assertTrue(manager.deleteValue(GEOPACKAGE_NAME
-                                            + (COLOR_GREEN_FREQUENCY + 1), PropertyNames.TAG, COLOR_GREEN));
-    TestCase.assertEquals(numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TAG));
-    TestCase.assertEquals(--numTagged,
-                          manager.hasProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - numTagged, manager
-                          .missingProperty(PropertyNames.TAG).size());
-    TestCase.assertEquals(2, manager.numValues(PropertyNames.TAG));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TAG));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TAG).contains(
-                                                                      COLOR_GREEN));
-    TestCase.assertEquals(COLOR_GREEN_COUNT - 2,
-                          manager.hasValue(PropertyNames.TAG, COLOR_GREEN).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT - (COLOR_GREEN_COUNT - 2),
-                          manager.missingValue(PropertyNames.TAG, COLOR_GREEN).size());
-    
+    [GPKGTestUtils assertTrue:[manager deleteValue:COLOR_GREEN withProperty:GPKG_PE_TAG inGeoPackage:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, COLOR_GREEN_FREQUENCY + 1]]];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TAG]];
+    [GPKGTestUtils assertEqualIntWithValue:--numTagged andValue2:(int)[manager hasProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - numTagged andValue2:(int)[manager missingProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:2 andValue2:[manager numValuesOfProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TAG]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_TAG] containsObject:COLOR_GREEN]];
+    [GPKGTestUtils assertEqualIntWithValue:COLOR_GREEN_COUNT - 2 andValue2:(int)[manager hasValue:COLOR_GREEN withProperty:GPKG_PE_TAG].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - (COLOR_GREEN_COUNT - 2) andValue2:(int)[manager missingValue:COLOR_GREEN withProperty:GPKG_PE_TAG].count];
+
     // Delete all properties from a single GeoPackage
-    TestCase.assertTrue(manager.deleteAll(GEOPACKAGE_NAME + 2));
-    TestCase.assertEquals(numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TITLE));
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT - 1, manager
-                          .hasProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT
-                          - (GEOPACKAGE_WITH_PROPERTIES_COUNT - 1), manager
-                          .missingProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT - 1,
-                          manager.numValues(PropertyNames.TITLE));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TITLE));
-    TestCase.assertFalse(manager.getValues(PropertyNames.TITLE).contains(
-                                                                         GEOPACKAGE_NAME + 2));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TITLE).contains(
-                                                                        GEOPACKAGE_NAME + 3));
-    TestCase.assertEquals(0,
-                          manager.hasValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 2)
-                          .size());
-    TestCase.assertEquals(1,
-                          manager.hasValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 3)
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 2)
-                          .size());
+    [GPKGTestUtils assertTrue:[manager deleteAllInGeoPackage:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 2]]];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT - 1 andValue2:(int)[manager hasProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - (GEOPACKAGE_WITH_PROPERTIES_COUNT - 1) andValue2:(int)[manager missingProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT - 1 andValue2:[manager numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[[manager valuesOfProperty:GPKG_PE_TITLE] containsObject:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 2]]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_TITLE] containsObject:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3]]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 2] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 2] withProperty:GPKG_PE_TITLE].count];
     
     // Remove the extension from a single GeoPackage
-    manager.removeExtension(GEOPACKAGE_NAME + 4);
-    TestCase.assertEquals(numProperties, manager.numProperties());
-    properties = manager.getProperties();
-    TestCase.assertEquals(numProperties, properties.size());
-    TestCase.assertTrue(properties.contains(PropertyNames.TITLE));
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT - 2, manager
-                          .hasProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT
-                          - (GEOPACKAGE_WITH_PROPERTIES_COUNT - 2), manager
-                          .missingProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(GEOPACKAGE_WITH_PROPERTIES_COUNT - 2,
-                          manager.numValues(PropertyNames.TITLE));
-    TestCase.assertTrue(manager.hasValues(PropertyNames.TITLE));
-    TestCase.assertFalse(manager.getValues(PropertyNames.TITLE).contains(
-                                                                         GEOPACKAGE_NAME + 4));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TITLE).contains(
-                                                                        GEOPACKAGE_NAME + 3));
-    TestCase.assertEquals(0,
-                          manager.hasValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 4)
-                          .size());
-    TestCase.assertEquals(1,
-                          manager.hasValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 3)
-                          .size());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 4)
-                          .size());
+    [manager removeExtensionInGeoPackage:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 4]];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
+    properties = [manager properties];
+    [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
+    [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT - 2 andValue2:(int)[manager hasProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - (GEOPACKAGE_WITH_PROPERTIES_COUNT - 2) andValue2:(int)[manager missingProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_WITH_PROPERTIES_COUNT - 2 andValue2:[manager numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[[manager valuesOfProperty:GPKG_PE_TITLE] containsObject:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 4]]];
+    [GPKGTestUtils assertTrue:[[manager valuesOfProperty:GPKG_PE_TITLE] containsObject:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3]]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 4] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 4] withProperty:GPKG_PE_TITLE].count];
     
     // Delete all properties from all GeoPackages
-    TestCase.assertEquals(GEOPACKAGE_COUNT - 2, manager.deleteAll());
-    TestCase.assertEquals(0, manager.numProperties());
-    TestCase.assertTrue(manager.getProperties().isEmpty());
-    TestCase.assertTrue(manager.hasProperty(PropertyNames.TITLE).isEmpty());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(0, manager.numValues(PropertyNames.TITLE));
-    TestCase.assertFalse(manager.hasValues(PropertyNames.TITLE));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TITLE).isEmpty());
-    TestCase.assertTrue(manager.hasValue(PropertyNames.TITLE,
-                                         GEOPACKAGE_NAME + 3).isEmpty());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 3)
-                          .size());
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT - 2 andValue2:[manager deleteAll]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numProperties]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager properties].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[manager hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager valuesOfProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
     
     // Remove the extension from all GeoPackages
-    manager.removeExtension();
-    TestCase.assertEquals(0, manager.numProperties());
-    TestCase.assertTrue(manager.getProperties().isEmpty());
-    TestCase.assertTrue(manager.hasProperty(PropertyNames.TITLE).isEmpty());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingProperty(PropertyNames.TITLE).size());
-    TestCase.assertEquals(0, manager.numValues(PropertyNames.TITLE));
-    TestCase.assertFalse(manager.hasValues(PropertyNames.TITLE));
-    TestCase.assertTrue(manager.getValues(PropertyNames.TITLE).isEmpty());
-    TestCase.assertTrue(manager.hasValue(PropertyNames.TITLE,
-                                         GEOPACKAGE_NAME + 3).isEmpty());
-    TestCase.assertEquals(GEOPACKAGE_COUNT,
-                          manager.missingValue(PropertyNames.TITLE, GEOPACKAGE_NAME + 3)
-                          .size());
+    [manager removeExtension];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numProperties]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager properties].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[manager hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager valuesOfProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[manager hasValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)[manager missingValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, 3] withProperty:GPKG_PE_TITLE].count];
      
      // Close the GeoPackages
      [manager closeGeoPackages];
      [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[manager numGeoPackages]];
-    */
 }
 
 @end
