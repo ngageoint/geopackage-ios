@@ -144,6 +144,12 @@
     [GPKGUtils addObject:uniqueConstraint toArray:self.uniqueConstraints];
 }
 
+-(void) addUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
+    for(GPKGUserUniqueConstraint *uniqueConstraint in uniqueConstraints){
+        [self addUniqueConstraint:uniqueConstraint];
+    }
+}
+
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{
     NSMutableArray * columnsOfType = [[NSMutableArray alloc] init];
     for(GPKGUserColumn *column in self.columns){

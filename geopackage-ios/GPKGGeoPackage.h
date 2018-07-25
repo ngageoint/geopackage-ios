@@ -780,6 +780,25 @@
  * Create a new attributes table.
  *
  * The attributes table will be created with 1 + additionalColumns.size()
+ * columns, an id column named "id" and the provided additional columns.
+ *
+ * @param tableName
+ *            table name
+ * @param additionalColumns
+ *            additional attributes table columns to create in addition to
+ *            id
+ * @param uniqueConstraints
+ *            unique constraints
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+
+/**
+ * Create a new attributes table.
+ *
+ * The attributes table will be created with 1 + additionalColumns.size()
  * columns, an id column with the provided name and the provided additional
  * columns.
  *
@@ -799,6 +818,29 @@
 /**
  * Create a new attributes table.
  *
+ * The attributes table will be created with 1 + additionalColumns.size()
+ * columns, an id column with the provided name and the provided additional
+ * columns.
+ *
+ * @param tableName
+ *            table name
+ * @param idColumnName
+ *            id column name
+ * @param additionalColumns
+ *            additional attributes table columns to create in addition to
+ *            id
+ * @param uniqueConstraints
+ *            unique constraints
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+
+/**
+ * Create a new attributes table.
+ *
  * The attributes table will be created with columns.size() columns and must
  * include an integer id column
  *
@@ -810,6 +852,24 @@
  */
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                        andColumns: (NSArray *) columns;
+
+/**
+ * Create a new attributes table.
+ *
+ * The attributes table will be created with columns.size() columns and must
+ * include an integer id column
+ *
+ * @param tableName
+ *            table name
+ * @param columns
+ *            table columns to create
+ * @param uniqueConstraints
+ *            unique constraints
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                                 andColumns: (NSArray *) columns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
 
 /**
  * Get a Tile Scaling DAO

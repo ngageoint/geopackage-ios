@@ -163,6 +163,14 @@
 -(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint;
 
 /**
+ * Add unique constraint
+ *
+ * @param uniqueConstraints
+ *            unique constraints
+ */
+-(void) addUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+
+/**
  * Get the columns with the provided data type
  *
  * @param type

@@ -771,8 +771,21 @@
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns andUniqueConstraints:uniqueConstraints];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                             andIdColumnName: (NSString *) idColumnName
                                        andAdditionalColumns: (NSArray *) additionalColumns{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:idColumnName andAdditionalColumns:additionalColumns andUniqueConstraints:nil];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
     
     if(idColumnName == nil){
         idColumnName = @"id";
@@ -785,14 +798,27 @@
         [columns addObjectsFromArray:additionalColumns];
     }
     
-    return [self createAttributesTableWithTableName:tableName andColumns:columns];
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andUniqueConstraints:uniqueConstraints];
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                                  andColumns: (NSArray *) columns{
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andUniqueConstraints:nil];
+}
+    
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                                 andColumns: (NSArray *) columns
+                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
+    
+    // Build the user attributes table
+    GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
+    
+    // Add unique constraints
+    if(uniqueConstraints != nil){
+        [table addUniqueConstraints:uniqueConstraints];
+    }
     
     // Create the user attributes table
-    GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
     [self createAttributesTable:table];
     
     @try {

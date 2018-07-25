@@ -40,10 +40,17 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
     
     // Create the attributes table
     if(![self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+        
+        GPKGAttributesColumn *propertyColumn = [GPKGAttributesColumn createColumnWithIndex:1 andName:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:nil];
+        GPKGAttributesColumn *valueColumn = [GPKGAttributesColumn createColumnWithIndex:2 andName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil];
+        
         NSMutableArray *additionalColumns = [[NSMutableArray alloc] init];
-        [additionalColumns addObject:[GPKGAttributesColumn createColumnWithIndex:1 andName:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:nil]];
-        [additionalColumns addObject:[GPKGAttributesColumn createColumnWithIndex:2 andName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-        [self.geoPackage createAttributesTableWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andAdditionalColumns:additionalColumns];
+        [additionalColumns addObject:propertyColumn];
+        [additionalColumns addObject:valueColumn];
+        
+        NSArray<GPKGUserUniqueConstraint *> *uniqueConstraints = [[NSArray alloc] initWithObjects:[[GPKGUserUniqueConstraint alloc] initWithColumns:additionalColumns], nil];
+        
+        [self.geoPackage createAttributesTableWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andAdditionalColumns:additionalColumns andUniqueConstraints:uniqueConstraints];
     }
     
     GPKGExtensions *extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
