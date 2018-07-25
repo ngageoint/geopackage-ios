@@ -142,9 +142,7 @@
 -(NSSet<NSString *> *) properties{
     NSMutableSet<NSString *> *allProperties = [[NSMutableSet alloc] init];
     for(GPKGPropertiesExtension *properties in self.propertiesMap.allValues){
-        if([properties has]){
-            [allProperties addObjectsFromArray:[properties properties]];
-        }
+        [allProperties addObjectsFromArray:[properties properties]];
     }
     return allProperties;
 }
@@ -152,7 +150,7 @@
 -(NSArray<GPKGGeoPackage *> *) hasProperty: (NSString *) property{
     NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
-        if([properties has] && [properties hasProperty:property]){
+        if([properties hasProperty:property]){
             [geoPackages addObject:properties.geoPackage];
         }
     }
@@ -162,7 +160,7 @@
 -(NSArray<GPKGGeoPackage *> *) missingProperty: (NSString *) property{
     NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
-        if(![properties has] || ![properties hasProperty:property]){
+        if(![properties hasProperty:property]){
             [geoPackages addObject:properties.geoPackage];
         }
     }
@@ -180,9 +178,7 @@
 -(NSSet<NSString *> *) valuesOfProperty: (NSString *) property{
     NSMutableSet<NSString *> *allValues = [[NSMutableSet alloc] init];
     for(GPKGPropertiesExtension *properties in self.propertiesMap.allValues){
-        if([properties has]){
-            [allValues addObjectsFromArray:[properties valuesOfProperty:property]];
-        }
+        [allValues addObjectsFromArray:[properties valuesOfProperty:property]];
     }
     return allValues;
 }
@@ -190,7 +186,7 @@
 -(NSArray<GPKGGeoPackage *> *) hasValue: (NSString *) value withProperty: (NSString *) property{
     NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
-        if([properties has] && [properties hasValue:value withProperty:property]){
+        if([properties hasValue:value withProperty:property]){
             [geoPackages addObject:properties.geoPackage];
         }
     }
@@ -200,7 +196,7 @@
 -(NSArray<GPKGGeoPackage *> *) missingValue: (NSString *) value withProperty: (NSString *) property{
     NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
-        if(![properties has] || ![properties hasValue:value withProperty:property]){
+        if(![properties hasValue:value withProperty:property]){
             [geoPackages addObject:properties.geoPackage];
         }
     }
@@ -221,7 +217,6 @@
     BOOL added = NO;
     GPKGPropertiesExtension *properties = [self.propertiesMap objectForKey:geoPackage];
     if(properties != nil){
-        [properties getOrCreate];
         added = [properties addValue:value withProperty:property];
     }
     return added;
@@ -240,7 +235,7 @@
 -(int) deleteProperty: (NSString *) property inGeoPackage: (NSString *) geoPackage{
     BOOL deleted = NO;
     GPKGPropertiesExtension *properties = [self.propertiesMap objectForKey:geoPackage];
-    if (properties != nil && [properties has]) {
+    if (properties != nil) {
         deleted = [properties deleteProperty:property] > 0;
     }
     return deleted;
@@ -259,7 +254,7 @@
 -(int) deleteValue: (NSString *) value withProperty: (NSString *) property inGeoPackage: (NSString *) geoPackage{
     BOOL deleted = NO;
     GPKGPropertiesExtension *properties = [self.propertiesMap objectForKey:geoPackage];
-    if (properties != nil && [properties has]) {
+    if (properties != nil) {
         deleted = [properties deleteValue:value withProperty:property] > 0;
     }
     return deleted;
@@ -278,7 +273,7 @@
 -(int) deleteAllInGeoPackage: (NSString *) geoPackage{
     BOOL deleted = NO;
     GPKGPropertiesExtension *properties = [self.propertiesMap objectForKey:geoPackage];
-    if (properties != nil && [properties has]) {
+    if (properties != nil) {
         deleted = [properties deleteAll] > 0;
     }
     return deleted;

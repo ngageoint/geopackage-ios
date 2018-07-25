@@ -118,7 +118,6 @@ static int COLOR_BLUE_COUNT;
 -(void) addPropertiesToGeoPackage: (GPKGGeoPackage *) geoPackage withIdentifier: (int) i{
     
     GPKGPropertiesExtension *properties = [[GPKGPropertiesExtension alloc] initWithGeoPackage:geoPackage];
-    [properties getOrCreate];
     
     [properties addValue:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, i+1] withProperty:GPKG_PE_TITLE];
     [properties addValue:[NSString stringWithFormat:@"%d", i] withProperty:GPKG_PE_IDENTIFIER];

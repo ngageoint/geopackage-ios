@@ -145,7 +145,7 @@ extern NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE;
 -(BOOL) hasValue: (NSString *) value withProperty: (NSString *) property;
 
 /**
- * Add a property value
+ * Add a property value, creating the extension if needed
  *
  * @param property
  *            property name

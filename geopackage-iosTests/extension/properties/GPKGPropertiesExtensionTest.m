@@ -22,6 +22,24 @@
     [GPKGTestUtils assertFalse:[extension has]];
     [GPKGTestUtils assertFalse:[self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]];
     
+    NSString *name = @"My GeoPackage";
+    
+    // Test before the extension exists
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numProperties]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[extension properties].count];
+    [GPKGTestUtils assertFalse:[extension hasProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numValues]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numValuesOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[extension hasSingleValueWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertFalse:[extension hasValuesWithProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertNil:[extension valueOfProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[extension valuesOfProperty:GPKG_PE_TITLE].count];
+    [GPKGTestUtils assertFalse:[extension hasValue:name withProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension deleteProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension deleteValue:name withProperty:GPKG_PE_TITLE]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension deleteAll]];
+    [extension removeExtension];
+    
     GPKGExtensions *extensions = [extension getOrCreate];
     [GPKGTestUtils assertNotNil:extensions];
     [GPKGTestUtils assertTrue:[extension has]];
@@ -35,7 +53,6 @@
     [GPKGTestUtils assertFalse:[extension hasValuesWithProperty:GPKG_PE_TITLE]];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numValuesOfProperty:GPKG_PE_TITLE]];
     
-    NSString *name = @"My GeoPackage";
     [GPKGTestUtils assertTrue:[extension addValue:name withProperty:GPKG_PE_TITLE]];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[extension numProperties]];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)[extension properties].count];
@@ -104,7 +121,6 @@
 - (void)testPropertyNames {
     
     GPKGPropertiesExtension *extension = [[GPKGPropertiesExtension alloc] initWithGeoPackage:self.geoPackage];
-    [extension getOrCreate];
     
     int count = 0;
     

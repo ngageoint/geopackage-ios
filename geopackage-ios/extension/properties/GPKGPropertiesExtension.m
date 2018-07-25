@@ -76,7 +76,13 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(NSArray<NSString *> *) properties{
-    return [[self dao] querySingleColumnStringResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY, GPKG_EXTENSION_PROPERTIES_TABLE_NAME] andArgs:nil];
+    NSArray<NSString *> *properties = nil;
+    if([self has]){
+        properties = [[self dao] querySingleColumnStringResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY, GPKG_EXTENSION_PROPERTIES_TABLE_NAME] andArgs:nil];
+    }else{
+        properties = [[NSArray alloc] init];
+    }
+    return properties;
 }
 
 -(BOOL) hasProperty: (NSString *) property{
@@ -84,16 +90,22 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(int) numValues{
-    return [[self dao] count];
+    int count = 0;
+    if([self has]){
+        count = [[self dao] count];
+    }
+    return count;
 }
 
 -(int) numValuesOfProperty: (NSString *) property{
     int count = 0;
-    GPKGResultSet *result = [self queryForValuesWithProperty:property];
-    @try {
-        count = result.count;
-    }@finally {
-        [result close];
+    if([self has]){
+        GPKGResultSet *result = [self queryForValuesWithProperty:property];
+        @try {
+            count = result.count;
+        }@finally {
+            [result close];
+        }
     }
     return count;
 }
@@ -121,17 +133,22 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 
 -(BOOL) hasValue: (NSString *) value withProperty: (NSString *) property{
     BOOL hasValue = NO;
-    GPKGColumnValues *fieldValues = [self buildFieldValuesWithProperty:property andValue:value];
-    GPKGResultSet *result = [[self dao] queryForFieldValues:fieldValues];
-    @try{
-        hasValue = result.count > 0;
-    }@finally{
-        [result close];
+    if([self has]){
+        GPKGColumnValues *fieldValues = [self buildFieldValuesWithProperty:property andValue:value];
+        GPKGResultSet *result = [[self dao] queryForFieldValues:fieldValues];
+        @try{
+            hasValue = result.count > 0;
+        }@finally{
+            [result close];
+        }
     }
     return hasValue;
 }
 
 -(BOOL) addValue: (NSString *) value withProperty: (NSString *) property{
+    if(![self has]){
+        [self getOrCreate];
+    }
     BOOL added = NO;
     if (![self hasValue:value withProperty:property]) {
         GPKGAttributesRow *row = [self newRow];
@@ -144,19 +161,31 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(int) deleteProperty: (NSString *) property{
-    GPKGAttributesDao *dao = [self dao];
-    NSString *where = [dao buildWhereWithField:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andValue:property];
-    NSArray *whereArgs = [dao buildWhereArgsWithValue:property];
-    return [dao deleteWhere:where andWhereArgs:whereArgs];
+    int count = 0;
+    if([self has]){
+        GPKGAttributesDao *dao = [self dao];
+        NSString *where = [dao buildWhereWithField:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andValue:property];
+        NSArray *whereArgs = [dao buildWhereArgsWithValue:property];
+        count = [dao deleteWhere:where andWhereArgs:whereArgs];
+    }
+    return count;
 }
 
 -(int) deleteValue: (NSString *) value withProperty: (NSString *) property{
-    GPKGColumnValues *fieldValues = [self buildFieldValuesWithProperty:property andValue:value];
-    return [[self dao] deleteByFieldValues:fieldValues];
+    int count = 0;
+    if([self has]){
+        GPKGColumnValues *fieldValues = [self buildFieldValuesWithProperty:property andValue:value];
+        count = [[self dao] deleteByFieldValues:fieldValues];
+    }
+    return count;
 }
 
 -(int) deleteAll{
-    return [self.dao deleteAll];
+    int count = 0;
+    if([self has]){
+        count = [self.dao deleteAll];
+    }
+    return count;
 }
 
 -(void) removeExtension{
@@ -187,7 +216,11 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
  * @return result
  */
 -(GPKGResultSet *) queryForValuesWithProperty: (NSString *) property{
-    return [[self dao] queryForEqWithField:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andValue:property];
+    GPKGResultSet *result = nil;
+    if([self has]){
+        result = [[self dao] queryForEqWithField:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andValue:property];
+    }
+    return result;
 }
 
 /**
@@ -200,15 +233,19 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 -(NSArray<NSString *> *) valueswithResults: (GPKGResultSet *) results{
     
     NSArray<NSString *> *values = nil;
-    @try {
-        if (results.count > 0) {
-            int columnIndex = [results getColumnIndexWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
-            values = [self columnResultsAtIndex:columnIndex withResults:results];
-        } else {
-            values = [[NSArray alloc] init];
+    if(results != nil){
+        @try {
+            if (results.count > 0) {
+                int columnIndex = [results getColumnIndexWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
+                values = [self columnResultsAtIndex:columnIndex withResults:results];
+            } else {
+                values = [[NSArray alloc] init];
+            }
+        }@finally {
+            [results close];
         }
-    }@finally {
-        [results close];
+    }else{
+        values = [[NSArray alloc] init];
     }
     
     return values;
