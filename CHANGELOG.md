@@ -7,6 +7,13 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 3.0.2 (TBD)
 
 * Geometry Utils computeAreaOfDegreesPath fix
+* Properties Extension for saving GeoPackage metadata in the file
+* Properties Manager for using the Properties Extension on multiple open GeoPackages
+* Create Attributes Table methods with unique constraints
+* Remove Data Columns requirement of enumerated data types
+* GeoPackage Cache add all method
+* Additional Connection and SQL Utils query methods
+* Additional Base DAO deletion and query methods
 
 ## [3.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.1) (07-16-2018)
 
