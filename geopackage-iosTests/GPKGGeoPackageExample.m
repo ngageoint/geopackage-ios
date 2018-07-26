@@ -954,14 +954,22 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGBoundingBox *bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-11667347.997449303 andMinLatitudeDouble:4824705.2253603265 andMaxLongitudeDouble:-11666125.00499674 andMaxLatitudeDouble:4825928.217812888];
     
+    int contentsEpsg = PROJ_EPSG_WEB_MERCATOR;
+    int tileMatrixSetEpsg = PROJ_EPSG_WEB_MERCATOR;
+    
     GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
-    GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
-    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
-    GPKGBoundingBox *contentsBoundingBox = [bbox transform:transform];
+    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
-    GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
+    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
+    GPKGBoundingBox *contentsBoundingBox = nil;
+    if(![transform isSameProjection]){
+        contentsBoundingBox = [bbox transform:transform];
+    }
+    
+    GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
     GPKGTileDao *tileDao = [coverageData tileDao];
     GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
@@ -1037,14 +1045,22 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGBoundingBox *bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-8593967.964158937 andMinLatitudeDouble:4685284.085768163 andMaxLongitudeDouble:-8592744.971706374 andMaxLatitudeDouble:4687730.070673289];
     
+    int contentsEpsg = PROJ_EPSG_WEB_MERCATOR;
+    int tileMatrixSetEpsg = PROJ_EPSG_WEB_MERCATOR;
+    
     GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
-    GPKGSpatialReferenceSystem *tileMatrixSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
-    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D];
-    GPKGBoundingBox *contentsBoundingBox = [bbox transform:transform];
+    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
-    GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSrs.srsId];
+    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
+    GPKGBoundingBox *contentsBoundingBox = nil;
+    if(![transform isSameProjection]){
+        contentsBoundingBox = [bbox transform:transform];
+    }
+    
+    GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
     GPKGTileDao *tileDao = [coverageData tileDao];
     GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
