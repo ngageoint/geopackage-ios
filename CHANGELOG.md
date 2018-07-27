@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.0.2 (TBD)
+## [3.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.2) (07-27-2018)
 
 * Geometry Utils computeAreaOfDegreesPath fix
 * Properties Extension for saving GeoPackage metadata in the file
