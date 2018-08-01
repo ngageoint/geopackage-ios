@@ -33,7 +33,7 @@
 }
 
 -(BOOL) isNamed: (NSString *) name{
-    return name != nil && [self.name isEqualToString:name];
+    return [self.name isEqualToString:name];
 }
 
 -(NSString *) getTypeName{
