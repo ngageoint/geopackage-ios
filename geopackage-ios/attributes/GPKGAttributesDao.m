@@ -45,4 +45,9 @@
     return nil;
 }
 
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    [NSException raise:@"Not Supported" format:@"Bounding Box not supported for Attributes"];
+    return nil;
+}
+
 @end

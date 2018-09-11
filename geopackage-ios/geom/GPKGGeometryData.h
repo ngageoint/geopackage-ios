@@ -110,6 +110,13 @@
 -(NSData *) getWkbData;
 
 /**
+ * Get the envelope if it exists or build it from the geometry if not null
+ *
+ * @return geometry envelope
+ */
+-(SFGeometryEnvelope *) getOrBuildEnvelope;
+
+/**
  * Get the envelope flag indicator
  *
  * 1 for xy, 2 for xyz, 3 for xym, 4 for xyzm (null would be 0)

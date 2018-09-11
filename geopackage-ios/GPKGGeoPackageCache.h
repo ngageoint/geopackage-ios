@@ -15,6 +15,11 @@
 @interface GPKGGeoPackageCache : NSObject
 
 /**
+ *  Close quietly flag
+ */
+@property (nonatomic) BOOL closeQuietly;
+
+/**
  *  Initialize
  *
  *  @param manager geoPackage manager
@@ -45,6 +50,15 @@
  *  @return cached GeoPackages
  */
 -(NSArray<GPKGGeoPackage*> *) getGeoPackages;
+
+/**
+ *  Determine if the cache has the GeoPackage name
+ *
+ *  @param name GeoPackage name
+ *
+ *  @return true if has cached GeoPackage
+ */
+-(BOOL) has: (NSString *) name;
 
 /**
  *  Get the GeoPackage with name

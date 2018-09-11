@@ -104,6 +104,17 @@
     return nil;
 }
 
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    SFPProjectionTransform *projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.projection];
+    GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:projectionTransform];
+    return projectedBoundingBox;
+}
+
 -(int) getZoomLevel{
     if(self.projection == nil){
         [NSException raise:@"No Projection" format:@"No projection was set which is required to determine the zoom level"];

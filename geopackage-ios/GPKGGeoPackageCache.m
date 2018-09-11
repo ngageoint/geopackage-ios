@@ -22,6 +22,7 @@
     if(self != nil){
         self.manager = manager;
         self.cache = [[NSMutableDictionary alloc] init];
+        self.closeQuietly = YES;
     }
     return self;
 }
@@ -43,6 +44,10 @@
     return [self.cache allValues];
 }
 
+-(BOOL) has: (NSString *) name{
+    return [self get:name] != nil;
+}
+
 -(GPKGGeoPackage *) get: (NSString *) name{
     return [self.cache objectForKey:name];
 }
@@ -53,7 +58,7 @@
 
 -(void) closeAll{
     for(GPKGGeoPackage * geoPackage in [self.cache allValues]){
-        [geoPackage close];
+        [self closeGeoPackage:geoPackage];
     }
     [self clear];
 }
@@ -83,7 +88,7 @@
 -(BOOL) close: (NSString *) name{
     GPKGGeoPackage * geoPackage = [self remove:name];
     if(geoPackage != nil){
-        [geoPackage close];
+        [self closeGeoPackage:geoPackage];
     }
     return geoPackage != nil;
 }
@@ -99,6 +104,17 @@
 -(void) closeNames: (NSArray *) names{
     for(NSString * name in names){
         [self close:name];
+    }
+}
+
+-(void) closeGeoPackage: (GPKGGeoPackage *) geoPackage{
+    @try {
+        [geoPackage close];
+    } @catch (NSException *exception) {
+        NSLog(@"Error closing GeoPackage: %@", geoPackage.name);
+        if(!self.closeQuietly){
+            [exception raise];
+        }
     }
 }
 

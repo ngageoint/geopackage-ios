@@ -113,79 +113,218 @@
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
-    return [self singleIntResultQueryWithDatabase:connection andStatement:countStatement andArgs:args];
+    return [self querySingleIntegerWithDatabase:connection andSql:countStatement andArgs:args andAllowEmpty:YES];
 }
 
-+(int) singleIntResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(int) querySingleIntegerWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andAllowEmpty: (BOOL) allowEmptyResults{
     
     int result = 0;
     
-    sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        [self setArguments:args inStatement:compiledStatement];
-        if(sqlite3_step(compiledStatement) == SQLITE_ROW){
-            result = sqlite3_column_int(compiledStatement, 0);
-        } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to query for single result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
-        }
-    } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to query for single result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    NSObject *value = [self querySingleResultWithDatabase:connection andSql:sql andArgs:args andColumn:0 andDataType:GPKG_DT_MEDIUMINT];
+    if(value != nil){
+        result = [((NSNumber *) value) intValue];
+    }else if(!allowEmptyResults){
+        [NSException raise:@"Singe Integer Query" format:@"Failed to query for single result. SQL: %@", sql];
     }
-    
-    [self closeStatement:compiledStatement];
     
     return result;
 }
 
-+(NSString *) singleStringResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(NSObject *) querySingleResultWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
     
-    NSString * result = nil;
+    GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
     
-    sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        [self setArguments:args inStatement:compiledStatement];
-        if(sqlite3_step(compiledStatement) == SQLITE_ROW){
-            char* resultChars = (char *)sqlite3_column_text(compiledStatement, 0);
-            if (resultChars != nil){
-                result = [NSString stringWithCString:resultChars encoding:NSUTF8StringEncoding];
-            }
-        } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to query for single string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    NSObject *value = nil;
+    @try {
+        if ([result moveToNext]) {
+            value = [self valueInResult:result atIndex:column withDataType:dataType];
         }
-    } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to query for single string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    } @finally {
+        [result close];
     }
     
-    [self closeStatement:compiledStatement];
-    
-    return result;
+    return value;
 }
 
-+(NSArray<NSString *> *) singleColumnStringResultsQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
++(NSArray<NSObject *> *) querySingleColumnResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit{
     
-    NSMutableArray<NSString *> *result = [[NSMutableArray alloc] init];
+    GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
     
-    sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        [self setArguments:args inStatement:compiledStatement];
-        while(sqlite3_step(compiledStatement) == SQLITE_ROW){
-            char* resultChars = (char *)sqlite3_column_text(compiledStatement, 0);
-            if (resultChars != nil){
-                [result addObject:[NSString stringWithCString:resultChars encoding:NSUTF8StringEncoding]];
+    NSMutableArray<NSObject *> *results = [[NSMutableArray alloc] init];
+    @try {
+        while([result moveToNext]) {
+            NSObject *value = [self valueInResult:result atIndex:column withDataType:dataType];
+            [results addObject:value];
+            if(limit != nil && results.count >= [limit intValue]){
+                break;
             }
         }
-    } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to query for single column string result. SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+    } @finally {
+        [result close];
     }
     
-    [self closeStatement:compiledStatement];
-    
-    return result;
+    return results;
 }
 
++(NSArray<NSArray<NSObject *> *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
+    
+    GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
+    
+    NSMutableArray<NSArray<NSObject *> *> *results = [[NSMutableArray alloc] init];
+    @try {
+        int columns = (int)result.columns.count;
+        while([result moveToNext]) {
+            NSMutableArray<NSObject *> *row = [[NSMutableArray alloc] init];
+            for(int i = 0; i < columns; i++){
+                enum GPKGDataType dataType = -1;
+                if(dataTypes != nil){
+                    dataType = [((NSNumber *)dataTypes[i]) intValue];
+                }
+                [row addObject:[self valueInResult:result atIndex:i withDataType:dataType]];
+            }
+            [results addObject:row];
+            if(limit != nil && results.count >= [limit intValue]){
+                break;
+            }
+        }
+    } @finally {
+        [result close];
+    }
+    
+    return results;
+}
+
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index{
+    return [self valueInResult:result atIndex:index withDataType:-1];
+}
+
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
+    
+    NSObject *value = nil;
+    
+    int type = [result getType:index];
+    
+    switch (type) {
+            
+        case SQLITE_INTEGER:
+            value = [self integerValueInResult:result atIndex:index withDataType:dataType];
+            break;
+            
+        case SQLITE_FLOAT:
+            value = [self floatValueInResult:result atIndex:index withDataType:dataType];
+            break;
+            
+        case SQLITE_TEXT:
+            {
+                NSString *stringValue = [result getString:index];
+                
+                if (((int)dataType >= 0)
+                    && (dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME)) {
+                    
+                    @try{
+                        value = [GPKGDateTimeUtils convertToDateWithString:stringValue];
+                    } @catch (NSException *exception) {
+                        NSLog(@"Invalid %@ format: %@, String value used, error: %@", [GPKGDataTypes name:dataType], stringValue, exception);
+                        value = stringValue;
+                    }
+
+                } else {
+                    value = stringValue;
+                }
+            }
+            break;
+            
+        case SQLITE_BLOB:
+            value = [result getBlob:index];
+            break;
+            
+        case SQLITE_NULL:
+            // leave value as null
+            break;
+    }
+    
+    return value;
+}
+
+/**
+ * Get the integer value from the result set of the column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param dataType
+ *            data type
+ * @return integer value
+ */
++(NSObject *) integerValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
+    
+    NSObject *value = nil;
+    
+    if((int)dataType == -1){
+        dataType = GPKG_DT_INTEGER;
+    }
+    
+    switch (dataType) {
+        case GPKG_DT_BOOLEAN:
+            {
+                NSNumber *booleanNumberValue = [result getInt:index];
+                if(booleanNumberValue != nil){
+                    BOOL booleanValue = [booleanNumberValue intValue] == 0 ? NO : YES;
+                    value = [NSNumber numberWithBool:booleanValue];
+                }
+            }
+            break;
+        case GPKG_DT_TINYINT:
+        case GPKG_DT_SMALLINT:
+        case GPKG_DT_MEDIUMINT:
+            value = [result getInt:index];
+            break;
+        case GPKG_DT_INT:
+        case GPKG_DT_INTEGER:
+            value = [result getLong:index];
+            break;
+        default:
+            [NSException raise:@"Integer Value" format:@"Data Type %@ is not an integer type", [GPKGDataTypes name:dataType]];
+    }
+    
+    return value;
+}
+
+/**
+ * Get the float value from the result set of the column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param dataType
+ *            data type
+ * @return float value
+ */
++(NSObject *) floatValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
+    
+    NSObject *value = nil;
+    
+    if((int)dataType == -1){
+        dataType = GPKG_DT_DOUBLE;
+    }
+    
+    switch (dataType) {
+        case GPKG_DT_FLOAT:
+        case GPKG_DT_DOUBLE:
+        case GPKG_DT_REAL:
+        case GPKG_DT_INTEGER:
+        case GPKG_DT_INT:
+            value = [result getDouble:index];
+            break;
+        default:
+            [NSException raise:@"Float Value" format:@"Data Type %@ is not a float type", [GPKGDataTypes name:dataType]];
+    }
+    
+    return value;
+}
+ 
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * min = nil;
@@ -202,7 +341,7 @@
             [minStatement appendString:where];
         }
         
-        min = [NSNumber numberWithInt:[self singleIntResultQueryWithDatabase:connection andStatement:minStatement andArgs:whereArgs]];
+        min = [NSNumber numberWithInt:[self querySingleIntegerWithDatabase:connection andSql:minStatement andArgs:whereArgs andAllowEmpty:NO]];
     }
     
     return min;
@@ -224,7 +363,7 @@
             [maxStatement appendString:where];
         }
         
-        max = [NSNumber numberWithInt:[self singleIntResultQueryWithDatabase:connection andStatement:maxStatement andArgs:whereArgs]];
+        max = [NSNumber numberWithInt:[self querySingleIntegerWithDatabase:connection andSql:maxStatement andArgs:whereArgs andAllowEmpty:NO]];
     }
     
     return max;

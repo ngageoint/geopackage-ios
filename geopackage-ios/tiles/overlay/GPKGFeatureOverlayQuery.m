@@ -145,7 +145,7 @@
     if(indexManager == nil){
         [NSException raise:@"Index Manager" format:@"Index Manager is not set on the Feature Tiles and is required to query indexed features"];
     }
-    GPKGFeatureIndexResults * results = [indexManager queryWithBoundingBox:boundingBox andProjection:projection];
+    GPKGFeatureIndexResults * results = [indexManager queryWithBoundingBox:boundingBox inProjection:projection];
     return results;
 }
 

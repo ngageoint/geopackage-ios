@@ -14,6 +14,7 @@
 enum GPKGFeatureIndexType{
     GPKG_FIT_METADATA,
     GPKG_FIT_GEOPACKAGE,
+    GPKG_FIT_RTREE,
     GPKG_FIT_NONE
 };
 
@@ -22,6 +23,7 @@ enum GPKGFeatureIndexType{
  */
 extern NSString * const GPKG_FIT_METADATA_NAME;
 extern NSString * const GPKG_FIT_GEOPACKAGE_NAME;
+extern NSString * const GPKG_FIT_RTREE_NAME;
 extern NSString * const GPKG_FIT_NONE_NAME;
 
 @interface GPKGFeatureIndexTypes : NSObject

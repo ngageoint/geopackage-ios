@@ -50,4 +50,16 @@
  */
 -(GPKGContents *) getContents: (GPKGTileMatrixSet *) tileMatrixSet;
 
+/**
+ * Get a bounding box in the provided projection
+ 
+ * @param tileMatrixSet
+ *            tile matrix set
+ * @param projection
+ *            desired projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet inProjection: (SFPProjection *) projection;
+
 @end

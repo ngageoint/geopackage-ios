@@ -228,4 +228,64 @@ struct GPKGBoundingBoxSize{
  */
 -(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform;
 
+/**
+ * Determine if intersects with the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return true if intersects
+ */
+-(BOOL) intersects: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Determine if intersects with the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param allowEmpty
+ *            allow empty ranges when determining intersection
+ *
+ * @return true if intersects
+ */
+-(BOOL) intersects: (GPKGBoundingBox *) boundingBox withAllowEmpty: (BOOL) allowEmpty;
+
+/**
+ * Get the overlapping bounding box with the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) overlap: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Get the overlapping bounding box with the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param allowEmpty
+ *            allow empty ranges when determining overlap
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) overlap: (GPKGBoundingBox *) boundingBox withAllowEmpty: (BOOL) allowEmpty;
+
+/**
+ * Get the union bounding box with the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) union: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Determine if inclusively contains the provided bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return true if contains
+ */
+-(BOOL) contains: (GPKGBoundingBox *) boundingBox;
+
 @end

@@ -26,6 +26,11 @@
     return self;
 }
 
+-(void) close{
+    [self.featureTiles close];
+    [super close];
+}
+
 -(void) preTileGeneration{
     
     // Link the feature and tile table if they are in the same GeoPackage

@@ -258,7 +258,7 @@
         if(![transformProjectionToContents isSameProjection]){
             contentsBoundingBox = [contentsBoundingBox transform:transformProjectionToContents];
         }
-        contentsBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:contentsBoundingBox andBoundingBox:previousContentsBoundingBox];
+        contentsBoundingBox = [contentsBoundingBox union:previousContentsBoundingBox];
         
         // Update the contents if modified
         if(![contentsBoundingBox equals:previousContentsBoundingBox]){
@@ -289,7 +289,7 @@
             updateTileGridBoundingBox = [updateTileGridBoundingBox transform:transformProjectionToTileMatrixSet];
         }
         if(![previousTileMatrixSetBoundingBox equals:updateTileGridBoundingBox]){
-            updateTileGridBoundingBox = [GPKGTileBoundingBoxUtils unionWithBoundingBox:updateTileGridBoundingBox andBoundingBox:previousTileMatrixSetBoundingBox];
+            updateTileGridBoundingBox = [updateTileGridBoundingBox union:previousTileMatrixSetBoundingBox];
             [self adjustBoundsWithBoundingBox:updateTileGridBoundingBox andZoom:minNewOrUpdateZoom];
             updateTileGridBoundingBox = self.tileGridBoundingBox;
             if(!sameProjection){

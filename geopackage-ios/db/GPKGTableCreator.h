@@ -34,8 +34,24 @@
  *
  *  @param tableName table name
  *
- *  @return tables created
+ *  @return SQL statements executed
  */
 -(int) createTable: (NSString *) tableName;
+
+/**
+ *  Execute the SQL script with the property name
+ *
+ *  @param propertyName property name
+ *
+ *  @return SQL statements executed
+ */
+-(int) execSQLScript: (NSString *) propertyName;
+
+/**
+ *  Execute the SQL statements
+ *
+ *  @param statements SQL statements
+ */
+-(void) execSQLStatements: (NSArray *) statements;
 
 @end

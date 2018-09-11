@@ -93,8 +93,7 @@
 -(SFPProjection *) getProjection: (NSObject *) object{
     GPKGGeometryColumns *projectionObject = (GPKGGeometryColumns*) object;
     GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
-    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
-    SFPProjection * projection = [srsDao getProjection:srs];
+    SFPProjection *projection = [srs projection];
     return projection;
 }
 

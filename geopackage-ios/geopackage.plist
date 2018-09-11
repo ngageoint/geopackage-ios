@@ -149,6 +149,7 @@
 		<string>yyyy-MM-dd HH:mm:ss</string>
 		<string>yyyy-MM-dd HH:mm:ss.SSS</string>
 		<string>yyyy-MM-dd</string>
+		<string>yyyy/MM/dd</string>
 	</array>
 	<key>geopackage.feature_overlay_query.screen_click_percentage</key>
 	<string>.02</string>

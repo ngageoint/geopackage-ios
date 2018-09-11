@@ -8,6 +8,7 @@
 
 #import "GPKGRelationTypes.h"
 #import "GPKGUtils.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_RT_FEATURES_NAME = @"features";
 NSString * const GPKG_RT_SIMPLE_ATTRIBUTES_NAME = @"simple_attributes";
@@ -51,6 +52,24 @@ NSString * const GPKG_RT_MEDIA_NAME = @"media";
     }
     
     return value;
+}
+
++(NSString *) dataType: (enum GPKGRelationType) relationType{
+    NSString * dataType = nil;
+    
+    switch(relationType){
+        case GPKG_RT_FEATURES:
+            dataType = [GPKGContentsDataTypes name:GPKG_CDT_FEATURES];
+            break;
+        case GPKG_RT_SIMPLE_ATTRIBUTES:
+            dataType = [GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES];
+            break;
+        case GPKG_RT_MEDIA:
+            dataType = [GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES];
+            break;
+    }
+    
+    return dataType;
 }
 
 @end

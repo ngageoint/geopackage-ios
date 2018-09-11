@@ -236,23 +236,80 @@
     [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", [GPKGSqlUtils quoteWrapName:tableName], [GPKGSqlUtils quoteWrapName:columnName], columndef]];
 }
 
--(int) querySingleIntResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
-    int result = [GPKGSqlUtils singleIntResultQueryWithDatabase:connection andStatement:sql andArgs:args];
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self querySingleResultWithSql:sql andArgs:args andColumn:0];
+}
+
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andDataType: (enum GPKGDataType) dataType{
+    return [self querySingleResultWithSql:sql andArgs:args andColumn:0 andDataType:dataType];
+}
+
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column{
+    return [self querySingleResultWithSql:sql andArgs:args andColumn:column andDataType:-1];
+}
+
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
+    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    NSObject *result = [GPKGSqlUtils querySingleResultWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType];
     [self.connectionPool releaseConnection:connection];
     return result;
 }
 
--(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
-    NSString * result = [GPKGSqlUtils singleStringResultQueryWithDatabase:connection andStatement:sql andArgs:args];
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self querySingleColumnResultsWithSql:sql andArgs:args andColumn:0 andDataType:-1 andLimit:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataType: (enum GPKGDataType) dataType{
+    return [self querySingleColumnResultsWithSql:sql andArgs:args andColumn:0 andDataType:dataType andLimit:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column{
+    return [self querySingleColumnResultsWithSql:sql andArgs:args andColumn:column andDataType:-1 andLimit:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
+    return [self querySingleColumnResultsWithSql:sql andArgs:args andColumn:column andDataType:dataType andLimit:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andLimit: (NSNumber *) limit{
+    return [self querySingleColumnResultsWithSql:sql andArgs:args andColumn:column andDataType:-1 andLimit:limit];
+}
+
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit{
+    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    NSArray<NSObject *> *result = [GPKGSqlUtils querySingleColumnResultsWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
 }
 
--(NSArray<NSString *> *) querySingleColumnStringResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
-    NSArray<NSString *> *result = [GPKGSqlUtils singleColumnStringResultsQueryWithDatabase:connection andStatement:sql andArgs:args];
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self queryResultsWithSql:sql andArgs:args andDataTypes:nil andLimit:nil];
+}
+
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+    return [self queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+    return [self querySingleRowResultsWithSql:sql andArgs:args andDataTypes:nil];
+}
+
+-(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+    NSArray<NSArray<NSObject *> *> *results = [self queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:[NSNumber numberWithInt:1]];
+    NSArray<NSObject *> *singleRow = nil;
+    if(results.count > 0){
+        singleRow = [results objectAtIndex:0];
+    }
+    return singleRow;
+}
+
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit{
+    return [self queryResultsWithSql:sql andArgs:args andDataTypes:nil andLimit:limit];
+}
+
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
+    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    NSArray<NSArray<NSObject *> *> *result = [GPKGSqlUtils queryResultsWithDatabase:connection andSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
 }

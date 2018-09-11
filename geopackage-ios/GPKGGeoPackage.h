@@ -264,6 +264,116 @@
 -(int)getTableCount;
 
 /**
+ * Get the bounding box for all table contents in the provided projection
+ *
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) contentsBoundingBoxInProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for all tables in the provided projection, including
+ * contents and table metadata
+ *
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for all tables in the provided projection, including
+ * contents, table metadata, and manual queries if enabled
+ *
+ * @param projection
+ *            desired bounding box projection
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+
+/**
+ * Get the bounding box from the contents for the table in the table's
+ * projection
+ *
+ * @param table
+ *            table name
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table;
+
+/**
+ * Get the bounding box from the contents for the table in the provided
+ * projection
+ *
+ * @param table
+ *            table name
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for the table in the table's projection, including
+ * contents and table metadata
+ *
+ * @param table
+ *            table name
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table;
+
+/**
+ * Get the bounding box for the table in the provided projection, including
+ * contents and table metadata
+ *
+ * @param table
+ *            table name
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for the table in the table's projection, including
+ * contents, table metadata, and manual queries if enabled
+ *
+ * @param table
+ *            table name
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table andManual: (BOOL) manual;
+
+/**
+ * Get the bounding box for the table in the provided projection, including
+ * contents, table metadata, and manual queries if enabled
+ *
+ * @param table
+ *            table name
+ * @param projection
+ *            desired bounding box projection
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+
+/**
  *  Get a Spatial Reference System DAO
  *
  *  @return Spatial Reference System DAO
@@ -586,6 +696,20 @@
  * @return true if created
  */
 -(BOOL) createGeometryIndexTable;
+
+/**
+ * Index the Geometry Index Table if needed
+ *
+ * @return true if indexed
+ */
+-(BOOL) indexGeometryIndexTable;
+
+/**
+ * Un-index the Geometry Index Table if needed
+ *
+ * @return true if unindexed
+ */
+-(BOOL) unindexGeometryIndexTable;
 
 /**
  * Get a Feature Tile Link DAO

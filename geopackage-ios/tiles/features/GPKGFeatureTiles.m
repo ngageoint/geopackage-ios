@@ -212,7 +212,7 @@
     GPKGBoundingBox *expandedQueryBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox inProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     return results;
 }
@@ -336,14 +336,11 @@
             SFGeometry * geometry = geomData.geometry;
             if(geometry != nil){
                 
-                SFGeometryEnvelope *envelope = geomData.envelope;
-                if(envelope == nil){
-                    envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
-                }
+                SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
                 GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
                 GPKGBoundingBox *transformedBoundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
                 
-                if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:expandedBoundingBox andBoundingBox:transformedBoundingBox andAllowEmpty:YES] != nil){
+                if([expandedBoundingBox intersects:transformedBoundingBox withAllowEmpty:YES]){
                 
                     GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
                     [self drawShapeWithBoundingBox:boundingBox andContext:context andMapShape:shape];

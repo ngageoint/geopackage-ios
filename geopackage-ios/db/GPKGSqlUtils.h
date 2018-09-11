@@ -12,6 +12,7 @@
 #import "GPKGContentValues.h"
 #import "GPKGDbConnection.h"
 #import "GPKGSqliteConnection.h"
+#import "GPKGDataTypes.h"
 
 /**
  *  SQL utility methods
@@ -120,37 +121,107 @@
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
 
 /**
- *  Query the SQL for a single result int
+ * Query the SQL for a single result object with the expected data type
  *
- *  @param connection connection
- *  @param statement  sql statement
- *  @param args       sql args
- *
- *  @return single result int
+ * @param connection
+ *            connection
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param dataType
+ *            GeoPackage data type
+ * @return result, null if no result
  */
-+(int) singleIntResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(NSObject *) querySingleResultWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType;
 
 /**
- *  Query the SQL for a single result string
+ * Query for values from a single column up to the limit
  *
- *  @param connection connection
- *  @param statement  sql statement
- *  @param args       sql args
- *
- *  @return single result string or nil
+ * @param connection
+ *            connection
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param dataType
+ *            GeoPackage data type
+ * @param limit
+ *            result row limit
+ * @return single column results
  */
-+(NSString *) singleStringResultQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(NSArray<NSObject *> *) querySingleColumnResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit;
 
 /**
- *  Query the SQL for a single column result strings
+ * Query for values up to the limit
  *
- *  @param connection connection
- *  @param statement  sql statement
- *  @param args       sql args
- *
- *  @return list of single column string results
+ * @param connection
+ *            connection
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param dataTypes
+ *            column data types
+ * @param limit
+ *            result row limit
+ * @return results
  */
-+(NSArray<NSString *> *) singleColumnStringResultsQueryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args;
++(NSArray<NSArray<NSObject *> *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
+
+/**
+ * Get the value from the result set from the provided column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @return value
+ */
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index;
+
+/**
+ * Get the value from the result set from the provided column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param dataType
+ *            data type
+ * @return value
+ */
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType;
+
+/**
+ * Get the integer value from the result set of the column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param dataType
+ *            data type
+ * @return integer value
+ */
++(NSObject *) integerValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType;
+
+/**
+ * Get the float value from the result set of the column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param dataType
+ *            data type
+ * @return float value
+ */
++(NSObject *) floatValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType;
 
 /**
  *  Min on the database table column where

@@ -19,6 +19,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGAttributesTableReader.h"
 #import "GPKGRTreeIndexExtension.h"
+#import "GPKGFeatureIndexManager.h"
 
 @interface GPKGGeoPackage()
 
@@ -169,6 +170,113 @@
     return count;
 }
 
+-(GPKGBoundingBox *) contentsBoundingBoxInProjection: (SFPProjection *) projection{
+    GPKGContentsDao *contentsDao = [self getContentsDao];
+    GPKGBoundingBox *boundingBox = [contentsDao boundingBoxInProjection:projection];
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    return [self boundingBoxInProjection:projection andManual:NO];
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    
+    GPKGBoundingBox *boundingBox = [self contentsBoundingBoxInProjection:projection];
+    
+    NSArray<NSString *> *tables = [self getTables];
+    for(NSString *table in tables){
+        GPKGBoundingBox *tableBoundingBox = [self boundingBoxOfTable:table inProjection:projection andManual:manual];
+        
+        if(tableBoundingBox != nil){
+            if(boundingBox != nil){
+                boundingBox = [boundingBox union:tableBoundingBox];
+            }else{
+                boundingBox = tableBoundingBox;
+            }
+        }
+    }
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table{
+    GPKGContentsDao *contentsDao = [self getContentsDao];
+    GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfTable:table];
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+    GPKGContentsDao *contentsDao = [self getContentsDao];
+    GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfTable:table inProjection:projection];
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table{
+    return [self boundingBoxOfTable:table inProjection:nil];
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+    return [self boundingBoxOfTable:table inProjection:projection andManual:NO];
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table andManual: (BOOL) manual{
+    return [self boundingBoxOfTable:table inProjection:nil andManual:manual];
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    
+    GPKGBoundingBox *boundingBox = [self contentsBoundingBoxOfTable:table inProjection:projection];
+    
+    GPKGBoundingBox *tableBoundingBox = nil;
+    NSString *tableType = [self typeOfTable:table];
+    enum GPKGContentsDataType dataType = [GPKGContentsDataTypes fromName:tableType];
+    if((int)dataType >= 0){
+        switch (dataType) {
+            case GPKG_CDT_FEATURES:
+                tableBoundingBox = [self featureBoundingBoxOfTable:tableType inProjection:projection andManual:manual];
+                break;
+            case GPKG_CDT_TILES:
+            case GPKG_CDT_GRIDDED_COVERAGE:
+                {
+                    GPKGTileMatrixSetDao *tileMatrixSetDao = [self getTileMatrixSetDao];
+                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:table];
+                    tableBoundingBox = [tileMatrixSetDao boundingBoxOfTileMatrixSet:tileMatrixSet inProjection:projection];
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if (tableBoundingBox != nil) {
+        if (boundingBox == nil) {
+            boundingBox = tableBoundingBox;
+        } else {
+            boundingBox = [boundingBox union:tableBoundingBox];
+        }
+    }
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    
+    GPKGBoundingBox *boundingBox = nil;
+    
+    GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:self andFeatureTable:table];
+    
+    @try{
+        if (manual || [indexManager isIndexed]) {
+            boundingBox = [indexManager boundingBoxInProjection:projection];
+        }
+    }@finally{
+        [indexManager close];
+    }
+    
+    return boundingBox;
+}
+
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
     GPKGSpatialReferenceSystemDao * dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
     [dao setCrsWktExtension:[[GPKGCrsWktExtension alloc] initWithGeoPackage:self]];
@@ -272,10 +380,12 @@
         [contents setDataType:GPKG_CDT_FEATURES_NAME];
         [contents setIdentifier:geometryColumns.tableName];
         // [contents setLastChange:[NSDate date]];
-        [contents setMinX:boundingBox.minLongitude];
-        [contents setMinY:boundingBox.minLatitude];
-        [contents setMaxX:boundingBox.maxLongitude];
-        [contents setMaxY:boundingBox.maxLatitude];
+        if(boundingBox != nil){
+            [contents setMinX:boundingBox.minLongitude];
+            [contents setMinY:boundingBox.minLatitude];
+            [contents setMaxX:boundingBox.maxLongitude];
+            [contents setMaxY:boundingBox.maxLatitude];
+        }
         [contents setSrs:srs];
         [[self getContentsDao] create:contents];
         
@@ -527,6 +637,28 @@
     }
     
     return created;
+}
+
+-(BOOL) indexGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL indexed = NO;
+    GPKGGeometryIndexDao *dao = [self getGeometryIndexDao];
+    if([dao tableExists]){
+        indexed = [self.tableCreator indexGeometryIndex] > 0;
+    }
+    return indexed;
+}
+
+-(BOOL) unindexGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL unindexed = NO;
+    GPKGGeometryIndexDao *dao = [self getGeometryIndexDao];
+    if([dao tableExists]){
+        unindexed = [self.tableCreator unindexGeometryIndex] > 0;
+    }
+    return unindexed;
 }
 
 -(GPKGFeatureTileLinkDao *) getFeatureTileLinkDao{

@@ -315,6 +315,43 @@
                               andLimit: (NSString *) limit;
 
 /**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Build a limit String with the limit and offset
+ *
+ * @param limit
+ *            limit
+ * @param offset
+ *            offset
+ * @return limit
+ */
+-(NSString *) buildLimitWithLimit: (int) limit andOffset: (int) offset;
+
+/**
  *  Query columns where
  *
  *  @param columns   columns
@@ -765,33 +802,214 @@
 -(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
 
 /**
- *  Query for a single result int
+ *  Query the SQL for a single result object in the first column
  *
  *  @param sql  sql statement
  *  @param args sql arguments
  *
- *  @return single result int
+ *  @return single result object
  */
--(int) querySingleIntResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 /**
- *  Query for a single result string
+ * Query the SQL for a single result object in the first column with the
+ * expected data type
  *
- *  @param sql  sql statement
- *  @param args sql arguments
- *
- *  @return single result string
+ * @param sql
+ *            sql statement
+ * @param args
+ *            sql arguments
+ * @param dataType
+ *            GeoPackage data type
+ * @return single result object
  */
--(NSString *) querySingleStringResultWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andDataType: (enum GPKGDataType) dataType;
 
 /**
- *  Query for a single column result strings
+ * Query the SQL for a single result object
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @return result, null if no result
+ */
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column;
+
+/**
+ * Query the SQL for a single result object with the expected data type
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param dataType
+ *            GeoPackage data type
+ * @return result, null if no result
+ */
+-(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType;
+
+/**
+ *  Query for values from the first column
  *
  *  @param sql  sql statement
  *  @param args sql arguments
  *
  *  @return single column result strings
  */
--(NSArray<NSString *> *) querySingleColumnStringResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ * Query for values from the first column
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param dataType
+ *            GeoPackage data type
+ * @return single column results
+ */
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataType: (enum GPKGDataType) dataType;
+
+/**
+ * Query for values from a single column
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @return single column results
+ */
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column;
+
+/**
+ * Query for values from a single column
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param dataType
+ *            GeoPackage data type
+ * @return single column results
+ */
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType;
+
+/**
+ * Query for values from a single column up to the limit
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param limit
+ *            result row limit
+ * @return single column results
+ */
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andLimit: (NSNumber *) limit;
+
+/**
+ * Query for values from a single column up to the limit
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param column
+ *            column index
+ * @param dataType
+ *            GeoPackage data type
+ * @param limit
+ *            result row limit
+ * @return single column results
+ */
+-(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit;
+
+/**
+ * Query for values
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @return results
+ */
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ * Query for values
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param dataTypes
+ *            column data types
+ * @return results
+ */
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+
+/**
+ * Query for values in a single (first) row
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @return single row results
+ */
+-(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+
+/**
+ * Query for values in a single (first) row
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param dataTypes
+ *            column data types
+ * @return single row results
+ */
+-(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+
+/**
+ * Query for values
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param limit
+ *            result row limit
+ * @return results
+ */
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit;
+
+/**
+ * Query for values up to the limit
+ *
+ * @param sql
+ *            sql statement
+ * @param args
+ *            arguments
+ * @param dataTypes
+ *            column data types
+ * @param limit
+ *            result row limit
+ * @return results
+ */
+-(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
 
 @end

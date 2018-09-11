@@ -121,8 +121,7 @@
 -(SFPProjection *) getProjection: (NSObject *) object{
     GPKGContents *projectionObject = (GPKGContents*) object;
     GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
-    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
-    SFPProjection * projection = [srsDao getProjection:srs];
+    SFPProjection *projection = [srs projection];
     return projection;
 }
 
@@ -392,6 +391,49 @@
     GPKGTileMatrixDao * dao = [self getTileMatrixDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:contents.tableName];
     return results;
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    
+    GPKGBoundingBox *boundingBox = nil;
+    
+    NSArray<NSString *> *tables = [self getTables];
+    
+    for (NSString *table in tables) {
+        GPKGBoundingBox *tableBoundingBox = [self boundingBoxOfTable:table inProjection:projection];
+        if (tableBoundingBox != nil) {
+            if (boundingBox != nil) {
+                boundingBox = [boundingBox union:tableBoundingBox];
+            } else {
+                boundingBox = tableBoundingBox;
+            }
+        }
+    }
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table{
+    return [self boundingBoxOfTable:table inProjection:nil];
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+
+    GPKGContents *contents = (GPKGContents *)[self queryForIdObject:table];
+    GPKGBoundingBox *boundingBox = [self boundingBoxOfContents:contents inProjection:projection];
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *boundingBox = [contents getBoundingBox];
+    if (boundingBox != nil && projection != nil) {
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self getProjection:contents] andToProjection:projection];
+        if(![transform isSameProjection]){
+            boundingBox = [boundingBox transform:transform];
+        }
+    }
+    return boundingBox;
 }
 
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{

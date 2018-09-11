@@ -85,7 +85,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 -(NSArray<NSString *> *) properties{
     NSArray<NSString *> *properties = nil;
     if([self has]){
-        properties = [[self dao] querySingleColumnStringResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY, GPKG_EXTENSION_PROPERTIES_TABLE_NAME] andArgs:nil];
+        properties = (NSArray<NSString *> *)[[self dao] querySingleColumnResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY, GPKG_EXTENSION_PROPERTIES_TABLE_NAME] andArgs:nil];
     }else{
         properties = [[NSArray alloc] init];
     }

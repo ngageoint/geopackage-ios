@@ -251,8 +251,8 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
             case GPKG_RT_SIMPLE_ATTRIBUTES:
             case GPKG_RT_MEDIA:
                 {
-                    if(![self.geoPackage isTable:relatedTableName ofTypeName:[GPKGRelationTypes name:relationType]]){
-                        [NSException raise:@"Related Table" format:@"The related table must be a %@ table. Related Table: %@, Type: %@", [GPKGRelationTypes name:relationType], relatedTableName, [self.geoPackage typeOfTable:relatedTableName]];
+                    if(![self.geoPackage isTable:relatedTableName ofTypeName:[GPKGRelationTypes dataType:relationType]]){
+                        [NSException raise:@"Related Table" format:@"The related table must be a %@ table. Related Table: %@, Type: %@", [GPKGRelationTypes dataType:relationType], relatedTableName, [self.geoPackage typeOfTable:relatedTableName]];
                     }
                 }
                 break;
@@ -300,7 +300,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         // Create the contents
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:relatedTableName];
-        [contents setDataType:[relatedTable relationName]];
+        [contents setDataType:[relatedTable dataType]];
         [contents setIdentifier:relatedTableName];
         GPKGContentsDao *contentsDao = [self.geoPackage getContentsDao];
         [contentsDao create:contents];

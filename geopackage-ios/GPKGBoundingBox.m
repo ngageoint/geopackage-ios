@@ -228,4 +228,55 @@
     return transformed;
 }
 
+-(BOOL) intersects: (GPKGBoundingBox *) boundingBox{
+    return [self overlap:boundingBox] != nil;
+}
+
+-(BOOL) intersects: (GPKGBoundingBox *) boundingBox withAllowEmpty: (BOOL) allowEmpty{
+    return [self overlap:boundingBox withAllowEmpty:allowEmpty] != nil;
+}
+
+-(GPKGBoundingBox *) overlap: (GPKGBoundingBox *) boundingBox{
+    return [self overlap:boundingBox withAllowEmpty:NO];
+}
+
+-(GPKGBoundingBox *) overlap: (GPKGBoundingBox *) boundingBox withAllowEmpty: (BOOL) allowEmpty{
+    
+    double minLongitude = MAX([self.minLongitude doubleValue], [boundingBox.minLongitude doubleValue]);
+    double maxLongitude = MIN([self.maxLongitude doubleValue], [boundingBox.maxLongitude doubleValue]);
+    double minLatitude = MAX([self.minLatitude doubleValue], [boundingBox.minLatitude doubleValue]);
+    double maxLatitude = MIN([self.maxLatitude doubleValue], [boundingBox.maxLatitude doubleValue]);
+    
+    GPKGBoundingBox * overlap = nil;
+    
+    if((minLongitude < maxLongitude && minLatitude < maxLatitude) || (allowEmpty && minLongitude <= maxLongitude && minLatitude <= maxLatitude)){
+        overlap = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    }
+    
+    return overlap;
+}
+
+-(GPKGBoundingBox *) union: (GPKGBoundingBox *) boundingBox{
+    
+    double minLongitude = MIN([self.minLongitude doubleValue], [boundingBox.minLongitude doubleValue]);
+    double maxLongitude = MAX([self.maxLongitude doubleValue], [boundingBox.maxLongitude doubleValue]);
+    double minLatitude = MIN([self.minLatitude doubleValue], [boundingBox.minLatitude doubleValue]);
+    double maxLatitude = MAX([self.maxLatitude doubleValue], [boundingBox.maxLatitude doubleValue]);
+    
+    GPKGBoundingBox * unionBox = nil;
+    
+    if(minLongitude < maxLongitude && minLatitude < maxLatitude){
+        unionBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    }
+    
+    return unionBox;
+}
+
+-(BOOL) contains: (GPKGBoundingBox *) boundingBox{
+    return [self.minLongitude doubleValue] <= [boundingBox.minLongitude doubleValue]
+    && [self.maxLongitude doubleValue] >= [boundingBox.maxLongitude doubleValue]
+    && [self.minLatitude doubleValue] <= [boundingBox.minLatitude doubleValue]
+    && [self.maxLatitude doubleValue] >= [boundingBox.maxLatitude doubleValue];
+}
+
 @end

@@ -210,4 +210,48 @@
  */
 -(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents;
 
+/**
+ * Get the bounding box for all tables in the provided projection
+ *
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for the table in the table's projection
+ *
+ * @param table
+ *            table name
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table;
+
+/**
+ * Get the bounding box for the table in the provided projection
+ *
+ * @param table
+ *            table name
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ * Get a bounding box in the provided projection
+ *
+ * @param contents
+ *            contents
+ * @param projection
+ *            desired projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (SFPProjection *) projection;
+
 @end

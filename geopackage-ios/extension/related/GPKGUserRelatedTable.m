@@ -11,27 +11,30 @@
 @interface GPKGUserRelatedTable ()
 
 @property (nonatomic, strong) NSString *relationName;
+@property (nonatomic, strong) NSString *dataType;
 
 @end
 
 @implementation GPKGUserRelatedTable
 
--(instancetype) initWithTable: (NSString *) tableName andRelation: (NSString *) relationName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns{
-    return [self initWithTable:tableName andRelation:relationName andColumns:columns andRequiredColumns:nil];
+-(instancetype) initWithTable: (NSString *) tableName andRelation: (NSString *) relationName andDataType: (NSString *) dataType andColumns: (NSArray<GPKGUserCustomColumn *> *) columns{
+    return [self initWithTable:tableName andRelation:relationName andDataType:dataType andColumns:columns andRequiredColumns:nil];
 }
 
--(instancetype) initWithTable: (NSString *) tableName andRelation: (NSString *) relationName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns andRequiredColumns: (NSArray<NSString *> *) requiredColumns{
+-(instancetype) initWithTable: (NSString *) tableName andRelation: (NSString *) relationName andDataType: (NSString *) dataType andColumns: (NSArray<GPKGUserCustomColumn *> *) columns andRequiredColumns: (NSArray<NSString *> *) requiredColumns{
     self = [super initWithTable:tableName andColumns:columns andRequiredColumns:requiredColumns];
     if(self != nil){
         self.relationName = relationName;
+        self.dataType = dataType;
     }
     return self;
 }
 
--(instancetype) initWithRelation: (NSString *) relationName andCustomTable: (GPKGUserCustomTable *) userCustomTable{
+-(instancetype) initWithRelation: (NSString *) relationName andDataType: (NSString *) dataType andCustomTable: (GPKGUserCustomTable *) userCustomTable{
     self = [super initWithCustomTable:userCustomTable];
     if(self != nil){
         self.relationName = relationName;
+        self.dataType = dataType;
     }
     return self;
 }
@@ -40,13 +43,17 @@
     return _relationName;
 }
 
+-(NSString *) dataType{
+    return _dataType;
+}
+
 -(void) setContents:(GPKGContents *)contents{
     _contents = contents;
     if(contents != nil){
         // Verify the Contents have a relation name data type
-        NSString *dataType = contents.dataType;
-        if (dataType == nil || ![dataType isEqualToString:self.relationName]) {
-            [NSException raise:@"Relation Data Type" format:@"The Contents of a User Related Table must have a data type of %@", self.relationName];
+        NSString *contentsDataType = contents.dataType;
+        if (contentsDataType == nil || ![contentsDataType isEqualToString:self.dataType]) {
+            [NSException raise:@"Relation Data Type" format:@"The Contents of a User Related Table must have a data type of %@", self.dataType];
         }
     }
 }

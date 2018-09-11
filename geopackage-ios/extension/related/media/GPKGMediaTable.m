@@ -102,12 +102,12 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
 }
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns{
-    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
+    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
     return self;
 }
 
 -(instancetype) initWithTable: (GPKGUserCustomTable *) table{
-    self = [super initWithRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andCustomTable:table];
+    self = [super initWithRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andCustomTable:table];
     return self;
 }
 

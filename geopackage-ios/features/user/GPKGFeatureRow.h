@@ -68,4 +68,18 @@
  */
 -(void) setGeometry: (GPKGGeometryData *) geometryData;
 
+/**
+ *  Get the simple features geometry value
+ *
+ *  @return geometry
+ */
+-(SFGeometry *) getGeometryValue;
+
+/**
+ *  Get the geometry envelope
+ *
+ *  @return geometry envelope
+ */
+-(SFGeometryEnvelope *) getGeometryEnvelope;
+
 @end

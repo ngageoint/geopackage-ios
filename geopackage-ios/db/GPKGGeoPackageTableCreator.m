@@ -96,6 +96,14 @@
     return [self createTable:GPKG_GI_TABLE_NAME];
 }
 
+-(int) indexGeometryIndex{
+    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_index"]];
+}
+
+-(int) unindexGeometryIndex{
+    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_unindex"]];
+}
+
 -(int) createFeatureTileLink{
     return [self createTable:GPKG_FTL_TABLE_NAME];
 }

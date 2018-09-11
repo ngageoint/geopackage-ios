@@ -94,8 +94,7 @@
 -(SFPProjection *) getProjection: (NSObject *) object{
     GPKGTileMatrixSet *projectionObject = (GPKGTileMatrixSet*) object;
     GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
-    GPKGSpatialReferenceSystemDao * srsDao = [self getSpatialReferenceSystemDao];
-    SFPProjection * projection = [srsDao getProjection:srs];
+    SFPProjection *projection = [srs projection];
     return projection;
 }
 
@@ -120,6 +119,17 @@
     GPKGContentsDao * dao = [self getContentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrixSet.tableName];
     return contents;
+}
+
+-(GPKGBoundingBox *) boundingBoxOfTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet inProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *boundingBox = [tileMatrixSet getBoundingBox];
+    if (projection != nil) {
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self getProjection:tileMatrixSet] andToProjection:projection];
+        if(![transform isSameProjection]){
+            boundingBox = [boundingBox transform:transform];
+        }
+    }
+    return boundingBox;
 }
 
 -(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{

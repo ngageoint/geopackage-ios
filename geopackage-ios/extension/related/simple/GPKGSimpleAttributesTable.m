@@ -80,7 +80,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 }
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns{
-    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
+    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
     if(self != nil){
         [self validateColumns];
     }
@@ -88,7 +88,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 }
 
 -(instancetype) initWithTable: (GPKGUserCustomTable *) table{
-    self = [super initWithRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andCustomTable:table];
+    self = [super initWithRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andCustomTable:table];
     if(self != nil){
         [self validateColumns];
     }

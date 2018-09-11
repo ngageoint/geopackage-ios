@@ -11,6 +11,7 @@
 
 NSString * const GPKG_FIT_METADATA_NAME = @"METADATA";
 NSString * const GPKG_FIT_GEOPACKAGE_NAME = @"GEOPACKAGE";
+NSString * const GPKG_FIT_RTREE_NAME = @"RTREE";
 NSString * const GPKG_FIT_NONE_NAME = @"NONE";
 
 @implementation GPKGFeatureIndexTypes
@@ -24,6 +25,9 @@ NSString * const GPKG_FIT_NONE_NAME = @"NONE";
             break;
         case GPKG_FIT_GEOPACKAGE:
             name = GPKG_FIT_GEOPACKAGE_NAME;
+            break;
+        case GPKG_FIT_RTREE:
+            name = GPKG_FIT_RTREE_NAME;
             break;
         case GPKG_FIT_NONE:
             name = GPKG_FIT_NONE_NAME;
@@ -41,6 +45,7 @@ NSString * const GPKG_FIT_NONE_NAME = @"NONE";
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_FIT_METADATA], GPKG_FIT_METADATA_NAME,
                                [NSNumber numberWithInteger:GPKG_FIT_GEOPACKAGE], GPKG_FIT_GEOPACKAGE_NAME,
+                               [NSNumber numberWithInteger:GPKG_FIT_RTREE], GPKG_FIT_RTREE_NAME,
                                [NSNumber numberWithInteger:GPKG_FIT_NONE], GPKG_FIT_NONE_NAME,
                                nil
                                ];

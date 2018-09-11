@@ -128,6 +128,20 @@
 -(int) createGeometryIndex;
 
 /**
+ * Create Geometry Index table column indexes
+ *
+ * @return executed statements
+ */
+-(int) indexGeometryIndex;
+
+/**
+ * Un-index (drop) Geometry Index table column indexes
+ *
+ * @return executed statements
+ */
+-(int) unindexGeometryIndex;
+
+/**
  *  Create Feature Tile Link table
  *
  *  @return tables created

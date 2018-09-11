@@ -68,19 +68,14 @@
 }
 
 -(GPKGBoundingBox *) getBoundingBox{
-    GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
-    GPKGContents * contents = [geometryColumnsDao getContents:self.geometryColumns];
-    
-    GPKGBoundingBox * boundingBox = [contents getBoundingBox];
-    if(boundingBox != nil){
-        GPKGContentsDao * contentsDao = [self getContentsDao];
-        SFPProjection * contentsProjection = [contentsDao getProjection:contents];
-        if(![self.projection isEqual:contentsProjection]){
-            SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:contentsProjection andToProjection:self.projection];
-            boundingBox = [boundingBox transform:transform];
-        }
-    }
-    
+    return [ self boundingBoxInProjection:self.projection];
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    GPKGGeometryColumnsDao *geometryColumnsDao = [self getGeometryColumnsDao];
+    GPKGContents *contents = [geometryColumnsDao getContents:self.geometryColumns];
+    GPKGContentsDao * contentsDao = [self getContentsDao];
+    GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
     return boundingBox;
 }
 

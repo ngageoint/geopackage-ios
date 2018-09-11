@@ -55,6 +55,24 @@
     [self setValueWithIndex:self.featureTable.geometryIndex andValue:geometryData];
 }
 
+-(SFGeometry *) getGeometryValue{
+    GPKGGeometryData *data = [self getGeometry];
+    SFGeometry *geometry = nil;
+    if(data != nil){
+        geometry = data.geometry;
+    }
+    return geometry;
+}
+
+-(SFGeometryEnvelope *) getGeometryEnvelope{
+    GPKGGeometryData *data = [self getGeometry];
+    SFGeometryEnvelope *envelope = nil;
+    if(data != nil){
+        envelope = [data getOrBuildEnvelope];
+    }
+    return envelope;
+}
+
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
     
     NSObject * objectValue = value;

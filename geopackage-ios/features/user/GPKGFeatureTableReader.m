@@ -35,7 +35,7 @@
                        andDefaultValueIndex: (int) defaultValueIndex
                               andPrimaryKey: (BOOL) primaryKey{
     
-    BOOL geometry = [name isEqualToString:self.geometryColumns.columnName];
+    BOOL geometry = [name caseInsensitiveCompare:self.geometryColumns.columnName] == NSOrderedSame;
     
     enum SFGeometryType geometryType = SF_NONE;
     enum GPKGDataType dataType = GPKG_DT_GEOMETRY;

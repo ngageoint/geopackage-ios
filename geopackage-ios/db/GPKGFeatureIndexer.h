@@ -20,12 +20,17 @@
 /**
  *  Feature DAO
  */
-@property (nonatomic, strong)  GPKGFeatureDao * featureDao;
+@property (nonatomic, strong) GPKGFeatureDao *featureDao;
 
 /**
  *  Progress callbacks
  */
-@property (nonatomic, strong)  NSObject<GPKGProgress> * progress;
+@property (nonatomic, strong) NSObject<GPKGProgress> *progress;
+
+/**
+ *  Query single chunk limit
+ */
+@property (nonatomic, strong) NSNumber *chunkLimit;
 
 /**
  *  Initialize
@@ -117,6 +122,21 @@
 -(int) count;
 
 /**
+ * Query for the bounds of the feature table index
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for the feature index bounds and return in the provided projection
+ *
+ * @param projection desired projection
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+
+/**
  * Query for Geometry Metadata within the bounding box, projected
  * correctly
  *
@@ -158,7 +178,7 @@
  * @param projection  projection of the provided bounding box
  * @return geometry metadata results
  */
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  * Query for Geometry Metadata count within the bounding box in
@@ -168,7 +188,7 @@
  * @param projection  projection of the provided bounding box
  * @return count
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  * Get the Geometry Metadata for the current place in the cursor

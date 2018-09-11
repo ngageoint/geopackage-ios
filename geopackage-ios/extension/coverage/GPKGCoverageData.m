@@ -147,7 +147,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         self.width = width;
         self.height = height;
         self.requestProjection = requestProjection;
-        self.coverageProjection = [[[geoPackage getTileMatrixSetDao] getSrs:tileDao.tileMatrixSet] projection];
+        self.coverageProjection = [[geoPackage getTileMatrixSetDao] getProjection:tileDao.tileMatrixSet];
         self.coverageBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
         
         // Check if the projections have the same units

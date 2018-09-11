@@ -327,4 +327,8 @@
     return [self.tileMatrixSet getBoundingBox];
 }
 
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    return [[self getTileMatrixSetDao] boundingBoxOfTileMatrixSet:self.tileMatrixSet inProjection:projection];
+}
+
 @end

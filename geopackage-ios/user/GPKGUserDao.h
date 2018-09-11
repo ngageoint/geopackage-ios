@@ -63,6 +63,28 @@
 -(GPKGBoundingBox *) getBoundingBox;
 
 /**
+ * Get the bounding box of the user table data
+ *
+ * @param projection
+ *            desired projection
+ *
+ * @return bounding box of user table data
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+
+/**
+ * Project the provided bounding box in the declared projection to the user
+ * DAO projection
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param projection
+ *            projection
+ * @return projected bounding box
+ */
+-(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
  *  Get the approximate zoom level of where the bounding box of the user data fits into the world
  *
  *  @return zoom level

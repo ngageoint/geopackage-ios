@@ -21,6 +21,10 @@
 
 @implementation GPKGFeatureIndexManager
 
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable{
+    return [self initWithGeoPackage:geoPackage andFeatureDao:[geoPackage getFeatureDaoWithTableName:featureTable]];
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
     self = [super init];
     if(self != nil){
@@ -355,6 +359,14 @@
     return count;
 }
 
+-(GPKGBoundingBox *) boundingBox{
+    return nil; // TODO
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    return nil; // TODO
+}
+
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     GPKGFeatureIndexResults * results = nil;
     enum GPKGFeatureIndexType type = [self getIndexedType];
@@ -431,19 +443,19 @@
     return count;
 }
 
--(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     GPKGFeatureIndexResults * results = nil;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
         {
-            GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox andProjection:projection];
+            GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox inProjection:projection];
             results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
         }
             break;
         case GPKG_FIT_METADATA:
         {
-            GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox andProjection:projection];
+            GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox inProjection:projection];
             results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
         }
             break;
@@ -453,15 +465,15 @@
     return results;
 }
 
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     int count = 0;
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
-            count = [self.featureTableIndex countWithBoundingBox:boundingBox andProjection:projection];
+            count = [self.featureTableIndex countWithBoundingBox:boundingBox inProjection:projection];
             break;
         case GPKG_FIT_METADATA:
-            count = [self.featureIndexer countWithBoundingBox:boundingBox andProjection:projection];
+            count = [self.featureIndexer countWithBoundingBox:boundingBox inProjection:projection];
             break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];

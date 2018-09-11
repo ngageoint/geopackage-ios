@@ -28,6 +28,16 @@
  *  Initialize
  *
  *  @param geoPackage GeoPackage
+ *  @param featureTable feature table
+ *
+ *  @return new feature index manager
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
  *  @param featureDao feature data access object
  *
  *  @return new feature index manager
@@ -302,6 +312,22 @@
 -(int) count;
 
 /**
+ * Query for the feature index bounds
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for the feature index bounds and return in the provided projection
+ *
+ * @param projection
+ *            desired projection
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+
+/**
  *  Query for feature index results within the bounding box, projected
  *  correctly
  *
@@ -348,7 +374,7 @@
  *
  *  @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  *  Query for feature index count within the bounding box in
@@ -359,6 +385,6 @@
  *
  *  @return count
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 @end

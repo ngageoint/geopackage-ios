@@ -64,7 +64,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
 }
 
 -(NSString *) getDefinitionWithSrsId:(NSNumber *) srsId{
-    NSString * definition = [self.connection querySingleStringResultWithSql:[NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?", self.columnName, GPKG_SRS_TABLE_NAME, GPKG_SRS_COLUMN_SRS_ID]
+    NSString *definition = (NSString *)[self.connection querySingleResultWithSql:[NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?", self.columnName, GPKG_SRS_TABLE_NAME, GPKG_SRS_COLUMN_SRS_ID]
                                                                     andArgs:[NSArray arrayWithObjects:srsId, nil]];
     return definition;
 }

@@ -10,6 +10,8 @@
 	<string>&lt;i&gt;</string>
 	<key>substitute.trigger</key>
 	<string>&lt;n&gt;</string>
+	<key>table</key>
+	<string>rtree_&lt;t&gt;_&lt;c&gt;</string>
 	<key>create</key>
 	<array>
 		<string>CREATE VIRTUAL TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot; USING rtree(id, minx, maxx, miny, maxy)</string>

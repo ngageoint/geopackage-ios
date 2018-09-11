@@ -8,7 +8,6 @@
 
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGProperties.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "SFPProjectionTransform.h"
 #import "GPKGUserRowSync.h"
 
@@ -42,6 +41,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         self.columnName = featureDao.getGeometryColumnName;
         self.tableIndexDao = [geoPackage getTableIndexDao];
         self.geometryIndexDao = [geoPackage getGeometryIndexDao];
+        self.chunkLimit = [NSNumber numberWithInt:1000];
     }
     return self;
 }
@@ -56,6 +56,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(NSString *) getExtensionDefinition{
     return self.extensionDefinition;
+}
+
+-(SFPProjection *) projection{
+    return self.featureDao.projection;
 }
 
 -(NSString *) getTableName{
@@ -80,7 +84,9 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         [self getOrCreateExtension];
         GPKGTableIndex * tableIndex = [self getOrCreateTableIndex];
         [self createOrClearGeometryIndices];
+        [self.geoPackage unindexGeometryIndexTable];
         count = [self indexTable:tableIndex];
+        [self.geoPackage indexGeometryIndexTable];
     }
     return count;
 }
@@ -89,35 +95,59 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     int count = 0;
     
-    // Autorelease to reduce memory footprint
-    @autoreleasepool {
+    int offset = 0;
+    int chunkCount = 0;
     
-        GPKGResultSet * results = [self.featureDao queryForAll];
-        @try{
-            while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
-                @try {
-                    GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
-                    if(indexed){
-                        count++;
-                    }
-                    if(self.progress != nil){
-                        [self.progress addProgress:1];
-                    }
-                    
-                } @catch (NSException *exception) {
-                    NSLog(@"Failed to index feature. Table: %@", tableIndex.tableName);
-                }
-            }
-        }@finally{
-            [results close];
+    while(chunkCount >= 0){
+        
+        // Autorelease to reduce memory footprint
+        @autoreleasepool {
+            
+            GPKGResultSet * results = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+            chunkCount = [self indexRowsWithTableIndex:tableIndex andResults:results];
+            
         }
-    
+        
+        if(chunkCount > 0){
+            count += chunkCount;
+        }
+        
+        offset += [self.chunkLimit intValue];
     }
     
     // Update the last indexed time
     if(self.progress == nil || [self.progress isActive]){
         [self updateLastIndexed];
+    }
+    
+    return count;
+}
+
+-(int) indexRowsWithTableIndex: (GPKGTableIndex *) tableIndex andResults: (GPKGResultSet *) results{
+    
+    int count = -1;
+    
+    @try{
+        while((self.progress == nil || [self.progress isActive]) && [results moveToNext]){
+            if(count < 0){
+                count++;
+            }
+            @try {
+                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
+                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+                if(indexed){
+                    count++;
+                }
+                if(self.progress != nil){
+                    [self.progress addProgress:1];
+                }
+                
+            } @catch (NSException *exception) {
+                NSLog(@"Failed to index feature. Table: %@", tableIndex.tableName);
+            }
+        }
+    }@finally{
+        [results close];
     }
     
     return count;
@@ -129,16 +159,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     if(geomData != nil){
         
-        // Get the envelope
-        SFGeometryEnvelope * envelope = geomData.envelope;
-        
-        // If no envelope, build one from the geometry
-        if(envelope == nil){
-            SFGeometry * geometry = geomData.geometry;
-            if(geometry != nil){
-                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
-            }
-        }
+        // Get or build the envelope
+        SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
         
         // Create the new index row
         if(envelope != nil){
@@ -173,7 +195,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(BOOL) deleteIndex{
-    BOOL deleted = [self.tableIndexDao deleteByIdCascade:self.tableName] > 0;
+    BOOL deleted = NO;
+    if([self.tableIndexDao tableExists]){
+        deleted = [self.tableIndexDao deleteByIdCascade:self.tableName] > 0;
+    }
     deleted = [self.extensionsDao deleteByExtension:self.extensionName andTable:self.tableName] > 0 || deleted;
     return deleted;
 }
@@ -303,16 +328,60 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return count;
 }
 
+-(GPKGBoundingBox *) boundingBox{
+    
+    NSString *sql = [NSString stringWithFormat:@"SELECT MIN(%@), MIN(%@), MAX(%@), MAX(%@) FROM %@ WHERE %@ = ?", GPKG_GI_COLUMN_MIN_X, GPKG_GI_COLUMN_MIN_Y, GPKG_GI_COLUMN_MAX_X, GPKG_GI_COLUMN_MAX_Y, GPKG_GI_TABLE_NAME, GPKG_GI_COLUMN_TABLE_NAME];
+    NSArray *dataTypes = [[NSArray alloc] initWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
+    
+    NSArray<NSNumber *> *results = (NSArray<NSNumber *> *)[self.geometryIndexDao querySingleRowResultsWithSql:sql andArgs:[[NSArray alloc] initWithObjects:self.tableName, nil] andDataTypes:dataTypes];
+    
+    double minLongitude = [[results objectAtIndex:0] doubleValue];
+    double minLatitude = [[results objectAtIndex:1] doubleValue];
+    double maxLongitude = [[results objectAtIndex:2] doubleValue];
+    double maxLatitude = [[results objectAtIndex:3] doubleValue];
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *boundingBox = [self boundingBox];
+    if(boundingBox != nil && projection != nil){
+        SFPProjectionTransform *projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:[self projection] andToProjection:projection];
+        boundingBox = [boundingBox transform:projectionTransform];
+    }
+    return boundingBox;
+}
+
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     SFGeometryEnvelope * envelope = [boundingBox buildEnvelope];
     GPKGResultSet * geometryResults = [self queryWithGeometryEnvelope:envelope];
     return geometryResults;
 }
 
+-(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    
+    GPKGBoundingBox *featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
+    
+    GPKGResultSet *geometryIndices = [self queryWithBoundingBox:featureBoundingBox];
+    
+    return geometryIndices;
+}
+    
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     GPKGResultSet * results = [self queryWithBoundingBox:boundingBox];
     int count = results.count;
     [results close];
+    return count;
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    
+    GPKGBoundingBox *featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
+    
+    int count = [self countWithBoundingBox:featureBoundingBox];
+    
     return count;
 }
 
@@ -383,23 +452,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return count;
 }
 
--(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
-    
-    GPKGBoundingBox * featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox andProjection:projection];
-    GPKGResultSet * results = [self queryWithBoundingBox:featureBoundingBox];
-    
-    return results;
-}
-
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
-    GPKGResultSet * results = [self queryWithBoundingBox:boundingBox andProjection:projection];
-    int count = results.count;
-    [results close];
-    return count;
-}
-
--(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
-    SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.featureDao.projection];
+-(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[self projection]];
     GPKGBoundingBox * featureBoundingBox = [boundingBox transform:projectionTransform];
     return featureBoundingBox;
 }

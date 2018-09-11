@@ -205,7 +205,7 @@
         GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
         
         // Get the bounding box where the requested image and tile overlap
-        GPKGBoundingBox * overlap = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:requestProjectedBoundingBox andBoundingBox:tileBoundingBox];
+        GPKGBoundingBox * overlap = [requestProjectedBoundingBox overlap:tileBoundingBox];
         
         // If the tile overlaps with the requested box
         if(overlap != nil){
@@ -318,7 +318,7 @@
     NSMutableArray<GPKGTileMatrix *> *tileMatrices = [[NSMutableArray alloc] init];
     
     // Check if the request overlaps the tile matrix set
-    if([GPKGTileBoundingBoxUtils overlapWithBoundingBox:projectedRequestBoundingBox andBoundingBox:self.tileSetBoundingBox] != nil){
+    if([projectedRequestBoundingBox intersects:self.tileSetBoundingBox]){
         
         // Get the tile distance
         double distanceWidth = [projectedRequestBoundingBox.maxLongitude doubleValue]

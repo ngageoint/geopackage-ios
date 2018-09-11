@@ -283,6 +283,28 @@
     return [self countByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
 }
 
+-(GPKGBoundingBox *) boundingBoxByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName{
+    return [self boundingBoxByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
+}
+
+-(GPKGBoundingBox *) boundingBoxByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
+    
+    NSString *sql = [NSString stringWithFormat:@"SELECT MIN(%@), MIN(%@), MAX(%@), MAX(%@) FROM %@ WHERE %@ = ? AND %@ = ?", GPKG_GPGM_COLUMN_MIN_X, GPKG_GPGM_COLUMN_MIN_Y, GPKG_GPGM_COLUMN_MAX_X, GPKG_GPGM_COLUMN_MAX_Y, GPKG_GPGM_TABLE_NAME, GPKG_GPGM_COLUMN_GEOPACKAGE_ID, GPKG_GPGM_COLUMN_TABLE_NAME];
+    NSArray *args = [[NSArray alloc] initWithObjects:[geoPackageId stringValue], tableName, nil];
+    NSArray *dataTypes = [[NSArray alloc] initWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
+    
+    NSArray<NSNumber *> *results = (NSArray<NSNumber *> *) [self querySingleRowResultsWithSql:sql andArgs:args andDataTypes:dataTypes];
+    
+    double minLongitude = [[results objectAtIndex:0] doubleValue];
+    double minLatitude = [[results objectAtIndex:1] doubleValue];
+    double maxLongitude = [[results objectAtIndex:2] doubleValue];
+    double maxLatitude = [[results objectAtIndex:3] doubleValue];
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    
+    return boundingBox;
+}
+
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
     
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];

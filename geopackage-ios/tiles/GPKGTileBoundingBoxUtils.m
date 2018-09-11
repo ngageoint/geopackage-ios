@@ -20,23 +20,11 @@
 @implementation GPKGTileBoundingBoxUtils
 
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2{
-    return [self overlapWithBoundingBox:boundingBox andBoundingBox:boundingBox2 andAllowEmpty:NO];
+    return [boundingBox overlap:boundingBox2];
 }
 
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 andAllowEmpty: (BOOL) allowEmpty{
-    
-    double minLongitude = MAX([boundingBox.minLongitude doubleValue], [boundingBox2.minLongitude doubleValue]);
-    double maxLongitude = MIN([boundingBox.maxLongitude doubleValue], [boundingBox2.maxLongitude doubleValue]);
-    double minLatitude = MAX([boundingBox.minLatitude doubleValue], [boundingBox2.minLatitude doubleValue]);
-    double maxLatitude = MIN([boundingBox.maxLatitude doubleValue], [boundingBox2.maxLatitude doubleValue]);
-    
-    GPKGBoundingBox * overlap = nil;
-    
-    if((minLongitude < maxLongitude && minLatitude < maxLatitude) || (allowEmpty && minLongitude <= maxLongitude && minLatitude <= maxLatitude)){
-        overlap = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
-    }
-    
-    return overlap;
+    return [boundingBox overlap:boundingBox2 withAllowEmpty:allowEmpty];
 }
 
 +(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2 withMaxLongitude: (double) maxLongitude{
@@ -69,8 +57,7 @@
 
 +(BOOL) isPoint: (SFPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox{
     GPKGBoundingBox *pointBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMinLatitude:point.y andMaxLongitude:point.x andMaxLatitude:point.y];
-    GPKGBoundingBox *overlap = [self overlapWithBoundingBox:boundingBox andBoundingBox:pointBoundingBox andAllowEmpty:YES];
-    return overlap != nil;
+    return [boundingBox intersects:pointBoundingBox withAllowEmpty:YES];
 }
 
 +(BOOL) isPoint: (SFPoint *) point inBoundingBox: (GPKGBoundingBox *) boundingBox withMaxLongitude: (double) maxLongitude{
@@ -80,19 +67,7 @@
 }
 
 +(GPKGBoundingBox *) unionWithBoundingBox: (GPKGBoundingBox *) boundingBox andBoundingBox: (GPKGBoundingBox *) boundingBox2{
-    
-    double minLongitude = MIN([boundingBox.minLongitude doubleValue], [boundingBox2.minLongitude doubleValue]);
-    double maxLongitude = MAX([boundingBox.maxLongitude doubleValue], [boundingBox2.maxLongitude doubleValue]);
-    double minLatitude = MIN([boundingBox.minLatitude doubleValue], [boundingBox2.minLatitude doubleValue]);
-    double maxLatitude = MAX([boundingBox.maxLatitude doubleValue], [boundingBox2.maxLatitude doubleValue]);
-    
-    GPKGBoundingBox * unionBox = nil;
-    
-    if(minLongitude < maxLongitude && minLatitude < maxLatitude){
-        unionBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
-    }
-    
-    return unionBox;
+    return [boundingBox union:boundingBox2];
 }
 
 +(double) getXPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andLongitude: (double) longitude{

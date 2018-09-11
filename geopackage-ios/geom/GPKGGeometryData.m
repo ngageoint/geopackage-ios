@@ -13,6 +13,7 @@
 #import "SFWGeometryReader.h"
 #import "SFByteWriter.h"
 #import "SFWGeometryWriter.h"
+#import "SFGeometryEnvelopeBuilder.h"
 
 @implementation GPKGGeometryData
 
@@ -273,6 +274,17 @@
 {
     int wkbByteCount = (int)[self.bytes length] - self.SFGeometryIndex;
     return [self.bytes subdataWithRange:NSMakeRange(self.SFGeometryIndex, wkbByteCount)];
+}
+
+-(SFGeometryEnvelope *) getOrBuildEnvelope{
+    SFGeometryEnvelope *envelope = self.envelope;
+    if(envelope == nil){
+        SFGeometry *geometry = self.geometry;
+        if(geometry != nil){
+            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+        }
+    }
+    return envelope;
 }
 
 +(int) getIndicatorWithEnvelope: (SFGeometryEnvelope *) envelope{

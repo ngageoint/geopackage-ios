@@ -57,4 +57,11 @@ extern NSString * const GPKG_RT_MEDIA_NAME;
  */
 +(enum GPKGRelationType) fromName: (NSString *) name;
 
+/**
+ * Get the contents data type
+ *
+ * @param relationType relation type
+ */
++(NSString *) dataType: (enum GPKGRelationType) relationType;
+
 @end

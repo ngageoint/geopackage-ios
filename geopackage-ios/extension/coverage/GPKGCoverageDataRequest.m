@@ -55,7 +55,7 @@
     if(self.point){
         overlap = self.projectedBoundingBox;
     }else{
-        overlap = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:self.projectedBoundingBox andBoundingBox:projectedCoverage];
+        overlap = [self.projectedBoundingBox overlap:projectedCoverage];
     }
     return overlap;
 }

@@ -209,6 +209,24 @@
 -(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName;
 
 /**
+ * Query for the bounds of the feature table index
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName;
+
+/**
+ * Query for the bounds of the feature table index
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
+
+/**
  *  Query for geometry metadata
  *
  *  @param geoPackageId GeoPackage id
