@@ -15,6 +15,11 @@
 #import "SFGeometryEnvelopeBuilder.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
+NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID = @"id";
+NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X = @"minx";
+NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X = @"maxx";
+NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y = @"miny";
+NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y = @"maxy";
 NSString * const GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION = @"geopackage.extensions.rtree_index";
 
 NSString * const GPKG_RTREE_INDEX_RESOURCES_SQL = @"rtree_sql";
@@ -26,6 +31,7 @@ NSString * const GPKG_RTREE_INDEX_MAX_Y_FUNCTION = @"ST_MaxY";
 NSString * const GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION = @"ST_IsEmpty";
 
 NSString * const GPKG_PROP_RTREE_INDEX_CREATE = @"create";
+NSString * const GPKG_PROP_RTREE_INDEX_TABLE = @"table";
 NSString * const GPKG_PROP_RTREE_INDEX_LOAD = @"load";
 NSString * const GPKG_PROP_RTREE_INDEX_DROP = @"drop";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_BASE = @"trigger";
@@ -73,6 +79,19 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     return self;
 }
 
+-(GPKGRTreeIndexTableDao *) tableDaoWithFeatureTable: (NSString *) featureTable{
+    return [self tableDaoWithFeatureDao:[self.geoPackage getFeatureDaoWithTableName:featureTable]];
+}
+
+-(GPKGRTreeIndexTableDao *) tableDaoWithFeatureDao: (GPKGFeatureDao *) featureDao{
+    
+    GPKGConnection *connection = self.geoPackage.database;
+    GPKGUserCustomTable *userCustomTable =  [self rTreeTableWithFeatureTable:[featureDao getFeatureTable]];
+    GPKGUserCustomDao *userCustomDao = [[GPKGUserCustomDao alloc] initWithDatabase:connection andTable:userCustomTable];
+    
+    return [[GPKGRTreeIndexTableDao alloc] initWithExtension:self andDao:userCustomDao andFeatureDao:featureDao];
+}
+
 -(GPKGExtensions *) getOrCreateWithFeatureTable: (GPKGFeatureTable *) featureTable{
     return [self getOrCreateWithTableName:featureTable.tableName andColumnName:[featureTable getGeometryColumn].name];
 }
@@ -86,7 +105,8 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(BOOL) hasWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
-    return [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:columnName];
+    return [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:columnName]
+    && [self.connection tableExists:[self rTreeTableNameWithTable:tableName andColumn:columnName]];
 }
 
 -(BOOL) has{
@@ -186,18 +206,50 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 +(SFGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
     SFGeometryEnvelope *envelope = nil;
     if(data != nil){
-        envelope = data.envelope;
-        if(envelope == nil){
-            SFGeometry *geometry = data.geometry;
-            if(geometry != nil){
-                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
-            }
-        }
+        envelope = [data getOrBuildEnvelope];
     }
     if(envelope == nil){
         envelope = [[SFGeometryEnvelope alloc] init];
     }
     return envelope;
+}
+
+/**
+ * Get the RTree Table name for the feature table and geometry column
+ *
+ * @param tableName
+ *            feature table name
+ * @param geometryColumnName
+ *            geometry column name
+ * @return RTree table name
+ */
+-(NSString *) rTreeTableNameWithTable: (NSString *) tableName andColumn: (NSString *) geometryColumnName{
+    NSString *sqlName = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_TABLE];
+    NSString *rTreeTableName = [self substituteSqlArgumentsWithSql:sqlName andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:nil andTriggerName:nil];
+    return rTreeTableName;
+}
+
+/**
+ * Get the RTree Table
+ *
+ * @param featureTable
+ *            feature table
+ * @return RTree table
+ */
+-(GPKGUserCustomTable *) rTreeTableWithFeatureTable: (GPKGFeatureTable *) featureTable{
+
+    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithIndex:0 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:1 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:2 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:3 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:4 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
+    
+    NSString *rTreeTableName = [self rTreeTableNameWithTable:featureTable.tableName andColumn:[featureTable getGeometryColumn].name];
+    
+    GPKGUserCustomTable *userCustomTable = [[GPKGUserCustomTable alloc] initWithTable:rTreeTableName andColumns:columns];
+    
+    return userCustomTable;
 }
 
 /**
@@ -330,16 +382,18 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 
 -(void) deleteWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
     
-    [self dropWithTableName:tableName andGeometryColumnName:geometryColumnName];
-    
-    @try {
+    if([self hasWithTableName:tableName andColumnName:geometryColumnName]){
+        [self dropWithTableName:tableName andGeometryColumnName:geometryColumnName];
         
-        [self.extensionsDao deleteByExtension:self.extensionName andTable:tableName andColumnName:geometryColumnName];
-        
-    } @catch (NSException *e) {
-        [NSException raise:@"RTree Index Deletion" format:@"Failed to delete RTree Index extension. GeoPackage %@, Table: %@, GeometryColumn: %@, error: %@", self.geoPackage.name, tableName, geometryColumnName, [e description]];
+        @try {
+            
+            [self.extensionsDao deleteByExtension:self.extensionName andTable:tableName andColumnName:geometryColumnName];
+            
+        } @catch (NSException *e) {
+            [NSException raise:@"RTree Index Deletion" format:@"Failed to delete RTree Index extension. GeoPackage %@, Table: %@, GeometryColumn: %@, error: %@", self.geoPackage.name, tableName, geometryColumnName, [e description]];
+        }
     }
-    
+        
 }
 
 -(void) dropWithFeatureTable: (GPKGFeatureTable *) featureTable{

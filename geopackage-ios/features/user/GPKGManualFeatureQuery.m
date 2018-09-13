@@ -37,7 +37,46 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    return nil; // TODO
+
+    SFGeometryEnvelope *envelope = nil;
+    
+    int offset = 0;
+    BOOL hasResults = YES;
+    
+    while (hasResults) {
+        
+        hasResults = NO;
+        
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+        @try {
+            while ([resultSet moveToNext]) {
+                hasResults = YES;
+                
+                GPKGFeatureRow *featureRow = [self.featureDao getFeatureRow:resultSet];
+                SFGeometryEnvelope *featureEnvelope = [featureRow getGeometryEnvelope];
+                if (featureEnvelope != nil) {
+                    
+                    if (envelope == nil) {
+                        envelope = featureEnvelope;
+                    } else {
+                        envelope = [envelope unionWithEnvelope:featureEnvelope];
+                    }
+                    
+                }
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+        offset += [self.chunkLimit intValue];
+    }
+    
+    GPKGBoundingBox *boundingBox = nil;
+    if (envelope != nil) {
+        boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
+    }
+    
+    return boundingBox;
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
@@ -50,35 +89,76 @@
 }
 
 -(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return nil; // TODO
+    return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
-    return nil; // TODO
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return -1; // TODO
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
-    return -1; // TODO
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox];
 }
 
 -(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    return nil; // TODO
+    return [self queryWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue]];
 }
 
 -(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    return -1; // TODO
+    return [self countWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue]];
 }
 
--(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minxX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
-    return nil; // TODO
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+
+    NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
+    
+    int offset = 0;
+    BOOL hasResults = YES;
+    
+    while (hasResults) {
+        
+        hasResults = NO;
+        
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+        @try {
+            while ([resultSet moveToNext]) {
+                hasResults = YES;
+                
+                GPKGFeatureRow *featureRow = [self.featureDao getFeatureRow:resultSet];
+                SFGeometryEnvelope *envelope = [featureRow getGeometryEnvelope];
+                if (envelope != nil) {
+                    
+                    double minXMax = MAX(minX, [envelope.minX doubleValue]);
+                    double maxXMin = MIN(maxX, [envelope.maxX doubleValue]);
+                    double minYMax = MAX(minY, [envelope.minY doubleValue]);
+                    double maxYMin = MIN(maxY, [envelope.maxY doubleValue]);
+                    
+                    if (minXMax <= maxXMin && minYMax <= maxYMin) {
+                        [featureIds addObject:[featureRow getId]];
+                    }
+                    
+                }
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+        offset += [self.chunkLimit intValue];
+    }
+    
+    GPKGManualFeatureQueryResults *results = [[GPKGManualFeatureQueryResults alloc] initWithFeatureDao:self.featureDao andIds:featureIds];
+    
+    return results;
 }
 
--(int) countWithMinX: (double) minxX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
-    return -1; // TODO
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+    return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY] count];
 }
 
 @end

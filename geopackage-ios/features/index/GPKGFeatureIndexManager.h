@@ -12,6 +12,7 @@
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGFeatureIndexer.h"
 #import "GPKGFeatureIndexResults.h"
+#import "GPKGRTreeIndexTableDao.h"
 
 /**
  * Feature Index Manager to manage indexing of feature geometries in both Android metadata and
@@ -71,6 +72,20 @@
 -(GPKGFeatureIndexer *) getFeatureIndexer;
 
 /**
+ *  Get the RTree Index Table DAO
+ *
+ *  @return RTree index table DAO
+ */
+-(GPKGRTreeIndexTableDao *) getRTreeIndexTableDao;
+
+/**
+ * Get the ordered index query locations
+ *
+ * @return ordered index types
+ */
+-(NSArray *) getIndexLocationQueryOrder;
+
+/**
  *  Prioritize the query location order.  The type is placed at the front of the query order,
  *  leaving the remaining locations in their current order.
  *
@@ -85,6 +100,13 @@
  *  @param featureIndexTypes array of feature index type names
  */
 -(void) prioritizeQueryLocationWithTypes: (NSArray<NSString *> *) featureIndexTypes;
+
+/**
+ * Set the index location order, overriding all previously set types
+ *
+ * @param types feature index types
+ */
+-(void) setIndexLocationOrderWithTypes: (NSArray *) featureIndexTypes;
 
 /**
  *  Set the GeoPackage Progress
@@ -186,6 +208,13 @@
 -(BOOL) deleteIndex;
 
 /**
+ * Delete the feature index from all query order locations
+ *
+ * @return true if deleted
+ */
+-(BOOL) deleteAllIndexes;
+
+/**
  * Delete the feature index from the index types
  *
  * @param types feature index types
@@ -257,6 +286,22 @@
  *  @return true if deleted
  */
 -(BOOL) deleteIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type andGeomId: (int) geomId;
+
+/**
+ * Retain the feature index from the index types and delete the others
+ *
+ * @param type feature index type to retain
+ * @return true if deleted from any type
+ */
+-(BOOL) retainIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type;
+
+/**
+ * Retain the feature index from the index types and delete the others
+ *
+ * @param types feature index types to retain
+ * @return true if deleted from any type
+ */
+-(BOOL) retainIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types;
 
 /**
  * Get the indexed types that are currently indexed

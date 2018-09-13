@@ -7,8 +7,16 @@
 //
 
 #import "GPKGBaseExtension.h"
+#import "GPKGRTreeIndexTableDao.h"
+
+@class GPKGRTreeIndexTableDao;
 
 extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
+extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID;
+extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X;
+extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X;
+extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y;
+extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 
 /**
  * RTree Index Extension
@@ -34,6 +42,24 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ *  Get a RTree Index Table DAO for the feature table
+ *
+ *  @param featureTable feature table
+ *
+ *  @return RTree Index Table DAO
+ */
+-(GPKGRTreeIndexTableDao *) tableDaoWithFeatureTable: (NSString *) featureTable;
+
+/**
+ *  Get a RTree Index Table DAO for the feature dao
+ *
+ *  @param featureDao feature dao
+ *
+ *  @return RTree Index Table DAO
+ */
+-(GPKGRTreeIndexTableDao *) tableDaoWithFeatureDao: (GPKGFeatureDao *) featureDao;
+    
 /**
  * Get or create the extension
  *

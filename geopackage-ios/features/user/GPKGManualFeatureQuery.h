@@ -140,7 +140,7 @@
  *            max y
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minxX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
 
 /**
  * Manually count the rows within the bounds
@@ -155,6 +155,6 @@
  *            max y
  * @return count
  */
--(int) countWithMinX: (double) minxX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
 
 @end

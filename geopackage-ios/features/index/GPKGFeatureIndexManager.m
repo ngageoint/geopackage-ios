@@ -9,12 +9,15 @@
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGFeatureIndexGeoPackageResults.h"
 #import "GPKGFeatureIndexMetadataResults.h"
+#import "GPKGManualFeatureQuery.h"
 
 @interface GPKGFeatureIndexManager ()
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic, strong) GPKGFeatureTableIndex *featureTableIndex;
 @property (nonatomic, strong) GPKGFeatureIndexer *featureIndexer;
+@property (nonatomic, strong) GPKGRTreeIndexTableDao *rTreeIndexTableDao;
+@property (nonatomic, strong) GPKGManualFeatureQuery *manualFeatureQuery;
 @property (nonatomic, strong) NSMutableArray *indexLocationQueryOrder;
 
 @end
@@ -31,9 +34,13 @@
         self.featureDao = featureDao;
         self.featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         self.featureIndexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
+        GPKGRTreeIndexExtension *rTreeExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
+        self.rTreeIndexTableDao = [rTreeExtension tableDaoWithFeatureDao:featureDao];
+        self.manualFeatureQuery = [[GPKGManualFeatureQuery alloc] initWithFeatureDao:featureDao];
 
         self.indexLocation = GPKG_FIT_NONE;
         self.indexLocationQueryOrder = [[NSMutableArray alloc] initWithObjects:
+                                        [GPKGFeatureIndexTypes name:GPKG_FIT_RTREE],
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_GEOPACKAGE],
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_METADATA],
                                         nil];
@@ -44,6 +51,7 @@
 -(void) close{
     [self.featureTableIndex close];
     [self.featureIndexer close];
+    //[self.rTreeIndexTableDao close];
 }
 
 -(GPKGFeatureDao *) getFeatureDao{
@@ -58,6 +66,14 @@
     return self.featureIndexer;
 }
 
+-(GPKGRTreeIndexTableDao *) getRTreeIndexTableDao{
+    return self.rTreeIndexTableDao;
+}
+
+-(NSArray *) getIndexLocationQueryOrder{
+    return self.indexLocationQueryOrder;
+}
+
 -(void) prioritizeQueryLocationWithType: (enum GPKGFeatureIndexType) featureIndexType{
     NSArray * featureIndexTypes = [[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:featureIndexType], nil];
     return [self prioritizeQueryLocationWithTypes:featureIndexTypes];
@@ -67,15 +83,33 @@
     
     // In reverse order for the types provided, remove each (if it exists) and add at the front
     for(int i = (int)featureIndexTypes.count - 1; i >= 0; i--){
-        NSString * featureIndexType = featureIndexTypes[i];
-        [self.indexLocationQueryOrder removeObject:featureIndexType];
-        [self.indexLocationQueryOrder insertObject:featureIndexType atIndex:0];
+        NSString *featureIndexTypeString = featureIndexTypes[i];
+        enum GPKGFeatureIndexType featureIndexType = [GPKGFeatureIndexTypes fromName:featureIndexTypeString];
+        if((int)featureIndexType >= 0 && featureIndexType != GPKG_FIT_NONE){
+            [self.indexLocationQueryOrder removeObject:featureIndexTypeString];
+            [self.indexLocationQueryOrder insertObject:featureIndexTypeString atIndex:0];
+        }
     }
+}
+
+-(void) setIndexLocationOrderWithTypes: (NSArray *) featureIndexTypes{
+    
+    NSMutableArray *queryOrder = [[NSMutableArray alloc] init];
+    for(int i = 0; i < featureIndexTypes.count; i++){
+        NSString *featureIndexTypeString = featureIndexTypes[i];
+        enum GPKGFeatureIndexType featureIndexType = [GPKGFeatureIndexTypes fromName:featureIndexTypeString];
+        if((int)featureIndexType >= 0 && featureIndexType != GPKG_FIT_NONE){
+            [queryOrder addObject:featureIndexTypeString];
+        }
+    }
+    // Update the query order set
+    self.indexLocationQueryOrder = queryOrder;
 }
 
 -(void) setProgress: (NSObject<GPKGProgress> *) progress{
     [self.featureTableIndex setProgress:progress];
     [self.featureIndexer setProgress:progress];
+    [self.rTreeIndexTableDao setProgress:progress];
 }
 
 -(int) index{
@@ -123,6 +157,18 @@
         case GPKG_FIT_METADATA:
             count = [self.featureIndexer indexWithForce:force];
             break;
+        case GPKG_FIT_RTREE:
+            {
+                BOOL rTreeIndexed = [self.rTreeIndexTableDao has];
+                if(!rTreeIndexed || force){
+                    if(rTreeIndexed){
+                        [self.rTreeIndexTableDao delete];
+                    }
+                    [self.rTreeIndexTableDao create];
+                    count = [self.rTreeIndexTableDao count];
+                }
+            }
+            break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
     }
@@ -157,6 +203,10 @@
         case GPKG_FIT_METADATA:
             indexed = [self.featureIndexer indexFeatureRow:row];
             break;
+        case GPKG_FIT_RTREE:
+            // Updated by triggers, ignore for RTree
+            indexed = true;
+            break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
     }
@@ -165,6 +215,10 @@
 
 -(BOOL) deleteIndex{
     return [self deleteIndexWithFeatureIndexType:[self verifyIndexLocation]];
+}
+
+-(BOOL) deleteAllIndexes{
+    return [self deleteIndexWithFeatureIndexTypes:self.indexLocationQueryOrder];
 }
 
 -(BOOL) deleteIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types{
@@ -189,6 +243,10 @@
             break;
         case GPKG_FIT_METADATA:
             deleted = [self.featureIndexer deleteIndex];
+            break;
+        case GPKG_FIT_RTREE:
+            [self.rTreeIndexTableDao delete];
+            deleted = YES;
             break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
@@ -242,10 +300,29 @@
         case GPKG_FIT_METADATA:
             deleted = [self.featureIndexer deleteIndexWithGeomId:[NSNumber numberWithInt:geomId]];
             break;
+        case GPKG_FIT_RTREE:
+            // Updated by triggers, ignore for RTree
+            deleted = YES;
+            break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
     }
     return deleted;
+}
+
+-(BOOL) retainIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
+    NSArray *retain = [[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:type], nil];
+    return [self retainIndexWithFeatureIndexTypes:retain];
+}
+
+-(BOOL) retainIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types{
+    NSMutableArray *delete = [[NSMutableArray alloc] init];
+    for(NSString *indexLocationType in self.indexLocationQueryOrder){
+        if(![types containsObject:indexLocationType]){
+            [delete addObject:indexLocationType];
+        }
+    }
+    return [self deleteIndexWithFeatureIndexTypes:delete];
 }
 
 -(NSArray<NSString *> *) indexedTypes{
@@ -283,6 +360,9 @@
             case GPKG_FIT_METADATA:
                 indexed = [self.featureIndexer isIndexed];
                 break;
+            case GPKG_FIT_RTREE:
+                indexed = [self.rTreeIndexTableDao has];
+                break;
             default:
                 [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
         }
@@ -314,6 +394,12 @@
             case GPKG_FIT_METADATA:
                 lastIndexed = [self.featureIndexer getLastIndexed];
                 break;
+            case GPKG_FIT_RTREE:
+                if([self.rTreeIndexTableDao has]){
+                    // Updated by triggers, assume up to date
+                    lastIndexed = [NSDate date];
+                }
+                break;
             default:
                 [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
         }
@@ -337,8 +423,11 @@
                 results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
             }
             break;
-        default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+        case GPKG_FIT_RTREE:
+            // TODO
+            break;
+        //default:
+            // TODO
     }
     return results;
 }
