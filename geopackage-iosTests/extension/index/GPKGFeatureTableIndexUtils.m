@@ -140,8 +140,8 @@
         // Test the query by projected bounding box
         resultCount = 0;
         featureFound = false;
-        [GPKGTestUtils assertTrue:[featureTableIndex countWithBoundingBox:transformedBoundingBox andProjection:projection] >= 1];
-        featureTableResults = [featureTableIndex queryWithBoundingBox:transformedBoundingBox andProjection:projection];
+        [GPKGTestUtils assertTrue:[featureTableIndex countWithBoundingBox:transformedBoundingBox inProjection:projection] >= 1];
+        featureTableResults = [featureTableIndex queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex getGeometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];

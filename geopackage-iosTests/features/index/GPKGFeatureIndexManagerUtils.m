@@ -140,8 +140,8 @@
         // Test the query by projected bounding box
         resultCount = 0;
         featureFound = false;
-        [GPKGTestUtils assertTrue:[featureIndexManager countWithBoundingBox:transformedBoundingBox andProjection:projection] >= 1];
-        featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox andProjection:projection];
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithBoundingBox:transformedBoundingBox inProjection:projection] >= 1];
+        featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope]];
             if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
