@@ -25,10 +25,23 @@
 }
 
 +(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
+    return [self queryWithDatabase:connection andStatement:statement andArgs:args andKnownCount:nil];
+}
+    
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args andKnownCountInt: (int) knownCount{
+    return [self queryWithDatabase:connection andStatement:statement andArgs:args andKnownCount:[NSNumber numberWithInt:knownCount]];
+}
+
++(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args andKnownCount: (NSNumber *) knownCount{
     
     GPKGResultSet *resultSet = nil;
     
-    int count = [self countWithDatabase:connection andStatement:statement andArgs:args];
+    int count;
+    if(knownCount == nil){
+        count = [self countWithDatabase:connection andStatement:statement andArgs:args];
+    }else{
+        count = [knownCount intValue];
+    }
     
     sqlite3_stmt *compiledStatement;
     int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
@@ -132,7 +145,7 @@
 
 +(NSObject *) querySingleResultWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
     
-    GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
+    GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args andKnownCountInt:1];
     
     NSObject *value = nil;
     @try {
@@ -140,7 +153,7 @@
             value = [self valueInResult:result atIndex:column withDataType:dataType];
         }
     } @finally {
-        [result close];
+        [result closeStatement];
     }
     
     return value;
@@ -160,7 +173,7 @@
             }
         }
     } @finally {
-        [result close];
+        [result closeStatement];
     }
     
     return results;
@@ -188,7 +201,7 @@
             }
         }
     } @finally {
-        [result close];
+        [result closeStatement];
     }
     
     return results;

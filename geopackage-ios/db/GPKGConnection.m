@@ -249,7 +249,7 @@
 }
 
 -(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
-    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection *connection = [self.connectionPool getConnection];
     NSObject *result = [GPKGSqlUtils querySingleResultWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType];
     [self.connectionPool releaseConnection:connection];
     return result;
@@ -276,7 +276,7 @@
 }
 
 -(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit{
-    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection *connection = [self.connectionPool getConnection];
     NSArray<NSObject *> *result = [GPKGSqlUtils querySingleColumnResultsWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
@@ -308,7 +308,7 @@
 }
 
 -(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
-    GPKGDbConnection *connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection *connection = [self.connectionPool getConnection];
     NSArray<NSArray<NSObject *> *> *result = [GPKGSqlUtils queryResultsWithDatabase:connection andSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;

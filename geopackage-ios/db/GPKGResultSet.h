@@ -79,6 +79,11 @@
 -(void) close;
 
 /**
+ *  Close the result set statement, but leave the connection open
+ */
+-(void) closeStatement;
+
+/**
  *  Get the row value
  *
  *  @return row value array

@@ -56,10 +56,14 @@
 }
 
 -(void) close{
-    [GPKGSqlUtils closeStatement:self.statement];
-    self.statement = nil;
+    [self closeStatement];
     [self.connection releaseConnection];
     self.connection = nil;
+}
+
+-(void) closeStatement{
+    [GPKGSqlUtils closeStatement:self.statement];
+    self.statement = nil;
 }
 
 -(NSArray *) getRow{
