@@ -218,5 +218,11 @@
 #import "GPKGPropertyNames.h"
 #import "GPKGPropertiesExtension.h"
 #import "GPKGPropertiesManager.h"
+#import "GPKGManualFeatureQueryResults.h"
+#import "GPKGManualFeatureQuery.h"
+#import "GPKGRTreeIndexTableDao.h"
+#import "GPKGRTreeIndexTableRow.h"
+#import "GPKGFeatureIndexRTreeResults.h"
+#import "GPKGFeatureIndexFeatureResults.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
