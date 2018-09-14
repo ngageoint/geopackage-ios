@@ -97,8 +97,8 @@
     [GPKGTestUtils assertTrue:[geoPackage.database tableExists:simpleTable.tableName]];
     [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:simpleTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:simpleTable.tableName] withTable:simpleTable];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:[geoPackage typeOfTable:simpleTable.tableName]];
-    [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName ofTypeName:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]]]];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[geoPackage typeOfTable:simpleTable.tableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName ofTypeName:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]]]];
     
     // Validate the simple attributes DAO
     GPKGSimpleAttributesDao *simpleDao = [rte simpleAttributesDaoForTable:simpleTable];
@@ -362,8 +362,9 @@
  */
 +(void) validateContents: (GPKGContents *) contents withTable: (GPKGSimpleAttributesTable *) simpleAttributesTable{
     [GPKGTestUtils assertNotNil:contents];
-    [GPKGTestUtils assertEqualIntWithValue:-1 andValue2:(int)[contents getContentsDataType]];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:contents.dataType];
+    [GPKGTestUtils assertTrue:(int)[contents getContentsDataType] >= 0];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents getContentsDataType]]];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:contents.dataType];
     [GPKGTestUtils assertEqualWithValue:simpleAttributesTable.tableName andValue2:contents.tableName];
     [GPKGTestUtils assertNotNil:contents.lastChange];
 }

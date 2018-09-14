@@ -91,8 +91,8 @@
     [GPKGTestUtils assertTrue:[geoPackage.database tableExists:mediaTable.tableName]];
     [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:mediaTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:mediaTable.tableName] withTable:mediaTable];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:[geoPackage typeOfTable:mediaTable.tableName]];
-    [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName ofTypeName:[GPKGRelationTypes name:[GPKGMediaTable relationType]]]];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[geoPackage typeOfTable:mediaTable.tableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName ofTypeName:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]]]];
     
     // Validate the media DAO
     GPKGMediaDao *mediaDao = [rte mediaDaoForTable:mediaTable];
@@ -375,8 +375,9 @@
  */
 +(void) validateContents: (GPKGContents *) contents withTable: (GPKGMediaTable *) mediaTable{
     [GPKGTestUtils assertNotNil:contents];
-    [GPKGTestUtils assertEqualIntWithValue:-1 andValue2:(int)[contents getContentsDataType]];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:contents.dataType];
+    [GPKGTestUtils assertTrue:(int)[contents getContentsDataType] >= 0];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents getContentsDataType]]];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:contents.dataType];
     [GPKGTestUtils assertEqualWithValue:mediaTable.tableName andValue2:contents.tableName];
     [GPKGTestUtils assertNotNil:contents.lastChange];
 }
