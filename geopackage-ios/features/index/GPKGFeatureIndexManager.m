@@ -10,6 +10,8 @@
 #import "GPKGFeatureIndexGeoPackageResults.h"
 #import "GPKGFeatureIndexMetadataResults.h"
 #import "GPKGManualFeatureQuery.h"
+#import "GPKGFeatureIndexRTreeResults.h"
+#import "GPKGFeatureIndexFeatureResults.h"
 
 @interface GPKGFeatureIndexManager ()
 
@@ -424,10 +426,16 @@
             }
             break;
         case GPKG_FIT_RTREE:
-            // TODO
+            {
+                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryForAll];
+                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
+            }
             break;
-        //default:
-            // TODO
+        default:
+            {
+                GPKGResultSet *resultSet = [self.featureDao queryForAll];
+                results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
+            }
     }
     return results;
 }
@@ -442,18 +450,51 @@
         case GPKG_FIT_METADATA:
             count = [self.featureIndexer count];
             break;
+        case GPKG_FIT_RTREE:
+            count = [self.rTreeIndexTableDao count];
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            count = [self.manualFeatureQuery countWithGeometries];
     }
     return count;
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    return nil; // TODO
+    GPKGBoundingBox *bounds = nil;
+    enum GPKGFeatureIndexType type = [self getIndexedType];
+    switch (type) {
+        case GPKG_FIT_GEOPACKAGE:
+            bounds = [self.featureTableIndex boundingBox];
+            break;
+        case GPKG_FIT_METADATA:
+            bounds = [self.featureIndexer boundingBox];
+            break;
+        case GPKG_FIT_RTREE:
+            bounds = [self.rTreeIndexTableDao getBoundingBox];
+            break;
+        default:
+            bounds = [self.manualFeatureQuery boundingBox];
+    }
+    return bounds;
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
-    return nil; // TODO
+    GPKGBoundingBox *bounds = nil;
+    enum GPKGFeatureIndexType type = [self getIndexedType];
+    switch (type) {
+        case GPKG_FIT_GEOPACKAGE:
+            bounds = [self.featureTableIndex boundingBoxInProjection:projection];
+            break;
+        case GPKG_FIT_METADATA:
+            bounds = [self.featureIndexer boundingBoxInProjection:projection];
+            break;
+        case GPKG_FIT_RTREE:
+            bounds = [self.rTreeIndexTableDao boundingBoxInProjection:projection];
+            break;
+        default:
+            bounds = [self.manualFeatureQuery boundingBoxInProjection:projection];
+    }
+    return bounds;
 }
 
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
@@ -472,8 +513,14 @@
                 results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
             }
             break;
+        case GPKG_FIT_RTREE:
+            {
+                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithBoundingBox:boundingBox];
+                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
+            }
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            results = [self.manualFeatureQuery queryWithBoundingBox:boundingBox];
     }
     return results;
 }
@@ -488,8 +535,11 @@
         case GPKG_FIT_METADATA:
             count = [self.featureIndexer countWithBoundingBox:boundingBox];
             break;
+        case GPKG_FIT_RTREE:
+            count = [self.rTreeIndexTableDao countWithBoundingBox:boundingBox];
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            count = [self.manualFeatureQuery countWithBoundingBox:boundingBox];
     }
     return count;
 }
@@ -510,8 +560,14 @@
                 results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
             }
             break;
+        case GPKG_FIT_RTREE:
+            {
+                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithEnvelope:envelope];
+                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
+            }
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            results = [self.manualFeatureQuery queryWithGeometryEnvelope:envelope];
     }
     return results;
 }
@@ -526,8 +582,11 @@
         case GPKG_FIT_METADATA:
             count = [self.featureIndexer countWithEnvelope:envelope];
             break;
+        case GPKG_FIT_RTREE:
+            count = [self.rTreeIndexTableDao countWithEnvelope:envelope];
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            count = [self.manualFeatureQuery countWithGeometryEnvelope:envelope];
     }
     return count;
 }
@@ -537,19 +596,25 @@
     enum GPKGFeatureIndexType type = [self getIndexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
-        {
-            GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox inProjection:projection];
-            results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
-        }
+            {
+                GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox inProjection:projection];
+                results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
+            }
             break;
         case GPKG_FIT_METADATA:
-        {
-            GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox inProjection:projection];
-            results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
-        }
+            {
+                GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox inProjection:projection];
+                results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
+            }
+            break;
+        case GPKG_FIT_RTREE:
+            {
+                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithBoundingBox:boundingBox inProjection:projection];
+                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
+            }
             break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            results = [self.manualFeatureQuery queryWithBoundingBox:boundingBox inProjection:projection];
     }
     return results;
 }
@@ -564,8 +629,11 @@
         case GPKG_FIT_METADATA:
             count = [self.featureIndexer countWithBoundingBox:boundingBox inProjection:projection];
             break;
+        case GPKG_FIT_RTREE:
+            count = [self.rTreeIndexTableDao countWithBoundingBox:boundingBox inProjection:projection];
+            break;
         default:
-            [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
+            count = [self.manualFeatureQuery countWithBoundingBox:boundingBox inProjection:projection];
     }
     return count;
 }
@@ -588,11 +656,6 @@
             indexType = type;
             break;
         }
-    }
-    
-    // Verify features are indexed
-    if(indexType == GPKG_FIT_NONE){
-        [NSException raise:@"Features Not Indexed" format:@"Features are not indexed. GeoPackage: %@, Table: %@", self.featureTableIndex.geoPackage.name, [self.featureTableIndex getTableName]];
     }
     
     return indexType;
