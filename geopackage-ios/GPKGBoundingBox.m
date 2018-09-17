@@ -83,6 +83,18 @@
     return true;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[GPKGBoundingBox class]]) {
+        return NO;
+    }
+    
+    return [self equals:(GPKGBoundingBox *)object];
+}
+
 -(MKMapRect) getMapRect{
     MKMapPoint lowerLeft = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]));
     MKMapPoint upperRight = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]));

@@ -47,4 +47,16 @@
     return true;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
+    if (![object isKindOfClass:[GPKGTileGrid class]]) {
+        return NO;
+    }
+    
+    return [self equals:(GPKGTileGrid *)object];
+}
+
 @end
