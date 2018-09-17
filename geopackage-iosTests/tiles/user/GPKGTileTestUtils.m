@@ -255,19 +255,43 @@
                     [GPKGTestUtils assertTrue:[totalBoundingBox.minLatitude doubleValue] <= [boundingBox.minLatitude doubleValue]];
                     [GPKGTestUtils assertTrue:[totalBoundingBox.maxLatitude doubleValue] >= [boundingBox.maxLatitude doubleValue]];
                 }
+                
+                BOOL minYDeleted = NO;
+                BOOL maxYDeleted = NO;
+                BOOL minXDeleted = NO;
+                BOOL maxXDeleted = NO;
+                
                 int deleted = 0;
                 if([tileMatrix.matrixHeight intValue] > 1 || [tileMatrix.matrixWidth intValue] > 1){
                     
                     for(int column = 0; column < [tileMatrix.matrixWidth intValue]; column++){
-                        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao deleteTileWithColumn:column andRow:0 andZoomLevel:zoomLevel]];
-                        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao deleteTileWithColumn:column andRow:([tileMatrix.matrixHeight intValue] - 1) andZoomLevel:zoomLevel]];
-                        deleted += 2;
+                        int expectedDelete = [dao queryForTileWithColumn:column andRow:0 andZoomLevel:zoomLevel] != nil ? 1 : 0;
+                        [GPKGTestUtils assertEqualIntWithValue:expectedDelete andValue2:[dao deleteTileWithColumn:column andRow:0 andZoomLevel:zoomLevel]];
+                        if (expectedDelete > 0) {
+                            minYDeleted = YES;
+                        }
+                        deleted += expectedDelete;
+                        expectedDelete = [dao queryForTileWithColumn:column andRow:([tileMatrix.matrixHeight intValue] - 1) andZoomLevel:zoomLevel] != nil ? 1 : 0;
+                        [GPKGTestUtils assertEqualIntWithValue:expectedDelete andValue2:[dao deleteTileWithColumn:column andRow:([tileMatrix.matrixHeight intValue] - 1) andZoomLevel:zoomLevel]];
+                        if (expectedDelete > 0) {
+                            maxYDeleted = YES;
+                        }
+                        deleted += expectedDelete;
                     }
                     
                     for(int row = 1; row < [tileMatrix.matrixHeight intValue] - 1; row++){
-                        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao deleteTileWithColumn:0 andRow:row andZoomLevel:zoomLevel]];
-                        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao deleteTileWithColumn:([tileMatrix.matrixWidth intValue] - 1) andRow:row andZoomLevel:zoomLevel]];
-                        deleted += 2;
+                        int expectedDelete = [dao queryForTileWithColumn:0 andRow:row andZoomLevel:zoomLevel] != nil ? 1 : 0;
+                        [GPKGTestUtils assertEqualIntWithValue:expectedDelete andValue2:[dao deleteTileWithColumn:0 andRow:row andZoomLevel:zoomLevel]];
+                        if (expectedDelete > 0) {
+                            minXDeleted = YES;
+                        }
+                        deleted += expectedDelete;
+                        expectedDelete = [dao queryForTileWithColumn:([tileMatrix.matrixWidth intValue] - 1) andRow:row andZoomLevel:zoomLevel] != nil ? 1 : 0;
+                        [GPKGTestUtils assertEqualIntWithValue:expectedDelete andValue2:[dao deleteTileWithColumn:([tileMatrix.matrixWidth intValue] - 1) andRow:row andZoomLevel:zoomLevel]];
+                        if (expectedDelete > 0) {
+                            maxXDeleted = YES;
+                        }
+                        deleted += expectedDelete;
                     }
                 }else{
                     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao deleteTileWithColumn:0 andRow:0 andZoomLevel:zoomLevel]];
@@ -280,17 +304,17 @@
                 GPKGTileGrid * updatedTileGrid = [dao queryForTileGridWithZoomLevel:zoomLevel];
                 GPKGBoundingBox * updatedBoundingBox = [dao getBoundingBoxWithZoomLevel:zoomLevel];
                 
-                if([tileMatrix.matrixHeight intValue] <= 2 && [tileMatrix.matrixWidth intValue] <= 2){
+                if(updatedCount == 0 || ([tileMatrix.matrixHeight intValue] <= 2 && [tileMatrix.matrixWidth intValue] <= 2)){
                     [GPKGTestUtils assertNil:updatedTileGrid];
                     [GPKGTestUtils assertNil:updatedBoundingBox];
                 }else{
                     [GPKGTestUtils assertNotNil:updatedTileGrid];
                     [GPKGTestUtils assertNotNil:updatedBoundingBox];
                     
-                    [GPKGTestUtils assertEqualIntWithValue:(tileGrid.minX + 1) andValue2:updatedTileGrid.minX];
-                    [GPKGTestUtils assertEqualIntWithValue:(tileGrid.maxX - 1) andValue2:updatedTileGrid.maxX];
-                    [GPKGTestUtils assertEqualIntWithValue:(tileGrid.minY + 1) andValue2:updatedTileGrid.minY];
-                    [GPKGTestUtils assertEqualIntWithValue:(tileGrid.maxY - 1) andValue2:updatedTileGrid.maxY];
+                    [GPKGTestUtils assertEqualIntWithValue:minXDeleted ? tileGrid.minX + 1 : tileGrid.minX andValue2:updatedTileGrid.minX];
+                    [GPKGTestUtils assertEqualIntWithValue:maxXDeleted ? tileGrid.maxX - 1 : tileGrid.maxX andValue2:updatedTileGrid.maxX];
+                    [GPKGTestUtils assertEqualIntWithValue:minYDeleted ? tileGrid.minY + 1 : tileGrid.minY andValue2:updatedTileGrid.minY];
+                    [GPKGTestUtils assertEqualIntWithValue:maxYDeleted ? tileGrid.maxY - 1 : tileGrid.maxY andValue2:updatedTileGrid.maxY];
                     
                     GPKGBoundingBox * tileGridBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
                     [GPKGTestUtils assertTrue:[tileGridBoundingBox equals:updatedBoundingBox]];

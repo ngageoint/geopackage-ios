@@ -22,6 +22,11 @@
 
     // Create a related tables extension
     GPKGRelatedTablesExtension *rte = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    if([rte has]){
+        [rte removeExtension];
+    }
+    
     [GPKGTestUtils assertFalse:[rte has]];
     [GPKGTestUtils assertTrue:[rte relationships].count == 0];
     

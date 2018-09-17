@@ -27,6 +27,10 @@
     
     GPKGRelatedTablesExtension *rte = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:self.geoPackage];
     
+    if([rte has]){
+        [rte removeExtension];
+    }
+    
     // 1. Has extension
     [GPKGTestUtils assertFalse:[rte has]];
     
@@ -36,9 +40,9 @@
     
     // 2. Add extension
     // 5. Add relationship between "geometry2d" and "geometry3d"
-    NSString *baseTableName = @"geometry2d";
-    NSString *relatedTableName = @"geometry3d";
-    NSString *mappingTableName = @"g2d_3d";
+    NSString *baseTableName = @"geometry1";
+    NSString *relatedTableName = @"geometry2";
+    NSString *mappingTableName = @"g1_g2";
     
     NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
     

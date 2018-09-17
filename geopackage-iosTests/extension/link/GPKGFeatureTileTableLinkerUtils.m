@@ -16,6 +16,8 @@
 
 +(void) testLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
+    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    
     GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNil:[linker getExtension]];
     

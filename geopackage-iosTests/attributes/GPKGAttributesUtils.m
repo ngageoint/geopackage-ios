@@ -11,6 +11,7 @@
 #import "GPKGAttributesColumn.h"
 #import "GPKGDateTimeUtils.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
+#import "GPKGPropertiesExtension.h"
 
 @implementation GPKGAttributesUtils
 
@@ -243,6 +244,10 @@
     if (tables.count > 0) {
         
         for (NSString * tableName in tables) {
+            
+            if([tableName isEqualToString:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+                continue;
+            }
             
             GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
             [GPKGTestUtils assertNotNil:dao];
@@ -536,6 +541,10 @@
     if (tables.count > 0) {
         
         for (NSString * tableName in tables) {
+            
+            if([tableName isEqualToString:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+                continue;
+            }
             
             GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
             [GPKGTestUtils assertNotNil:dao];

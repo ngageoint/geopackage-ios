@@ -33,9 +33,7 @@
         GPKGResultSet * featureResultSet = [featureDao queryForAll];
         while([featureResultSet moveToNext]){
             GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResultSet];
-            GPKGGeometryData * geometryData = [featureRow getGeometry];
-            if(geometryData != nil
-               && (geometryData.envelope != nil || geometryData.geometry != nil)){
+            if([featureRow getGeometryEnvelope] != nil){
                 expectedCount++;
                 // Randomly choose a feature row with Geometry for testing
                 // queries later
@@ -47,6 +45,10 @@
             }
         }
         [featureResultSet close];
+        
+        if([featureTableIndex isIndexed]){
+            [featureTableIndex deleteIndex];
+        }
         
         [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
         [GPKGTestUtils assertNil:[featureTableIndex getLastIndexed]];
@@ -89,11 +91,7 @@
         [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:resultCount];
         
         // Test the query by envelope
-        GPKGGeometryData * geometryData = [testFeatureRow getGeometry];
-        SFGeometryEnvelope * envelope = geometryData.envelope;
-        if(envelope == nil){
-            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometryData.geometry];
-        }
+        SFGeometryEnvelope *envelope = [testFeatureRow getGeometryEnvelope];
         [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - .000001)]];
         [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + .000001)]];
         [envelope setMinY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minY doubleValue] - .000001)]];
@@ -155,7 +153,7 @@
         [GPKGTestUtils assertTrue:resultCount >= 1];
         
         // Update a Geometry and update the index of a single feature row
-        geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
+        GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
         SFPoint * point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
         [geometryData setGeometry:point];
         [testFeatureRow setGeometry:geometryData];
@@ -259,6 +257,10 @@
         GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
         GPKGFeatureTableIndex * featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         
+        if([featureTableIndex isIndexed]){
+            [featureTableIndex deleteIndex];
+        }
+        
         [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
         
         [GPKGTestUtils validateGeoPackage:geoPackage];
@@ -297,14 +299,7 @@
     [GPKGTestUtils assertNotNil:featureRow];
     [GPKGTestUtils assertEqualWithValue:[featureTableIndex getTableName] andValue2:geometryIndex.tableName];
     [GPKGTestUtils assertEqualIntWithValue:[geometryIndex.geomId intValue] andValue2:[[featureRow getId] intValue]];
-    GPKGGeometryData * geometryData = [featureRow getGeometry];
-    SFGeometryEnvelope * envelope = geometryData.envelope;
-    if(envelope == nil){
-        SFGeometry * geometry = geometryData.geometry;
-        if(geometry != nil){
-            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
-        }
-    }
+    SFGeometryEnvelope * envelope = [featureRow getGeometryEnvelope];
     
     [GPKGTestUtils assertNotNil:envelope];
     
