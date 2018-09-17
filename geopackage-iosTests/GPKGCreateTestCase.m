@@ -41,4 +41,10 @@
     
 }
 
+- (void) testBounds {
+    
+    [GPKGGeoPackageTestUtils testBounds:self.geoPackage];
+    
+}
+
 @end

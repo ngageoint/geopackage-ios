@@ -9,6 +9,9 @@
 #import "GPKGGeoPackageTestUtils.h"
 #import "GPKGUtils.h"
 #import "GPKGTestUtils.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
+#import "GPKGFeatureIndexManager.h"
 
 @implementation GPKGGeoPackageTestUtils
 
@@ -193,6 +196,177 @@
         [GPKGTestUtils assertFalse:[geoPackage isTable:attributeTable]];
         [GPKGTestUtils assertNil:[contentsDao queryForIdObject:attributeTable]];
     }
+    
+}
+
++(void)testBounds: (GPKGGeoPackage *) geoPackage{
+    
+    SFPProjection *projection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    
+    // Create a feature table with empty contents
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
+    [geometryColumns setTableName:@"feature_empty_contents"];
+    [geometryColumns setColumnName:@"geom"];
+    [geometryColumns setGeometryType:SF_POINT];
+    [geometryColumns setZ:[NSNumber numberWithInt:0]];
+    [geometryColumns setM:[NSNumber numberWithInt:0]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] queryForOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:nil andSrsId:srs.srsId];
+    
+    GPKGBoundingBox *geoPackageContentsBoundingBox = [geoPackage contentsBoundingBoxInProjection:projection];
+    
+    GPKGBoundingBox *expectedContentsBoundingBox = nil;
+    
+    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    GPKGResultSet *contentsResults = [contentsDao queryForAll];
+    @try {
+        while([contentsResults moveToNext]){
+            GPKGContents *contents = (GPKGContents *)[contentsDao getObject:contentsResults];
+            
+            GPKGBoundingBox *contentsBoundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
+            if(contentsBoundingBox != nil){
+                [GPKGTestUtils assertTrue:[geoPackageContentsBoundingBox contains:contentsBoundingBox]];
+                
+                if(expectedContentsBoundingBox == nil){
+                    expectedContentsBoundingBox = contentsBoundingBox;
+                }else{
+                    expectedContentsBoundingBox = [expectedContentsBoundingBox union:contentsBoundingBox];
+                }
+                
+                [GPKGTestUtils assertEqualWithValue:contentsBoundingBox andValue2:[geoPackage contentsBoundingBoxOfTable:contents.tableName inProjection:projection]];
+                [GPKGTestUtils assertEqualWithValue:[contents getBoundingBox] andValue2:[geoPackage contentsBoundingBoxOfTable:contents.tableName]];
+            }
+        }
+    } @finally {
+        [contentsResults close];
+    }
+    
+    [GPKGTestUtils assertEqualWithValue:expectedContentsBoundingBox andValue2:geoPackageContentsBoundingBox];
+    
+    GPKGBoundingBox *geoPackageBoundingBox = [geoPackage boundingBoxInProjection:projection];
+    GPKGBoundingBox *geoPackageManualBoundingBox = [geoPackage boundingBoxInProjection:projection andManual:YES];
+
+    GPKGBoundingBox *expectedBoundingBox = expectedContentsBoundingBox;
+    GPKGBoundingBox *expectedManualBoundingBox = expectedContentsBoundingBox;
+
+    contentsResults = [contentsDao queryForAll];
+    @try {
+        while([contentsResults moveToNext]){
+            GPKGContents *contents = (GPKGContents *)[contentsDao getObject:contentsResults];
+            
+            enum GPKGContentsDataType dataType = [contents getContentsDataType];
+            if((int)dataType != -1){
+                
+                switch (dataType) {
+                    case GPKG_CDT_FEATURES:
+                        {
+                            GPKGFeatureIndexManager *manager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureTable:contents.tableName];
+                            GPKGBoundingBox *featureBoundingBox = [manager boundingBoxInProjection:projection];
+                            if(featureBoundingBox != nil){
+                                if([manager isIndexed]){
+                                    expectedBoundingBox = [expectedBoundingBox union:featureBoundingBox];
+                                }
+                                expectedManualBoundingBox = [expectedManualBoundingBox union:featureBoundingBox];
+                            }
+                            
+                            GPKGBoundingBox *expectedFeatureProjectionBoundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
+                            if(featureBoundingBox != nil && [manager isIndexed]){
+                                if (expectedFeatureProjectionBoundingBox == nil) {
+                                    expectedFeatureProjectionBoundingBox = featureBoundingBox;
+                                } else {
+                                    expectedFeatureProjectionBoundingBox = [expectedFeatureProjectionBoundingBox union:featureBoundingBox];
+                                }
+                            }
+                            GPKGBoundingBox *featureProjectionBoundingBox = [geoPackage boundingBoxOfTable:contents.tableName inProjection:projection];
+                            if (featureProjectionBoundingBox == nil) {
+                                [GPKGTestUtils assertNil:expectedFeatureProjectionBoundingBox];
+                            } else {
+                                [GPKGTestUtils assertTrue:[expectedBoundingBox contains:featureProjectionBoundingBox]];
+                                [GPKGTestUtils assertEqualWithValue:expectedFeatureProjectionBoundingBox andValue2:featureProjectionBoundingBox];
+                            }
+                            
+                            GPKGBoundingBox *expectedFeatureManualProjectionBoundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
+                            if (featureBoundingBox != nil) {
+                                if (expectedFeatureManualProjectionBoundingBox == nil) {
+                                    expectedFeatureManualProjectionBoundingBox = featureBoundingBox;
+                                } else {
+                                    expectedFeatureManualProjectionBoundingBox = [expectedFeatureManualProjectionBoundingBox union:featureBoundingBox];
+                                }
+                            }
+                            GPKGBoundingBox *featureManualProjectionBoundingBox = [geoPackage boundingBoxOfTable:contents.tableName inProjection:projection andManual:YES];
+                            if (featureManualProjectionBoundingBox == nil) {
+                                [GPKGTestUtils assertNil:expectedFeatureManualProjectionBoundingBox];
+                            } else {
+                                [GPKGTestUtils assertTrue:[expectedManualBoundingBox contains:featureManualProjectionBoundingBox]];
+                                [GPKGTestUtils assertEqualWithValue:expectedFeatureManualProjectionBoundingBox andValue2:featureManualProjectionBoundingBox];
+                            }
+                            
+                            featureBoundingBox = [manager boundingBox];
+                            
+                            GPKGBoundingBox *expectedFeatureBoundingBox = [contents getBoundingBox];
+                            if(featureBoundingBox != nil && [manager isIndexed]){
+                                if (expectedFeatureBoundingBox == nil) {
+                                    expectedFeatureBoundingBox = featureBoundingBox;
+                                } else {
+                                    expectedFeatureBoundingBox = [expectedFeatureBoundingBox union:featureBoundingBox];
+                                }
+                            }
+                            GPKGBoundingBox *featureBox = [geoPackage boundingBoxOfTable:contents.tableName];
+                            if(featureBox == nil){
+                                [GPKGTestUtils assertNil:expectedFeatureBoundingBox];
+                            }else{
+                                [GPKGTestUtils assertEqualWithValue:expectedFeatureBoundingBox andValue2:featureBox];
+                            }
+                            
+                            GPKGBoundingBox *expectedFeatureManualBoundingBox = [contents getBoundingBox];
+                            if (featureBoundingBox != nil) {
+                                if (expectedFeatureManualBoundingBox == nil) {
+                                    expectedFeatureManualBoundingBox = featureBoundingBox;
+                                } else {
+                                    expectedFeatureManualBoundingBox = [expectedFeatureManualBoundingBox union:featureBoundingBox];
+                                }
+                            }
+                            GPKGBoundingBox *featureManualBoundingBox = [geoPackage boundingBoxOfTable:contents.tableName andManual:YES];
+                            if (featureManualBoundingBox == nil) {
+                                [GPKGTestUtils assertNil:expectedFeatureManualBoundingBox];
+                            } else {
+                                [GPKGTestUtils assertEqualWithValue:expectedFeatureManualBoundingBox andValue2:featureManualBoundingBox];
+                            }
+                            
+                            [manager close];
+                        }
+                        break;
+                      
+                    case GPKG_CDT_TILES:
+                    case GPKG_CDT_GRIDDED_COVERAGE:
+                        {
+                            GPKGTileDao *tileDao = [geoPackage getTileDaoWithTableName:contents.tableName];
+                            GPKGBoundingBox *tileBoundingBox = [tileDao boundingBoxInProjection:projection];
+                            expectedBoundingBox = [expectedBoundingBox union:tileBoundingBox];
+                            expectedManualBoundingBox = [expectedManualBoundingBox union: tileBoundingBox];
+                            
+                            GPKGBoundingBox *expectedProjectionTileBoundingBox = [tileBoundingBox union:[contentsDao boundingBoxOfContents:contents inProjection:projection]];
+                            [GPKGTestUtils assertEqualWithValue:expectedProjectionTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName inProjection:projection]];
+                            [GPKGTestUtils assertEqualWithValue:expectedProjectionTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName inProjection:projection andManual:YES]];
+                            
+                            GPKGBoundingBox *expectedTileBoundingBox = [[tileDao getBoundingBox] union:[contents getBoundingBox]];
+                            [GPKGTestUtils assertEqualWithValue:expectedTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName]];
+                            [GPKGTestUtils assertEqualWithValue:expectedTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName andManual:YES]];
+                        }
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+            }
+        }
+    } @finally {
+        [contentsResults close];
+    }
+    
+    [GPKGTestUtils assertEqualWithValue:expectedBoundingBox andValue2:geoPackageBoundingBox];
+    [GPKGTestUtils assertEqualWithValue:expectedManualBoundingBox andValue2:geoPackageManualBoundingBox];
     
 }
 

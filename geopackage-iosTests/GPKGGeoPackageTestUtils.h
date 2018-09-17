@@ -21,4 +21,6 @@
 
 +(void)testDeleteTables: (GPKGGeoPackage *) geoPackage;
 
++(void)testBounds: (GPKGGeoPackage *) geoPackage;
+
 @end
