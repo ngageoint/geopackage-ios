@@ -234,7 +234,7 @@
     if((int)dataType >= 0){
         switch (dataType) {
             case GPKG_CDT_FEATURES:
-                tableBoundingBox = [self featureBoundingBoxOfTable:tableType inProjection:projection andManual:manual];
+                tableBoundingBox = [self featureBoundingBoxOfTable:table inProjection:projection andManual:manual];
                 break;
             case GPKG_CDT_TILES:
             case GPKG_CDT_GRIDDED_COVERAGE:
