@@ -179,6 +179,14 @@
 }
 
 -(void) setValueNoValidationWithIndex: (int) index andValue: (NSObject *) value{
+    
+    if(value != nil){
+        if([value isKindOfClass:[NSDate class]]){
+            GPKGUserColumn *userColumn = [self getColumnWithIndex:index];
+            value = [GPKGDateTimeUtils convertToStringWithDate:(NSDate *)value andType:userColumn.dataType];
+        }
+    }
+    
     [GPKGUtils replaceObjectAtIndex:index withObject:value inArray:self.values];
 }
 
