@@ -246,6 +246,27 @@
 
 +(void) testLargeIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andNumFeatures: (int) numFeatures{
     
+    NSString *featureTable = @"large_index";
+    
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
+    [geometryColumns setTableName:featureTable];
+    [geometryColumns setColumnName:@"geom"];
+    [geometryColumns setGeometryType:SF_POLYGON];
+    [geometryColumns setZ:[NSNumber numberWithInt:0]];
+    [geometryColumns setM:[NSNumber numberWithInt:0]];
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180 andMinLatitudeDouble:-90 andMaxLongitudeDouble:180 andMaxLatitudeDouble:90];
+    
+    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
+    
+    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+    
+    NSLog(@"Inserting Feature Rows: %d", numFeatures);
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:geometryColumns andFeatureTable:[featureDao getFeatureTable] andNumRows:numFeatures andHasZ:NO andHasM:NO andAllowEmptyFeatures:NO];
+    
+    [self testTimedIndexWithGeoPackage:geoPackage andFeatureTable:featureTable andCompareProjectionCounts:YES andVerbose:NO];
+    
 }
 
 +(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose{

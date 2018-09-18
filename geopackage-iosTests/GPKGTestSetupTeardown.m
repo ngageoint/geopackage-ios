@@ -401,10 +401,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [geometryColumnsDao create:lineString3dMGeometryColumns];
     
     // Populate the feature tables with rows
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:false andHasM:false];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:false andHasM:false];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:true andHasM:false];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:true andHasM:true];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:YES];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:YES];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:true andHasM:false andAllowEmptyFeatures:YES];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:true andHasM:true andAllowEmptyFeatures:YES];
 
 }
 
