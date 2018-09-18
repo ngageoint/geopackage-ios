@@ -29,7 +29,7 @@
 
 @implementation GPKGGeoPackageGeometryDataUtils
 
-+(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareGeometryBytes: (BOOL) compareGeometryBytes{
     
     GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
     
@@ -54,7 +54,9 @@
                     
                     NSData * geometryBytes = geometryData.bytes;
                     NSData * geometryDataToBytes = [geometryData toData];
-                    [self compareByteArrayWithExpected:geometryBytes andActual:geometryDataToBytes];
+                    if(compareGeometryBytes){
+                        [self compareByteArrayWithExpected:geometryBytes andActual:geometryDataToBytes];
+                    }
                     
                     GPKGGeometryData * geometryDataAfterToBytes = geometryData;
                     
@@ -62,12 +64,12 @@
                     geometryData = [featureRow getGeometry];
                     
                     // Compare the original with the toBytes geometry data
-                    [self compareGeometryDataWithExpected:geometryData andActual:geometryDataAfterToBytes];
+                    [self compareGeometryDataWithExpected:geometryData andActual:geometryDataAfterToBytes andCompareGeometryBytes:compareGeometryBytes];
                     
                     // Create a new geometry data from the bytes and compare
                     // with original
                     GPKGGeometryData * geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
-                    [self compareGeometryDataWithExpected:geometryData andActual:geometryDataFromBytes];
+                    [self compareGeometryDataWithExpected:geometryData andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
                     
                     // Set the geometry empty flag and verify the geometry
                     // was not written / read
@@ -85,7 +87,7 @@
                     [geometryDataAfterToBytes setByteOrder: (geometryDataAfterToBytes.byteOrder == CFByteOrderBigEndian ? CFByteOrderLittleEndian : CFByteOrderBigEndian)];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
                     geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
-                    [self compareGeometryDataWithExpected:geometryDataAfterToBytes andActual:geometryDataFromBytes];
+                    [self compareGeometryDataWithExpected:geometryDataAfterToBytes andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
                     [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes getHeaderData] isEqualToData:[geometryData getHeaderData]]];
                     [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes getWkbData] isEqualToData:[geometryData getWkbData]]];
                     [GPKGTestUtils assertFalse:[geometryDataAfterToBytes.bytes isEqualToData:geometryData.bytes]];
@@ -167,6 +169,10 @@
 }
 
 +(void) compareGeometryDataWithExpected: (GPKGGeometryData *) expected andActual: (GPKGGeometryData *) actual{
+    [self compareGeometryDataWithExpected:expected andActual:actual andCompareGeometryBytes:NO];
+}
+
++(void) compareGeometryDataWithExpected: (GPKGGeometryData *) expected andActual: (GPKGGeometryData *) actual andCompareGeometryBytes: (BOOL) compareGeometryBytes{
     
     // Compare geometry data attributes
     [GPKGTestUtils assertEqualBoolWithValue:expected.extended andValue2:actual.extended];
@@ -180,13 +186,17 @@
     [self compareByteArrayWithExpected:[expected getHeaderData] andActual:[actual getHeaderData]];
     
     // Compare geometries
-    [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry];
+    [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry andDelta:.00000001];
 
     // Compare well-known binary geometries
-    [self compareByteArrayWithExpected:[expected getWkbData] andActual:[actual getWkbData]];
+    if(compareGeometryBytes){
+        [self compareByteArrayWithExpected:[expected getWkbData] andActual:[actual getWkbData]];
+    }
     
     // Compare all bytes
-    [self compareByteArrayWithExpected:expected.bytes andActual:actual.bytes];
+    if(compareGeometryBytes){
+        [self compareByteArrayWithExpected:expected.bytes andActual:actual.bytes];
+    }
 }
 
 +(void) compareEnvelopesWithExpected: (SFGeometryEnvelope *) expected andActual: (SFGeometryEnvelope *) actual{
@@ -373,7 +383,7 @@
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualIntWithValue:[expected numRings] andValue2:[actual numRings]];
     for(int i = 0; i < [expected numRings]; i++){
-        [self compareGeometriesWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i]];
+        [self compareGeometriesWithExpected:[expected.rings objectAtIndex:i] andActual:[actual.rings objectAtIndex:i] andDelta:delta];
     }
 }
 
@@ -381,7 +391,7 @@
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualIntWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
     for(int i = 0; i < [expected numPolygons]; i++){
-        [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i]];
+        [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i] andDelta:delta];
     }
 }
 
@@ -389,7 +399,7 @@
     [self compareBaseGeometryAttributesWithExpected:expected andActual:actual];
     [GPKGTestUtils assertEqualIntWithValue:[expected numPolygons] andValue2:[actual numPolygons]];
     for(int i = 0; i < [expected numPolygons]; i++){
-        [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i]];
+        [self compareGeometriesWithExpected:[expected.polygons objectAtIndex:i] andActual:[actual.polygons objectAtIndex:i] andDelta:delta];
     }
 }
 
