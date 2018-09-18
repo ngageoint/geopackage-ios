@@ -11,8 +11,16 @@
 
 @implementation GPKGFeatureIndexManagerCreateTest
 
-- (void)testIndexer {
+- (void)testIndex {
     [GPKGFeatureIndexManagerUtils testIndexWithGeoPackage:self.geoPackage];
+}
+
+- (void) testLargeIndex{
+    [GPKGFeatureIndexManagerUtils testLargeIndexWithGeoPackage:self.geoPackage andNumFeatures:20000];
+}
+
+- (void) testTimedIndex{
+    [GPKGFeatureIndexManagerUtils testTimedIndexWithGeoPackage:self.geoPackage andCompareProjectionCounts:NO andVerbose:NO];
 }
 
 @end

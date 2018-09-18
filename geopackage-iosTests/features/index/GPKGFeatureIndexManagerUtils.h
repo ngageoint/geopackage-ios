@@ -11,6 +11,38 @@
 
 @interface GPKGFeatureIndexManagerUtils : NSObject
 
+/**
+ * Test index
+ *
+ * @param geoPackage GeoPackage
+ */
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test large index
+ *
+ * @param geoPackage  GeoPackage
+ * @param numFeatures num features
+ */
++(void) testLargeIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andNumFeatures: (int) numFeatures;
+
+/**
+ * Test large index
+ *
+ * @param geoPackage              GeoPackage
+ * @param compareProjectionCounts compare projection counts and query counts
+ * @param verbose                 verbose printing
+ */
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose;
+
+/**
+ * Test large index
+ *
+ * @param geoPackage              GeoPackage
+ * @param featureTable            feature table
+ * @param compareProjectionCounts compare projection counts and query counts
+ * @param verbose                 verbose printing
+ */
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose;
 
 @end

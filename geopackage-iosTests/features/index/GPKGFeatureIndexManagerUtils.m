@@ -19,11 +19,12 @@
 @implementation GPKGFeatureIndexManagerUtils
 
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_GEOPACKAGE];
-    [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_METADATA];
+    [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_GEOPACKAGE andIncludeEmpty:NO];
+    [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_METADATA andIncludeEmpty:NO];
+    [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_RTREE andIncludeEmpty:YES];
 }
 
-+(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureIndexType: (enum GPKGFeatureIndexType) type{
++(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureIndexType: (enum GPKGFeatureIndexType) type andIncludeEmpty: (BOOL) includeEmpty{
     
     // Test indexing each feature table
     NSArray * featureTables = [geoPackage getFeatureTables];
@@ -32,6 +33,7 @@
         GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager * featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager setIndexLocation:type];
+        [featureIndexManager deleteAllIndexes];
         
         // Determine how many features have geometry envelopes or geometries
         int expectedCount = 0;
@@ -39,9 +41,7 @@
         GPKGResultSet * featureResultSet = [featureDao queryForAll];
         while([featureResultSet moveToNext]){
             GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResultSet];
-            GPKGGeometryData * geometryData = [featureRow getGeometry];
-            if(geometryData != nil
-               && (geometryData.envelope != nil || geometryData.geometry != nil)){
+            if([featureRow getGeometryEnvelope] != nil){
                 expectedCount++;
                 // Randomly choose a feature row with Geometry for testing
                 // queries later
@@ -50,6 +50,8 @@
                 }else if([GPKGTestUtils randomDouble] < (1.0 / featureResultSet.count)){
                     testFeatureRow = featureRow;
                 }
+            }else if(includeEmpty){
+                expectedCount++;
             }
         }
         [featureResultSet close];
@@ -83,36 +85,33 @@
         int resultCount = 0;
         GPKGFeatureIndexResults * featureIndexResults = [featureIndexManager query];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
-            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:nil];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:nil andIncludeEmpty:includeEmpty];
             resultCount++;
         }
         [featureIndexResults close];
         [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:resultCount];
         
         // Test the query by envelope
-        GPKGGeometryData * geometryData = [testFeatureRow getGeometry];
-        SFGeometryEnvelope * envelope = geometryData.envelope;
-        if(envelope == nil){
-            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometryData.geometry];
-        }
-        [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - .000001)]];
-        [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + .000001)]];
-        [envelope setMinY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minY doubleValue] - .000001)]];
-        [envelope setMaxY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxY doubleValue] + .000001)]];
+        SFGeometryEnvelope * envelope = [testFeatureRow getGeometryEnvelope];
+        double difference = .000001;
+        [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - difference)]];
+        [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + difference)]];
+        [envelope setMinY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minY doubleValue] - difference)]];
+        [envelope setMaxY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxY doubleValue] + difference)]];
         if(envelope.hasZ){
-            [envelope setMinZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minZ doubleValue] - .000001)]];
-            [envelope setMaxZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxZ doubleValue] + .000001)]];
+            [envelope setMinZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minZ doubleValue] - difference)]];
+            [envelope setMaxZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxZ doubleValue] + difference)]];
         }
         if(envelope.hasM){
-            [envelope setMinM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minM doubleValue] - .000001)]];
-            [envelope setMaxM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxM doubleValue] + .000001)]];
+            [envelope setMinM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minM doubleValue] - difference)]];
+            [envelope setMaxM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxM doubleValue] + difference)]];
         }
         resultCount = 0;
         BOOL featureFound = false;
         [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
         featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
-            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
             if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
                 featureFound = true;
             }
@@ -143,7 +142,7 @@
         [GPKGTestUtils assertTrue:[featureIndexManager countWithBoundingBox:transformedBoundingBox inProjection:projection] >= 1];
         featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
-            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope]];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
             if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
                 featureFound = true;
             }
@@ -154,7 +153,7 @@
         [GPKGTestUtils assertTrue:resultCount >= 1];
         
         // Update a Geometry and update the index of a single feature row
-        geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
+        GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
         SFPoint * point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
         [geometryData setGeometry:point];
         [testFeatureRow setGeometry:geometryData];
@@ -172,7 +171,7 @@
         [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
         featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
-            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
             if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
                 featureFound = true;
             }
@@ -198,9 +197,7 @@
             GPKGResultSet * featureResults = [featureDao queryForAll];
             while([featureResults moveToNext]){
                 GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
-                GPKGGeometryData * geometryData = [featureRow getGeometry];
-                if(geometryData != nil
-                   && (geometryData.envelope != nil || geometryData.geometry != nil)){
+                if([featureRow getGeometryEnvelope] != nil){
                     [featureResults close];
                     [GPKGTestUtils assertTrue:[featureIndexManager deleteIndexWithFeatureRow:featureRow]];
                     break;
@@ -219,53 +216,44 @@
     
 }
 
-+(void) validateFeatureRow: (GPKGFeatureRow *) featureRow withFeatureIndexManager: (GPKGFeatureIndexManager *) featureIndexManager andEnvelope: (SFGeometryEnvelope *) queryEnvelope{
++(void) validateFeatureRow: (GPKGFeatureRow *) featureRow withFeatureIndexManager: (GPKGFeatureIndexManager *) featureIndexManager andEnvelope: (SFGeometryEnvelope *) queryEnvelope andIncludeEmpty: (BOOL) includeEmpty{
     [GPKGTestUtils assertNotNil:featureRow];
-    GPKGGeometryData * geometryData = [featureRow getGeometry];
-    SFGeometryEnvelope * envelope = geometryData.envelope;
-    if(envelope == nil){
-        SFGeometry * geometry = geometryData.geometry;
-        if(geometry != nil){
-            envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
-        }
-    }
+    SFGeometryEnvelope * envelope = [featureRow getGeometryEnvelope];
     
-    [GPKGTestUtils assertNotNil:envelope];
-    
-    if(queryEnvelope != nil){
-        BOOL minXLessThanMaxX = [queryEnvelope.minX compare:queryEnvelope.maxX] == NSOrderedAscending;
-        if(minXLessThanMaxX){
+    if(!includeEmpty){
+        [GPKGTestUtils assertNotNil:envelope];
+        
+        if(queryEnvelope != nil){
             [GPKGTestUtils assertTrue:[envelope.minX doubleValue] <= [queryEnvelope.maxX doubleValue]];
             [GPKGTestUtils assertTrue:[envelope.maxX doubleValue] >= [queryEnvelope.minX doubleValue]];
-        }else{
-            [GPKGTestUtils assertTrue:[envelope.minX doubleValue] <= [queryEnvelope.maxX doubleValue]
-                || [envelope.maxX doubleValue] >= [queryEnvelope.minX doubleValue]
-                || [envelope.minX doubleValue] >= [queryEnvelope.minX doubleValue]
-             || [envelope.maxX doubleValue] <= [queryEnvelope.maxX doubleValue]];
-        }
-        [GPKGTestUtils assertTrue:[envelope.minY doubleValue] <= [queryEnvelope.maxY doubleValue]];
-        [GPKGTestUtils assertTrue:[envelope.maxY doubleValue] >= [queryEnvelope.minY doubleValue]];
-        if(envelope.hasZ){
-            if(queryEnvelope.hasZ){
-                [GPKGTestUtils assertTrue:[envelope.minZ doubleValue] <= [queryEnvelope.maxZ doubleValue]];
-                [GPKGTestUtils assertTrue:[envelope.maxZ doubleValue] >= [queryEnvelope.minZ doubleValue]];
+            [GPKGTestUtils assertTrue:[envelope.minY doubleValue] <= [queryEnvelope.maxY doubleValue]];
+            [GPKGTestUtils assertTrue:[envelope.maxY doubleValue] >= [queryEnvelope.minY doubleValue]];
+            if(envelope.hasZ){
+                if(queryEnvelope.hasZ){
+                    [GPKGTestUtils assertTrue:[envelope.minZ doubleValue] <= [queryEnvelope.maxZ doubleValue]];
+                    [GPKGTestUtils assertTrue:[envelope.maxZ doubleValue] >= [queryEnvelope.minZ doubleValue]];
+                }
             }
-        } else{
-            [GPKGTestUtils assertFalse:queryEnvelope.hasZ];
-            [GPKGTestUtils assertNil:queryEnvelope.minZ];
-            [GPKGTestUtils assertNil:queryEnvelope.maxZ];
-        }
-        if(envelope.hasM){
-            if(queryEnvelope.hasM){
-                [GPKGTestUtils assertTrue:[envelope.minM doubleValue] <= [queryEnvelope.maxM doubleValue]];
-                [GPKGTestUtils assertTrue:[envelope.maxM doubleValue] >= [queryEnvelope.minM doubleValue]];
+            if(envelope.hasM){
+                if(queryEnvelope.hasM){
+                    [GPKGTestUtils assertTrue:[envelope.minM doubleValue] <= [queryEnvelope.maxM doubleValue]];
+                    [GPKGTestUtils assertTrue:[envelope.maxM doubleValue] >= [queryEnvelope.minM doubleValue]];
+                }
             }
-        } else{
-            [GPKGTestUtils assertFalse:queryEnvelope.hasM];
-            [GPKGTestUtils assertNil:queryEnvelope.minM];
-            [GPKGTestUtils assertNil:queryEnvelope.maxM];
         }
     }
+}
+
++(void) testLargeIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andNumFeatures: (int) numFeatures{
+    
+}
+
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose{
+    
+}
+
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose{
+    
 }
 
 @end
