@@ -355,16 +355,20 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(void) removeExtension{
     
     if([self.extendedRelationsDao tableExists]){
+        NSMutableArray<NSString *> *mappingTables = [[NSMutableArray alloc] init];
         GPKGResultSet *extendedRelations = [self.extendedRelationsDao queryForAll];
         @try {
             while([extendedRelations moveToNext]){
                 GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
-                [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
+                [mappingTables addObject:extendedRelation.mappingTableName];
             }
-            [self.extendedRelationsDao dropTable];
         } @finally {
             [extendedRelations close];
         }
+        for(NSString *mappingTable in mappingTables){
+            [self.geoPackage deleteUserTable:mappingTable];
+        }
+        [self.extendedRelationsDao dropTable];
     }
     if([self.extensionsDao tableExists]){
         [self.extensionsDao deleteByExtension:self.extensionName];
