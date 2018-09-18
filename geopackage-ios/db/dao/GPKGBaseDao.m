@@ -42,13 +42,19 @@
 }
 
 -(void) setValueInObject: (NSObject*) object withColumnName: (NSString *) column withValue: (NSObject *) value{
-    int columnIndex = ((NSNumber*) [self.columnIndex valueForKey:column]).intValue;
-    [self setValueInObject:object withColumnIndex:columnIndex withValue:value];
+    NSNumber *columnIndex = [self.columnIndex valueForKey:column];
+    if(columnIndex != nil){
+        [self setValueInObject:object withColumnIndex:((NSNumber *)columnIndex).intValue withValue:value];
+    }
 }
 
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnName: (NSString *) column{
-    int columnIndex = ((NSNumber*) [self.columnIndex valueForKey:column]).intValue;
-    return [self getValueFromObject:object withColumnIndex:columnIndex];
+    NSObject *value = nil;
+    NSNumber *columnIndex = [self.columnIndex valueForKey:column];
+    if(columnIndex != nil){
+        value = [self getValueFromObject:object withColumnIndex:((NSNumber *)columnIndex).intValue];
+    }
+    return value;
 }
 
 -(void) initializeColumnIndex{
