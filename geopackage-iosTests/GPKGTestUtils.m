@@ -9,6 +9,7 @@
 #import "GPKGTestUtils.h"
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
+#import "SFPProjectionConstants.h"
 
 #define ARC4RANDOM_MAX      0x100000000
 
@@ -357,7 +358,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 +(SFPoint *) createPointWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
     double x = [self randomDoubleLessThan:180.0] * ([self randomDouble] < .5 ? 1 : -1);
-    double y = [self randomDoubleLessThan:90.0] * ([self randomDouble] < .5 ? 1 : -1);
+    double y = [self randomDoubleLessThan:PROJ_WEB_MERCATOR_MIN_LAT_RANGE] * ([self randomDouble] < .5 ? 1 : -1);
     
     NSDecimalNumber * xNumber = [self roundDouble:x];
     NSDecimalNumber * yNumber = [self roundDouble:y];

@@ -15,6 +15,22 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionTransform.h"
 #import "SFPProjectionConstants.h"
+#import "GPKGFeatureIndexTestEnvelope.h"
+
+@interface GPKGTestTimer : NSObject
+
+@property (nonatomic) int count;
+@property (nonatomic) double totalTime;
+@property (nonatomic, strong) NSDate *before;
+@property (nonatomic) BOOL print;
+-(instancetype) init;
+-(void) start;
+-(void) endWithOutput: (NSString *) output;
+-(double) average;
+-(NSString *) averageString;
+-(void) reset;
+
+@end
 
 @implementation GPKGFeatureIndexManagerUtils
 
@@ -270,11 +286,267 @@
 }
 
 +(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose{
-    
+    for(NSString *featureTable in [geoPackage getFeatureTables]){
+        [self testTimedIndexWithGeoPackage:geoPackage andFeatureTable:featureTable andCompareProjectionCounts:compareProjectionCounts andVerbose:verbose];
+    }
 }
 
 +(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable andCompareProjectionCounts: (BOOL) compareProjectionCounts andVerbose: (BOOL) verbose{
     
+    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+    
+    NSLog(@"Timed Index Test");
+    NSLog(@"%@, Features: %d", featureTable, [featureDao count]);
+    
+    SFGeometryEnvelope *envelope = nil;
+    GPKGResultSet *resultSet = [featureDao queryForAll];
+    while([resultSet moveToNext]){
+        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:resultSet];
+        SFGeometryEnvelope *rowEnvelope = [featureRow getGeometryEnvelope];
+        if(envelope == nil){
+            envelope = rowEnvelope;
+        }else if(rowEnvelope != nil){
+            envelope = [envelope unionWithEnvelope:rowEnvelope];
+        }
+    }
+    [resultSet close];
+    
+    NSArray<GPKGFeatureIndexTestEnvelope *> *envelopes = [self createEnvelopesWithEnvelope:envelope];
+
+    resultSet = [featureDao queryForAll];
+    while([resultSet moveToNext]){
+        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:resultSet];
+        SFGeometryEnvelope *rowEnvelope = [featureRow getGeometryEnvelope];
+        if(rowEnvelope != nil){
+            GPKGBoundingBox *rowBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:rowEnvelope];
+            for(GPKGFeatureIndexTestEnvelope *testEnvelope in envelopes){
+                if([rowBoundingBox intersects:[[GPKGBoundingBox alloc] initWithGeometryEnvelope:testEnvelope.envelope] withAllowEmpty:YES]){
+                    testEnvelope.count++;
+                }
+            }
+        }
+    }
+    [resultSet close];
+    
+    [self testTimedIndexWithGeoPackage:geoPackage andType:GPKG_FIT_GEOPACKAGE andDao:featureDao andEnvelopes:envelopes andPrecision:.0000000001 andCompare:compareProjectionCounts andProjectionPrecision:.001 andVerbose:verbose];
+    [self testTimedIndexWithGeoPackage:geoPackage andType:GPKG_FIT_METADATA andDao:featureDao andEnvelopes:envelopes andPrecision:.0000000001 andCompare:compareProjectionCounts andProjectionPrecision:.001 andVerbose:verbose];
+    [self testTimedIndexWithGeoPackage:geoPackage andType:GPKG_FIT_RTREE andDao:featureDao andEnvelopes:envelopes andInnerPrecision:.0000000001 andOuterPrecision:.0001 andCompare:compareProjectionCounts andProjectionPrecision:.001 andVerbose:verbose];
+    [self testTimedIndexWithGeoPackage:geoPackage andType:GPKG_FIT_NONE andDao:featureDao andEnvelopes:envelopes andPrecision:.0000000001 andCompare:compareProjectionCounts andProjectionPrecision:.001 andVerbose:verbose];
+}
+
++(NSArray<GPKGFeatureIndexTestEnvelope *> *) createEnvelopesWithEnvelope: (SFGeometryEnvelope *) envelope{
+    NSMutableArray<GPKGFeatureIndexTestEnvelope *> *envelopes = [[NSMutableArray alloc] init];
+    for (int percentage = 100; percentage >= 0; percentage -= 10) {
+        [envelopes addObject:[self createEnvelopeWithEnvelope:envelope andPercentage:percentage]];
+    }
+    return envelopes;
+}
+
++(GPKGFeatureIndexTestEnvelope *) createEnvelopeWithEnvelope: (SFGeometryEnvelope *) envelope andPercentage: (int) percentage{
+    
+    float percentageRatio = percentage / 100.0f;
+    
+    GPKGFeatureIndexTestEnvelope *testEnvelope = [[GPKGFeatureIndexTestEnvelope alloc] init];
+    
+    double width = [envelope.maxX doubleValue] - [envelope.minX doubleValue];
+    double height = [envelope.maxY doubleValue] - [envelope.minY doubleValue];
+    
+    double minX = [envelope.minX doubleValue] + ([GPKGTestUtils randomDouble] * width * (1.0 - percentageRatio));
+    double minY = [envelope.minY doubleValue] + ([GPKGTestUtils randomDouble] * height * (1.0 - percentageRatio));
+    
+    double maxX = minX + (width * percentageRatio);
+    double maxY = minY + (height * percentageRatio);
+    
+    testEnvelope.envelope = [[SFGeometryEnvelope alloc] initWithMinXDouble:minX andMinYDouble:minY andMaxXDouble:maxX andMaxYDouble:maxY];
+    testEnvelope.percentage = percentage;
+    
+    return testEnvelope;
+}
+
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andType: (enum GPKGFeatureIndexType) type andDao: (GPKGFeatureDao *) featureDao andEnvelopes: (NSArray<GPKGFeatureIndexTestEnvelope *> *) envelopes andPrecision: (double) precision andCompare: (BOOL) compareProjectionCounts andProjectionPrecision: (double) projectionPrecision andVerbose: (BOOL) verbose{
+    [self testTimedIndexWithGeoPackage:geoPackage andType:type andDao:featureDao andEnvelopes:envelopes andInnerPrecision:precision andOuterPrecision:precision andCompare:compareProjectionCounts andProjectionPrecision:projectionPrecision andVerbose:verbose];
+}
+
++(void) testTimedIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andType: (enum GPKGFeatureIndexType) type andDao: (GPKGFeatureDao *) featureDao andEnvelopes: (NSArray<GPKGFeatureIndexTestEnvelope *> *) envelopes andInnerPrecision: (double) innerPrecision andOuterPrecision: (double) outerPrecision andCompare: (BOOL) compareProjectionCounts andProjectionPrecision: (double) projectionPrecision andVerbose: (BOOL) verbose{
+    
+    NSLog(@"Type: %@", [GPKGFeatureIndexTypes name:type]);
+    
+    int geometryFeatureCount = [featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [featureDao getGeometryColumnName]]];
+    int totalFeatureCount = [featureDao count];
+    
+    GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+    
+    @try{
+        
+        [featureIndexManager setIndexLocation:type];
+        [featureIndexManager prioritizeQueryLocationWithType:type];
+        
+        if(type == GPKG_FIT_RTREE){
+            if(![featureIndexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]){
+                NSLog(@"Not Indexed");
+                return;
+            }
+        }else if(type != GPKG_FIT_NONE){
+            [featureIndexManager deleteIndexWithFeatureIndexType:type];
+            [GPKGTestUtils assertFalse:[featureIndexManager isIndexedWithFeatureIndexType:type]];
+        }else{
+            [featureIndexManager setIndexLocationOrderWithTypes:[[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:type], nil]];
+            [GPKGTestUtils assertFalse:[featureIndexManager isIndexed]];
+        }
+        
+        GPKGTestTimer *timerQuery = [[GPKGTestTimer alloc] init];
+        GPKGTestTimer *timerCount = [[GPKGTestTimer alloc] init];
+        timerCount.print = verbose;
+        
+        if (type != GPKG_FIT_NONE && ![featureIndexManager isIndexedWithFeatureIndexType:type]) {
+            [timerQuery start];
+            int indexCount = [featureIndexManager index];
+            [timerQuery endWithOutput:@"Index"];
+            [GPKGTestUtils assertEqualIntWithValue:geometryFeatureCount andValue2:indexCount];
+            [GPKGTestUtils assertTrue:[featureIndexManager isIndexed]];
+        }
+        
+        [timerCount start];
+        int queryCount = [featureIndexManager count];
+        [timerCount endWithOutput:@"Count Query"];
+        [GPKGTestUtils assertTrue:queryCount == geometryFeatureCount || queryCount == totalFeatureCount];
+        
+        SFPProjection *projection = featureDao.projection;
+        SFPProjection *webMercatorProjection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WEB_MERCATOR];
+        SFPProjectionTransform *transformToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:webMercatorProjection];
+        SFPProjectionTransform *transformToProjection = [[SFPProjectionTransform alloc] initWithFromProjection:webMercatorProjection andToProjection:projection];
+        
+        [timerCount start];
+        GPKGBoundingBox *bounds = [featureIndexManager boundingBox];
+        [timerCount endWithOutput:@"Bounds Query"];
+        [GPKGTestUtils assertNotNil:bounds];
+        GPKGFeatureIndexTestEnvelope *firstEnvelope = [envelopes objectAtIndex:0];
+        GPKGBoundingBox *firstBounds = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:firstEnvelope.envelope];
+
+        [self assertRangeWithExpected:firstBounds.minLongitude andActual:bounds.minLongitude andLowPrecision:outerPrecision andHighPrecision:innerPrecision];
+        [self assertRangeWithExpected:firstBounds.minLatitude andActual:bounds.minLatitude andLowPrecision:outerPrecision andHighPrecision:innerPrecision];
+        [self assertRangeWithExpected:firstBounds.maxLongitude andActual:bounds.maxLongitude andLowPrecision:innerPrecision andHighPrecision:outerPrecision];
+        [self assertRangeWithExpected:firstBounds.maxLatitude andActual:bounds.maxLatitude andLowPrecision:innerPrecision andHighPrecision:outerPrecision];
+
+        [timerCount start];
+        GPKGBoundingBox *projectedBounds = [featureIndexManager boundingBoxInProjection:webMercatorProjection];
+        [timerCount endWithOutput:@"Bounds Projection Query"];
+        [GPKGTestUtils assertNotNil:projectedBounds];
+        GPKGBoundingBox *reprojectedBounds = [projectedBounds transform:transformToProjection];
+        
+        [self assertRangeWithExpected:firstBounds.minLongitude andActual:reprojectedBounds.minLongitude andLowPrecision:projectionPrecision andHighPrecision:projectionPrecision];
+        [self assertRangeWithExpected:firstBounds.minLatitude andActual:reprojectedBounds.minLatitude andLowPrecision:projectionPrecision andHighPrecision:projectionPrecision];
+        [self assertRangeWithExpected:firstBounds.maxLongitude andActual:reprojectedBounds.maxLongitude andLowPrecision:projectionPrecision andHighPrecision:projectionPrecision];
+        [self assertRangeWithExpected:firstBounds.maxLatitude andActual:reprojectedBounds.maxLatitude andLowPrecision:projectionPrecision andHighPrecision:projectionPrecision];
+        
+        [timerQuery reset];
+        [timerCount reset];
+        
+        timerQuery.print = timerCount.print;
+        
+        for(GPKGFeatureIndexTestEnvelope *testEnvelope in envelopes){
+            
+            NSString *percentage = [NSString stringWithFormat:@"%d", testEnvelope.percentage];
+            SFGeometryEnvelope *envelope = testEnvelope.envelope;
+            int expectedCount = testEnvelope.count;
+            
+            if(verbose){
+                NSLog(@"%@%% deature Count: %d", percentage, expectedCount);
+            }
+            
+            [timerCount start];
+            int fullCount = [featureIndexManager countWithGeometryEnvelope:envelope];
+            [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Count Query", percentage]];
+            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+            
+            [timerQuery start];
+            GPKGFeatureIndexResults *results = [featureIndexManager queryWithGeometryEnvelope:envelope];
+            [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Query", percentage]];
+            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+            [results close];
+            
+            GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
+            [timerCount start];
+            fullCount = [featureIndexManager countWithBoundingBox:boundingBox];
+            [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Bounding Box Count Query", percentage]];
+            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+            
+            [timerQuery start];
+            results = [featureIndexManager queryWithBoundingBox:boundingBox];
+            [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Bounding Box Query", percentage]];
+            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+            [results close];
+            
+            GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:transformToWebMercator];
+            [timerCount start];
+            fullCount = [featureIndexManager countWithBoundingBox:webMercatorBoundingBox inProjection:webMercatorProjection];
+            [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Projected Bounding Box Count Query", percentage]];
+            if (compareProjectionCounts) {
+                [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+            }
+            
+            [timerQuery start];
+            results = [featureIndexManager queryWithBoundingBox:webMercatorBoundingBox inProjection:webMercatorProjection];
+            [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Projected Bounding Box Query", percentage]];
+            if (compareProjectionCounts) {
+                [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+            }
+            [results close];
+        }
+        
+        NSLog(@"Average Count: %@ s", [timerCount averageString]);
+        NSLog(@"Average Query: %@ s", [timerQuery averageString]);
+    }@finally{
+        [featureIndexManager close];
+    }
+    
+}
+
++(void) assertRangeWithExpected: (NSDecimalNumber *) expected andActual: (NSDecimalNumber *) actual andLowPrecision: (double) lowPrecision andHighPrecision: (double) highPrecision{
+    double low = [expected doubleValue] - lowPrecision;
+    double high = [expected doubleValue]  + highPrecision;
+    [GPKGTestUtils assertTrue:low <= [actual doubleValue]  && [actual doubleValue] <= high];
+}
+
+@end
+
+@implementation GPKGTestTimer
+
+-(instancetype) init{
+    self = [super init];
+    if(self != nil){
+        [self reset];
+        self.print = YES;
+    }
+    return self;
+}
+
+-(void) start{
+    self.before = [NSDate date];
+}
+
+-(void) endWithOutput: (NSString *) output{
+    double time = [self.before timeIntervalSinceNow];
+    self.count++;
+    self.totalTime += time;
+    self.before = nil;
+    if(self.print){
+        NSLog(@"%@: %f s", output, time);
+    }
+}
+
+-(double) average{
+    return (double) self.totalTime / self.count;
+}
+
+-(NSString *) averageString{
+    return [NSString stringWithFormat:@"%.2f", [self average]];
+}
+
+-(void) reset{
+    self.count = 0;
+    self.totalTime = 0;
+    self.before = nil;
 }
 
 @end
