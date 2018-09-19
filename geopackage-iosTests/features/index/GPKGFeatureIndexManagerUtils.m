@@ -526,7 +526,7 @@
 }
 
 -(void) endWithOutput: (NSString *) output{
-    double time = [self.before timeIntervalSinceNow];
+    double time = -[self.before timeIntervalSinceNow];
     self.count++;
     self.totalTime += time;
     self.before = nil;
