@@ -10,6 +10,12 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGUtils.h"
 
+@interface GPKGResultSet ()
+
+@property (nonatomic) BOOL hasNext;
+
+@end
+
 @implementation GPKGResultSet
 
 -(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection{
@@ -33,16 +39,21 @@
         
         self.columns = statementColumns;
         self.columnIndex = statementColumnIndex;
+        self.hasNext = YES;
     }
     
     return self;
 }
 
 -(BOOL) moveToNext{
-    return sqlite3_step(self.statement) == SQLITE_ROW;
+    if(self.hasNext){
+        self.hasNext = sqlite3_step(self.statement) == SQLITE_ROW;
+    }
+    return self.hasNext;
 }
 
 -(BOOL) moveToFirst{
+    self.hasNext = YES;
     return sqlite3_reset(self.statement);
 }
 
