@@ -451,7 +451,7 @@
             int expectedCount = testEnvelope.count;
             
             if(verbose){
-                NSLog(@"%@%% deature Count: %d", percentage, expectedCount);
+                NSLog(@"%@%% Feature Count: %d", percentage, expectedCount);
             }
             
             [timerCount start];
