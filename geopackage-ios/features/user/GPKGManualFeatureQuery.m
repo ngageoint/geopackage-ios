@@ -20,6 +20,7 @@
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
+        self.chunkLimit = [NSNumber numberWithInt:1000];
     }
     return self;
 }
