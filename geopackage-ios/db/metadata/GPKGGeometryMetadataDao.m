@@ -361,7 +361,7 @@
     [where appendString:@" and "];
     [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_TABLE_NAME andValue:tableName]];
     [where appendString:@" and "];
-    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] == NSOrderedAscending;
+    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
     if(minXLessThanMaxX){
         [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
         [where appendString:@" and "];
