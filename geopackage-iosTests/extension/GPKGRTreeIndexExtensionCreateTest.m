@@ -15,4 +15,8 @@
     [GPKGRTreeIndexExtensionUtils testRTreeWithGeoPackage:self.geoPackage];
 }
 
+-(BOOL) allowEmptyFeatures{
+    return NO;
+}
+
 @end

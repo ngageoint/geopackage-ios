@@ -24,7 +24,9 @@ extern NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT;
 
 +(GPKGGeoPackage *) setUpCreateWithFeatures: (BOOL) features andTiles: (BOOL) tiles;
 
-+(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andTiles: (BOOL) tiles;
++(GPKGGeoPackage *) setUpCreateWithFeatures: (BOOL) features andAllowEmptyFeatures: (BOOL) allowEmptyFeatures andTiles: (BOOL) tiles;
+
++(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andAllowEmptyFeatures: (BOOL) allowEmptyFeatures andTiles: (BOOL) tiles;
 
 +(void) tearDownCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 

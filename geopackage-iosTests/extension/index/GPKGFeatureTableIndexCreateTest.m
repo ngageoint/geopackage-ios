@@ -19,4 +19,8 @@
     [GPKGFeatureTableIndexUtils testDeleteAllWithGeoPackage:self.geoPackage];
 }
 
+-(BOOL) allowEmptyFeatures{
+    return NO;
+}
+
 @end

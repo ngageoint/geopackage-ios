@@ -344,18 +344,32 @@
 
 +(GPKGFeatureIndexTestEnvelope *) createEnvelopeWithEnvelope: (SFGeometryEnvelope *) envelope andPercentage: (int) percentage{
     
-    float percentageRatio = percentage / 100.0f;
-    
     GPKGFeatureIndexTestEnvelope *testEnvelope = [[GPKGFeatureIndexTestEnvelope alloc] init];
     
-    double width = [envelope.maxX doubleValue] - [envelope.minX doubleValue];
-    double height = [envelope.maxY doubleValue] - [envelope.minY doubleValue];
+    double minX;
+    double maxX;
+    double minY;
+    double maxY;
     
-    double minX = [envelope.minX doubleValue] + ([GPKGTestUtils randomDouble] * width * (1.0 - percentageRatio));
-    double minY = [envelope.minY doubleValue] + ([GPKGTestUtils randomDouble] * height * (1.0 - percentageRatio));
+    if(percentage < 100){
     
-    double maxX = minX + (width * percentageRatio);
-    double maxY = minY + (height * percentageRatio);
+        float percentageRatio = percentage / 100.0f;
+        
+        double width = [envelope.maxX doubleValue] - [envelope.minX doubleValue];
+        double height = [envelope.maxY doubleValue] - [envelope.minY doubleValue];
+        
+        minX = [envelope.minX doubleValue] + ([GPKGTestUtils randomDouble] * width * (1.0 - percentageRatio));
+        minY = [envelope.minY doubleValue] + ([GPKGTestUtils randomDouble] * height * (1.0 - percentageRatio));
+        
+        maxX = minX + (width * percentageRatio);
+        maxY = minY + (height * percentageRatio);
+        
+    }else{
+        minX = [envelope.minX doubleValue];
+        maxX = [envelope.maxX doubleValue];
+        minY = [envelope.minY doubleValue];
+        maxY = [envelope.maxY doubleValue];
+    }
     
     testEnvelope.envelope = [[SFGeometryEnvelope alloc] initWithMinXDouble:minX andMinYDouble:minY andMaxXDouble:maxX andMaxYDouble:maxY];
     testEnvelope.percentage = percentage;
@@ -381,12 +395,7 @@
         [featureIndexManager setIndexLocation:type];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
-        if(type == GPKG_FIT_RTREE){
-            if(![featureIndexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]){
-                NSLog(@"Not Indexed");
-                return;
-            }
-        }else if(type != GPKG_FIT_NONE){
+        if(type != GPKG_FIT_NONE){
             [featureIndexManager deleteIndexWithFeatureIndexType:type];
             [GPKGTestUtils assertFalse:[featureIndexManager isIndexedWithFeatureIndexType:type]];
         }else{

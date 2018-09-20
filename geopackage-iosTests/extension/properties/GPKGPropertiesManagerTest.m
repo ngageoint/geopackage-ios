@@ -104,7 +104,7 @@ static int COLOR_BLUE_COUNT;
     NSMutableArray<NSString *> *names = [[NSMutableArray alloc] init];
     
     for(int i = 0; i < GEOPACKAGE_COUNT; i++){
-        GPKGGeoPackage *geoPackage = [GPKGTestSetupTeardown setUpCreateWithName:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, i + 1] andFeatures:YES andTiles:YES];
+        GPKGGeoPackage *geoPackage = [GPKGTestSetupTeardown setUpCreateWithName:[NSString stringWithFormat:@"%@%d", GEOPACKAGE_NAME, i + 1] andFeatures:YES andAllowEmptyFeatures:YES andTiles:YES];
         if(i < GEOPACKAGE_WITH_PROPERTIES_COUNT){
             [self addPropertiesToGeoPackage:geoPackage withIdentifier:i];
         }

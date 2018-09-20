@@ -11,6 +11,10 @@
 
 @implementation GPKGFeatureIndexManagerCreateTest
 
+-(BOOL) allowEmptyFeatures{
+    return NO;
+}
+
 - (void)testIndex {
     [GPKGFeatureIndexManagerUtils testIndexWithGeoPackage:self.geoPackage];
 }

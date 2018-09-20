@@ -34,10 +34,14 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
 @implementation GPKGTestSetupTeardown
 
 +(GPKGGeoPackage *) setUpCreateWithFeatures: (BOOL) features andTiles: (BOOL) tiles{
-    return [self setUpCreateWithName:GPKG_TEST_DB_NAME andFeatures:features andTiles:tiles];
+    return [self setUpCreateWithFeatures:features andAllowEmptyFeatures:YES andTiles:tiles];
 }
 
-+(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andTiles: (BOOL) tiles{
++(GPKGGeoPackage *) setUpCreateWithFeatures: (BOOL) features andAllowEmptyFeatures: (BOOL) allowEmptyFeatures andTiles: (BOOL) tiles{
+    return [self setUpCreateWithName:GPKG_TEST_DB_NAME andFeatures:features  andAllowEmptyFeatures:allowEmptyFeatures andTiles:tiles];
+}
+
++(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andAllowEmptyFeatures: (BOOL) allowEmptyFeatures andTiles: (BOOL) tiles{
     
     GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
     
@@ -65,7 +69,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [GPKGTestUtils assertEqualIntWithValue:[geoPackage userVersionPatch] andValue2:[patchVersion intValue]];
     
     if(features){
-        [self setUpCreateFeaturesWithGeoPackage:geoPackage];
+        [self setUpCreateFeaturesWithGeoPackage:geoPackage andAllowEmptyFeatures:allowEmptyFeatures];
     }
     
     if(tiles){
@@ -274,7 +278,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     }
 }
 
-+(void) setUpCreateFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) setUpCreateFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andAllowEmptyFeatures: (BOOL) allowEmptyFeatures{
     
     // Get existing SRS objects
     GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
@@ -401,10 +405,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     [geometryColumnsDao create:lineString3dMGeometryColumns];
     
     // Populate the feature tables with rows
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:YES];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:YES];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:true andHasM:false andAllowEmptyFeatures:YES];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:true andHasM:true andAllowEmptyFeatures:YES];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:true andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:true andHasM:true andAllowEmptyFeatures:allowEmptyFeatures];
 
 }
 
