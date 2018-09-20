@@ -19,6 +19,11 @@
 @property (nonatomic, strong) NSObject<GPKGProgress> *progress;
 
 /**
+ *  Query range tolerance
+ */
+@property (nonatomic) double tolerance;
+
+/**
  * Initialize
  *
  * @param rTree      RTree extension

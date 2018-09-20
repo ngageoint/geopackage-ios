@@ -17,6 +17,11 @@
 @interface GPKGGeometryMetadataDao : GPKGBaseDao
 
 /**
+ *  Query range tolerance
+ */
+@property (nonatomic) double tolerance;
+
+/**
  *  Initialize
  *
  *  @param database database connection

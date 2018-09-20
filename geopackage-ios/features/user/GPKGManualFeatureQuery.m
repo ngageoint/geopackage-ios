@@ -20,7 +20,8 @@
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
-        self.chunkLimit = [NSNumber numberWithInt:1000];
+        self.chunkLimit = 1000;
+        self.tolerance = .00000000000001;
     }
     return self;
 }
@@ -48,7 +49,7 @@
         
         hasResults = NO;
         
-        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
         @try {
             while ([resultSet moveToNext]) {
                 hasResults = YES;
@@ -69,7 +70,7 @@
             [resultSet close];
         }
         
-        offset += [self.chunkLimit intValue];
+        offset += self.chunkLimit;
     }
     
     GPKGBoundingBox *boundingBox = nil;
@@ -122,11 +123,16 @@
     int offset = 0;
     BOOL hasResults = YES;
     
+    minX -= self.tolerance;
+    maxX += self.tolerance;
+    minY -= self.tolerance;
+    maxY += self.tolerance;
+    
     while (hasResults) {
         
         hasResults = NO;
         
-        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
         @try {
             while ([resultSet moveToNext]) {
                 hasResults = YES;
@@ -150,7 +156,7 @@
             [resultSet close];
         }
         
-        offset += [self.chunkLimit intValue];
+        offset += self.chunkLimit;
     }
     
     GPKGManualFeatureQueryResults *results = [[GPKGManualFeatureQueryResults alloc] initWithFeatureDao:self.featureDao andIds:featureIds];

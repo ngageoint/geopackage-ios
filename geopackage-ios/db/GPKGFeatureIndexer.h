@@ -30,7 +30,7 @@
 /**
  *  Query single chunk limit
  */
-@property (nonatomic, strong) NSNumber *chunkLimit;
+@property (nonatomic) int chunkLimit;
 
 /**
  *  Initialize
@@ -213,5 +213,19 @@
  * @return feature row
  */
 -(GPKGFeatureRow *) getFeatureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;
+
+/**
+ * Get the query range tolerance
+ *
+ * @return tolerance
+ */
+-(double) tolerance;
+
+/**
+ * Set the query range tolerance
+ *
+ * @param tolerance query range tolerance
+ */
+-(void) setTolerance: (double) tolerance;
 
 @end

@@ -110,6 +110,7 @@
             SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:queryProjection];
             
             GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:transform];
+            [tableDao setTolerance:.0000000000001];
             int projectedBboxCount = [tableDao countWithBoundingBox:projectedBoundingBox inProjection:queryProjection];
             [GPKGTestUtils assertTrue:projectedBboxCount >= expectedCount];
             results = [tableDao queryWithBoundingBox:projectedBoundingBox inProjection:queryProjection];

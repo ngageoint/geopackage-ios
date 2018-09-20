@@ -19,6 +19,7 @@
         self.idColumns = @[GPKG_GPGM_COLUMN_PK1, GPKG_GPGM_COLUMN_PK2, GPKG_GPGM_COLUMN_PK3];
         self.columns = @[GPKG_GPGM_COLUMN_GEOPACKAGE_ID, GPKG_GPGM_COLUMN_TABLE_NAME, GPKG_GPGM_COLUMN_ID, GPKG_GPGM_COLUMN_MIN_X, GPKG_GPGM_COLUMN_MAX_X, GPKG_GPGM_COLUMN_MIN_Y, GPKG_GPGM_COLUMN_MAX_Y, GPKG_GPGM_COLUMN_MIN_Z, GPKG_GPGM_COLUMN_MAX_Z, GPKG_GPGM_COLUMN_MIN_M, GPKG_GPGM_COLUMN_MAX_M];
         [self initializeColumnIndex];
+        self.tolerance = .00000000000001;
     }
     return self;
 }
@@ -361,55 +362,66 @@
     [where appendString:@" and "];
     [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_TABLE_NAME andValue:tableName]];
     [where appendString:@" and "];
+    
     BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
+    
+    NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:[envelope.minX doubleValue] - self.tolerance];
+    NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxX doubleValue] + self.tolerance];
+    NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:[envelope.minY doubleValue] - self.tolerance];
+    NSDecimalNumber *maxY = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxY doubleValue] + self.tolerance];
+    
     if(minXLessThanMaxX){
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:maxX andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:minX andOperation:@">="]];
     }else{
         [where appendString:@"("];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:maxX andOperation:@"<="]];
         [where appendString:@" or "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:minX andOperation:@">="]];
         [where appendString:@" or "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_X andValue:minX andOperation:@">="]];
         [where appendString:@" or "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_X andValue:maxX andOperation:@"<="]];
         [where appendString:@")"];
     }
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Y andValue:envelope.maxY andOperation:@"<="]];
+    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Y andValue:maxY andOperation:@"<="]];
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Y andValue:envelope.minY andOperation:@">="]];
+    [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Y andValue:minY andOperation:@">="]];
     
     NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
     [whereArgs addObject:geoPackageId];
     [whereArgs addObject:tableName];
-    [whereArgs addObject:envelope.maxX];
-    [whereArgs addObject:envelope.minX];
+    [whereArgs addObject:maxX];
+    [whereArgs addObject:minX];
     if(!minXLessThanMaxX){
-        [whereArgs addObject:envelope.minX];
-        [whereArgs addObject:envelope.maxX];
+        [whereArgs addObject:minX];
+        [whereArgs addObject:maxX];
     }
-    [whereArgs addObject:envelope.maxY];
-    [whereArgs addObject:envelope.minY];
+    [whereArgs addObject:maxY];
+    [whereArgs addObject:minY];
     
     if(envelope.hasZ){
+        NSDecimalNumber *minZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.minZ doubleValue] - self.tolerance];
+        NSDecimalNumber *maxZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxZ doubleValue] + self.tolerance];
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Z andValue:envelope.minZ andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_Z andValue:minZ andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Z andValue:envelope.maxZ andOperation:@">="]];
-        [whereArgs addObject:envelope.maxZ];
-        [whereArgs addObject:envelope.minZ];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_Z andValue:maxZ andOperation:@">="]];
+        [whereArgs addObject:maxZ];
+        [whereArgs addObject:minZ];
     }
     
     if(envelope.hasM){
+        NSDecimalNumber *minM = [[NSDecimalNumber alloc] initWithDouble:[envelope.minM doubleValue] - self.tolerance];
+        NSDecimalNumber *maxM = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxM doubleValue] + self.tolerance];
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_M andValue:envelope.minM andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MIN_M andValue:minM andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_M andValue:envelope.maxM andOperation:@">="]];
-        [whereArgs addObject:envelope.maxM];
-        [whereArgs addObject:envelope.minM];
+        [where appendString:[self buildWhereWithField:GPKG_GPGM_COLUMN_MAX_M andValue:maxM andOperation:@">="]];
+        [whereArgs addObject:maxM];
+        [whereArgs addObject:minM];
     }
     
     GPKGResultSet * results = [self queryWhere:where andWhereArgs:whereArgs];

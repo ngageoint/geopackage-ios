@@ -33,7 +33,12 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  *  Query single chunk limit
  */
-@property (nonatomic, strong) NSNumber *chunkLimit;
+@property (nonatomic) int chunkLimit;
+
+/**
+ *  Query range tolerance
+ */
+@property (nonatomic) double tolerance;
 
 /**
  *  Initialize

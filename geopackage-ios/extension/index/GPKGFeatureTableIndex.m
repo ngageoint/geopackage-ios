@@ -41,7 +41,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         self.columnName = featureDao.getGeometryColumnName;
         self.tableIndexDao = [geoPackage getTableIndexDao];
         self.geometryIndexDao = [geoPackage getGeometryIndexDao];
-        self.chunkLimit = [NSNumber numberWithInt:1000];
+        self.chunkLimit = 1000;
+        self.tolerance = .00000000000001;
     }
     return self;
 }
@@ -103,7 +104,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         // Autorelease to reduce memory footprint
         @autoreleasepool {
             
-            GPKGResultSet * results = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+            GPKGResultSet * results = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
             chunkCount = [self indexRowsWithTableIndex:tableIndex andResults:results];
             
         }
@@ -112,7 +113,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
             count += chunkCount;
         }
         
-        offset += [self.chunkLimit intValue];
+        offset += self.chunkLimit;
     }
     
     // Update the last indexed time
@@ -390,54 +391,65 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
     [where appendString:@" and "];
+    
     BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
+    
+    NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:[envelope.minX doubleValue] - self.tolerance];
+    NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxX doubleValue] + self.tolerance];
+    NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:[envelope.minY doubleValue] - self.tolerance];
+    NSDecimalNumber *maxY = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxY doubleValue] + self.tolerance];
+    
     if(minXLessThanMaxX){
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:maxX andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:minX andOperation:@">="]];
     }else{
         [where appendString:@"("];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:maxX andOperation:@"<="]];
         [where appendString:@" or "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:minX andOperation:@">="]];
         [where appendString:@" or "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:envelope.minX andOperation:@">="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_X andValue:minX andOperation:@">="]];
         [where appendString:@" or "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:envelope.maxX andOperation:@"<="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_X andValue:maxX andOperation:@"<="]];
         [where appendString:@")"];
     }
     [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Y andValue:envelope.maxY andOperation:@"<="]];
+    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Y andValue:maxY andOperation:@"<="]];
     [where appendString:@" and "];
-    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Y andValue:envelope.minY andOperation:@">="]];
-    
+    [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Y andValue:minY andOperation:@">="]];
+
     NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
     [whereArgs addObject:self.tableName];
-    [whereArgs addObject:envelope.maxX];
-    [whereArgs addObject:envelope.minX];
+    [whereArgs addObject:maxX];
+    [whereArgs addObject:minX];
     if(!minXLessThanMaxX){
-        [whereArgs addObject:envelope.minX];
-        [whereArgs addObject:envelope.maxX];
+        [whereArgs addObject:minX];
+        [whereArgs addObject:maxX];
     }
-    [whereArgs addObject:envelope.maxY];
-    [whereArgs addObject:envelope.minY];
+    [whereArgs addObject:maxY];
+    [whereArgs addObject:minY];
     
     if(envelope.hasZ){
+        NSDecimalNumber *minZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.minZ doubleValue] - self.tolerance];
+        NSDecimalNumber *maxZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxZ doubleValue] + self.tolerance];
         [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Z andValue:envelope.minZ andOperation:@"<="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Z andValue:minZ andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Z andValue:envelope.maxZ andOperation:@">="]];
-        [whereArgs addObject:envelope.maxZ];
-        [whereArgs addObject:envelope.minZ];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Z andValue:maxZ andOperation:@">="]];
+        [whereArgs addObject:maxZ];
+        [whereArgs addObject:minZ];
     }
     
     if(envelope.hasM){
+        NSDecimalNumber *minM = [[NSDecimalNumber alloc] initWithDouble:[envelope.minM doubleValue] - self.tolerance];
+        NSDecimalNumber *maxM = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxM doubleValue] + self.tolerance];
         [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_M andValue:envelope.minM andOperation:@"<="]];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_M andValue:minM andOperation:@"<="]];
         [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_M andValue:envelope.maxM andOperation:@">="]];
-        [whereArgs addObject:envelope.maxM];
-        [whereArgs addObject:envelope.minM];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_M andValue:maxM andOperation:@">="]];
+        [whereArgs addObject:maxM];
+        [whereArgs addObject:minM];
     }
     
     GPKGResultSet * results = [self.geometryIndexDao queryWhere:where andWhereArgs:whereArgs];

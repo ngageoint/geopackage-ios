@@ -19,7 +19,12 @@
 /**
  *  Query single chunk limit
  */
-@property (nonatomic, strong) NSNumber *chunkLimit;
+@property (nonatomic) int chunkLimit;
+
+/**
+ *  Query range tolerance
+ */
+@property (nonatomic) double tolerance;
 
 /**
  *  Initialize

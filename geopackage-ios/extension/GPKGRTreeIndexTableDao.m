@@ -25,6 +25,7 @@
         self.rTree = rTree;
         self.featureDao = featureDao;
         self.projection = featureDao.projection;
+        self.tolerance = .00000000000001;
     }
     return self;
 }
@@ -219,6 +220,12 @@
  * @return where clause args
  */
 -(NSArray *) buildWhereArgsWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+    
+    minX -= self.tolerance;
+    maxX += self.tolerance;
+    minY -= self.tolerance;
+    maxY += self.tolerance;
+    
     return [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:[NSNumber numberWithDouble:maxX], [NSNumber numberWithDouble:maxY], [NSNumber numberWithDouble:minX], [NSNumber numberWithDouble:minY], nil]];
 }
 

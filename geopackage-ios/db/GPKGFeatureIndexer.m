@@ -30,7 +30,7 @@
         self.featureRowSync = [[GPKGUserRowSync alloc] init];
         self.db = featureDao.metadataDb;
         self.geometryMetadataDataSource = [self.db getGeometryMetadataDao];
-        self.chunkLimit = [NSNumber numberWithInt:1000];
+        self.chunkLimit = 1000;
     }
     return self;
 }
@@ -82,7 +82,7 @@
         // Autorelease to reduce memory footprint
         @autoreleasepool {
             
-            GPKGResultSet *results = [self.featureDao queryForChunkWithLimit:[self.chunkLimit intValue] andOffset:offset];
+            GPKGResultSet *results = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
             chunkCount = [self indexRowsWithGeoPackageId:metadata.geoPackageId andResults:results];
             
         }
@@ -91,7 +91,7 @@
             count += chunkCount;
         }
         
-        offset += [self.chunkLimit intValue];
+        offset += self.chunkLimit;
     }
     
     // Update the last indexed time
@@ -311,6 +311,14 @@
     }
 
     return row;
+}
+
+-(double) tolerance{
+    return self.geometryMetadataDataSource.tolerance;
+}
+
+-(void) setTolerance: (double) tolerance{
+    [self.geometryMetadataDataSource setTolerance:tolerance];
 }
 
 @end
