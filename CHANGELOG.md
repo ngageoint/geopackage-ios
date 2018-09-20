@@ -6,7 +6,32 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.3 (TBD)
 
-* TBD
+* Simple Features Projection (sf-proj-ios) version 2.0.1
+* Related Tables Extension fix to save Simple Attributes and Media tables as Attribute table types
+* Bounding Box methods: intersects, overlap, union, and contains
+* Bounding Box and Tile Grid isEqual implementations
+* GeoPackage Contents Bounding Box and overall Bounding Box methods
+* GeoPackage Geometry Index Table index methods, independent of table creation
+* GeoPackage Cache connection close improvements & has GeoPackage method
+* User Table DAO projected bounding box methods
+* Contents DAO bounds and projection methods
+* Connection, SQL Utils, and Base DAO query improvements
+* Feature Indexer and Feature Table Index chunked limit queries when indexing
+* Table Creator improvements for generic SQL script execution
+* Result Set fix for logged misuse error from multiple final moveToNext calls
+* Result Set close statement only method
+* Base DAO set and get value fix for columns beyond configured column indexes
+* Geometry Metadata Data Source bounding box methods
+* RTree extension support improvements, including querying geometries
+* Feature Index Results interface and implementations
+* Feature Index Manager support for RTree and Manual queries
+* Feature Row geometry value and envelope methods
+* Feature Table Reader ignore case of geometry column name
+* Manual Feature Queries for unindexed geometries
+* Geometry Data get or build envelope method
+* Additional Date Converter format to handle format yyyy/MM/dd
+* User DAO, Tile Matrix Set, and Tile DAO bounds in projection method
+* User Row NSDate fix for date and date time data types
 
 ## [3.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.2) (07-27-2018)
 
