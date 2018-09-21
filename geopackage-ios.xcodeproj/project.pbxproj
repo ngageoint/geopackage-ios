@@ -2923,17 +2923,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/sf-ios/sf-ios.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/sf-proj-ios/sf-proj-ios.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/sf-wkb-ios/sf-wkb-ios.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/tiff-ios/TIFF.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-ios.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-proj-ios.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-wkb-ios.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TIFF.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2947,17 +2941,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/sf-ios/sf-ios.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/sf-proj-ios/sf-proj-ios.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/sf-wkb-ios/sf-wkb-ios.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/tiff-ios/TIFF.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-ios.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-proj-ios.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-wkb-ios.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TIFF.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
