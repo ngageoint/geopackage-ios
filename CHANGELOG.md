@@ -6,7 +6,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.3 (TBD)
 
+* Xcode 10 fix
 * Simple Features Projection (sf-proj-ios) version 2.0.1
+* Simple Features WKB (sf-wkb-ios) version 2.0.1
+* TIFF (tiff-ios) version 1.1.1
 * Related Tables Extension fix to save Simple Attributes and Media tables as Attribute table types
 * Bounding Box methods: intersects, overlap, union, and contains
 * Bounding Box and Tile Grid isEqual implementations

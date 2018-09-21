@@ -93,7 +93,7 @@
         GPKGBoundingBox * requestWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
         
         // Check if the request overlaps
-        withinBounds = [GPKGTileBoundingBoxUtils overlapWithBoundingBox:self.webMercatorBoundingBox andBoundingBox:requestWebMercatorBoundingBox] != nil;
+        withinBounds = [self.webMercatorBoundingBox intersects:requestWebMercatorBoundingBox];
     }
     
     return withinBounds;

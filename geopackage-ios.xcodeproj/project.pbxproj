@@ -303,7 +303,7 @@
 		042FC8871B964D8C00549A4B /* GPKGDataColumnConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 042FC7A91B964D8C00549A4B /* GPKGDataColumnConstraints.m */; };
 		042FC8881B964D8C00549A4B /* GPKGDataColumnConstraintsDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC7AA1B964D8C00549A4B /* GPKGDataColumnConstraintsDao.h */; };
 		042FC8891B964D8C00549A4B /* GPKGDataColumnConstraintsDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 042FC7AB1B964D8C00549A4B /* GPKGDataColumnConstraintsDao.m */; };
-		042FC88A1B964D8C00549A4B /* tables.plist in Resources */ = {isa = PBXBuildFile; fileRef = 042FC7AC1B964D8C00549A4B /* tables.plist */; };
+		042FC88A1B964D8C00549A4B /* geopackage.tables.plist in Resources */ = {isa = PBXBuildFile; fileRef = 042FC7AC1B964D8C00549A4B /* geopackage.tables.plist */; };
 		042FC88B1B964D8C00549A4B /* GPKGFeatureTileGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC7AF1B964D8C00549A4B /* GPKGFeatureTileGenerator.h */; };
 		042FC88C1B964D8C00549A4B /* GPKGFeatureTileGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 042FC7B01B964D8C00549A4B /* GPKGFeatureTileGenerator.m */; };
 		042FC88D1B964D8C00549A4B /* GPKGFeatureTilePointIcon.h in Headers */ = {isa = PBXBuildFile; fileRef = 042FC7B11B964D8C00549A4B /* GPKGFeatureTilePointIcon.h */; };
@@ -507,7 +507,7 @@
 		04C5032320113B9600862DA9 /* GPKGRTreeIndexExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */; };
 		04C5032620114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */; };
 		04C5032720114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5032520114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.m */; };
-		04C503292018F98700862DA9 /* rtree_sql.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C503282018F98700862DA9 /* rtree_sql.plist */; };
+		04C503292018F98700862DA9 /* geopackage.rtree_sql.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04C503282018F98700862DA9 /* geopackage.rtree_sql.plist */; };
 		04C5032C201A7AA300862DA9 /* GPKGCoverageDataTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5032B201A7AA300862DA9 /* GPKGCoverageDataTestUtils.m */; };
 		04C637F61E1C371800B429FE /* GPKGCoverageDataPngImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C637F41E1C371700B429FE /* GPKGCoverageDataPngImage.h */; };
 		04C637F71E1C371800B429FE /* GPKGCoverageDataPngImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C637F51E1C371800B429FE /* GPKGCoverageDataPngImage.m */; };
@@ -884,7 +884,7 @@
 		042FC7A91B964D8C00549A4B /* GPKGDataColumnConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDataColumnConstraints.m; sourceTree = "<group>"; };
 		042FC7AA1B964D8C00549A4B /* GPKGDataColumnConstraintsDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGDataColumnConstraintsDao.h; sourceTree = "<group>"; };
 		042FC7AB1B964D8C00549A4B /* GPKGDataColumnConstraintsDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGDataColumnConstraintsDao.m; sourceTree = "<group>"; };
-		042FC7AC1B964D8C00549A4B /* tables.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tables.plist; sourceTree = "<group>"; };
+		042FC7AC1B964D8C00549A4B /* geopackage.tables.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = geopackage.tables.plist; sourceTree = "<group>"; };
 		042FC7AF1B964D8C00549A4B /* GPKGFeatureTileGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTileGenerator.h; sourceTree = "<group>"; };
 		042FC7B01B964D8C00549A4B /* GPKGFeatureTileGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureTileGenerator.m; sourceTree = "<group>"; };
 		042FC7B11B964D8C00549A4B /* GPKGFeatureTilePointIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTilePointIcon.h; sourceTree = "<group>"; };
@@ -1127,7 +1127,7 @@
 		04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRTreeIndexExtension.m; sourceTree = "<group>"; };
 		04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGriddedCoverageEncodingTypes.h; sourceTree = "<group>"; };
 		04C5032520114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGGriddedCoverageEncodingTypes.m; sourceTree = "<group>"; };
-		04C503282018F98700862DA9 /* rtree_sql.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = rtree_sql.plist; sourceTree = "<group>"; };
+		04C503282018F98700862DA9 /* geopackage.rtree_sql.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = geopackage.rtree_sql.plist; sourceTree = "<group>"; };
 		04C5032A201A7AA300862DA9 /* GPKGCoverageDataTestUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataTestUtils.h; sourceTree = "<group>"; };
 		04C5032B201A7AA300862DA9 /* GPKGCoverageDataTestUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGCoverageDataTestUtils.m; sourceTree = "<group>"; };
 		04C637F41E1C371700B429FE /* GPKGCoverageDataPngImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataPngImage.h; sourceTree = "<group>"; };
@@ -1604,7 +1604,7 @@
 				0431EDEC1BE8F9BB0067FF36 /* GPKGGeoPackageCache.h */,
 				0431EDED1BE8F9BB0067FF36 /* GPKGGeoPackageCache.m */,
 				042FC7711B964D8C00549A4B /* geopackage.plist */,
-				042FC7AC1B964D8C00549A4B /* tables.plist */,
+				042FC7AC1B964D8C00549A4B /* geopackage.tables.plist */,
 				045717E71C03723F0031A027 /* geopackage-ios-Bridging-Header.h */,
 			);
 			path = "geopackage-ios";
@@ -1830,7 +1830,7 @@
 				040FC09E21496B89001EAA8E /* GPKGRTreeIndexTableRow.m */,
 				042D8AEF214B11D500161A89 /* GPKGFeatureIndexRTreeResults.h */,
 				042D8AF0214B11D500161A89 /* GPKGFeatureIndexRTreeResults.m */,
-				04C503282018F98700862DA9 /* rtree_sql.plist */,
+				04C503282018F98700862DA9 /* geopackage.rtree_sql.plist */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -2857,8 +2857,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				042FC8571B964D8C00549A4B /* geopackage.plist in Resources */,
-				042FC88A1B964D8C00549A4B /* tables.plist in Resources */,
-				04C503292018F98700862DA9 /* rtree_sql.plist in Resources */,
+				042FC88A1B964D8C00549A4B /* geopackage.tables.plist in Resources */,
+				04C503292018F98700862DA9 /* geopackage.rtree_sql.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

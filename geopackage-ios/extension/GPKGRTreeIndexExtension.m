@@ -22,7 +22,7 @@ NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y = @"miny";
 NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y = @"maxy";
 NSString * const GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION = @"geopackage.extensions.rtree_index";
 
-NSString * const GPKG_RTREE_INDEX_RESOURCES_SQL = @"rtree_sql";
+NSString * const GPKG_RTREE_INDEX_RESOURCES_SQL = @"geopackage.rtree_sql";
 
 NSString * const GPKG_RTREE_INDEX_MIN_X_FUNCTION = @"ST_MinX";
 NSString * const GPKG_RTREE_INDEX_MAX_X_FUNCTION = @"ST_MaxX";

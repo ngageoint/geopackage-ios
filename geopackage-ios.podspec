@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'geopackage-ios/**/*.{h,m}'
 
-  s.resource_bundle = { 'geopackage-ios' => ['geopackage-ios/**/*.plist'] }
+  s.resource_bundle = { 'geopackage-ios' => ['geopackage-ios/**/geopackage*.plist'] }
   s.frameworks = 'Foundation'
 
   s.library = 'sqlite3'
