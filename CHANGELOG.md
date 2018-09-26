@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.0.3 (TBD)
+## 3.1.0 (TBD)
 
 * Xcode 10 fix
 * Simple Features Projection (sf-proj-ios) version 2.0.1
