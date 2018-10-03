@@ -38,6 +38,15 @@
 -(GPKGGeoPackage *) getOrOpen: (NSString *) name;
 
 /**
+ *  Get the cached GeoPackage or open the GeoPackage without caching it
+ *
+ *  @param name GeoPackage name
+ *
+ *  @return open GeoPackage
+ */
+-(GPKGGeoPackage *) getOrNoCacheOpen: (NSString *) name;
+
+/**
  *  Get the names of the cached GeoPackages
  *
  *  @return cached GeoPackage names
@@ -135,5 +144,32 @@
  *  @param names GeoPackage names to close
  */
 -(void) closeNames: (NSArray *) names;
+
+/**
+ * Close the GeoPackage
+ *
+ * @param geoPackage
+ *            GeoPackage
+ */
+-(void) closeGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Close the GeoPackage if it is cached (same GeoPackage instance)
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return true if closed
+ */
+-(BOOL) closeGeoPackageIfCached: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Close the GeoPackage if it is not cached (GeoPackage not cached or
+ * different instance)
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return true if closed
+ */
+-(BOOL) closeGeoPackageIfNotCached: (GPKGGeoPackage *) geoPackage;
 
 @end

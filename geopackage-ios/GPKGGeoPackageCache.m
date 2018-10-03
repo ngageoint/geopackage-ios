@@ -28,10 +28,20 @@
 }
 
 -(GPKGGeoPackage *) getOrOpen: (NSString *) name{
+    return [self getOrOpen:name andCache:YES];
+}
+
+-(GPKGGeoPackage *) getOrNoCacheOpen: (NSString *) name{
+    return [self getOrOpen:name andCache:NO];
+}
+
+-(GPKGGeoPackage *) getOrOpen: (NSString *) name andCache: (BOOL) cache{
     GPKGGeoPackage * geoPackage = [self get:name];
     if(geoPackage == nil){
         geoPackage = [self.manager open:name];
-        [self add:geoPackage];
+        if(cache){
+            [self add:geoPackage];
+        }
     }
     return geoPackage;
 }
@@ -116,6 +126,29 @@
             [exception raise];
         }
     }
+}
+
+-(BOOL) closeGeoPackageIfCached: (GPKGGeoPackage *) geoPackage{
+    BOOL closed = NO;
+    if (geoPackage != nil) {
+        GPKGGeoPackage *cached = [self get:geoPackage.name];
+        if(cached != nil && cached == geoPackage){
+            closed = [self close:geoPackage.name];
+        }
+    }
+    return closed;
+}
+
+-(BOOL) closeGeoPackageIfNotCached: (GPKGGeoPackage *) geoPackage{
+    BOOL closed = NO;
+    if (geoPackage != nil) {
+        GPKGGeoPackage *cached = [self get:geoPackage.name];
+        if(cached == nil || cached != geoPackage){
+            [self closeGeoPackage:geoPackage];
+            closed = YES;
+        }
+    }
+    return closed;
 }
 
 @end
