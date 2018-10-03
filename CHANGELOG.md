@@ -35,6 +35,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Additional Date Converter format to handle format yyyy/MM/dd
 * User DAO, Tile Matrix Set, and Tile DAO bounds in projection method
 * User Row NSDate fix for date and date time data types
+* Tile Overlays load tiles in a new thread
 
 ## [3.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/3.0.2) (07-27-2018)
 

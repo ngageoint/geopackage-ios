@@ -38,19 +38,25 @@
         return;
     }
     
-    NSData * tileData = nil;
-    
-    // Check if there is a tile
-    if([self hasTileWithX:path.x andY:path.y andZoom:path.z]){
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    dispatch_async(queue, ^{
         
-        // Retrieve the tile
-        tileData = [self retrieveTileWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
-    }
+        NSData * tileData = nil;
+        
+        // Check if there is a tile
+        if([self hasTileWithX:path.x andY:path.y andZoom:path.z]){
+            
+            // Retrieve the tile
+            tileData = [self retrieveTileWithX:(int)path.x andY:(int)path.y andZoom:(int)path.z];
+        }
+        
+        if(tileData == nil){
+            tileData = [[NSData alloc] init];
+        }
+        result(tileData, nil);
+        
+    });
     
-    if(tileData == nil){
-        tileData = [[NSData alloc] init];
-    }
-    result(tileData, nil);
 }
 
 -(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
