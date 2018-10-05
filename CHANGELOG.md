@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 3.1.1 (TBD)
+
+* TBD
+
 ## [3.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.1.0) (10-05-2018)
 
 * Xcode 10 fix
