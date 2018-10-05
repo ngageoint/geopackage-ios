@@ -19,7 +19,7 @@
  *  Initialize
  *
  *  @param dao RTree index table dao
- *  @param resultSet result set
+ *  @param results result set
  *
  *  @return feature index RTree results
  */

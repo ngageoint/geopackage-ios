@@ -35,7 +35,7 @@
 /**
  * Read the table
  *
- * @param connection
+ * @param db
  *            GeoPackage connection
  * @param tableName
  *            table name

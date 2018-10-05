@@ -216,7 +216,7 @@
 /**
  * Query for the bounds of the feature table index
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @return bounding box
  */

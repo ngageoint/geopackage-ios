@@ -104,7 +104,7 @@
 /**
  * Set the index location order, overriding all previously set types
  *
- * @param types feature index types
+ * @param featureIndexTypes feature index types
  */
 -(void) setIndexLocationOrderWithTypes: (NSArray *) featureIndexTypes;
 
