@@ -3012,9 +3012,58 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 11,
+      "line": 14,
       "symbol": "GPKG_RTREE_INDEX_EXTENSION_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
+      "line": 15,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
+      "line": 16,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
+      "line": 17,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
+      "line": 18,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
+      "line": 19,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexTableDao.h",
+      "line": 14,
+      "symbol": "GPKGRTreeIndexTableDao",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexTableRow.h",
+      "line": 13,
+      "symbol": "GPKGRTreeIndexTableRow",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
@@ -3874,27 +3923,41 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
       "line": 17,
+      "symbol": "GPKGFeatureIndexType.GPKG_FIT_RTREE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
+      "line": 18,
       "symbol": "GPKGFeatureIndexType.GPKG_FIT_NONE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
-      "line": 24,
+      "line": 25,
       "symbol": "GPKG_FIT_GEOPACKAGE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
-      "line": 25,
-      "symbol": "GPKG_FIT_NONE_NAME",
+      "line": 26,
+      "symbol": "GPKG_FIT_RTREE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
       "line": 27,
+      "symbol": "GPKG_FIT_NONE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/features/index/GPKGFeatureIndexTypes.h",
+      "line": 29,
       "symbol": "GPKGFeatureIndexTypes",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"

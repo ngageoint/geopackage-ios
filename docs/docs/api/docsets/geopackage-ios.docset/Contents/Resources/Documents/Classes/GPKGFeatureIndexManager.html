@@ -170,6 +170,9 @@
                 <a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexFeatureResults.html">GPKGFeatureIndexFeatureResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexGeoPackageResults.html">GPKGFeatureIndexGeoPackageResults</a>
               </li>
               <li class="nav-group-task">
@@ -180,6 +183,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexMetadataResults.html">GPKGFeatureIndexMetadataResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexRTreeResults.html">GPKGFeatureIndexRTreeResults</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexResultSetResults.html">GPKGFeatureIndexResultSetResults</a>
@@ -341,6 +347,12 @@
                 <a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQuery.html">GPKGManualFeatureQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQueryResults.html">GPKGManualFeatureQueryResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a>
               </li>
               <li class="nav-group-task">
@@ -450,6 +462,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRTreeIndexExtension.html">GPKGRTreeIndexExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableRow.html">GPKGRTreeIndexTableRow</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRelatedTablesExtension.html">GPKGRelatedTablesExtension</a>
@@ -1213,6 +1231,9 @@
                 <a href="../Constants.html#/c:@GPKG_FIT_NONE_NAME">GPKG_FIT_NONE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_FIT_RTREE_NAME">GPKG_FIT_RTREE_NAME</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_FTL_COLUMN_FEATURE_TABLE_NAME">GPKG_FTL_COLUMN_FEATURE_TABLE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -1898,6 +1919,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RST_TABLE_NAME">GPKG_RST_TABLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID">GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_NAME">GPKG_RTREE_INDEX_EXTENSION_NAME</a>
@@ -2749,7 +2785,78 @@ within a GeoPackage using the Geometry Index Extension</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L26">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)initWithGeoPackage:andFeatureTable:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithGeoPackage:andFeatureTable:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)initWithGeoPackage:andFeatureTable:">-initWithGeoPackage:andFeatureTable:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithGeoPackage</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackage</span>
+                   <span class="nf">andFeatureTable</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">featureTable</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">geoPackage</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andFeatureTable</span> <span class="nv">featureTable</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>featureTable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature table</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new feature index manager</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2820,7 +2927,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>new feature index manager</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L35">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2855,7 +2962,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L40">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2894,7 +3001,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L47">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2933,7 +3040,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature table index</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L54">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2972,7 +3079,85 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature indexer</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L61">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L72">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)getRTreeIndexTableDao"></a>
+                    <a name="//apple_ref/objc/Method/-getRTreeIndexTableDao" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)getRTreeIndexTableDao">-getRTreeIndexTableDao</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the RTree Index Table DAO</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a></span> <span class="o">*</span><span class="p">)</span><span class="n">getRTreeIndexTableDao</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getRTreeIndexTableDao</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>RTree index table DAO</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L79">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)getIndexLocationQueryOrder"></a>
+                    <a name="//apple_ref/objc/Method/-getIndexLocationQueryOrder" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)getIndexLocationQueryOrder">-getIndexLocationQueryOrder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the ordered index query locations</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">getIndexLocationQueryOrder</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getIndexLocationQueryOrder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>ordered index types</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3028,7 +3213,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L69">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3084,7 +3269,61 @@ within a GeoPackage using the Geometry Index Extension</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L77">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L102">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)setIndexLocationOrderWithTypes:"></a>
+                    <a name="//apple_ref/objc/Method/-setIndexLocationOrderWithTypes:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)setIndexLocationOrderWithTypes:">-setIndexLocationOrderWithTypes:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set the index location order, overriding all previously set types</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setIndexLocationOrderWithTypes</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">featureIndexTypes</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setIndexLocationOrderWithTypes</span><span class="p">(</span><span class="n">_</span> <span class="nv">featureIndexTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>featureIndexTypes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index types</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L109">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3138,7 +3377,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L84">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3177,7 +3416,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L91">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3235,7 +3474,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>largest count of indexed features</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L99">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L131">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3293,7 +3532,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L108">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L140">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3351,7 +3590,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L117">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L149">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3422,7 +3661,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>largest count of indexed features</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L126">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L158">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3493,7 +3732,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L136">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L168">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3553,7 +3792,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L147">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L179">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3626,7 +3865,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if indexed from any type</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L158">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3698,7 +3937,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L169">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3737,7 +3976,46 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L176">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L208">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)deleteAllIndexes"></a>
+                    <a name="//apple_ref/objc/Method/-deleteAllIndexes" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)deleteAllIndexes">-deleteAllIndexes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Delete the feature index from all query order locations</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">deleteAllIndexes</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAllIndexes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if deleted</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L215">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3795,7 +4073,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted from any type</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L184">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3853,7 +4131,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L193">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L232">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3911,7 +4189,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L202">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L241">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3982,7 +4260,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted from any type</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L211">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L250">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4053,7 +4331,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L221">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L260">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4111,7 +4389,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L230">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L269">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4182,7 +4460,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted from any type</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L239">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L278">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4253,7 +4531,123 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L249">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L288">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)retainIndexWithFeatureIndexType:"></a>
+                    <a name="//apple_ref/objc/Method/-retainIndexWithFeatureIndexType:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)retainIndexWithFeatureIndexType:">-retainIndexWithFeatureIndexType:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Retain the feature index from the index types and delete the others</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">retainIndexWithFeatureIndexType</span><span class="p">:(</span><span class="k">enum</span> <span class="n"><a href="../Enums/GPKGFeatureIndexType.html">GPKGFeatureIndexType</a></span><span class="p">)</span><span class="nv">type</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">retainIndex</span><span class="p">(</span><span class="n">with</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/GPKGFeatureIndexType.html">GPKGFeatureIndexType</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index type to retain</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if deleted from any type</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L296">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)retainIndexWithFeatureIndexTypes:"></a>
+                    <a name="//apple_ref/objc/Method/-retainIndexWithFeatureIndexTypes:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)retainIndexWithFeatureIndexTypes:">-retainIndexWithFeatureIndexTypes:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Retain the feature index from the index types and delete the others</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">retainIndexWithFeatureIndexTypes</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">types</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">retainIndex</span><span class="p">(</span><span class="n">withFeatureIndexTypes</span> <span class="nv">types</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>types</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index types to retain</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if deleted from any type</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L304">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4292,7 +4686,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>indexed types</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L256">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L311">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4331,7 +4725,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L263">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L318">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4389,7 +4783,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L272">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L327">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4428,7 +4822,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>last indexed date or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L279">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L334">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4486,7 +4880,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>last indexed date or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L288">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L343">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4525,7 +4919,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature index results, close when done</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L295">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L350">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4564,7 +4958,104 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L302">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L357">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)boundingBox"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBox" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)boundingBox">-boundingBox</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the feature index bounds</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="n">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L364">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)boundingBoxInProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBoxInProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)boundingBoxInProjection:">-boundingBoxInProjection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the feature index bounds and return in the provided projection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">boundingBoxInProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>desired projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L373">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4624,7 +5115,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature index results, close when done</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L312">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L383">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4683,7 +5174,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L322">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L393">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4742,7 +5233,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature index results, close when done</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L331">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L402">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4800,7 +5291,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L340">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L411">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4808,9 +5299,9 @@ within a GeoPackage using the Geometry Index Extension</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)queryWithBoundingBox:andProjection:"></a>
-                    <a name="//apple_ref/objc/Method/-queryWithBoundingBox:andProjection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)queryWithBoundingBox:andProjection:">-queryWithBoundingBox:andProjection:</a>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)queryWithBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-queryWithBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)queryWithBoundingBox:inProjection:">-queryWithBoundingBox:inProjection:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4827,12 +5318,12 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">queryWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
-                                    <span class="nf">andProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+                                     <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -4872,7 +5363,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>feature index results, close when done</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L351">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L422">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4880,9 +5371,9 @@ within a GeoPackage using the Geometry Index Extension</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)countWithBoundingBox:andProjection:"></a>
-                    <a name="//apple_ref/objc/Method/-countWithBoundingBox:andProjection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)countWithBoundingBox:andProjection:">-countWithBoundingBox:andProjection:</a>
+                    <a name="/c:objc(cs)GPKGFeatureIndexManager(im)countWithBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-countWithBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureIndexManager(im)countWithBoundingBox:inProjection:">-countWithBoundingBox:inProjection:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4899,12 +5390,12 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">countWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
-              <span class="nf">andProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+               <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int32</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int32</span></code></pre>
 
                         </div>
                       </div>
@@ -4944,7 +5435,7 @@ within a GeoPackage using the Geometry Index Extension</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L362">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/features/index/GPKGFeatureIndexManager.h#L433">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4954,7 +5445,7 @@ within a GeoPackage using the Geometry Index Extension</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-07-27)</p>
+          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

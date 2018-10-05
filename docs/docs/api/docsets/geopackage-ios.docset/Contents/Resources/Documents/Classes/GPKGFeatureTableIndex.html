@@ -170,6 +170,9 @@
                 <a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexFeatureResults.html">GPKGFeatureIndexFeatureResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexGeoPackageResults.html">GPKGFeatureIndexGeoPackageResults</a>
               </li>
               <li class="nav-group-task">
@@ -180,6 +183,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexMetadataResults.html">GPKGFeatureIndexMetadataResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexRTreeResults.html">GPKGFeatureIndexRTreeResults</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexResultSetResults.html">GPKGFeatureIndexResultSetResults</a>
@@ -341,6 +347,12 @@
                 <a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQuery.html">GPKGManualFeatureQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQueryResults.html">GPKGManualFeatureQueryResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a>
               </li>
               <li class="nav-group-task">
@@ -450,6 +462,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRTreeIndexExtension.html">GPKGRTreeIndexExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableRow.html">GPKGRTreeIndexTableRow</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRelatedTablesExtension.html">GPKGRelatedTablesExtension</a>
@@ -1213,6 +1231,9 @@
                 <a href="../Constants.html#/c:@GPKG_FIT_NONE_NAME">GPKG_FIT_NONE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_FIT_RTREE_NAME">GPKG_FIT_RTREE_NAME</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_FTL_COLUMN_FEATURE_TABLE_NAME">GPKG_FTL_COLUMN_FEATURE_TABLE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -1898,6 +1919,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RST_TABLE_NAME">GPKG_RST_TABLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID">GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_NAME">GPKG_RTREE_INDEX_EXTENSION_NAME</a>
@@ -2752,7 +2788,77 @@ implementation when a SQLite version is used before SpatialLite support
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L31">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L31">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(py)chunkLimit"></a>
+                    <a name="//apple_ref/objc/Property/chunkLimit" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(py)chunkLimit">chunkLimit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query single chunk limit</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">int</span> <span class="n">chunkLimit</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">chunkLimit</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(py)tolerance"></a>
+                    <a name="//apple_ref/objc/Property/tolerance" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(py)tolerance">tolerance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query range tolerance</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">double</span> <span class="n">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt">Double</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2823,7 +2929,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>new feature table index</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L41">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2862,7 +2968,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>feature dao</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L48">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2901,7 +3007,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>extension name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L55">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2940,7 +3046,46 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>extension definition</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L62">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L72">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)projection"></a>
+                    <a name="//apple_ref/objc/Method/-projection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)projection">-projection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the feature projection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="n">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">projection</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>projection</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2979,7 +3124,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>table name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L69">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3018,7 +3163,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>column name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L76">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3053,7 +3198,7 @@ implementation when a SQLite version is used before SpatialLite support
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L81">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L98">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3092,7 +3237,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L88">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L105">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3150,7 +3295,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L97">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L114">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3209,7 +3354,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L106">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3248,7 +3393,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>true if index deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L113">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L130">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3306,7 +3451,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>deleted rows, should be 0 or 1</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L122">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3364,7 +3509,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>deleted rows, should be 0 or 1</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L130">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L147">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3403,7 +3548,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>true if indexed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L137">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L154">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3442,7 +3587,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>table index</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L144">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3481,7 +3626,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>last indexed date or null</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L151">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L168">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3520,7 +3665,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>extensions object or null if one does not exist</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L158">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L175">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3559,7 +3704,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>geometry indices result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L165">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L182">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3598,7 +3743,104 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L172">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L189">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)boundingBox"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBox" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)boundingBox">-boundingBox</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the bounds of the feature table index</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="n">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L196">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)boundingBoxInProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBoxInProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)boundingBoxInProjection:">-boundingBoxInProjection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the feature index bounds and return in the provided projection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">boundingBoxInProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>desired projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L205">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3657,7 +3899,79 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>geometry indices result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L182">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L215">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)queryWithBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-queryWithBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)queryWithBoundingBox:inProjection:">-queryWithBoundingBox:inProjection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for Geometry Index objects within the bounding box, projected
+ correctly</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGResultSet.html">GPKGResultSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">queryWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
+                           <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGResultSet.html">GPKGResultSet</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>projection of the provided bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry indices iterator</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L227">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3716,7 +4030,79 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L192">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L237">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)countWithBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-countWithBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)countWithBoundingBox:inProjection:">-countWithBoundingBox:inProjection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for Geometry Index count within the bounding box, projected
+ correctly</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">countWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
+               <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int32</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>projection of the provided bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>count</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L249">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3774,7 +4160,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>geometry indices result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L201">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3832,151 +4218,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L210">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)queryWithBoundingBox:andProjection:"></a>
-                    <a name="//apple_ref/objc/Method/-queryWithBoundingBox:andProjection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)queryWithBoundingBox:andProjection:">-queryWithBoundingBox:andProjection:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Query for Geometry Index objects within the bounding box in
- the provided projection</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGResultSet.html">GPKGResultSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">queryWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
-                          <span class="nf">andProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGResultSet.html">GPKGResultSet</a></span><span class="o">!</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>boundingBox</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>bounding box</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>projection</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>projection of the provided bounding box</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>geometry indices result set</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L220">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GPKGFeatureTableIndex(im)countWithBoundingBox:andProjection:"></a>
-                    <a name="//apple_ref/objc/Method/-countWithBoundingBox:andProjection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGFeatureTableIndex(im)countWithBoundingBox:andProjection:">-countWithBoundingBox:andProjection:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Query for Geometry Index count within the bounding box in
- the provided projection</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">countWithBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
-              <span class="nf">andProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="n">with</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int32</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>boundingBox</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>bounding box</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>projection</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>projection of the provided bounding box</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>count</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L230">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L267">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4034,7 +4276,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>geometry index</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L238">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4092,7 +4334,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>feature row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L246">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L283">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4151,7 +4393,7 @@ implementation when a SQLite version is used before SpatialLite support
                         <p>feature row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L254">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/index/GPKGFeatureTableIndex.h#L291">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4161,7 +4403,7 @@ implementation when a SQLite version is used before SpatialLite support
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-07-27)</p>
+          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

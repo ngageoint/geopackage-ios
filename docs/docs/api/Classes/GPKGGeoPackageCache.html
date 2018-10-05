@@ -170,6 +170,9 @@
                 <a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexFeatureResults.html">GPKGFeatureIndexFeatureResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexGeoPackageResults.html">GPKGFeatureIndexGeoPackageResults</a>
               </li>
               <li class="nav-group-task">
@@ -180,6 +183,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexMetadataResults.html">GPKGFeatureIndexMetadataResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexRTreeResults.html">GPKGFeatureIndexRTreeResults</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexResultSetResults.html">GPKGFeatureIndexResultSetResults</a>
@@ -341,6 +347,12 @@
                 <a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQuery.html">GPKGManualFeatureQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQueryResults.html">GPKGManualFeatureQueryResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a>
               </li>
               <li class="nav-group-task">
@@ -450,6 +462,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRTreeIndexExtension.html">GPKGRTreeIndexExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableRow.html">GPKGRTreeIndexTableRow</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRelatedTablesExtension.html">GPKGRelatedTablesExtension</a>
@@ -1213,6 +1231,9 @@
                 <a href="../Constants.html#/c:@GPKG_FIT_NONE_NAME">GPKG_FIT_NONE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_FIT_RTREE_NAME">GPKG_FIT_RTREE_NAME</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_FTL_COLUMN_FEATURE_TABLE_NAME">GPKG_FTL_COLUMN_FEATURE_TABLE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -1898,6 +1919,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RST_TABLE_NAME">GPKG_RST_TABLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID">GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_NAME">GPKG_RTREE_INDEX_EXTENSION_NAME</a>
@@ -2721,6 +2757,41 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(py)closeQuietly"></a>
+                    <a name="//apple_ref/objc/Property/closeQuietly" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(py)closeQuietly">closeQuietly</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Close quietly flag</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">closeQuietly</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">closeQuietly</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L20">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GPKGGeoPackageCache(im)initWithManager:"></a>
                     <a name="//apple_ref/objc/Method/-initWithManager:" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)initWithManager:">-initWithManager:</a>
@@ -2771,7 +2842,7 @@
                         <p>new cache</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L24">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2829,7 +2900,65 @@
                         <p>open GeoPackage</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L33">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L38">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(im)getOrNoCacheOpen:"></a>
+                    <a name="//apple_ref/objc/Method/-getOrNoCacheOpen:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)getOrNoCacheOpen:">-getOrNoCacheOpen:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the cached GeoPackage or open the GeoPackage without caching it</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">getOrNoCacheOpen</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getOrNoCacheOpen</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage name</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>open GeoPackage</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2868,7 +2997,7 @@
                         <p>cached GeoPackage names</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L40">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2907,7 +3036,65 @@
                         <p>cached GeoPackages</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L47">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(im)has:"></a>
+                    <a name="//apple_ref/objc/Method/-has:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)has:">-has:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if the cache has the GeoPackage name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">has</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">has</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage name</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if has cached GeoPackage</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L70">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2965,7 +3152,7 @@
                         <p>cached GeoPackage</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L56">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3023,7 +3210,7 @@
                         <p>true if exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L65">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3058,7 +3245,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L70">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3112,7 +3299,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L77">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3166,7 +3353,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L84">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L107">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3225,7 +3412,7 @@
                         <p>removed GeoPackage</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L94">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3261,7 +3448,7 @@ call closeAll to close and clear all GeoPackages</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L100">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3319,7 +3506,7 @@ call closeAll to close and clear all GeoPackages</p>
                         <p>true if found and closed</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L109">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L132">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3373,7 +3560,7 @@ call closeAll to close and clear all GeoPackages</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L116">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L139">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3427,7 +3614,178 @@ call closeAll to close and clear all GeoPackages</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/GPKGGeoPackageCache.h#L123">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L146">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackage:"></a>
+                    <a name="//apple_ref/objc/Method/-closeGeoPackage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackage:">-closeGeoPackage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Close the GeoPackage</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">closeGeoPackage</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">close</span><span class="p">(</span><span class="n">_</span> <span class="nv">geoPackage</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L154">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackageIfCached:"></a>
+                    <a name="//apple_ref/objc/Method/-closeGeoPackageIfCached:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackageIfCached:">-closeGeoPackageIfCached:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Close the GeoPackage if it is cached (same GeoPackage instance)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">closeGeoPackageIfCached</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">closeGeoPackageIfCached</span><span class="p">(</span><span class="n">_</span> <span class="nv">geoPackage</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if closed</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L163">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackageIfNotCached:"></a>
+                    <a name="//apple_ref/objc/Method/-closeGeoPackageIfNotCached:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeoPackageCache(im)closeGeoPackageIfNotCached:">-closeGeoPackageIfNotCached:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Close the GeoPackage if it is not cached (GeoPackage not cached or
+ different instance)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">closeGeoPackageIfNotCached</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">closeGeoPackageIfNotCached</span><span class="p">(</span><span class="n">_</span> <span class="nv">geoPackage</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGGeoPackage.html">GPKGGeoPackage</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>true if closed</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/GPKGGeoPackageCache.h#L173">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3437,7 +3795,7 @@ call closeAll to close and clear all GeoPackages</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-07-27)</p>
+          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

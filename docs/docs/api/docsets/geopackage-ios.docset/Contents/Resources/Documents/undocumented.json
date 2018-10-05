@@ -3466,6 +3466,62 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 11,
+      "symbol": "GPKG_EXTENSION_PROPERTIES_AUTHOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 12,
+      "symbol": "GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 13,
+      "symbol": "GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 14,
+      "symbol": "GPKG_EXTENSION_PROPERTIES_TABLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 15,
+      "symbol": "GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "line": 16,
+      "symbol": "GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesManager.h",
+      "line": 14,
+      "symbol": "GPKGPropertiesManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertyNames.h",
+      "line": 127,
+      "symbol": "GPKGPropertyNames",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/related/GPKGExtendedRelation.h",
       "line": 15,
       "symbol": "GPKG_ER_COLUMN_PK",

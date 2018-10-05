@@ -170,6 +170,9 @@
                 <a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexFeatureResults.html">GPKGFeatureIndexFeatureResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexGeoPackageResults.html">GPKGFeatureIndexGeoPackageResults</a>
               </li>
               <li class="nav-group-task">
@@ -180,6 +183,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexMetadataResults.html">GPKGFeatureIndexMetadataResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexRTreeResults.html">GPKGFeatureIndexRTreeResults</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexResultSetResults.html">GPKGFeatureIndexResultSetResults</a>
@@ -341,6 +347,12 @@
                 <a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQuery.html">GPKGManualFeatureQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQueryResults.html">GPKGManualFeatureQueryResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a>
               </li>
               <li class="nav-group-task">
@@ -450,6 +462,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRTreeIndexExtension.html">GPKGRTreeIndexExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableRow.html">GPKGRTreeIndexTableRow</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRelatedTablesExtension.html">GPKGRelatedTablesExtension</a>
@@ -1213,6 +1231,9 @@
                 <a href="../Constants.html#/c:@GPKG_FIT_NONE_NAME">GPKG_FIT_NONE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_FIT_RTREE_NAME">GPKG_FIT_RTREE_NAME</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_FTL_COLUMN_FEATURE_TABLE_NAME">GPKG_FTL_COLUMN_FEATURE_TABLE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -1898,6 +1919,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RST_TABLE_NAME">GPKG_RST_TABLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID">GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_NAME">GPKG_RTREE_INDEX_EXTENSION_NAME</a>
@@ -2721,6 +2757,41 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GPKGGeometryMetadataDao(py)tolerance"></a>
+                    <a name="//apple_ref/objc/Property/tolerance" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeometryMetadataDao(py)tolerance">tolerance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query range tolerance</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="kt">double</span> <span class="n">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt">Double</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GPKGGeometryMetadataDao(im)initWithDatabase:"></a>
                     <a name="//apple_ref/objc/Method/-initWithDatabase:" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GPKGGeometryMetadataDao(im)initWithDatabase:">-initWithDatabase:</a>
@@ -2771,7 +2842,7 @@
                         <p>new Geometry Metadata DAO</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2869,7 +2940,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L38">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2967,7 +3038,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L50">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3065,7 +3136,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L62">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3123,7 +3194,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L71">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3181,7 +3252,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L80">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L85">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3239,7 +3310,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L89">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3310,7 +3381,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L99">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3381,7 +3452,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L109">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L114">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3465,7 +3536,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L120">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L125">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3549,7 +3620,7 @@
                         <p>true if deleted</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L131">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3607,7 +3678,7 @@
                         <p>true if created or updated</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L140">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L145">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3665,7 +3736,7 @@
                         <p>true if updated</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L149">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L154">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3723,7 +3794,7 @@
                         <p>true if exists</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L158">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3782,7 +3853,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L167">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L172">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3866,7 +3937,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L178">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L183">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3950,7 +4021,7 @@
                         <p>geometry metadata</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L189">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L194">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4021,7 +4092,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L199">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L204">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4092,7 +4163,149 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L209">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L214">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeometryMetadataDao(im)boundingBoxByGeoPackageName:andTableName:"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBoxByGeoPackageName:andTableName:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeometryMetadataDao(im)boundingBoxByGeoPackageName:andTableName:">-boundingBoxByGeoPackageName:andTableName:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the bounds of the feature table index</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">boundingBoxByGeoPackageName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackageName</span>
+                                    <span class="nf">andTableName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableName</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="n">byGeoPackageName</span> <span class="nv">geoPackageName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andTableName</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackageName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage name</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tableName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>table name</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L223">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGGeometryMetadataDao(im)boundingBoxByGeoPackageId:andTableName:"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBoxByGeoPackageId:andTableName:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGGeometryMetadataDao(im)boundingBoxByGeoPackageId:andTableName:">-boundingBoxByGeoPackageId:andTableName:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query for the bounds of the feature table index</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">boundingBoxByGeoPackageId</span><span class="p">:(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">geoPackageId</span>
+                                  <span class="nf">andTableName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableName</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="n">byGeoPackageId</span> <span class="nv">geoPackageId</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span><span class="p">,</span> <span class="n">andTableName</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geoPackageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>GeoPackage id</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tableName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>table name</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L232">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4163,7 +4376,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L219">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L242">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4234,7 +4447,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L229">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4318,7 +4531,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L240">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L263">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4402,7 +4615,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L251">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L274">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4486,7 +4699,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L262">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L285">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4570,7 +4783,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L273">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L296">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4654,7 +4867,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L284">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4738,7 +4951,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L295">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L318">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4822,7 +5035,7 @@
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L306">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L329">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4906,7 +5119,7 @@
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L317">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L340">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4964,7 +5177,7 @@
                         <p>GeoPackage id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L326">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/db/metadata/GPKGGeometryMetadataDao.h#L349">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4974,7 +5187,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-07-27)</p>
+          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

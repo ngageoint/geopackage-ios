@@ -170,6 +170,9 @@
                 <a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexFeatureResults.html">GPKGFeatureIndexFeatureResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexGeoPackageResults.html">GPKGFeatureIndexGeoPackageResults</a>
               </li>
               <li class="nav-group-task">
@@ -180,6 +183,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexMetadataResults.html">GPKGFeatureIndexMetadataResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGFeatureIndexRTreeResults.html">GPKGFeatureIndexRTreeResults</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGFeatureIndexResultSetResults.html">GPKGFeatureIndexResultSetResults</a>
@@ -341,6 +347,12 @@
                 <a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQuery.html">GPKGManualFeatureQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGManualFeatureQueryResults.html">GPKGManualFeatureQueryResults</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a>
               </li>
               <li class="nav-group-task">
@@ -450,6 +462,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRTreeIndexExtension.html">GPKGRTreeIndexExtension</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableDao.html">GPKGRTreeIndexTableDao</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRTreeIndexTableRow.html">GPKGRTreeIndexTableRow</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGRelatedTablesExtension.html">GPKGRelatedTablesExtension</a>
@@ -1213,6 +1231,9 @@
                 <a href="../Constants.html#/c:@GPKG_FIT_NONE_NAME">GPKG_FIT_NONE_NAME</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_FIT_RTREE_NAME">GPKG_FIT_RTREE_NAME</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_FTL_COLUMN_FEATURE_TABLE_NAME">GPKG_FTL_COLUMN_FEATURE_TABLE_NAME</a>
               </li>
               <li class="nav-group-task">
@@ -1898,6 +1919,21 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RST_TABLE_NAME">GPKG_RST_TABLE_NAME</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID">GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y">GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@GPKG_RTREE_INDEX_EXTENSION_NAME">GPKG_RTREE_INDEX_EXTENSION_NAME</a>
@@ -2748,7 +2784,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L21">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L21">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2756,9 +2792,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andColumns:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithTable:andRelation:andColumns:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andColumns:">-initWithTable:andRelation:andColumns:</a>
+                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andDataType:andColumns:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithTable:andRelation:andDataType:andColumns:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andDataType:andColumns:">-initWithTable:andRelation:andDataType:andColumns:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2775,12 +2811,13 @@
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTable</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableName</span>
                   <span class="nf">andRelation</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">relationName</span>
+                  <span class="nf">andDataType</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataType</span>
                    <span class="nf">andColumns</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">columns</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">table</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andRelation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andColumns</span> <span class="nv">columns</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">table</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andRelation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andDataType</span> <span class="nv">dataType</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andColumns</span> <span class="nv">columns</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2809,6 +2846,18 @@
                               <td>
                                 <div>
                                   <p>relation name</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>contents data type</p>
                                 </div>
                               </td>
                             </tr>
@@ -2832,7 +2881,7 @@
                         <p>new user related table</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L32">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2840,9 +2889,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andColumns:andRequiredColumns:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithTable:andRelation:andColumns:andRequiredColumns:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andColumns:andRequiredColumns:">-initWithTable:andRelation:andColumns:andRequiredColumns:</a>
+                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andDataType:andColumns:andRequiredColumns:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithTable:andRelation:andDataType:andColumns:andRequiredColumns:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithTable:andRelation:andDataType:andColumns:andRequiredColumns:">-initWithTable:andRelation:andDataType:andColumns:andRequiredColumns:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2859,13 +2908,14 @@
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTable</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableName</span>
                   <span class="nf">andRelation</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">relationName</span>
+                  <span class="nf">andDataType</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataType</span>
                    <span class="nf">andColumns</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">columns</span>
            <span class="nf">andRequiredColumns</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requiredColumns</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">table</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andRelation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andColumns</span> <span class="nv">columns</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="n">andRequiredColumns</span> <span class="nv">requiredColumns</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">table</span> <span class="nv">tableName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andRelation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andDataType</span> <span class="nv">dataType</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andColumns</span> <span class="nv">columns</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GPKGUserCustomColumn.html">GPKGUserCustomColumn</a></span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="n">andRequiredColumns</span> <span class="nv">requiredColumns</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2894,6 +2944,18 @@
                               <td>
                                 <div>
                                   <p>relation name</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>contents data type</p>
                                 </div>
                               </td>
                             </tr>
@@ -2929,7 +2991,7 @@
                         <p>new user related table</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L44">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2937,9 +2999,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithRelation:andCustomTable:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithRelation:andCustomTable:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithRelation:andCustomTable:">-initWithRelation:andCustomTable:</a>
+                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)initWithRelation:andDataType:andCustomTable:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithRelation:andDataType:andCustomTable:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)initWithRelation:andDataType:andCustomTable:">-initWithRelation:andDataType:andCustomTable:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2955,12 +3017,13 @@
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRelation</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">relationName</span>
+                     <span class="nf">andDataType</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataType</span>
                   <span class="nf">andCustomTable</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGUserCustomTable.html">GPKGUserCustomTable</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">userCustomTable</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">relation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andCustomTable</span> <span class="nv">userCustomTable</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGUserCustomTable.html">GPKGUserCustomTable</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">relation</span> <span class="nv">relationName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andDataType</span> <span class="nv">dataType</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andCustomTable</span> <span class="nv">userCustomTable</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGUserCustomTable.html">GPKGUserCustomTable</a></span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2977,6 +3040,18 @@
                               <td>
                                 <div>
                                   <p>relation name</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>contents data type</p>
                                 </div>
                               </td>
                             </tr>
@@ -3000,7 +3075,7 @@
                         <p>new user related table</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L54">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3039,7 +3114,46 @@
                         <p>relation name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.0.2/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L61">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L64">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGUserRelatedTable(im)dataType"></a>
+                    <a name="//apple_ref/objc/Method/-dataType" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGUserRelatedTable(im)dataType">-dataType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the contents data type</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">dataType</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">dataType</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>data type</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/3.1.0/geopackage-ios/extension/related/GPKGUserRelatedTable.h#L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3049,7 +3163,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-07-27)</p>
+          <p>&copy; 2018 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2018-10-05)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
