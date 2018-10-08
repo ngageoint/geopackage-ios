@@ -6,5 +6,5 @@ target 'GeoPackage-iOS-example' do
   use_frameworks!
 
   # Pods for GeoPackage-iOS-example
-  pod 'geopackage-ios', '~> 3.0.0'
+  pod 'geopackage-ios', '~> 3.1.0'
 end
