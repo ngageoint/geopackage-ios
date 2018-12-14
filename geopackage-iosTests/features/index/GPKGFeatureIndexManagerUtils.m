@@ -466,24 +466,24 @@
             [timerCount start];
             int fullCount = [featureIndexManager countWithGeometryEnvelope:envelope];
             [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Count Query", percentage]];
-            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+            [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:fullCount];
             
             [timerQuery start];
             GPKGFeatureIndexResults *results = [featureIndexManager queryWithGeometryEnvelope:envelope];
             [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Query", percentage]];
-            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+            [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:[results count]];
             [results close];
             
             GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
             [timerCount start];
             fullCount = [featureIndexManager countWithBoundingBox:boundingBox];
             [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Bounding Box Count Query", percentage]];
-            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+            [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:fullCount];
             
             [timerQuery start];
             results = [featureIndexManager queryWithBoundingBox:boundingBox];
             [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Bounding Box Query", percentage]];
-            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+            [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:[results count]];
             [results close];
             
             GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:transformToWebMercator];
@@ -491,14 +491,14 @@
             fullCount = [featureIndexManager countWithBoundingBox:webMercatorBoundingBox inProjection:webMercatorProjection];
             [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Projected Bounding Box Count Query", percentage]];
             if (compareProjectionCounts) {
-                [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
+                [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:fullCount];
             }
             
             [timerQuery start];
             results = [featureIndexManager queryWithBoundingBox:webMercatorBoundingBox inProjection:webMercatorProjection];
             [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Projected Bounding Box Query", percentage]];
             if (compareProjectionCounts) {
-                [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[results count]];
+                [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:[results count]];
             }
             [results close];
         }
@@ -507,6 +507,34 @@
         NSLog(@"Average Query: %@ s", [timerQuery averageString]);
     }@finally{
         [featureIndexManager close];
+    }
+    
+}
+
++(void) assertCountsWithManager: (GPKGFeatureIndexManager *) featureIndexManager andEnvelope: (GPKGFeatureIndexTestEnvelope *) testEnvelope andType: (enum GPKGFeatureIndexType) type andPrecision: (double) precision andExpected: (int) expectedCount andFull: (int) fullCount{
+    
+    switch (type) {
+        case GPKG_FIT_RTREE:
+            
+            if (expectedCount != fullCount) {
+                int count = 0;
+                GPKGFeatureIndexResults *results = [featureIndexManager queryWithGeometryEnvelope:testEnvelope.envelope];
+                for (GPKGFeatureRow *featureRow in results) {
+                    SFGeometryEnvelope *envelope = [featureRow getGeometryEnvelope];
+                    if([envelope intersectsWithEnvelope:testEnvelope.envelope withAllowEmpty:YES]){
+                        count++;
+                    } else {
+                        SFGeometryEnvelope *adjustedEnvelope = [[SFGeometryEnvelope alloc] initWithMinXDouble:[envelope.minX doubleValue] - precision andMinYDouble:[envelope.minY doubleValue] - precision andMaxXDouble:[envelope.maxX doubleValue] + precision andMaxYDouble:[envelope.maxY doubleValue] + precision];
+                        [GPKGTestUtils assertTrue:[adjustedEnvelope intersectsWithEnvelope:testEnvelope.envelope withAllowEmpty:YES]];
+                    }
+                }
+                [results close];
+                [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:count];
+            }
+            
+            break;
+        default:
+            [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:fullCount];
     }
     
 }
