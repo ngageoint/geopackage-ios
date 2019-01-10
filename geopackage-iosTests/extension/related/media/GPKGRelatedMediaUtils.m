@@ -92,8 +92,8 @@
     [GPKGTestUtils assertNotNil:extendedRelation];
     NSArray<GPKGExtendedRelation *> *extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertTrue:[geoPackage.database tableExists:mappingTableName]];
-    [GPKGTestUtils assertTrue:[geoPackage.database tableExists:mediaTable.tableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName]];
     [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:mediaTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:mediaTable.tableName] withTable:mediaTable];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[geoPackage typeOfTable:mediaTable.tableName]];
@@ -355,7 +355,7 @@
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
     extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertFalse:[geoPackage.database tableExists:mappingTableName]];
+    [GPKGTestUtils assertFalse:[geoPackage isTable:mappingTableName]];
     
     // Delete the media table and contents row
     [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName]];

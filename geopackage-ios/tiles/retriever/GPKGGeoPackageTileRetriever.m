@@ -39,7 +39,7 @@
         
         SFPProjectionTransform * projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:[self.tileCreator tilesProjection] andToProjection:webMercator];
         GPKGBoundingBox * tileSetBoundingBox = [self.tileCreator tileSetBoundingBox];
-        if([[self.tileCreator tilesProjection] getUnit] == SFP_UNIT_DEGREES){
+        if([[self.tileCreator tilesProjection] isUnit:SFP_UNIT_DEGREES]){
             tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
         self.setWebMercatorBoundingBox = [tileSetBoundingBox transform:projectionToWebMercator];

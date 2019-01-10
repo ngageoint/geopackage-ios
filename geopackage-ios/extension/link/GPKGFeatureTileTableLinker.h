@@ -112,6 +112,13 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 -(int) deleteLinksWithTable: (NSString *) table;
 
 /**
+ * Check if has extension
+ *
+ * @return true if has extension
+ */
+-(BOOL) has;
+
+/**
  *  Get the extension
  *
  *  @return extensions object or null if one does not exist

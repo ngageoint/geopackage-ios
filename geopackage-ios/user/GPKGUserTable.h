@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGUserColumn.h"
 #import "GPKGUserUniqueConstraint.h"
+#import "GPKGContents.h"
 
 /**
  *  Abstract user table
@@ -46,6 +47,11 @@
 @property (nonatomic, strong) NSMutableArray *uniqueConstraints;
 
 /**
+ * Foreign key to Contents
+ */
+@property (nonatomic, strong) GPKGContents *contents;
+
+/**
  *  Initialize
  *
  *  @param tableName table name
@@ -63,6 +69,13 @@
  *  @return new user table
  */
 -(instancetype) initWithUserTable: (GPKGUserTable *) userTable;
+
+/**
+ * Get the contents data type
+ *
+ * @return data type
+ */
+-(NSString *) dataType;
 
 /**
  *  Check for duplicate column names

@@ -8,6 +8,7 @@
 
 #import "GPKGExtensions.h"
 #import "GPKGUtils.h"
+#import "GPKGGeoPackageConstants.h"
 
 NSString * const GPKG_EX_EXTENSION_NAME_DIVIDER = @"_";
 NSString * const GPKG_EX_TABLE_NAME = @"gpkg_extensions";
@@ -74,6 +75,10 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 
 +(NSString *) buildExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName{
     return [NSString stringWithFormat:@"%@%@%@", author, GPKG_EX_EXTENSION_NAME_DIVIDER, extensionName];
+}
+
++(NSString *) buildDefaultAuthorExtensionName: (NSString *) extensionName{
+    return [self buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:extensionName];
 }
 
 +(NSString *) getAuthorWithExtensionName: (NSString *) extensionName{

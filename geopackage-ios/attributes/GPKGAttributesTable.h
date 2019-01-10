@@ -7,14 +7,8 @@
 //
 
 #import "GPKGUserTable.h"
-#import "GPKGContents.h"
 
 @interface GPKGAttributesTable : GPKGUserTable
-
-/**
- *  Foreign key to Contents
- */
-@property (nonatomic, strong) GPKGContents *contents;
 
 /**
  *  Initialize

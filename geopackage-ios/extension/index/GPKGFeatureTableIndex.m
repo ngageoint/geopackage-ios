@@ -200,7 +200,9 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if([self.tableIndexDao tableExists]){
         deleted = [self.tableIndexDao deleteByIdCascade:self.tableName] > 0;
     }
-    deleted = [self.extensionsDao deleteByExtension:self.extensionName andTable:self.tableName] > 0 || deleted;
+    if([self.extensionsDao tableExists]){
+        deleted = [self.extensionsDao deleteByExtension:self.extensionName andTable:self.tableName] > 0 || deleted;
+    }
     return deleted;
 }
 

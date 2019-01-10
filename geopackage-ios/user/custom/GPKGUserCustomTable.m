@@ -51,4 +51,8 @@
     return self;
 }
 
+-(NSString *) dataType{
+    return nil;
+}
+
 @end

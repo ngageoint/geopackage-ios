@@ -88,7 +88,7 @@
     newSrs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:newSrs.srsId];
     [GPKGTestUtils assertNotNil:newSrs];
     [GPKGTestUtils assertNotNil:newSrs.definition_12_063];
-    [GPKGTestUtils assertEqualWithValue:newSrs.definition_12_063 andValue2:@"undefined"];
+    [GPKGTestUtils assertEqualWithValue:newSrs.definition_12_063 andValue2:@""];
     
     // Test the get or create auto set
     wgs84Srs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
@@ -140,7 +140,7 @@
     newSrs3 = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:newSrs3.srsId];
     [GPKGTestUtils assertNotNil:newSrs3];
     [GPKGTestUtils assertNotNil:newSrs3.definition_12_063];
-    [GPKGTestUtils assertEqualWithValue:newSrs3.definition_12_063 andValue2:@"undefined"];
+    [GPKGTestUtils assertEqualWithValue:newSrs3.definition_12_063 andValue2:@""];
 
 }
 

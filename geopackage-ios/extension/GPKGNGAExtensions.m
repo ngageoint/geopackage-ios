@@ -12,6 +12,8 @@
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGTileTableScaling.h"
 #import "GPKGPropertiesExtension.h"
+//#import "GPKGFeatureStyleExtension.h" TODO
+#import "GPKGContentsIdExtension.h"
 
 @implementation GPKGNGAExtensions
 
@@ -20,6 +22,9 @@
     [self deleteGeometryIndexWithGeoPackage:geoPackage andTable:table];
     [self deleteFeatureTileLinkWithGeoPackage:geoPackage andTable:table];
     [self deleteTileScalingWithGeoPackage:geoPackage andTable:table];
+    [self deletePropertiesWithGeoPackage:geoPackage andTable:table];
+    [self deleteFeatureStyleWithGeoPackage:geoPackage andTable:table];
+    [self deleteContentsIdWithGeoPackage:geoPackage andTable:table];
     
     // Delete future extensions for the table here
 }
@@ -29,6 +34,9 @@
     [self deleteGeometryIndexExtensionWithGeoPackage:geoPackage];
     [self deleteFeatureTileLinkExtensionWithGeoPackage:geoPackage];
     [self deleteTileScalingExtensionWithGeoPackage:geoPackage];
+    [self deletePropertiesExtensionWithGeoPackage:geoPackage];
+    [self deleteFeatureStyleExtensionWithGeoPackage:geoPackage];
+    [self deleteContentsIdExtensionWithGeoPackage:geoPackage];
     
     // Delete future extension tables here
 }
@@ -120,18 +128,63 @@
     
 }
 
++(void) deletePropertiesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+    
+    if([table caseInsensitiveCompare:GPKG_EXTENSION_PROPERTIES_TABLE_NAME] == NSOrderedSame){
+        [self deletePropertiesExtensionWithGeoPackage:geoPackage];
+    }
+    
+}
+
 +(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
     GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
     
     if([geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
-        [geoPackage deleteUserTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+        GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+        [contentsDao deleteTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
     }
     
     if([extensionsDao tableExists]){
         NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_PROPERTIES_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension andTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
     }
+}
+
++(void) deleteFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+    /* TODO
+    GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
+    if([featureStyleExtension hasWithTableName:table]){
+        [featureStyleExtension deleteRelationshipsWithTableName:table];
+    }
+    */
+}
+
++(void) deleteFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    /* TODO
+    GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
+    if ([featureStyleExtension has]) {
+        [featureStyleExtension removeExtension];
+    }
+    */
+}
+
++(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+    
+    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    if ([contentsIdExtension has]) {
+        [contentsIdExtension deleteForTableName:table];
+    }
+    
+}
+
++(void) deleteContentsIdExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    if ([contentsIdExtension has]) {
+        [contentsIdExtension removeExtension];
+    }
+    
 }
 
 @end

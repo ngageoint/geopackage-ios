@@ -28,6 +28,7 @@
 #import "GPKGTileScaling.h"
 #import "GPKGExtendedRelation.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGContentsId.h"
 
 @implementation GPKGGeoPackageTableCreator
 
@@ -110,6 +111,10 @@
 
 -(int) createTileScaling{
     return [self createTable:GPKG_TS_TABLE_NAME];
+}
+
+-(int) createContentsId{
+    return [self createTable:GPKG_CI_TABLE_NAME];
 }
 
 -(int) createTable: (NSString *) tableName{

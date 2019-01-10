@@ -25,6 +25,15 @@
 	<array>
 		<string>DROP TABLE &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;</string>
 	</array>
+	<key>drop_force</key>
+	<array>
+		<string>DROP TABLE IF EXISTS &quot;rtree_&lt;t&gt;_&lt;c&gt;_node&quot;</string>
+		<string>DROP TABLE IF EXISTS &quot;rtree_&lt;t&gt;_&lt;c&gt;_parent&quot;</string>
+		<string>DROP TABLE IF EXISTS &quot;rtree_&lt;t&gt;_&lt;c&gt;_rowid&quot;</string>
+		<string>PRAGMA writable_schema = ON</string>
+		<string>DELETE FROM sqlite_master WHERE type = &quot;table&quot; AND name = &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;</string>
+		<string>PRAGMA writable_schema = OFF</string>
+	</array>
 	<key>trigger.insert</key>
 	<array>
 		<string>CREATE TRIGGER &quot;rtree_&lt;t&gt;_&lt;c&gt;_insert&quot; AFTER INSERT ON &quot;&lt;t&gt;&quot;

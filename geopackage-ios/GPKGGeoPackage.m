@@ -105,13 +105,11 @@
 }
 
 -(BOOL) isFeatureTable: (NSString *) table{
-    NSSet * featureTables = [[NSSet alloc] initWithArray:[self getFeatureTables]];
-    return [featureTables containsObject:table];
+    return [self isTable:table ofType:GPKG_CDT_FEATURES];
 }
 
 -(BOOL) isTileTable: (NSString *) table{
-    NSSet * tileTables = [[NSSet alloc] initWithArray:[self getTileTables]];
-    return [tileTables containsObject:table];
+    return [self isTable:table ofType:GPKG_CDT_TILES];
 }
 
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
@@ -123,13 +121,21 @@
 }
 
 -(BOOL) isFeatureOrTileTable: (NSString *) table{
-    NSSet * tables = [[NSSet alloc] initWithArray:[self getFeatureAndTileTables]];
-    return [tables containsObject:table];
+    BOOL isType = NO;
+    GPKGContents *contents = [self contentsOfTable:table];
+    if(contents != nil){
+        enum GPKGContentsDataType dataType = [contents getContentsDataType];
+        isType = dataType == GPKG_CDT_FEATURES || dataType == GPKG_CDT_TILES;
+    }
+    return isType;
+}
+
+-(BOOL) isContentsTable: (NSString *) table{
+    return [self contentsOfTable:table] != nil;
 }
 
 -(BOOL) isTable: (NSString *) table{
-    NSSet * tables = [[NSSet alloc] initWithArray:[self getTables]];
-    return [tables containsObject:table];
+    return [self.database tableExists:table];
 }
 
 -(GPKGContents *) contentsOfTable: (NSString *) table{
@@ -389,6 +395,8 @@
         [contents setSrs:srs];
         [[self getContentsDao] create:contents];
         
+        [table setContents:contents];
+        
         // Create new geometry columns
         [geometryColumns setContents:contents];
         [geometryColumns setSrs:srs];
@@ -481,6 +489,8 @@
         [contents setMaxY:contentsBoundingBox.maxLatitude];
         [contents setSrs:contentsSrs];
         [[self getContentsDao] create:contents];
+        
+        [table setContents:contents];
         
         // Create new matrix tile set
         tileMatrixSet = [[GPKGTileMatrixSet alloc] init];
@@ -1011,6 +1021,23 @@
     GPKGExtendedRelationsDao * dao = [self getExtendedRelationsDao];
     if(![dao tableExists]){
         created = [self.tableCreator createExtendedRelations] > 0;
+    }
+    
+    return created;
+}
+
+-(GPKGContentsIdDao *) getContentsIdDao{
+    return [[GPKGContentsIdDao alloc] initWithDatabase:self.database];
+}
+
+-(BOOL) createContentsIdTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    GPKGContentsIdDao *dao = [self getContentsIdDao];
+    if(![dao tableExists]){
+        created = [self.tableCreator createContentsId] > 0;
     }
     
     return created;

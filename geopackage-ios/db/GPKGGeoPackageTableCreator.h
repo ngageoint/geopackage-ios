@@ -156,6 +156,13 @@
 -(int) createTileScaling;
 
 /**
+ * Create Contents Id table
+ *
+ * @return executed statements
+ */
+-(int) createContentsId;
+
+/**
  *  Create the user table
  *
  *  @param table user table

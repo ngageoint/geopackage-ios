@@ -48,7 +48,7 @@
 }
 
 -(void) setContents:(GPKGContents *)contents{
-    _contents = contents;
+    self.contents = contents;
     if(contents != nil){
         // Verify the Contents have a relation name data type
         NSString *contentsDataType = contents.dataType;

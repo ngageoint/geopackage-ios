@@ -16,14 +16,15 @@
     return self;
 }
 
--(void) setContents:(GPKGContents *)contents{
-    _contents = contents;
-    if(contents != nil){
-        // Verify the Contents have an attributes data type
-        enum GPKGContentsDataType dataType = [contents getContentsDataType];
-        if(dataType != GPKG_CDT_ATTRIBUTES){
-            [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of an Attributes Table must have a data type of attributes"];
-        }
+-(NSString *) dataType{
+    return GPKG_CDT_ATTRIBUTES_NAME;
+}
+
+-(void) validateContents:(GPKGContents *)contents{
+    // Verify the Contents have an attributes data type
+    enum GPKGContentsDataType dataType = [contents getContentsDataType];
+    if (dataType != GPKG_CDT_ATTRIBUTES) {
+        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of an Attributes Table must have a data type of %@", GPKG_CDT_ATTRIBUTES_NAME];
     }
 }
 

@@ -158,4 +158,38 @@
     return [self queryWhere:where andWhereArgs:whereArgs];
 }
 
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+
+    GPKGColumnValues *whereValues = [[GPKGColumnValues alloc] init];
+    
+    if (baseTable != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_BASE_TABLE_NAME withValue:baseTable];
+    }
+    
+    if (baseColumn != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_BASE_PRIMARY_COLUMN withValue:baseColumn];
+    }
+    
+    if (relatedTable != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_RELATED_TABLE_NAME withValue:relatedTable];
+    }
+    
+    if (relatedColumn != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_RELATED_PRIMARY_COLUMN withValue:relatedColumn];
+    }
+    
+    if (relation != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_RELATION_NAME withValue:relation];
+    }
+    
+    if (mappingTable != nil) {
+        [whereValues addColumn:GPKG_ER_COLUMN_MAPPING_TABLE_NAME withValue:mappingTable];
+    }
+    
+    NSString * where = [self buildWhereWithFields:whereValues];
+    NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
+    
+    return [self queryWhere:where andWhereArgs:whereArgs];
+}
+
 @end

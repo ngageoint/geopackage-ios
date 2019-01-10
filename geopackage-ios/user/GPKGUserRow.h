@@ -109,6 +109,24 @@
 -(NSObject *) getValueWithColumnName: (NSString *) columnName;
 
 /**
+ * Get the value at the index as a string
+ *
+ * @param index
+ *            index
+ * @return value
+ */
+-(NSString *) getValueStringWithIndex: (int) index;
+
+/**
+ * Get the value of the column name as a string
+ *
+ * @param columnName
+ *            column name
+ * @return value
+ */
+-(NSString *) getValueStringWithColumnName: (NSString *) columnName;
+
+/**
  *  Get the database formatted value at the index
  *
  *  @param index index

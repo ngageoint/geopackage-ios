@@ -18,7 +18,7 @@ NSString * const GPKG_PROP_WEBP_EXTENSION_DEFINITION = @"geopackage.extensions.w
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_WEBP_EXTENSION_NAME];
+        self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_WEBP_EXTENSION_NAME];
         self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_WEBP_EXTENSION_DEFINITION];
     }
     return self;

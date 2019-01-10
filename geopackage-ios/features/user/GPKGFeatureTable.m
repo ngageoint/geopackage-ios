@@ -7,6 +7,7 @@
 //
 
 #import "GPKGFeatureTable.h"
+#import "GPKGContentsDataTypes.h"
 
 @implementation GPKGFeatureTable
 
@@ -28,6 +29,18 @@
         self.geometryIndex = [geometry intValue];
     }
     return self;
+}
+
+-(NSString *) dataType{
+    return GPKG_CDT_FEATURES_NAME;
+}
+
+-(void) validateContents:(GPKGContents *)contents{
+    // Verify the Contents have a features data type
+    enum GPKGContentsDataType dataType = [contents getContentsDataType];
+    if (dataType != GPKG_CDT_FEATURES) {
+        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Feature Table must have a data type of %@", GPKG_CDT_FEATURES_NAME];
+    }
 }
 
 -(GPKGFeatureColumn *) getGeometryColumn{

@@ -48,4 +48,9 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
  */
 -(BOOL) has;
 
+/**
+ * Remove all trace of the extension
+ */
+-(void) removeExtension;
+
 @end

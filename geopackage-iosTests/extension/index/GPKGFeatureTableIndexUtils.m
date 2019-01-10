@@ -240,12 +240,13 @@
     NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
-     // Test deleting all NGA extensions
-     [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    // Test deleting all NGA extensions
+    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
      
-     [GPKGTestUtils assertFalse:[geometryIndexDao tableExists]];
-     [GPKGTestUtils assertFalse:[tableIndexDao tableExists]];
-     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extensionsDao countByExtension:extensionName]];
+    [GPKGTestUtils assertFalse:[geometryIndexDao tableExists]];
+    [GPKGTestUtils assertFalse:[tableIndexDao tableExists]];
+    [GPKGTestUtils assertFalse:[extensionsDao tableExists]];
+    
 }
 
 +(void) testDeleteAllWithGeoPackage: (GPKGGeoPackage *) geoPackage{

@@ -66,10 +66,8 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
         [NSException raise:@"Not GeoPackage Extension" format:@"Geometry Type is not a GeoPackage extension, User-Defined requires an author: %@", [SFGeometryTypes name:geometryType]];
     }
     
-    NSString * extensionName = [NSString stringWithFormat:@"%@%@%@%@%@",
-                                GPKG_GEO_PACKAGE_EXTENSION_AUTHOR,
-                                GPKG_EX_EXTENSION_NAME_DIVIDER,
-                                GPKG_GEOMETRY_EXTENSION_PREFIX,
+    NSString * extensionName = [NSString stringWithFormat:@"%@%@%@",
+                                [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GEOMETRY_EXTENSION_PREFIX],
                                 GPKG_EX_EXTENSION_NAME_DIVIDER,
                                 [SFGeometryTypes name:geometryType]];
     return extensionName;
@@ -98,10 +96,8 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
         [NSException raise:@"Not Extension" format:@"Geometry Type is not an extension: %@", [SFGeometryTypes name:geometryType]];
     }
     
-    NSString * extensionName = [NSString stringWithFormat:@"%@%@%@%@%@",
-                                [self isGeoPackageExtension:geometryType] ? GPKG_GEO_PACKAGE_EXTENSION_AUTHOR : author,
-                                GPKG_EX_EXTENSION_NAME_DIVIDER,
-                                GPKG_GEOMETRY_EXTENSION_PREFIX,
+    NSString * extensionName = [NSString stringWithFormat:@"%@%@%@",
+                                [GPKGExtensions buildExtensionNameWithAuthor:([self isGeoPackageExtension:geometryType] ? GPKG_GEO_PACKAGE_EXTENSION_AUTHOR : author) andExtensionName:GPKG_GEOMETRY_EXTENSION_PREFIX],
                                 GPKG_EX_EXTENSION_NAME_DIVIDER,
                                 [SFGeometryTypes name:geometryType]];
     return extensionName;

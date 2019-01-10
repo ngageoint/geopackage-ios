@@ -27,7 +27,7 @@
 	<key>geopackage.extensions.crs_wkt.column_name</key>
 	<string>definition_12_063</string>
 	<key>geopackage.extensions.crs_wkt.column_def</key>
-	<string>TEXT NOT NULL DEFAULT &apos;undefined&apos;</string>
+	<string>TEXT NOT NULL DEFAULT &apos;&apos;</string>
 	<key>geopackage.extensions.rtree_index</key>
 	<string>http://www.geopackage.org/spec/#extension_rtree</string>
 	<key>geopackage.extensions.2d_gridded_coverage</key>
@@ -42,6 +42,10 @@
 	<string>TBD</string>
 	<key>geopackage.extensions.properties</key>
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html</string>
+	<key>geopackage.extensions.contents_id</key>
+	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html</string>
+	<key>geopackage.extensions.feature_style</key>
+	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</string>
 	<key>geopackage.srs.wgs84.srs_name</key>
 	<string>WGS 84 geodetic</string>
 	<key>geopackage.srs.wgs84.srs_id</key>

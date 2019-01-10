@@ -26,7 +26,17 @@ enum GPKGRelationType{
     /**
      * Relate features or attributes to multimedia files such as pictures and videos
      */
-    GPKG_RT_MEDIA
+    GPKG_RT_MEDIA,
+    
+    /**
+     * Relate features or attributes with attributes
+     */
+    GPKG_RT_ATTRIBUTES,
+    
+    /**
+     * Relate features or attributes with tiles
+     */
+    GPKG_RT_TILES
     
 };
 
@@ -36,6 +46,8 @@ enum GPKGRelationType{
 extern NSString * const GPKG_RT_FEATURES_NAME;
 extern NSString * const GPKG_RT_SIMPLE_ATTRIBUTES_NAME;
 extern NSString * const GPKG_RT_MEDIA_NAME;
+extern NSString * const GPKG_RT_ATTRIBUTES_NAME;
+extern NSString * const GPKG_RT_TILES_NAME;
 
 @interface GPKGRelationTypes : NSObject
 

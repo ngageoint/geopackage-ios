@@ -129,4 +129,10 @@
     return (GPKGDataColumns *)[self getFirstObject:[self queryWhere: whereClause andWhereArgs: values]];
 }
 
+-(int) deleteByTableName: (NSString *) tableName{
+    NSString * where = [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    return [self deleteWhere:where andWhereArgs:whereArgs];
+}
+
 @end

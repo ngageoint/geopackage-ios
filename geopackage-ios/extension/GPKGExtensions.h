@@ -127,6 +127,14 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
 +(NSString *) buildExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName;
 
 /**
+ *  Build the extension name with the default author of GeoPackage
+ *
+ *  @param extensionName extension name
+ *  @return extension name
+ */
++(NSString *) buildDefaultAuthorExtensionName: (NSString *) extensionName;
+
+/**
  *  Get the author from the beginning of the extension name
  *
  *  @param extensionName extension name

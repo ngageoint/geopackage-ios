@@ -138,12 +138,12 @@
 }
 
 -(int) deleteByTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
-    return [self deleteByTileMatrixSetName:tileMatrixSet.tableName];
+    return [self deleteByTableName:tileMatrixSet.tableName];
 }
 
--(int) deleteByTileMatrixSetName: (NSString *) tileMatrixSetName{
-    NSString * where = [self buildWhereWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tileMatrixSetName];
+-(int) deleteByTableName: (NSString *) tableName{
+    NSString * where = [self buildWhereWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tableName];
+    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }

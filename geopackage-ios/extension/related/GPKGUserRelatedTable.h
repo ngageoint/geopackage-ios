@@ -16,11 +16,6 @@
 @interface GPKGUserRelatedTable : GPKGUserCustomTable
 
 /**
- *  Foreign key to Contents
- */
-@property (nonatomic, strong) GPKGContents *contents;
-
-/**
  *  Initializer
  *
  *  @param tableName table name

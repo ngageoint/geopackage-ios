@@ -123,7 +123,7 @@
     GPKGBoundingBox * boundingBox = [self getBoundingBox];
     if(boundingBox != nil){
         
-        if([self.projection getUnit] == SFP_UNIT_DEGREES){
+        if([self.projection isUnit:SFP_UNIT_DEGREES]){
             boundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:boundingBox];
         }
         SFPProjectionTransform * webMercatorTransform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];

@@ -16,6 +16,8 @@
 
 +(void) testScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
+    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    
     NSArray *tileTables = [geoPackage getTileTables];
     
     if(tileTables.count > 0){

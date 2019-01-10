@@ -463,6 +463,15 @@
 -(int) delete: (NSObject *) object;
 
 /**
+ *  Delete objects
+ *
+ *  @param objects array of objects
+ *
+ *  @return rows deleted
+ */
+-(int) deleteObjects: (NSArray *) objects;
+
+/**
  *  Delete by id
  *
  *  @param idValue id value

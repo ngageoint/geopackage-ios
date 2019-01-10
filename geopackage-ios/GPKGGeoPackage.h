@@ -34,6 +34,7 @@
 #import "GPKGAttributesDao.h"
 #import "GPKGTileScalingDao.h"
 #import "GPKGExtendedRelationsDao.h"
+#import "GPKGContentsIdDao.h"
 
 /**
  *  A single GeoPackage database connection
@@ -214,6 +215,15 @@
  *  @return true if a feature or tile table
  */
 -(BOOL) isFeatureOrTileTable: (NSString *) table;
+
+/**
+ * Check if the table exists as a user contents table
+ *
+ * @param table
+ *            table name
+ * @return true if a user contents table
+ */
+-(BOOL) isContentsTable: (NSString *) table;
 
 /**
  * Check if the table exists as a user table
@@ -1022,6 +1032,20 @@
  * @return true if created
  */
 -(BOOL) createExtendedRelationsTable;
+
+/**
+ * Get a Contents Id DAO
+ *
+ * @return contents id dao
+ */
+-(GPKGContentsIdDao *) getContentsIdDao;
+
+/**
+ * Create the Contents Id Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createContentsIdTable;
 
 /**
  * Create a new user table

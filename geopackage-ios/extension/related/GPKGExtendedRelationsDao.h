@@ -82,4 +82,23 @@
  */
 -(GPKGResultSet *) relationsToTable: (NSString *) table;
 
+/**
+ * Get the relations matching the non null provided values
+ *
+ * @param baseTable
+ *            base table name
+ * @param baseColumn
+ *            base primary column name
+ * @param relatedTable
+ *            related table name
+ * @param relatedColumn
+ *            related primary column name
+ * @param relation
+ *            relation name
+ * @param mappingTable
+ *            mapping table name
+ * @return extended relations results
+ */
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable;
+
 @end

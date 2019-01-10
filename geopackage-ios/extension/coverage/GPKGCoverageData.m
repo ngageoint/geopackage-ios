@@ -130,7 +130,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_GRIDDED_COVERAGE_EXTENSION_NAME];
+        self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GRIDDED_COVERAGE_EXTENSION_NAME];
         self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION];
         self.zoomIn = true;
         self.zoomOut = true;

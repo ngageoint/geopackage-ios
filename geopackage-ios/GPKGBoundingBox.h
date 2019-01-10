@@ -99,6 +99,15 @@ struct GPKGBoundingBoxSize{
 -(SFGeometryEnvelope *) buildEnvelope;
 
 /**
+ * Build a Geometry Envelope from the bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ * @return geometry envelope
+ */
++(SFGeometryEnvelope *) buildEnvelopeFromBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
  *  Determine if equal to the provided bounding box
  *
  *  @param boundingBox bounding box

@@ -98,8 +98,8 @@
     [GPKGTestUtils assertNotNil:extendedRelation];
     NSArray<GPKGExtendedRelation *> *extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertTrue:[geoPackage.database tableExists:mappingTableName]];
-    [GPKGTestUtils assertTrue:[geoPackage.database tableExists:simpleTable.tableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
+    [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName]];
     [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:simpleTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:simpleTable.tableName] withTable:simpleTable];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[geoPackage typeOfTable:simpleTable.tableName]];
@@ -342,7 +342,7 @@
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
     extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertFalse:[geoPackage.database tableExists:mappingTableName]];
+    [GPKGTestUtils assertFalse:[geoPackage isTable:mappingTableName]];
     
     // Delete the simple attributes table and contents row
     [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName]];

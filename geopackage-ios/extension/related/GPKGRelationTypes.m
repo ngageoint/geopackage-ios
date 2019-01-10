@@ -13,6 +13,8 @@
 NSString * const GPKG_RT_FEATURES_NAME = @"features";
 NSString * const GPKG_RT_SIMPLE_ATTRIBUTES_NAME = @"simple_attributes";
 NSString * const GPKG_RT_MEDIA_NAME = @"media";
+NSString * const GPKG_RT_ATTRIBUTES_NAME = @"attributes";
+NSString * const GPKG_RT_TILES_NAME = @"tiles";
 
 @implementation GPKGRelationTypes
 
@@ -29,6 +31,12 @@ NSString * const GPKG_RT_MEDIA_NAME = @"media";
         case GPKG_RT_MEDIA:
             name = GPKG_RT_MEDIA_NAME;
             break;
+        case GPKG_RT_ATTRIBUTES:
+            name = GPKG_RT_ATTRIBUTES_NAME;
+            break;
+        case GPKG_RT_TILES:
+            name = GPKG_RT_TILES_NAME;
+            break;
     }
     
     return name;
@@ -43,6 +51,8 @@ NSString * const GPKG_RT_MEDIA_NAME = @"media";
                                [NSNumber numberWithInteger:GPKG_RT_FEATURES], GPKG_RT_FEATURES_NAME,
                                [NSNumber numberWithInteger:GPKG_RT_SIMPLE_ATTRIBUTES], GPKG_RT_SIMPLE_ATTRIBUTES_NAME,
                                [NSNumber numberWithInteger:GPKG_RT_MEDIA], GPKG_RT_MEDIA_NAME,
+                               [NSNumber numberWithInteger:GPKG_RT_ATTRIBUTES], GPKG_RT_ATTRIBUTES_NAME,
+                               [NSNumber numberWithInteger:GPKG_RT_TILES], GPKG_RT_TILES_NAME,
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
@@ -59,13 +69,19 @@ NSString * const GPKG_RT_MEDIA_NAME = @"media";
     
     switch(relationType){
         case GPKG_RT_FEATURES:
-            dataType = [GPKGContentsDataTypes name:GPKG_CDT_FEATURES];
+            dataType = GPKG_CDT_FEATURES_NAME;
             break;
         case GPKG_RT_SIMPLE_ATTRIBUTES:
-            dataType = [GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES];
+            dataType = GPKG_CDT_ATTRIBUTES_NAME;
             break;
         case GPKG_RT_MEDIA:
-            dataType = [GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES];
+            dataType = GPKG_CDT_ATTRIBUTES_NAME;
+            break;
+        case GPKG_RT_ATTRIBUTES:
+            dataType = GPKG_CDT_ATTRIBUTES_NAME;
+            break;
+        case GPKG_RT_TILES:
+            dataType = GPKG_CDT_TILES_NAME;
             break;
     }
     

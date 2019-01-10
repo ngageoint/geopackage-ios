@@ -140,10 +140,10 @@
 }
 
 -(int) deleteByContents: (GPKGContents *) contents{
-    return [self deleteByTileMatrixSetName:contents.tableName];
+    return [self deleteByTableName:contents.tableName];
 }
 
--(int) deleteByTileMatrixSetName: (NSString *) tableName{
+-(int) deleteByTableName: (NSString *) tableName{
     NSString * where = [self buildWhereWithField:GPKG_CDGT_COLUMN_TABLE_NAME andValue:tableName];
     NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];

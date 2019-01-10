@@ -78,6 +78,11 @@
     return self;
 }
 
+-(NSString *) dataType{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 -(void) duplicateCheckWithIndex: (int) index andPreviousIndex: (NSNumber *) previousIndex andColumn: (NSString *) column{
     if(previousIndex != nil){
         [NSException raise:@"Duplicate Column" format:@"More than one %@ column was found for table '%@'. Index %@ and %d", column, self.tableName, previousIndex, index];
@@ -158,6 +163,23 @@
         }
     }
     return columnsOfType;
+}
+
+-(void) setContents:(GPKGContents *)contents{
+    _contents = contents;
+    if(contents != nil){
+        [self validateContents:contents];
+    }
+}
+
+/**
+ * Validate that the set contents are valid
+ *
+ * @param contents
+ *            contents
+ */
+-(void) validateContents: (GPKGContents *) contents{
+    
 }
 
 @end

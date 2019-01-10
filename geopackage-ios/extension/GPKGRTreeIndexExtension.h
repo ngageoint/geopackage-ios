@@ -101,6 +101,15 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 -(BOOL) hasWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
 
 /**
+ * Determine if the GeoPackage table has the extension
+ *
+ * @param tableName
+ *            table name
+ * @return true if has extension
+ */
+-(BOOL) hasWithTableName: (NSString *) tableName;
+
+/**
  *  Determine if the GeoPackage has the extension for any table
  *
  *  @return true if has extension
@@ -379,6 +388,21 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            geometry column name
  */
 -(void) deleteWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName;
+
+/**
+ * Delete all RTree Index extensions for the table. Drops the triggers,
+ * RTree tables, and deletes the extensions.
+ *
+ * @param tableName
+ *            table name
+ */
+-(void) deleteWithTableName: (NSString *) tableName;
+
+/**
+ * Delete all RTree Index extensions. Drops the triggers, RTree tables, and
+ * deletes the extensions.
+ */
+-(void) deleteAll;
 
 /**
  * Drop the the triggers and RTree table for the feature table

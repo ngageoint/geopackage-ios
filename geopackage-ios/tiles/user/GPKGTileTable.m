@@ -10,6 +10,7 @@
 #import "GPKGUtils.h"
 #import "GPKGTileColumn.h"
 #import "GPKGUserUniqueConstraint.h"
+#import "GPKGContentsDataTypes.h"
 
 NSString * const GPKG_TT_COLUMN_ID = @"id";
 NSString * const GPKG_TT_COLUMN_ZOOM_LEVEL = @"zoom_level";
@@ -77,6 +78,18 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
 
     }
     return self;
+}
+
+-(NSString *) dataType{
+    return GPKG_CDT_TILES_NAME;
+}
+
+-(void) validateContents:(GPKGContents *)contents{
+    // Verify the Contents have a tiles data type
+    enum GPKGContentsDataType dataType = [contents getContentsDataType];
+    if (dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_GRIDDED_COVERAGE) {
+        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Tile Table must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CDT_GRIDDED_COVERAGE_NAME];
+    }
 }
 
 -(GPKGTileColumn *) getZoomLevelColumn{

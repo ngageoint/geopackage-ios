@@ -335,5 +335,14 @@
   mapping_table_name TEXT NOT NULL UNIQUE
  );</string>
 	</array>
+	<key>nga_contents_id</key>
+	<array>
+		<string>CREATE TABLE nga_contents_id (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  table_name TEXT NOT NULL,
+  CONSTRAINT uk_nci_table_name UNIQUE (table_name),
+  CONSTRAINT fk_nci_gc_tn FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name)
+);</string>
+	</array>
 </dict>
 </plist>

@@ -51,13 +51,13 @@
 -(int) deleteByTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
 
 /**
- *  Delete by tile matrix set name
+ *  Delete by table name
  *
- *  @param tileMatrixSetName tile matrix set name
+ *  @param tableName table name
  *
  *  @return deleted count
  */
--(int) deleteByTileMatrixSetName: (NSString *) tileMatrixSetName;
+-(int) deleteByTableName: (NSString *) tableName;
 
 /**
  * Get the tile matrix set

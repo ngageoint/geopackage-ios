@@ -64,7 +64,7 @@
     if(self.tileCount == nil){
         int count = 0;
         GPKGBoundingBox * requestBoundingBox = nil;
-        if([self.projection getUnit] == SFP_UNIT_DEGREES){
+        if([self.projection isUnit:SFP_UNIT_DEGREES]){
             requestBoundingBox = self.boundingBox;
         }else{
             SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
@@ -76,7 +76,7 @@
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
             // Get the tile grid that includes the entire bounding box
             GPKGTileGrid * tileGrid = nil;
-            if([self.projection getUnit] == SFP_UNIT_DEGREES){
+            if([self.projection isUnit:SFP_UNIT_DEGREES]){
                 tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWgs84BoundingBox:requestBoundingBox andZoom:zoom];
             }else{
                 tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:requestBoundingBox andZoom:zoom];
@@ -196,7 +196,7 @@
     
     if(self.standardWebMercatorFormat){
         [self adjustStandardWebMercatorFormatBounds];
-    } else if([self.projection getUnit] == SFP_UNIT_DEGREES){
+    } else if([self.projection isUnit:SFP_UNIT_DEGREES]){
         [self adjustGeoPackageBoundsWithWgs84BoundingBox:boundingBox andZoom:zoom];
     } else{
         [self adjustGeoPackageBoundsWithWebMercatorBoundingBox:boundingBox andZoom:zoom];

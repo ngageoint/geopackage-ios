@@ -70,4 +70,13 @@
  */
 -(GPKGResultSet *) queryByMetadataParent: (NSNumber *) parentId;
 
+/**
+ * Delete by table name
+ *
+ * @param tableName
+ *            table name
+ * @return rows deleted
+ */
+-(int) deleteByTableName: (NSString *) tableName;
+
 @end

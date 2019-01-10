@@ -103,6 +103,19 @@
     return [self getValueWithIndex:[self.table getColumnIndexWithColumnName:columnName]];
 }
 
+-(NSString *) getValueStringWithIndex: (int) index{
+    NSString *stringValue = nil;
+    NSObject *value = [self getValueWithIndex:index];
+    if(value != nil){
+        stringValue = (NSString *) value;
+    }
+    return stringValue;
+}
+
+-(NSString *) getValueStringWithColumnName: (NSString *) columnName{
+    return [self getValueStringWithIndex:[self.table getColumnIndexWithColumnName:columnName]];
+}
+
 -(NSObject *) getDatabaseValueWithIndex: (int) index{
     NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
     if(value != nil){

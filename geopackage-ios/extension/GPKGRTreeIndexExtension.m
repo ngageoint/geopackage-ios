@@ -34,6 +34,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_CREATE = @"create";
 NSString * const GPKG_PROP_RTREE_INDEX_TABLE = @"table";
 NSString * const GPKG_PROP_RTREE_INDEX_LOAD = @"load";
 NSString * const GPKG_PROP_RTREE_INDEX_DROP = @"drop";
+NSString * const GPKG_PROP_RTREE_INDEX_DROP_FORCE = @"drop_force";
 NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_BASE = @"trigger";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_INSERT_NAME = @"insert";
 NSString * const GPKG_RTREE_INDEX_TRIGGER_UPDATE1_NAME = @"update1";
@@ -65,7 +66,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.connection = geoPackage.database;
-        self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_RTREE_INDEX_EXTENSION_NAME];
+        self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_RTREE_INDEX_EXTENSION_NAME];
         self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
         
         NSString * sqlProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
@@ -107,6 +108,10 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 -(BOOL) hasWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     return [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:columnName]
     && [self.connection tableExists:[self rTreeTableNameWithTable:tableName andColumn:columnName]];
+}
+
+-(BOOL) hasWithTableName: (NSString *) tableName{
+    return [self hasWithExtensionName:self.extensionName andTableName:tableName];
 }
 
 -(BOOL) has{
@@ -394,6 +399,46 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
         }
     }
         
+}
+
+-(void) deleteWithTableName: (NSString *) tableName{
+    
+    if([self.extensionsDao tableExists]){
+        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [[NSMutableArray alloc] init];
+        GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName andTable:tableName];
+        @try {
+            while([extensions moveToNext]){
+                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao getObject:extensions];
+                [extensionsToDelete addObject:extension];
+            }
+        } @finally {
+            [extensions close];
+        }
+        for(GPKGExtensions *extension in extensionsToDelete){
+            [self deleteWithTableName:extension.tableName andGeometryColumnName:extension.columnName];
+        }
+    }
+    
+}
+
+-(void) deleteAll{
+    
+    if([self.extensionsDao tableExists]){
+        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [[NSMutableArray alloc] init];
+        GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName];
+        @try {
+            while([extensions moveToNext]){
+                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao getObject:extensions];
+                [extensionsToDelete addObject:extension];
+            }
+        } @finally {
+            [extensions close];
+        }
+        for(GPKGExtensions *extension in extensionsToDelete){
+            [self deleteWithTableName:extension.tableName andGeometryColumnName:extension.columnName];
+        }
+    }
+    
 }
 
 -(void) dropWithFeatureTable: (GPKGFeatureTable *) featureTable{

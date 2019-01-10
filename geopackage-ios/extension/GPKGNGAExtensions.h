@@ -80,10 +80,57 @@
 +(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
- *  Delete the properties extension from the GeoPackage
+ * Delete the Properties extension if the deleted table is the properties
+ * table
  *
- *  @param geoPackage GeoPackage
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ */
++(void) deletePropertiesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ * Delete the properties extension from the GeoPackage
+ *
+ * @param geoPackage GeoPackage
  */
 +(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Delete the Feature Style extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ */
++(void) deleteFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ * Delete the Feature Style extension including the extension entries and
+ * custom tables
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) deleteFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Delete the Contents Id extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ */
++(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+
+/**
+ * Delete the Contents Id extension including the extension entries and
+ * custom tables
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) deleteContentsIdExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 @end

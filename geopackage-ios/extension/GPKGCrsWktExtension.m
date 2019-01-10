@@ -28,7 +28,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.connection = geoPackage.database;
-        self.extensionName = [NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_CRS_WKT_EXTENSION_NAME];
+        self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_CRS_WKT_EXTENSION_NAME];
         self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION];
         self.columnName = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_NAME];
         self.columnDef = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF];
@@ -67,6 +67,14 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
     NSString *definition = (NSString *)[self.connection querySingleResultWithSql:[NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?", self.columnName, GPKG_SRS_TABLE_NAME, GPKG_SRS_COLUMN_SRS_ID]
                                                                     andArgs:[NSArray arrayWithObjects:srsId, nil]];
     return definition;
+}
+
+-(void) removeExtension{
+    
+    if([self.extensionsDao tableExists]){
+        [self.extensionsDao deleteByExtension:self.extensionName];
+    }
+    
 }
 
 /**

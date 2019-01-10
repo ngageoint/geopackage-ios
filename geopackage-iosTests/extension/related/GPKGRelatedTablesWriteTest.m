@@ -67,7 +67,7 @@
     [GPKGTestUtils assertNotNil:extendedRelation];
     extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertTrue:[self.geoPackage.database tableExists:mappingTableName]];
+    [GPKGTestUtils assertTrue:[self.geoPackage isTable:mappingTableName]];
     
     // 7. Add mappings
     GPKGFeatureDao *baseDao = [self.geoPackage getFeatureDaoWithTableName:baseTableName];

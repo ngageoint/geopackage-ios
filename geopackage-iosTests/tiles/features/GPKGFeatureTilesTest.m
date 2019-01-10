@@ -64,14 +64,11 @@
     for(int i = 0; i < tilesPerSide; i++){
         for(int j = 0; j < tilesPerSide; j++){
             UIImage * image = [featureTiles drawTileWithX:i andY:j andZoom:zoom];
-            int count = [featureTiles queryIndexedFeaturesCountWithX:i andY:j andZoom:zoom];
-            if(count > 0){
-                NSData * data = [GPKGImageConverter toData:image andFormat:GPKG_CF_PNG];
-                [GPKGTestUtils assertTrue:data.length > 0];
+            if(image != nil){
+                int count = [featureTiles queryIndexedFeaturesCountWithX:i andY:j andZoom:zoom];
+                [GPKGTestUtils assertTrue:count > 0];
                 [GPKGTestUtils assertEqualIntWithValue:featureTiles.tileWidth andValue2:image.size.width];
                 [GPKGTestUtils assertEqualIntWithValue:featureTiles.tileHeight andValue2:image.size.height];
-            }else{
-                [GPKGTestUtils assertNil:image];
             }
         }
     }

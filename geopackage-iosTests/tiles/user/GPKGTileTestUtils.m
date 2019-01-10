@@ -311,10 +311,17 @@
                     [GPKGTestUtils assertNotNil:updatedTileGrid];
                     [GPKGTestUtils assertNotNil:updatedBoundingBox];
                     
-                    [GPKGTestUtils assertEqualIntWithValue:minXDeleted ? tileGrid.minX + 1 : tileGrid.minX andValue2:updatedTileGrid.minX];
-                    [GPKGTestUtils assertEqualIntWithValue:maxXDeleted ? tileGrid.maxX - 1 : tileGrid.maxX andValue2:updatedTileGrid.maxX];
-                    [GPKGTestUtils assertEqualIntWithValue:minYDeleted ? tileGrid.minY + 1 : tileGrid.minY andValue2:updatedTileGrid.minY];
-                    [GPKGTestUtils assertEqualIntWithValue:maxYDeleted ? tileGrid.maxY - 1 : tileGrid.maxY andValue2:updatedTileGrid.maxY];
+                    if (minXDeleted || minYDeleted || maxXDeleted || maxYDeleted) {
+                        [GPKGTestUtils assertTrue:updatedTileGrid.minX >= tileGrid.minX];
+                        [GPKGTestUtils assertTrue:updatedTileGrid.minY >= tileGrid.minY];
+                        [GPKGTestUtils assertTrue:updatedTileGrid.maxX <= tileGrid.maxX];
+                        [GPKGTestUtils assertTrue:updatedTileGrid.maxY <= tileGrid.maxY];
+                    } else {
+                        [GPKGTestUtils assertEqualIntWithValue:tileGrid.minX andValue2:updatedTileGrid.minX];
+                        [GPKGTestUtils assertEqualIntWithValue:tileGrid.minY andValue2:updatedTileGrid.minY];
+                        [GPKGTestUtils assertEqualIntWithValue:tileGrid.maxX andValue2:updatedTileGrid.maxX];
+                        [GPKGTestUtils assertEqualIntWithValue:tileGrid.maxY andValue2:updatedTileGrid.maxY];
+                    }
                     
                     GPKGBoundingBox * tileGridBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
                     [GPKGTestUtils assertTrue:[tileGridBoundingBox equals:updatedBoundingBox]];

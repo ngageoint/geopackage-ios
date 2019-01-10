@@ -53,11 +53,15 @@
 }
 
 -(SFGeometryEnvelope *) buildEnvelope{
+    return [GPKGBoundingBox buildEnvelopeFromBoundingBox:self];
+}
+
++(SFGeometryEnvelope *) buildEnvelopeFromBoundingBox: (GPKGBoundingBox *) boundingBox{
     SFGeometryEnvelope * envelope = [[SFGeometryEnvelope alloc] init];
-    [envelope setMinX:self.minLongitude];
-    [envelope setMaxX:self.maxLongitude];
-    [envelope setMinY:self.minLatitude];
-    [envelope setMaxY:self.maxLatitude];
+    [envelope setMinX:boundingBox.minLongitude];
+    [envelope setMaxX:boundingBox.maxLongitude];
+    [envelope setMinY:boundingBox.minLatitude];
+    [envelope setMaxY:boundingBox.maxLatitude];
     return envelope;
 }
 
@@ -234,9 +238,17 @@
 }
 
 -(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform{
-    SFGeometryEnvelope *envelope = [self buildEnvelope];
-    SFGeometryEnvelope *transformedEnvelope = [transform transformWithGeometryEnvelope:envelope];
-    GPKGBoundingBox *transformed = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:transformedEnvelope];
+    GPKGBoundingBox *transformed = self;
+    if ([transform isSameProjection]) {
+        transformed = [[GPKGBoundingBox alloc] initWithBoundingBox:transformed];
+    } else {
+        if([transform.fromProjection isUnit:SFP_UNIT_DEGREES]){
+            transformed = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:transformed];
+        }
+        SFGeometryEnvelope *envelope = [GPKGBoundingBox buildEnvelopeFromBoundingBox:transformed];
+        SFGeometryEnvelope *transformedEnvelope = [transform transformWithGeometryEnvelope:envelope];
+        transformed = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:transformedEnvelope];
+    }
     return transformed;
 }
 

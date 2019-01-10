@@ -128,6 +128,10 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     return extension;
 }
 
+-(BOOL) has{
+    return [self getExtension] != nil;
+}
+
 -(GPKGExtensions *) getExtension{
     GPKGExtensions * extension = [self getWithExtensionName:self.extensionName andTableName:nil  andColumnName:nil];
     return extension;
@@ -137,7 +141,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     
     BOOL active = false;
     
-    if([self getExtension] != nil){
+    if([self has]){
         active = [self.featureTileLinkDao tableExists];
     }
     

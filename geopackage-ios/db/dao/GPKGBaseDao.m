@@ -330,6 +330,14 @@
     return numDeleted;
 }
 
+-(int) deleteObjects: (NSArray *) objects{
+    int count = 0;
+    for(NSObject *object in objects){
+        count += [self delete:object];
+    }
+    return count;
+}
+
 -(int) deleteById: (NSObject *) idValue{
     return [self.database deleteWithTable:self.tableName andWhere:[self buildPkWhereWithValue:idValue] andWhereArgs:[self buildPkWhereArgsWithValue:idValue]];
 }

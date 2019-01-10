@@ -68,7 +68,7 @@
  *
  *  @return deleted count
  */
--(int) deleteByTileMatrixSetName: (NSString *) tableName;
+-(int) deleteByTableName: (NSString *) tableName;
 
 /**
  *  Get the contents

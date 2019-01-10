@@ -76,4 +76,9 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
  */
 -(NSString *) getDefinitionWithSrsId:(NSNumber *) srsId;
 
+/**
+ * Remove the extension. Leaves the column and values.
+ */
+-(void) removeExtension;
+
 @end
