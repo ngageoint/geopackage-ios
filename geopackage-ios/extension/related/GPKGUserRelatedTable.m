@@ -47,14 +47,11 @@
     return _dataType;
 }
 
--(void) setContents:(GPKGContents *)contents{
-    self.contents = contents;
-    if(contents != nil){
-        // Verify the Contents have a relation name data type
-        NSString *contentsDataType = contents.dataType;
-        if (contentsDataType == nil || ![contentsDataType isEqualToString:self.dataType]) {
-            [NSException raise:@"Relation Data Type" format:@"The Contents of a User Related Table must have a data type of %@", self.dataType];
-        }
+-(void) validateContents: (GPKGContents *) contents{
+    // Verify the Contents have a relation name data type
+    NSString *contentsDataType = contents.dataType;
+    if (contentsDataType == nil || ![contentsDataType isEqualToString:self.dataType]) {
+        [NSException raise:@"Relation Data Type" format:@"The Contents of a User Related Table must have a data type of %@", self.dataType];
     }
 }
 
