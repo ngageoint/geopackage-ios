@@ -241,7 +241,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
         for(GPKGFeatureColumn * column in table.columns){
             if(!column.primaryKey){
                 
-                // Leave nullabel columns null 20% of the time
+                // Leave nullable columns null 20% of the time
                 if(!column.notNull){
                     if(allowEmptyFeatures && [self randomIntLessThan:5] == 0){
                         continue;
@@ -288,7 +288,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             break;
                         case GPKG_DT_REAL:
                         case GPKG_DT_DOUBLE:
-                            value = [self roundDouble:[self randomDoubleLessThan:5000.0]];
+                            value = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
                             break;
                         case GPKG_DT_BOOLEAN:
                             value = [NSNumber numberWithBool:([self randomDouble] < .5 ? false : true)];
@@ -360,24 +360,19 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     double x = [self randomDoubleLessThan:180.0] * ([self randomDouble] < .5 ? 1 : -1);
     double y = [self randomDoubleLessThan:PROJ_WEB_MERCATOR_MIN_LAT_RANGE] * ([self randomDouble] < .5 ? 1 : -1);
     
-    NSDecimalNumber * xNumber = [self roundDouble:x];
-    NSDecimalNumber * yNumber = [self roundDouble:y];
-    
-    SFPoint * point = [[SFPoint alloc] initWithHasZ:hasZ andHasM:hasM andX:xNumber andY:yNumber];
+    SFPoint * point = [[SFPoint alloc] initWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
     
     if(hasZ){
         double z = [self randomDoubleLessThan:1000.0];
-        NSDecimalNumber * zNumber = [self roundDouble:z];
-        [point setZ:zNumber];
+        [point setZValue:z];
     }
     
     if(hasM){
         double m = [self randomDoubleLessThan:1000.0];
-        NSDecimalNumber * mNumber = [self roundDouble:m];
-        [point setM:mNumber];
+        [point setMValue:m];
     }
        
-       return point;
+    return point;
 }
 
 +(SFLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring{

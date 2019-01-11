@@ -224,7 +224,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
                         break;
                     case GPKG_DT_REAL:
                     case GPKG_DT_DOUBLE:
-                        value = [GPKGTestUtils roundDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
+                        value = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
                         break;
                     case GPKG_DT_BOOLEAN:
                         value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)];
