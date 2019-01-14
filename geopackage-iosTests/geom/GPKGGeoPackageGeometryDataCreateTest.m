@@ -12,7 +12,7 @@
 @implementation GPKGGeoPackageGeometryDataCreateTest
 
 - (void)testReadWriteBytes {
-    [GPKGGeoPackageGeometryDataUtils testReadWriteBytesWithGeoPackage:self.geoPackage andCompareGeometryBytes:YES];
+    [GPKGGeoPackageGeometryDataUtils testReadWriteBytesWithGeoPackage:self.geoPackage andCompareGeometryBytes:NO];
 }
 
 -(void) testGeometryProjectionTransform {

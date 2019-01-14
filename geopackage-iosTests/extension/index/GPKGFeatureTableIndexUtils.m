@@ -304,20 +304,20 @@
     
     [GPKGTestUtils assertNotNil:envelope];
     
-    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minX doubleValue] andValue2:[geometryIndex.minX doubleValue]];
-    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxX doubleValue] andValue2:[geometryIndex.maxX doubleValue]];
-    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minY doubleValue] andValue2:[geometryIndex.minY doubleValue]];
-    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxY doubleValue] andValue2:[geometryIndex.maxY doubleValue]];
+    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minX doubleValue] andValue2:[geometryIndex.minX doubleValue] andDelta:.00000001];
+    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxX doubleValue] andValue2:[geometryIndex.maxX doubleValue] andDelta:.00000001];
+    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minY doubleValue] andValue2:[geometryIndex.minY doubleValue] andDelta:.00000001];
+    [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxY doubleValue] andValue2:[geometryIndex.maxY doubleValue] andDelta:.00000001];
     if(envelope.hasZ){
-        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minZ doubleValue] andValue2:[geometryIndex.minZ doubleValue]];
-        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxZ doubleValue] andValue2:[geometryIndex.maxZ doubleValue]];
+        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minZ doubleValue] andValue2:[geometryIndex.minZ doubleValue] andDelta:.00000001];
+        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxZ doubleValue] andValue2:[geometryIndex.maxZ doubleValue] andDelta:.00000001];
     } else{
         [GPKGTestUtils assertNil:geometryIndex.minZ];
         [GPKGTestUtils assertNil:geometryIndex.maxZ];
     }
     if(envelope.hasM){
-        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minM doubleValue] andValue2:[geometryIndex.minM doubleValue]];
-        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxM doubleValue] andValue2:[geometryIndex.maxM doubleValue]];
+        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.minM doubleValue] andValue2:[geometryIndex.minM doubleValue] andDelta:.00000001];
+        [GPKGTestUtils assertEqualDoubleWithValue:[envelope.maxM doubleValue] andValue2:[geometryIndex.maxM doubleValue] andDelta:.00000001];
     } else{
         [GPKGTestUtils assertNil:geometryIndex.minM];
         [GPKGTestUtils assertNil:geometryIndex.maxM];

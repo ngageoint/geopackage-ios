@@ -54,6 +54,7 @@
                     
                     NSData * geometryBytes = geometryData.bytes;
                     NSData * geometryDataToBytes = [geometryData toData];
+                    [GPKGTestUtils assertEqualIntWithValue:(int)geometryBytes.length andValue2:(int)geometryDataToBytes.length];
                     if(compareGeometryBytes){
                         [self compareByteArrayWithExpected:geometryBytes andActual:geometryDataToBytes];
                     }
@@ -189,11 +190,13 @@
     [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry andDelta:.00000001];
 
     // Compare well-known binary geometries
+    [GPKGTestUtils assertEqualIntWithValue:(int)[expected getWkbData].length andValue2:(int)[actual getWkbData].length];
     if(compareGeometryBytes){
         [self compareByteArrayWithExpected:[expected getWkbData] andActual:[actual getWkbData]];
     }
     
     // Compare all bytes
+    [GPKGTestUtils assertEqualIntWithValue:(int)expected.bytes.length andValue2:(int)actual.bytes.length];
     if(compareGeometryBytes){
         [self compareByteArrayWithExpected:expected.bytes andActual:actual.bytes];
     }
