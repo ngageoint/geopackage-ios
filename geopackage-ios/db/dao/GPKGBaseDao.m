@@ -468,8 +468,11 @@
 
 -(NSArray *) buildPkWhereArgsWithValues: (NSArray *) idValues{
     NSMutableArray * values = [[NSMutableArray alloc] init];
-    for(NSObject * value in idValues){
-        [values addObjectsFromArray:[self buildWhereArgsWithValue:value]];
+    for(int i = 0; i < [idValues count]; i++){
+        NSObject *value = [GPKGUtils objectAtIndex:i inArray:idValues];
+        if(value != nil){
+            [values addObjectsFromArray:[self buildWhereArgsWithValue:value]];
+        }
     }
     return values;
 }

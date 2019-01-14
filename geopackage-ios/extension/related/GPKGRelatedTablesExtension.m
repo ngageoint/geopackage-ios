@@ -149,17 +149,18 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     [extendedRelation setRelatedPrimaryColumn:[self primaryKeyColumnNameOfTable:relatedTableName]];
     [extendedRelation setMappingTableName:userMappingTable.tableName];
     [extendedRelation setRelationName:relationName];
-    [self.extendedRelationsDao create:extendedRelation];
+    long long id = [self.extendedRelationsDao create:extendedRelation];
+    [extendedRelation setId:[NSNumber numberWithLongLong:id]];
     
     return extendedRelation;
 }
 
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserRelatedTable: (GPKGUserRelatedTable *) relatedTable andMappingTableName: (NSString *) mappingTableName{
-    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andMappingTableName:mappingTableName];
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable relationName] andMappingTableName:mappingTableName];
 }
 
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserRelatedTable: (GPKGUserRelatedTable *) relatedTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
-    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andUserMappingTable:userMappingTable];
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable relationName] andUserMappingTable:userMappingTable];
 }
 
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andMappingTableName: (NSString *) mappingTableName{
