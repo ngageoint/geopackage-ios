@@ -26,7 +26,7 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
         [columns addObjectsFromArray:additionalColumns];
     }
     
-    return [[GPKGUserMappingTable alloc] initWithTable:tableName andColumns:columns andRequiredColumns:[self requiredColumns]];
+    return [[GPKGUserMappingTable alloc] initWithTable:tableName andColumns:columns];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
@@ -61,8 +61,8 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
     return requiredColumns;
 }
 
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns{
-    self = [super initWithTable:tableName andColumns:columns andRequiredColumns:requiredColumns];
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
+    self = [super initWithTable:tableName andColumns:columns andRequiredColumns:[GPKGUserMappingTable requiredColumns]];
     return self;
 }
 

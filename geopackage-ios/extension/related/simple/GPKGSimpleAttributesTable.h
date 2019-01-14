@@ -126,12 +126,21 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
  *
  *  @param tableName table name
  *  @param columns   list of columns
- *  @param requiredColumns
- *            list of required columns
  *
  *  @return new simple attributes table
  */
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns;
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
+
+/**
+ *  Initialize
+ *
+ *  @param tableName table name
+ *  @param columns   list of columns
+ *  @param idColumnName  id column name
+ *
+ *  @return new simple attributes table
+ */
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andIdColumnName: (NSString *) idColumnName;
 
 /**
  * Initialize
@@ -167,7 +176,7 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 +(BOOL) isSimpleColumn: (GPKGUserColumn *) column;
 
 /**
- * Determine if the data type is a simple type: TEXT, INTEGER, or REAL
+ * Determine if the data type is a simple type: TEXT, INTEGER, or REAL storage classes
  *
  * @param dataType
  *            data type

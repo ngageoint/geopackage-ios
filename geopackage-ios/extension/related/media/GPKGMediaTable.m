@@ -39,7 +39,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
         [columns addObjectsFromArray:additionalColumns];
     }
     
-    return [[GPKGMediaTable alloc] initWithTable:tableName andColumns:columns andRequiredColumns:[self requiredColumnsWithIdColumnName:idColumnName]];
+    return [[GPKGMediaTable alloc] initWithTable:tableName andColumns:columns andIdColumnName:idColumnName];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
@@ -101,8 +101,12 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
     return requiredColumns;
 }
 
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns{
-    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
+    return [self initWithTable:tableName andColumns:columns andIdColumnName:nil];
+}
+
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andIdColumnName: (NSString *) idColumnName{
+    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andColumns:columns andRequiredColumns:[GPKGMediaTable requiredColumnsWithIdColumnName:idColumnName]];
     return self;
 }
 

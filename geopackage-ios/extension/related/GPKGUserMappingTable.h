@@ -94,12 +94,10 @@ extern NSString * const GPKG_UMT_COLUMN_RELATED_ID;
  *
  *  @param tableName table name
  *  @param columns   list of columns
- *  @param requiredColumns
- *            list of required columns
  *
  *  @return new user mapping table
  */
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns;
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
 /**
  * Initialize

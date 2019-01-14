@@ -58,11 +58,4 @@
  */
 -(NSString *) relationName;
 
-/**
- * Get the contents data type
- *
- * @return data type
- */
--(NSString *) dataType;
-
 @end

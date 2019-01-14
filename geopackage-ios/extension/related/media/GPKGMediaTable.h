@@ -167,12 +167,21 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  *
  *  @param tableName table name
  *  @param columns   list of columns
- *  @param requiredColumns
- *            list of required columns
  *
  *  @return new media table
  */
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns;
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
+
+/**
+ *  Initialize
+ *
+ *  @param tableName table name
+ *  @param columns   list of columns
+ *  @param idColumnName  id column name
+ *
+ *  @return new media table
+ */
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andIdColumnName: (NSString *) idColumnName;
 
 /**
  * Initialize

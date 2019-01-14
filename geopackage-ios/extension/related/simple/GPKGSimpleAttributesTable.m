@@ -29,7 +29,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
         [tableColumns addObjectsFromArray:columns];
     }
     
-    return [[GPKGSimpleAttributesTable alloc] initWithTable:tableName andColumns:tableColumns andRequiredColumns:[self requiredColumnsWithIdColumnName:idColumnName]];
+    return [[GPKGSimpleAttributesTable alloc] initWithTable:tableName andColumns:tableColumns andIdColumnName:idColumnName];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
@@ -79,8 +79,12 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
     return requiredColumns;
 }
 
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andRequiredColumns:(NSArray<NSString *> *)requiredColumns{
-    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andColumns:columns andRequiredColumns:requiredColumns];
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
+    return [self initWithTable:tableName andColumns:columns andIdColumnName:nil];
+}
+
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andIdColumnName: (NSString *) idColumnName{
+    self = [super initWithTable:tableName andRelation:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andDataType:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andColumns:columns andRequiredColumns:[GPKGSimpleAttributesTable requiredColumnsWithIdColumnName:idColumnName]];
     if(self != nil){
         [self validateColumns];
     }
@@ -122,20 +126,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 }
 
 +(BOOL) isSimpleDataType: (enum GPKGDataType) dataType{
-    
-    BOOL simple = NO;
-    
-    switch(dataType){
-        case GPKG_DT_TEXT:
-        case GPKG_DT_INTEGER:
-        case GPKG_DT_REAL:
-            simple = YES;
-            break;
-        default:
-            break;
-    }
-
-    return simple;
+    return dataType != GPKG_DT_BLOB;
 }
 
 @end

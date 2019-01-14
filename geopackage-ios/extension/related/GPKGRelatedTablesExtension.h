@@ -80,6 +80,14 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 -(NSString *) primaryKeyColumnNameOfTable: (NSString *) tableName;
 
 /**
+ * Set the contents in the user table
+ *
+ * @param table
+ *            user table
+ */
+-(void) setContentsInTable: (GPKGUserTable *) table;
+
+/**
  * Returns the relationships defined through this extension
  *
  * @return a list of ExtendedRelation objects
@@ -215,6 +223,66 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserRelatedTable: (GPKGUserRelatedTable *) relatedTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
 
 /**
+ * Adds a relationship between the base and user related table. Creates a
+ * default user mapping table and the related table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTable
+ *            user related table
+ * @param mappingTableName
+ *            user mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds a relationship between the base and user related table. Creates the
+ * user mapping table and related table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTable
+ *            user related table
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
+ * Adds a relationship between the base and user related table. Creates a
+ * default user mapping table and the related table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTable
+ *            user related table
+ * @param relationName
+ *            relation name
+ * @param mappingTableName
+ *            user mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andRelationName: (NSString *) relationName andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds a relationship between the base and user related table. Creates the
+ * user mapping table and related table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTable
+ *            user related table
+ * @param relationName
+ *            relation name
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andRelationName: (NSString *) relationName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
  * Adds a features relationship between the base feature and related feature
  * table. Creates a default user mapping table if needed.
  *
@@ -302,6 +370,120 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 -(GPKGExtendedRelation *) addSimpleAttributesRelationshipWithBaseTable: (NSString *) baseTableName andSimpleAttributesTable: (GPKGSimpleAttributesTable *) simpleAttributesTable  andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
 
 /**
+ * Adds an attributes relationship between the base table and related
+ * attributes table. Creates a default user mapping table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedAttributesTableName
+ *            related attributes table name
+ * @param mappingTableName
+ *            mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedAttributesTableName andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds an attributes relationship between the base table and related
+ * attributes table. Creates the user mapping table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedAttributesTableName
+ *            related attributes table name
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedAttributesTableName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
+ * Adds an attributes relationship between the base table and user
+ * attributes related table. Creates a default user mapping table and the
+ * attributes table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param attributesTable
+ *            user attributes table
+ * @param mappingTableName
+ *            user mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andAttributesTable: (GPKGAttributesTable *) attributesTable andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds an attributes relationship between the base table and user
+ * attributes related table. Creates the user mapping table and an
+ * attributes table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param attributesTable
+ *            user attributes table
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andAttributesTable: (GPKGAttributesTable *) attributesTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
+ * Adds a tiles relationship between the base table and related tiles table.
+ * Creates a default user mapping table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTilesTableName
+ *            related tiles table name
+ * @param mappingTableName
+ *            mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTilesTableName andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds a tiles relationship between the base table and related tiles table.
+ * Creates the user mapping table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param relatedTilesTableName
+ *            related tiles table name
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTilesTableName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
+ * Adds a tiles relationship between the base table and user tiles related
+ * table. Creates a default user mapping table and the tile table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param tileTable
+ *            user tile table
+ * @param mappingTableName
+ *            user mapping table name
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andTileTable: (GPKGTileTable *) tileTable andMappingTableName: (NSString *) mappingTableName;
+
+/**
+ * Adds a tiles relationship between the base table and user tiles related
+ * table. Creates the user mapping table and a tile table if needed.
+ *
+ * @param baseTableName
+ *            base table name
+ * @param tileTable
+ *            user tile table
+ * @param userMappingTable
+ *            user mapping table
+ * @return The relationship that was added
+ */
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andTileTable: (GPKGTileTable *) tileTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
  * Create a default user mapping table and extension row if either does not
  * exist. When not created, there is no guarantee that an existing table has
  * the same schema as the provided tabled.
@@ -332,7 +514,7 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  *            user related table
  * @return true if created, false if the table already existed
  */
--(BOOL) createRelatedTable: (GPKGUserRelatedTable *) relatedTable;
+-(BOOL) createRelatedTable: (GPKGUserTable *) relatedTable;
 
 /**
  * Remove a specific relationship from the GeoPackage
@@ -381,9 +563,145 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 -(void) removeRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTableName andRelationName: (NSString *) relationName;
 
 /**
+ * Remove all relationships that include the table
+ *
+ * @param table
+ *            base or related table name
+ */
+-(void) removeRelationshipWithTable: (NSString *) table;
+
+/**
+ * Remove all relationships with the mapping table
+ *
+ * @param mappingTable
+ *            mapping table
+ */
+-(void) removeRelationshipsWithMappingTable: (NSString *) mappingTable;
+
+/**
  * Remove all trace of the extension
  */
 -(void) removeExtension;
+
+/**
+ * Determine if has one or more relations matching the base table and
+ * related table
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @return true if has relations
+ */
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Get the relations to the base table and related table
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Determine if has one or more relations matching the non null provided
+ * values
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @param mappingTable
+ *            mapping table name
+ * @return true if has relations
+ */
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andMappingTable: (NSString *) mappingTable;
+
+/**
+ * Get the relations matching the non null provided values
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @param mappingTable
+ *            mapping table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andMappingTable: (NSString *) mappingTable;
+
+/**
+ * Determine if has one or more relations matching the non null provided
+ * values
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @param relation
+ *            relation name
+ * @param mappingTable
+ *            mapping table name
+ * @return true if has relations
+ */
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable;
+
+/**
+ * Get the relations matching the non null provided values
+ *
+ * @param baseTable
+ *            base table name
+ * @param relatedTable
+ *            related table name
+ * @param relation
+ *            relation name
+ * @param mappingTable
+ *            mapping table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable;
+
+/**
+ * Determine if has one or more relations matching the non null provided
+ * values
+ *
+ * @param baseTable
+ *            base table name
+ * @param baseColumn
+ *            base primary column name
+ * @param relatedTable
+ *            related table name
+ * @param relatedColumn
+ *            related primary column name
+ * @param relation
+ *            relation name
+ * @param mappingTable
+ *            mapping table name
+ * @return true if has relations
+ */
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable;
+
+/**
+ * Get the relations matching the non null provided values
+ *
+ * @param baseTable
+ *            base table name
+ * @param baseColumn
+ *            base primary column name
+ * @param relatedTable
+ *            related table name
+ * @param relatedColumn
+ *            related primary column name
+ * @param relation
+ *            relation name
+ * @param mappingTable
+ *            mapping table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable;
 
 /**
  * Build the custom relation name with author

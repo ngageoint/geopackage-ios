@@ -158,7 +158,7 @@
     return [self queryWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
 
     GPKGColumnValues *whereValues = [[GPKGColumnValues alloc] init];
     

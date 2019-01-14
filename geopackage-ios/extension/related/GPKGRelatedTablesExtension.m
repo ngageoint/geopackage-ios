@@ -84,7 +84,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return pkColumn.name;
 }
 
--(void) setContentsInTable: (GPKGUserRelatedTable *) table{
+-(void) setContentsInTable: (GPKGUserTable *) table{
     GPKGContentsDao *dao = [self.geoPackage getContentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:table.tableName];
     if(contents == nil){
@@ -155,18 +155,34 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserRelatedTable: (GPKGUserRelatedTable *) relatedTable andMappingTableName: (NSString *) mappingTableName{
-    
-    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName];
-    
-    return [self addRelationshipWithBaseTable:baseTableName andUserRelatedTable:relatedTable andUserMappingTable:userMappingTable];
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andMappingTableName:mappingTableName];
 }
 
 -(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserRelatedTable: (GPKGUserRelatedTable *) relatedTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andUserMappingTable:userMappingTable];
+}
+
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andMappingTableName: (NSString *) mappingTableName{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andMappingTableName:mappingTableName];
+}
+
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:[relatedTable dataType] andUserMappingTable:userMappingTable];
+}
+
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andRelationName: (NSString *) relationName andMappingTableName: (NSString *) mappingTableName{
+    
+    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName];
+
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:relatedTable andRelationName:relationName andUserMappingTable:userMappingTable];
+}
+
+-(GPKGExtendedRelation *) addRelationshipWithBaseTable: (NSString *) baseTableName andUserTable: (GPKGUserTable *) relatedTable andRelationName: (NSString *) relationName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
     
     // Create the related table if needed
     [self createRelatedTable:relatedTable];
     
-    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedTable.tableName andUserMappingTable:userMappingTable andRelationName:relatedTable.relationName];
+    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedTable.tableName andUserMappingTable:userMappingTable andRelationName:relationName];
 }
 
 -(GPKGExtendedRelation *) addFeaturesRelationshipWithBaseTable: (NSString *) baseFeaturesTableName andRelatedTable: (NSString *) relatedFeaturesTableName andMappingTableName: (NSString *) mappingTableName{
@@ -189,8 +205,40 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return [self addRelationshipWithBaseTable:baseTableName andUserRelatedTable:simpleAttributesTable andMappingTableName:mappingTableName];
 }
 
--(GPKGExtendedRelation *) addSimpleAttributesRelationshipWithBaseTable: (NSString *) baseTableName andSimpleAttributesTable: (GPKGSimpleAttributesTable *) simpleAttributesTable  andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+-(GPKGExtendedRelation *) addSimpleAttributesRelationshipWithBaseTable: (NSString *) baseTableName andSimpleAttributesTable: (GPKGSimpleAttributesTable *) simpleAttributesTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
     return [self addRelationshipWithBaseTable:baseTableName andUserRelatedTable:simpleAttributesTable andUserMappingTable:userMappingTable];
+}
+
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedAttributesTableName andMappingTableName: (NSString *) mappingTableName{
+    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedAttributesTableName andMappingTableName:mappingTableName andRelation:GPKG_RT_ATTRIBUTES];
+}
+
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedAttributesTableName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedAttributesTableName andUserMappingTable:userMappingTable andRelation:GPKG_RT_ATTRIBUTES];
+}
+
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andAttributesTable: (GPKGAttributesTable *) attributesTable andMappingTableName: (NSString *) mappingTableName{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:attributesTable andMappingTableName:mappingTableName];
+}
+
+-(GPKGExtendedRelation *) addAttributesRelationshipWithBaseTable: (NSString *) baseTableName andAttributesTable: (GPKGAttributesTable *) attributesTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:attributesTable andUserMappingTable:userMappingTable];
+}
+
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTilesTableName andMappingTableName: (NSString *) mappingTableName{
+    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedTilesTableName andMappingTableName:mappingTableName andRelation:GPKG_RT_TILES];
+}
+
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTilesTableName andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andRelatedTable:relatedTilesTableName andUserMappingTable:userMappingTable andRelation:GPKG_RT_TILES];
+}
+
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andTileTable: (GPKGTileTable *) tileTable andMappingTableName: (NSString *) mappingTableName{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:tileTable andMappingTableName:mappingTableName];
+}
+
+-(GPKGExtendedRelation *) addTilesRelationshipWithBaseTable: (NSString *) baseTableName andTileTable: (GPKGTileTable *) tileTable andUserMappingTable: (GPKGUserMappingTable *) userMappingTable{
+    return [self addRelationshipWithBaseTable:baseTableName andUserTable:tileTable andUserMappingTable:userMappingTable];
 }
 
 /**
@@ -237,27 +285,8 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     
     if ((int)relationType >= 0) {
         
-        switch (relationType) {
-            case GPKG_RT_FEATURES:
-                {
-                    if(![self.geoPackage isFeatureTable:baseTableName]){
-                        [NSException raise:@"Base Table" format:@"The base table must be a feature table. Relation: %@, Base Table: %@, Type: %@", [GPKGRelationTypes name:relationType], baseTableName, [self.geoPackage typeOfTable:baseTableName]];
-                    }
-                    if(![self.geoPackage isFeatureTable:relatedTableName]){
-                        [NSException raise:@"Related Table" format:@"The related table must be a feature table. Relation: %@, Related Table: %@, Type: %@", [GPKGRelationTypes name:relationType], relatedTableName, [self.geoPackage typeOfTable:relatedTableName]];
-                    }
-                }
-                break;
-            case GPKG_RT_SIMPLE_ATTRIBUTES:
-            case GPKG_RT_MEDIA:
-                {
-                    if(![self.geoPackage isTable:relatedTableName ofTypeName:[GPKGRelationTypes dataType:relationType]]){
-                        [NSException raise:@"Related Table" format:@"The related table must be a %@ table. Related Table: %@, Type: %@", [GPKGRelationTypes dataType:relationType], relatedTableName, [self.geoPackage typeOfTable:relatedTableName]];
-                    }
-                }
-                break;
-            default:
-                [NSException raise:@"Unsupported Relation" format:@"Unsupported relation type: %@", [GPKGRelationTypes name:relationType]];
+        if(![self.geoPackage isTable:relatedTableName ofTypeName:[GPKGRelationTypes dataType:relationType]]){
+            [NSException raise:@"Related Table" format:@"The related table must be a %@ table. Related Table: %@, Type: %@", [GPKGRelationTypes dataType:relationType], relatedTableName, [self.geoPackage typeOfTable:relatedTableName]];
         }
         
     }
@@ -288,7 +317,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return created;
 }
 
--(BOOL) createRelatedTable: (GPKGUserRelatedTable *) relatedTable{
+-(BOOL) createRelatedTable: (GPKGUserTable *) relatedTable{
     
     BOOL created = NO;
     
@@ -323,33 +352,60 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(void) removeRelationship: (GPKGExtendedRelation *) extendedRelation{
-        [self removeRelationshipWithBaseTable:extendedRelation.baseTableName andRelatedTable:extendedRelation.relatedTableName andRelationName:extendedRelation.relationName];
+    if([self.extendedRelationsDao tableExists]){
+        [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
+        [self.extendedRelationsDao delete:extendedRelation];
+    }
 }
 
 -(void) removeRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTableName andRelationName: (NSString *) relationName{
     
     if([self.extendedRelationsDao tableExists]){
-        GPKGColumnValues *whereValues = [[GPKGColumnValues alloc] init];
-        [whereValues addColumn:GPKG_ER_COLUMN_BASE_TABLE_NAME withValue:baseTableName];
-        [whereValues addColumn:GPKG_ER_COLUMN_RELATED_TABLE_NAME withValue:relatedTableName];
-        [whereValues addColumn:GPKG_ER_COLUMN_RELATION_NAME withValue:relationName];
-        NSString *where = [self.extendedRelationsDao buildWhereWithFields:whereValues];
-        NSArray *whereArgs = [self.extendedRelationsDao buildWhereArgsWithValues:whereValues];
-        NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [[NSMutableArray alloc] init];
-        GPKGResultSet *extendedRelationsResultSet = [self.extendedRelationsDao queryWhere:where andWhereArgs:whereArgs];
-        @try {
-            while([extendedRelationsResultSet moveToNext]){
-                [extendedRelations addObject:[self.extendedRelationsDao relation:extendedRelationsResultSet]];
-            }
-        } @finally {
-            [extendedRelationsResultSet close];
-        }
-        for(GPKGExtendedRelation *extendedRelation in extendedRelations){
-            [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
-        }
-        [self.extendedRelationsDao deleteWhere:where andWhereArgs:whereArgs];
+        GPKGResultSet *results = [self relationsWithBaseTable:baseTableName andRelatedTable:relatedTableName andRelation:relationName andMappingTable:nil];
+        [self removeRelationships:results];
     }
     
+}
+
+-(void) removeRelationshipWithTable: (NSString *) table{
+    
+    if([self.extendedRelationsDao tableExists]){
+        GPKGResultSet *results = [self.extendedRelationsDao relationsToTable:table];
+        [self removeRelationships:results];
+    }
+
+}
+
+-(void) removeRelationshipsWithMappingTable: (NSString *) mappingTable{
+
+    if([self.extendedRelationsDao tableExists]){
+        GPKGResultSet *results = [self relationsWithBaseTable:nil andRelatedTable:nil andMappingTable:mappingTable];
+        [self removeRelationships:results];
+    }
+
+}
+
+/**
+ * Remove all extended relations from the results and close
+ *
+ * @param results
+ *            extended relation results
+ */
+-(void) removeRelationships: (GPKGResultSet *) results{
+    if(results != nil){
+        NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [[NSMutableArray alloc] init];
+        @try {
+            while([results moveToNext]){
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:results];
+                [extendedRelations addObject:extendedRelation];
+            }
+        } @finally {
+            [results close];
+        }
+        for(GPKGExtendedRelation *extendedRelation in extendedRelations){
+            [self removeRelationship:extendedRelation];
+        }
+    }
 }
 
 -(void) removeExtension{
@@ -374,6 +430,54 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         [self.extensionsDao deleteByExtension:self.extensionName];
     }
 
+}
+
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable{
+    return [self hasRelationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:nil andMappingTable:nil];
+}
+
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable{
+    return [self relationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:nil andMappingTable:nil];
+}
+
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andMappingTable: (NSString *) mappingTable{
+    return [self hasRelationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:nil andMappingTable:mappingTable];
+}
+
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andMappingTable: (NSString *) mappingTable{
+    return [self relationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:nil andMappingTable:mappingTable];
+}
+
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+    return [self hasRelationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:relation andMappingTable:mappingTable];
+}
+
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+    return [self relationsWithBaseTable:baseTable andBaseColumn:nil andRelatedTable:relatedTable andRelatedColumn:nil andRelation:relation andMappingTable:mappingTable];
+}
+
+-(BOOL) hasRelationsWithBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsWithBaseTable:baseTable andBaseColumn:baseColumn andRelatedTable:relatedTable andRelatedColumn:relatedColumn andRelation:relation andMappingTable:mappingTable];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
+-(GPKGResultSet *) relationsWithBaseTable: (NSString *) baseTable andBaseColumn: (NSString *) baseColumn andRelatedTable: (NSString *) relatedTable andRelatedColumn: (NSString *) relatedColumn andRelation: (NSString *) relation andMappingTable: (NSString *) mappingTable{
+    
+    GPKGResultSet *relations = nil;
+    
+    if([self.extendedRelationsDao tableExists]){
+        relations = [self.extendedRelationsDao relationsWithBaseTable:baseTable andBaseColumn:baseColumn andRelatedTable:relatedTable andRelatedColumn:relatedColumn andRelation:relation andMappingTable:mappingTable];
+    }
+    
+    return relations;
 }
 
 -(NSString *) buildRelationNameWithAuthor: (NSString *) author andName: (NSString *) name{

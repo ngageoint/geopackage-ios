@@ -20,11 +20,4 @@
  */
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
-/**
- *  Set the contents
- *
- *  @param contents   contents
- */
--(void) setContents:(GPKGContents *)contents;
-
 @end
