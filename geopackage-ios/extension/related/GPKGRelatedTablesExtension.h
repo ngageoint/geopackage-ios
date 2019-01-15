@@ -568,7 +568,7 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  * @param table
  *            base or related table name
  */
--(void) removeRelationshipWithTable: (NSString *) table;
+-(void) removeRelationshipsWithTable: (NSString *) table;
 
 /**
  * Remove all relationships with the mapping table

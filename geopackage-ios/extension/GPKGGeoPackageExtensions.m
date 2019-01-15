@@ -99,8 +99,7 @@
 
     GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     if ([relatedTablesExtension has]) {
-        // TODO
-        //[relatedTablesExtension removeRelationshipsWithTableName:table];
+        [relatedTablesExtension removeRelationshipsWithTable:table];
     }
     
 }

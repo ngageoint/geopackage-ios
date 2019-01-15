@@ -368,7 +368,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     
 }
 
--(void) removeRelationshipWithTable: (NSString *) table{
+-(void) removeRelationshipsWithTable: (NSString *) table{
     
     if([self.extendedRelationsDao tableExists]){
         GPKGResultSet *results = [self.extendedRelationsDao relationsToTable:table];
