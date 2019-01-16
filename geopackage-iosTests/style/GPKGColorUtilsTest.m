@@ -14,6 +14,9 @@
 
 @end
 
+/**
+ * Color Utils Test
+ */
 @implementation GPKGColorUtilsTest
 
 /**

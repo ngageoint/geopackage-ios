@@ -134,6 +134,14 @@
     return self;
 }
 
+-(instancetype) initWithUnsignedColor: (unsigned int) color{
+    self = [super init];
+    if(self != nil){
+        [self setUnsignedColor:color];
+    }
+    return self;
+}
+
 -(void) setColorWithHex: (NSString *) color{
     [self setRedHex:[GPKGColorUtils redHexFromHex:color]];
     [self setGreenHex:[GPKGColorUtils greenHexFromHex:color]];
@@ -218,6 +226,10 @@
     }
 }
 
+-(void) setUnsignedColor: (unsigned int) color{
+    [self setColor:color];
+}
+
 -(void) setRedHex: (NSString *) red{
     [self setRedArithmetic:[GPKGColorUtils toArithmeticRGBFromHex:red]];
 }
@@ -298,8 +310,16 @@
     return [GPKGColorUtils toColorFromRed:[self red] andGreen:[self green] andBlue:[self blue]];
 }
 
+-(unsigned int) unsignedColor{
+    return [self color];
+}
+
 -(int) colorWithAlpha{
     return [GPKGColorUtils toColorWithAlphaFromRed:[self red] andGreen:[self green] andBlue:[self blue] andAlpha:[self alpha]];
+}
+
+-(unsigned int) unsignedColorWithAlpha{
+    return [self colorWithAlpha];
 }
 
 -(NSString *) redHex{

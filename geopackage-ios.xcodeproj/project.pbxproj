@@ -20,6 +20,7 @@
 		0407C46F21ED3C57008ABBF6 /* GPKGColorUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0407C46D21ED3C57008ABBF6 /* GPKGColorUtils.h */; };
 		0407C47021ED3C57008ABBF6 /* GPKGColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407C46E21ED3C57008ABBF6 /* GPKGColorUtils.m */; };
 		0407C47321EF66F4008ABBF6 /* GPKGColorUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407C47221EF66F4008ABBF6 /* GPKGColorUtilsTest.m */; };
+		0407C47521EFD965008ABBF6 /* GPKGColorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0407C47421EFD965008ABBF6 /* GPKGColorTest.m */; };
 		0409CC9720D1B2630069B797 /* GPKGExtendedRelation.h in Headers */ = {isa = PBXBuildFile; fileRef = 0409CC9520D1B2630069B797 /* GPKGExtendedRelation.h */; };
 		0409CC9820D1B2630069B797 /* GPKGExtendedRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409CC9620D1B2630069B797 /* GPKGExtendedRelation.m */; };
 		0409CC9B20D1C8190069B797 /* GPKGExtendedRelationsDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 0409CC9920D1C8190069B797 /* GPKGExtendedRelationsDao.h */; };
@@ -581,6 +582,7 @@
 		0407C46D21ED3C57008ABBF6 /* GPKGColorUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGColorUtils.h; sourceTree = "<group>"; };
 		0407C46E21ED3C57008ABBF6 /* GPKGColorUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGColorUtils.m; sourceTree = "<group>"; };
 		0407C47221EF66F4008ABBF6 /* GPKGColorUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGColorUtilsTest.m; sourceTree = "<group>"; };
+		0407C47421EFD965008ABBF6 /* GPKGColorTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGColorTest.m; sourceTree = "<group>"; };
 		0409CC9520D1B2630069B797 /* GPKGExtendedRelation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGExtendedRelation.h; sourceTree = "<group>"; };
 		0409CC9620D1B2630069B797 /* GPKGExtendedRelation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGExtendedRelation.m; sourceTree = "<group>"; };
 		0409CC9920D1C8190069B797 /* GPKGExtendedRelationsDao.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGExtendedRelationsDao.h; sourceTree = "<group>"; };
@@ -1268,6 +1270,7 @@
 		0407C47121EF6671008ABBF6 /* style */ = {
 			isa = PBXGroup;
 			children = (
+				0407C47421EFD965008ABBF6 /* GPKGColorTest.m */,
 				0407C47221EF66F4008ABBF6 /* GPKGColorUtilsTest.m */,
 			);
 			path = style;
@@ -3341,6 +3344,7 @@
 				0409CD0220E6B1A80069B797 /* GPKGRelatedMediaUtils.m in Sources */,
 				0458213621515D3C0047EA54 /* GPKGRTreeIndexExtensionImportTest.m in Sources */,
 				04DCAEBA1F2A19C100FA9B9F /* GPKGFeatureUtils.m in Sources */,
+				0407C47521EFD965008ABBF6 /* GPKGColorTest.m in Sources */,
 				042FC8F61B964DA200549A4B /* GPKGFeatureTileUtils.m in Sources */,
 				0418DCCC205AE0B500A4F9F2 /* GPKGTileTableScalingCreateTest.m in Sources */,
 				0422BB381DF0E8B8002709B6 /* GPKGCoverageDataPngCreateTest.m in Sources */,

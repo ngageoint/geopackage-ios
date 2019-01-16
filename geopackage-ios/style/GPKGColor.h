@@ -235,6 +235,16 @@
 -(instancetype) initWithColor: (int) color;
 
 /**
+ * Create the color as a single unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ *
+ * @return new color
+ */
+-(instancetype) initWithUnsignedColor: (unsigned int) color;
+
+/**
  * Set the color in hex
  *
  * @param color
@@ -406,6 +416,14 @@
 -(void) setColor: (int) color;
 
 /**
+ * Set the color as a single unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ */
+-(void) setUnsignedColor: (unsigned int) color;
+
+/**
  * Set the red color in hex
  *
  * @param red
@@ -520,11 +538,25 @@
 -(int) color;
 
 /**
+ * Get the color as an unsigned integer
+ *
+ * @return unsigned integer color
+ */
+-(unsigned int) unsignedColor;
+
+/**
  * Get the color as an integer including the alpha
  *
  * @return integer color
  */
 -(int) colorWithAlpha;
+
+/**
+ * Get the color as an unsigned integer including the alpha
+ *
+ * @return unsigned integer color
+ */
+-(unsigned int) unsignedColorWithAlpha;
 
 /**
  * Get the red color in hex
