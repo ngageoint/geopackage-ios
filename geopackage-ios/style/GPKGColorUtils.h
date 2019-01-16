@@ -118,6 +118,20 @@
 +(int) toColorFromRed: (int) red andGreen: (int) green andBlue: (int) blue;
 
 /**
+ * Convert the RBG values to a color unsigned integer
+ *
+ * @param red
+ *            red integer color inclusively between 0 and 255
+ * @param green
+ *            green integer color inclusively between 0 and 255
+ * @param blue
+ *            blue integer color inclusively between 0 and 255
+ *
+ * @return unsigned integer color
+ */
++(unsigned int) toUnsignedColorFromRed: (int) red andGreen: (int) green andBlue: (int) blue;
+
+/**
  * Convert the RBG values to a color integer including an opaque alpha value
  * of 255
  *
@@ -131,6 +145,21 @@
  * @return integer color
  */
 +(int) toColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue;
+
+/**
+ * Convert the RBG values to a color unsigned integer including an opaque alpha value
+ * of 255
+ *
+ * @param red
+ *            red integer color inclusively between 0 and 255
+ * @param green
+ *            green integer color inclusively between 0 and 255
+ * @param blue
+ *            blue integer color inclusively between 0 and 255
+ *
+ * @return unsigned integer color
+ */
++(unsigned int) toUnsignedColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue;
 
 /**
  * Convert the RBGA values to a color integer
@@ -148,6 +177,23 @@
  * @return integer color
  */
 +(int) toColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue andAlpha: (int) alpha;
+
+/**
+ * Convert the RBGA values to a color unsigned integer
+ *
+ * @param red
+ *            red integer color inclusively between 0 and 255
+ * @param green
+ *            green integer color inclusively between 0 and 255
+ * @param blue
+ *            blue integer color inclusively between 0 and 255
+ * @param alpha
+ *            alpha integer color inclusively between 0 and 255, -1 to not
+ *            include alpha
+ *
+ * @return unsigned integer color
+ */
++(unsigned int) toUnsignedColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue andAlpha: (int) alpha;
 
 /**
  * Convert the RGB integer to a hex single color
@@ -306,6 +352,15 @@
 +(int) redFromColor: (int) color;
 
 /**
+ * Get the red color from color unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ * @return red color
+ */
++(int) redFromUnsignedColor: (unsigned int) color;
+
+/**
  * Get the green color from color integer
  *
  * @param color
@@ -313,6 +368,15 @@
  * @return green color
  */
 +(int) greenFromColor: (int) color;
+
+/**
+ * Get the green color from color unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ * @return green color
+ */
++(int) greenFromUnsignedColor: (unsigned int) color;
 
 /**
  * Get the blue color from color integer
@@ -324,6 +388,15 @@
 +(int) blueFromColor: (int) color;
 
 /**
+ * Get the blue color from color unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ * @return blue color
+ */
++(int) blueFromUnsignedColor: (unsigned int) color;
+
+/**
  * Get the alpha color from color integer
  *
  * @param color
@@ -331,6 +404,15 @@
  * @return alpha color
  */
 +(int) alphaFromColor: (int) color;
+
+/**
+ * Get the alpha color from color unsigned integer
+ *
+ * @param color
+ *            color unsigned integer
+ * @return alpha color
+ */
++(int) alphaFromUnsignedColor: (unsigned int) color;
 
 /**
  * Shorthand the hex color if possible

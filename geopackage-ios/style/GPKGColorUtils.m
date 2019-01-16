@@ -58,8 +58,16 @@ static NSRegularExpression *hexSingleColorExpression = nil;
     return [self toColorWithAlphaFromRed:red andGreen:green andBlue:blue andAlpha:-1];
 }
 
++(unsigned int) toUnsignedColorFromRed: (int) red andGreen: (int) green andBlue: (int) blue{
+    return (unsigned int) [self toColorFromRed:red andGreen:green andBlue:blue];
+}
+
 +(int) toColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue{
     return [self toColorWithAlphaFromRed:red andGreen:green andBlue:blue andAlpha:255];
+}
+
++(unsigned int) toUnsignedColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue{
+    return (unsigned int) [self toColorWithAlphaFromRed:red andGreen:green andBlue:blue];
 }
 
 +(int) toColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue andAlpha: (int) alpha{
@@ -72,6 +80,10 @@ static NSRegularExpression *hexSingleColorExpression = nil;
         color = (alpha & 0xff) << 24 | color;
     }
     return color;
+}
+
++(unsigned int) toUnsignedColorWithAlphaFromRed: (int) red andGreen: (int) green andBlue: (int) blue andAlpha: (int) alpha{
+    return (unsigned int) [self toColorWithAlphaFromRed:red andGreen:green andBlue:blue andAlpha:alpha];
 }
 
 +(NSString *) toHexFromRGB: (int) color{
@@ -92,12 +104,14 @@ static NSRegularExpression *hexSingleColorExpression = nil;
     if(color.length == 1){
         color = [NSString stringWithFormat:@"%@%@", color, color];
     }
-    return (int)[color integerValue];
+    unsigned int rgb;
+    [[NSScanner scannerWithString:color] scanHexInt:&rgb];
+    return rgb;
 }
 
 +(int) toRGBFromArithmeticRGB: (float) color{
     [self validateArithmeticRGB:color];
-    return (int)lroundf(color);
+    return (int)lroundf(255 * color);
 }
 
 +(float) toArithmeticRGBFromHex: (NSString *) color{
@@ -291,16 +305,32 @@ static NSRegularExpression *hexSingleColorExpression = nil;
     return (color >> 16) & 0xff;
 }
 
++(int) redFromUnsignedColor: (unsigned int) color{
+    return [self redFromColor:color];
+}
+
 +(int) greenFromColor: (int) color{
     return (color >> 8) & 0xff;
+}
+
++(int) greenFromUnsignedColor: (unsigned int) color{
+    return [self greenFromColor:color];
 }
 
 +(int) blueFromColor: (int) color{
     return color & 0xff;
 }
 
++(int) blueFromUnsignedColor: (unsigned int) color{
+    return [self blueFromColor:color];
+}
+
 +(int) alphaFromColor: (int) color{
     return (color >> 24) & 0xff;
+}
+
++(int) alphaFromUnsignedColor: (unsigned int) color{
+    return [self alphaFromColor:color];
 }
 
 +(NSString *) shorthandHex: (NSString *) color{

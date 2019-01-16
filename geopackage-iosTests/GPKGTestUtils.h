@@ -35,6 +35,8 @@ extern NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN;
 
 +(void)assertEqualIntWithValue:(int) value andValue2: (int) value2;
 
++(void)assertEqualUnsignedIntWithValue:(unsigned int) value andValue2: (unsigned int) value2;
+
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2;
 
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2 andDelta: (double) delta;

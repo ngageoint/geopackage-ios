@@ -76,6 +76,12 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     }
 }
 
++(void)assertEqualUnsignedIntWithValue:(unsigned int) value andValue2: (unsigned int) value2{
+    if(value != value2){
+        [NSException raise:@"Assert Equal unsigned int" format:@"Value 1: '%d' is not equal to Value 2: '%d'", value, value2];
+    }
+}
+
 +(void)assertEqualDoubleWithValue:(double) value andValue2: (double) value2{
     if(value != value2){
         [NSException raise:@"Assert Equal double" format:@"Value 1: '%f' is not equal to Value 2: '%f'", value, value2];
