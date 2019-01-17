@@ -23,7 +23,7 @@
 }
 
 -(instancetype) initWithHex: (NSString *) color{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHex:color];
     }
@@ -31,7 +31,7 @@
 }
 
 -(instancetype) initWithHex: (NSString *) color andOpacity: (float) opacity{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHex:color andOpacity:opacity];
     }
@@ -39,7 +39,7 @@
 }
 
 -(instancetype) initWithHex: (NSString *) color andAlpha: (int) alpha{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHex:color andAlpha:alpha];
     }
@@ -47,7 +47,7 @@
 }
 
 -(instancetype) initWithHexRed: (NSString *) red andGreen: (NSString *) green andBlue: (NSString *) blue{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHexRed:red andGreen:green andBlue:blue];
     }
@@ -55,7 +55,7 @@
 }
 
 -(instancetype) initWithHexRed: (NSString *) red andGreen: (NSString *) green andBlue: (NSString *) blue andAlpha: (NSString *) alpha{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHexRed:red andGreen:green andBlue:blue andAlpha:alpha];
     }
@@ -63,7 +63,7 @@
 }
 
 -(instancetype) initWithHexRed: (NSString *) red andGreen: (NSString *) green andBlue: (NSString *) blue andOpacity: (float) opacity{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHexRed:red andGreen:green andBlue:blue andOpacity:opacity];
     }
@@ -71,7 +71,7 @@
 }
 
 -(instancetype) initWithRed: (int) red andGreen: (int) green andBlue: (int) blue{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithRed:red andGreen:green andBlue:blue];
     }
@@ -79,7 +79,7 @@
 }
 
 -(instancetype) initWithRed: (int) red andGreen: (int) green andBlue: (int) blue andAlpha: (int) alpha{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithRed:red andGreen:green andBlue:blue andAlpha:alpha];
     }
@@ -87,7 +87,7 @@
 }
 
 -(instancetype) initWithRed: (int) red andGreen: (int) green andBlue: (int) blue andOpacity: (float) opacity{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithRed:red andGreen:green andBlue:blue andOpacity:opacity];
     }
@@ -95,7 +95,7 @@
 }
 
 -(instancetype) initWithArithmeticRed: (float) red andGreen: (float) green andBlue: (float) blue{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithArithmeticRed:red andGreen:green andBlue:blue];
     }
@@ -103,15 +103,15 @@
 }
 
 -(instancetype) initWithArithmeticRed: (float) red andGreen: (float) green andBlue: (float) blue andOpacity: (float) opacity{
-    self = [super init];
+    self = [self init];
     if(self != nil){
-        [self setColorWithArithmeticRed:red andGreen:green andBlue:blue];
+        [self setColorWithArithmeticRed:red andGreen:green andBlue:blue andOpacity:opacity];
     }
     return self;
 }
 
 -(instancetype) initWithHue: (float) hue andSaturation: (float) saturation andLightness: (float) lightness{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHue:hue andSaturation:saturation andLightness:lightness];
     }
@@ -119,7 +119,7 @@
 }
 
 -(instancetype) initWithHue: (float) hue andSaturation: (float) saturation andLightness: (float) lightness andAlpha: (float) alpha{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColorWithHue:hue andSaturation:saturation andLightness:lightness andAlpha:alpha];
     }
@@ -127,7 +127,7 @@
 }
 
 -(instancetype) initWithColor: (int) color{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setColor:color];
     }
@@ -135,7 +135,7 @@
 }
 
 -(instancetype) initWithUnsignedColor: (unsigned int) color{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         [self setUnsignedColor:color];
     }
