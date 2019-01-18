@@ -9,6 +9,9 @@
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGExtensions.h"
 #import "GPKGProperties.h"
+#import "GPKGStyleTable.h"
+#import "GPKGIconTable.h"
+#import "GPKGStyleMappingTable.h"
 
 NSString * const GPKG_EXTENSION_FEATURE_STYLE_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR = @"feature_style";
@@ -56,67 +59,85 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(NSArray<NSString *> *) tables{
-    return nil; // TODO
+    NSMutableArray<NSString *> *tables = [[NSMutableArray alloc] init];
+    GPKGResultSet *extensions = [self getWithExtensionName:self.extensionName];
+    if(extensions != nil){
+        @try {
+            while([extensions moveToNext]){
+                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao getObject:extensions];
+                [tables addObject:extension.tableName];
+            }
+        } @finally {
+            [extensions close];
+        }
+    }
+    return tables;
 }
 
 -(BOOL) has{
-    return NO; // TODO
+    return [self hasWithExtensionName:self.extensionName];
 }
 
 -(BOOL) hasWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasWithExtensionName:self.extensionName andTableName:featureTable andColumnName:nil];
 }
 
 -(GPKGRelatedTablesExtension *) relatedTables{
-    return nil; // TODO
+    return _relatedTables;
 }
 
 -(GPKGContentsIdExtension *) contentsId{
-    return nil; // TODO
+    return _contentsId;
 }
 
 -(void) createRelationshipsWithTable: (NSString *) featureTable{
-    // TODO
+    [self createStyleRelationshipWithTable:featureTable];
+    [self createTableStyleRelationshipWithTable:featureTable];
+    [self createIconRelationshipWithTable:featureTable];
+    [self createTableIconRelationshipWithTable:featureTable];
 }
 
 -(BOOL) hasRelationshipWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasStyleRelationshipWithTable:featureTable]
+        || [self hasTableStyleRelationshipWithTable:featureTable]
+        || [self hasIconRelationshipWithTable:featureTable]
+        || [self hasTableIconRelationshipWithTable:featureTable];
 }
 
 -(void) createStyleRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self createStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_STYLE andTable:featureTable] andFeatureTable:featureTable andBaseTable:featureTable andRelatedTable:GPKG_ST_TABLE_NAME];
 }
 
 -(BOOL) hasStyleRelationshipWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_STYLE andTable:featureTable] andBaseTable:featureTable andRelatedTable:GPKG_ST_TABLE_NAME];
 }
 
 -(void) createTableStyleRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self createStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:featureTable] andFeatureTable:featureTable andBaseTable:GPKG_CI_TABLE_NAME andRelatedTable:GPKG_ST_TABLE_NAME];
 }
 
 -(BOOL) hasTableStyleRelationshipWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:featureTable] andBaseTable:GPKG_CI_TABLE_NAME andRelatedTable:GPKG_ST_TABLE_NAME];
 }
 
 -(void) createIconRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self createStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_ICON andTable:featureTable] andFeatureTable:featureTable andBaseTable:featureTable andRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(BOOL) hasIconRelationshipWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_ICON andTable:featureTable] andBaseTable:featureTable andRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(void) createTableIconRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self createStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:featureTable] andFeatureTable:featureTable andBaseTable:GPKG_CI_TABLE_NAME andRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(BOOL) hasTableIconRelationshipWithTable: (NSString *) featureTable{
-    return NO; // TODO
+    return [self hasStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:featureTable] andBaseTable:GPKG_CI_TABLE_NAME andRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(NSString *) mappingTableNameWithPrefix: (NSString *) tablePrefix andTable: (NSString *) featureTable{
-    return nil; // TODO
+    return [NSString stringWithFormat:@"%@%@", tablePrefix, featureTable];
 }
 
 /**
@@ -134,23 +155,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  * @return true if relationship exists
  */
 -(BOOL) hasStyleRelationshipWithMappingTable: (NSString *) mappingTableName andBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable{
-    
-    return NO; // TODO
-    /*
-    boolean has = false;
-    
-    try {
-        has = relatedTables.hasRelations(baseTable, relatedTable,
-                                         mappingTableName);
-    } catch (SQLException e) {
-        throw new GeoPackageException(
-                                      "Failed to check if Feature Style Relationship exists. Base Table: "
-                                      + baseTable + ", Related Table: " + relatedTable
-                                      + ", Mapping Table: " + mappingTableName, e);
-    }
-    
-    return has;
-     */
+    return [self.relatedTables hasRelationsWithBaseTable:baseTable andRelatedTable:relatedTable andMappingTable:mappingTableName];
 }
 
 /**
@@ -168,31 +173,26 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  */
 -(void) createStyleRelationshipWithMappingTable: (NSString *) mappingTableName andFeatureTable: (NSString *) featureTable andBaseTable: (NSString *) baseTable andRelatedTable: (NSString *) relatedTable{
     
-    // TODO
-    /*
-    if (!hasStyleRelationship(mappingTableName, baseTable, relatedTable)) {
+    if(![self hasStyleRelationshipWithMappingTable:mappingTableName andBaseTable:baseTable andRelatedTable:relatedTable]){
         
         // Create the extension
-        getOrCreate(featureTable);
+        [self getOrCreateWithTable:featureTable];
         
-        if (baseTable.equals(ContentsId.TABLE_NAME)) {
-            if (!contentsId.has()) {
-                contentsId.getOrCreateExtension();
+        if([baseTable isEqualToString:GPKG_CI_TABLE_NAME]){
+            if(![self.contentsId has]){
+                [self.contentsId getOrCreateExtension];
             }
         }
         
-        StyleMappingTable mappingTable = new StyleMappingTable(
-                                                               mappingTableName);
+        GPKGStyleMappingTable *mappingTable = [[GPKGStyleMappingTable alloc] initWithTableName:mappingTableName];
         
-        if (relatedTable.equals(StyleTable.TABLE_NAME)) {
-            relatedTables.addAttributesRelationship(baseTable,
-                                                    new StyleTable(), mappingTable);
-        } else {
-            relatedTables.addMediaRelationship(baseTable, new IconTable(),
-                                               mappingTable);
+        if([relatedTable isEqualToString:GPKG_ST_TABLE_NAME]){
+            [self.relatedTables addAttributesRelationshipWithBaseTable:baseTable andAttributesTable:[[GPKGStyleTable alloc] init] andUserMappingTable:mappingTable];
+        }else{
+            [self.relatedTables addMediaRelationshipWithBaseTable:baseTable andMediaTable:[[GPKGIconTable alloc] init] andUserMappingTable:mappingTable];
         }
+        
     }
-     */
     
 }
 
