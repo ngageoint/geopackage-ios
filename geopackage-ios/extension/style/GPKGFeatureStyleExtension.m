@@ -197,27 +197,33 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteRelationships{
-    // TODO
+    NSArray<NSString *> *tables = [self tables];
+    for(NSString *table in tables){
+        [self deleteRelationshipsWithTable:table];
+    }
 }
 
 -(void) deleteRelationshipsWithTable: (NSString *) featureTable{
-    // TODO
+    [self deleteStyleRelationshipWithTable:featureTable];
+    [self deleteTableStyleRelationshipWithTable:featureTable];
+    [self deleteIconRelationshipWithTable:featureTable];
+    [self deleteTableIconRelationshipWithTable:featureTable];
 }
 
 -(void) deleteStyleRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self deleteStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_STYLE andTable:featureTable] andFeatureTable:featureTable];
 }
 
 -(void) deleteTableStyleRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self deleteStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:featureTable] andFeatureTable:featureTable];
 }
 
 -(void) deleteIconRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self deleteStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_ICON andTable:featureTable] andFeatureTable:featureTable];
 }
 
 -(void) deleteTableIconRelationshipWithTable: (NSString *) featureTable{
-    // TODO
+    [self deleteStyleRelationshipWithMappingTable:[self mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:featureTable] andFeatureTable:featureTable];
 }
 
 /**
@@ -230,29 +236,26 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  */
 -(void) deleteStyleRelationshipWithMappingTable: (NSString *) mappingTableName andFeatureTable: (NSString *) featureTable {
     
-    // TODO
-    /*
-    relatedTables.removeRelationshipsWithMappingTable(mappingTableName);
+    [self.relatedTables removeRelationshipsWithMappingTable:mappingTableName];
     
-    if (!hasRelationship(featureTable)) {
-        try {
-            if (extensionsDao.isTableExists()) {
-                extensionsDao.deleteByExtension(EXTENSION_NAME,
-                                                featureTable);
-            }
-        } catch (SQLException e) {
-            throw new GeoPackageException(
-                                          "Failed to delete Feature Style extension. GeoPackage: "
-                                          + geoPackage.getName() + ", Feature Table: "
-                                          + featureTable, e);
-        }
+    if(![self hasRelationshipWithTable:featureTable] && [self.extensionsDao tableExists]){
+        [self.extensionsDao deleteByExtension:self.extensionName andTable:featureTable];
     }
-     */
     
 }
 
 -(void) removeExtension{
-    // TODO
+
+    [self deleteRelationships];
+    
+    [self.geoPackage deleteUserTable:GPKG_ST_TABLE_NAME];
+    
+    [self.geoPackage deleteUserTable:GPKG_IT_TABLE_NAME];
+    
+    if([self.extensionsDao tableExists]){
+        [self.extensionsDao deleteByExtension:self.extensionName];
+    }
+    
 }
 
 @end

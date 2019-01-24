@@ -12,7 +12,7 @@
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGTileTableScaling.h"
 #import "GPKGPropertiesExtension.h"
-//#import "GPKGFeatureStyleExtension.h" TODO
+#import "GPKGFeatureStyleExtension.h"
 #import "GPKGContentsIdExtension.h"
 
 @implementation GPKGNGAExtensions
@@ -152,21 +152,17 @@
 }
 
 +(void) deleteFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
-    /* TODO
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
-    if([featureStyleExtension hasWithTableName:table]){
-        [featureStyleExtension deleteRelationshipsWithTableName:table];
+    if([featureStyleExtension hasWithTable:table]){
+        [featureStyleExtension deleteRelationshipsWithTable:table];
     }
-    */
 }
 
 +(void) deleteFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    /* TODO
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
     if ([featureStyleExtension has]) {
         [featureStyleExtension removeExtension];
     }
-    */
 }
 
 +(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
