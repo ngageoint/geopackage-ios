@@ -10,4 +10,28 @@
 
 @implementation GPKGFeatureStyles
 
+-(instancetype) init{
+    self = [self initWithStyles:nil andIcons:nil];
+    return self;
+}
+
+-(instancetype) initWithStyles: (GPKGStyles *) styles{
+    self = [self initWithStyles:styles andIcons:nil];
+    return self;
+}
+
+-(instancetype) initWithIcons: (GPKGIcons *) icons{
+    self = [self initWithStyles:nil andIcons:icons];
+    return self;
+}
+
+-(instancetype) initWithStyles: (GPKGStyles *) styles andIcons: (GPKGIcons *) icons{
+    self = [super init];
+    if(self != nil){
+        self.styles = styles;
+        self.icons = icons;
+    }
+    return self;
+}
+
 @end
