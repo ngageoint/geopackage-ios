@@ -63,4 +63,8 @@
     return [self.rows objectAtIndex:self.rowIndex];
 }
 
+-(NSNumber *) getFeatureId{
+    return [[self getFeatureRow] getId];
+}
+
 @end

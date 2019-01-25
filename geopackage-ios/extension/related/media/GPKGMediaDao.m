@@ -11,7 +11,12 @@
 @implementation GPKGMediaDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [super initWithDao:dao andTable:[[GPKGMediaTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGMediaTable alloc] initWithTable:[dao table]]];
+    return self;
+}
+
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGMediaTable *) mediaTable{
+    self = [super initWithDao:dao andTable:mediaTable];
     return self;
 }
 

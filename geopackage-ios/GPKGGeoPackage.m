@@ -701,6 +701,7 @@
     // Read the existing table and create the dao
     GPKGFeatureTableReader * tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:geometryColumns];
     GPKGFeatureTable * featureTable = [tableReader readFeatureTableWithConnection:self.database];
+    [featureTable setContents:[[self getGeometryColumnsDao] getContents:geometryColumns]];
     GPKGFeatureDao * dao = [[GPKGFeatureDao alloc] initWithDatabase:self.database andTable:featureTable andGeometryColumns:geometryColumns andMetadataDb:self.metadataDb];
     
     // If the GeoPackage is writable and the feature table has a RTree Index
@@ -754,6 +755,7 @@
     // Read the existing table and create the dao
     GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTableName:tileMatrixSet.tableName];
     GPKGTileTable * tileTable = [tableReader readTileTableWithConnection:self.database];
+    [tileTable setContents:[[self getTileMatrixSetDao] getContents:tileMatrixSet]];
     GPKGTileDao * dao = [[GPKGTileDao alloc] initWithDatabase:self.database andTable:tileTable andTileMatrixSet:tileMatrixSet andTileMatrices:tileMatrices];
     return dao;
 }

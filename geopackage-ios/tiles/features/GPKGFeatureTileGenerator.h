@@ -34,4 +34,43 @@
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
 
+/**
+ * Initialize
+ *
+ * @param geoPackage        GeoPackage
+ * @param tableName         table name
+ * @param featureTiles      feature tiles
+ * @param featureGeoPackage feature GeoPackage if different from the destination
+ * @param minZoom           min zoom
+ * @param maxZoom           max zoom
+ * @param boundingBox       tiles bounding box
+ * @param projection        tiles projection
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andFeatureGeoPackage: (GPKGGeoPackage *) featureGeoPackage andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+
+/**
+ * Initialize, find the the bounding box from the feature table
+ *
+ * @param geoPackage   GeoPackage
+ * @param tableName    table name
+ * @param featureTiles feature tiles
+ * @param minZoom      min zoom
+ * @param maxZoom      max zoom
+ * @param projection   tiles projection
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andProjection: (SFPProjection *) projection;
+
+/**
+ * Initialize, find the the bounding box from the feature table
+ *
+ * @param geoPackage        GeoPackage
+ * @param tableName         table name
+ * @param featureTiles      feature tiles
+ * @param featureGeoPackage feature GeoPackage if different from the destination
+ * @param minZoom           min zoom
+ * @param maxZoom           max zoom
+ * @param projection        tiles projection
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andFeatureGeoPackage: (GPKGGeoPackage *) featureGeoPackage andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andProjection: (SFPProjection *) projection;
+
 @end

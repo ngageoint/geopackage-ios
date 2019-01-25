@@ -39,6 +39,11 @@
     return nil;
 }
 
+-(NSNumber *) getFeatureId{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 -(void) close{
     
 }

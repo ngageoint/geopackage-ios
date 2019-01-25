@@ -28,4 +28,8 @@
     return [self.featureDao getFeatureRow:[self getResults]];
 }
 
+-(NSNumber *) getFeatureId{
+    return [[self getFeatureRow] getId];
+}
+
 @end

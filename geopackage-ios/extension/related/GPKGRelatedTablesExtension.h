@@ -839,4 +839,14 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  */
 -(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withRelatedId: (int) relatedId;
 
+/**
+ * Determine if the base id and related id mapping exists
+ *
+ * @param tableName mapping table name
+ * @param baseId    base id
+ * @param relatedId related id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingWithTableName: (NSString *) tableName andBaseId: (int) baseId andRelatedId: (int) relatedId;
+
 @end

@@ -25,6 +25,16 @@
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao;
 
 /**
+ *  Initialize
+ *
+ *  @param dao                   user custom data access object
+ *  @param simpleAttributesTable simple attributes table
+ *
+ *  @return new simple attributes dao
+ */
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGSimpleAttributesTable *) simpleAttributesTable;
+
+/**
  *  Get the simple attributes table
  *
  *  @return simple attributes table

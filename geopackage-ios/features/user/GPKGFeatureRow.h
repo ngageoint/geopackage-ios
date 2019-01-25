@@ -76,6 +76,13 @@
 -(SFGeometry *) getGeometryValue;
 
 /**
+ * Get the simple features geometry type
+ *
+ * @return geometry type
+ */
+-(enum SFGeometryType) getGeometryType;
+
+/**
  *  Get the geometry envelope
  *
  *  @return geometry envelope

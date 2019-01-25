@@ -25,6 +25,16 @@
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao;
 
 /**
+ *  Initialize
+ *
+ *  @param dao        user custom data access object
+ *  @param mediaTable media table
+ *
+ *  @return new media dao
+ */
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGMediaTable *) mediaTable;
+
+/**
  *  Get the media table
  *
  *  @return media table

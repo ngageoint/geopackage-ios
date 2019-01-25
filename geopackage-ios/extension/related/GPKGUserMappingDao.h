@@ -25,6 +25,16 @@
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao;
 
 /**
+ * Initialize
+ *
+ * @param dao              user custom data access object
+ * @param userMappingTable user mapping table
+ *
+ * @return new user mapping dao
+ */
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGUserMappingTable *) userMappingTable;
+
+/**
  *  Get the user mapping table
  *
  *  @return user mapping table
@@ -148,6 +158,20 @@
  * @return result set
  */
 -(GPKGResultSet *) queryByBaseId: (int) baseId andRelatedId: (int) relatedId;
+
+/**
+ * Get the unique base ids
+ *
+ * @return list of unique base ids
+ */
+-(NSArray<NSNumber *> *) uniqueBaseIds;
+
+/**
+ * Get the unique related ids
+ *
+ * @return list of unique related ids
+ */
+-(NSArray<NSNumber *> *) uniqueRelatedIds;
 
 /**
  * Count by both base id and related id

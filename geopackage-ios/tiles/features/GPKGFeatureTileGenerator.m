@@ -18,12 +18,43 @@
 @implementation GPKGFeatureTileGenerator
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
-    self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:projection];
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andFeatureTiles:featureTiles andFeatureGeoPackage:geoPackage andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:projection];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andFeatureGeoPackage: (GPKGGeoPackage *) featureGeoPackage andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:[self boundingBoxWithGeoPackage:featureGeoPackage andFeatureTiles:featureTiles andBoundingBox:boundingBox andProjection:projection] andProjection:projection];
     if(self != nil){
         self.featureTiles = featureTiles;
         self.linkTables = true;
     }
     return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andProjection: (SFPProjection *) projection{
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:nil andProjection:projection];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andFeatureTiles: (GPKGFeatureTiles *) featureTiles andFeatureGeoPackage: (GPKGGeoPackage *) featureGeoPackage andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andProjection: (SFPProjection *) projection{
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andFeatureTiles:featureTiles andFeatureGeoPackage:featureGeoPackage andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:nil andProjection:projection];
+    return self;
+}
+
+-(GPKGBoundingBox *) boundingBoxWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTiles: (GPKGFeatureTiles *) featureTiles andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+    
+    NSString *tableName = [featureTiles getFeatureDao].tableName;
+    BOOL manualQuery = boundingBox == nil;
+    GPKGBoundingBox *featureBoundingBox = [geoPackage boundingBoxOfTable:tableName inProjection:projection andManual:manualQuery];
+    if(featureBoundingBox != nil){
+        if(boundingBox == nil){
+            boundingBox = featureBoundingBox;
+        }else{
+            boundingBox = [boundingBox overlap:featureBoundingBox];
+        }
+    }
+    
+    return boundingBox;
 }
 
 -(void) close{

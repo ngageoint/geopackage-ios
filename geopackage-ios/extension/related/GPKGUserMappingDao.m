@@ -7,12 +7,20 @@
 //
 
 #import "GPKGUserMappingDao.h"
+#import "GPKGSqlUtils.h"
 
 @implementation GPKGUserMappingDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [super initWithDao:dao andTable:[[GPKGUserMappingTable alloc] initWithTable:[dao table]]];
-    self.autoIncrementId = NO;
+    self = [self initWithDao:dao andTable:[[GPKGUserMappingTable alloc] initWithTable:[dao table]]];
+    return self;
+}
+
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGUserMappingTable *) userMappingTable{
+    self = [super initWithDao:dao andTable:userMappingTable];
+    if(self != nil){
+        self.autoIncrementId = NO;
+    }
     return self;
 }
 
@@ -74,6 +82,14 @@
 -(GPKGResultSet *) queryByBaseId: (int) baseId andRelatedId: (int) relatedId{
     GPKGColumnValues *values = [self buildColumnValuesWithBaseId:baseId andRelatedId:relatedId];
     return [self queryWhere:[self buildWhereWithFields:values] andWhereArgs:[self buildWhereArgsWithValues:values]];
+}
+
+-(NSArray<NSNumber *> *) uniqueBaseIds{
+    return (NSArray<NSNumber *> *)[self querySingleColumnResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", [GPKGSqlUtils quoteWrapName:GPKG_UMT_COLUMN_BASE_ID], [GPKGSqlUtils quoteWrapName:self.tableName]] andArgs:nil];
+}
+
+-(NSArray<NSNumber *> *) uniqueRelatedIds{
+    return (NSArray<NSNumber *> *)[self querySingleColumnResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", [GPKGSqlUtils quoteWrapName:GPKG_UMT_COLUMN_RELATED_ID], [GPKGSqlUtils quoteWrapName:self.tableName]] andArgs:nil];
 }
 
 -(int) countByIdsFromRow: (GPKGUserMappingRow *) userMappingRow{

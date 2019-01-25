@@ -75,6 +75,14 @@
     return row;
 }
 
+-(NSNumber *) getFeatureId{
+    NSNumber *id = nil;
+    if(self.currentResults != nil){
+        id = [self.currentResults getFeatureId];
+    }
+    return id;
+}
+
 -(void) close{
     for(GPKGFeatureIndexResults *result in self.results){
         [result close];

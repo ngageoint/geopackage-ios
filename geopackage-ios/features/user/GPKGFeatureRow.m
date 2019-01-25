@@ -64,6 +64,15 @@
     return geometry;
 }
 
+-(enum SFGeometryType) getGeometryType{
+    SFGeometry *geometry = [self getGeometryValue];
+    enum SFGeometryType geometryType = SF_NONE;
+    if(geometry != nil){
+        geometryType = geometry.geometryType;
+    }
+    return geometryType;
+}
+
 -(SFGeometryEnvelope *) getGeometryEnvelope{
     GPKGGeometryData *data = [self getGeometry];
     SFGeometryEnvelope *envelope = nil;

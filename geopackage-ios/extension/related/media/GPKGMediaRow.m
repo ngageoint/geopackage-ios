@@ -7,6 +7,7 @@
 //
 
 #import "GPKGMediaRow.h"
+#import "GPKGImageConverter.h"
 
 @implementation GPKGMediaRow
 
@@ -50,6 +51,29 @@
 
 -(void) setData: (NSData *) data{
     [self setValueWithIndex:[self dataColumnIndex] andValue:data];
+}
+
+-(NSDictionary *) dataImageSourceProperties{
+    CGImageSourceRef source = CGImageSourceCreateWithData( (CFDataRef) [self data], NULL);
+    NSDictionary *properties = (NSDictionary *)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source,0,NULL));
+    CFRelease(source);
+    return properties;
+}
+
+-(UIImage *) dataImage{
+    return [GPKGImageConverter toImage:[self data]];
+}
+
+-(UIImage *) dataImageWithScale: (CGFloat) scale{
+    return [GPKGImageConverter toImage:[self data] withScale:scale];
+}
+
+-(void) setDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format{
+    [self setData:[GPKGImageConverter toData:image andFormat:format]];
+}
+
+-(void) setDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format andQuality: (CGFloat) quality{
+    [self setData:[GPKGImageConverter toData:image andFormat:format andQuality:quality]];
 }
 
 -(int) contentTypeColumnIndex{

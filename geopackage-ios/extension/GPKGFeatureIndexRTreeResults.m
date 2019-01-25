@@ -38,6 +38,10 @@
     return [self.dao featureRow:self.results];
 }
 
+-(NSNumber *) getFeatureId{
+    return [[self.dao row:self.results] getId];
+}
+
 -(void) close{
     [self.results close];
 }

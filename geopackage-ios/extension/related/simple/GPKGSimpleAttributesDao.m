@@ -11,7 +11,12 @@
 @implementation GPKGSimpleAttributesDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [super initWithDao:dao andTable:[[GPKGSimpleAttributesTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGSimpleAttributesTable alloc] initWithTable:[dao table]]];
+    return self;
+}
+
+-(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGSimpleAttributesTable *) simpleAttributesTable{
+    self = [super initWithDao:dao andTable:simpleAttributesTable];
     return self;
 }
 

@@ -22,4 +22,5 @@ Pod::Spec.new do |s|
   s.dependency 'sf-wkb-ios', '~> 2.0.2'
   s.dependency 'sf-proj-ios', '~> 2.0.2'
   s.dependency 'tiff-ios', '~> 1.1.2'
+  s.dependency 'LruCache', '~> 0.1'
 end

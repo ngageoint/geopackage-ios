@@ -8,6 +8,7 @@
 
 #import "GPKGUserCustomRow.h"
 #import "GPKGMediaTable.h"
+#import "GPKGCompressFormats.h"
 
 /**
  * User Media Row containing the values from a single result set row
@@ -90,6 +91,49 @@
  *            data
  */
 -(void) setData: (NSData *) data;
+
+/**
+ *  Get the properties that apply to the data image source
+ *
+ *  See: https://developer.apple.com/documentation/imageio/cgimageproperties/individual_image_properties
+ *  kCGImagePropertyPixelWidth, kCGImagePropertyPixelHeight, etc
+ *
+ *  @return Image Source Container Properties
+ */
+-(NSDictionary *) dataImageSourceProperties;
+
+/**
+ *  Get the data image
+ *
+ *  @return data image
+ */
+-(UIImage *) dataImage;
+
+/**
+ *  Get the data as a scaled image
+ *
+ *  @param scale scale, 0.0 to 1.0
+ *
+ *  @return data image
+ */
+-(UIImage *) dataImageWithScale: (CGFloat) scale;
+
+/**
+ *  Set the data from a full quality image
+ *
+ *  @param image  image
+ *  @param format image format
+ */
+-(void) setDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format;
+
+/**
+ *  Set the data from an image
+ *
+ *  @param image  image
+ *  @param format image format
+ *  @param quality compression quality, 0.0 to 1.0, used only for GPKG_CF_JPEG
+ */
+-(void) setDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format andQuality: (CGFloat) quality;
 
 /**
  * Get the content type column index

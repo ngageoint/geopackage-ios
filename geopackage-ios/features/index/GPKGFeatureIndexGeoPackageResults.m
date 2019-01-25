@@ -28,4 +28,8 @@
     return [self.featureTableIndex getFeatureRowWithResultSet:[self getResults]];
 }
 
+-(NSNumber *) getFeatureId{
+    return [self.featureTableIndex getGeometryIndexWithResultSet:[self getResults]].geomId;
+}
+
 @end

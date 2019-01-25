@@ -46,7 +46,11 @@
 }
 
 -(GPKGFeatureRow *) getFeatureRow{
-    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[self.featureIds objectAtIndex:self.index]];
+    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[self getFeatureId]];
+}
+
+-(NSNumber *) getFeatureId{
+    return [self.featureIds objectAtIndex:self.index];
 }
 
 -(void) close{

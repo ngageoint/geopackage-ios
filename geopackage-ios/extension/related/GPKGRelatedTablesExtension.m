@@ -569,4 +569,9 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return baseIds;
 }
 
+-(BOOL) hasMappingWithTableName: (NSString *) tableName andBaseId: (int) baseId andRelatedId: (int) relatedId{
+    GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
+    return [userMappingDao countByBaseId:baseId andRelatedId:relatedId] > 0;
+}
+
 @end
