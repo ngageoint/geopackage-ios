@@ -7,7 +7,148 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "GPKGIconRow.h"
 
+/**
+ * Default max number of icon images to retain in cache
+ */
+static int DEFAULT_ICON_CACHE_SIZE = 100;
+
+/**
+ * Icon Cache of icon images
+ */
 @interface GPKGIconCache : NSObject
+
+/**
+ *  Initialize, created with cache size of DEFAULT_ICON_CACHE_SIZE
+ *
+ *  @return new icon cache
+ */
+-(instancetype) init;
+
+/**
+ *  Initialize
+ *
+ *  @param size max icon images to retain in the cache
+ *
+ *  @return new icon cache
+ */
+-(instancetype) initWithSize: (int) size;
+
+/**
+ * Get the cached image for the icon row or nil if not cached
+ *
+ * @param iconRow icon row
+ * @return icon image or nil
+ */
+-(UIImage *) imageForRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Get the cached image for the icon row id or nil if not cached
+ *
+ * @param iconRowId icon row id
+ * @return icon image or nil
+ */
+-(UIImage *) imageForId: (int) iconRowId;
+
+/**
+ * Cache the icon image for the icon row
+ *
+ * @param image  icon image
+ * @param iconRow icon row
+ * @return previous cached icon image or nil
+ */
+-(UIImage *) putImage: (UIImage *) image forRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Cache the icon image for the icon row id
+ *
+ * @param image    icon image
+ * @param iconRowId icon row id
+ * @return previous cached icon image or nil
+ */
+-(UIImage *) putImage: (UIImage *) image forId: (int) iconRowId;
+
+/**
+ * Remove the cached image for the icon row
+ *
+ * @param iconRow icon row
+ * @return removed icon image or nil
+ */
+-(UIImage *) removeForRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Remove the cached image for the icon row id
+ *
+ * @param iconRowId icon row id
+ * @return removed icon image or nil
+ */
+-(UIImage *) removeForId: (int) iconRowId;
+
+/**
+ * Clear the cache
+ */
+-(void) clear;
+
+/**
+ * Resize the cache
+ *
+ * @param maxSize max size
+ */
+-(void) resizeWithSize: (int) maxSize;
+
+/**
+ * Create or retrieve from cache an icon image for the icon row using scale of [UIScreen mainScreen].scale
+ *
+ * @param icon    icon row
+ * @return icon image
+ */
+-(UIImage *) createIconForRow: (GPKGIconRow *) icon;
+
+/**
+ * Create or retrieve from cache an icon image for the icon row
+ *
+ * @param icon    icon row
+ * @param scale   screen scale, see [UIScreen mainScreen].scale
+ * @return icon image
+ */
+-(UIImage *) createIconForRow: (GPKGIconRow *) icon withScale: (float) scale;
+
+/**
+ * Create an icon image for the icon row without caching using scale of [UIScreen mainScreen].scale
+ *
+ * @param icon    icon row
+ * @return icon image
+ */
++(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon;
+
+/**
+ * Create an icon image for the icon row without caching
+ *
+ * @param icon    icon row
+ * @param scale   screen scale, see [UIScreen mainScreen].scale
+ * @return icon image
+ */
++(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon withScale: (float) scale;
+
+/**
+ * Create or retrieve from cache an icon image for the icon row using scale of [UIScreen mainScreen].scale
+ *
+ * @param icon      icon row
+ * @param iconCache icon cache
+ * @return icon image
+ */
++(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache;
+
+/**
+ * Create or retrieve from cache an icon image for the icon row
+ *
+ * @param icon      icon row
+ * @param iconCache icon cache
+ * @param scale     screen scale, see [UIScreen mainScreen].scale
+ * @return icon image
+ */
++(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache withScale: (float) scale;
 
 @end
