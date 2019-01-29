@@ -10,4 +10,30 @@
 
 @implementation GPKGStyleDao
 
+-(instancetype) initWithDao: (GPKGAttributesDao *) dao{
+    self = [self initWithDatabase:dao.database andTable:[[GPKGStyleTable alloc] initWithTable:[dao getAttributesTable]]];
+    return self;
+}
+
+-(NSObject *) createObject{
+    return [self newRow];
+}
+
+-(GPKGStyleTable *) table{
+    return (GPKGStyleTable *)[super table];
+}
+
+-(GPKGStyleRow *) row: (GPKGResultSet *) results{
+    return (GPKGStyleRow *) [self getRow:results];
+}
+
+-(GPKGStyleRow *) newRow{
+    return nil; // TODO
+    //return [[GPKGStyleRow alloc] initWithStyleTable:[self table]];
+}
+
+-(GPKGStyleRow *) queryForRow: (GPKGStyleMappingRow *) styleMappingRow{
+    return (GPKGStyleRow *)[self queryForIdObject:[NSNumber numberWithInt:[styleMappingRow relatedId]]];
+}
+
 @end
