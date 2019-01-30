@@ -51,7 +51,7 @@
     self = [super initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
     if(self != nil){
         self.geometryType = geometryType;
-        if(geometryType == SF_NONE && dataType == GPKG_DT_GEOMETRY){
+        if((geometryType == SF_NONE || geometryType < 0) && dataType == GPKG_DT_GEOMETRY){
             [NSException raise:@"Data or Geometry Type" format:@"Data or Geometry Type is required to create column: %@", name];
         }
     }
@@ -70,7 +70,7 @@
 
 -(BOOL) isGeometry
 {
-    return self.geometryType != SF_NONE;
+    return self.geometryType != SF_NONE && self.geometryType >= 0;
 }
 
 @end

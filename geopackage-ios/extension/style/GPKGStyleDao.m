@@ -28,8 +28,7 @@
 }
 
 -(GPKGStyleRow *) newRow{
-    return nil; // TODO
-    //return [[GPKGStyleRow alloc] initWithStyleTable:[self table]];
+    return [[GPKGStyleRow alloc] initWithStyleTable:[self table]];
 }
 
 -(GPKGStyleRow *) queryForRow: (GPKGStyleMappingRow *) styleMappingRow{

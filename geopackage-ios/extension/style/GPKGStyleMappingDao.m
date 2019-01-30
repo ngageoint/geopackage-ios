@@ -47,7 +47,7 @@
 -(int) deleteByBaseId: (int) id andGeometryType: (enum SFGeometryType) geometryType{
     
     NSString *geometryTypeName = nil;
-    if (geometryType != SF_NONE) {
+    if (geometryType != SF_NONE && geometryType >= 0) {
         geometryTypeName = [SFGeometryTypes name:geometryType];
     }
     

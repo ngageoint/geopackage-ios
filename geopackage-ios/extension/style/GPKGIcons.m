@@ -38,7 +38,7 @@
 }
 
 -(void) setIcon: (GPKGIconRow *) iconRow forGeometryType: (enum SFGeometryType) geometryType{
-    if (geometryType != SF_NONE) {
+    if (geometryType != SF_NONE && geometryType >= 0) {
         if (iconRow != nil) {
             [self.icons setObject:iconRow forKey:[NSNumber numberWithInt:geometryType]];
         } else {
@@ -65,7 +65,7 @@
 
     GPKGIconRow *iconRow = nil;
     
-    if (geometryType != SF_NONE && self.icons.count > 0) {
+    if (geometryType != SF_NONE && geometryType >= 0 && self.icons.count > 0) {
         iconRow = [self.icons objectForKey:[NSNumber numberWithInt:geometryType]];
         if(iconRow == nil){
             NSArray<NSNumber *> *geometryTypes = [SFGeometryUtils parentHierarchyOfType:geometryType];
@@ -83,7 +83,7 @@
         iconRow = self.defaultIconRow;
     }
     
-    if (iconRow == nil && geometryType == SF_NONE && self.icons.count == 1) {
+    if (iconRow == nil && (geometryType == SF_NONE || geometryType < 0) && self.icons.count == 1) {
         iconRow = [[self.icons allValues] objectAtIndex:0];
     }
     

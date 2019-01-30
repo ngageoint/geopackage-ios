@@ -38,7 +38,7 @@
 }
 
 -(void) setStyle: (GPKGStyleRow *) styleRow forGeometryType: (enum SFGeometryType) geometryType{
-    if (geometryType != SF_NONE) {
+    if (geometryType != SF_NONE && geometryType >= 0) {
         if (styleRow != nil) {
             [self.styles setObject:styleRow forKey:[NSNumber numberWithInt:geometryType]];
         } else {
@@ -65,7 +65,7 @@
 
     GPKGStyleRow *styleRow = nil;
     
-    if (geometryType != SF_NONE && self.styles.count > 0) {
+    if (geometryType != SF_NONE && geometryType >= 0 && self.styles.count > 0) {
         styleRow = [self.styles objectForKey:[NSNumber numberWithInt:geometryType]];
         if(styleRow == nil){
             NSArray<NSNumber *> *geometryTypes = [SFGeometryUtils parentHierarchyOfType:geometryType];
@@ -83,7 +83,7 @@
         styleRow = self.defaultStyleRow;
     }
     
-    if (styleRow == nil && geometryType == SF_NONE && self.styles.count == 1) {
+    if (styleRow == nil && (geometryType == SF_NONE || geometryType < 0) && self.styles.count == 1) {
         styleRow = [[self.styles allValues] objectAtIndex:0];
     }
     
