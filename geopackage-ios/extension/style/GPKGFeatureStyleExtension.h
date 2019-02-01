@@ -746,6 +746,549 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  */
 -(void) setTableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon;
 
-// TODO
+/**
+ * Set the feature styles for the feature row
+ *
+ * @param featureRow    feature row
+ * @param featureStyles feature styles
+ */
+-(void) setFeatureStylesWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyles: (GPKGFeatureStyles *) featureStyles;
+
+/**
+ * Set the feature styles for the feature table and feature id
+ *
+ * @param featureTable  feature table
+ * @param featureId     feature id
+ * @param featureStyles feature styles
+ */
+-(void) setFeatureStylesWithTableName: (NSString *) featureTable andId: (int) featureId andFeatureStyles: (GPKGFeatureStyles *) featureStyles;
+
+/**
+ * Set the feature style (style and icon) of the feature row
+ *
+ * @param featureRow   feature row
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the feature style (style and icon) of the feature row for the
+ * specified geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the feature style default (style and icon) of the feature row
+ *
+ * @param featureRow   feature row
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the feature style (style and icon) of the feature
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the feature style (style and icon) of the feature
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the styles for the feature row
+ *
+ * @param featureRow feature row
+ * @param styles     styles
+ */
+-(void) setStylesWithFeature: (GPKGFeatureRow *) featureRow andStyles: (GPKGStyles *) styles;
+
+/**
+ * Set the styles for the feature table and feature id
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param styles       styles
+ */
+-(void) setStylesWithTableName: (NSString *) featureTable andId: (int) featureId andStyles: (GPKGStyles *) styles;
+
+/**
+ * Set the style of the feature row
+ *
+ * @param featureRow feature row
+ * @param style      style row
+ */
+-(void) setStyleWithFeature: (GPKGFeatureRow *) featureRow andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the style of the feature row for the specified geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ * @param style        style row
+ */
+-(void) setStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the default style of the feature row
+ *
+ * @param featureRow feature row
+ * @param style      style row
+ */
+-(void) setStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the style of the feature
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param style        style row
+ */
+-(void) setStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the default style of the feature
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param style        style row
+ */
+-(void) setStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the icons for the feature row
+ *
+ * @param featureRow feature row
+ * @param icons      icons
+ */
+-(void) setIconsWithFeature: (GPKGFeatureRow *) featureRow andIcons: (GPKGIcons *) icons;
+
+/**
+ * Set the icons for the feature table and feature id
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param icons        icons
+ */
+-(void) setIconsWithTableName: (NSString *) featureTable andId: (int) featureId andIcons: (GPKGIcons *) icons;
+
+/**
+ * Set the icon of the feature row
+ *
+ * @param featureRow feature row
+ * @param icon       icon row
+ */
+-(void) setIconWithFeature: (GPKGFeatureRow *) featureRow andIcon: (GPKGIconRow *) icon;
+
+/**
+ * Set the icon of the feature row for the specified geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ * @param icon         icon row
+ */
+-(void) setIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon;
+
+/**
+ * Set the default icon of the feature row
+ *
+ * @param featureRow feature row
+ * @param icon       icon row
+ */
+-(void) setIconDefaultWithFeature: (GPKGFeatureRow *) featureRow andIcon: (GPKGIconRow *) icon;
+
+/**
+ * Get the icon of the feature, searching in order: feature geometry type
+ * icon, feature default icon, table geometry type icon, table default icon
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param icon         icon row
+ */
+-(void) setIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon;
+
+/**
+ * Set the default icon of the feature
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param icon         icon row
+ */
+-(void) setIconDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andIcon: (GPKGIconRow *) icon;
+
+/**
+ * Delete all feature styles including table styles, table icons, style, and
+ * icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllFeatureStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all feature styles including table styles, table icons, style, and
+ * icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllFeatureStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete all styles including table styles and feature row styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all styles including table styles and feature row styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete all icons including table icons and feature row icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllIconsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all icons including table icons and feature row icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteAllIconsWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table feature styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableFeatureStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete the feature table feature styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableFeatureStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete the feature table styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table default style
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableStyleDefaultWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete the feature table default style
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableStyleDefaultWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table style for the geometry type
+ *
+ * @param featureTable feature table
+ * @param geometryType geometry type
+ */
+-(void) deleteTableStyleWithTable: (GPKGFeatureTable *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature table style for the geometry type
+ *
+ * @param featureTable feature table
+ * @param geometryType geometry type
+ */
+-(void) deleteTableStyleWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature table icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableIconsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete the feature table icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableIconsWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table default icon
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableIconDefaultWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete the feature table default icon
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteTableIconDefaultWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete the feature table icon for the geometry type
+ *
+ * @param featureTable feature table
+ * @param geometryType geometry type
+ */
+-(void) deleteTableIconWithTable: (GPKGFeatureTable *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature table icon for the geometry type
+ *
+ * @param featureTable feature table
+ * @param geometryType geometry type
+ */
+-(void) deleteTableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete all feature styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteFeatureStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all feature styles
+ *
+ * @param featureTable feature table
+ */
+-(void)  deleteFeatureStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete all styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteStylesWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all styles
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete feature row styles
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteStylesWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete feature row styles
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ */
+-(void) deleteStylesWithTableName: (NSString *) featureTable andId: (int) featureId;
+
+/**
+ * Delete the feature row default style
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete the feature row default style
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ */
+-(void) deleteStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId;
+
+/**
+ * Delete the feature row style for the feature row geometry type
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteStyleWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete the feature row style for the geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ */
+-(void) deleteStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature row style for the geometry type
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ */
+-(void) deleteStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete all icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteIconsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Delete all icons
+ *
+ * @param featureTable feature table
+ */
+-(void) deleteIconsWithTableName: (NSString *) featureTable;
+
+/**
+ * Delete feature row icons
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteIconsWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete feature row icons
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ */
+-(void) deleteIconsWithTableName: (NSString *) featureTable andId: (int) featureId;
+
+/**
+ * Delete the feature row default icon
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteIconDefaultWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete the feature row default icon
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ */
+-(void) deleteIconDefaultWithTableName: (NSString *) featureTable andId: (int) featureId;
+
+/**
+ * Delete the feature row icon for the feature row geometry type
+ *
+ * @param featureRow feature row
+ */
+-(void) deleteIconWithFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Delete the feature row icon for the geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ */
+-(void) deleteIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature row icon for the geometry type
+ *
+ * @param featureTable feature table
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ */
+-(void) deleteIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Get all the unique style row ids the table maps to
+ *
+ * @param featureTable feature table
+ * @return style row ids
+ */
+-(NSArray<NSNumber *> *) allTableStyleIdsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Get all the unique style row ids the table maps to
+ *
+ * @param featureTable feature table
+ * @return style row ids
+ */
+-(NSArray<NSNumber *> *) allTableStyleIdsWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all the unique icon row ids the table maps to
+ *
+ * @param featureTable feature table
+ * @return icon row ids
+ */
+-(NSArray<NSNumber *> *) allTableIconIdsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Get all the unique icon row ids the table maps to
+ *
+ * @param featureTable feature table
+ * @return icon row ids
+ */
+-(NSArray<NSNumber *> *) allTableIconIdsWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all the unique style row ids the features map to
+ *
+ * @param featureTable feature table
+ * @return style row ids
+ */
+-(NSArray<NSNumber *> *) allStyleIdsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Get all the unique style row ids the features map to
+ *
+ * @param featureTable feature table
+ * @return style row ids
+ */
+-(NSArray<NSNumber *> *) allStyleIdsWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all the unique icon row ids the features map to
+ *
+ * @param featureTable feature table
+ * @return icon row ids
+ */
+-(NSArray<NSNumber *> *) allIconIdsWithTable: (GPKGFeatureTable *) featureTable;
+
+/**
+ * Get all the unique icon row ids the features map to
+ *
+ * @param featureTable feature table
+ * @return icon row ids
+ */
+-(NSArray<NSNumber *> *) allIconIdsWithTableName: (NSString *) featureTable;
 
 @end

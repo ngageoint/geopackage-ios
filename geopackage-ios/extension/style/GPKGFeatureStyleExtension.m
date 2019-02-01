@@ -642,7 +642,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         [self setTableStylesWithTableName:featureTable andStyles:featureStyles.styles];
         [self setTableIconsWithTableName:featureTable andIcons:featureStyles.icons];
     }else{
-        // TODO [self deleteTableFeatureStylesWithTable:featureTable];
+        [self deleteTableFeatureStylesWithTableName:featureTable];
     }
 }
 
@@ -652,7 +652,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(void) setTableStylesWithTableName: (NSString *) featureTable andStyles: (GPKGStyles *) styles{
     
-    // TODO [self deleteTableStylesWithTable:featureTable];
+    [self deleteTableStylesWithTableName:featureTable];
     
     if(styles != nil){
         
@@ -683,7 +683,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(void) setTableStyleWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style{
     
-    // TODO [self deleteTableStyleWithTableName:featureTable andGeometryType:geometryType];
+    [self deleteTableStyleWithTableName:featureTable andGeometryType:geometryType];
     
     if(style != nil){
         
@@ -691,10 +691,10 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         int featureContentsId = [[self.contentsId getOrCreateIdForTableName:featureTable] intValue];
         
-        // TODO int styleId = [self getOrInsertStyle:style];
+        int styleId = [self getOrInsertStyle:style];
         
         GPKGStyleMappingDao *mappingDao = [self tableStyleMappingDaoWithTable:featureTable];
-        // TODO [self insertStyleMappingWithDao:mappingDao andBaseId:featureContentsId andRelatedId:styleId andGeometryType:geometryType];
+        [self insertStyleMappingWithDao:mappingDao andBaseId:featureContentsId andRelatedId:styleId andGeometryType:geometryType];
         
     }
     
@@ -706,7 +706,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(void) setTableIconsWithTableName: (NSString *) featureTable andIcons: (GPKGIcons *) icons{
     
-    // TODO [self deleteTableIconsWithTable:featureTable];
+    [self deleteTableIconsWithTableName:featureTable];
     
     if(icons != nil){
         
@@ -737,7 +737,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(void) setTableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon{
     
-    // TODO [self deleteTableIconWithTableName:featureTable andGeometryType:geometryType];
+    [self deleteTableIconWithTableName:featureTable andGeometryType:geometryType];
     
     if(icon != nil){
         
@@ -745,15 +745,495 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         int featureContentsId = [[self.contentsId getOrCreateIdForTableName:featureTable] intValue];
         
-        // TODO int iconId = [self getOrInsertIcon:icon];
+        int iconId = [self getOrInsertIcon:icon];
         
         GPKGStyleMappingDao *mappingDao = [self tableIconMappingDaoWithTable:featureTable];
-        // TODO [self insertStyleMappingWithDao:mappingDao andBaseId:featureContentsId andRelatedId:iconId andGeometryType:geometryType];
+        [self insertStyleMappingWithDao:mappingDao andBaseId:featureContentsId andRelatedId:iconId andGeometryType:geometryType];
         
     }
     
 }
 
-// TODO
+-(void) setFeatureStylesWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyles: (GPKGFeatureStyles *) featureStyles{
+    [self setFeatureStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andFeatureStyles:featureStyles];
+}
+
+-(void) setFeatureStylesWithTableName: (NSString *) featureTable andId: (int) featureId andFeatureStyles: (GPKGFeatureStyles *) featureStyles{
+    if (featureStyles != nil) {
+        [self setStylesWithTableName:featureTable andId:featureId andStyles:featureStyles.styles];
+        [self setIconsWithTableName:featureTable andId:featureId andIcons:featureStyles.icons];
+    } else {
+        [self deleteStylesWithTableName:featureTable andId:featureId];
+        [self deleteIconsWithTableName:featureTable andId:featureId];
+    }
+}
+
+-(void) setFeatureStyleWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    [self setFeatureStyleWithFeature:featureRow andGeometryType:[featureRow getGeometryType] andFeatureStyle:featureStyle];
+}
+
+-(void) setFeatureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andFeatureStyle:featureStyle];
+}
+
+-(void) setFeatureStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andFeatureStyle:featureStyle];
+}
+
+-(void) setFeatureStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    if (featureStyle != nil) {
+        [self setStyleWithTableName:featureTable andId:featureId andGeometryType:geometryType andStyle:featureStyle.style];
+        [self setIconWithTableName:featureTable andId:featureId andGeometryType:geometryType andIcon:featureStyle.icon];
+    } else {
+        [self deleteStyleWithTableName:featureTable andId:featureId andGeometryType:geometryType];
+        [self deleteIconWithTableName:featureTable andId:featureId andGeometryType:geometryType];
+    }
+}
+
+-(void) setFeatureStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    [self setFeatureStyleWithTableName:featureTable andId:featureId andGeometryType:SF_NONE andFeatureStyle:featureStyle];
+}
+
+-(void) setStylesWithFeature: (GPKGFeatureRow *) featureRow andStyles: (GPKGStyles *) styles{
+    [self setStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andStyles:styles];
+}
+
+-(void) setStylesWithTableName: (NSString *) featureTable andId: (int) featureId andStyles: (GPKGStyles *) styles{
+    [self deleteStylesWithTableName:featureTable andId:featureId];
+    
+    if (styles != nil) {
+        
+        if ([styles defaultStyle] != nil) {
+            [self setStyleDefaultWithTableName:featureTable andId:featureId andStyle:[styles defaultStyle]];
+        }
+        
+        NSDictionary<NSNumber *, GPKGStyleRow *> *allStyles = [styles allStyles];
+        for(NSNumber *geometryTypeNumber in [allStyles allKeys]){
+            GPKGStyleRow *style = [allStyles objectForKey:geometryTypeNumber];
+            [self setStyleWithTableName:featureTable andId:featureId andGeometryType:[geometryTypeNumber intValue] andStyle:style];
+        }
+        
+    }
+}
+
+-(void) setStyleWithFeature: (GPKGFeatureRow *) featureRow andStyle: (GPKGStyleRow *) style{
+    [self setStyleWithFeature:featureRow andGeometryType:[featureRow getGeometryType] andStyle:style];
+}
+
+-(void) setStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style{
+    [self setStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andStyle:style];
+}
+
+-(void) setStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andStyle: (GPKGStyleRow *) style{
+    [self setStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andStyle:style];
+}
+
+-(void) setStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style{
+    [self deleteStyleWithTableName:featureTable andId:featureId andGeometryType:geometryType];
+    if(style != nil){
+        
+        [self createStyleRelationshipWithTable:featureTable];
+        
+        int styleId = [self getOrInsertStyle:style];
+        
+        GPKGStyleMappingDao *mappingDao = [self styleMappingDaoWithTable:featureTable];
+        [self insertStyleMappingWithDao:mappingDao andBaseId:featureId andRelatedId:styleId andGeometryType:geometryType];
+        
+    }
+}
+
+-(void) setStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andStyle: (GPKGStyleRow *) style{
+    [self setStyleWithTableName:featureTable andId:featureId andGeometryType:SF_NONE andStyle:style];
+}
+
+-(void) setIconsWithFeature: (GPKGFeatureRow *) featureRow andIcons: (GPKGIcons *) icons{
+    [self setIconsWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andIcons:icons];
+}
+
+-(void) setIconsWithTableName: (NSString *) featureTable andId: (int) featureId andIcons: (GPKGIcons *) icons{
+    [self deleteIconsWithTableName:featureTable andId:featureId];
+    
+    if (icons != nil) {
+        
+        if ([icons defaultIcon] != nil) {
+            [self setIconDefaultWithTableName:featureTable andId:featureId andIcon:[icons defaultIcon]];
+        }
+        
+        NSDictionary<NSNumber *, GPKGIconRow *> *allIcons = [icons allIcons];
+        for(NSNumber *geometryTypeNumber in [allIcons allKeys]){
+            GPKGIconRow *icon = [allIcons objectForKey:geometryTypeNumber];
+            [self setIconWithTableName:featureTable andId:featureId andGeometryType:[geometryTypeNumber intValue] andIcon:icon];
+        }
+        
+    }
+}
+
+-(void) setIconWithFeature: (GPKGFeatureRow *) featureRow andIcon: (GPKGIconRow *) icon{
+    [self setIconWithFeature:featureRow andGeometryType:[featureRow getGeometryType] andIcon:icon];
+}
+
+-(void) setIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon{
+    [self setIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andIcon:icon];
+}
+
+-(void) setIconDefaultWithFeature: (GPKGFeatureRow *) featureRow andIcon: (GPKGIconRow *) icon{
+    [self setIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andIcon:icon];
+}
+
+-(void) setIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon{
+    [self deleteIconWithTableName:featureTable andId:featureId andGeometryType:geometryType];
+    if(icon != nil){
+        
+        [self createIconRelationshipWithTable:featureTable];
+        
+        int iconId = [self getOrInsertIcon:icon];
+        
+        GPKGStyleMappingDao *mappingDao = [self iconMappingDaoWithTable:featureTable];
+        [self insertStyleMappingWithDao:mappingDao andBaseId:featureId andRelatedId:iconId andGeometryType:geometryType];
+        
+    }
+}
+
+-(void) setIconDefaultWithTableName: (NSString *) featureTable andId: (int) featureId andIcon: (GPKGIconRow *) icon{
+    [self setIconWithTableName:featureTable andId:featureId andGeometryType:SF_NONE andIcon:icon];
+}
+
+/**
+ * Get the style id, either from the existing style or by inserting a new
+ * one
+ *
+ * @param style style row
+ * @return style id
+ */
+-(int) getOrInsertStyle: (GPKGStyleRow *) style{
+    int styleId;
+    if ([style hasId]) {
+        styleId = [[style getId] intValue];
+    } else {
+        GPKGStyleDao *styleDao = [self styleDao];
+        styleId = (int)[styleDao create:style];
+    }
+    return styleId;
+}
+
+/**
+ * Get the icon id, either from the existing icon or by inserting a new one
+ *
+ * @param icon icon row
+ * @return icon id
+ */
+-(int) getOrInsertIcon: (GPKGIconRow *) icon{
+    int iconId;
+    if ([icon hasId]) {
+        iconId = [[icon getId] intValue];
+    } else {
+        GPKGIconDao *iconDao = [self iconDao];
+        iconId = (int)[iconDao create:icon];
+    }
+    return iconId;
+}
+
+/**
+ * Insert a style mapping row
+ *
+ * @param mappingDao   mapping dao
+ * @param baseId       base id, either contents id or feature id
+ * @param relatedId    related id, either style or icon id
+ * @param geometryType geometry type or null
+ */
+-(void) insertStyleMappingWithDao: (GPKGStyleMappingDao *) mappingDao andBaseId: (int) baseId andRelatedId: (int) relatedId andGeometryType: (enum SFGeometryType) geometryType{
+    
+    GPKGStyleMappingRow *row = [mappingDao newRow];
+    
+    [row setBaseId:baseId];
+    [row setRelatedId:relatedId];
+    [row setGeometryType:geometryType];
+    
+    [mappingDao insert:row];
+}
+
+-(void) deleteAllFeatureStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteAllFeatureStylesWithTableName:featureTable.tableName];
+}
+
+-(void) deleteAllFeatureStylesWithTableName: (NSString *) featureTable{
+    [self deleteTableFeatureStylesWithTableName:featureTable];
+    [self deleteFeatureStylesWithTableName:featureTable];
+}
+
+-(void) deleteAllStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteAllStylesWithTableName:featureTable.tableName];
+}
+
+-(void) deleteAllStylesWithTableName: (NSString *) featureTable{
+    [self deleteTableStylesWithTableName:featureTable];
+    [self deleteStylesWithTableName:featureTable];
+}
+
+-(void) deleteAllIconsWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteAllIconsWithTableName:featureTable.tableName];
+}
+
+-(void) deleteAllIconsWithTableName: (NSString *) featureTable{
+    [self deleteTableIconsWithTableName:featureTable];
+    [self deleteIconsWithTableName:featureTable];
+}
+
+-(void) deleteTableFeatureStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteTableFeatureStylesWithTableName:featureTable.tableName];
+}
+
+-(void) deleteTableFeatureStylesWithTableName: (NSString *) featureTable{
+    [self deleteTableStylesWithTableName:featureTable];
+    [self deleteTableIconsWithTableName:featureTable];
+}
+
+-(void) deleteTableStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteTableStylesWithTableName:featureTable.tableName];
+}
+
+-(void) deleteTableStylesWithTableName: (NSString *) featureTable{
+    [self deleteTableMappingsWithDao:[self tableStyleMappingDaoWithTable:featureTable] andTableName:featureTable];
+}
+
+-(void) deleteTableStyleDefaultWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteTableStyleDefaultWithTableName:featureTable.tableName];
+}
+
+-(void) deleteTableStyleDefaultWithTableName: (NSString *) featureTable{
+    [self deleteTableStyleWithTableName:featureTable andGeometryType:SF_NONE];
+}
+
+-(void) deleteTableStyleWithTable: (GPKGFeatureTable *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteTableStyleWithTableName:featureTable.tableName andGeometryType:geometryType];
+}
+
+-(void) deleteTableStyleWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteTableMappingWithDao:[self tableStyleMappingDaoWithTable:featureTable] andTableName:featureTable andGeometryType:geometryType];
+}
+
+-(void) deleteTableIconsWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteTableIconsWithTableName:featureTable.tableName];
+}
+
+-(void) deleteTableIconsWithTableName: (NSString *) featureTable{
+    [self deleteTableMappingsWithDao:[self tableIconMappingDaoWithTable:featureTable] andTableName:featureTable];
+}
+
+-(void) deleteTableIconDefaultWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteTableIconDefaultWithTableName:featureTable.tableName];
+}
+
+-(void) deleteTableIconDefaultWithTableName: (NSString *) featureTable{
+    [self deleteTableIconWithTableName:featureTable andGeometryType:SF_NONE];
+}
+
+-(void) deleteTableIconWithTable: (GPKGFeatureTable *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteTableIconWithTableName:featureTable.tableName andGeometryType:geometryType];
+}
+
+-(void) deleteTableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteTableMappingWithDao:[self tableIconMappingDaoWithTable:featureTable] andTableName:featureTable andGeometryType:geometryType];
+}
+
+/**
+ * Delete the table style mappings
+ *
+ * @param mappingDao   mapping dao
+ * @param featureTable feature table
+ */
+-(void) deleteTableMappingsWithDao: (GPKGStyleMappingDao *) mappingDao andTableName: (NSString *) featureTable{
+    if (mappingDao != nil) {
+        NSNumber *featureContentsId = [self.contentsId getIdForTableName:featureTable];
+        if(featureContentsId != nil){
+            [mappingDao deleteByBaseId:[featureContentsId intValue]];
+        }
+    }
+}
+
+/**
+ * Delete the table style mapping with the geometry type value
+ *
+ * @param mappingDao   mapping dao
+ * @param featureTable feature table
+ * @param geometryType geometry type
+ */
+-(void) deleteTableMappingWithDao: (GPKGStyleMappingDao *) mappingDao andTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
+    if (mappingDao != nil) {
+        NSNumber *featureContentsId = [self.contentsId getIdForTableName:featureTable];
+        if (featureContentsId != nil) {
+            [mappingDao deleteByBaseId:[featureContentsId intValue] andGeometryType:geometryType];
+        }
+    }
+}
+
+-(void) deleteFeatureStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteFeatureStylesWithTableName:featureTable.tableName];
+}
+
+-(void)  deleteFeatureStylesWithTableName: (NSString *) featureTable{
+    [self deleteStylesWithTableName:featureTable];
+    [self deleteIconsWithTableName:featureTable];
+}
+
+-(void) deleteStylesWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteStylesWithTableName:featureTable.tableName];
+}
+
+-(void) deleteStylesWithTableName: (NSString *) featureTable{
+    [self deleteMappingsWithDao: [self styleMappingDaoWithTable:featureTable]];
+}
+
+-(void) deleteStylesWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+}
+
+-(void) deleteStylesWithTableName: (NSString *) featureTable andId: (int) featureId{
+    [self deleteMappingsWithDao:[self styleMappingDaoWithTable:featureTable] andId:featureId];
+}
+
+-(void) deleteStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteStyleDefaultWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+}
+
+-(void) deleteStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId{
+    [self deleteStyleWithTableName:featureTable andId:featureId andGeometryType:SF_NONE];
+}
+
+-(void) deleteStyleWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteStyleWithFeature:featureRow andGeometryType:[featureRow getGeometryType]];
+}
+
+-(void) deleteStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+}
+
+-(void) deleteStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteMappingWithDao:[self styleMappingDaoWithTable:featureTable] andId:featureId andGeometryType:geometryType];
+}
+
+-(void) deleteIconsWithTable: (GPKGFeatureTable *) featureTable{
+    [self deleteIconsWithTableName:featureTable.tableName];
+}
+
+-(void) deleteIconsWithTableName: (NSString *) featureTable{
+    [self deleteMappingsWithDao:[self iconMappingDaoWithTable:featureTable]];
+}
+
+-(void) deleteIconsWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteIconsWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+}
+
+-(void) deleteIconsWithTableName: (NSString *) featureTable andId: (int) featureId{
+    [self deleteMappingsWithDao:[self iconMappingDaoWithTable:featureTable] andId:featureId];
+}
+
+-(void) deleteIconDefaultWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteIconDefaultWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+}
+
+-(void) deleteIconDefaultWithTableName: (NSString *) featureTable andId: (int) featureId{
+    [self deleteIconWithTableName:featureTable andId:featureId andGeometryType:SF_NONE];
+}
+
+-(void) deleteIconWithFeature: (GPKGFeatureRow *) featureRow{
+    [self deleteIconWithFeature:featureRow andGeometryType:[featureRow getGeometryType]];
+}
+
+-(void) deleteIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+}
+
+-(void) deleteIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
+    [self deleteMappingWithDao:[self iconMappingDaoWithTable:featureTable] andId:featureId andGeometryType:geometryType];
+}
+
+/**
+ * Delete all style mappings
+ *
+ * @param mappingDao mapping dao
+ */
+-(void) deleteMappingsWithDao: (GPKGStyleMappingDao *) mappingDao{
+    if (mappingDao != nil) {
+        [mappingDao deleteAll];
+    }
+}
+
+/**
+ * Delete the style mappings
+ *
+ * @param mappingDao mapping dao
+ * @param featureId  feature id
+ */
+-(void) deleteMappingsWithDao: (GPKGStyleMappingDao *) mappingDao andId: (int) featureId{
+    if (mappingDao != nil) {
+        [mappingDao deleteByBaseId:featureId];
+    }
+}
+
+/**
+ * Delete the style mapping with the geometry type value
+ *
+ * @param mappingDao   mapping dao
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ */
+-(void) deleteMappingWithDao: (GPKGStyleMappingDao *) mappingDao andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
+    if (mappingDao != nil) {
+        [mappingDao deleteByBaseId:featureId andGeometryType:geometryType];
+    }
+}
+
+-(NSArray<NSNumber *> *) allTableStyleIdsWithTable: (GPKGFeatureTable *) featureTable{
+    return [self allTableStyleIdsWithTableName:featureTable.tableName];
+}
+
+-(NSArray<NSNumber *> *) allTableStyleIdsWithTableName: (NSString *) featureTable{
+    NSArray<NSNumber *> *styleIds = nil;
+    GPKGStyleMappingDao *mappingDao = [self tableStyleMappingDaoWithTable:featureTable];
+    if(mappingDao != nil){
+        styleIds = [mappingDao uniqueRelatedIds];
+    }
+    return styleIds;
+}
+
+-(NSArray<NSNumber *> *) allTableIconIdsWithTable: (GPKGFeatureTable *) featureTable{
+    return [self allTableIconIdsWithTableName:featureTable.tableName];
+}
+
+-(NSArray<NSNumber *> *) allTableIconIdsWithTableName: (NSString *) featureTable{
+    NSArray<NSNumber *> *iconIds = nil;
+    GPKGStyleMappingDao *mappingDao = [self tableIconMappingDaoWithTable:featureTable];
+    if(mappingDao != nil){
+        iconIds = [mappingDao uniqueRelatedIds];
+    }
+    return iconIds;
+}
+
+-(NSArray<NSNumber *> *) allStyleIdsWithTable: (GPKGFeatureTable *) featureTable{
+    return [self allStyleIdsWithTableName:featureTable.tableName];
+}
+
+-(NSArray<NSNumber *> *) allStyleIdsWithTableName: (NSString *) featureTable{
+    NSArray<NSNumber *> *styleIds = nil;
+    GPKGStyleMappingDao *mappingDao = [self styleMappingDaoWithTable:featureTable];
+    if(mappingDao != nil){
+        styleIds = [mappingDao uniqueRelatedIds];
+    }
+    return styleIds;
+}
+
+-(NSArray<NSNumber *> *) allIconIdsWithTable: (GPKGFeatureTable *) featureTable{
+    return [self allIconIdsWithTableName:featureTable.tableName];
+}
+
+-(NSArray<NSNumber *> *) allIconIdsWithTableName: (NSString *) featureTable{
+    NSArray<NSNumber *> *iconIds = nil;
+    GPKGStyleMappingDao *mappingDao = [self iconMappingDaoWithTable:featureTable];
+    if(mappingDao != nil){
+        iconIds = [mappingDao uniqueRelatedIds];
+    }
+    return iconIds;
+}
 
 @end
