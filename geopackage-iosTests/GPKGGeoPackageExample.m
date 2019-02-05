@@ -38,6 +38,16 @@
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGRelatedTablesUtils.h"
 #import "GPKGDublinCoreMetadata.h"
+#import "GPKGGeoPackageExtensions.h"
+#import "GPKGNGAExtensions.h"
+#import "GPKGSchemaExtension.h"
+#import "GPKGMetadataExtension.h"
+#import "GPKGFeatureTileTableLinker.h"
+#import "GPKGTileTableScaling.h"
+#import "GPKGPropertiesExtension.h"
+#import "GPKGContentsIdExtension.h"
+#import "GPKGFeatureStyleExtension.h"
+
 
 @implementation GPKGGeoPackageExample
 
@@ -58,6 +68,10 @@ static BOOL RELATED_TABLES_FEATURES = YES;
 static BOOL RELATED_TABLES_SIMPLE_ATTRIBUTES = YES;
 static BOOL GEOMETRY_INDEX = YES;
 static BOOL FEATURE_TILE_LINK = YES;
+static BOOL TILE_SCALING = NO; // TODO
+static BOOL PROPERTIES = NO; // TODO
+static BOOL CONTENTS_ID = NO; // TODO
+static BOOL FEATURE_STYLE = NO; // TODO
 
 static NSString *ID_COLUMN = @"id";
 static NSString *GEOMETRY_COLUMN = @"geometry";
@@ -71,7 +85,94 @@ static NSString *BLOB_LIMITED_COLUMN = @"blob_limited";
 static NSString *DATE_COLUMN = @"date";
 static NSString *DATETIME_COLUMN = @"datetime";
 
+/**
+ * Test making the GeoPackage example
+ */
 -(void) testExample{
+    
+    [self create];
+    
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
+    [GPKGTestUtils assertNotNil:geoPackage];
+    [geoPackage close];
+    
+    [GPKGTestUtils assertTrue:[manager delete:GEOPACKAGE_NAME]];
+}
+
+/**
+ * Test the GeoPackage example extensions
+ */
+-(void) testExampleExtensions{
+    
+    [self create];
+    
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
+    
+    [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
+    [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:YES];
+    
+    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    
+    [self validateExtensionsWithGeoPackage:geoPackage andHas:NO];
+    [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:NO];
+    
+    [geoPackage close];
+    
+    [GPKGTestUtils assertTrue:[manager delete:GEOPACKAGE_NAME]];
+}
+
+-(void) testExampleNGAExtensions{
+    
+    [self create];
+    
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
+    
+    [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
+    [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:YES];
+    
+    [GPKGNGAExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    
+    [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
+    [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:NO];
+    
+    [geoPackage close];
+    
+    [GPKGTestUtils assertTrue:[manager delete:GEOPACKAGE_NAME]];
+}
+
+-(void) validateExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andHas: (BOOL) has{
+    
+    GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+    
+    [GPKGTestUtils assertEqualBoolWithValue:has && RTREE_SPATIAL_INDEX andValue2:[[[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && (RELATED_TABLES_FEATURES || RELATED_TABLES_MEDIA || RELATED_TABLES_SIMPLE_ATTRIBUTES) andValue2:[[[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && COVERAGE_DATA andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GRIDDED_COVERAGE_EXTENSION_NAME]] > 0];
+    
+    [GPKGTestUtils assertEqualBoolWithValue:has && SCHEMA andValue2:[[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && METADATA andValue2:[[[GPKGMetadataExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && NON_LINEAR_GEOMETRY_TYPES andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGGeometryExtensions getExtensionName:SF_CIRCULARSTRING]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && WEBP andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_WEBP_EXTENSION_NAME]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && CRS_WKT andValue2:[[[GPKGCrsWktExtension alloc] initWithGeoPackage:geoPackage] has]];
+    
+}
+
+-(void) validateNGAExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andHas: (BOOL) has{
+    
+    GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+    
+    [GPKGTestUtils assertEqualBoolWithValue:has && GEOMETRY_INDEX andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && FEATURE_TILE_LINK andValue2:[[[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && TILE_SCALING andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && PROPERTIES andValue2:[[[GPKGPropertiesExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && CONTENTS_ID andValue2:[[[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage] has]];
+    [GPKGTestUtils assertEqualBoolWithValue:has && FEATURE_STYLE andValue2:[[[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage] has]];
+    
+}
+
+-(void) create{
     
     NSLog(@"Creating: %@", GEOPACKAGE_NAME);
     GPKGGeoPackage *geoPackage = [GPKGGeoPackageExample createGeoPackage];
