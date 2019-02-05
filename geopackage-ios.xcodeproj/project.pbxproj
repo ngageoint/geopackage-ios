@@ -512,6 +512,10 @@
 		04711ACD21FB6E87007DC3A4 /* GPKGFeatureCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711ACB21FB6E87007DC3A4 /* GPKGFeatureCache.m */; };
 		04711AD021FB81D3007DC3A4 /* GPKGFeatureCacheTables.h in Headers */ = {isa = PBXBuildFile; fileRef = 04711ACE21FB81D3007DC3A4 /* GPKGFeatureCacheTables.h */; };
 		04711AD121FB81D3007DC3A4 /* GPKGFeatureCacheTables.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711ACF21FB81D3007DC3A4 /* GPKGFeatureCacheTables.m */; };
+		04711AD6220A37F7007DC3A4 /* college.png in Resources */ = {isa = PBXBuildFile; fileRef = 04711AD2220A37F6007DC3A4 /* college.png */; };
+		04711AD7220A37F7007DC3A4 /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = 04711AD3220A37F6007DC3A4 /* point.png */; };
+		04711AD8220A37F7007DC3A4 /* building.png in Resources */ = {isa = PBXBuildFile; fileRef = 04711AD4220A37F6007DC3A4 /* building.png */; };
+		04711AD9220A37F7007DC3A4 /* tractor.png in Resources */ = {isa = PBXBuildFile; fileRef = 04711AD5220A37F7007DC3A4 /* tractor.png */; };
 		0480CD151BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */; };
 		0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD171BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m */; };
 		0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD1A1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m */; };
@@ -1172,6 +1176,10 @@
 		04711ACB21FB6E87007DC3A4 /* GPKGFeatureCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureCache.m; sourceTree = "<group>"; };
 		04711ACE21FB81D3007DC3A4 /* GPKGFeatureCacheTables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureCacheTables.h; sourceTree = "<group>"; };
 		04711ACF21FB81D3007DC3A4 /* GPKGFeatureCacheTables.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureCacheTables.m; sourceTree = "<group>"; };
+		04711AD2220A37F6007DC3A4 /* college.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = college.png; sourceTree = "<group>"; };
+		04711AD3220A37F6007DC3A4 /* point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point.png; sourceTree = "<group>"; };
+		04711AD4220A37F6007DC3A4 /* building.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = building.png; sourceTree = "<group>"; };
+		04711AD5220A37F7007DC3A4 /* tractor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tractor.png; sourceTree = "<group>"; };
 		0480CD131BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerCreateTest.h; sourceTree = "<group>"; };
 		0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexManagerCreateTest.m; sourceTree = "<group>"; };
 		0480CD161BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerImportTest.h; sourceTree = "<group>"; };
@@ -1854,6 +1862,10 @@
 				0409CD0F20EA7EC60069B797 /* BITSystems_Logo.png */,
 				0409CD1120EA7EC70069B797 /* NGA_Logo.png */,
 				0409CD1020EA7EC70069B797 /* NGA.jpg */,
+				04711AD4220A37F6007DC3A4 /* building.png */,
+				04711AD2220A37F6007DC3A4 /* college.png */,
+				04711AD3220A37F6007DC3A4 /* point.png */,
+				04711AD5220A37F7007DC3A4 /* tractor.png */,
 				042FC6F01B964BC800549A4B /* Supporting Files */,
 				040D0C3A201FA110000ACD6C /* GPKGGeoPackageExample.h */,
 				040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */,
@@ -3088,15 +3100,19 @@
 				0409CD1420EA7EC80069B797 /* NGA.jpg in Resources */,
 				0488E4B81CF6561E0026DD1B /* tiles2.gpkg in Resources */,
 				0488E4B71CF6561E0026DD1B /* tiles.gpkg in Resources */,
+				04711AD6220A37F7007DC3A4 /* college.png in Resources */,
 				040D0C2F201F96F2000ACD6C /* 16_13689_24876.png in Resources */,
 				0409CD1320EA7EC80069B797 /* BITSystems_Logo.png in Resources */,
 				0409CD1620EA7EC80069B797 /* rte.gpkg in Resources */,
+				04711AD8220A37F7007DC3A4 /* building.png in Resources */,
 				040D0C34201F96F2000ACD6C /* 15_6844_12438.png in Resources */,
 				040D0C37201F96F2000ACD6C /* 15_9357_12551.png in Resources */,
+				04711AD9220A37F7007DC3A4 /* tractor.png in Resources */,
 				042B88AB1DFF4AC3006C2A4F /* coverage_data_tiff.gpkg in Resources */,
 				042FC8F31B964DA200549A4B /* import_db_corrupt.gpkg in Resources */,
 				040D0C2E201F96F2000ACD6C /* 16_13689_24877.png in Resources */,
 				04A1CE311D1087F800731963 /* webMercator.png in Resources */,
+				04711AD7220A37F7007DC3A4 /* point.png in Resources */,
 				040D0C31201F96F2000ACD6C /* 16_18715_25103.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
