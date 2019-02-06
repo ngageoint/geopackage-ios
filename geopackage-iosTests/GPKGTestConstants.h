@@ -34,6 +34,8 @@ extern NSString * const GPKG_TEST_TILES2_DB_TABLE_NAME;
 extern NSString * const GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME;
 extern NSString * const GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE;
 extern NSString * const GPKG_TEST_TILES2_WGS84_TEST_IMAGE;
+extern NSString * const GPKG_TEST_ICON_POINT_IMAGE_EXTENSION;
+extern NSString * const GPKG_TEST_ICON_POINT_IMAGE;
 
 @interface GPKGTestConstants : NSObject
 

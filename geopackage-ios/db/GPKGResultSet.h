@@ -170,4 +170,11 @@
  */
 -(NSNumber *) getDouble: (int) columnIndex;
 
+/**
+ *  Get the result count and close the result set
+ *
+ *  @return result count
+ */
+-(int) countAndClose;
+
 @end

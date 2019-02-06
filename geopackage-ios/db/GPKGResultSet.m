@@ -173,4 +173,9 @@
     return [NSNumber numberWithDouble: doubleValue];
 }
 
+-(int) countAndClose{
+    [self close];
+    return self.count;
+}
+
 @end

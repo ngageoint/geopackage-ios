@@ -34,6 +34,8 @@ NSString * const GPKG_TEST_TILES2_DB_TABLE_NAME = @"imagery";
 NSString * const GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME = @"coverages";
 NSString * const GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE = @"webMercator.png";
 NSString * const GPKG_TEST_TILES2_WGS84_TEST_IMAGE = @"wgs84.png";
+NSString * const GPKG_TEST_ICON_POINT_IMAGE_EXTENSION = @"png";
+NSString * const GPKG_TEST_ICON_POINT_IMAGE = @"point.png";
 
 @implementation GPKGTestConstants
 
