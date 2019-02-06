@@ -33,6 +33,11 @@
 @implementation GPKGFeatureTiles
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
@@ -51,6 +56,23 @@
         self.fillPolygon = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
         self.wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        
+        if (geoPackage != nil) {
+            
+            self.indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+            if(![self.indexManager isIndexed]){
+                [self.indexManager close];
+                self.indexManager = nil;
+            }
+            
+            /* TODO
+            featureTableStyles = new FeatureTableStyles(geoPackage, featureDao.getTable());
+            if (!featureTableStyles.has()) {
+                featureTableStyles = null;
+            }
+             */
+            
+        }
         
         [self calculateDrawOverlap];
     }

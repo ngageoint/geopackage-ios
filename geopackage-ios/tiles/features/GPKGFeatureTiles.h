@@ -119,6 +119,15 @@
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao;
 
 /**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao;
+
+/**
  *  Get the feature dao
  *
  *  @return feature dao
