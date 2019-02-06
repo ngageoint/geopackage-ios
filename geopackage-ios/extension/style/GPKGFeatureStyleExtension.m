@@ -33,12 +33,12 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 @implementation GPKGFeatureStyleExtension
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelatedTables: (GPKGRelatedTablesExtension *) relatedTables{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_STYLE_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION];
-        self.relatedTables = relatedTables;
+        self.relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
         self.contentsId = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
     }
     return self;

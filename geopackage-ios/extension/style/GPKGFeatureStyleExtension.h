@@ -48,11 +48,10 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  *  Initialize
  *
  *  @param geoPackage GeoPackage
- *  @param relatedTables related tables
  *
  *  @return new feature style extension
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelatedTables: (GPKGRelatedTablesExtension *) relatedTables;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Get the feature tables registered with the extension
