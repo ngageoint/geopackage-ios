@@ -47,7 +47,7 @@
 #import "GPKGPropertiesExtension.h"
 #import "GPKGContentsIdExtension.h"
 #import "GPKGFeatureStyleExtension.h"
-
+#import "GPKGPropertyNames.h"
 
 @implementation GPKGGeoPackageExample
 
@@ -68,9 +68,9 @@ static BOOL RELATED_TABLES_FEATURES = YES;
 static BOOL RELATED_TABLES_SIMPLE_ATTRIBUTES = YES;
 static BOOL GEOMETRY_INDEX = YES;
 static BOOL FEATURE_TILE_LINK = YES;
-static BOOL TILE_SCALING = NO; // TODO
-static BOOL PROPERTIES = NO; // TODO
-static BOOL CONTENTS_ID = NO; // TODO
+static BOOL TILE_SCALING = YES;
+static BOOL PROPERTIES = YES;
+static BOOL CONTENTS_ID = YES;
 static BOOL FEATURE_STYLE = NO; // TODO
 
 static NSString *ID_COLUMN = @"id";
@@ -197,6 +197,11 @@ static NSString *DATETIME_COLUMN = @"datetime";
             [GPKGGeoPackageExample createGeometryIndexExtensionWithGeoPackage:geoPackage];
         }
         
+        NSLog(@"Feature Style Extension: %s", FEATURE_STYLE ? "Yes" : "No");
+        if (FEATURE_STYLE) {
+            [GPKGGeoPackageExample createFeatureStyleExtensionWithGeoPackage:geoPackage];
+        }
+        
         NSLog(@"Feature Tile Link Extension: %s", FEATURE_TILE_LINK ? "Yes" : "No");
         if (FEATURE_TILE_LINK) {
             [GPKGGeoPackageExample createFeatureTileLinkExtensionWithGeoPackage:geoPackage];
@@ -225,6 +230,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     } else {
         NSLog(@"Schema Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Geometry Index Extension: %s", FEATURES ? "Yes" : "No");
+        NSLog(@"Feature Style Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Feature Tile Link Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"Non-Linear Geometry Types Extension: %s", FEATURES ? "Yes" : "No");
         NSLog(@"RTree Spatial Index Extension: %s", FEATURES ? "Yes" : "No");
@@ -242,8 +248,14 @@ static NSString *DATETIME_COLUMN = @"datetime";
             [GPKGGeoPackageExample createWebPExtensionWithGeoPackage:geoPackage];
         }
         
+        NSLog(@"Tile Scaling Extension: %s", TILE_SCALING ? "Yes" : "No");
+        if (TILE_SCALING) {
+            [GPKGGeoPackageExample createTileScalingExtensionWithGeoPackage:geoPackage];
+        }
+        
     } else {
         NSLog(@"WebP Extension: %s", TILES ? "Yes" : "No");
+        NSLog(@"Tile Scaling Extension: %s", TILES ? "Yes" : "No");
     }
     
     NSLog(@"Attributes: %s", ATTRIBUTES ? "Yes" : "No");
@@ -267,6 +279,16 @@ static NSString *DATETIME_COLUMN = @"datetime";
     NSLog(@"Coverage Data: %s", COVERAGE_DATA ? "Yes" : "No");
     if (COVERAGE_DATA) {
         [GPKGGeoPackageExample createCoverageDataExtensionWithGeoPackage:geoPackage];
+    }
+    
+    NSLog(@"Properties: %s", PROPERTIES ? "Yes" : "No");
+    if (PROPERTIES) {
+        [GPKGGeoPackageExample createPropertiesExtensionWithGeoPackage:geoPackage];
+    }
+    
+    NSLog(@"Contents Id: %s", CONTENTS_ID ? "Yes" : "No");
+    if (CONTENTS_ID) {
+        [GPKGGeoPackageExample createContentsIdExtensionWithGeoPackage:geoPackage];
     }
     
     [geoPackage close];
@@ -311,41 +333,72 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [geoPackage createGeometryColumnsTable];
     
-    SFPoint *point1 = [[SFPoint alloc] initWithXValue:-104.801918 andYValue:39.720014];
-    NSString *point1Name = @"BIT Systems";
+    [self createFeatures1WithGeoPackage:geoPackage andSrs:srs];
+    [self createFeatures2WithGeoPackage:geoPackage andSrs:srs];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point1" andType:SF_POINT andGeometry:point1 andName:point1Name];
+}
+
++(void) createFeatures1WithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs{
     
-    SFPoint *point2 = [[SFPoint alloc] initWithXValue:-77.196736 andYValue:38.753370];
-    NSString *point2Name = @"NGA";
+    NSMutableArray<SFGeometry *> *points = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *pointNames = [[NSMutableArray alloc] init];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point2" andType:SF_POINT andGeometry:point2 andName:point2Name];
+    [points addObject:[[SFPoint alloc] initWithXValue:-104.801918 andYValue:39.720014]];
+    [pointNames addObject:@"BIT Systems"];
+    
+    [points addObject:[[SFPoint alloc] initWithXValue:-104.802987 andYValue:39.717703]];
+    [pointNames addObject:@"Community College of Aurora CentreTech Campus"];
+    
+    [points addObject:[[SFPoint alloc] initWithXValue:-104.807496 andYValue:39.714085]];
+    [pointNames addObject:@"DeLaney Community Farm"];
+    
+    [points addObject:[[SFPoint alloc] initWithXValue:-104.799480 andYValue:39.714729]];
+    [pointNames addObject:@"Centre Hills Disc Golf Course"];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point1" andType:SF_POINT andGeometries:points andNames:pointNames];
+    
+    NSMutableArray<SFGeometry *> *lines = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *lineNames = [[NSMutableArray alloc] init];
     
     SFLineString *line1 = [[SFLineString alloc] init];
-    NSString *line1Name = @"East Lockheed Drive";
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.800614 andYValue:39.720721]];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.802174 andYValue:39.720726]];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.802584 andYValue:39.720660]];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.803088 andYValue:39.720477]];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.803474 andYValue:39.720209]];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line1" andType:SF_LINESTRING andGeometry:line1 andName:line1Name];
+    [lines addObject:line1];
+    [lineNames addObject:@"East Lockheed Drive"];
     
     SFLineString *line2 = [[SFLineString alloc] init];
-    NSString *line2Name = @"NGA";
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196650 andYValue:38.756501]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196414 andYValue:38.755979]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195518 andYValue:38.755208]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195303 andYValue:38.755272]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195351 andYValue:38.755459]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.195863 andYValue:38.755697]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196328 andYValue:38.756069]];
-    [line2 addPoint:[[SFPoint alloc] initWithXValue:-77.196568 andYValue:38.756526]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.809612 andYValue:39.718379]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.806638 andYValue:39.718372]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.806236 andYValue:39.718439]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.805939 andYValue:39.718536]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.805654 andYValue:39.718677]];
+    [line2 addPoint:[[SFPoint alloc] initWithXValue:-104.803652 andYValue:39.720095]];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line2" andType:SF_LINESTRING andGeometry:line2 andName:line2Name];
+    [lines addObject:line2];
+    [lineNames addObject:@"E 1st Ave"];
+    
+    SFLineString *line3 = [[SFLineString alloc] init];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.806344 andYValue:39.722425]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.805854 andYValue:39.722634]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.805656 andYValue:39.722647]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.803749 andYValue:39.722641]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.803769 andYValue:39.721849]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.803806 andYValue:39.721725]];
+    [line3 addPoint:[[SFPoint alloc] initWithXValue:-104.804382 andYValue:39.720865]];
+    
+    [lines addObject:line3];
+    [lineNames addObject:@"E Centretech Cir"];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line1" andType:SF_LINESTRING andGeometries:lines andNames:lineNames];
+
+    NSMutableArray<SFGeometry *> *polygons = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *polygonNames = [[NSMutableArray alloc] init];
     
     SFPolygon *polygon1 = [[SFPolygon alloc] init];
-    NSString *polygon1Name = @"BIT Systems";
     SFLineString *ring1 = [[SFLineString alloc] init];
     [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
     [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.719753]];
@@ -363,55 +416,156 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [ring1 addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
     [polygon1 addRing:ring1];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon1" andType:SF_POLYGON andGeometry:polygon1 andName:polygon1Name];
+    [polygons addObject:polygon1];
+    [polygonNames addObject:@"BIT Systems"];
     
     SFPolygon *polygon2 = [[SFPolygon alloc] init];
-    NSString *polygon2Name = @"NGA Visitor Center";
+    
     SFLineString *ring2 = [[SFLineString alloc] init];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195203 andYValue:38.755080]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195410 andYValue:38.754930]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195350 andYValue:38.754884]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195228 andYValue:38.754966]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195135 andYValue:38.754889]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195048 andYValue:38.754956]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194986 andYValue:38.754906]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194897 andYValue:38.754976]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194953 andYValue:38.755025]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194763 andYValue:38.755173]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.194827 andYValue:38.755224]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195012 andYValue:38.755082]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195041 andYValue:38.755104]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195028 andYValue:38.755116]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195090 andYValue:38.755167]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195106 andYValue:38.755154]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195205 andYValue:38.755233]];
-    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802259 andYValue:39.719604]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802260 andYValue:39.719550]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802281 andYValue:39.719416]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802332 andYValue:39.719372]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802081 andYValue:39.719240]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802044 andYValue:39.719290]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802027 andYValue:39.719278]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802044 andYValue:39.719229]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801785 andYValue:39.719129]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801639 andYValue:39.719413]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801649 andYValue:39.719472]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801694 andYValue:39.719524]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801753 andYValue:39.719550]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801750 andYValue:39.719606]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801940 andYValue:39.719606]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801939 andYValue:39.719555]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801977 andYValue:39.719556]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.801979 andYValue:39.719606]];
+    [ring2 addPoint:[[SFPoint alloc] initWithXValue:-104.802259 andYValue:39.719604]];
     [polygon2 addRing:ring2];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon2" andType:SF_POLYGON andGeometry:polygon2 andName:polygon2Name];
+    SFLineString *hole2 = [[SFLineString alloc] init];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802130 andYValue:39.719440]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802133 andYValue:39.719490]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802148 andYValue:39.719490]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802180 andYValue:39.719473]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802187 andYValue:39.719456]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802182 andYValue:39.719439]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802088 andYValue:39.719387]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802047 andYValue:39.719427]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801858 andYValue:39.719342]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801883 andYValue:39.719294]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801832 andYValue:39.719284]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801787 andYValue:39.719298]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801763 andYValue:39.719331]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801823 andYValue:39.719352]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801790 andYValue:39.719420]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801722 andYValue:39.719404]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801715 andYValue:39.719445]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801748 andYValue:39.719484]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801809 andYValue:39.719494]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.801816 andYValue:39.719439]];
+    [hole2 addPoint:[[SFPoint alloc] initWithXValue:-104.802130 andYValue:39.719440]];
+    [polygon2 addRing:hole2];
     
-    NSMutableArray<SFGeometry *> *geometries1 = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *geometries1Names = [[NSMutableArray alloc] init];
-    [geometries1 addObject:point1];
-    [geometries1Names addObject:point1Name];
-    [geometries1 addObject:line1];
-    [geometries1Names addObject:line1Name];
-    [geometries1 addObject:polygon1];
-    [geometries1Names addObject:polygon1Name];
+    [polygons addObject:polygon2];
+    [polygonNames addObject:@"BIT Systems Visitor Parking"];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry1" andType:SF_GEOMETRY andGeometries:geometries1 andNames:geometries1Names];
+    SFPolygon *polygon3 = [[SFPolygon alloc] init];
+    SFLineString *ring3 = [[SFLineString alloc] init];
+    [ring3 addPoint:[[SFPoint alloc] initWithXValue:-104.802867 andYValue:39.718122]];
+    [ring3 addPoint:[[SFPoint alloc] initWithXValue:-104.802369 andYValue:39.717845]];
+    [ring3 addPoint:[[SFPoint alloc] initWithXValue:-104.802571 andYValue:39.717630]];
+    [ring3 addPoint:[[SFPoint alloc] initWithXValue:-104.803066 andYValue:39.717909]];
+    [ring3 addPoint:[[SFPoint alloc] initWithXValue:-104.802867 andYValue:39.718122]];
+    [polygon3 addRing:ring3];
     
-    NSMutableArray<SFGeometry *> *geometries2 = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *geometries2Names = [[NSMutableArray alloc] init];
-    [geometries2 addObject:point2];
-    [geometries2Names addObject:point2Name];
-    [geometries2 addObject:line2];
-    [geometries2Names addObject:line2Name];
-    [geometries2 addObject:polygon2];
-    [geometries2Names addObject:polygon2Name];
+    [polygons addObject:polygon3];
+    [polygonNames addObject:@"CCA Administration Building"];
     
-    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry2" andType:SF_GEOMETRY andGeometries:geometries2 andNames:geometries2Names];
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon1" andType:SF_POLYGON andGeometries:polygons andNames:polygonNames];
+    
+    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *geometryNames = [[NSMutableArray alloc] init];
+    [geometries addObjectsFromArray:points];
+    [geometryNames addObjectsFromArray:pointNames];
+    [geometries addObjectsFromArray:lines];
+    [geometryNames addObjectsFromArray:lineNames];
+    [geometries addObjectsFromArray:polygons];
+    [geometryNames addObjectsFromArray:polygonNames];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry1" andType:SF_GEOMETRY andGeometries:geometries andNames:geometryNames];
+    
+}
+
++(void) createFeatures2WithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs{
+
+    NSMutableArray<SFGeometry *> *points = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *pointNames = [[NSMutableArray alloc] init];
+    
+    [points addObject:[[SFPoint alloc] initWithXValue:-77.196736 andYValue:38.753370]];
+    [pointNames addObject:@"NGA"];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point2" andType:SF_POINT andGeometries:points andNames:pointNames];
+    
+    NSMutableArray<SFGeometry *> *lines = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *lineNames = [[NSMutableArray alloc] init];
+    
+    SFLineString *line1 = [[SFLineString alloc] init];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.196650 andYValue:38.756501]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.196414 andYValue:38.755979]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.195518 andYValue:38.755208]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.195303 andYValue:38.755272]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.195351 andYValue:38.755459]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.195863 andYValue:38.755697]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.196328 andYValue:38.756069]];
+    [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.196568 andYValue:38.756526]];
+    
+    [lines addObject:line1];
+    [lineNames addObject:@"NGA"];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line2" andType:SF_LINESTRING andGeometries:lines andNames:lineNames];
+    
+    NSMutableArray<SFGeometry *> *polygons = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *polygonNames = [[NSMutableArray alloc] init];
+    
+    SFPolygon *polygon1 = [[SFPolygon alloc] init];
+    SFLineString *ring1 = [[SFLineString alloc] init];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195203 andYValue:38.755080]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195410 andYValue:38.754930]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195350 andYValue:38.754884]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195228 andYValue:38.754966]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195135 andYValue:38.754889]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195048 andYValue:38.754956]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.194986 andYValue:38.754906]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.194897 andYValue:38.754976]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.194953 andYValue:38.755025]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.194763 andYValue:38.755173]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.194827 andYValue:38.755224]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195012 andYValue:38.755082]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195041 andYValue:38.755104]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195028 andYValue:38.755116]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195090 andYValue:38.755167]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195106 andYValue:38.755154]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195205 andYValue:38.755233]];
+    [ring1 addPoint:[[SFPoint alloc] initWithXValue:-77.195299 andYValue:38.755159]];
+    [polygon1 addRing:ring1];
+    
+    [polygons addObject:polygon1];
+    [polygonNames addObject:@"NGA Visitor Center"];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon2" andType:SF_POLYGON andGeometries:polygons andNames:polygonNames];
+    
+    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *geometryNames = [[NSMutableArray alloc] init];
+    [geometries addObjectsFromArray:points];
+    [geometryNames addObjectsFromArray:pointNames];
+    [geometries addObjectsFromArray:lines];
+    [geometryNames addObjectsFromArray:lineNames];
+    [geometries addObjectsFromArray:polygons];
+    [geometryNames addObjectsFromArray:polygonNames];
+    
+    [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"geometry2" andType:SF_GEOMETRY andGeometries:geometries andNames:geometryNames];
     
 }
 
@@ -700,10 +854,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     for(NSString *featureTable in featureTables){
         
         GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
-        GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
-        
-        GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
-        [featureTiles setIndexManager:indexer];
+        GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         
         GPKGBoundingBox *boundingBox = [featureDao getBoundingBox];
         SFPProjection *projection = featureDao.projection;
@@ -1426,6 +1577,60 @@ static int dataColumnConstraintIndex = 0;
     }
     [attributesResultSet close];
     
+}
+
++(void) createTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    for(NSString *tileTable in [geoPackage getTileTables]){
+        
+        GPKGTileTableScaling *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTableName:tileTable];
+        GPKGTileScaling *tileScaling = [[GPKGTileScaling alloc] init];
+        [tileScaling setTileScalingType:GPKG_TSC_IN_OUT];
+        [tileScaling setZoomIn:[NSNumber numberWithInt:2]];
+        [tileScaling setZoomOut:[NSNumber numberWithInt:2]];
+        [tileTableScaling create:tileScaling];
+        
+    }
+    
+}
+
++(void) createPropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGPropertiesExtension *properties = [[GPKGPropertiesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    NSString *dateTime = [GPKGDateTimeUtils convertToDateTimeStringWithDate:[NSDate date]];
+    
+    [properties addValue:@"GeoPackage iOS Example" withProperty:GPKG_PE_TITLE];
+    [properties addValue:@"3.1.1" withProperty:GPKG_PE_VERSION];
+    [properties addValue:@"NGA" withProperty:GPKG_PE_CREATOR];
+    [properties addValue:@"NGA" withProperty:GPKG_PE_PUBLISHER];
+    [properties addValue:@"Brian Osborn" withProperty:GPKG_PE_CONTRIBUTOR];
+    [properties addValue:@"Dan Barela" withProperty:GPKG_PE_CONTRIBUTOR];
+    [properties addValue:dateTime withProperty:GPKG_PE_CREATED];
+    [properties addValue:dateTime withProperty:GPKG_PE_DATE];
+    [properties addValue:dateTime withProperty:GPKG_PE_MODIFIED];
+    [properties addValue:@"GeoPackage example created by https://github.com/ngageoint/geopackage-ios/blob/master/geopackage-iosTests/GPKGGeoPackageTestCase.m" withProperty:GPKG_PE_DESCRIPTION];
+    [properties addValue:@"geopackage-java" withProperty:GPKG_PE_IDENTIFIER];
+    [properties addValue:@"MIT" withProperty:GPKG_PE_LICENSE];
+    [properties addValue:@"http://github.com/ngageoint/GeoPackage/blob/master/docs/examples/ios/example.gpkg" withProperty:GPKG_PE_SOURCE];
+    [properties addValue:@"Examples" withProperty:GPKG_PE_SUBJECT];
+    [properties addValue:@"Examples" withProperty:GPKG_PE_TYPE];
+    [properties addValue:@"http://github.com/ngageoint/geopackage-ios" withProperty:GPKG_PE_URI];
+    [properties addValue:@"NGA" withProperty:GPKG_PE_TAG];
+    [properties addValue:@"Example" withProperty:GPKG_PE_TAG];
+    [properties addValue:@"BIT Systems" withProperty:GPKG_PE_TAG];
+    
+}
+
++(void) createContentsIdExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGContentsIdExtension *contentsId = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    [contentsId createIdsForType:GPKG_CDT_FEATURES];
+    
+}
+
++(void) createFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
 }
 
 @end
