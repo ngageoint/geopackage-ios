@@ -48,6 +48,8 @@
 #import "GPKGContentsIdExtension.h"
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGPropertyNames.h"
+#import "GPKGColorConstants.h"
+#import "GPKGFeatureTableStyles.h"
 
 @implementation GPKGGeoPackageExample
 
@@ -71,7 +73,7 @@ static BOOL FEATURE_TILE_LINK = YES;
 static BOOL TILE_SCALING = YES;
 static BOOL PROPERTIES = YES;
 static BOOL CONTENTS_ID = YES;
-static BOOL FEATURE_STYLE = NO; // TODO
+static BOOL FEATURE_STYLE = YES;
 
 static NSString *ID_COLUMN = @"id";
 static NSString *GEOMETRY_COLUMN = @"geometry";
@@ -1631,6 +1633,169 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
+    NSMutableArray<GPKGStyleRow *> *styles = [[NSMutableArray alloc] init];
+    
+    GPKGStyleRow *style1 = [[GPKGStyleRow alloc] init];
+    [style1 setName:@"Green"];
+    [style1 setDescription:@"Green Style"];
+    [style1 setHexColor:GPKG_COLOR_GREEN];
+    [style1 setWidth:[[NSDecimalNumber alloc] initWithDouble:2.0]];
+    [styles addObject:style1];
+    
+    GPKGStyleRow *style2 = [[GPKGStyleRow alloc] init];
+    [style2 setName:@"Blue with Red Fill"];
+    [style2 setDescription:@"Blue with Red Fill Style"];
+    [style2 setColor:[[GPKGColor alloc] initWithHex:GPKG_COLOR_BLUE]];
+    [style2 setFillColor:[[GPKGColor alloc] initWithRed:255 andGreen:0 andBlue:0 andOpacity:.4f]];
+    [styles addObject:style2];
+    
+    GPKGStyleRow *style3 = [[GPKGStyleRow alloc] init];
+    [style3 setName:@"Orange"];
+    [style3 setDescription:@"Orange Style"];
+    [style3 setColor:[[GPKGColor alloc] initWithColor:0xFFA500]];
+    [style3 setWidth:[[NSDecimalNumber alloc] initWithDouble:6.5]];
+    [styles addObject:style3];
+    
+    GPKGStyleRow *style4 = [[GPKGStyleRow alloc] init];
+    [style4 setName:@"Violet with Yellow Fill"];
+    [style4 setDescription:@"Violet with Yellow Fill Style"];
+    [style4 setColor:[[GPKGColor alloc] initWithRed:138 andGreen:43 andBlue:226]];
+    [style4 setWidth:[[NSDecimalNumber alloc] initWithDouble:4.1]];
+    [style4 setFillColor:[[GPKGColor alloc] initWithHue:61 andSaturation:.89f andLightness:.72f andAlpha:.3f]];
+    [styles addObject:style4];
+
+    NSMutableArray<GPKGIconRow *> *icons = [[NSMutableArray alloc] init];
+    
+    NSString *buildingPath  = [[[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath] stringByAppendingPathComponent:@"building.png"];
+    GPKGIconRow *icon1 = [[GPKGIconRow alloc] init];
+    [icon1 setName:@"Building"];
+    [icon1 setDescription:@"Building Icon"];
+    [icon1 setData:[[NSFileManager defaultManager] contentsAtPath:buildingPath]];
+    [icon1 setContentType:@"image/png"];
+    [icon1 setWidth:[[NSDecimalNumber alloc] initWithDouble:32.0]];
+    [icon1 setAnchorU:[[NSDecimalNumber alloc] initWithDouble:0.5]];
+    [icon1 setAnchorV:[[NSDecimalNumber alloc] initWithDouble:1.0]];
+    [icons addObject:icon1];
+    
+    NSString *collegePath  = [[[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath] stringByAppendingPathComponent:@"college.png"];
+    GPKGIconRow *icon2 = [[GPKGIconRow alloc] init];
+    [icon2 setName:@"College"];
+    [icon2 setDescription:@"College Icon"];
+    [icon2 setData:[[NSFileManager defaultManager] contentsAtPath:collegePath]];
+    [icon2 setContentType:@"image/png"];
+    [icon2 setWidth:[[NSDecimalNumber alloc] initWithDouble:32.0]];
+    [icon2 setHeight:[[NSDecimalNumber alloc] initWithDouble:44.0]];
+    [icons addObject:icon2];
+
+    NSString *tractorPath  = [[[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath] stringByAppendingPathComponent:@"tractor.png"];
+    GPKGIconRow *icon3 = [[GPKGIconRow alloc] init];
+    [icon3 setName:@"Tractor"];
+    [icon3 setDescription:@"Tractor Icon"];
+    [icon3 setData:[[NSFileManager defaultManager] contentsAtPath:tractorPath]];
+    [icon3 setContentType:@"image/png"];
+    [icon3 setAnchorV:[[NSDecimalNumber alloc] initWithDouble:1.0]];
+    [icons addObject:icon3];
+    
+    [self createFeatureStylesGeometry1WithGeoPackage:geoPackage andStyles:styles andIcons:icons];
+    [self createFeatureStylesGeometry2WithGeoPackage:geoPackage andStyles:styles andIcons:icons];
+}
+
++(void) createFeatureStylesGeometry1WithGeoPackage: (GPKGGeoPackage *) geoPackage andStyles: (NSArray<GPKGStyleRow *> *) styles andIcons: (NSArray<GPKGIconRow *> *) icons{
+    
+    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:@"geometry1"];
+    GPKGFeatureTableStyles *geometry1Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+    
+    [geometry1Styles setTableStyleDefault:[styles objectAtIndex:0]];
+    [geometry1Styles setTableStyle:[styles objectAtIndex:1] withGeometryType:SF_POLYGON];
+    [geometry1Styles setTableStyle:[styles objectAtIndex:2] withGeometryType:SF_POINT];
+    
+    [geometry1Styles createStyleRelationship];
+    [geometry1Styles createIconRelationship];
+    
+    int pointCount = 0;
+    int lineCount = 0;
+    int polygonCount = 0;
+    
+    GPKGResultSet *features = [featureDao queryForAll];
+    while([features moveToNext]){
+        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:features];
+        switch ([featureRow getGeometryType]) {
+            case SF_POINT:
+                pointCount++;
+                switch (pointCount) {
+                    case 1:
+                        [geometry1Styles setIcon:[icons objectAtIndex:0] withFeature:featureRow];
+                        break;
+                    case 2:
+                        [geometry1Styles setIcon:[icons objectAtIndex:1] withFeature:featureRow];
+                        break;
+                    case 3:
+                        [geometry1Styles setIcon:[icons objectAtIndex:2] withFeature:featureRow];
+                        break;
+                }
+                break;
+            case SF_LINESTRING:
+                lineCount++;
+                switch (lineCount) {
+                    case 2:
+                        [geometry1Styles setStyle:[styles objectAtIndex:1] withFeature:featureRow];
+                        break;
+                    case 3:
+                        [geometry1Styles setStyle:[styles objectAtIndex:2] withFeature:featureRow];
+                        break;
+                }
+                break;
+            case SF_POLYGON:
+                polygonCount++;
+                switch (polygonCount) {
+                    case 2:
+                        [geometry1Styles setStyle:[styles objectAtIndex:3] withFeature:featureRow];
+                        break;
+                    case 3:
+                        [geometry1Styles setStyle:[styles objectAtIndex:2] withFeature:featureRow];
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    [features close];
+    
+}
+
++(void) createFeatureStylesGeometry2WithGeoPackage: (GPKGGeoPackage *) geoPackage andStyles: (NSArray<GPKGStyleRow *> *) styles andIcons: (NSArray<GPKGIconRow *> *) icons{
+    
+    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:@"geometry2"];
+    GPKGFeatureTableStyles *geometry2Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+    
+    [geometry2Styles setTableStyle:[styles objectAtIndex:0] withGeometryType:SF_POINT];
+    [geometry2Styles setTableStyle:[styles objectAtIndex:1] withGeometryType:SF_LINESTRING];
+    [geometry2Styles setTableStyle:[styles objectAtIndex:0] withGeometryType:SF_POLYGON];
+    [geometry2Styles setTableStyle:[styles objectAtIndex:2] withGeometryType:SF_GEOMETRY];
+    
+    [geometry2Styles createStyleRelationship];
+    [geometry2Styles createIconRelationship];
+    
+    GPKGResultSet *features = [featureDao queryForAll];
+    while([features moveToNext]){
+        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:features];
+        switch ([featureRow getGeometryType]) {
+            case SF_POINT:
+                [geometry2Styles setIcon:[icons objectAtIndex:0] withFeature:featureRow];
+                break;
+            case SF_LINESTRING:
+                [geometry2Styles setStyle:[styles objectAtIndex:0] withFeature:featureRow];
+                break;
+            case SF_POLYGON:
+                [geometry2Styles setStyle:[styles objectAtIndex:1] withFeature:featureRow];
+                break;
+            default:
+                break;
+        }
+    }
+    [features close];
+    
 }
 
 @end
