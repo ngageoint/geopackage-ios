@@ -21,6 +21,31 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 /**
+ *  Get the contents id for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return contents id
+ */
+-(GPKGContentsId *) contentsId: (GPKGResultSet *) results;
+
+/**
+ *  Query for and set the contents in the contents id
+ *
+ *  @param contentsId contents id
+ */
+-(void) setContents: (GPKGContentsId *) contentsId;
+
+/**
+ *  Query for the contents for the contents id
+ *
+ *  @param contentsId contents id
+ *
+ *  @return contents
+ */
+-(GPKGContents *) contents: (GPKGContentsId *) contentsId;
+
+/**
  * Query by table name
  *
  * @param tableName

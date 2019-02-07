@@ -53,6 +53,15 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
 -(BOOL) has;
 
 /**
+ *  Get the contents id for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return contents id
+ */
+-(GPKGContentsId *) contentsId: (GPKGResultSet *) results;
+
+/**
  * Get the contents id object
  *
  * @param contents

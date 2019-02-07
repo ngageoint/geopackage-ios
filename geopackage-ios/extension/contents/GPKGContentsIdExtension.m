@@ -51,6 +51,10 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return exists;
 }
 
+-(GPKGContentsId *) contentsId: (GPKGResultSet *) results{
+    return [self.contentsIdDao contentsId:results];
+}
+
 -(GPKGContentsId *) getForContents: (GPKGContents *) contents{
     return [self getForTableName:contents.tableName];
 }
@@ -210,8 +214,8 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     
     if([self.contentsIdDao tableExists]){
         
-        NSString *query = [NSString stringWithFormat:@"SELECT %@.* FROM %@ INNER JOIN %@ ON %@.%@=%@.%@", GPKG_CI_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CI_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CON_COLUMN_TABLE_NAME];
-        contentsIds = [self.contentsIdDao rawQuery:query];
+        NSString *query = [NSString stringWithFormat:@"SELECT %@.* FROM %@ INNER JOIN %@ ON %@.%@ = %@.%@ WHERE %@ = ?", GPKG_CI_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CI_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_COLUMN_DATA_TYPE];
+        contentsIds = [self.contentsIdDao rawQuery:query andArgs:[[NSArray alloc] initWithObjects:type, nil]];
         
     }
     

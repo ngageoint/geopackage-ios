@@ -7,6 +7,7 @@
 //
 
 #import "GPKGContentsIdDao.h"
+#import "GPKGContentsDao.h"
 
 @implementation GPKGContentsIdDao
 
@@ -64,9 +65,30 @@
     return value;
 }
 
+-(long long) insert: (NSObject *) object{
+    long long id = [super insert:object];
+    [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
+    return id;
+}
+
+-(GPKGContentsId *) contentsId: (GPKGResultSet *) results{
+    GPKGContentsId *contentsId = (GPKGContentsId *) [self getObject:results];
+    [self setContents:contentsId];
+    return contentsId;
+}
+
+-(void) setContents: (GPKGContentsId *) contentsId{
+    [contentsId setContents:[self contents:contentsId]];
+}
+
+-(GPKGContents *) contents: (GPKGContentsId *) contentsId{
+    return (GPKGContents *)[[self getContentsDao] queryForIdObject:contentsId.tableName];
+}
+
 -(GPKGContentsId *) queryForTableName: (NSString *) tableName{
     GPKGResultSet * results = [self queryForEqWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
     GPKGContentsId *contentsId = (GPKGContentsId *)[self getFirstObject:results];
+    [self setContents:contentsId];
     return contentsId;
 }
 
@@ -74,6 +96,10 @@
     NSString * where = [self buildWhereWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
     NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
     return [self deleteWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGContentsDao *) getContentsDao{
+    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 
 @end
