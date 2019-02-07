@@ -125,7 +125,7 @@
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
     extendedRelations = [rte relationships];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)extendedRelations.count];
-    [GPKGTestUtils assertFalse:[self.geoPackage.database tableExists:mappingTableName]];
+    [GPKGTestUtils assertFalse:[self.geoPackage isTable:mappingTableName]];
     
     // 3. Remove extension
     [rte removeExtension];
