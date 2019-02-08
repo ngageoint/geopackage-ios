@@ -74,10 +74,7 @@
             [featureTiles setMaxFeaturesTileDraw:numberFeaturesTile];
         }
         
-        GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
-        boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
-        boundingBox = [boundingBox transform:[[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR]];
-        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
         [tileGenerator setStandardWebMercatorFormat:false];
         
         int tiles = [tileGenerator generateTiles];
@@ -94,6 +91,30 @@
             }
             
             for(int z = minZoom; z <= maxZoom; z++){
+                
+                
+                GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:tileGenerator.boundingBox andZoom:z];
+                
+                for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
+                    for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
+                        if([featureTiles queryIndexedFeaturesCountWithX:x andY:y andZoom:z] > 0){
+                            
+                            GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:z];
+                            GPKGFeatureIndexResults *results = [featureTiles queryIndexedFeaturesWithX:x andY:y andZoom:z];
+                            
+                            [results close];
+                            /* TODO
+                            UIImage *image = [featureTiles drawTileWithBoundingBox:webMercatorBoundingBox andResults:results]; // TODO zoom and feature index results method?
+                            if(image != nil){
+                                expectedTiles++;
+                            }
+                             */
+                            
+                        }
+                    }
+                }
+                
+                // TODO delete?
                 int tilesPerSide = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:z];
                 for (int x = 0; x < tilesPerSide; x++) {
                     for (int y = 0; y < tilesPerSide; y++) {
