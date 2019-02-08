@@ -204,6 +204,24 @@
 -(int) queryIndexedFeaturesCountWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
+ * Query for feature result count in the bounding box
+ *
+ * @param webMercatorBoundingBox web mercator bounding box
+ * @return feature count
+ */
+-(int) queryIndexedFeaturesCountWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox;
+
+/**
+ * Query for feature results in the x, y, and zoom level by querying features in the tile location
+ *
+ * @param x    x coordinate
+ * @param y    y coordinate
+ * @param zoom zoom level
+ * @return feature index results
+ */
+-(GPKGFeatureIndexResults *) queryIndexedFeaturesWithX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
  *  Query for feature results in the x, y, and zoom level by querying features in the tile location
  *
  *  @param webMercatorBoundingBox web mercator bounding box

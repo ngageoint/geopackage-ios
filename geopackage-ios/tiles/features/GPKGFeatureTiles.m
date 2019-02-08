@@ -228,6 +228,31 @@
     return count;
 }
 
+-(int) queryIndexedFeaturesCountWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
+
+    // Query for geometries matching the bounds in the index
+    GPKGFeatureIndexResults *results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
+    
+    int count = 0;
+    
+    @try {
+        count = results.count;
+    } @finally {
+        [results close];
+    }
+    
+    return count;
+}
+
+-(GPKGFeatureIndexResults *) queryIndexedFeaturesWithX: (int) x andY: (int) y andZoom: (int) zoom{
+
+    // Get the web mercator bounding box
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    
+    // Query for the geometries matching the bounds in the index
+    return [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
+}
+
 -(GPKGFeatureIndexResults *) queryIndexedFeaturesWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
     
     // Create an expanded bounding box to handle features outside the tile that overlap
