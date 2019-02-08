@@ -15,6 +15,11 @@
 @interface GPKGFeatureIndexResults : NSObject <NSFastEnumeration>
 
 /**
+ *  Flag for iterating over feature ids in place of feature rows
+ */
+@property (nonatomic) BOOL ids;
+
+/**
  *  Initialize
  *
  *  @return feature index results

@@ -137,6 +137,24 @@
         [GPKGTestUtils assertTrue:featureFound];
         [GPKGTestUtils assertTrue:resultCount >= 1];
         
+        // Test the query by envelope with id iteration
+        resultCount = 0;
+        featureFound = NO;
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
+            if ([featureRowId intValue] == [[testFeatureRow getId] intValue]) {
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        
         // Pick a projection different from the feature dao and project the
         // bounding box
         GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:[envelope.minX doubleValue] - 1.0

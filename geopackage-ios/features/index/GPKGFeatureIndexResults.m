@@ -21,6 +21,9 @@
 
 -(instancetype) init{
     self = [super init];
+    if(self != nil){
+        self.ids = NO;
+    }
     return self;
 }
 
@@ -65,9 +68,14 @@
             break;
         }
         
-        GPKGFeatureRow * row = [self getFeatureRow];
-        [self.rowsResult addObject:row];
-        stackbuf[count] = row;
+        NSObject *value = nil;
+        if(self.ids){
+            value = [self getFeatureId];
+        }else{
+            value = [self getFeatureRow];
+        }
+        [self.rowsResult addObject:value];
+        stackbuf[count] = value;
         count += 1;
     }
     
