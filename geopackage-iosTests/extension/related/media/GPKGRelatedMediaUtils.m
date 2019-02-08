@@ -248,9 +248,9 @@
                 [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:mediaData andActual:[mediaRow data]];
                 [GPKGTestUtils assertEqualWithValue:contentType andValue2:[mediaRow contentType]];
                 [GPKGRelatedTablesUtils validateUserRow:mediaRow withColumns:mediaColumns];
-                [GPKGRelatedTablesUtils validateSimpleDublinCoreColumnsWithRow:mediaRow];
+                [GPKGRelatedTablesUtils validateDublinCoreColumnsWithRow:mediaRow];
                 [self validateDublinCoreColumnsInRow:mediaRow];
-                UIImage *image = [GPKGImageConverter toImage:[mediaRow data]];
+                UIImage *image = [mediaRow dataImage];
                 [GPKGTestUtils assertNotNil:image];
                 [GPKGTestUtils assertEqualIntWithValue:imageWidth andValue2:image.size.width];
                 [GPKGTestUtils assertEqualIntWithValue:imageHeight andValue2:image.size.height];
