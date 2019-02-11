@@ -10,6 +10,7 @@
 #import "GPKGTestUtils.h"
 #import "GPKGFeatureIndexTypes.h"
 #import "GPKGFeatureCacheTables.h"
+#import "GPKGFeatureIndexManager.h"
 
 @implementation GPKGFeatureCacheUtils
 
@@ -26,124 +27,116 @@
     int cacheSize = 1 + [GPKGTestUtils randomIntLessThan:10];
     GPKGFeatureCacheTables *featureCache = [[GPKGFeatureCacheTables alloc] initWithMaxCacheSize:cacheSize];
     
-    // TODO
-    /*
-    
-    List<String> featureTables = geoPackage.getFeatureTables();
-    for (String featureTable : featureTables) {
+    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    for(NSString *featureTable in featureTables){
         
-        FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-        FeatureIndexManager featureIndexManager = new FeatureIndexManager(activity,
-                                                                          geoPackage, featureDao);
-        featureIndexManager.prioritizeQueryLocation(type);
+        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager prioritizeQueryLocationWithType:type];
         
-        FeatureIndexResults featureIndexResults = featureIndexManager
-        .query();
-        long resultsCount = featureIndexResults.count();
-        maxResults = Math.max(maxResults, (int) resultsCount);
-        for (long featureRowId : featureIndexResults.ids()) {
-            FeatureRow featureRow = featureCache.get(featureTable, featureRowId);
-            TestCase.assertNull(featureRow);
-            featureRow = featureDao.queryForIdRow(featureRowId);
-            TestCase.assertNotNull(featureRow);
-            featureCache.put(featureRow);
-            FeatureRow featureRow2 = featureCache.get(featureTable, featureRowId);
-            TestCase.assertNotNull(featureRow2);
-            TestCase.assertEquals(featureRow, featureRow2);
+        GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
+        int resultsCount = [featureIndexResults count];
+        maxResults = MAX(maxResults, resultsCount);
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            GPKGFeatureRow *featureRow = [featureCache rowByTable:featureTable andId:[featureRowId intValue]];
+            [GPKGTestUtils assertNil:featureRow];
+            featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
+            [GPKGTestUtils assertNotNil:featureRow];
+            [featureCache putRow:featureRow];
+            GPKGFeatureRow *featureRow2 = [featureCache rowByTable:featureTable andId:[featureRowId intValue]];
+            [GPKGTestUtils assertNotNil:featureRow2];
+            [GPKGTestUtils assertEqualWithValue:featureRow andValue2:featureRow2];
         }
-        featureIndexResults.close();
-        featureIndexManager.close();
+        [featureIndexResults close];
+        [featureIndexManager close];
     }
     
-    FeatureCacheTables featureCache2 = new FeatureCacheTables(maxResults);
+    GPKGFeatureCacheTables *featureCache2 = [[GPKGFeatureCacheTables alloc] init];
     
-    for (String featureTable : featureTables) {
+    for(NSString *featureTable in featureTables){
         
-        FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-        FeatureIndexManager featureIndexManager = new FeatureIndexManager(activity,
-                                                                          geoPackage, featureDao);
-        featureIndexManager.prioritizeQueryLocation(type);
+        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager prioritizeQueryLocationWithType:type];
         
-        FeatureIndexResults featureIndexResults = featureIndexManager
-        .query();
+        GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
         int count = 0;
-        long resultsCount = featureIndexResults.count();
-        for (long featureRowId : featureIndexResults.ids()) {
-            FeatureRow featureRow = featureCache.get(featureTable, featureRowId);
-            if (count++ >= resultsCount - cacheSize) {
-                TestCase.assertNotNull(featureRow);
-            } else {
-                TestCase.assertNull(featureRow);
-                featureRow = featureDao.queryForIdRow(featureRowId);
-                TestCase.assertNotNull(featureRow);
+        int resultsCount = [featureIndexResults count];
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            GPKGFeatureRow *featureRow = [featureCache rowByTable:featureTable andId:[featureRowId intValue]];
+            if(count++ >= resultsCount - cacheSize){
+                [GPKGTestUtils assertNotNil:featureRow];
+            }else{
+                [GPKGTestUtils assertNil:featureRow];
+                featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
+                [GPKGTestUtils assertNotNil:featureRow];
             }
-            featureCache2.put(featureRow);
-            FeatureRow featureRow2 = featureCache2.get(featureTable, featureRowId);
-            TestCase.assertNotNull(featureRow2);
-            TestCase.assertEquals(featureRow, featureRow2);
+            [featureCache2 putRow:featureRow];
+            GPKGFeatureRow *featureRow2 = [featureCache2 rowByTable:featureTable andId:[featureRowId intValue]];
+            [GPKGTestUtils assertNotNil:featureRow2];
+            [GPKGTestUtils assertEqualWithValue:featureRow andValue2:featureRow2];
         }
-        featureIndexResults.close();
-        featureIndexManager.close();
+        [featureIndexResults close];
+        [featureIndexManager close];
     }
     
-    featureCache.resize(featureCache2.getMaxCacheSize());
+    [featureCache resizeWithMaxCacheSize:featureCache2.maxCacheSize];
     
-    for (String featureTable : featureTables) {
+    for(NSString *featureTable in featureTables){
         
-        FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-        FeatureIndexManager featureIndexManager = new FeatureIndexManager(activity,
-                                                                          geoPackage, featureDao);
-        featureIndexManager.prioritizeQueryLocation(type);
+        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager prioritizeQueryLocationWithType:type];
         
-        FeatureIndexResults featureIndexResults = featureIndexManager
-        .query();
-        long resultsCount = featureIndexResults.count();
-        TestCase.assertEquals(resultsCount, featureCache2.getSize(featureTable));
-        for (long featureRowId : featureIndexResults.ids()) {
-            FeatureRow featureRow = featureCache2.get(featureTable, featureRowId);
-            TestCase.assertNotNull(featureRow);
-            featureCache.put(featureRow);
+        GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
+        int resultsCount = [featureIndexResults count];
+        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache2 sizeForTable:featureTable]];
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            GPKGFeatureRow *featureRow = [featureCache2 rowByTable:featureTable andId:[featureRowId intValue]];
+            [GPKGTestUtils assertNotNil:featureRow];
+            [featureCache putRow:featureRow];
         }
-        featureIndexResults.close();
-        featureIndexManager.close();
+        [featureIndexResults close];
+        [featureIndexManager close];
         
     }
     
-    TestCase.assertEquals(featureTables.size(), featureCache.getTables().size());
-    TestCase.assertEquals(featureTables.size(), featureCache2.getTables().size());
-    for (String featureTable : featureTables) {
+    [GPKGTestUtils assertEqualUnsignedLongWithValue:featureTables.count andValue2:[featureCache tables].count];
+    [GPKGTestUtils assertEqualUnsignedLongWithValue:featureTables.count andValue2:[featureCache2 tables].count];
+    for(NSString *featureTable in featureTables){
         
-        TestCase.assertEquals(featureCache.getSize(featureTable), featureCache2.getSize(featureTable));
+        [GPKGTestUtils assertEqualIntWithValue:[featureCache sizeForTable:featureTable] andValue2:[featureCache2 sizeForTable:featureTable]];
         
-        FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-        FeatureIndexManager featureIndexManager = new FeatureIndexManager(activity,
-                                                                          geoPackage, featureDao);
-        featureIndexManager.prioritizeQueryLocation(type);
+        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager prioritizeQueryLocationWithType:type];
         
-        FeatureIndexResults featureIndexResults = featureIndexManager
-        .query();
-        long resultsCount = featureIndexResults.count();
-        TestCase.assertEquals(resultsCount, featureCache.getSize(featureTable));
-        TestCase.assertEquals(resultsCount, featureCache2.getSize(featureTable));
-        for (long featureRowId : featureIndexResults.ids()) {
-            TestCase.assertNotNull(featureCache.get(featureTable, featureRowId));
-            TestCase.assertNotNull(featureCache2.get(featureTable, featureRowId));
+        GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
+        int resultsCount = [featureIndexResults count];
+        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache sizeForTable:featureTable]];
+        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache2 sizeForTable:featureTable]];
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            [GPKGTestUtils assertNotNil:[featureCache rowByTable:featureTable andId:[featureRowId intValue]]];
+            [GPKGTestUtils assertNotNil:[featureCache2 rowByTable:featureTable andId:[featureRowId intValue]]];
         }
-        featureIndexResults.close();
-        featureIndexManager.close();
+        [featureIndexResults close];
+        [featureIndexManager close];
         
-        featureCache.clear(featureTable);
-        featureCache2.clear(featureTable);
-        TestCase.assertEquals(0, featureCache.getSize(featureTable));
-        TestCase.assertEquals(0, featureCache2.getSize(featureTable));
+        [featureCache clearForTable:featureTable];
+        [featureCache2 clearForTable:featureTable];
+        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[featureCache sizeForTable:featureTable]];
+        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[featureCache2 sizeForTable:featureTable]];
     }
     
-    featureCache.clear();
-    featureCache2.clear();
-    TestCase.assertEquals(0, featureCache.getTables().size());
-    TestCase.assertEquals(0, featureCache2.getTables().size());
+    [featureCache clear];
+    [featureCache2 clear];
+    [GPKGTestUtils assertEqualUnsignedLongWithValue:0 andValue2:[featureCache tables].count];
+    [GPKGTestUtils assertEqualUnsignedLongWithValue:0 andValue2:[featureCache2 tables].count];
      
-     */
 }
 
 @end

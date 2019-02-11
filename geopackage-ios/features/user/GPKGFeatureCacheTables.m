@@ -27,6 +27,7 @@
 -(instancetype) initWithMaxCacheSize: (int) maxCacheSize{
     self = [super init];
     if(self != nil){
+        self.tableCache = [[NSMutableDictionary alloc] init];
         self.maxCacheSize = maxCacheSize;
     }
     return self;
