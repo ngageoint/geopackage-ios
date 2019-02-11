@@ -121,6 +121,13 @@
 -(void) setWidth: (NSDecimalNumber *) width;
 
 /**
+ * Set the width
+ *
+ * @param width Icon display width, when null use actual icon width
+ */
+-(void) setWidthValue: (double) width;
+
+/**
  * Get the width or derived width from the icon data and scaled as needed for the height
  *
  * @return derived width
@@ -154,6 +161,13 @@
  * @param height Icon display height, when null use actual icon height
  */
 -(void) setHeight: (NSDecimalNumber *) height;
+
+/**
+ * Set the height
+ *
+ * @param height Icon display height, when null use actual icon height
+ */
+-(void) setHeightValue: (double) height;
 
 /**
  * Get the height or derived height from the icon data and scaled as needed for the width
@@ -201,6 +215,15 @@
 -(void) setAnchorU: (NSDecimalNumber *) anchor;
 
 /**
+ * Set the anchor u
+ *
+ * @param anchor UV Mapping horizontal anchor distance inclusively between 0.0
+ *               and 1.0 from the left edge, when null assume 0.5 (middle of
+ *               icon)
+ */
+-(void) setAnchorUValue: (double) anchor;
+
+/**
  * Get the anchor u value or the default value of 0.5
  *
  * @return anchor u value
@@ -236,6 +259,15 @@
  *               icon)
  */
 -(void) setAnchorV: (NSDecimalNumber *) anchor;
+
+/**
+ * Set the anchor v
+ *
+ * @param anchor UV Mapping vertical anchor distance inclusively between 0.0
+ *               and 1.0 from the top edge, when null assume 1.0 (bottom of
+ *               icon)
+ */
+-(void) setAnchorVValue: (double) anchor;
 
 /**
  * Get the anchor v value or the default value of 1.0

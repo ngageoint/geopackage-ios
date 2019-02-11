@@ -488,8 +488,8 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
         [tileMatrix setMatrixHeight:[NSNumber numberWithInt:matrixWidthAndHeight]];
         [tileMatrix setTileWidth:[NSNumber numberWithInt:tileWidth]];
         [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
-        [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]];
-        [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]];
+        [tileMatrix setPixelXSizeValue:pixelXSize];
+        [tileMatrix setPixelYSizeValue:pixelYSize];
         [tileMatrixDao create:tileMatrix];
         
         matrixWidthAndHeight *= 2;

@@ -122,6 +122,13 @@ extern NSString * const GPKG_DCCT_GLOB_NAME;
 -(void) setMin:(NSDecimalNumber *)min;
 
 /**
+ *  Set the min
+ *
+ *  @param min min
+ */
+-(void) setMinValue:(double)min;
+
+/**
  *  Set the min is inclusive
  *
  *  @param minIsInclusive min is inclusive
@@ -141,6 +148,13 @@ extern NSString * const GPKG_DCCT_GLOB_NAME;
  *  @param max max
  */
 -(void) setMax:(NSDecimalNumber *)max;
+
+/**
+ *  Set the max
+ *
+ *  @param max max
+ */
+-(void) setMaxValue:(double)max;
 
 /**
  *  Set the max is inclusive

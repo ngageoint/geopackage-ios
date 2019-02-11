@@ -151,8 +151,8 @@
         [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
         [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
         [tileMatrix setTileWidth:[NSNumber numberWithInt:tileWidth]];
-        [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth]];
-        [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight]];
+        [tileMatrix setPixelXSizeValue:([bbox.maxLongitude doubleValue] - [bbox.minLongitude doubleValue]) / width / tileWidth];
+        [tileMatrix setPixelYSizeValue:([bbox.maxLatitude doubleValue] - [bbox.minLatitude doubleValue]) / height / tileHeight];
         [tileMatrix setZoomLevel:[NSNumber numberWithInt:zoomLevel]];
         int tileMatrixId = (int)[tileMatrixDao create:tileMatrix];
         [GPKGTestUtils assertTrue:tileMatrixId >= 0];

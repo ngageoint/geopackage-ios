@@ -129,6 +129,10 @@ static NSRegularExpression *colorExpression = nil;
     [self setValueWithIndex:[self opacityColumnIndex] andValue:opacity];
 }
 
+-(void) setOpactiyValue: (double) opacity{
+    [self setOpacity:[[NSDecimalNumber alloc] initWithDouble:opacity]];
+}
+
 -(double) opacityOrDefault{
     double opacityValue = 1.0;
     NSDecimalNumber *opacity = [self opacity];
@@ -155,6 +159,10 @@ static NSRegularExpression *colorExpression = nil;
         [NSException raise:@"Invalid Value" format:@"Width must be greater than or equal to 0.0, invalid value: %@", width];
     }
     [self setValueWithIndex:[self widthColumnIndex] andValue:width];
+}
+
+-(void) setWidthValue: (double) width{
+    [self setWidth:[[NSDecimalNumber alloc] initWithDouble:width]];
 }
 
 -(double) widthOrDefault{
@@ -217,6 +225,10 @@ static NSRegularExpression *colorExpression = nil;
 -(void) setFillOpacity: (NSDecimalNumber *) fillOpacity{
     [self validateOpacity:fillOpacity];
     [self setValueWithIndex:[self fillOpacityColumnIndex] andValue:fillOpacity];
+}
+
+-(void) setFillOpacityValue: (double) fillOpacity{
+    [self setFillOpacity:[[NSDecimalNumber alloc] initWithDouble:fillOpacity]];
 }
 
 -(double) fillOpacityOrDefault{

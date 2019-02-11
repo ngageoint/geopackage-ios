@@ -182,6 +182,13 @@
 -(void) setOpacity: (NSDecimalNumber *) opacity;
 
 /**
+ * Set the opacity
+ *
+ * @param opacity Geometry color opacity inclusively between 0.0 and 1.0
+ */
+-(void) setOpactiyValue: (double) opacity;
+
+/**
  * Get the opacity or default value
  *
  * @return opacity
@@ -216,6 +223,14 @@
  *              0.0
  */
 -(void) setWidth: (NSDecimalNumber *) width;
+
+/**
+ * Set the width
+ *
+ * @param width Geometry line stroke or point width greater than or equal to
+ *              0.0
+ */
+-(void) setWidthValue: (double) width;
 
 /**
  * Get the width value or default width
@@ -301,6 +316,14 @@
  *                    1.0
  */
 -(void) setFillOpacity: (NSDecimalNumber *) fillOpacity;
+
+/**
+ * Set the fill opacity
+ *
+ * @param fillOpacity Closed geometry fill color opacity inclusively between 0.0 and
+ *                    1.0
+ */
+-(void) setFillOpacityValue: (double) fillOpacity;
 
 /**
  * Get the fill opacity or default value

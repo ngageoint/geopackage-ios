@@ -88,6 +88,10 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
     _min = min;
 }
 
+-(void) setMinValue:(double)min{
+    [self setMin:[[NSDecimalNumber alloc] initWithDouble:min]];
+}
+
 -(void) setMinIsInclusive:(NSNumber *)minIsInclusive{
     [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE andValue:minIsInclusive];
     _minIsInclusive = minIsInclusive;
@@ -100,6 +104,10 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 -(void) setMax:(NSDecimalNumber *)max{
     [self validateRangeValueWithColumn:GPKG_DCC_COLUMN_MAX andValue:max];
     _max = max;
+}
+
+-(void) setMaxValue:(double)max{
+    [self setMax:[[NSDecimalNumber alloc] initWithDouble:max]];
 }
 
 -(void) setMaxIsInclusive:(NSNumber *)maxIsInclusive{

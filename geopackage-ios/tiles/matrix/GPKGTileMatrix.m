@@ -66,9 +66,17 @@ NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
     _pixelXSize = pixelXSize;
 }
 
+-(void) setPixelXSizeValue:(double)pixelXSize{
+    [self setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]];
+}
+
 -(void) setPixelYSize:(NSDecimalNumber *)pixelYSize{
     [self validateValuesWithColumn:GPKG_TM_COLUMN_PIXEL_Y_SIZE andValue:pixelYSize];
     _pixelYSize = pixelYSize;
+}
+
+-(void) setPixelYSizeValue:(double)pixelYSize{
+    [self setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]];
 }
 
 -(void) validateValuesWithColumn: (NSString *) column andValue: (NSNumber *) value andAllowZero: (BOOL) allowZero{

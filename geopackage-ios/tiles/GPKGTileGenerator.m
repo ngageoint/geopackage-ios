@@ -357,8 +357,8 @@
                 // Update the tile matrix
                 [tileMatrix setMatrixWidth:[NSNumber numberWithInt:zoomMatrixWidth]];
                 [tileMatrix setMatrixHeight:[NSNumber numberWithInt:zoomMatrixHeight]];
-                [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]];
-                [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]];
+                [tileMatrix setPixelXSizeValue:pixelXSize];
+                [tileMatrix setPixelYSizeValue:pixelYSize];
                 
                 [tileMatrixDao update:tileMatrix];
             }
@@ -528,8 +528,8 @@
             [tileMatrix setMatrixHeight:[NSNumber numberWithInt:matrixHeight]];
             [tileMatrix setTileWidth:tileWidth];
             [tileMatrix setTileHeight:tileHeight];
-            [tileMatrix setPixelXSize:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]];
-            [tileMatrix setPixelYSize:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]];
+            [tileMatrix setPixelXSizeValue:pixelXSize];
+            [tileMatrix setPixelYSizeValue:pixelYSize];
             [tileMatrixDao create:tileMatrix];
         }
     }

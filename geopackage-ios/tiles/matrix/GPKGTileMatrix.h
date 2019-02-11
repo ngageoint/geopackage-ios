@@ -123,10 +123,24 @@ extern NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE;
 -(void) setPixelXSize:(NSDecimalNumber *)pixelXSize;
 
 /**
+ *  Set the pixel x size
+ *
+ *  @param pixelXSize pixel x size
+ */
+-(void) setPixelXSizeValue:(double)pixelXSize;
+
+/**
  *  Set the pixel y size
  *
  *  @param pixelYSize pixel y size
  */
 -(void) setPixelYSize:(NSDecimalNumber *)pixelYSize;
+
+/**
+ *  Set the pixel y size
+ *
+ *  @param pixelYSize pixel y size
+ */
+-(void) setPixelYSizeValue:(double)pixelYSize;
 
 @end

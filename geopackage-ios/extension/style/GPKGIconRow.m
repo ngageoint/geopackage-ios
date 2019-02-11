@@ -75,6 +75,10 @@
     [self setValueWithIndex:[self widthColumnIndex] andValue:width];
 }
 
+-(void) setWidthValue: (double) width{
+    [self setWidth:[[NSDecimalNumber alloc] initWithDouble:width]];
+}
+
 -(double) derivedWidth{
     
     double derivedWidth;
@@ -106,6 +110,10 @@
         [NSException raise:@"Invalid Value" format:@"Height must be greater than or equal to 0.0, invalid value: %@", height];
     }
     [self setValueWithIndex:[self heightColumnIndex] andValue:height];
+}
+
+-(void) setHeightValue: (double) height{
+    [self setHeight:[[NSDecimalNumber alloc] initWithDouble:height]];
 }
 
 -(double) derivedHeight{
@@ -185,6 +193,10 @@
     [self setValueWithIndex:[self anchorUColumnIndex] andValue:anchor];
 }
 
+-(void) setAnchorUValue: (double) anchor{
+    [self setAnchorU:[[NSDecimalNumber alloc] initWithDouble:anchor]];
+}
+
 -(double) anchorUOrDefault{
     double value = 0.5;
     NSDecimalNumber *anchorU = [self anchorU];
@@ -209,6 +221,10 @@
 -(void) setAnchorV: (NSDecimalNumber *) anchor{
     [self validateAnchor:anchor];
     [self setValueWithIndex:[self anchorVColumnIndex] andValue:anchor];
+}
+
+-(void) setAnchorVValue: (double) anchor{
+    [self setAnchorV:[[NSDecimalNumber alloc] initWithDouble:anchor]];
 }
 
 -(double) anchorVOrDefault{
