@@ -11,11 +11,357 @@
 #import "GPKGFeatureTableStyles.h"
 #import "GPKGTestConstants.h"
 #import "SFGeometryUtils.h"
+#import "GPKGGeoPackageExtensions.h"
 
 @implementation GPKGFeatureStylesUtils
 
 +(void) testFeatureStylesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    // TODO
+    
+    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    
+    GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
+    
+    [GPKGTestUtils assertFalse:[featureStyleExtension has]];
+    
+    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    
+    if(featureTables.count > 0){
+        
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_ST_TABLE_NAME]];
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_IT_TABLE_NAME]];
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_CI_TABLE_NAME]];
+        
+        for(NSString *tableName in featureTables){
+            
+            [GPKGTestUtils assertFalse:[featureStyleExtension hasWithTable:tableName]];
+            
+            GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:tableName];
+            
+            GPKGFeatureTableStyles *featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+            [GPKGTestUtils assertFalse:[featureTableStyles has]];
+            
+            enum SFGeometryType geometryType = [featureDao getGeometryType];
+            NSDictionary<NSNumber *, NSDictionary *> *childGeometryTypes = [SFGeometryUtils childHierarchyOfType:geometryType];
+            
+            [GPKGTestUtils assertFalse:[featureTableStyles hasTableStyleRelationship]];
+            [GPKGTestUtils assertFalse:[featureTableStyles hasStyleRelationship]];
+            [GPKGTestUtils assertFalse:[featureTableStyles hasTableIconRelationship]];
+            [GPKGTestUtils assertFalse:[featureTableStyles hasIconRelationship]];
+            
+            [GPKGTestUtils assertNotNil:[featureTableStyles tableName]];
+            [GPKGTestUtils assertEqualWithValue:tableName andValue2:[featureTableStyles tableName]];
+            [GPKGTestUtils assertNotNil:[featureTableStyles featureStyleExtension]];
+            
+            [GPKGTestUtils assertNil:[featureTableStyles tableFeatureStyles]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableStyles]];
+            [GPKGTestUtils assertNil:[featureTableStyles cachedTableStyles]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableStyleDefault]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableStyleWithGeometryType:SF_GEOMETRY]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableIcons]];
+            [GPKGTestUtils assertNil:[featureTableStyles cachedTableIcons]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableIconDefault]];
+            [GPKGTestUtils assertNil:[featureTableStyles tableIconWithGeometryType:SF_GEOMETRY]];
+            
+            GPKGResultSet *featureResultSet = [featureDao queryForAll];
+            while([featureResultSet moveToNext]){
+                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+                
+                [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithIdNumber:[featureRow getId]]];
+                
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithIdNumber:[featureRow getId]]];
+
+                [GPKGTestUtils assertNil:[featureTableStyles stylesWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles stylesWithIdNumber:[featureRow getId]]];
+                
+                [GPKGTestUtils assertNil:[featureTableStyles styleWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithIdNumber:[featureRow getId]]];
+                
+                [GPKGTestUtils assertNil:[featureTableStyles  iconsWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconsWithIdNumber:[featureRow getId]]];
+                
+                [GPKGTestUtils assertNil:[featureTableStyles iconWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithIdNumber:[featureRow getId]]];
+            }
+            [featureResultSet close];
+            
+            // Table Styles
+            [GPKGTestUtils assertFalse:[featureTableStyles hasTableStyleRelationship]];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:tableName]]];
+            
+            // Add a default table style
+            GPKGStyleRow *tableStyleDefault = [self randomStyle];
+            [featureTableStyles setTableStyleDefault:tableStyleDefault];
+            
+            [GPKGTestUtils assertTrue:[featureStyleExtension has]];
+            [GPKGTestUtils assertTrue:[featureStyleExtension hasWithTable:tableName]];
+            [GPKGTestUtils assertTrue:[featureTableStyles has]];
+            [GPKGTestUtils assertTrue:[featureTableStyles hasTableStyleRelationship]];
+            [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_ST_TABLE_NAME]];
+            [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_CI_TABLE_NAME]];
+            [GPKGTestUtils assertTrue:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:tableName]]];
+            
+            // Add geometry type table styles
+            NSMutableDictionary *geometryTypeTableStyles = [self randomStylesWithGeometryTypes:childGeometryTypes];
+            for(NSNumber *geometryTypeNumber in [geometryTypeTableStyles allKeys]){
+                enum SFGeometryType geometryType = (enum SFGeometryType) [geometryTypeNumber intValue];
+                GPKGStyleRow *styleRow = [geometryTypeTableStyles objectForKey:geometryTypeNumber];
+                [featureTableStyles setTableStyle:styleRow withGeometryType:geometryType];
+            }
+            
+            GPKGFeatureStyles *featureStyles = [featureTableStyles tableFeatureStyles];
+            [GPKGTestUtils assertNotNil:featureStyles];
+            [GPKGTestUtils assertNotNil:featureStyles.styles];
+            [GPKGTestUtils assertNil:featureStyles.icons];
+            
+            GPKGStyles *tableStyles = [featureTableStyles tableStyles];
+            [GPKGTestUtils assertNotNil:tableStyles];
+            [GPKGTestUtils assertNotNil:[tableStyles defaultStyle]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[tableStyles defaultStyle] getId]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[featureTableStyles tableStyleWithGeometryType:SF_NONE] getId]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[featureTableStyles tableStyleWithGeometryType:geometryType] getId]];
+            [self validateTableStyles:featureTableStyles andStyle:tableStyleDefault andStyles:geometryTypeTableStyles andTypes:childGeometryTypes];
+            
+            // Table Icons
+            [GPKGTestUtils assertFalse:[featureTableStyles hasTableIconRelationship]];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:tableName]]];
+            
+            // Create table icon relationship
+            [GPKGTestUtils assertFalse:[featureTableStyles hasTableIconRelationship]];
+            [featureTableStyles createTableIconRelationship];
+            [GPKGTestUtils assertTrue:[featureTableStyles hasTableIconRelationship]];
+            
+            GPKGIcons *createTableIcons = [[GPKGIcons alloc] init];
+            GPKGIconRow *tableIconDefault = [self randomIcon];
+            [createTableIcons setDefaultIcon:tableIconDefault];
+            NSMutableDictionary<NSNumber *, GPKGIconRow *> *geometryTypeTableIcons = [self randomIconsWithGeometryTypes:childGeometryTypes];
+            GPKGIconRow *baseGeometryTypeIcon = [self randomIcon];
+            [geometryTypeTableIcons setObject:baseGeometryTypeIcon forKey:[NSNumber numberWithInt:geometryType]];
+            for(NSNumber *geometryTypeNumber in [geometryTypeTableIcons allKeys]){
+                [createTableIcons setIcon:[geometryTypeTableIcons objectForKey:geometryTypeNumber] forGeometryType:[geometryTypeNumber intValue]];
+            }
+            
+            // Set the table icons
+            [featureTableStyles setTableIcons:createTableIcons];
+            
+            [GPKGTestUtils assertTrue:[featureTableStyles hasTableIconRelationship]];
+            [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_IT_TABLE_NAME]];
+            [GPKGTestUtils assertTrue:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:tableName]]];
+            
+            featureStyles = [featureTableStyles tableFeatureStyles];
+            [GPKGTestUtils assertNotNil:featureStyles];
+            [GPKGTestUtils assertNotNil:featureStyles.styles];
+            GPKGIcons *tableIcons = featureStyles.icons;
+            [GPKGTestUtils assertNotNil:tableIcons];
+            
+            [GPKGTestUtils assertNotNil:[tableIcons defaultIcon]];
+            [GPKGTestUtils assertEqualWithValue:[tableIconDefault getId] andValue2:[[tableIcons defaultIcon] getId]];
+            [GPKGTestUtils assertEqualWithValue:[tableIconDefault getId] andValue2:[[featureTableStyles tableIconWithGeometryType:SF_NONE] getId]];
+            [GPKGTestUtils assertEqualWithValue:[baseGeometryTypeIcon getId] andValue2:[[featureTableStyles tableIconWithGeometryType:geometryType] getId]];
+            [self validateTableIcons:featureTableStyles andIcon:baseGeometryTypeIcon andIcons:geometryTypeTableIcons andTypes:childGeometryTypes];
+            
+            [GPKGTestUtils assertFalse:[featureTableStyles hasStyleRelationship]];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_STYLE andTable:tableName]]];
+            [GPKGTestUtils assertFalse:[featureTableStyles hasIconRelationship]];
+            [GPKGTestUtils assertFalse:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_ICON andTable:tableName]]];
+            
+            GPKGStyleDao *styleDao = [featureTableStyles styleDao];
+            GPKGIconDao *iconDao = [featureTableStyles iconDao];
+            
+            
+            
+        }
+    }
+    
+    /*
+            
+            List<StyleRow> randomStyles = new ArrayList<>();
+            List<IconRow> randomIcons = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                StyleRow styleRow = randomStyle();
+                randomStyles.add(styleRow);
+                IconRow iconRow = randomIcon(geoPackage);
+                randomIcons.add(iconRow);
+                
+                if (i % 2 == 0) {
+                    styleDao.insert(styleRow);
+                    iconDao.insert(iconRow);
+                }
+            }
+            
+            // Create style and icon relationship
+            featureTableStyles.createStyleRelationship();
+            TestCase.assertTrue(featureTableStyles.hasStyleRelationship());
+            TestCase.assertTrue(geoPackage.isTable(featureTableStyles
+                                                   .getFeatureStyleExtension().getMappingTableName(
+                                                                                                   FeatureStyleExtension.TABLE_MAPPING_STYLE,
+                                                                                                   tableName)));
+            featureTableStyles.createIconRelationship();
+            TestCase.assertTrue(featureTableStyles.hasIconRelationship());
+            TestCase.assertTrue(geoPackage.isTable(featureTableStyles
+                                                   .getFeatureStyleExtension().getMappingTableName(
+                                                                                                   FeatureStyleExtension.TABLE_MAPPING_ICON,
+                                                                                                   tableName)));
+            
+            Map<Long, Map<GeometryType, StyleRow>> featureResultsStyles = new HashMap<>();
+            Map<Long, Map<GeometryType, IconRow>> featureResultsIcons = new HashMap<>();
+            
+            featureCursor = featureDao.queryForAll();
+            while (featureCursor.moveToNext()) {
+                
+                double randomFeatureOption = Math.random();
+                
+                if (randomFeatureOption < .25) {
+                    continue;
+                }
+                
+                FeatureRow featureRow = featureCursor.getRow();
+                
+                if (randomFeatureOption < .75) {
+                    
+                    // Feature Styles
+                    
+                    Map<GeometryType, StyleRow> featureRowStyles = new HashMap<>();
+                    featureResultsStyles.put(featureRow.getId(),
+                                             featureRowStyles);
+                    
+                    // Add a default style
+                    StyleRow styleDefault = randomStyle(randomStyles);
+                    featureTableStyles.setStyleDefault(featureRow,
+                                                       styleDefault);
+                    featureRowStyles.put(null, styleDefault);
+                    
+                    // Add geometry type styles
+                    Map<GeometryType, StyleRow> geometryTypeStyles = randomStyles(
+                                                                                  childGeometryTypes, randomStyles);
+                    for (Entry<GeometryType, StyleRow> geometryTypeStyle : geometryTypeStyles
+                         .entrySet()) {
+                        featureTableStyles.setStyle(featureRow,
+                                                    geometryTypeStyle.getKey(),
+                                                    geometryTypeStyle.getValue());
+                        featureRowStyles.put(geometryTypeStyle.getKey(),
+                                             geometryTypeStyle.getValue());
+                    }
+                    
+                }
+                
+                if (randomFeatureOption >= .5) {
+                    
+                    // Feature Icons
+                    
+                    Map<GeometryType, IconRow> featureRowIcons = new HashMap<>();
+                    featureResultsIcons.put(featureRow.getId(),
+                                            featureRowIcons);
+                    
+                    // Add a default icon
+                    IconRow iconDefault = randomIcon(geoPackage, randomIcons);
+                    featureTableStyles.setIconDefault(featureRow,
+                                                      iconDefault);
+                    featureRowIcons.put(null, iconDefault);
+                    
+                    // Add geometry type icons
+                    Map<GeometryType, IconRow> geometryTypeIcons = randomIcons(geoPackage,
+                                                                               childGeometryTypes, randomIcons);
+                    for (Entry<GeometryType, IconRow> geometryTypeIcon : geometryTypeIcons
+                         .entrySet()) {
+                        featureTableStyles.setIcon(featureRow,
+                                                   geometryTypeIcon.getKey(),
+                                                   geometryTypeIcon.getValue());
+                        featureRowIcons.put(geometryTypeIcon.getKey(),
+                                            geometryTypeIcon.getValue());
+                    }
+                    
+                }
+                
+            }
+            featureCursor.close();
+            
+            featureCursor = featureDao.queryForAll();
+            while (featureCursor.moveToNext()) {
+                
+                FeatureRow featureRow = featureCursor.getRow();
+                
+                validateRowStyles(featureTableStyles, featureRow,
+                                  tableStyleDefault, geometryTypeTableStyles,
+                                  featureResultsStyles);
+                
+                validateRowIcons(featureTableStyles, featureRow,
+                                 tableIconDefault, geometryTypeTableIcons,
+                                 featureResultsIcons);
+                
+            }
+            featureCursor.close();
+            
+        }
+        
+        List<String> tables = featureStyleExtension.getTables();
+        TestCase.assertEquals(featureTables.size(), tables.size());
+        
+        for (String tableName : featureTables) {
+            
+            TestCase.assertTrue(tables.contains(tableName));
+            
+            TestCase.assertNotNull(featureStyleExtension
+                                   .getTableStyles(tableName));
+            TestCase.assertNotNull(featureStyleExtension
+                                   .getTableIcons(tableName));
+            
+            featureStyleExtension.deleteAllFeatureStyles(tableName);
+            
+            TestCase.assertNull(featureStyleExtension
+                                .getTableStyles(tableName));
+            TestCase.assertNull(featureStyleExtension
+                                .getTableIcons(tableName));
+            
+            FeatureDao featureDao = geoPackage.getFeatureDao(tableName);
+            FeatureCursor featureCursor = featureDao.queryForAll();
+            while (featureCursor.moveToNext()) {
+                
+                FeatureRow featureRow = featureCursor.getRow();
+                
+                TestCase.assertNull(featureStyleExtension
+                                    .getStyles(featureRow));
+                TestCase.assertNull(featureStyleExtension
+                                    .getIcons(featureRow));
+                
+            }
+            featureCursor.close();
+            
+            featureStyleExtension.deleteRelationships(tableName);
+            TestCase.assertFalse(featureStyleExtension.has(tableName));
+            
+        }
+        
+        TestCase.assertFalse(featureStyleExtension.has());
+        
+        TestCase.assertTrue(geoPackage.isTable(StyleTable.TABLE_NAME));
+        TestCase.assertTrue(geoPackage.isTable(IconTable.TABLE_NAME));
+        TestCase.assertTrue(geoPackage.isTable(ContentsId.TABLE_NAME));
+        
+        featureStyleExtension.removeExtension();
+        
+        TestCase.assertFalse(geoPackage.isTable(StyleTable.TABLE_NAME));
+        TestCase.assertFalse(geoPackage.isTable(IconTable.TABLE_NAME));
+        TestCase.assertTrue(geoPackage.isTable(ContentsId.TABLE_NAME));
+        
+        ContentsIdExtension contentsIdExtension = featureStyleExtension
+        .getContentsId();
+        TestCase.assertEquals(featureTables.size(),
+                              contentsIdExtension.count());
+        TestCase.assertEquals(featureTables.size(),
+                              contentsIdExtension.deleteIds());
+        contentsIdExtension.removeExtension();
+        TestCase.assertFalse(geoPackage.isTable(ContentsId.TABLE_NAME));
+        
+    }
+     */
 }
 
 +(void) validateTableStyles: (GPKGFeatureTableStyles *) featureTableStyles andStyle: (GPKGStyleRow *) styleRow andStyles: (NSDictionary *) geometryTypeStyles andTypes: (NSDictionary *) geometryTypes{
@@ -77,9 +423,146 @@
             [self validateRowStyles:featureTableStyles andFeature:featureRow andGeometryType:childGeometryType andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
         }
     }
+    
 }
 
 +(void) validateRowStyles: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableStyleDefault: (GPKGStyleRow *) tableStyleDefault andTableStyles: (NSDictionary *) geometryTypeTableStyles andFeatureStyles: (NSDictionary *) featureResultsStyles{
+    
+    GPKGStyleRow *styleRow = nil;
+    if (geometryType == SF_NONE || geometryType < 0) {
+        styleRow = [featureTableStyles styleWithFeature:featureRow];
+        geometryType = [featureRow getGeometryType];
+    } else {
+        styleRow = [featureTableStyles styleWithFeature:featureRow andGeometryType:geometryType];
+    }
+    
+    NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
+    if(geometryType != SF_NONE && geometryType >= 0){
+        [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
+        [geometryTypes addObjectsFromArray:[SFGeometryUtils parentHierarchyOfType:geometryType]];
+    }
+    [geometryTypes addObject:[NSNumber numberWithInt:SF_NONE]];
+    
+    GPKGStyleRow *expectedStyleRow = nil;
+    NSDictionary *geometryTypeRowStyles = [featureResultsStyles objectForKey:[featureRow getId]];
+    if(geometryTypeRowStyles != nil){
+        for(NSNumber *typeNumber in geometryTypes){
+            expectedStyleRow = [geometryTypeRowStyles objectForKey:typeNumber];
+            if(expectedStyleRow != nil){
+                break;
+            }
+        }
+    }
+    
+    if (expectedStyleRow == nil) {
+        for(NSNumber *typeNumber in geometryTypes){
+            expectedStyleRow = [geometryTypeTableStyles objectForKey:typeNumber];
+            if(expectedStyleRow != nil){
+                break;
+            }
+        }
+        
+        if (expectedStyleRow == nil) {
+            expectedStyleRow = tableStyleDefault;
+        }
+    }
+    
+    if (expectedStyleRow != nil) {
+        [GPKGTestUtils assertEqualWithValue:[expectedStyleRow getId] andValue2:[styleRow getId]];
+        [GPKGTestUtils assertNotNil:[styleRow table]];
+        [GPKGTestUtils assertTrue:[[styleRow getId] intValue] >= 0];
+        [styleRow name];
+        [styleRow description];
+        [styleRow color];
+        [styleRow hexColor];
+        [styleRow opacity];
+        [styleRow width];
+        [styleRow fillColor];
+        [styleRow fillHexColor];
+        [styleRow fillOpacity];
+    } else {
+        [GPKGTestUtils assertNil:styleRow];
+    }
+    
+}
+
++(void) validateRowIcons: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
+    
+    enum SFGeometryType geometryType = [featureRow getGeometryType];
+    
+    [self validateRowIcons:featureTableStyles andFeature:featureRow andGeometryType:SF_NONE andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
+    
+    if(geometryType != SF_NONE && geometryType >= 0){
+        
+        NSArray<NSNumber *> *geometryTypes = [SFGeometryUtils parentHierarchyOfType:geometryType];
+        for(NSNumber *parentGeometryTypeNumber in geometryTypes){
+            enum SFGeometryType parentGeometryType = (enum SFGeometryType) [parentGeometryTypeNumber intValue];
+            [self validateRowIcons:featureTableStyles andFeature:featureRow andGeometryType:parentGeometryType andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
+        }
+        
+        NSArray<NSNumber *> *childTypes = [self allChildTypes:geometryType];
+        for(NSNumber *childGeometryTypeNumber in childTypes){
+            enum SFGeometryType childGeometryType = (enum SFGeometryType) [childGeometryTypeNumber intValue];
+            [self validateRowIcons:featureTableStyles andFeature:featureRow andGeometryType:childGeometryType andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
+        }
+    }
+    
+}
+
++(void) validateRowIcons: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
+    
+    GPKGIconRow *iconRow = nil;
+    if (geometryType == SF_NONE || geometryType < 0) {
+        iconRow = [featureTableStyles iconWithFeature:featureRow];
+        geometryType = [featureRow getGeometryType];
+    } else {
+        iconRow = [featureTableStyles iconWithFeature:featureRow andGeometryType:geometryType];
+    }
+    
+    NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
+    if(geometryType != SF_NONE && geometryType >= 0){
+        [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
+        [geometryTypes addObjectsFromArray:[SFGeometryUtils parentHierarchyOfType:geometryType]];
+    }
+    [geometryTypes addObject:[NSNumber numberWithInt:SF_NONE]];
+    
+    GPKGIconRow *expectedIconRow = nil;
+    NSDictionary *geometryTypeRowIcons = [featureResultsIcons objectForKey:[featureRow getId]];
+    if(geometryTypeRowIcons != nil){
+        for(NSNumber *typeNumber in geometryTypes){
+            expectedIconRow = [geometryTypeRowIcons objectForKey:typeNumber];
+            if(expectedIconRow != nil){
+                break;
+            }
+        }
+    }
+    
+    if (expectedIconRow == nil) {
+        for(NSNumber *typeNumber in geometryTypes){
+            expectedIconRow = [geometryTypeTableIcons objectForKey:typeNumber];
+            if(expectedIconRow != nil){
+                break;
+            }
+        }
+        
+        if (expectedIconRow == nil) {
+            expectedIconRow = tableIconDefault;
+        }
+    }
+    
+    if (expectedIconRow != nil) {
+        [GPKGTestUtils assertEqualWithValue:[expectedIconRow getId] andValue2:[iconRow getId]];
+        [GPKGTestUtils assertNotNil:[iconRow table]];
+        [GPKGTestUtils assertTrue:[[iconRow getId] intValue] >= 0];
+        [iconRow name];
+        [iconRow description];
+        [iconRow width];
+        [iconRow height];
+        [iconRow anchorU];
+        [iconRow anchorV];
+    } else {
+        [GPKGTestUtils assertNil:iconRow];
+    }
     
 }
 
@@ -145,40 +628,40 @@
     return iconRow;
 }
 
-+(NSDictionary *) randomStylesWithGeometryTypes: (NSDictionary *) geometryTypes{
++(NSMutableDictionary<NSNumber *, GPKGStyleRow *> *) randomStylesWithGeometryTypes: (NSDictionary *) geometryTypes{
     return [self randomStylesWithGeometryTypes:geometryTypes andRandomSyles:nil];
 }
 
-+(NSDictionary *) randomIconsWithGeometryTypes: (NSDictionary *) geometryTypes{
++(NSMutableDictionary<NSNumber *, GPKGIconRow *> *) randomIconsWithGeometryTypes: (NSDictionary *) geometryTypes{
     return [self randomIconsWithGeometryTypes:geometryTypes andRandomIcons:nil];
 }
 
-+(NSDictionary *) randomStylesWithGeometryTypes: (NSDictionary *) geometryTypes andRandomSyles: (NSArray *) randomStyles{
-    NSMutableDictionary *rowMap = [[NSMutableDictionary alloc] init];
++(NSMutableDictionary<NSNumber *, GPKGStyleRow *> *) randomStylesWithGeometryTypes: (NSDictionary *) geometryTypes andRandomSyles: (NSArray *) randomStyles{
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *>  *rowMap = [[NSMutableDictionary alloc] init];
     if(geometryTypes != nil){
         for(NSNumber *typeNumber in [geometryTypes allKeys]){
             enum SFGeometryType type = (enum SFGeometryType) [typeNumber intValue];
             if ([GPKGTestUtils randomDouble] < .5) {
                 [rowMap setObject:[self randomStyleWithRandomStyles:randomStyles] forKey:[NSNumber numberWithInt:type]];
             }
-            NSDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
-            NSDictionary *childRowMap = [self randomStylesWithGeometryTypes:childGeometryTypes andRandomSyles:randomStyles];
+            NSMutableDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
+            NSMutableDictionary *childRowMap = [self randomStylesWithGeometryTypes:childGeometryTypes andRandomSyles:randomStyles];
             [rowMap setValuesForKeysWithDictionary:childRowMap];
         }
     }
     return rowMap;
 }
 
-+(NSDictionary *) randomIconsWithGeometryTypes: (NSDictionary *) geometryTypes andRandomIcons: (NSArray *) randomIcons{
-    NSMutableDictionary *rowMap = [[NSMutableDictionary alloc] init];
++(NSMutableDictionary<NSNumber *, GPKGIconRow *> *) randomIconsWithGeometryTypes: (NSDictionary *) geometryTypes andRandomIcons: (NSArray *) randomIcons{
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *rowMap = [[NSMutableDictionary alloc] init];
     if(geometryTypes != nil){
         for(NSNumber *typeNumber in [geometryTypes allKeys]){
             enum SFGeometryType type = (enum SFGeometryType) [typeNumber intValue];
             if ([GPKGTestUtils randomDouble] < .5) {
                 [rowMap setObject:[self randomIconWithRandomIcons:randomIcons] forKey:[NSNumber numberWithInt:type]];
             }
-            NSDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
-            NSDictionary *childRowMap = [self randomIconsWithGeometryTypes:childGeometryTypes andRandomIcons:randomIcons];
+            NSMutableDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
+            NSMutableDictionary *childRowMap = [self randomIconsWithGeometryTypes:childGeometryTypes andRandomIcons:randomIcons];
             [rowMap setValuesForKeysWithDictionary:childRowMap];
         }
     }
@@ -207,7 +690,7 @@
     return randomIcon;
 }
 
-+(NSArray<NSNumber *> *) allChildTypes: (enum SFGeometryType) geometryType{
++(NSMutableArray<NSNumber *> *) allChildTypes: (enum SFGeometryType) geometryType{
     
     NSMutableArray<NSNumber *> *allChildTypes = [[NSMutableArray alloc] init];
     
