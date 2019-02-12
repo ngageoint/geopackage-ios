@@ -20,6 +20,17 @@
 /**
  *  Initialize
  *
+ *  @param table       style table
+ *  @param columnTypes column types
+ *  @param values      values
+ *
+ *  @return new style row
+ */
+-(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+/**
+ *  Initialize
+ *
  *  @param table style table
  *
  *  @return new style row

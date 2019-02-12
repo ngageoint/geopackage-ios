@@ -17,6 +17,17 @@
 /**
  *  Initialize
  *
+ *  @param table       style mapping table
+ *  @param columnTypes column types
+ *  @param values      values
+ *
+ *  @return new style mapping row
+ */
+-(instancetype) initWithStyleMappingTable: (GPKGStyleMappingTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
+/**
+ *  Initialize
+ *
  *  @param table style mapping table
  *
  *  @return new style mapping row

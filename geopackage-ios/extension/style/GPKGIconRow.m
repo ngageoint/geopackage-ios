@@ -15,6 +15,11 @@
     return self;
 }
 
+-(instancetype) initWithIconTable: (GPKGIconTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    self = [super initWithMediaTable:table andColumnTypes:columnTypes andValues:values];
+    return self;
+}
+
 -(instancetype) initWithIconTable: (GPKGIconTable *) table{
     self = [super initWithMediaTable:table];
     return self;

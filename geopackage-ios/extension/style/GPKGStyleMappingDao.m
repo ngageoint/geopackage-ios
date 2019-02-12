@@ -27,6 +27,10 @@
     return (GPKGStyleMappingRow *) [self getRow:results];
 }
 
+-(GPKGStyleMappingRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self table] andColumnTypes:columnTypes andValues:values];
+}
+
 -(GPKGStyleMappingRow *) newRow{
     return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self table]];
 }
