@@ -287,6 +287,14 @@
 -(GPKGFeatureStyles *) featureStylesWithId: (int) featureId;
 
 /**
+ * Get the feature styles for the feature id
+ *
+ * @param featureId feature id
+ * @return feature styles or null
+ */
+-(GPKGFeatureStyles *) featureStylesWithIdNumber: (NSNumber *) featureId;
+
+/**
  * Get the feature style (style and icon) of the feature row, searching in
  * order: feature geometry type style or icon, feature default style or
  * icon, table geometry type style or icon, table default style or icon
@@ -334,10 +342,31 @@
  * order: feature geometry type style or icon, feature default style or
  * icon, table geometry type style or icon, table default style or icon
  *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @return feature style
+ */
+-(GPKGFeatureStyle *) featureStyleWithIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Get the feature style (style and icon) of the feature, searching in
+ * order: feature geometry type style or icon, feature default style or
+ * icon, table geometry type style or icon, table default style or icon
+ *
  * @param featureId feature id
  * @return feature style
  */
 -(GPKGFeatureStyle *) featureStyleDefaultWithId: (int) featureId;
+
+/**
+ * Get the feature style (style and icon) of the feature, searching in
+ * order: feature geometry type style or icon, feature default style or
+ * icon, table geometry type style or icon, table default style or icon
+ *
+ * @param featureId feature id
+ * @return feature style
+ */
+-(GPKGFeatureStyle *) featureStyleDefaultWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Get the styles for the feature row
@@ -354,6 +383,14 @@
  * @return styles or null
  */
 -(GPKGStyles *) stylesWithId: (int) featureId;
+
+/**
+ * Get the styles for the feature id
+ *
+ * @param featureId feature id
+ * @return styles or null
+ */
+-(GPKGStyles *) stylesWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Get the style of the feature row, searching in order: feature geometry
@@ -397,6 +434,17 @@
 -(GPKGStyleRow *) styleWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Get the style of the feature, searching in order: feature geometry type
+ * style, feature default style, table geometry type style, table default
+ * style
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @return style row
+ */
+-(GPKGStyleRow *) styleWithIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
  * Get the default style of the feature, searching in order: feature default
  * style, table default style
  *
@@ -404,6 +452,15 @@
  * @return style row
  */
 -(GPKGStyleRow *) styleDefaultWithId: (int) featureId;
+
+/**
+ * Get the default style of the feature, searching in order: feature default
+ * style, table default style
+ *
+ * @param featureId feature id
+ * @return style row
+ */
+-(GPKGStyleRow *) styleDefaultWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Get the icons for the feature row
@@ -420,6 +477,14 @@
  * @return icons or null
  */
 -(GPKGIcons *) iconsWithId: (int) featureId;
+
+/**
+ * Get the icons for the feature id
+ *
+ * @param featureId feature id
+ * @return icons or null
+ */
+-(GPKGIcons *) iconsWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Get the icon of the feature row, searching in order: feature geometry
@@ -462,6 +527,16 @@
 -(GPKGIconRow *) iconWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Get the icon of the feature, searching in order: feature geometry type
+ * icon, feature default icon, table geometry type icon, table default icon
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @return icon row
+ */
+-(GPKGIconRow *) iconWithIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
  * Get the default icon of the feature, searching in order: feature default
  * icon, table default icon
  *
@@ -469,6 +544,15 @@
  * @return icon row
  */
 -(GPKGIconRow *) iconDefaultWithId: (int) featureId;
+
+/**
+ * Get the default icon of the feature, searching in order: feature default
+ * icon, table default icon
+ *
+ * @param featureId feature id
+ * @return icon row
+ */
+-(GPKGIconRow *) iconDefaultWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Set the feature table default feature styles
@@ -538,6 +622,14 @@
 -(void) setFeatureStyles: (GPKGFeatureStyles *) featureStyles withId: (int) featureId;
 
 /**
+ * Set the feature styles for the feature table and feature id
+ *
+ * @param featureId     feature id
+ * @param featureStyles feature styles
+ */
+-(void) setFeatureStyles: (GPKGFeatureStyles *) featureStyles withIdNumber: (NSNumber *) featureId;
+
+/**
  * Set the feature style (style and icon) of the feature row
  *
  * @param featureRow   feature row
@@ -576,9 +668,26 @@
  * Set the feature style (style and icon) of the feature
  *
  * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyle: (GPKGFeatureStyle *) featureStyle withIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Set the feature style (style and icon) of the feature
+ *
+ * @param featureId    feature id
  * @param featureStyle feature style
  */
 -(void) setFeatureStyleDefault: (GPKGFeatureStyle *) featureStyle withId: (int) featureId;
+
+/**
+ * Set the feature style (style and icon) of the feature
+ *
+ * @param featureId    feature id
+ * @param featureStyle feature style
+ */
+-(void) setFeatureStyleDefault: (GPKGFeatureStyle *) featureStyle withIdNumber: (NSNumber *) featureId;
 
 /**
  * Set the styles for the feature row
@@ -595,6 +704,14 @@
  * @param styles    styles
  */
 -(void) setStyles: (GPKGStyles *) styles withId: (int) featureId;
+
+/**
+ * Set the styles for the feature table and feature id
+ *
+ * @param featureId feature id
+ * @param styles    styles
+ */
+-(void) setStyles: (GPKGStyles *) styles withIdNumber: (NSNumber *) featureId;
 
 /**
  * Set the style of the feature row
@@ -631,12 +748,29 @@
 -(void) setStyle: (GPKGStyleRow *) style withId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Set the style of the feature
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param style        style row
+ */
+-(void) setStyle: (GPKGStyleRow *) style withIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
  * Set the default style of the feature
  *
  * @param featureId feature id
  * @param style     style row
  */
 -(void) setStyleDefault: (GPKGStyleRow *) style withId: (int) featureId;
+
+/**
+ * Set the default style of the feature
+ *
+ * @param featureId feature id
+ * @param style     style row
+ */
+-(void) setStyleDefault: (GPKGStyleRow *) style withIdNumber: (NSNumber *) featureId;
 
 /**
  * Set the icons for the feature row
@@ -653,6 +787,14 @@
  * @param icons     icons
  */
 -(void) setIcons: (GPKGIcons *) icons withId: (int) featureId;
+
+/**
+ * Set the icons for the feature table and feature id
+ *
+ * @param featureId feature id
+ * @param icons     icons
+ */
+-(void) setIcons: (GPKGIcons *) icons withIdNumber: (NSNumber *) featureId;
 
 /**
  * Set the icon of the feature row
@@ -690,12 +832,30 @@
 -(void) setIcon: (GPKGIconRow *) icon withId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Get the icon of the feature, searching in order: feature geometry type
+ * icon, feature default icon, table geometry type icon, table default icon
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ * @param icon         icon row
+ */
+-(void) setIcon: (GPKGIconRow *) icon withIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
  * Set the default icon of the feature
  *
  * @param featureId feature id
  * @param icon      icon row
  */
 -(void) setIconDefault: (GPKGIconRow *) icon withId: (int) featureId;
+
+/**
+ * Set the default icon of the feature
+ *
+ * @param featureId feature id
+ * @param icon      icon row
+ */
+-(void) setIconDefault: (GPKGIconRow *) icon withIdNumber: (NSNumber *) featureId;
 
 /**
  * Delete all feature styles including table styles, table icons, style, and
@@ -792,6 +952,13 @@
 -(void) deleteStylesWithId: (int) featureId;
 
 /**
+ * Delete feature row styles
+ *
+ * @param featureId feature id
+ */
+-(void) deleteStylesWithIdNumber: (NSNumber *) featureId;
+
+/**
  * Delete the feature row default style
  *
  * @param featureRow feature row
@@ -804,6 +971,13 @@
  * @param featureId feature id
  */
 -(void) deleteStyleDefaultWithId: (int) featureId;
+
+/**
+ * Delete the feature row default style
+ *
+ * @param featureId feature id
+ */
+-(void) deleteStyleDefaultWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Delete the feature row style for the feature row geometry type
@@ -829,6 +1003,14 @@
 -(void) deleteStyleWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Delete the feature row style for the geometry type
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ */
+-(void) deleteStyleWithIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
  * Delete all icons
  */
 -(void) deleteIcons;
@@ -848,6 +1030,13 @@
 -(void) deleteIconsWithId: (int) featureId;
 
 /**
+ * Delete feature row icons
+ *
+ * @param featureId feature id
+ */
+-(void) deleteIconsWithIdNumber: (NSNumber *) featureId;
+
+/**
  * Delete the feature row default icon
  *
  * @param featureRow feature row
@@ -860,6 +1049,13 @@
  * @param featureId feature id
  */
 -(void) deleteIconDefaultWithId: (int) featureId;
+
+/**
+ * Delete the feature row default icon
+ *
+ * @param featureId feature id
+ */
+-(void) deleteIconDefaultWithIdNumber: (NSNumber *) featureId;
 
 /**
  * Delete the feature row icon for the feature row geometry type
@@ -883,6 +1079,14 @@
  * @param geometryType geometry type
  */
 -(void) deleteIconWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Delete the feature row icon for the geometry type
+ *
+ * @param featureId    feature id
+ * @param geometryType geometry type
+ */
+-(void) deleteIconWithIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
  * Get all the unique style row ids the table maps to
