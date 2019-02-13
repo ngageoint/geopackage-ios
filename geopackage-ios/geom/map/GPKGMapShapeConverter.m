@@ -436,7 +436,7 @@
     if(self.simplifyTolerance != nil){
         
         // Reproject to web mercator if not in meters
-        if(self.projection != nil && [self.projection getUnit] != SFP_UNIT_METERS){
+        if(self.projection != nil && ![self.projection isUnit:SFP_UNIT_METERS]){
             points = [self.toWebMercator transformWithPoints:points];
         }
         
@@ -444,7 +444,7 @@
         simplifiedPoints = [SFGeometryUtils simplifyPoints:points withTolerance:[self.simplifyTolerance doubleValue]];
         
         // Reproject back to the original projection
-        if(self.projection != nil && [self.projection getUnit] != SFP_UNIT_METERS){
+        if(self.projection != nil && ![self.projection isUnit:SFP_UNIT_METERS]){
             simplifiedPoints = [self.fromWebMercator transformWithPoints:simplifiedPoints];
         }
     }else{
