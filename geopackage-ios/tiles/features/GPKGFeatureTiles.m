@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic, strong) SFPProjectionTransform *wgs84ToWebMercatorTransform;
+@property (nonatomic) GPKGIconCache *iconCache;
 
 @end
 
@@ -42,8 +43,12 @@
     if(self != nil){
         self.featureDao = featureDao;
         
+        self.iconCache = [[GPKGIconCache alloc] init];
+        self.simplifyGeometries = YES;
+        
         self.tileWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_WIDTH] intValue];
         self.tileHeight = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_HEIGHT] intValue];
+        // TODO? [self createEmptyImage];
         
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
@@ -65,12 +70,10 @@
                 self.indexManager = nil;
             }
             
-            /* TODO
-            featureTableStyles = new FeatureTableStyles(geoPackage, featureDao.getTable());
-            if (!featureTableStyles.has()) {
-                featureTableStyles = null;
+            self.featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+            if (![self.featureTableStyles has]) {
+                self.featureTableStyles = nil;
             }
-             */
             
         }
         
@@ -87,6 +90,7 @@
     if(self.indexManager != nil){
         [self.indexManager close];
     }
+    // TODO empty image recycle?
 }
 
 -(void) calculateDrawOverlap{
@@ -106,6 +110,52 @@
     double polygonHalfStroke = self.polygonStrokeWidth / 2.0;
     self.heightOverlap = MAX(self.heightOverlap, polygonHalfStroke);
     self.widthOverlap = MAX(self.widthOverlap, polygonHalfStroke);
+    
+    if(self.featureTableStyles != nil && [self.featureTableStyles has]){
+        
+        // Style Rows
+        NSMutableSet<NSNumber *> *styleRowIds = [[NSMutableSet alloc] init];
+        NSArray<NSNumber *> *tableStyleIds = [self.featureTableStyles allTableStyleIds];
+        if(tableStyleIds != nil){
+            [styleRowIds addObjectsFromArray:tableStyleIds];
+        }
+        NSArray<NSNumber *> *styleIds = [self.featureTableStyles allStyleIds];
+        if(styleIds != nil){
+            [styleRowIds addObjectsFromArray:styleIds];
+        }
+        
+        GPKGStyleDao *styleDao = [self.featureTableStyles styleDao];
+        for(NSNumber *styleRowId in styleRowIds){
+            GPKGStyleRow *styleRow = (GPKGStyleRow *)[styleDao queryForIdObject:styleRowId];
+            double styleHalfWidth = [styleRow widthOrDefault] / 2.0;
+            self.widthOverlap = MAX(self.widthOverlap, styleHalfWidth);
+            self.heightOverlap = MAX(self.heightOverlap, styleHalfWidth);
+        }
+        
+        // Icon Rows
+        NSMutableSet<NSNumber *> *iconRowIds = [[NSMutableSet alloc] init];
+        NSArray<NSNumber *> *tableIconIds = [self.featureTableStyles allTableIconIds];
+        if(tableIconIds != nil){
+            [iconRowIds addObjectsFromArray:tableIconIds];
+        }
+        NSArray<NSNumber *> *iconIds = [self.featureTableStyles allIconIds];
+        if(iconIds != nil){
+            [iconRowIds addObjectsFromArray:iconIds];
+        }
+        
+        GPKGIconDao *iconDao = [self.featureTableStyles iconDao];
+        for(NSNumber *iconRowId in iconRowIds){
+            GPKGIconRow *iconRow = (GPKGIconRow *)[iconDao queryForIdObject:iconRowId];
+            double *iconDimensions = [iconRow derivedDimensions];
+            double iconWidth = ceil(iconDimensions[0]);
+            double iconHeight = ceil(iconDimensions[1]);
+            free(iconDimensions);
+            self.widthOverlap = MAX(self.widthOverlap, iconWidth);
+            self.heightOverlap = MAX(self.heightOverlap, iconHeight);
+        }
+        
+    }
+    
 }
 
 -(void) setDrawOverlapsWithPixels: (double) pixels{
@@ -115,6 +165,29 @@
 
 -(BOOL) isIndexQuery{
     return self.indexManager != nil && [self.indexManager isIndexed];
+}
+
+-(void) ignoreFeatureTableStyles{
+    [self setFeatureTableStyles:nil];
+    [self calculateDrawOverlap];
+}
+
+-(void) clearIconCache{
+    [self.iconCache clear];
+}
+
+-(void) setIconCacheSize: (int) size{
+    [self.iconCache resizeWithSize:size];
+}
+
+-(void) setTileWidth:(int)tileWidth{
+    _tileWidth = tileWidth;
+    // TODO create empty image?  delete entire setter if not needed
+}
+
+-(void) setTileHeight:(int)tileHeight{
+    _tileHeight = tileHeight;
+    // TODO create empty image?  delete entire setter if not needed
 }
 
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom{
@@ -166,30 +239,8 @@
             
             if(self.maxFeaturesPerTile == nil || tileCount <= [self.maxFeaturesPerTile intValue]){
                 
-                // Create image
-                UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
-                CGContextRef context = UIGraphicsGetCurrentContext();
-                
-                GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
-                GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:webMercatorBoundingBox];
-                
-                // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
-                double simplifyTolerance = [GPKGTileBoundingBoxUtils toleranceDistanceWithZoom:zoom andPixelWidth:self.tileWidth andPixelHeight:self.tileHeight];
-                [converter setSimplifyToleranceAsDouble:simplifyTolerance];
-                
-                BOOL drawn = NO;
-                for(GPKGFeatureRow * featureRow in results){
-                    if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:featureRow andShapeConverter:converter]){
-                        drawn = YES;
-                    }
-                }
-                
-                image = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                
-                if(!drawn){
-                    image = nil;
-                }
+                // Draw the tile image
+                image = [self drawTileWithZoom:zoom andBoundingBox:webMercatorBoundingBox andIndexResults:results];
                 
             } else if(self.maxFeaturesTileDraw != nil){
                 
@@ -213,17 +264,8 @@
     // Get the web mercator bounding box
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
-    // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
-    
-    int count = 0;
-    
-    @try {
-        count = [results count];
-    }
-    @finally {
-        [results close];
-    }
+    // Query for the count of geometries matching the bounds in the index
+    int count = [self queryIndexedFeaturesCountWithWebMercatorBoundingBox:webMercatorBoundingBox];
     
     return count;
 }
@@ -295,7 +337,7 @@
             if(self.maxFeaturesPerTile == nil || totalCount <= [self.maxFeaturesPerTile intValue]){
                 
                 // Draw the tile image
-                image = [self drawTileWithBoundingBox:boundingBox andResults:results];
+                image = [self drawTileWithZoom:zoom andBoundingBox:boundingBox andResults:results];
                 
             } else if(self.maxFeaturesTileDraw != nil){
                 
@@ -315,7 +357,7 @@
     return image;
 }
 
--(UIImage *) drawTileWithBoundingBox: (GPKGBoundingBox *) boundingBox andResults: (GPKGResultSet *) results{
+-(UIImage *) drawTileWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andIndexResults: (GPKGFeatureIndexResults *) results{
     
     UIImage *image = nil;
     
@@ -323,13 +365,45 @@
         UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
-        GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:boundingBox];
+        GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
+        GPKGBoundingBox *expandedBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
+        
+        BOOL drawn = NO;
+        for(GPKGFeatureRow *featureRow in results){
+            if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:featureRow andShapeConverter:converter]){
+                drawn = YES;
+            }
+        }
+        
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        if(!drawn){
+            image = nil;
+        }
+    
+    }@finally{
+        [results close];
+    }
+    
+    return image;
+}
+
+-(UIImage *) drawTileWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andResults: (GPKGResultSet *) results{
+    
+    UIImage *image = nil;
+    
+    @try{
+        UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
+        GPKGBoundingBox *expandedBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
         
         BOOL drawn = NO;
         while([results moveToNext]){
-            GPKGFeatureRow * row = [self.featureDao getFeatureRow:results];
-            if([self drawFeatureWithBoundingBox:boundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
+            GPKGFeatureRow *row = [self.featureDao getFeatureRow:results];
+            if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
                 drawn = YES;
             }
         }
@@ -348,17 +422,17 @@
     return image;
 }
 
--(UIImage *) drawTileWithBoundingBox: (GPKGBoundingBox *) boundingBox andFeatureRows: (NSArray *) featureRows{
+-(UIImage *) drawTileWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andFeatureRows: (NSArray *) featureRows{
     
     UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    GPKGMapShapeConverter * converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
-    GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:boundingBox];
+    GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
+    GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:webMercatorBoundingBox];
     
     BOOL drawn = NO;
-    for(GPKGFeatureRow * row in featureRows){
-        if([self drawFeatureWithBoundingBox:boundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
+    for(GPKGFeatureRow *row in featureRows){
+        if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
             drawn = YES;
         }
     }
@@ -570,6 +644,25 @@
 -(SFPoint *) transformPointWithMapPoint: (GPKGMapPoint *) point{
     NSArray * lonLat = [self.wgs84ToWebMercatorTransform transformWithX:point.coordinate.longitude andY:point.coordinate.latitude];
     return [[SFPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
+}
+
+/**
+ * Create a map shape converter
+ *
+ * @param context    context
+ * @param featureDao feature dao
+ */
+-(GPKGMapShapeConverter *) createMapShapeConverterWithZoom: (int) zoom{
+    
+    GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
+    
+    // Set the simplify tolerance for simplifying geometries to similar curves with fewer points
+    if(self.simplifyGeometries){
+        double simplifyTolerance = [GPKGTileBoundingBoxUtils toleranceDistanceWithZoom:zoom andPixelWidth:self.tileWidth andPixelHeight:self.tileHeight];
+        [converter setSimplifyToleranceAsDouble:simplifyTolerance];
+    }
+    
+    return converter;
 }
 
 @end
