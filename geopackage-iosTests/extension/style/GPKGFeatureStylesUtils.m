@@ -274,90 +274,58 @@
             
         }
 
-    }
-    
-    /*
-     
+        NSArray<NSString *> *tables = [featureStyleExtension tables];
+        [GPKGTestUtils assertEqualUnsignedLongWithValue:featureTables.count andValue2:tables.count];
+        
+        for(NSString *tableName in featureTables){
             
-            featureCursor = featureDao.queryForAll();
-            while (featureCursor.moveToNext()) {
+            [GPKGTestUtils assertTrue:[tables containsObject:tableName]];
+            
+            [GPKGTestUtils assertNotNil:[featureStyleExtension tableStylesWithTableName:tableName]];
+            [GPKGTestUtils assertNotNil:[featureStyleExtension tableIconsWithTableName:tableName]];
+            
+            [featureStyleExtension deleteAllFeatureStylesWithTableName:tableName];
+            
+            [GPKGTestUtils assertNil:[featureStyleExtension tableStylesWithTableName:tableName]];
+            [GPKGTestUtils assertNil:[featureStyleExtension tableIconsWithTableName:tableName]];
+            
+            GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:tableName];
+            GPKGResultSet *featureResultSet = [featureDao queryForAll];
+            while([featureResultSet moveToNext]){
                 
-                FeatureRow featureRow = featureCursor.getRow();
+                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
                 
-                validateRowStyles(featureTableStyles, featureRow,
-                                  tableStyleDefault, geometryTypeTableStyles,
-                                  featureResultsStyles);
-                
-                validateRowIcons(featureTableStyles, featureRow,
-                                 tableIconDefault, geometryTypeTableIcons,
-                                 featureResultsIcons);
+                [GPKGTestUtils assertNil:[featureStyleExtension stylesWithFeature:featureRow]];
+                [GPKGTestUtils assertNil:[featureStyleExtension iconsWithFeature:featureRow]];
                 
             }
-            featureCursor.close();
+            [featureResultSet close];
+            
+            [featureStyleExtension deleteRelationshipsWithTable:tableName];
+            [GPKGTestUtils assertFalse:[featureStyleExtension hasWithTable:tableName]];
             
         }
         
-        List<String> tables = featureStyleExtension.getTables();
-        TestCase.assertEquals(featureTables.size(), tables.size());
+        [GPKGTestUtils assertFalse:[featureStyleExtension has]];
         
-        for (String tableName : featureTables) {
-            
-            TestCase.assertTrue(tables.contains(tableName));
-            
-            TestCase.assertNotNull(featureStyleExtension
-                                   .getTableStyles(tableName));
-            TestCase.assertNotNull(featureStyleExtension
-                                   .getTableIcons(tableName));
-            
-            featureStyleExtension.deleteAllFeatureStyles(tableName);
-            
-            TestCase.assertNull(featureStyleExtension
-                                .getTableStyles(tableName));
-            TestCase.assertNull(featureStyleExtension
-                                .getTableIcons(tableName));
-            
-            FeatureDao featureDao = geoPackage.getFeatureDao(tableName);
-            FeatureCursor featureCursor = featureDao.queryForAll();
-            while (featureCursor.moveToNext()) {
-                
-                FeatureRow featureRow = featureCursor.getRow();
-                
-                TestCase.assertNull(featureStyleExtension
-                                    .getStyles(featureRow));
-                TestCase.assertNull(featureStyleExtension
-                                    .getIcons(featureRow));
-                
-            }
-            featureCursor.close();
-            
-            featureStyleExtension.deleteRelationships(tableName);
-            TestCase.assertFalse(featureStyleExtension.has(tableName));
-            
-        }
+        [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_ST_TABLE_NAME]];
+        [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_IT_TABLE_NAME]];
+        [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_CI_TABLE_NAME]];
         
-        TestCase.assertFalse(featureStyleExtension.has());
+        [featureStyleExtension removeExtension];
         
-        TestCase.assertTrue(geoPackage.isTable(StyleTable.TABLE_NAME));
-        TestCase.assertTrue(geoPackage.isTable(IconTable.TABLE_NAME));
-        TestCase.assertTrue(geoPackage.isTable(ContentsId.TABLE_NAME));
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_ST_TABLE_NAME]];
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_IT_TABLE_NAME]];
+        [GPKGTestUtils assertTrue:[geoPackage isTable:GPKG_CI_TABLE_NAME]];
         
-        featureStyleExtension.removeExtension();
-        
-        TestCase.assertFalse(geoPackage.isTable(StyleTable.TABLE_NAME));
-        TestCase.assertFalse(geoPackage.isTable(IconTable.TABLE_NAME));
-        TestCase.assertTrue(geoPackage.isTable(ContentsId.TABLE_NAME));
-        
-        ContentsIdExtension contentsIdExtension = featureStyleExtension
-        .getContentsId();
-        TestCase.assertEquals(featureTables.size(),
-                              contentsIdExtension.count());
-        TestCase.assertEquals(featureTables.size(),
-                              contentsIdExtension.deleteIds());
-        contentsIdExtension.removeExtension();
-        TestCase.assertFalse(geoPackage.isTable(ContentsId.TABLE_NAME));
+        GPKGContentsIdExtension *contentsIdExtension = [featureStyleExtension contentsId];
+        [GPKGTestUtils assertEqualIntWithValue:(int)featureTables.count andValue2:[contentsIdExtension count]];
+        [GPKGTestUtils assertEqualIntWithValue:(int)featureTables.count andValue2:[contentsIdExtension deleteIds]];
+        [contentsIdExtension removeExtension];
+        [GPKGTestUtils assertFalse:[geoPackage isTable:GPKG_CI_TABLE_NAME]];
         
     }
-     */
+
 }
 
 +(void) validateTableStyles: (GPKGFeatureTableStyles *) featureTableStyles andStyle: (GPKGStyleRow *) styleRow andStyles: (NSDictionary *) geometryTypeStyles andTypes: (NSDictionary *) geometryTypes{
@@ -700,6 +668,5 @@
     
     return allChildTypes;
 }
-
 
 @end
