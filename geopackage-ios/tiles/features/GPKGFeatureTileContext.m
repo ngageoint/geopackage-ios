@@ -18,6 +18,13 @@
 
 @implementation GPKGFeatureTileContext
 
+typedef struct{
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t alpha;
+} TilePixel_T;
+
 /**
  *  Polygon layer index
  */
@@ -93,13 +100,32 @@ static int ICON_LAYER = 3;
     }
     
     if(imageContext != NULL){
-        CGImageRef imageRef = CGBitmapContextCreateImage(imageContext);
-        image = [UIImage imageWithCGImage:imageRef];
+        if(![self isTransparent:imageContext]){
+            CGImageRef imageRef = CGBitmapContextCreateImage(imageContext);
+            image = [UIImage imageWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
         CGContextRelease(imageContext);
-        CGImageRelease(imageRef);
     }
     
     return image;
+}
+
+-(BOOL) isTransparent: (CGContextRef) context{
+    BOOL transparent = YES;
+        
+    TilePixel_T *pixels = CGBitmapContextGetData(context);
+    int pixelCount = self.tileWidth * self.tileHeight;
+    
+    for(int i = 0; i < pixelCount; i++){
+        TilePixel_T p = pixels[i];
+        if(p.alpha > 0 && (p.red > 0 || p.green > 0 || p.blue > 0)){
+            transparent = NO;
+            break;
+        }
+    }
+    
+    return transparent;
 }
 
 -(void) recycle{

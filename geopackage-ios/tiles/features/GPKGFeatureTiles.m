@@ -22,6 +22,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGFeatureTileContext.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -48,7 +49,6 @@
         
         self.tileWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_WIDTH] intValue];
         self.tileHeight = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_HEIGHT] intValue];
-        // TODO? [self createEmptyImage];
         
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
@@ -90,7 +90,6 @@
     if(self.indexManager != nil){
         [self.indexManager close];
     }
-    // TODO empty image recycle?
 }
 
 -(void) calculateDrawOverlap{
@@ -178,16 +177,6 @@
 
 -(void) setIconCacheSize: (int) size{
     [self.iconCache resizeWithSize:size];
-}
-
--(void) setTileWidth:(int)tileWidth{
-    _tileWidth = tileWidth;
-    // TODO create empty image?  delete entire setter if not needed
-}
-
--(void) setTileHeight:(int)tileHeight{
-    _tileHeight = tileHeight;
-    // TODO create empty image?  delete entire setter if not needed
 }
 
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom{
@@ -362,8 +351,8 @@
     UIImage *image = nil;
     
     @try{
-        UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
-        CGContextRef context = UIGraphicsGetCurrentContext();
+    
+        GPKGFeatureTileContext *context = [[GPKGFeatureTileContext alloc] initWithWidth:self.tileWidth andHeight:self.tileHeight];
         
         GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
         GPKGBoundingBox *expandedBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
@@ -375,11 +364,10 @@
             }
         }
         
-        image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        if(!drawn){
-            image = nil;
+        if(drawn){
+            image = [context createImage];
+        }else{
+            [context recycle];
         }
     
     }@finally{
@@ -394,8 +382,8 @@
     UIImage *image = nil;
     
     @try{
-        UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
-        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        GPKGFeatureTileContext *context = [[GPKGFeatureTileContext alloc] initWithWidth:self.tileWidth andHeight:self.tileHeight];
         
         GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
         GPKGBoundingBox *expandedBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
@@ -408,11 +396,10 @@
             }
         }
         
-        image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        if(!drawn){
-            image = nil;
+        if(drawn){
+            image = [context createImage];
+        }else{
+            [context recycle];
         }
         
     }@finally{
@@ -424,11 +411,12 @@
 
 -(UIImage *) drawTileWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andFeatureRows: (NSArray *) featureRows{
     
-    UIGraphicsBeginImageContext(CGSizeMake(self.tileWidth, self.tileHeight));
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIImage *image = nil;
+    
+    GPKGFeatureTileContext *context = [[GPKGFeatureTileContext alloc] initWithWidth:self.tileWidth andHeight:self.tileHeight];
     
     GPKGMapShapeConverter *converter = [self createMapShapeConverterWithZoom:zoom];
-    GPKGBoundingBox *expandedBoundingBox  = [self expandBoundingBox:webMercatorBoundingBox];
+    GPKGBoundingBox *expandedBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
     
     BOOL drawn = NO;
     for(GPKGFeatureRow *row in featureRows){
@@ -437,17 +425,16 @@
         }
     }
         
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    if(!drawn){
-        image = nil;
+    if(drawn){
+        image = [context createImage];
+    }else{
+        [context recycle];
     }
     
     return image;
 }
 
--(BOOL) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andContext: (CGContextRef) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
+-(BOOL) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andContext: (GPKGFeatureTileContext *) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
     
     BOOL drawn = NO;
     
@@ -464,9 +451,8 @@
                 if([expandedBoundingBox intersects:transformedBoundingBox withAllowEmpty:YES]){
                 
                     GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
-                    [self drawShapeWithBoundingBox:boundingBox andContext:context andMapShape:shape];
-                
-                    drawn = YES;
+                    drawn = [self drawShapeWithBoundingBox:boundingBox andContext:context andFeature:row andMapShape:shape];
+
                 }
             }
         }
@@ -477,16 +463,22 @@
     return drawn;
 }
 
--(void) drawShapeWithBoundingBox: (GPKGBoundingBox *) boundingBox andContext: (CGContextRef) context andMapShape: (GPKGMapShape *) shape{
+-(BOOL) drawShapeWithBoundingBox: (GPKGBoundingBox *) boundingBox andContext: (GPKGFeatureTileContext *) context andFeature: (GPKGFeatureRow *) featureRow andMapShape: (GPKGMapShape *) shape{
     
-    NSObject * shapeObject = shape.shape;
+    BOOL drawn = NO;
     
-    switch(shape.shapeType){
+    enum GPKGMapShapeType shapeType = shape.shapeType;
+    enum SFGeometryType geometryType = shape.geometryType;
+    GPKGFeatureStyle *featureStyle = [self featureStyleForFeature:featureRow andGeometryType:geometryType];
+    
+    NSObject *shapeObject = shape.shape;
+    
+    switch(shapeType){
             
         case GPKG_MST_POINT:
             {
                 GPKGMapPoint * point = (GPKGMapPoint *) shapeObject;
-                [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point];
+                drawn = [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point andStyle:featureStyle];
             }
             break;
         case GPKG_MST_POLYLINE:
@@ -494,7 +486,7 @@
                 MKPolyline * polyline = (MKPolyline *) shapeObject;
                 CGMutablePathRef linePath = CGPathCreateMutable();
                 [self addPolyline:polyline toPath:linePath withBoundingBox:boundingBox];
-                [self drawLinePath:linePath andContext:context];
+                drawn = [self drawLinePath:linePath andContext:context andStyle:featureStyle];
             }
             break;
         case GPKG_MST_POLYGON:
@@ -502,14 +494,14 @@
                 MKPolygon * polygon = (MKPolygon *) shapeObject;
                 CGMutablePathRef polygonPath = CGPathCreateMutable();
                 [self addPolygon:polygon toPath:polygonPath withBoundingBox:boundingBox];
-                [self drawPolygonPath:polygonPath andContext:context];
+                drawn = [self drawPolygonPath:polygonPath andContext:context andStyle:featureStyle];
             }
             break;
         case GPKG_MST_MULTI_POINT:
             {
                 GPKGMultiPoint * multiPoint = (GPKGMultiPoint *) shapeObject;
                 for(GPKGMapPoint * point in multiPoint.points){
-                    [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point];
+                    drawn = [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point andStyle:featureStyle] || drawn;
                 }
             }
             break;
@@ -519,7 +511,7 @@
                 for(MKPolyline * polyline in multiPolyline.polylines){
                     CGMutablePathRef multiLinePath = CGPathCreateMutable();
                     [self addPolyline:polyline toPath:multiLinePath withBoundingBox:boundingBox];
-                    [self drawLinePath:multiLinePath andContext:context];
+                    drawn = [self drawLinePath:multiLinePath andContext:context andStyle:featureStyle] || drawn;
                 }
             }
             break;
@@ -530,14 +522,14 @@
                 for(MKPolygon * polygon in multiPolygon.polygons){
                     [self addPolygon:polygon toPath:multiPolygonPath withBoundingBox:boundingBox];
                 }
-                [self drawPolygonPath:multiPolygonPath andContext:context];
+                drawn = [self drawPolygonPath:multiPolygonPath andContext:context andStyle:featureStyle];
             }
             break;
         case GPKG_MST_COLLECTION:
             {
                 NSArray * shapes = (NSArray *) shapeObject;
                 for(GPKGMapShape * arrayShape in shapes){
-                    [self drawShapeWithBoundingBox:boundingBox andContext:context andMapShape:arrayShape];
+                    drawn = [self drawShapeWithBoundingBox:boundingBox andContext:context andFeature:featureRow andMapShape:arrayShape] || drawn;
                 }
             }
             break;
@@ -545,29 +537,45 @@
             [NSException raise:@"Shape Type" format:@"Unsupported shape type: %@", [GPKGMapShapeTypes name:shape.shapeType]];
             
     }
+    
+    return drawn;
 }
 
--(void) drawLinePath: (CGMutablePathRef) path andContext: (CGContextRef) context{
-    CGContextSetLineWidth(context, self.lineStrokeWidth);
-    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
-    CGContextAddPath(context, path);
-    CGContextDrawPath(context, kCGPathStroke);
+-(BOOL) drawLinePath: (CGMutablePathRef) path andContext: (GPKGFeatureTileContext *) context andStyle: (GPKGFeatureStyle *) featureStyle{
+    
+    CGContextRef lineContext = [context lineContext];
+    
+    // TODO style
+    
+    CGContextSetLineWidth(lineContext, self.lineStrokeWidth);
+    CGContextSetStrokeColorWithColor(lineContext, self.lineColor.CGColor);
+    CGContextAddPath(lineContext, path);
+    CGContextDrawPath(lineContext, kCGPathStroke);
     CGPathRelease(path);
+    
+    return YES;
 }
 
--(void) drawPolygonPath: (CGMutablePathRef) path andContext: (CGContextRef) context{
-    CGContextSetLineWidth(context, self.polygonStrokeWidth);
-    CGContextSetStrokeColorWithColor(context, self.polygonColor.CGColor);
-    CGContextSetFillColorWithColor(context, self.polygonFillColor.CGColor);
-    CGContextAddPath(context, path);
+-(BOOL) drawPolygonPath: (CGMutablePathRef) path andContext: (GPKGFeatureTileContext *) context andStyle: (GPKGFeatureStyle *) featureStyle{
+    
+    CGContextRef polygonContext = [context polygonContext];
+    
+    // TODO style
+    
+    CGContextSetLineWidth(polygonContext, self.polygonStrokeWidth);
+    CGContextSetStrokeColorWithColor(polygonContext, self.polygonColor.CGColor);
+    CGContextSetFillColorWithColor(polygonContext, self.polygonFillColor.CGColor);
+    CGContextAddPath(polygonContext, path);
     CGPathDrawingMode mode;
     if(self.fillPolygon){
         mode = kCGPathEOFillStroke;
     }else{
         mode = kCGPathStroke;
     }
-    CGContextDrawPath(context, mode);
+    CGContextDrawPath(polygonContext, mode);
     CGPathRelease(path);
+    
+    return YES;
 }
 
 -(void) addPolyline: (MKPolyline *) polyline toPath: (CGMutablePathRef) path withBoundingBox: (GPKGBoundingBox *) boundingBox{
@@ -613,7 +621,11 @@
     }
 }
 
--(void) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andContext: (CGContextRef) context andPoint: (GPKGMapPoint *) point{
+-(BOOL) drawPointWithBoundingBox: (GPKGBoundingBox *) boundingBox andContext: (GPKGFeatureTileContext *) context andPoint: (GPKGMapPoint *) point andStyle: (GPKGFeatureStyle *) featureStyle{
+    
+    BOOL drawn = NO;
+    
+    // TODO style
     
     SFPoint * sfPoint = [self transformPointWithMapPoint:point];
     double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
@@ -625,7 +637,9 @@
         int height = [self.pointIcon getHeight];
         if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
             CGRect rect = CGRectMake(x - self.pointIcon.xOffset, y - self.pointIcon.yOffset, width, height);
-            [self.pointIcon.getIcon drawInRect:rect];
+            CGContextRef iconContext = [context iconContext];
+            CGContextDrawImage(iconContext, rect, [self.pointIcon getIcon].CGImage);
+            drawn = YES;
         }
     
     }else{
@@ -635,10 +649,14 @@
             CGRect circleRect = CGRectMake(x - self.pointRadius, y - self.pointRadius, pointDiameter, pointDiameter);
         
             // Draw the Circle
-            CGContextSetFillColorWithColor(context, self.pointColor.CGColor);
-            CGContextFillEllipseInRect(context, circleRect);
+            CGContextRef pointContext = [context pointContext];
+            CGContextSetFillColorWithColor(pointContext, self.pointColor.CGColor);
+            CGContextFillEllipseInRect(pointContext, circleRect);
+            drawn = YES;
         }
     }
+    
+    return drawn;
 }
 
 -(SFPoint *) transformPointWithMapPoint: (GPKGMapPoint *) point{
@@ -663,6 +681,45 @@
     }
     
     return converter;
+}
+
+/**
+ * Get the feature style for the feature row and geometry type
+ *
+ * @param featureRow feature row
+ * @return feature style
+ */
+-(GPKGFeatureStyle *) featureStyleForFeature: (GPKGFeatureRow *) featureRow{
+    GPKGFeatureStyle *featureStyle = nil;
+    if (self.featureTableStyles != nil) {
+        featureStyle = [self.featureTableStyles featureStyleWithFeature:featureRow];
+    }
+    return featureStyle;
+}
+
+/**
+ * Get the feature style for the feature row and geometry type
+ *
+ * @param featureRow   feature row
+ * @param geometryType geometry type
+ * @return feature style
+ */
+-(GPKGFeatureStyle *) featureStyleForFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
+    GPKGFeatureStyle *featureStyle = nil;
+    if (self.featureTableStyles != nil) {
+        featureStyle = [self.featureTableStyles featureStyleWithFeature:featureRow andGeometryType:geometryType];
+    }
+    return featureStyle;
+}
+
+/**
+ * Get the icon bitmap from the icon row
+ *
+ * @param iconRow icon row
+ * @return icon bitmap
+ */
+-(UIImage *) iconImageForIcon: (GPKGIconRow *) iconRow{
+    return [self.iconCache createIconForRow:iconRow withScale:1.0]; // TODO 1.0 scale correct?
 }
 
 @end

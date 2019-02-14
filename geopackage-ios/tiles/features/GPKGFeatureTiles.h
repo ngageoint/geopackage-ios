@@ -44,8 +44,6 @@
  */
 @property (nonatomic) int tileHeight;
 
-// TODO transparent image needed?
-
 /**
  *  Compress format
  */
@@ -95,8 +93,6 @@
  *  Polygon fill color
  */
 @property (nonatomic) UIColor * polygonFillColor;
-
-// TODO paint cache needed?
 
 /**
  *  Height overlapping pixels between tile images
