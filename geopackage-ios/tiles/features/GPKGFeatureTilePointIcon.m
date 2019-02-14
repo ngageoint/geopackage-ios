@@ -10,7 +10,7 @@
 
 @interface GPKGFeatureTilePointIcon ()
 
-@property (nonatomic) UIImage * icon;
+@property (nonatomic, strong) UIImage * icon;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
 

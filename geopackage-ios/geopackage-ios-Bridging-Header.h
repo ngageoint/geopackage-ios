@@ -231,6 +231,7 @@
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGFeatureStyles.h"
 #import "GPKGFeatureTableStyles.h"
+#import "GPKGFeatureTileContext.h"
 #import "GPKGIconCache.h"
 #import "GPKGIconDao.h"
 #import "GPKGIconRow.h"
