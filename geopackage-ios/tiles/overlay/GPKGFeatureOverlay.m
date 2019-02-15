@@ -26,6 +26,11 @@
     return self;
 }
 
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+    [super setBoundingBox:boundingBox withProjection:projection];
+    self.webMercatorBoundingBox = [self.featureTiles expandBoundingBox:self.webMercatorBoundingBox];
+}
+
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Determine if the tile should be drawn
