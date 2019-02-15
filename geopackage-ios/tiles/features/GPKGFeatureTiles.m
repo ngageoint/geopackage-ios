@@ -719,7 +719,7 @@
  * @return icon bitmap
  */
 -(UIImage *) iconImageForIcon: (GPKGIconRow *) iconRow{
-    return [self.iconCache createIconForRow:iconRow withScale:1.0]; // TODO 1.0 scale correct?
+    return [self.iconCache createIconForRow:iconRow withScale:1.0];
 }
 
 @end
