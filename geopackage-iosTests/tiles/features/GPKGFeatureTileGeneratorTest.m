@@ -92,7 +92,6 @@
             
             for(int z = minZoom; z <= maxZoom; z++){
                 
-                
                 GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:tileGenerator.boundingBox andZoom:z];
                 
                 for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
@@ -101,29 +100,16 @@
                             
                             GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:z];
                             GPKGFeatureIndexResults *results = [featureTiles queryIndexedFeaturesWithX:x andY:y andZoom:z];
-                            
-                            [results close];
-                            /* TODO
-                            UIImage *image = [featureTiles drawTileWithBoundingBox:webMercatorBoundingBox andResults:results]; // TODO zoom and feature index results method?
+                            UIImage *image = [featureTiles drawTileWithZoom:z andBoundingBox:webMercatorBoundingBox andIndexResults:results];
                             if(image != nil){
                                 expectedTiles++;
                             }
-                             */
                             
-                        }
-                    }
-                }
-                
-                // TODO delete?
-                int tilesPerSide = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:z];
-                for (int x = 0; x < tilesPerSide; x++) {
-                    for (int y = 0; y < tilesPerSide; y++) {
-                        if ([featureTiles queryIndexedFeaturesCountWithX:x andY:y andZoom:z] > 0) {
-                            expectedTiles++;
                         }
                     }
                 }
             }
+            
         }
         
         [GPKGTestUtils assertEqualIntWithValue:expectedTiles andValue2:tiles];
