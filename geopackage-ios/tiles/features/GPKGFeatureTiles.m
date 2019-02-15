@@ -652,13 +652,31 @@
     
     BOOL drawn = NO;
     
-    // TODO style
-    
     SFPoint * sfPoint = [self transformPointWithMapPoint:point];
     double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
     double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
     
-    if(self.pointIcon != nil){
+    if(featureStyle != nil && [featureStyle hasIcon]){
+    
+        GPKGIconRow *iconRow = featureStyle.icon;
+        UIImage *icon = [self iconImageForIcon:iconRow];
+        
+        float width = icon.size.width;
+        float height = icon.size.height;
+        
+        if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
+            
+            double anchorU = [iconRow anchorUOrDefault];
+            double anchorV = [iconRow anchorVOrDefault];
+            
+            CGRect rect = CGRectMake(x - (anchorU * width), y - (anchorV * height), width, height);
+            CGContextRef iconContext = [context iconContext];
+            CGContextDrawImage(iconContext, rect, icon.CGImage);
+            drawn = YES;
+            
+        }
+        
+    }else if(self.pointIcon != nil){
         
         int width = [self.pointIcon getWidth];
         int height = [self.pointIcon getHeight];
@@ -670,17 +688,35 @@
         }
     
     }else{
-        if(x >= 0 - self.pointRadius && x <= self.tileWidth + self.pointRadius && y >= 0 - self.pointRadius && y <= self.tileHeight + self.pointRadius){
+        
+        double radius = self.pointRadius;
+        
+        GPKGStyleRow *style = nil;
+        if(featureStyle != nil){
+            style = featureStyle.style;
+            if(style != nil){
+                radius = [style widthOrDefault] / 2.0;
+            }
+        }
+        
+        if(x >= 0 - radius && x <= self.tileWidth + radius && y >= 0 - radius && y <= self.tileHeight + radius){
             
-            double pointDiameter = self.pointRadius * 2;
-            CGRect circleRect = CGRectMake(x - self.pointRadius, y - self.pointRadius, pointDiameter, pointDiameter);
+            UIColor *color = self.pointColor;
+            
+            if(style != nil && [style hasColor]){
+                color = [[style colorOrDefault] uiColor];
+            }
+            
+            double diameter = radius * 2;
+            CGRect circleRect = CGRectMake(x - radius, y - radius, diameter, diameter);
         
             // Draw the Circle
             CGContextRef pointContext = [context pointContext];
-            CGContextSetFillColorWithColor(pointContext, self.pointColor.CGColor);
+            CGContextSetFillColorWithColor(pointContext, color.CGColor);
             CGContextFillEllipseInRect(pointContext, circleRect);
             drawn = YES;
         }
+        
     }
     
     return drawn;
