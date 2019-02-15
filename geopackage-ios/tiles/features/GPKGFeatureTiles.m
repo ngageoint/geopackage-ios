@@ -545,10 +545,19 @@
     
     CGContextRef lineContext = [context lineContext];
     
-    // TODO style
+    double strokeWidth = self.lineStrokeWidth;
+    UIColor *color = self.lineColor;
     
-    CGContextSetLineWidth(lineContext, self.lineStrokeWidth);
-    CGContextSetStrokeColorWithColor(lineContext, self.lineColor.CGColor);
+    if(featureStyle != nil){
+        GPKGStyleRow *style = featureStyle.style;
+        if(style != nil && [style hasColor]){
+            color = [[style colorOrDefault] uiColor];
+            strokeWidth = [style widthOrDefault];
+        }
+    }
+    
+    CGContextSetLineWidth(lineContext, strokeWidth);
+    CGContextSetStrokeColorWithColor(lineContext, color.CGColor);
     CGContextAddPath(lineContext, path);
     CGContextDrawPath(lineContext, kCGPathStroke);
     CGPathRelease(path);
@@ -560,18 +569,36 @@
     
     CGContextRef polygonContext = [context polygonContext];
     
-    // TODO style
+    double strokeWidth = self.polygonStrokeWidth;
+    UIColor *color = self.polygonColor;
+    UIColor *fillColor = self.polygonFillColor;
+    BOOL fill = self.fillPolygon;
     
-    CGContextSetLineWidth(polygonContext, self.polygonStrokeWidth);
-    CGContextSetStrokeColorWithColor(polygonContext, self.polygonColor.CGColor);
-    CGContextSetFillColorWithColor(polygonContext, self.polygonFillColor.CGColor);
-    CGContextAddPath(polygonContext, path);
+    if(featureStyle != nil){
+        GPKGStyleRow *style = featureStyle.style;
+        if(style != nil){
+            if([style hasColor]){
+                color = [[style colorOrDefault] uiColor];
+                strokeWidth = [style widthOrDefault];
+                fill = NO;
+            }
+            if([style hasFillColor]){
+                fillColor = [[style fillColor] uiColor];
+                fill = YES;
+            }
+        }
+    }
+    
+    CGContextSetLineWidth(polygonContext, strokeWidth);
+    CGContextSetStrokeColorWithColor(polygonContext, color.CGColor);
     CGPathDrawingMode mode;
-    if(self.fillPolygon){
+    if(fill){
         mode = kCGPathEOFillStroke;
+        CGContextSetFillColorWithColor(polygonContext, fillColor.CGColor);
     }else{
         mode = kCGPathStroke;
     }
+    CGContextAddPath(polygonContext, path);
     CGContextDrawPath(polygonContext, mode);
     CGPathRelease(path);
     
