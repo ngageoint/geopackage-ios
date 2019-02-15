@@ -249,5 +249,6 @@
 #import "GPKGColorUtils.h"
 #import "GPKGFeatureCache.h"
 #import "GPKGFeatureCacheTables.h"
+#import "GPKGFeatureShape.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
