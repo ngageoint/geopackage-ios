@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /**
  * Color representation with support for hex, RBG, arithmetic RBG, and integer
@@ -501,6 +502,13 @@
  * @return true if opaque
  */
 -(BOOL) isOpaque;
+
+/**
+ * Get a UIColor from this color
+ *
+ * @return color
+ */
+-(UIColor *) uiColor;
 
 /**
  * Get the color as a hex string

@@ -14,10 +14,10 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.red = 0.0;
-        self.green = 0.0;
-        self.blue = 0.0;
-        self.opacity = 1.0;
+        _redArithmetic = 0.0;
+        _greenArithmetic = 0.0;
+        _blueArithmetic = 0.0;
+        _opacity = 1.0;
     }
     return self;
 }
@@ -288,6 +288,10 @@
 
 -(BOOL) isOpaque{
     return self.opacity == 1.0;
+}
+
+-(UIColor *) uiColor{
+    return [UIColor colorWithRed:[self redArithmetic] green:[self greenArithmetic] blue:[self blueArithmetic] alpha:[self alphaArithmetic]];
 }
 
 -(NSString *) colorHex{
