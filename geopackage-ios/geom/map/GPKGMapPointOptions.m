@@ -29,6 +29,12 @@
     self.imageCenterOffset = CGPointMake(0, 0);
 }
 
+-(void) anchorWithU: (double) anchorU andV: (double) anchorV{
+    float x = -self.image.size.width / 2 + (anchorU * self.image.size.width);
+    float y = -self.image.size.height / 2 + ((1.0 - anchorV) * self.image.size.height);
+    self.imageCenterOffset = CGPointMake(x, y);
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGMapPointOptions *copy = [[GPKGMapPointOptions alloc] init];
     [copy setPinTintColor:_pinTintColor];

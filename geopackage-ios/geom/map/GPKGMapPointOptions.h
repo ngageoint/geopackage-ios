@@ -63,4 +63,16 @@
  */
 -(void) centerImage;
 
+/**
+ *  Set the image so that is drawn according to the anchor values
+ *
+ *  @param anchorU UV Mapping horizontal anchor distance inclusively between 0.0
+ *               and 1.0 from the left edge, when null assume 0.5 (middle of
+ *               icon)
+ *  @param anchorV UV Mapping vertical anchor distance inclusively between 0.0
+ *               and 1.0 from the top edge, when null assume 1.0 (bottom of
+ *               icon)
+ */
+-(void) anchorWithU: (double) anchorU andV: (double) anchorV;
+
 @end
