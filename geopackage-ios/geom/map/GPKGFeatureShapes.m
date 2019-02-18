@@ -198,9 +198,49 @@
 }
 
 -(int) removeShapesFromMapView: (MKMapView *) mapView inDatabase: (NSString *) database withTable: (NSString *) table withExclusions: (NSSet<NSNumber *> *) excludedTypes{
+
+    int count = 0;
     
-    return -1; // TODO
+    NSMutableDictionary<NSNumber *, GPKGFeatureShape *> *featureIds = [self featureIdsInDatabase:database withTable:table];
     
+    if (featureIds != nil) {
+        
+        NSMutableArray *deleteFeatureIds = [[NSMutableArray alloc] init];
+        
+        for(NSNumber *featureId in [featureIds allKeys]){
+            
+            GPKGFeatureShape *featureShape = [self featureShapeInFeatureIds:featureIds withFeatureId:featureId];
+            
+            if(featureShape != nil){
+                
+                NSMutableArray *deleteMapShapes = [[NSMutableArray alloc] init];
+                
+                NSMutableArray<GPKGMapShape *> *mapShapes = [featureShape shapes];
+                for(GPKGMapShape *mapShape in mapShapes){
+                    if(excludedTypes == nil || ![excludedTypes containsObject:[NSNumber numberWithInt:mapShape.shapeType]]){
+                        [mapShape removeFromMapView:mapView];
+                        [deleteMapShapes addObject:mapShape];
+                    }
+                }
+                
+                [mapShapes removeObjectsInArray:deleteMapShapes];
+                
+            }
+            
+            if (featureShape == nil || ![featureShape hasShapes]) {
+                if(featureShape != nil) {
+                    [featureShape removeMetadataShapesFromMapView:mapView];
+                }
+                [deleteFeatureIds addObject:featureId];
+                count++;
+            }
+            
+        }
+        
+        [featureIds removeObjectsForKeys:deleteFeatureIds];
+    }
+    
+    return count;
 }
 
 -(int) removeShapesNotWithinMapView: (MKMapView *) mapView{
