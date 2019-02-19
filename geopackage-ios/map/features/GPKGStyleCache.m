@@ -98,4 +98,16 @@
     return [GPKGStyleUtils setStyleWithMapPoint:mapPoint andStyle:style];
 }
 
+-(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeature: (GPKGFeatureRow *) featureRow{
+    return [GPKGStyleUtils setFeatureStyleWithPolyline:polylineRenderer andExtension:self.featureStyleExtension andFeature:featureRow andScale:self.scale];
+}
+
+-(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    return [GPKGStyleUtils setFeatureStyleWithPolyline:polylineRenderer andFeatureStyle:featureStyle andScale:self.scale];
+}
+
+-(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style{
+    return [GPKGStyleUtils setStyleWithPolyline:polylineRenderer andStyle:style andScale:self.scale];
+}
+
 @end

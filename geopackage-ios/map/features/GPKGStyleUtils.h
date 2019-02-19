@@ -11,6 +11,7 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGIconCache.h"
 #import "GPKGFeatureStyleExtension.h"
+@import MapKit;
 
 /**
  * Style utilities for populating points and shapes
@@ -132,5 +133,47 @@
  * @return true if style was set into the marker point
  */
 +(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the feature row style into the polyline renderer
+ *
+ * @param polylineRenderer polyline renderer
+ * @param geoPackage       GeoPackage
+ * @param featureRow       feature row
+ * @param scale            screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline renderer
+ */
++(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
+
+/**
+ * Set the feature row style into the polyline renderer
+ *
+ * @param polylineRenderer      polyline renderer
+ * @param featureStyleExtension feature style extension
+ * @param featureRow            feature row
+ * @param scale                 screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline renderer
+ */
++(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
+
+/**
+ * Set the feature style into the polyline renderer
+ *
+ * @param polylineRenderer polyline renderer
+ * @param featureStyle     feature style
+ * @param scale            screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline renderer
+ */
++(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale;
+
+/**
+ * Set the style into the polyline renderer
+ *
+ * @param polylineRenderer polyline renderer
+ * @param style            style row
+ * @param scale            screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline renderer
+ */
++(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style andScale: (float) scale;
 
 @end

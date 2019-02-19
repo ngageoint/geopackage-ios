@@ -141,4 +141,31 @@
  */
 -(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style;
 
+/**
+ * Set the feature row style into the polyline options
+ *
+ * @param polylineOptions polyline options
+ * @param featureRow      feature row
+ * @return true if style was set into the polyline options
+ */
+-(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Set the feature style into the polyline options
+ *
+ * @param polylineOptions polyline options
+ * @param featureStyle    feature style
+ * @return true if style was set into the polyline options
+ */
+-(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the style into the polyline options
+ *
+ * @param polylineOptions polyline options
+ * @param style           style row
+ * @return true if style was set into the polyline options
+ */
+-(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style;
+
 @end
