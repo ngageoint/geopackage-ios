@@ -94,7 +94,7 @@
     return [GPKGStyleUtils createIconImageWithIcon:icon andScale:self.scale andIconCache:self.iconCache];
 }
 
--(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGIconRow *) style{
+-(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style{
     return [GPKGStyleUtils setStyleWithMapPoint:mapPoint andStyle:style];
 }
 

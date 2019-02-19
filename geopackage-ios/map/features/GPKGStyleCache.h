@@ -139,6 +139,6 @@
  * @param style         style row
  * @return true if style was set into the marker options
  */
--(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGIconRow *) style;
+-(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style;
 
 @end
