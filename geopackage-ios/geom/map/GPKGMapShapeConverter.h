@@ -31,6 +31,8 @@
 #import "SFTIN.h"
 #import "SFTriangle.h"
 #import "GPKGMultiPolygonPoints.h"
+#import "GPKGPolyline.h"
+#import "GPKGPolygon.h"
 
 @class GPKGPolylinePoints;
 @class GPKGPolygonPoints;
@@ -175,7 +177,7 @@
  *
  *  @return polyline
  */
--(MKPolyline *) toMapPolylineWithLineString: (SFLineString *) lineString;
+-(GPKGPolyline *) toMapPolylineWithLineString: (SFLineString *) lineString;
 
 /**
  *  Convert a MapKit polyline to a WKB line string
@@ -283,7 +285,7 @@
  *
  *  @return MK polygon
  */
--(MKPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon;
+-(GPKGPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon;
 
 /**
  *  Convert WKB curve polygon to a MapKit polygon
@@ -292,7 +294,7 @@
  *
  *  @return MK polygon
  */
--(MKPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon;
+-(GPKGPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon;
 
 /**
  *  Convert a MapKit polygon to a WKB polygon

@@ -123,7 +123,7 @@
     return point;
 }
 
--(MKPolyline *) toMapPolylineWithLineString: (SFLineString *) lineString{
+-(GPKGPolyline *) toMapPolylineWithLineString: (SFLineString *) lineString{
     
     lineString = [self shortestDirectionWithLineString:lineString];
     
@@ -139,7 +139,7 @@
         mapPoints[i] = mapPoint;
     }
     
-    MKPolyline * polyline = [MKPolyline polylineWithPoints:mapPoints count:numPoints];
+    GPKGPolyline * polyline = [GPKGPolyline polylineWithPoints:mapPoints count:numPoints];
     
     return polyline;
 }
@@ -196,9 +196,9 @@
     }
 }
 
--(MKPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon{
+-(GPKGPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon{
     
-    MKPolygon * mapPolygon = nil;
+    GPKGPolygon * mapPolygon = nil;
     
     NSArray * rings = polygon.rings;
     
@@ -238,18 +238,18 @@
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                 polygonHolePoints[j] = mapPoint;
             }
-            MKPolygon * holePolygon = [MKPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
+            GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
             [holes addObject:holePolygon];
         }
         
-        mapPolygon = [MKPolygon polygonWithPoints:polygonPoints count:numPoints interiorPolygons:holes];
+        mapPolygon = [GPKGPolygon polygonWithPoints:polygonPoints count:numPoints interiorPolygons:holes];
     }
     return mapPolygon;
 }
 
--(MKPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon{
+-(GPKGPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon{
     
-    MKPolygon * mapPolygon = nil;
+    GPKGPolygon * mapPolygon = nil;
     
     NSArray * rings = curvePolygon.rings;
     
@@ -311,7 +311,7 @@
                         holePoints[index++] = mapPoint;
                     }
                 }
-                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:holePoints count:numHolePoints];
+                GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:holePoints count:numHolePoints];
                 [holes addObject:holePolygon];
             }else if([hole isKindOfClass:[SFLineString class]]){
                 SFLineString *holeLineString = (SFLineString *)hole;
@@ -324,14 +324,14 @@
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                     polygonHolePoints[j] = mapPoint;
                 }
-                MKPolygon * holePolygon = [MKPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
+                GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
                 [holes addObject:holePolygon];
             }else{
                 [NSException raise:@"Unsupported Curve Hole Type" format:@"Unsupported Curve Hole Type: %@", NSStringFromClass([hole class])];
             }
         }
 
-        mapPolygon = [MKPolygon polygonWithPoints:polygonPoints count:numPoints interiorPolygons:holes];
+        mapPolygon = [GPKGPolygon polygonWithPoints:polygonPoints count:numPoints interiorPolygons:holes];
     }
     return mapPolygon;
 }
@@ -1002,7 +1002,7 @@
     return shapes;
 }
 
--(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{
+-(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{ // TODO add polyline and polygon options
     
     GPKGMapShapePoints * shapePoints = [[GPKGMapShapePoints alloc] init];
     GPKGMapShape * addedShape = nil;
@@ -1019,14 +1019,14 @@
             break;
         case GPKG_MST_POLYLINE:
             {
-                GPKGPolylinePoints * polylinePoints = [self addMapPolyline:(MKPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions];
+                GPKGPolylinePoints * polylinePoints = [self addMapPolyline:(GPKGPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions];
                 [shapePoints addShapePoints:polylinePoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYLINE_POINTS andShape:polylinePoints];
             }
             break;
         case GPKG_MST_POLYGON:
             {
-                GPKGPolygonPoints * polygonPoints = [self addMapPolygon:(MKPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
+                GPKGPolygonPoints * polygonPoints = [self addMapPolygon:(GPKGPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
                 [shapePoints addShapePoints:polygonPoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYGON_POINTS andShape:polygonPoints];
             }
@@ -1089,7 +1089,7 @@
     return points;
 }
 
--(GPKGPolylinePoints *) addMapPolyline: (MKPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions{
+-(GPKGPolylinePoints *) addMapPolyline: (GPKGPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions{
     
     GPKGPolylinePoints * polylinePoints = [[GPKGPolylinePoints alloc] init];
     
@@ -1102,7 +1102,7 @@
     return polylinePoints;
 }
 
--(GPKGPolygonPoints *) addMapPolygon: (MKPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{
+-(GPKGPolygonPoints *) addMapPolygon: (GPKGPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{
     
     GPKGPolygonPoints * polygonPoints = [[GPKGPolygonPoints alloc] init];
     

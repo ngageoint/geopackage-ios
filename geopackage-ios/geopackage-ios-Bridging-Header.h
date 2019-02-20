@@ -252,5 +252,9 @@
 #import "GPKGFeatureShape.h"
 #import "GPKGStyleCache.h"
 #import "GPKGStyleUtils.h"
+#import "GPKGPolyline.h"
+#import "GPKGPolylineOptions.h"
+#import "GPKGPolygon.h"
+#import "GPKGPolygonOptions.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

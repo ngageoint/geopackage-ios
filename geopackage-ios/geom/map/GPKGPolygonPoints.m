@@ -44,13 +44,13 @@
             for(GPKGPolygonHolePoints * hole in self.holes){
                 if(![hole isDeleted]){
                     CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: [hole getPoints]];
-                    MKPolygon * holePolygon = [MKPolygon polygonWithCoordinates:holePoints count:[[hole getPoints] count]];
+                    GPKGPolygon * holePolygon = [GPKGPolygon polygonWithCoordinates:holePoints count:[[hole getPoints] count]];
                     free(holePoints);
                     [GPKGUtils addObject:holePolygon toArray:holePolygons];
                 }
             }
             
-            self.polygon = [MKPolygon polygonWithCoordinates:points count:[self.points count] interiorPolygons:holePolygons];
+            self.polygon = [GPKGPolygon polygonWithCoordinates:points count:[self.points count] interiorPolygons:holePolygons];
             
             free(points);
             
