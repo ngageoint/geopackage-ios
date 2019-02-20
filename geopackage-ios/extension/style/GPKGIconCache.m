@@ -66,7 +66,7 @@
 }
 
 -(UIImage *) createIconForRow: (GPKGIconRow *) icon{
-    return [self createIconForRow:icon withScale:[UIScreen mainScreen].scale];
+    return [self createIconForRow:icon withScale:[UIScreen mainScreen].nativeScale];
 }
 
 -(UIImage *) createIconForRow: (GPKGIconRow *) icon withScale: (float) scale{
@@ -74,7 +74,7 @@
 }
 
 +(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon{
-    return [self createIconNoCacheForRow:icon withScale:[UIScreen mainScreen].scale];
+    return [self createIconNoCacheForRow:icon withScale:[UIScreen mainScreen].nativeScale];
 }
 
 +(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon withScale: (float) scale{
@@ -82,7 +82,7 @@
 }
 
 +(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache{
-    return [self createIconForRow:icon fromCache:iconCache withScale:[UIScreen mainScreen].scale];
+    return [self createIconForRow:icon fromCache:iconCache withScale:[UIScreen mainScreen].nativeScale];
 }
 
 +(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache withScale: (float) scale{
