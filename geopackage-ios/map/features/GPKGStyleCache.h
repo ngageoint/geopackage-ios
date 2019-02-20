@@ -10,6 +10,8 @@
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGIconCache.h"
 #import "GPKGMapPoint.h"
+#import "GPKGPolyline.h"
+#import "GPKGPolygon.h"
 
 /**
  * Style utilities for populating points and shapes. Caches icons for a single GeoPackage
@@ -142,30 +144,57 @@
 -(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style;
 
 /**
- * Set the feature row style into the polyline options
+ * Set the feature row style into the polyline
  *
- * @param polylineOptions polyline options
- * @param featureRow      feature row
- * @return true if style was set into the polyline options
+ * @param polyline   polyline
+ * @param featureRow feature row
+ * @return true if style was set into the polyline
  */
--(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeature: (GPKGFeatureRow *) featureRow;
+-(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeature: (GPKGFeatureRow *) featureRow;
 
 /**
- * Set the feature style into the polyline options
+ * Set the feature style into the polyline
  *
- * @param polylineOptions polyline options
- * @param featureStyle    feature style
- * @return true if style was set into the polyline options
+ * @param polyline     polyline
+ * @param featureStyle feature style
+ * @return true if style was set into the polyline
  */
--(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+-(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
 
 /**
- * Set the style into the polyline options
+ * Set the style into the polyline
  *
- * @param polylineOptions polyline options
- * @param style           style row
- * @return true if style was set into the polyline options
+ * @param polyline polyline
+ * @param style    style row
+ * @return true if style was set into the polyline
  */
--(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style;
+-(BOOL) setStyleWithPolyline: (GPKGPolyline *) polyline andStyle: (GPKGStyleRow *) style;
+
+/**
+ * Set the feature row style into the polygon
+ *
+ * @param polygon    polygon
+ * @param featureRow feature row
+ * @return true if style was set into the polygon
+ */
+-(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeature: (GPKGFeatureRow *) featureRow;
+
+/**
+ * Set the feature style into the polygon
+ *
+ * @param polygon      polygon
+ * @param featureStyle feature style
+ * @return true if style was set into the polygon
+ */
+-(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
+
+/**
+ * Set the style into the polygon
+ *
+ * @param polygon  polygon
+ * @param style    style row
+ * @return true if style was set into the polygon
+ */
+-(BOOL) setStyleWithPolygon: (GPKGPolygon *) polygon andStyle: (GPKGStyleRow *) style;
 
 @end

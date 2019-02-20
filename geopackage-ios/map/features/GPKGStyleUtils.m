@@ -100,43 +100,96 @@
     return styleSet;
 }
 
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
     
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
     
-    return [self setFeatureStyleWithPolyline:polylineRenderer andExtension:featureStyleExtension andFeature:featureRow andScale:scale];
+    return [self setFeatureStyleWithPolyline:polyline andExtension:featureStyleExtension andFeature:featureRow andScale:scale];
 }
 
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
     
     GPKGFeatureStyle *featureStyle = [featureStyleExtension featureStyleWithFeature:featureRow];
     
-    return [self setFeatureStyleWithPolyline:polylineRenderer andFeatureStyle:featureStyle andScale:scale];
+    return [self setFeatureStyleWithPolyline:polyline andFeatureStyle:featureStyle andScale:scale];
 }
 
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale{
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale{
     
     BOOL featureStyleSet = NO;
     
     if (featureStyle != nil) {
         
-        featureStyleSet = [self setStyleWithPolyline:polylineRenderer andStyle:featureStyle.style andScale:scale];
+        featureStyleSet = [self setStyleWithPolyline:polyline andStyle:featureStyle.style andScale:scale];
         
     }
     
     return featureStyleSet;
 }
 
-+(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style andScale: (float) scale{
++(BOOL) setStyleWithPolyline: (GPKGPolyline *) polyline andStyle: (GPKGStyleRow *) style andScale: (float) scale{
 
     if (style != nil) {
         
+        GPKGPolylineOptions *options = [[GPKGPolylineOptions alloc] init];
+        
         GPKGColor *color = [style colorOrDefault];
-        polylineRenderer.strokeColor = [color uiColor];
+        options.strokeColor = [color uiColor];
         
         double width = [style widthOrDefault];
-        polylineRenderer.lineWidth = width * scale;
+        options.lineWidth = width * scale;
         
+        [polyline setOptions:options];
+    }
+    
+    return style != nil;
+}
+
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
+    
+    GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
+    
+    return [self setFeatureStyleWithPolygon:polygon andExtension:featureStyleExtension andFeature:featureRow andScale:scale];
+}
+
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
+    
+    GPKGFeatureStyle *featureStyle = [featureStyleExtension featureStyleWithFeature:featureRow];
+    
+    return [self setFeatureStyleWithPolygon:polygon andFeatureStyle:featureStyle andScale:scale];
+}
+
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale{
+    
+    BOOL featureStyleSet = NO;
+    
+    if (featureStyle != nil) {
+        
+        featureStyleSet = [self setStyleWithPolygon:polygon andStyle:featureStyle.style andScale:scale];
+        
+    }
+    
+    return featureStyleSet;
+}
+
++(BOOL) setStyleWithPolygon: (GPKGPolygon *) polygon andStyle: (GPKGStyleRow *) style andScale: (float) scale{
+    
+    if (style != nil) {
+        
+        GPKGPolygonOptions *options = [[GPKGPolygonOptions alloc] init];
+        
+        GPKGColor *color = [style colorOrDefault];
+        options.strokeColor = [color uiColor];
+        
+        double width = [style widthOrDefault];
+        options.lineWidth = width * scale;
+        
+        GPKGColor *fillColor = [style fillColor];
+        if(fillColor != nil){
+            options.fillColor = [fillColor uiColor];
+        }
+        
+        [polygon setOptions:options];
     }
     
     return style != nil;

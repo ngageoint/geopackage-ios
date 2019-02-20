@@ -98,16 +98,28 @@
     return [GPKGStyleUtils setStyleWithMapPoint:mapPoint andStyle:style];
 }
 
--(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeature: (GPKGFeatureRow *) featureRow{
-    return [GPKGStyleUtils setFeatureStyleWithPolyline:polylineRenderer andExtension:self.featureStyleExtension andFeature:featureRow andScale:self.scale];
+-(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeature: (GPKGFeatureRow *) featureRow{
+    return [GPKGStyleUtils setFeatureStyleWithPolyline:polyline andExtension:self.featureStyleExtension andFeature:featureRow andScale:self.scale];
 }
 
--(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
-    return [GPKGStyleUtils setFeatureStyleWithPolyline:polylineRenderer andFeatureStyle:featureStyle andScale:self.scale];
+-(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    return [GPKGStyleUtils setFeatureStyleWithPolyline:polyline andFeatureStyle:featureStyle andScale:self.scale];
 }
 
--(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style{
-    return [GPKGStyleUtils setStyleWithPolyline:polylineRenderer andStyle:style andScale:self.scale];
+-(BOOL) setStyleWithPolyline: (GPKGPolyline *) polyline andStyle: (GPKGStyleRow *) style{
+    return [GPKGStyleUtils setStyleWithPolyline:polyline andStyle:style andScale:self.scale];
+}
+
+-(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeature: (GPKGFeatureRow *) featureRow{
+    return [GPKGStyleUtils setFeatureStyleWithPolygon:polygon andExtension:self.featureStyleExtension andFeature:featureRow andScale:self.scale];
+}
+
+-(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    return [GPKGStyleUtils setFeatureStyleWithPolygon:polygon andFeatureStyle:featureStyle andScale:self.scale];
+}
+
+-(BOOL) setStyleWithPolygon: (GPKGPolygon *) polygon andStyle: (GPKGStyleRow *) style{
+    return [GPKGStyleUtils setStyleWithPolygon:polygon andStyle:style andScale:self.scale];
 }
 
 @end

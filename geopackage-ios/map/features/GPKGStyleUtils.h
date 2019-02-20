@@ -11,7 +11,8 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGIconCache.h"
 #import "GPKGFeatureStyleExtension.h"
-@import MapKit;
+#import "GPKGPolyline.h"
+#import "GPKGPolygon.h"
 
 /**
  * Style utilities for populating points and shapes
@@ -135,45 +136,87 @@
 +(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style;
 
 /**
- * Set the feature row style into the polyline renderer
+ * Set the feature row style into the polyline
  *
- * @param polylineRenderer polyline renderer
- * @param geoPackage       GeoPackage
- * @param featureRow       feature row
- * @param scale            screen scale, see [UIScreen mainScreen].scale
- * @return true if style was set into the polyline renderer
+ * @param polyline   polyline
+ * @param geoPackage GeoPackage
+ * @param featureRow feature row
+ * @param scale      screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline
  */
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
 
 /**
- * Set the feature row style into the polyline renderer
+ * Set the feature row style into the polyline
  *
- * @param polylineRenderer      polyline renderer
+ * @param polyline              polyline
  * @param featureStyleExtension feature style extension
  * @param featureRow            feature row
  * @param scale                 screen scale, see [UIScreen mainScreen].scale
- * @return true if style was set into the polyline renderer
+ * @return true if style was set into the polyline
  */
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
 
 /**
- * Set the feature style into the polyline renderer
+ * Set the feature style into the polyline
  *
- * @param polylineRenderer polyline renderer
- * @param featureStyle     feature style
- * @param scale            screen scale, see [UIScreen mainScreen].scale
- * @return true if style was set into the polyline renderer
+ * @param polyline     polyline
+ * @param featureStyle feature style
+ * @param scale        screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline
  */
-+(BOOL) setFeatureStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale;
++(BOOL) setFeatureStyleWithPolyline: (GPKGPolyline *) polyline andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale;
 
 /**
- * Set the style into the polyline renderer
+ * Set the style into the polyline
  *
- * @param polylineRenderer polyline renderer
- * @param style            style row
- * @param scale            screen scale, see [UIScreen mainScreen].scale
- * @return true if style was set into the polyline renderer
+ * @param polyline polyline
+ * @param style    style row
+ * @param scale    screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polyline
  */
-+(BOOL) setStyleWithPolyline: (MKPolylineRenderer *) polylineRenderer andStyle: (GPKGStyleRow *) style andScale: (float) scale;
++(BOOL) setStyleWithPolyline: (GPKGPolyline *) polyline andStyle: (GPKGStyleRow *) style andScale: (float) scale;
+
+/**
+ * Set the feature row style into the polygon
+ *
+ * @param polygon    polygon
+ * @param geoPackage GeoPackage
+ * @param featureRow feature row
+ * @param scale      screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polygon
+ */
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
+
+/**
+ * Set the feature row style into the polygon
+ *
+ * @param polygon               polygon
+ * @param featureStyleExtension feature style extension
+ * @param featureRow            feature row
+ * @param scale                 screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polygon
+ */
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
+
+/**
+ * Set the feature style into the polygon
+ *
+ * @param polygon      polygon
+ * @param featureStyle feature style
+ * @param scale        screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polygon
+ */
++(BOOL) setFeatureStyleWithPolygon: (GPKGPolygon *) polygon andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale;
+
+/**
+ * Set the style into the polygon
+ *
+ * @param polygon polygon
+ * @param style   style row
+ * @param scale   screen scale, see [UIScreen mainScreen].scale
+ * @return true if style was set into the polygon
+ */
++(BOOL) setStyleWithPolygon: (GPKGPolygon *) polygon andStyle: (GPKGStyleRow *) style andScale: (float) scale;
 
 @end
