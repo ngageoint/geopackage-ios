@@ -134,9 +134,9 @@
         GPKGPolylineOptions *options = [[GPKGPolylineOptions alloc] init];
         
         GPKGColor *color = [style colorOrDefault];
-        options.strokeColor = [color uiColor];
+        [options setStrokeColor:[color uiColor]];
         
-        options.lineWidth = [style widthOrDefault];
+        [options setLineWidth:[style widthOrDefault]];
         
         [polyline setOptions:options];
     }
@@ -178,13 +178,13 @@
         GPKGPolygonOptions *options = [[GPKGPolygonOptions alloc] init];
         
         GPKGColor *color = [style colorOrDefault];
-        options.strokeColor = [color uiColor];
+        [options setStrokeColor:[color uiColor]];
         
-        options.lineWidth = [style widthOrDefault];
+        [options setLineWidth:[style widthOrDefault]];
         
         GPKGColor *fillColor = [style fillColor];
         if(fillColor != nil){
-            options.fillColor = [fillColor uiColor];
+            [options setFillColor:[fillColor uiColor]];
         }
         
         [polygon setOptions:options];

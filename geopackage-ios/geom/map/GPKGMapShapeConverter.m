@@ -1002,7 +1002,7 @@
     return shapes;
 }
 
--(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{ // TODO add polyline and polygon options
+-(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
     
     GPKGMapShapePoints * shapePoints = [[GPKGMapShapePoints alloc] init];
     GPKGMapShape * addedShape = nil;
@@ -1019,14 +1019,14 @@
             break;
         case GPKG_MST_POLYLINE:
             {
-                GPKGPolylinePoints * polylinePoints = [self addMapPolyline:(GPKGPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions];
+                GPKGPolylinePoints * polylinePoints = [self addMapPolyline:(GPKGPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
                 [shapePoints addShapePoints:polylinePoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYLINE_POINTS andShape:polylinePoints];
             }
             break;
         case GPKG_MST_POLYGON:
             {
-                GPKGPolygonPoints * polygonPoints = [self addMapPolygon:(GPKGPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
+                GPKGPolygonPoints * polygonPoints = [self addMapPolygon:(GPKGPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
                 [shapePoints addShapePoints:polygonPoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYGON_POINTS andShape:polygonPoints];
             }
@@ -1040,13 +1040,13 @@
             break;
         case GPKG_MST_MULTI_POLYLINE:
             {
-                GPKGMultiPolylinePoints * multiPolylinePoints = [self addMapMultiPolyline:(GPKGMultiPolyline *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolylinePointOptions:polylinePointOptions];
+                GPKGMultiPolylinePoints * multiPolylinePoints = [self addMapMultiPolyline:(GPKGMultiPolyline *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POLYLINE_POINTS andShape:multiPolylinePoints];
             }
             break;
         case GPKG_MST_MULTI_POLYGON:
             {
-                GPKGMultiPolygonPoints * multiPolygonPoints = [self addMapMultiPolygon:(GPKGMultiPolygon *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
+                GPKGMultiPolygonPoints * multiPolygonPoints = [self addMapMultiPolygon:(GPKGMultiPolygon *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POLYGON_POINTS andShape:multiPolygonPoints];
             }
             break;
@@ -1055,7 +1055,7 @@
                 NSMutableArray * addedShapeArray = [[NSMutableArray alloc] init];
                 NSArray * shapeArray = (NSArray *) mapShape.shape;
                 for(GPKGMapShape * shapeArrayItem in shapeArray){
-                    GPKGMapShapePoints * shapeArrayItemPoints = [self addMapShape:shapeArrayItem asPointsToMapView:mapView withPointOptions:pointOptions andPolylinePointOptions:polylinePointOptions andPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
+                    GPKGMapShapePoints * shapeArrayItemPoints = [self addMapShape:shapeArrayItem asPointsToMapView:mapView withPointOptions:pointOptions andPolylinePointOptions:polylinePointOptions andPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolylineOptions:globalPolylineOptions andPolygonOptions:globalPolygonOptions];
                     [shapePoints addMapShapePoints:shapeArrayItemPoints];
                     [GPKGUtils addObject:shapeArrayItemPoints.shape toArray:addedShapeArray];
                 }
@@ -1089,9 +1089,16 @@
     return points;
 }
 
--(GPKGPolylinePoints *) addMapPolyline: (GPKGPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions{
+-(GPKGPolylinePoints *) addMapPolyline: (GPKGPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions{
     
     GPKGPolylinePoints * polylinePoints = [[GPKGPolylinePoints alloc] init];
+    
+    if(globalPolylineOptions != nil){
+        GPKGPolylineOptions *options = [[GPKGPolylineOptions alloc] init];
+        [options setStrokeColor:globalPolylineOptions.strokeColor];
+        [options setLineWidth:globalPolylineOptions.lineWidth];
+        [mapPolyline setOptions:options];
+    }
     
     MKPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
     [polylinePoints setPolyline:polyline];
@@ -1102,9 +1109,17 @@
     return polylinePoints;
 }
 
--(GPKGPolygonPoints *) addMapPolygon: (GPKGPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{
+-(GPKGPolygonPoints *) addMapPolygon: (GPKGPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
     
     GPKGPolygonPoints * polygonPoints = [[GPKGPolygonPoints alloc] init];
+    
+    if(globalPolygonOptions != nil){
+        GPKGPolygonOptions *options = [[GPKGPolygonOptions alloc] init];
+        [options setStrokeColor:globalPolygonOptions.strokeColor];
+        [options setLineWidth:globalPolygonOptions.lineWidth];
+        [options setFillColor:globalPolygonOptions.fillColor];
+        [mapPolygon setOptions:options];
+    }
     
     MKPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
     [polygonPoints setPolygon:polygon];
@@ -1123,22 +1138,22 @@
     return polygonPoints;
 }
 
--(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions{
+-(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions{
     
     GPKGMultiPolylinePoints * multiPolylinePoints = [[GPKGMultiPolylinePoints alloc] init];
-    for(MKPolyline * polyline in mapMultiPolyline.polylines){
-        GPKGPolylinePoints * polylinePoints = [self addMapPolyline:polyline asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions];
+    for(GPKGPolyline * polyline in mapMultiPolyline.polylines){
+        GPKGPolylinePoints * polylinePoints = [self addMapPolyline:polyline asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
         [shapePoints addShapePoints:polylinePoints];
         [multiPolylinePoints addPolylinePoints:polylinePoints];
     }
     return multiPolylinePoints;
 }
 
--(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions{
+-(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
 
     GPKGMultiPolygonPoints * multiPolygonPoints = [[GPKGMultiPolygonPoints alloc] init];
-    for(MKPolygon * polygon in mapMultiPolygon.polygons){
-        GPKGPolygonPoints * polygonPoints = [self addMapPolygon:polygon asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions];
+    for(GPKGPolygon * polygon in mapMultiPolygon.polygons){
+        GPKGPolygonPoints * polygonPoints = [self addMapPolygon:polygon asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
         [shapePoints addShapePoints:polygonPoints];
         [multiPolygonPoints addPolygonPoints:polygonPoints];
     }

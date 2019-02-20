@@ -827,10 +827,12 @@
  *  @param polylinePointOptions    polyline point options
  *  @param polygonPointOptions     polygon point options
  *  @param polygonHolePointOptions polygon hole point options
+ *  @param globalPolylineOptions   global polyline options
+ *  @param globalPolygonOptions    global polygon options
  *
  *  @return map shape points
  */
--(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions;
+-(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions;
 
 /**
  *  Add the MapKit map points to the map view as map points
@@ -851,10 +853,11 @@
  *  @param mapPolyline          polyline
  *  @param mapView              map view
  *  @param polylinePointOptions polyline point options
+ *  @param globalPolylineOptions   global polyline options
  *
  *  @return polyline points
  */
--(GPKGPolylinePoints *) addMapPolyline: (MKPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions;
+-(GPKGPolylinePoints *) addMapPolyline: (GPKGPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions;
 
 /**
  *  Add polygon to the map view as points
@@ -864,22 +867,24 @@
  *  @param shapePoints             shape points
  *  @param polygonPointOptions     polygon point options
  *  @param polygonHolePointOptions polygon hole point options
+ *  @param globalPolygonOptions    global polygon options
  *
  *  @return polygon points
  */
--(GPKGPolygonPoints *) addMapPolygon: (MKPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions;
+-(GPKGPolygonPoints *) addMapPolygon: (GPKGPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions;
 
 /**
  *  Add multi polyline to the map view as points
  *
- *  @param mapMultiPolyline     multi polyline
- *  @param mapView              map view
- *  @param shapePoints          shape points
- *  @param polylinePointOptions polyline point options
+ *  @param mapMultiPolyline      multi polyline
+ *  @param mapView               map view
+ *  @param shapePoints           shape points
+ *  @param polylinePointOptions  polyline point options
+ *  @param globalPolylineOptions global polyline options
  *
  *  @return multi polyline points
  */
--(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions;
+-(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions;
 
 /**
  *  Add multi polygon to the map view as points
@@ -889,10 +894,11 @@
  *  @param shapePoints             shape points
  *  @param polygonPointOptions     polygon point options
  *  @param polygonHolePointOptions polygon hole point options
+ *  @param globalPolygonOptions    global polygon options
  *
  *  @return multi polygon points
  */
--(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions;
+-(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions;
 
 /**
  *  Get the location coordinates from the map points
