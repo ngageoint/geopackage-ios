@@ -39,7 +39,7 @@
 	<key>geopackage.extensions.tile_scaling</key>
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html</string>
 	<key>geopackage.extensions.extended_relations</key>
-	<string>TBD</string>
+	<string>http://www.geopackage.org/18-000.html</string>
 	<key>geopackage.extensions.properties</key>
 	<string>http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html</string>
 	<key>geopackage.extensions.contents_id</key>
