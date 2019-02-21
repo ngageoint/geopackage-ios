@@ -38,6 +38,8 @@
             
             [mapView removeOverlay:self.polygon];
             
+            GPKGPolygonOptions *options = self.polygon.options;
+            
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             
             NSMutableArray * holePolygons = [[NSMutableArray alloc] init];
@@ -51,6 +53,8 @@
             }
             
             self.polygon = [GPKGPolygon polygonWithCoordinates:points count:[self.points count] interiorPolygons:holePolygons];
+            
+            [self.polygon setOptions:options];
             
             free(points);
             

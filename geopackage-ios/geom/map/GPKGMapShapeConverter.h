@@ -755,7 +755,7 @@
  *
  *  @return polyline
  */
-+(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView;
++(GPKGPolyline *) addMapPolyline: (GPKGPolyline *) mapPolyline toMapView: (MKMapView *) mapView;
 
 /**
  *  Add polygon to the map view
@@ -765,7 +765,7 @@
  *
  *  @return polygon
  */
-+(MKPolygon *) addMapPolygon: (MKPolygon *) mapPolylgon toMapView: (MKMapView *) mapView;
++(GPKGPolygon *) addMapPolygon: (GPKGPolygon *) mapPolylgon toMapView: (MKMapView *) mapView;
 
 /**
  *  Add multi point to the map view

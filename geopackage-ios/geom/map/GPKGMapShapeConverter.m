@@ -560,7 +560,7 @@
     GPKGMultiPolyline * mapMultiPoyline = [[GPKGMultiPolyline alloc] init];
     
     for(SFLineString * lineString in [multiLineString lineStrings]){
-        MKPolyline * polyline = [self toMapPolylineWithLineString:lineString];
+        GPKGPolyline * polyline = [self toMapPolylineWithLineString:lineString];
         [mapMultiPoyline addPolyline:polyline];
     }
     
@@ -652,7 +652,7 @@
     GPKGMultiPolygon * mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
     
     for(SFPolygon * polygon in [multiPolygon polygons]){
-        MKPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
+        GPKGPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
         [mapMultiPolygon addPolygon:mapPolygon];
     }
     
@@ -711,7 +711,7 @@
     GPKGMultiPolyline * mapMultiPolyline = [[GPKGMultiPolyline alloc] init];
     
     for(SFLineString * lineString in compoundCurve.lineStrings){
-        MKPolyline * mapPolyline = [self toMapPolylineWithLineString:lineString];
+        GPKGPolyline * mapPolyline = [self toMapPolylineWithLineString:lineString];
         [mapMultiPolyline addPolyline:mapPolyline];
     }
     
@@ -739,7 +739,7 @@
     GPKGMultiPolygon * mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
     
     for(SFPolygon * polygon in polyhedralSurface.polygons){
-        MKPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
+        GPKGPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
         [mapMultiPolygon addPolygon:mapPolygon];
     }
     
@@ -904,10 +904,10 @@
             addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POINT andShape:[self addMapPoint:(GPKGMapPoint *) mapShape.shape toMapView:mapView]];
             break;
         case GPKG_MST_POLYLINE:
-            addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYLINE andShape:[self addMapPolyline:(MKPolyline *) mapShape.shape toMapView:mapView]];
+            addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYLINE andShape:[self addMapPolyline:(GPKGPolyline *) mapShape.shape toMapView:mapView]];
             break;
         case GPKG_MST_POLYGON:
-            addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYGON andShape:[self addMapPolygon:(MKPolygon *) mapShape.shape toMapView:mapView]];
+            addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYGON andShape:[self addMapPolygon:(GPKGPolygon *) mapShape.shape toMapView:mapView]];
             break;
         case GPKG_MST_MULTI_POINT:
             addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POINT andShape:[self addMapMultiPoint:(GPKGMultiPoint *) mapShape.shape toMapView:mapView]];
@@ -955,12 +955,12 @@
     return [self addMapPoint:mapPoint toMapView:mapView withPointOptions:pointOptions];
 }
 
-+(MKPolyline *) addMapPolyline: (MKPolyline *) mapPolyline toMapView: (MKMapView *) mapView{
++(GPKGPolyline *) addMapPolyline: (GPKGPolyline *) mapPolyline toMapView: (MKMapView *) mapView{
     [mapView addOverlay:mapPolyline];
     return mapPolyline;
 }
 
-+(MKPolygon *) addMapPolygon: (MKPolygon *) mapPolylgon toMapView: (MKMapView *) mapView{
++(GPKGPolygon *) addMapPolygon: (GPKGPolygon *) mapPolylgon toMapView: (MKMapView *) mapView{
     [mapView addOverlay:mapPolylgon];
     return mapPolylgon;
 }
@@ -977,14 +977,14 @@
 }
 
 +(GPKGMultiPolyline *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline toMapView: (MKMapView *) mapView{
-    for(MKPolyline * polyline in mapMultiPolyline.polylines){
+    for(GPKGPolyline * polyline in mapMultiPolyline.polylines){
         [self addMapPolyline:polyline toMapView:mapView];
     }
     return mapMultiPolyline;
 }
 
 +(GPKGMultiPolygon *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon toMapView: (MKMapView *) mapView{
-    for(MKPolygon * polygon in mapMultiPolygon.polygons){
+    for(GPKGPolygon * polygon in mapMultiPolygon.polygons){
         [self addMapPolygon:polygon toMapView:mapView];
     }
     return mapMultiPolygon;
@@ -1100,7 +1100,7 @@
         [mapPolyline setOptions:options];
     }
     
-    MKPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
+    GPKGPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
     [polylinePoints setPolyline:polyline];
     
     NSMutableArray * points = [self addMKMapPoints:polyline.points withPointCount:polyline.pointCount asPointsToMapView:mapView withPointOptions:polylinePointOptions andIgnoreIdenticalEnds:false];
@@ -1121,7 +1121,7 @@
         [mapPolygon setOptions:options];
     }
     
-    MKPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
+    GPKGPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
     [polygonPoints setPolygon:polygon];
     
     NSMutableArray * points = [self addMKMapPoints:polygon.points withPointCount:polygon.pointCount asPointsToMapView:mapView withPointOptions:polygonPointOptions andIgnoreIdenticalEnds:true];

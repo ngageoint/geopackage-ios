@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "GPKGShapePoints.h"
 #import "GPKGShapeWithChildrenPoints.h"
-@import MapKit;
 #import "GPKGPolygonHolePoints.h"
 #import "GPKGMapPoint.h"
+#import "GPKGPolygon.h"
 
 @class GPKGPolygonHolePoints;
 
@@ -23,7 +23,7 @@
 /**
  *  Backing polygon
  */
-@property (nonatomic, strong) MKPolygon *polygon;
+@property (nonatomic, strong) GPKGPolygon *polygon;
 
 /**
  *  Polygon points

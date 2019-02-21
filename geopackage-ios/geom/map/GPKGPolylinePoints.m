@@ -33,8 +33,12 @@
             
             [mapView removeOverlay:self.polyline];
             
+            GPKGPolylineOptions *options = self.polyline.options;
+            
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
             self.polyline = [GPKGPolyline polylineWithCoordinates:points count:[self.points count]];
+            
+            [self.polyline setOptions:options];
             
             free(points);
             

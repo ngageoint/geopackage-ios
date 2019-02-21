@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGShapePoints.h"
-@import MapKit;
 #import "GPKGMapPoint.h"
+#import "GPKGPolyline.h"
 
 /**
  *  Polyline points shape
@@ -19,7 +19,7 @@
 /**
  *  Backing polyline
  */
-@property (nonatomic, strong) MKPolyline *polyline;
+@property (nonatomic, strong) GPKGPolyline *polyline;
 
 /**
  *  Polyline points
