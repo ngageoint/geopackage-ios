@@ -547,6 +547,7 @@
 		04711B24221CCCA8007DC3A4 /* GPKGPolylineOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711B22221CCCA8007DC3A4 /* GPKGPolylineOptions.m */; };
 		04711B27221CCCBC007DC3A4 /* GPKGPolygonOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 04711B25221CCCBC007DC3A4 /* GPKGPolygonOptions.h */; };
 		04711B28221CCCBC007DC3A4 /* GPKGPolygonOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711B26221CCCBC007DC3A4 /* GPKGPolygonOptions.m */; };
+		04711B2D22204854007DC3A4 /* GPKGStyleUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */; };
 		0480CD151BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */; };
 		0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD171BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m */; };
 		0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD1A1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m */; };
@@ -1257,6 +1258,8 @@
 		04711B22221CCCA8007DC3A4 /* GPKGPolylineOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPolylineOptions.m; sourceTree = "<group>"; };
 		04711B25221CCCBC007DC3A4 /* GPKGPolygonOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPolygonOptions.h; sourceTree = "<group>"; };
 		04711B26221CCCBC007DC3A4 /* GPKGPolygonOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPolygonOptions.m; sourceTree = "<group>"; };
+		04711B2B22204854007DC3A4 /* GPKGStyleUtilsTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGStyleUtilsTest.h; sourceTree = "<group>"; };
+		04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGStyleUtilsTest.m; sourceTree = "<group>"; };
 		0480CD131BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerCreateTest.h; sourceTree = "<group>"; };
 		0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexManagerCreateTest.m; sourceTree = "<group>"; };
 		0480CD161BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerImportTest.h; sourceTree = "<group>"; };
@@ -1899,6 +1902,7 @@
 				0480CD111BD6DC0600094009 /* features */,
 				048EC1721BD54F58008426A7 /* extension */,
 				048EC16E1BD54BDB008426A7 /* io */,
+				04711B2922204763007DC3A4 /* map */,
 				042FC8C51B964DA200549A4B /* db */,
 				042FC8C81B964DA200549A4B /* en.lproj */,
 				042FC8CB1B964DA200549A4B /* geom */,
@@ -2642,6 +2646,23 @@
 				04711AFE220E1180007DC3A4 /* GPKGFeatureStylesUtils.m */,
 			);
 			path = style;
+			sourceTree = "<group>";
+		};
+		04711B2922204763007DC3A4 /* map */ = {
+			isa = PBXGroup;
+			children = (
+				04711B2A2220477E007DC3A4 /* features */,
+			);
+			path = map;
+			sourceTree = "<group>";
+		};
+		04711B2A2220477E007DC3A4 /* features */ = {
+			isa = PBXGroup;
+			children = (
+				04711B2B22204854007DC3A4 /* GPKGStyleUtilsTest.h */,
+				04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */,
+			);
+			path = features;
 			sourceTree = "<group>";
 		};
 		0480CD111BD6DC0600094009 /* features */ = {
@@ -3689,6 +3710,7 @@
 				045BC9FB1BFA6EE00080B967 /* GPKGCreateTestCase.m in Sources */,
 				048EC17C1BD550AE008426A7 /* GPKGFeatureTableIndexUtils.m in Sources */,
 				042FC8E91B964DA200549A4B /* GPKGGeoPackageGeometryDataCreateTest.m in Sources */,
+				04711B2D22204854007DC3A4 /* GPKGStyleUtilsTest.m in Sources */,
 				042FC8EE1B964DA200549A4B /* GPKGGeoPackageTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

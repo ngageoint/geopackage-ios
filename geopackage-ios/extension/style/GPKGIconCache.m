@@ -123,7 +123,7 @@
                 }
             }
             
-            float dataScale = scale / MIN(widthScale, heightScale);
+            float dataScale = MIN(widthScale, heightScale) / scale;
             iconImage = [icon dataImageWithScale:dataScale];
             
             if (widthScale != heightScale) {
