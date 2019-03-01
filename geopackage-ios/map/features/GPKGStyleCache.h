@@ -19,24 +19,11 @@
 @interface GPKGStyleCache : NSObject
 
 /**
- * Screen scale, see [UIScreen mainScreen].nativeScale
- */
-@property (nonatomic) float scale;
-
-/**
  * Initialize
  *
  * @param geoPackage GeoPackage
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Initialize
- *
- * @param geoPackage GeoPackage
- * @param scale      screen scale, see [UIScreen mainScreen].nativeScale
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andScale: (float) scale;
 
 /**
  * Initialize
@@ -49,15 +36,6 @@
 /**
  * Initialize
  *
- * @param geoPackage    GeoPackage
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
- * @param iconCacheSize number of icon images to cache
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andScale: (float) scale andIconCacheSize: (int) iconCacheSize;
-
-/**
- * Initialize
- *
  * @param featureStyleExtension feature style extension
  */
 -(instancetype) initWithExtension: (GPKGFeatureStyleExtension *) featureStyleExtension;
@@ -66,26 +44,9 @@
  * Initialize
  *
  * @param featureStyleExtension feature style extension
- * @param scale                 screen scale, see [UIScreen mainScreen].nativeScale
- */
--(instancetype) initWithExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andScale: (float) scale;
-
-/**
- * Initialize
- *
- * @param featureStyleExtension feature style extension
  * @param iconCacheSize         number of icon bitmaps to cache
  */
 -(instancetype) initWithExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andIconCacheSize: (int) iconCacheSize;
-
-/**
- * Initialize
- *
- * @param featureStyleExtension feature style extension
- * @param scale                 screen scale, see [UIScreen mainScreen].nativeScale
- * @param iconCacheSize         number of icon bitmaps to cache
- */
--(instancetype) initWithExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andScale: (float) scale andIconCacheSize: (int) iconCacheSize;
 
 /**
  * Clear the cache

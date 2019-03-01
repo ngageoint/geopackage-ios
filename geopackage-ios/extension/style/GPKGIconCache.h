@@ -99,7 +99,7 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 -(void) resizeWithSize: (int) maxSize;
 
 /**
- * Create or retrieve from cache an icon image for the icon row using scale of [UIScreen mainScreen].nativeScale
+ * Create or retrieve from cache an icon image for the icon row
  *
  * @param icon    icon row
  * @return icon image
@@ -107,16 +107,7 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 -(UIImage *) createIconForRow: (GPKGIconRow *) icon;
 
 /**
- * Create or retrieve from cache an icon image for the icon row
- *
- * @param icon    icon row
- * @param scale   screen scale, see [UIScreen mainScreen].nativeScale
- * @return icon image
- */
--(UIImage *) createIconForRow: (GPKGIconRow *) icon withScale: (float) scale;
-
-/**
- * Create an icon image for the icon row without caching using scale of [UIScreen mainScreen].nativeScale
+ * Create an icon image for the icon row without caching
  *
  * @param icon    icon row
  * @return icon image
@@ -124,31 +115,12 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 +(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon;
 
 /**
- * Create an icon image for the icon row without caching
- *
- * @param icon    icon row
- * @param scale   screen scale, see [UIScreen mainScreen].nativeScale
- * @return icon image
- */
-+(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon withScale: (float) scale;
-
-/**
- * Create or retrieve from cache an icon image for the icon row using scale of [UIScreen mainScreen].nativeScale
+ * Create or retrieve from cache an icon image for the icon row
  *
  * @param icon      icon row
  * @param iconCache icon cache
  * @return icon image
  */
 +(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache;
-
-/**
- * Create or retrieve from cache an icon image for the icon row
- *
- * @param icon      icon row
- * @param iconCache icon cache
- * @param scale     screen scale, see [UIScreen mainScreen].nativeScale
- * @return icon image
- */
-+(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache withScale: (float) scale;
 
 @end

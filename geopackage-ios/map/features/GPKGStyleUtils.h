@@ -25,10 +25,9 @@
  * @param mapPoint      map point
  * @param geoPackage    GeoPackage
  * @param featureRow    feature row
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow;
 
 /**
  * Set the feature row style (icon or style) into the map point
@@ -36,11 +35,10 @@
  * @param mapPoint      map point
  * @param geoPackage    GeoPackage
  * @param featureRow    feature row
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @param iconCache     icon cache
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andIconCache: (GPKGIconCache *) iconCache;
 
 /**
  * Set the feature row style (icon or style) into the map point
@@ -48,10 +46,9 @@
  * @param mapPoint              map point
  * @param featureStyleExtension feature style extension
  * @param featureRow            feature row
- * @param scale                 screen scale, see [UIScreen mainScreen].nativeScale
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow;
 
 /**
  * Set the feature row style (icon or style) into the map point
@@ -59,72 +56,65 @@
  * @param mapPoint              map point
  * @param featureStyleExtension feature style extension
  * @param featureRow            feature row
- * @param scale                 screen scale, see [UIScreen mainScreen].nativeScale
  * @param iconCache             icon cache
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andIconCache: (GPKGIconCache *) iconCache;
 
 /**
  * Set the feature style (icon or style) into the map point
  *
  * @param mapPoint      map point
  * @param featureStyle  feature style
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle;
 
 /**
  * Set the feature style (icon or style) into the map point
  *
  * @param mapPoint      map point
  * @param featureStyle  feature style
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @param iconCache     icon cache
  * @return true if icon or style was set into the map point
  */
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache;
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andIconCache: (GPKGIconCache *) iconCache;
 
 /**
  * Set the icon into the map point
  *
  * @param mapPoint      map point
  * @param icon          icon row
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @return true if icon was set into the map point
  */
-+(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andScale: (float) scale;
++(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon;
 
 /**
  * Set the icon into the map point
  *
  * @param mapPoint      map point
  * @param icon          icon row
- * @param scale         screen scale, see [UIScreen mainScreen].nativeScale
  * @param iconCache     icon cache
  * @return true if icon was set into the map point
  */
-+(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache;
++(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andIconCache: (GPKGIconCache *) iconCache;
 
 /**
  * Create the icon image
  *
  * @param icon    icon row
- * @param scale   screen scale, see [UIScreen mainScreen].nativeScale
  * @return icon image
  */
-+(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andScale: (float) scale;
++(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon;
 
 /**
  * Create the icon image
  *
  * @param icon      icon row
- * @param scale     screen scale, see [UIScreen mainScreen].nativeScale
  * @param iconCache icon cache
  * @return icon image
  */
-+(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache;
++(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andIconCache: (GPKGIconCache *) iconCache;
 
 /**
  * Set the style into the marker point

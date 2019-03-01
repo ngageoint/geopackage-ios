@@ -21,27 +21,27 @@
     
     float scale = [UIScreen mainScreen].nativeScale;
     
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidth:30.0 andIconHeight:20.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidth:200.0 andIconHeight:160.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidth:10.0 andIconHeight:5.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidth:200.0 andIconHeight:10.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidth:30.0 andIconHeight:20.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidth:200.0 andIconHeight:160.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidth:10.0 andIconHeight:5.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidth:200.0 andIconHeight:10.0];
     
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidth:30.0 andIconHeightNumber:nil];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidthNumber:nil andIconHeight:160.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:40 andIconWidthNumber:nil andIconHeightNumber:nil];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidth:30.0 andIconHeightNumber:nil];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidthNumber:nil andIconHeight:160.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:40 andIconWidthNumber:nil andIconHeightNumber:nil];
     
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:80 andIconWidth:20.0 andIconHeight:40.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:80 andIconWidth:80.0 andIconHeight:160.0];
-    [self testSetIconWithScale:scale andImageWidth:40 andImageHeight:80 andIconWidth:10.0 andIconHeight:20.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:80 andIconWidth:20.0 andIconHeight:40.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:80 andIconWidth:80.0 andIconHeight:160.0];
+    [self testSetIconWithImageWidth:40 andImageHeight:80 andIconWidth:10.0 andIconHeight:20.0];
 
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidth:23.0 andIconHeight:31.0];
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidth:119.0 andIconHeight:130.0];
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidth:7.0 andIconHeight:4.0];
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidth:165.0 andIconHeight:9.0];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidth:23.0 andIconHeight:31.0];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidth:119.0 andIconHeight:130.0];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidth:7.0 andIconHeight:4.0];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidth:165.0 andIconHeight:9.0];
     
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidth:23.0 andIconHeightNumber:nil];
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidthNumber:nil andIconHeight:160.0];
-    [self testSetIconWithScale:scale andImageWidth:32 andImageHeight:37 andIconWidthNumber:nil andIconHeightNumber:nil];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidth:23.0 andIconHeightNumber:nil];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidthNumber:nil andIconHeight:160.0];
+    [self testSetIconWithImageWidth:32 andImageHeight:37 andIconWidthNumber:nil andIconHeightNumber:nil];
     
     for (int i = 0; i < 100; i++) {
         scale = 1.0 + [GPKGTestUtils randomDoubleLessThan:3.0];
@@ -49,31 +49,31 @@
         int imageHeight = 1 + [GPKGTestUtils randomIntLessThan:100];
         double iconWidth = 1 + [GPKGTestUtils randomDoubleLessThan:100.0];
         double iconHeight = 1 + [GPKGTestUtils randomDoubleLessThan:100.0];
-        [self testSetIconWithScale:scale andImageWidth:imageWidth andImageHeight:imageHeight andIconWidth:iconWidth andIconHeight:iconHeight];
+        [self testSetIconWithImageWidth:imageWidth andImageHeight:imageHeight andIconWidth:iconWidth andIconHeight:iconHeight];
     }
     
     for (int i = 0; i < 100; i++) {
         scale = 1.0 + [GPKGTestUtils randomDoubleLessThan:3.0];
         int imageWidth = 1 + [GPKGTestUtils randomIntLessThan:100];
         int imageHeight = 1 + [GPKGTestUtils randomIntLessThan:100];
-        [self testSetIconWithScale:scale andImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:nil andIconHeightNumber:nil];
+        [self testSetIconWithImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:nil andIconHeightNumber:nil];
     }
     
 }
 
--(void) testSetIconWithScale: (float) scale andImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidth: (double) iconWidth andIconHeight: (double) iconHeight{
-    [self testSetIconWithScale:scale andImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:[[NSDecimalNumber alloc] initWithDouble:iconWidth] andIconHeightNumber:[[NSDecimalNumber alloc] initWithDouble:iconHeight]];
+-(void) testSetIconWithImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidth: (double) iconWidth andIconHeight: (double) iconHeight{
+    [self testSetIconWithImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:[[NSDecimalNumber alloc] initWithDouble:iconWidth] andIconHeightNumber:[[NSDecimalNumber alloc] initWithDouble:iconHeight]];
 }
 
--(void) testSetIconWithScale: (float) scale andImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidthNumber: (NSDecimalNumber *) iconWidth andIconHeight: (double) iconHeight{
-    [self testSetIconWithScale:scale andImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:iconWidth andIconHeightNumber:[[NSDecimalNumber alloc] initWithDouble:iconHeight]];
+-(void) testSetIconWithImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidthNumber: (NSDecimalNumber *) iconWidth andIconHeight: (double) iconHeight{
+    [self testSetIconWithImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:iconWidth andIconHeightNumber:[[NSDecimalNumber alloc] initWithDouble:iconHeight]];
 }
 
--(void) testSetIconWithScale: (float) scale andImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidth: (double) iconWidth andIconHeightNumber: (NSDecimalNumber *) iconHeight{
-    [self testSetIconWithScale:scale andImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:[[NSDecimalNumber alloc] initWithDouble:iconWidth] andIconHeightNumber:iconHeight];
+-(void) testSetIconWithImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidth: (double) iconWidth andIconHeightNumber: (NSDecimalNumber *) iconHeight{
+    [self testSetIconWithImageWidth:imageWidth andImageHeight:imageHeight andIconWidthNumber:[[NSDecimalNumber alloc] initWithDouble:iconWidth] andIconHeightNumber:iconHeight];
 }
 
--(void) testSetIconWithScale: (float) scale andImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidthNumber: (NSDecimalNumber *) iconWidth andIconHeightNumber: (NSDecimalNumber *) iconHeight{
+-(void) testSetIconWithImageWidth: (int) imageWidth andImageHeight: (int) imageHeight andIconWidthNumber: (NSDecimalNumber *) iconWidth andIconHeightNumber: (NSDecimalNumber *) iconHeight{
     
     CGRect rect = CGRectMake(0.0f, 0.0f, imageWidth, imageHeight);
     UIGraphicsBeginImageContext(rect.size);
@@ -107,11 +107,11 @@
         styleWidth = ([iconHeight doubleValue] / imageHeight) * imageWidth;
     }
     
-    UIImage *iconImage = [GPKGStyleUtils createIconImageWithIcon:icon andScale:scale];
+    UIImage *iconImage = [GPKGStyleUtils createIconImageWithIcon:icon];
     [GPKGTestUtils assertNotNil:iconImage];
     
-    double expectedWidth = scale * styleWidth;
-    double expectedHeight = scale * styleHeight;
+    double expectedWidth = styleWidth;
+    double expectedHeight = styleHeight;
     
     int lowerWidth = (int)floor(expectedWidth - 0.5);
     int upperWidth = (int)ceil(expectedWidth + 0.5);

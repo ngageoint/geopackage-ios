@@ -66,27 +66,15 @@
 }
 
 -(UIImage *) createIconForRow: (GPKGIconRow *) icon{
-    return [self createIconForRow:icon withScale:[UIScreen mainScreen].nativeScale];
-}
-
--(UIImage *) createIconForRow: (GPKGIconRow *) icon withScale: (float) scale{
-    return [GPKGIconCache createIconForRow:icon fromCache:self withScale:scale];
+    return [GPKGIconCache createIconForRow:icon fromCache:self];
 }
 
 +(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon{
-    return [self createIconNoCacheForRow:icon withScale:[UIScreen mainScreen].nativeScale];
-}
-
-+(UIImage *) createIconNoCacheForRow: (GPKGIconRow *) icon withScale: (float) scale{
-    return [self createIconForRow:icon fromCache:nil withScale:scale];
+    return [self createIconForRow:icon fromCache:nil];
 }
 
 +(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache{
-    return [self createIconForRow:icon fromCache:iconCache withScale:[UIScreen mainScreen].nativeScale];
-}
-
-+(UIImage *) createIconForRow: (GPKGIconRow *) icon fromCache: (GPKGIconCache *) iconCache withScale: (float) scale{
-
+    
     UIImage *iconImage = nil;
     
     if (icon != nil) {
@@ -123,13 +111,13 @@
                 }
             }
             
-            float dataScale = MIN(widthScale, heightScale) / scale;
+            float dataScale = MIN(widthScale, heightScale);
             iconImage = [icon dataImageWithScale:dataScale];
             
             if (widthScale != heightScale) {
                 
-                float width = styleWidth * scale;
-                float height = styleHeight * scale;
+                float width = styleWidth;
+                float height = styleHeight;
                 
                 if (width != iconImage.size.width || height != iconImage.size.height) {
                     

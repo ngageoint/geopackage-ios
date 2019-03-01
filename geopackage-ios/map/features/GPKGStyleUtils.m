@@ -10,39 +10,39 @@
 
 @implementation GPKGStyleUtils
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
-    return [self setFeatureStyleWithMapPoint:mapPoint andGeoPackage:geoPackage andFeature:featureRow andScale:scale andIconCache:nil];
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow{
+    return [self setFeatureStyleWithMapPoint:mapPoint andGeoPackage:geoPackage andFeature:featureRow andIconCache:nil];
 }
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache{
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andGeoPackage: (GPKGGeoPackage *) geoPackage andFeature: (GPKGFeatureRow *) featureRow andIconCache: (GPKGIconCache *) iconCache{
     
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
     
-    return [self setFeatureStyleWithMapPoint:mapPoint andExtension:featureStyleExtension andFeature:featureRow andScale:scale andIconCache:iconCache];
+    return [self setFeatureStyleWithMapPoint:mapPoint andExtension:featureStyleExtension andFeature:featureRow andIconCache:iconCache];
 }
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale{
-    return [self setFeatureStyleWithMapPoint:mapPoint andExtension:featureStyleExtension andFeature:featureRow andScale:scale andIconCache:nil];
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow{
+    return [self setFeatureStyleWithMapPoint:mapPoint andExtension:featureStyleExtension andFeature:featureRow andIconCache:nil];
 }
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache{
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andFeature: (GPKGFeatureRow *) featureRow andIconCache: (GPKGIconCache *) iconCache{
     
     GPKGFeatureStyle *featureStyle = [featureStyleExtension featureStyleWithFeature:featureRow];
     
-    return [self setFeatureStyleWithMapPoint:mapPoint andFeatureStyle:featureStyle andScale:scale andIconCache:iconCache];
+    return [self setFeatureStyleWithMapPoint:mapPoint andFeatureStyle:featureStyle andIconCache:iconCache];
 }
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale{
-    return [self setFeatureStyleWithMapPoint:mapPoint andFeatureStyle:featureStyle andScale:scale andIconCache:nil];
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
+    return [self setFeatureStyleWithMapPoint:mapPoint andFeatureStyle:featureStyle andIconCache:nil];
 }
 
-+(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache{
++(BOOL) setFeatureStyleWithMapPoint: (GPKGMapPoint *) mapPoint andFeatureStyle: (GPKGFeatureStyle *) featureStyle andIconCache: (GPKGIconCache *) iconCache{
     
     BOOL featureStyleSet = NO;
     
     if (featureStyle != nil) {
         
-        featureStyleSet = [self setIconWithMapPoint:mapPoint andIcon:featureStyle.icon andScale:scale andIconCache:iconCache];
+        featureStyleSet = [self setIconWithMapPoint:mapPoint andIcon:featureStyle.icon andIconCache:iconCache];
         
         if(!featureStyleSet){
             
@@ -55,17 +55,17 @@
     return featureStyleSet;
 }
 
-+(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andScale: (float) scale{
-    return [self setIconWithMapPoint:mapPoint andIcon:icon andScale:scale andIconCache:nil];
++(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon{
+    return [self setIconWithMapPoint:mapPoint andIcon:icon andIconCache:nil];
 }
 
-+(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache{
++(BOOL) setIconWithMapPoint: (GPKGMapPoint *) mapPoint andIcon: (GPKGIconRow *) icon andIconCache: (GPKGIconCache *) iconCache{
     
     BOOL iconSet = NO;
     
     if (icon != nil) {
         
-        UIImage *iconImage = [self createIconImageWithIcon:icon andScale:scale andIconCache:iconCache];
+        UIImage *iconImage = [self createIconImageWithIcon:icon andIconCache:iconCache];
         [mapPoint.options setImage:iconImage];
         iconSet = YES;
         
@@ -78,12 +78,12 @@
     return iconSet;
 }
 
-+(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andScale: (float) scale{
-    return [GPKGIconCache createIconNoCacheForRow:icon withScale:scale];
++(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon{
+    return [GPKGIconCache createIconNoCacheForRow:icon];
 }
 
-+(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andScale: (float) scale andIconCache: (GPKGIconCache *) iconCache{
-    return [iconCache createIconForRow:icon withScale:scale];
++(UIImage *) createIconImageWithIcon: (GPKGIconRow *) icon andIconCache: (GPKGIconCache *) iconCache{
+    return [iconCache createIconForRow:icon];
 }
 
 +(BOOL) setStyleWithMapPoint: (GPKGMapPoint *) mapPoint andStyle: (GPKGStyleRow *) style{
