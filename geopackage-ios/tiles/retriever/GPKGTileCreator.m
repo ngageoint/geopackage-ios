@@ -318,13 +318,13 @@
     NSMutableArray<GPKGTileMatrix *> *tileMatrices = [[NSMutableArray alloc] init];
     
     // Check if the request overlaps the tile matrix set
-    if([projectedRequestBoundingBox intersects:self.tileSetBoundingBox]){
+    if(self.tileDao.tileMatrices.count > 0 && [projectedRequestBoundingBox intersects:self.tileSetBoundingBox]){
         
         // Get the tile distance
         double distanceWidth = [projectedRequestBoundingBox.maxLongitude doubleValue]
             - [projectedRequestBoundingBox.minLongitude doubleValue];
         double distanceHeight = [projectedRequestBoundingBox.maxLatitude doubleValue]
-        - [projectedRequestBoundingBox.minLatitude doubleValue];
+            - [projectedRequestBoundingBox.minLatitude doubleValue];
         
         // Get the zoom level to request based upon the tile size
         NSNumber * requestZoomLevel = nil;
