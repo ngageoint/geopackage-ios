@@ -21,6 +21,11 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 @interface GPKGIconCache : NSObject
 
 /**
+ *  Screen scale, default is 1.0
+ */
+@property (nonatomic) float scale;
+
+/**
  *  Initialize, created with cache size of DEFAULT_ICON_CACHE_SIZE
  *
  *  @return new icon cache

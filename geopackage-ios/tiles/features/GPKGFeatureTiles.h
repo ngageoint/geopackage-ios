@@ -122,6 +122,11 @@
 @property (nonatomic) BOOL simplifyGeometries;
 
 /**
+ * Scale factor from pixels to map points
+ */
+@property (nonatomic) float scale;
+
+/**
  *  Initialize
  *
  *  @param featureDao feature dao
@@ -131,6 +136,17 @@
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao;
 
 /**
+ *  Initialize
+ *
+ *  @param featureDao feature dao
+ *  @param width      drawn tile width
+ *  @param height     drawn tile height
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height;
+
+/**
  *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
  *  @param geoPackage GeoPackage
  *  @param featureDao feature dao
@@ -138,6 +154,17 @@
  *  @return new feature tiles
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao;
+
+/**
+ *  Initialize, auto creates the index manager for indexed tables and feature styles for styled tables
+ *  @param geoPackage GeoPackage
+ *  @param featureDao feature dao
+ *  @param width      drawn tile width
+ *  @param height     drawn tile height
+ *
+ *  @return new feature tiles
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height;
 
 /**
  *  Get the feature dao

@@ -46,11 +46,18 @@
 }
 
 -(void) addOverlay: (GPKGBoundedOverlay *) overlay{
+    if(self.overlays.count == 0){
+        self.tileSize = overlay.tileSize;
+    }else if(self.tileSize.width != overlay.tileSize.width || self.tileSize.height != overlay.tileSize.height){
+        [NSException raise:@"Multiple Tile Sizes" format:@"Bounded Overlays in a Composite Overlay must all have the same tile size. Tile Sizes: %f x %f and %f x %f", self.tileSize.width, self.tileSize.height, overlay.tileSize.width, overlay.tileSize.height];
+    }
     [self.overlays addObject:overlay];
 }
 
 -(void) addOverlays: (NSArray<GPKGBoundedOverlay *> *) overlays{
-    [self.overlays addObjectsFromArray:overlays];
+    for(GPKGBoundedOverlay * overlay in overlays){
+        [self addOverlay:overlay];
+    }
 }
 
 -(void) clearOverlays{

@@ -21,6 +21,7 @@
     self = [super init];
     if(self != nil){
         self.featureTiles = featureTiles;
+        self.tileSize = CGSizeMake(featureTiles.tileWidth, featureTiles.tileHeight);
         self.linkedOverlays = [[NSMutableArray alloc] init];
     }
     return self;

@@ -87,6 +87,10 @@ static int ICON_LAYER = 3;
             
             if(imageContext == NULL){
                 imageContext = context;
+                
+                // Flip back for drawing layered images
+                CGContextTranslateCTM(imageContext, 0, self.tileHeight);
+                CGContextScaleCTM(imageContext, 1.0, -1.0);
             }else{
                 CGImageRef imageRef = CGBitmapContextCreateImage(context);
                 CGContextDrawImage(imageContext, CGRectMake(0, 0, self.tileWidth, self.tileHeight), imageRef);
@@ -119,7 +123,7 @@ static int ICON_LAYER = 3;
     
     for(int i = 0; i < pixelCount; i++){
         TilePixel_T p = pixels[i];
-        if(p.alpha > 0 && (p.red > 0 || p.green > 0 || p.blue > 0)){
+        if(p.alpha > 0){
             transparent = NO;
             break;
         }
@@ -150,6 +154,11 @@ static int ICON_LAYER = 3;
         CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
         context = CGBitmapContextCreate(NULL, self.tileWidth, self.tileHeight, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
         CGColorSpaceRelease(colorSpace);
+        
+        // Draw from the top left
+        CGContextTranslateCTM(context, 0, self.tileHeight);
+        CGContextScaleCTM(context, 1.0, -1.0);
+        
         [self.layeredContext setObject:(__bridge id)context forKey:layerNumber];
     }
     

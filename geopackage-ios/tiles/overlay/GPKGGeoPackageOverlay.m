@@ -30,7 +30,8 @@
 }
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling{
-    return [self initWithTileDao:tileDao andWidth:512 andHeight:512 andScaling:scaling];
+    float tileLength = [GPKGBoundedOverlay defaultTileLength];
+    return [self initWithTileDao:tileDao andWidth:tileLength andHeight:tileLength andScaling:scaling];
 }
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (int) width andHeight: (int) height andScaling: (GPKGTileScaling *) scaling{

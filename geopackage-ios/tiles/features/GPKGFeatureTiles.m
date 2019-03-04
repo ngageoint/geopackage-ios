@@ -23,6 +23,7 @@
 #import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
+#import "GPKGBoundedOverlay.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -39,24 +40,36 @@
     return self;
 }
 
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andWidth:width andHeight:height];
+    return self;
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
+    float tileLength = [GPKGBoundedOverlay defaultTileLength];
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andWidth:tileLength andHeight:tileLength];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
         
         self.iconCache = [[GPKGIconCache alloc] init];
+        self.scale = [UIScreen mainScreen].nativeScale;
         self.simplifyGeometries = YES;
         
-        self.tileWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_WIDTH] intValue];
-        self.tileHeight = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_HEIGHT] intValue];
+        self.tileWidth = width;
+        self.tileHeight = height;
         
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
-        self.pointRadius = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
+        self.pointRadius = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
         
-        self.lineStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];;
+        self.lineStrokeWidth = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];
         
-        self.polygonStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];;
+        self.polygonStrokeWidth = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];
         
         self.fillPolygon = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
@@ -82,6 +95,11 @@
     return self;
 }
 
+-(void) setScale:(float)scale{
+    _scale = scale;
+    self.iconCache.scale = scale;
+}
+
 -(GPKGFeatureDao *) getFeatureDao{
     return self.featureDao;
 }
@@ -95,8 +113,8 @@
 -(void) calculateDrawOverlap{
     
     if(self.pointIcon != nil){
-        self.heightOverlap = [self.pointIcon getHeight];
-        self.widthOverlap = [self.pointIcon getWidth];
+        self.heightOverlap = self.scale * [self.pointIcon getHeight];
+        self.widthOverlap = self.scale * [self.pointIcon getWidth];
     }else{
         self.heightOverlap = self.pointRadius;
         self.widthOverlap = self.pointRadius;
@@ -146,8 +164,8 @@
         for(NSNumber *iconRowId in iconRowIds){
             GPKGIconRow *iconRow = (GPKGIconRow *)[iconDao queryForIdObject:iconRowId];
             double *iconDimensions = [iconRow derivedDimensions];
-            double iconWidth = ceil(iconDimensions[0]);
-            double iconHeight = ceil(iconDimensions[1]);
+            double iconWidth = self.scale * ceil(iconDimensions[0]);
+            double iconHeight = self.scale * ceil(iconDimensions[1]);
             free(iconDimensions);
             self.widthOverlap = MAX(self.widthOverlap, iconWidth);
             self.heightOverlap = MAX(self.heightOverlap, iconHeight);
@@ -552,7 +570,7 @@
         GPKGStyleRow *style = featureStyle.style;
         if(style != nil && [style hasColor]){
             color = [[style colorOrDefault] uiColor];
-            strokeWidth = [style widthOrDefault];
+            strokeWidth = self.scale * [style widthOrDefault];
         }
     }
     
@@ -579,7 +597,7 @@
         if(style != nil){
             if([style hasColor]){
                 color = [[style colorOrDefault] uiColor];
-                strokeWidth = [style widthOrDefault];
+                strokeWidth = self.scale * [style widthOrDefault];
                 fill = NO;
             }
             if([style hasFillColor]){
@@ -671,19 +689,19 @@
             
             CGRect rect = CGRectMake(x - (anchorU * width), y - (anchorV * height), width, height);
             CGContextRef iconContext = [context iconContext];
-            CGContextDrawImage(iconContext, rect, icon.CGImage);
+            [self drawImage:icon inRect:rect onContext:iconContext];
             drawn = YES;
             
         }
         
     }else if(self.pointIcon != nil){
         
-        int width = [self.pointIcon getWidth];
-        int height = [self.pointIcon getHeight];
+        int width = self.scale * [self.pointIcon getWidth];
+        int height = self.scale * [self.pointIcon getHeight];
         if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
-            CGRect rect = CGRectMake(x - self.pointIcon.xOffset, y - self.pointIcon.yOffset, width, height);
+            CGRect rect = CGRectMake(x - self.scale * self.pointIcon.xOffset, y - self.scale * self.pointIcon.yOffset, width, height);
             CGContextRef iconContext = [context iconContext];
-            CGContextDrawImage(iconContext, rect, [self.pointIcon getIcon].CGImage);
+            [self drawImage:[self.pointIcon getIcon] inRect:rect onContext:iconContext];
             drawn = YES;
         }
     
@@ -695,7 +713,7 @@
         if(featureStyle != nil){
             style = featureStyle.style;
             if(style != nil){
-                radius = [style widthOrDefault] / 2.0;
+                radius = self.scale * [style widthOrDefault] / 2.0;
             }
         }
         
@@ -720,6 +738,23 @@
     }
     
     return drawn;
+}
+
+-(void) drawImage: (UIImage *) image inRect: (CGRect) rect onContext: (CGContextRef) context{
+    
+    // Flip the coordinates
+    float ty = rect.origin.y + rect.size.height;
+    CGContextTranslateCTM(context, 0, ty);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    // Draw
+    CGRect drawRect = CGRectMake(rect.origin.x, 0, rect.size.width, rect.size.height);
+    CGContextDrawImage(context, drawRect, image.CGImage);
+    
+    // Flip back
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -ty);
+    
 }
 
 -(SFPoint *) transformPointWithMapPoint: (GPKGMapPoint *) point{

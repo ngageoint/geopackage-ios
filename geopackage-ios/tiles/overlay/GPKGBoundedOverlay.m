@@ -99,7 +99,7 @@
         GPKGBoundingBox * requestWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
         
         // Check if the request overlaps
-        withinBounds = [self.webMercatorBoundingBox intersects:requestWebMercatorBoundingBox];
+        withinBounds = [self.webMercatorBoundingBox intersects:requestWebMercatorBoundingBox withAllowEmpty:YES];
     }
     
     return withinBounds;
@@ -113,6 +113,16 @@
 -(void) setMaxZoom:(NSNumber *)maxZoom{
     _maxZoom = maxZoom;
     [self setMaximumZ:maxZoom != nil ? [maxZoom intValue] : 21];
+}
+
++(float) defaultTileLength{
+    float length;
+    if([UIScreen mainScreen].nativeScale <= 2.0){
+        length = 256.0;
+    }else{
+        length = 512.0;
+    }
+    return length;
 }
 
 @end

@@ -28,6 +28,7 @@
 -(instancetype) initWithSize: (int) size{
     self = [super init];
     if(self != nil){
+        self.scale = 1.0;
         self.iconCache = [[LruCache alloc] initWithMaxSize:size];
     }
     return self;
@@ -111,13 +112,13 @@
                 }
             }
             
-            float dataScale = MIN(widthScale, heightScale);
+            float dataScale = MIN(widthScale, heightScale) / iconCache.scale;
             iconImage = [icon dataImageWithScale:dataScale];
             
             if (widthScale != heightScale) {
                 
-                float width = styleWidth;
-                float height = styleHeight;
+                float width = iconCache.scale * styleWidth;
+                float height = iconCache.scale * styleHeight;
                 
                 if (width != iconImage.size.width || height != iconImage.size.height) {
                     

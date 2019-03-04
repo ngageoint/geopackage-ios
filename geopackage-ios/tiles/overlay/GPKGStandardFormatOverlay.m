@@ -25,6 +25,22 @@
         
         [self setMinimumZ:tileDao.minZoom];
         [self setMaximumZ:tileDao.maxZoom];
+        
+        NSNumber *tileWidth = nil;
+        NSNumber *tileHeight = nil;
+        for(GPKGTileMatrix *tileMatrix in tileDao.tileMatrices){
+            if(tileWidth == nil){
+                tileWidth = tileMatrix.tileWidth;
+            }else if([tileWidth intValue] != [tileMatrix.tileWidth intValue]){
+                [NSException raise:@"Multiple Tile Sizes" format:@"Different Tile Matrix Tile widths exist in tile table: %@. Can not be used with standard format overlay. Widths: %d and %d", tileDao.tableName, [tileWidth intValue], [tileMatrix.tileWidth intValue]];
+            }
+            if(tileHeight == nil){
+                tileHeight = tileMatrix.tileHeight;
+            }else if([tileHeight intValue] != [tileMatrix.tileHeight intValue]){
+                [NSException raise:@"Multiple Tile Sizes" format:@"Different Tile Matrix Tile heights exist in tile table: %@. Can not be used with standard format overlay. Heights: %d and %d", tileDao.tableName, [tileHeight intValue], [tileMatrix.tileHeight intValue]];
+            }
+        }
+        self.tileSize = CGSizeMake([tileWidth intValue], [tileHeight intValue]);
     }
     return self;
 }
