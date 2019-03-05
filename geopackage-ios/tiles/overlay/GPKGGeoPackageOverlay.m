@@ -10,6 +10,7 @@
 #import "SFPProjectionTransform.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGGeoPackageTileRetriever.h"
+#import "GPKGTileUtils.h"
 
 @interface GPKGGeoPackageOverlay ()
 
@@ -30,7 +31,7 @@
 }
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andScaling: (GPKGTileScaling *) scaling{
-    float tileLength = [GPKGBoundedOverlay defaultTileLength];
+    float tileLength = [GPKGTileUtils tileLength];
     return [self initWithTileDao:tileDao andWidth:tileLength andHeight:tileLength andScaling:scaling];
 }
 

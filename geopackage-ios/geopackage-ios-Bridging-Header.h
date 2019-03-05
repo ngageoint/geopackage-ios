@@ -256,5 +256,6 @@
 #import "GPKGPolylineOptions.h"
 #import "GPKGPolygon.h"
 #import "GPKGPolygonOptions.h"
+#import "GPKGTileUtils.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

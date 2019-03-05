@@ -115,14 +115,4 @@
     [self setMaximumZ:maxZoom != nil ? [maxZoom intValue] : 21];
 }
 
-+(float) defaultTileLength{
-    float length;
-    if([UIScreen mainScreen].nativeScale <= 2.0){
-        length = 256.0;
-    }else{
-        length = 512.0;
-    }
-    return length;
-}
-
 @end

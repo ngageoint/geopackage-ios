@@ -23,7 +23,7 @@
 #import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
-#import "GPKGBoundedOverlay.h"
+#import "GPKGTileUtils.h"
 
 @interface GPKGFeatureTiles ()
 
@@ -46,7 +46,7 @@
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
-    float tileLength = [GPKGBoundedOverlay defaultTileLength];
+    float tileLength = [GPKGTileUtils tileLength];
     self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andWidth:tileLength andHeight:tileLength];
     return self;
 }
@@ -65,11 +65,11 @@
         
         self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
-        self.pointRadius = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
+        self.pointRadius = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
         
-        self.lineStrokeWidth = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];
+        self.lineStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];
         
-        self.polygonStrokeWidth = self.scale * [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];
+        self.polygonStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];
         
         self.fillPolygon = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
@@ -116,15 +116,15 @@
         self.heightOverlap = self.scale * [self.pointIcon getHeight];
         self.widthOverlap = self.scale * [self.pointIcon getWidth];
     }else{
-        self.heightOverlap = self.pointRadius;
-        self.widthOverlap = self.pointRadius;
+        self.heightOverlap = self.scale * self.pointRadius;
+        self.widthOverlap = self.scale * self.pointRadius;
     }
     
-    double lineHalfStroke = self.lineStrokeWidth / 2.0;
+    double lineHalfStroke = self.scale * self.lineStrokeWidth / 2.0;
     self.heightOverlap = MAX(self.heightOverlap, lineHalfStroke);
     self.widthOverlap = MAX(self.widthOverlap, lineHalfStroke);
     
-    double polygonHalfStroke = self.polygonStrokeWidth / 2.0;
+    double polygonHalfStroke = self.scale * self.polygonStrokeWidth / 2.0;
     self.heightOverlap = MAX(self.heightOverlap, polygonHalfStroke);
     self.widthOverlap = MAX(self.widthOverlap, polygonHalfStroke);
     
@@ -563,7 +563,7 @@
     
     CGContextRef lineContext = [context lineContext];
     
-    double strokeWidth = self.lineStrokeWidth;
+    double strokeWidth = self.scale * self.lineStrokeWidth;
     UIColor *color = self.lineColor;
     
     if(featureStyle != nil){
@@ -587,7 +587,7 @@
     
     CGContextRef polygonContext = [context polygonContext];
     
-    double strokeWidth = self.polygonStrokeWidth;
+    double strokeWidth = self.scale * self.polygonStrokeWidth;
     UIColor *color = self.polygonColor;
     UIColor *fillColor = self.polygonFillColor;
     BOOL fill = self.fillPolygon;
@@ -696,8 +696,8 @@
         
     }else if(self.pointIcon != nil){
         
-        int width = self.scale * [self.pointIcon getWidth];
-        int height = self.scale * [self.pointIcon getHeight];
+        int width = roundf(self.scale * [self.pointIcon getWidth]);
+        int height = roundf(self.scale * [self.pointIcon getHeight]);
         if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
             CGRect rect = CGRectMake(x - self.scale * self.pointIcon.xOffset, y - self.scale * self.pointIcon.yOffset, width, height);
             CGContextRef iconContext = [context iconContext];
@@ -707,7 +707,7 @@
     
     }else{
         
-        double radius = self.pointRadius;
+        double radius = self.scale * self.pointRadius;
         
         GPKGStyleRow *style = nil;
         if(featureStyle != nil){

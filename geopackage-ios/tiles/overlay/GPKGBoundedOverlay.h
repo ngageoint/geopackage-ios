@@ -116,11 +116,4 @@
  */
 -(BOOL) isWithinBoundingBoxWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
 
-/**
- *  Get the default tile side (width and height) dimension based upon the screen resolution
- *
- *  @return default tile length
- */
-+(float) defaultTileLength;
-
 @end
