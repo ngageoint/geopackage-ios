@@ -522,8 +522,14 @@
     if([bounded.minLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
         [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];
     }
+    if([bounded.maxLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
+        [bounded setMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];
+    }
     if([bounded.maxLatitude doubleValue] > PROJ_WEB_MERCATOR_MAX_LAT_RANGE){
         [bounded setMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE]];
+    }
+    if([bounded.minLatitude doubleValue] > PROJ_WEB_MERCATOR_MAX_LAT_RANGE){
+        [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE]];
     }
     return bounded;
 }
