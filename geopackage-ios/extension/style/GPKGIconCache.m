@@ -112,13 +112,18 @@
                 }
             }
             
-            float dataScale = MIN(widthScale, heightScale) / iconCache.scale;
+            float scale = 1.0f;
+            if(iconCache != nil){
+                scale = iconCache.scale;
+            }
+            
+            float dataScale = MIN(widthScale, heightScale) / scale;
             iconImage = [icon dataImageWithScale:dataScale];
             
             if (widthScale != heightScale) {
                 
-                float width = iconCache.scale * styleWidth;
-                float height = iconCache.scale * styleHeight;
+                float width = scale * styleWidth;
+                float height = scale * styleHeight;
                 
                 if (width != iconImage.size.width || height != iconImage.size.height) {
                     
