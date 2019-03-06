@@ -12,8 +12,12 @@
 @implementation GPKGTileUtils
 
 +(float) tileLength{
+    return [self tileLengthWithScale:[UIScreen mainScreen].nativeScale];
+}
+
++(float) tileLengthWithScale: (float) scale{
     float length;
-    if([UIScreen mainScreen].nativeScale <= SCALE_FACTOR_DEFAULT){
+    if(scale <= SCALE_FACTOR_DEFAULT){
         length = TILE_PIXELS_DEFAULT;
     }else{
         length = TILE_PIXELS_HIGH;

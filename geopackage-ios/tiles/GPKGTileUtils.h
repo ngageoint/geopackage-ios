@@ -40,4 +40,12 @@ static float SCALE_FACTOR_DEFAULT = 2.0f;
  */
 +(float) tileLength;
 
+/**
+ *  Get the tile side (width and height) dimension based upon the scale
+ *
+ *  @param scale resolution scale
+ *  @return default tile length
+ */
++(float) tileLengthWithScale: (float) scale;
+
 @end

@@ -40,6 +40,11 @@
     return self;
 }
 
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale{
+    self = [self initWithGeoPackage:nil andFeatureDao:featureDao andScale:scale];
+    return self;
+}
+
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
     self = [self initWithGeoPackage:nil andFeatureDao:featureDao andWidth:width andHeight:height];
     return self;
@@ -51,13 +56,24 @@
     return self;
 }
 
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale{
+    float tileLength = [GPKGTileUtils tileLengthWithScale:scale];
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:scale andWidth:tileLength andHeight:tileLength];
+    return self;
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andWidth: (int) width andHeight: (int) height{
+    self = [self initWithGeoPackage:geoPackage andFeatureDao:featureDao andScale:[UIScreen mainScreen].nativeScale andWidth:width andHeight:height];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andScale: (float) scale andWidth: (int) width andHeight: (int) height{
     self = [super init];
     if(self != nil){
         self.featureDao = featureDao;
         
         self.iconCache = [[GPKGIconCache alloc] init];
-        self.scale = [UIScreen mainScreen].nativeScale;
+        self.scale = scale;
         self.simplifyGeometries = YES;
         
         self.tileWidth = width;
