@@ -160,7 +160,7 @@
         GPKGStyleDao *styleDao = [self.featureTableStyles styleDao];
         for(NSNumber *styleRowId in styleRowIds){
             GPKGStyleRow *styleRow = (GPKGStyleRow *)[styleDao queryForIdObject:styleRowId];
-            double styleHalfWidth = [styleRow widthOrDefault] / 2.0;
+            double styleHalfWidth = self.scale * [styleRow widthOrDefault] / 2.0;
             self.widthOverlap = MAX(self.widthOverlap, styleHalfWidth);
             self.heightOverlap = MAX(self.heightOverlap, styleHalfWidth);
         }
