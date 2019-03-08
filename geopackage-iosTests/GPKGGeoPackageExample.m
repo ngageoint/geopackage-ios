@@ -1587,9 +1587,14 @@ static int dataColumnConstraintIndex = 0;
         
         GPKGTileTableScaling *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTableName:tileTable];
         GPKGTileScaling *tileScaling = [[GPKGTileScaling alloc] init];
-        [tileScaling setTileScalingType:GPKG_TSC_IN_OUT];
         [tileScaling setZoomIn:[NSNumber numberWithInt:2]];
-        [tileScaling setZoomOut:[NSNumber numberWithInt:2]];
+        GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
+        if([linker has] && [linker getFeatureTablesForTileTable:tileTable].count > 0){
+            [tileScaling setTileScalingType:GPKG_TSC_IN];
+        }else{
+            [tileScaling setTileScalingType:GPKG_TSC_IN_OUT];
+            [tileScaling setZoomOut:[NSNumber numberWithInt:2]];
+        }
         [tileTableScaling create:tileScaling];
         
     }
