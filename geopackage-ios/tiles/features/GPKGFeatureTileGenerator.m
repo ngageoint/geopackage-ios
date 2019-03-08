@@ -54,6 +54,10 @@
         }
     }
     
+    if(boundingBox != nil){
+        boundingBox = [featureTiles expandBoundingBox:boundingBox withProjection:projection];
+    }
+    
     return boundingBox;
 }
 

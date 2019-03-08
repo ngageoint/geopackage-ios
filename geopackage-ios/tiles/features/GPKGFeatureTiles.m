@@ -329,6 +329,25 @@
     return results;
 }
 
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+    
+    GPKGBoundingBox *expandedBoundingBox = boundingBox;
+    
+    SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    if(![toWebMercator isSameProjection]){
+        expandedBoundingBox = [expandedBoundingBox transform:toWebMercator];
+    }
+    
+    expandedBoundingBox = [self expandBoundingBox:expandedBoundingBox];
+    
+    if(![toWebMercator isSameProjection]){
+        SFPProjectionTransform *fromWebMercator = [toWebMercator inverseTransformation];
+        expandedBoundingBox = [expandedBoundingBox transform:fromWebMercator];
+    }
+    
+    return expandedBoundingBox;
+}
+
 -(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
     
     // Create an expanded bounding box to handle features outside the tile that overlap
@@ -336,9 +355,9 @@
     double maxLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
     double maxLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
     double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
-    GPKGBoundingBox * expandedQueryBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox * expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
-    return expandedQueryBoundingBox;
+    return expandedBoundingBox;
 }
 
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom{

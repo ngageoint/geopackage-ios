@@ -322,6 +322,16 @@
  * Create an expanded bounding box to handle features outside the tile that
  * overlap
  *
+ * @param boundingBox bounding box
+ * @param projection bounding box projection
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
+
+/**
+ * Create an expanded bounding box to handle features outside the tile that
+ * overlap
+ *
  * @param webMercatorBoundingBox web mercator bounding box
  * @return bounding box
  */
