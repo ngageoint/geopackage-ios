@@ -6,7 +6,31 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.1.1 (TBD)
 
-* TBD
+* sf-wkb-ios version 2.0.2
+* sf-proj-ios version 2.0.2
+* tiff-io version 1.1.2
+* LruCache version 0.1
+* NGA [Contents Id](http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html) Extension
+* NGA [Feature Style](http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html) Extension
+* OGC [Related Tables](http://www.geopackage.org/18-000.html) Extension improvements
+* Feature Tile drawing and generator improvements including scaling, styles, and layering
+* FeatureIndexResults id iteration option in place of reading full feature rows
+* Feature Cache for memory caching feature rows in a single table
+* Feature Cache Tables for memory caching feature rows from multiple single GeoPackage tables
+* Feature Row geometry type accessor
+* GeoPackage user version saved as 1.2.1
+* Improved GeoPackage extension cleanup
+* Color support and utilities for hex, RBG, arithmetic RBG, HSL, and integer colors
+* Common data type and contents methods for all User Table types
+* GeoPackage contents check for table names
+* Build an envelope from a Bounding Box
+* WKT for Coordinate Reference Systems extension default value of 'undefined' removed
+* Feature Style cache and utilities
+* Feature Shape for maintaining shapes and metadata shapes for a single feature
+* Feature Shapes improvements for maintaining map shapes
+* Overlay improvements for bounds checking
+* Map Point Options anchor setter
+* Custom styled / options Polyline and Polygon objects with updates to Map Shape Converter
 
 ## [3.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.1.0) (10-05-2018)
 
