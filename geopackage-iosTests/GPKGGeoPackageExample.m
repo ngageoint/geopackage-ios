@@ -1608,7 +1608,7 @@ static int dataColumnConstraintIndex = 0;
     NSString *dateTime = [GPKGDateTimeUtils convertToDateTimeStringWithDate:[NSDate date]];
     
     [properties addValue:@"GeoPackage iOS Example" withProperty:GPKG_PE_TITLE];
-    [properties addValue:@"3.1.1" withProperty:GPKG_PE_VERSION];
+    [properties addValue:@"3.2.0" withProperty:GPKG_PE_VERSION];
     [properties addValue:@"NGA" withProperty:GPKG_PE_CREATOR];
     [properties addValue:@"NGA" withProperty:GPKG_PE_PUBLISHER];
     [properties addValue:@"Brian Osborn" withProperty:GPKG_PE_CONTRIBUTOR];
