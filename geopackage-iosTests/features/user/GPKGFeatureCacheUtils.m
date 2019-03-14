@@ -91,8 +91,6 @@
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
-        int resultsCount = [featureIndexResults count];
-        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache2 sizeForTable:featureTable]];
         featureIndexResults.ids = YES;
         for(NSNumber *featureRowId in featureIndexResults){
             GPKGFeatureRow *featureRow = [featureCache2 rowByTable:featureTable andId:[featureRowId intValue]];
@@ -108,16 +106,11 @@
     [GPKGTestUtils assertEqualUnsignedLongWithValue:featureTables.count andValue2:[featureCache2 tables].count];
     for(NSString *featureTable in featureTables){
         
-        [GPKGTestUtils assertEqualIntWithValue:[featureCache sizeForTable:featureTable] andValue2:[featureCache2 sizeForTable:featureTable]];
-        
         GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
-        int resultsCount = [featureIndexResults count];
-        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache sizeForTable:featureTable]];
-        [GPKGTestUtils assertEqualIntWithValue:resultsCount andValue2:[featureCache2 sizeForTable:featureTable]];
         featureIndexResults.ids = YES;
         for(NSNumber *featureRowId in featureIndexResults){
             [GPKGTestUtils assertNotNil:[featureCache rowByTable:featureTable andId:[featureRowId intValue]]];
@@ -128,8 +121,6 @@
         
         [featureCache clearForTable:featureTable];
         [featureCache2 clearForTable:featureTable];
-        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[featureCache sizeForTable:featureTable]];
-        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[featureCache2 sizeForTable:featureTable]];
     }
     
     [featureCache clear];

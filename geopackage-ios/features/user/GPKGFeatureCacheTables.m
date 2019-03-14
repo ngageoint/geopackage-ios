@@ -54,10 +54,6 @@
     return [[self cacheForTable:tableName] maxSize];
 }
 
--(int) sizeForTable: (NSString *) tableName{
-    return [[self cacheForTable:tableName] size];
-}
-
 -(GPKGFeatureRow *) rowByTable: (NSString *) tableName andId: (int) featureId{
     return [[self cacheForTable:tableName] rowById:featureId];
 }

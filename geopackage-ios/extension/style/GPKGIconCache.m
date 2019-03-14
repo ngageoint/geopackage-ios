@@ -7,14 +7,13 @@
 //
 
 #import "GPKGIconCache.h"
-#import "LruCache.h"
 
 @interface GPKGIconCache ()
 
 /**
  * Icon image cache
  */
-@property (nonatomic, strong) LruCache *iconCache;
+@property (nonatomic, strong) NSCache *iconCache;
 
 @end
 
@@ -29,7 +28,8 @@
     self = [super init];
     if(self != nil){
         self.scale = 1.0;
-        self.iconCache = [[LruCache alloc] initWithMaxSize:size];
+        self.iconCache = [[NSCache alloc] init];
+        [self.iconCache setCountLimit:size];
     }
     return self;
 }
@@ -39,31 +39,47 @@
 }
 
 -(UIImage *) imageForId: (int) iconRowId{
-    return [self.iconCache get:[self idKey:iconRowId]];
+    return [self imageForIdNumber:[NSNumber numberWithInt:iconRowId]];
+}
+
+-(UIImage *) imageForIdNumber: (NSNumber *) iconRowId{
+    return [self.iconCache objectForKey:iconRowId];
 }
 
 -(UIImage *) putImage: (UIImage *) image forRow: (GPKGIconRow *) iconRow{
-    return [self.iconCache put:[self rowKey:iconRow] value:image];
+    return [self putImage:image forId:[iconRow id]];
 }
 
 -(UIImage *) putImage: (UIImage *) image forId: (int) iconRowId{
-    return [self.iconCache put:[self idKey:iconRowId] value:image];
+    return [self putImage:image forIdNumber:[NSNumber numberWithInt:iconRowId]];
+}
+
+-(UIImage *) putImage: (UIImage *) image forIdNumber: (NSNumber *) iconRowId{
+    UIImage *previous = [self imageForIdNumber:iconRowId];
+    [self.iconCache setObject:image forKey:iconRowId];
+    return previous;
 }
 
 -(UIImage *) removeForRow: (GPKGIconRow *) iconRow{
-    return [self.iconCache remove:[self rowKey:iconRow]];
+    return [self removeForId:[iconRow id]];
 }
 
 -(UIImage *) removeForId: (int) iconRowId{
-    return [self.iconCache remove:[self idKey:iconRowId]];
+    return [self removeForIdNumber:[NSNumber numberWithInt:iconRowId]];
+}
+
+-(UIImage *) removeForIdNumber: (NSNumber *) iconRowId{
+    UIImage *removed = [self imageForIdNumber:iconRowId];
+    [self.iconCache removeObjectForKey:iconRowId];
+    return removed;
 }
 
 -(void) clear{
-    [self.iconCache evictAll];
+    [self.iconCache removeAllObjects];
 }
 
 -(void) resizeWithSize: (int) maxSize{
-    [self.iconCache resize:maxSize];
+    [self.iconCache setCountLimit:maxSize];
 }
 
 -(UIImage *) createIconForRow: (GPKGIconRow *) icon{
@@ -144,14 +160,6 @@
     }
     
     return iconImage;
-}
-
--(NSString *) rowKey: (GPKGIconRow *) iconRow{
-    return [self idKey:[iconRow id]];
-}
-
--(NSString *) idKey: (int) iconRowId{
-    return [NSString stringWithFormat:@"%d", iconRowId];
 }
 
 @end

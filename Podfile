@@ -7,7 +7,6 @@ target 'geopackage-ios' do
   pod 'sf-wkb-ios', '~> 2.0.2'
   pod 'sf-proj-ios', '~> 2.0.2'
   pod 'tiff-ios', '~> 1.1.2'
-  pod 'LruCache', '~> 0.1'
 
   target 'geopackage-iosTests' do
     inherit! :search_paths

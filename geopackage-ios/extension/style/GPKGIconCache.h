@@ -58,6 +58,14 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 -(UIImage *) imageForId: (int) iconRowId;
 
 /**
+ * Get the cached image for the icon row id or nil if not cached
+ *
+ * @param iconRowId icon row id
+ * @return icon image or nil
+ */
+-(UIImage *) imageForIdNumber: (NSNumber *) iconRowId;
+
+/**
  * Cache the icon image for the icon row
  *
  * @param image  icon image
@@ -76,6 +84,15 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
 -(UIImage *) putImage: (UIImage *) image forId: (int) iconRowId;
 
 /**
+ * Cache the icon image for the icon row id
+ *
+ * @param image    icon image
+ * @param iconRowId icon row id
+ * @return previous cached icon image or nil
+ */
+-(UIImage *) putImage: (UIImage *) image forIdNumber: (NSNumber *) iconRowId;
+
+/**
  * Remove the cached image for the icon row
  *
  * @param iconRow icon row
@@ -90,6 +107,14 @@ static int DEFAULT_ICON_CACHE_SIZE = 100;
  * @return removed icon image or nil
  */
 -(UIImage *) removeForId: (int) iconRowId;
+
+/**
+ * Remove the cached image for the icon row id
+ *
+ * @param iconRowId icon row id
+ * @return removed icon image or nil
+ */
+-(UIImage *) removeForIdNumber: (NSNumber *) iconRowId;
 
 /**
  * Clear the cache

@@ -43,11 +43,12 @@ static int DEFAULT_FEATURE_CACHE_MAX_SIZE = 1000;
 -(int) maxSize;
 
 /**
- * Get the current cache size, number of feature rows cached
+ * Get the cached feature row by feature id
  *
- * @return cache size
+ * @param featureId feature row id
+ * @return feature row or null
  */
--(int) size;
+-(GPKGFeatureRow *) rowById: (int) featureId;
 
 /**
  * Get the cached feature row by feature id
@@ -55,7 +56,7 @@ static int DEFAULT_FEATURE_CACHE_MAX_SIZE = 1000;
  * @param featureId feature row id
  * @return feature row or null
  */
--(GPKGFeatureRow *) rowById: (int) featureId;
+-(GPKGFeatureRow *) rowByIdNumber: (NSNumber *) featureId;
 
 /**
  * Cache the feature row
@@ -80,6 +81,14 @@ static int DEFAULT_FEATURE_CACHE_MAX_SIZE = 1000;
  * @return removed feature row or null
  */
 -(GPKGFeatureRow *) removeById: (int) featureId;
+
+/**
+ * Remove the cached feature row by id
+ *
+ * @param featureId feature row id
+ * @return removed feature row or null
+ */
+-(GPKGFeatureRow *) removeByIdNumber: (NSNumber *) featureId;
 
 /**
  * Clear the cache

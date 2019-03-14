@@ -7,11 +7,10 @@
 //
 
 #import "GPKGFeatureCache.h"
-#import "LruCache.h"
 
 @interface GPKGFeatureCache ()
 
-@property (nonatomic, strong) LruCache *cache;
+@property (nonatomic, strong) NSCache *cache;
 
 @end
 
@@ -25,54 +24,56 @@
 -(instancetype) initWithMaxSize: (int) maxSize{
     self = [super init];
     if(self != nil){
-        self.cache = [[LruCache alloc] initWithMaxSize:maxSize];
+        self.cache = [[NSCache alloc] init];
+        [self.cache setCountLimit:maxSize];
     }
     return self;
 }
 
 -(int) maxSize{
-    return (int)self.cache.maxSize;
-}
-
--(int) size{
-    return (int)self.cache.size;
+    return (int)self.cache.countLimit;
 }
 
 -(GPKGFeatureRow *) rowById: (int) featureId{
-    return [self.cache get:[self idKey:featureId]];
+    return [self rowByIdNumber:[NSNumber numberWithInt:featureId]];
+}
+
+-(GPKGFeatureRow *) rowByIdNumber: (NSNumber *) featureId{
+    return [self.cache objectForKey:featureId];
 }
 
 -(GPKGFeatureRow *) putRow: (GPKGFeatureRow *) featureRow{
-    return [self.cache put:[self rowKey:featureRow] value:featureRow];
+    NSNumber *featureId = [featureRow getId];
+    GPKGFeatureRow *previous = [self rowByIdNumber:featureId];
+    [self.cache setObject:featureRow forKey:featureId];
+    return previous;
 }
 
 -(GPKGFeatureRow *) removeRow: (GPKGFeatureRow *) featureRow{
-    return [self.cache remove:[self rowKey:featureRow]];
+    return [self removeByIdNumber:[featureRow getId]];
 }
 
 -(GPKGFeatureRow *) removeById: (int) featureId{
-    return [self.cache remove:[self idKey:featureId]];
+    return [self removeByIdNumber:[NSNumber numberWithInt:featureId]];
+}
+
+-(GPKGFeatureRow *) removeByIdNumber: (NSNumber *) featureId{
+    GPKGFeatureRow *removed = [self rowByIdNumber:featureId];
+    [self.cache removeObjectForKey:featureId];
+    return removed;
 }
 
 -(void) clear{
-    [self.cache evictAll];
+    [self.cache removeAllObjects];
 }
 
 -(void) resizeWithMaxSize: (int) maxSize{
-    [self.cache resize:maxSize];
+    [self.cache setCountLimit:maxSize];
 }
 
 -(void) clearAndResizeWithMaxSize: (int) maxSize{
     [self clear];
     [self resizeWithMaxSize:maxSize];
-}
-
--(NSString *) rowKey: (GPKGFeatureRow *) featureRow{
-    return [self idKey:[[featureRow getId] intValue]];
-}
-
--(NSString *) idKey: (int) featureId{
-    return [NSString stringWithFormat:@"%d", featureId];
 }
 
 @end

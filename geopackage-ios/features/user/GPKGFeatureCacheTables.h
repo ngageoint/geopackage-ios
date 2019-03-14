@@ -67,14 +67,6 @@
 -(int) maxSizeForTable: (NSString *) tableName;
 
 /**
- * Get the current cache size, number of feature rows cached, for the table name
- *
- * @param tableName feature table name
- * @return cache size
- */
--(int) sizeForTable: (NSString *) tableName;
-
-/**
  * Get the cached feature row by table name and feature id
  *
  * @param tableName feature table name

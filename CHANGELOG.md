@@ -9,7 +9,6 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * sf-wkb-ios version 2.0.2
 * sf-proj-ios version 2.0.2
 * tiff-io version 1.1.2
-* LruCache version 0.1
 * NGA [Contents Id](http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html) Extension
 * NGA [Feature Style](http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html) Extension
 * OGC [Related Tables](http://www.geopackage.org/18-000.html) Extension improvements
