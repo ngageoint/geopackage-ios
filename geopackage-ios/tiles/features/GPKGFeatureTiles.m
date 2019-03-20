@@ -360,10 +360,17 @@
     double maxLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
     double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
     
+    // Choose the most expanded longitudes and latitudes
     minLongitude = MIN(minLongitude, [webMercatorBoundingBox.minLongitude doubleValue]);
     maxLongitude = MAX(maxLongitude, [webMercatorBoundingBox.maxLongitude doubleValue]);
     minLatitude = MIN(minLatitude, [webMercatorBoundingBox.minLatitude doubleValue]);
     maxLatitude = MAX(maxLatitude, [webMercatorBoundingBox.maxLatitude doubleValue]);
+    
+    // Bound with the web mercator limits
+    minLongitude = MAX(minLongitude, -1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
+    maxLongitude = MIN(maxLongitude, PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
+    minLatitude = MAX(minLatitude, -1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
+    maxLatitude = MIN(maxLatitude, PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
     
     GPKGBoundingBox * expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
