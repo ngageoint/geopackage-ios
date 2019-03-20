@@ -27,9 +27,8 @@
     return self;
 }
 
--(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
-    [super setBoundingBox:boundingBox withProjection:projection];
-    self.webMercatorBoundingBox = [self.featureTiles expandBoundingBox:self.webMercatorBoundingBox];
+-(GPKGBoundingBox *) getWebMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
+    return [self.featureTiles expandBoundingBox:self.webMercatorBoundingBox withTileBoundingBox:requestWebMercatorBoundingBox];
 }
 
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{

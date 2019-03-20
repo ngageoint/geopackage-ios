@@ -28,6 +28,16 @@
     return [self.webMercatorBoundingBox transform:webMercatorToProjection];
 }
 
+/**
+ * Get the bounded overlay web mercator bounding box expanded as needed by the requested bounding box dimensions
+ *
+ * @param requestWebMercatorBoundingBox requested web mercator bounding box
+ * @return web mercator bounding box
+ */
+-(GPKGBoundingBox *) getWebMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
+    return self.webMercatorBoundingBox;
+}
+
 -(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
     return [NSURL URLWithString:@""];
 }
@@ -96,10 +106,13 @@
     if(self.webMercatorBoundingBox != nil){
         
         // Get the bounding box of the requested tile
-        GPKGBoundingBox * requestWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+        GPKGBoundingBox *tileWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+        
+        // Adjust the bounding box if needed
+        GPKGBoundingBox *adjustedWebMercatorBoundingBox = [self getWebMercatorBoundingBoxWithRequestBoundingBox:tileWebMercatorBoundingBox];
         
         // Check if the request overlaps
-        withinBounds = [self.webMercatorBoundingBox intersects:requestWebMercatorBoundingBox withAllowEmpty:YES];
+        withinBounds = [adjustedWebMercatorBoundingBox intersects:tileWebMercatorBoundingBox withAllowEmpty:YES];
     }
     
     return withinBounds;
