@@ -81,8 +81,12 @@
 }
 
 +(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
+    return [self getLongitudeFromPixelWithWidth:width andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
+}
+
++(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
     
-    double boxWidth = [boundingBox.maxLongitude doubleValue] - [boundingBox.minLongitude doubleValue];
+    double boxWidth = [tileBoundingBox.maxLongitude doubleValue] - [tileBoundingBox.minLongitude doubleValue];
     double percentage = pixel / width;
     double offset = percentage * boxWidth;
     double longitude = offset + [boundingBox.minLongitude doubleValue];
@@ -101,8 +105,12 @@
 }
 
 +(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
+    return [self getLatitudeFromPixelWithHeight:height andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
+}
+
++(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
     
-    double boxHeight = [boundingBox.maxLatitude doubleValue] - [boundingBox.minLatitude doubleValue];
+    double boxHeight = [tileBoundingBox.maxLatitude doubleValue] - [tileBoundingBox.minLatitude doubleValue];
     double percentage = pixel / height;
     double offset = percentage * boxHeight;
     double latitude = [boundingBox.maxLatitude doubleValue] - offset;

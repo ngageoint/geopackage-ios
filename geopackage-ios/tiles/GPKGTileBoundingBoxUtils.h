@@ -116,6 +116,19 @@
 +(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
 
 /**
+ *  Get the longitude from the pixel location, bounding box, tile bounding
+ *  box (when different from bounding box), and image width
+ *
+ *  @param width           width
+ *  @param boundingBox     bounding box
+ *  @param tileBoundingBox tile bounding box
+ *  @param pixel           x pixel
+ *
+ *  @return longitude
+ */
++(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
+
+/**
  *  Get the Y pixel for where the latitude fits into the bounding box
  *
  *  @param height      height
@@ -136,6 +149,19 @@
  *  @return latitude
  */
 +(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
+
+/**
+ *  Get the latitude from the pixel location, bounding box, tile bounding
+ *  box (when different from bounding box), and image height
+ *
+ *  @param height          height
+ *  @param boundingBox     bounding box
+ *  @param tileBoundingBox tile bounding box
+ *  @param pixel           y pixel
+ *
+ *  @return latitude
+ */
++(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
 
 /**
  * Get the tile bounding box from the Standard Maps API tile coordinates and

@@ -338,6 +338,16 @@
 -(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox;
 
 /**
+ * Create an expanded bounding box to handle features outside the tile that
+ * overlap
+ *
+ * @param webMercatorBoundingBox web mercator bounding box
+ * @param tileWebMercatorBoundingBox tile web mercator bounding box
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox withTileBoundingBox: (GPKGBoundingBox *) tileWebMercatorBoundingBox;
+
+/**
  *  Draw a tile image from the x, y, and zoom level by querying all features. This could
  *  be very slow if there are a lot of features
  *

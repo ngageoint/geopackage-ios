@@ -349,12 +349,22 @@
 }
 
 -(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
+    return [self expandBoundingBox:webMercatorBoundingBox withTileBoundingBox:webMercatorBoundingBox];
+}
+
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox withTileBoundingBox: (GPKGBoundingBox *) tileWebMercatorBoundingBox{
     
     // Create an expanded bounding box to handle features outside the tile that overlap
-    double minLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andPixel:(0 - self.widthOverlap)];
-    double maxLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
-    double maxLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
-    double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
+    double minLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.widthOverlap)];
+    double maxLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
+    double maxLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
+    double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
+    
+    minLongitude = MIN(minLongitude, [webMercatorBoundingBox.minLongitude doubleValue]);
+    maxLongitude = MAX(maxLongitude, [webMercatorBoundingBox.maxLongitude doubleValue]);
+    minLatitude = MIN(minLatitude, [webMercatorBoundingBox.minLatitude doubleValue]);
+    maxLatitude = MAX(maxLatitude, [webMercatorBoundingBox.maxLatitude doubleValue]);
+    
     GPKGBoundingBox * expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
     return expandedBoundingBox;
