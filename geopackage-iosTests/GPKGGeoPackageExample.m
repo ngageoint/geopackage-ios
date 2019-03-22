@@ -866,9 +866,10 @@ static NSString *DATETIME_COLUMN = @"datetime";
         GPKGBoundingBox *requestBoundingBox = [boundingBox transform:transform];
         
         int zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
+        zoomLevel = MAX(zoomLevel, 8);
         zoomLevel = MIN(zoomLevel, 19);
         
-        int minZoom = zoomLevel - 2;
+        int minZoom = zoomLevel - 8;
         int maxZoom = zoomLevel + 2;
         
         GPKGTileGenerator *tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:requestBoundingBox andProjection:requestProjection];
