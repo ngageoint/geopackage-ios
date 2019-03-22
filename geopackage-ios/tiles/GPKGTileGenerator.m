@@ -27,6 +27,7 @@
         self.boundingBox = boundingBox;
         self.projection = projection;
         self.tileGrids = [[NSMutableDictionary alloc] init];
+        self.tileBounds = [[NSMutableDictionary alloc] init];
         self.compressFormat = GPKG_CF_NONE;
         self.compressQuality = 1.0;
         self.compressScale = 1.0;
@@ -46,6 +47,10 @@
     return nil;
 }
 
+-(GPKGBoundingBox *) boundingBoxAtZoom: (int) zoom{
+    return self.boundingBox;
+}
+
 -(void) setCompressQualityAsIntPercentage: (int) percentage{
     CGFloat value = [self getPercentageValueFromInt:percentage];
     [self setCompressQuality:value];
@@ -63,27 +68,29 @@
 -(int) getTileCount{
     if(self.tileCount == nil){
         int count = 0;
-        GPKGBoundingBox * requestBoundingBox = nil;
-        if([self.projection isUnit:SFP_UNIT_DEGREES]){
-            requestBoundingBox = self.boundingBox;
-        }else{
-            SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-            requestBoundingBox = self.boundingBox;
-            if(![transform isSameProjection]){
-                requestBoundingBox = [requestBoundingBox transform:transform];
-            }
+        
+        BOOL degrees = [self.projection isUnit:SFP_UNIT_DEGREES];
+        SFPProjectionTransform *transformToWebMercator = nil;
+        if(!degrees){
+            transformToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         }
+        
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
+            
+            GPKGBoundingBox *expandedBoundingBox = [self boundingBoxAtZoom:zoom];
+            
             // Get the tile grid that includes the entire bounding box
             GPKGTileGrid * tileGrid = nil;
-            if([self.projection isUnit:SFP_UNIT_DEGREES]){
-                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWgs84BoundingBox:requestBoundingBox andZoom:zoom];
+            if(degrees){
+                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWgs84BoundingBox:expandedBoundingBox andZoom:zoom];
             }else{
-                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:requestBoundingBox andZoom:zoom];
+                tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:[expandedBoundingBox transform:transformToWebMercator] andZoom:zoom];
             }
 
             count += [tileGrid count];
-            [GPKGUtils setObject:tileGrid forKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileGrids];
+            NSNumber *zoomKey = [NSNumber numberWithInt:zoom];
+            [GPKGUtils setObject:tileGrid forKey:zoomKey inDictionary:self.tileGrids];
+            [GPKGUtils setObject:expandedBoundingBox forKey:zoomKey inDictionary:self.tileBounds];
         }
         
         self.tileCount = [NSNumber numberWithInt:count];
@@ -104,7 +111,8 @@
     BOOL update = false;
     
     // Adjust the tile matrix set and  bounds
-    [self adjustBoundsWithBoundingBox:self.boundingBox andZoom:self.minZoom];
+    GPKGBoundingBox *minZoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
+    [self adjustBoundsWithBoundingBox:minZoomBoundingBox andZoom:self.minZoom];
     
     // Create a new tile matrix or update an existing
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage getTileMatrixSetDao];
@@ -152,7 +160,8 @@
             }
             // Get the local tile grid for GeoPackage format of where the tiles belong
             else{
-                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:self.boundingBox];
+                GPKGBoundingBox *zoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileBounds];
+                localTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:zoomBoundingBox];
             }
             
             // Generate the tiles for the zoom level
@@ -276,7 +285,7 @@
         // Adjust the bounds to include the request and existing bounds
         SFPProjectionTransform * transformProjectionToTileMatrixSet = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:tileMatrixProjection];
         BOOL sameProjection = [transformProjectionToTileMatrixSet isSameProjection];
-        GPKGBoundingBox * updateBoundingBox = self.boundingBox;
+        GPKGBoundingBox * updateBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
         if(!sameProjection){
             updateBoundingBox = [updateBoundingBox transform:transformProjectionToTileMatrixSet];
         }

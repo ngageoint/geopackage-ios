@@ -8,6 +8,8 @@
 
 #import "GPKGFeatureTileGenerator.h"
 #import "GPKGFeatureTileTableLinker.h"
+#import "GPKGTileBoundingBoxUtils.h"
+#import "SFPProjectionConstants.h"
 
 @interface GPKGFeatureTileGenerator ()
 
@@ -59,6 +61,21 @@
     }
     
     return boundingBox;
+}
+
+-(GPKGBoundingBox *) boundingBoxAtZoom: (int) zoom{
+    
+    SFPProjectionTransform *projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    GPKGBoundingBox *webMercatorBoundingBox = [self.boundingBox transform:projectionToWebMercator];
+
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:webMercatorBoundingBox andZoom:zoom];
+    GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
+    
+    GPKGBoundingBox *expandedBoundingBox = [self.featureTiles expandBoundingBox:webMercatorBoundingBox withTileBoundingBox:tileBoundingBox];
+    
+    GPKGBoundingBox *zoomBoundingBox = [expandedBoundingBox transform:[projectionToWebMercator inverseTransformation]];
+    
+    return zoomBoundingBox;
 }
 
 -(void) close{

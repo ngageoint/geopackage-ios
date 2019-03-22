@@ -92,7 +92,7 @@
             
             for(int z = minZoom; z <= maxZoom; z++){
                 
-                GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:tileGenerator.boundingBox andZoom:z];
+                GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:[tileGenerator boundingBoxAtZoom:z] andZoom:z];
                 
                 for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
                     for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {

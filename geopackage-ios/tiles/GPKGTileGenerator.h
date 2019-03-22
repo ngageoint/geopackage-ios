@@ -52,6 +52,11 @@
 @property (nonatomic, strong) NSMutableDictionary * tileGrids;
 
 /**
+ *  Tile bounding boxes by zoom level
+ */
+@property (nonatomic, strong) NSMutableDictionary * tileBounds;
+
+/**
  *  Tile bounding box
  */
 @property (nonatomic, strong) GPKGBoundingBox * boundingBox;
@@ -116,6 +121,14 @@
  *  @return new tile generator
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box, possibly expanded for the zoom level
+ *
+ * @param zoom zoom level
+ * @return original or expanded bounding box
+ */
+-(GPKGBoundingBox *) boundingBoxAtZoom: (int) zoom;
 
 /**
  *  Set the compress quality as an integer percentage, 0 to 100
