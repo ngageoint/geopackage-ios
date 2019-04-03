@@ -146,8 +146,6 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  *
  * @param mappingTableName
  *            mapping table name
- * @param featureTable
- *            feature table name
  * @param baseTable
  *            base table name
  * @param relatedTable

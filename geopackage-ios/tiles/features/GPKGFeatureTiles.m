@@ -817,8 +817,7 @@
 /**
  * Create a map shape converter
  *
- * @param context    context
- * @param featureDao feature dao
+ * @param zoom    zoom
  */
 -(GPKGMapShapeConverter *) createMapShapeConverterWithZoom: (int) zoom{
     

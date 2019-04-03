@@ -3197,7 +3197,6 @@
 				042FC6E71B964BC800549A4B /* Sources */,
 				042FC6E81B964BC800549A4B /* Frameworks */,
 				042FC6E91B964BC800549A4B /* Resources */,
-				0525C5044E383BFAD2725287 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3313,31 +3312,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0525C5044E383BFAD2725287 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/sf-proj-ios/sf-proj-ios.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/sf-proj-ios.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-iosTests/Pods-geopackage-iosTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		301B3011BD5A5AAEDC1D4243 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/sf-proj-ios/sf-proj-ios.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -3346,7 +3327,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-geopackage-ios/Pods-geopackage-ios-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		652E1CF31776DBA88A07D372 /* [CP] Check Pods Manifest.lock */ = {

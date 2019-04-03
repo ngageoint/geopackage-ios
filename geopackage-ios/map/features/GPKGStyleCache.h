@@ -72,7 +72,7 @@
 /**
  * Set the feature style (icon or style) into the marker options
  *
- * @param markerOptions marker options
+ * @param mapPoint      map point
  * @param featureStyle  feature style
  * @return true if icon or style was set into the marker options
  */
@@ -81,7 +81,7 @@
 /**
  * Set the icon into the marker options
  *
- * @param markerOptions marker options
+ * @param mapPoint      map point
  * @param icon          icon row
  * @return true if icon was set into the marker options
  */
@@ -98,7 +98,7 @@
 /**
  * Set the style into the marker options
  *
- * @param markerOptions marker options
+ * @param mapPoint      map point
  * @param style         style row
  * @return true if style was set into the marker options
  */

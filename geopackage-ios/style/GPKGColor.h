@@ -205,9 +205,12 @@
  * Create the color with HSL (hue, saturation, lightness) or HSL (alpha)
  * values
  *
- * @param hsl
- *            HSL array where: 0 = hue, 1 = saturation, 2 = lightness,
- *            optional 3 = alpha
+ * @param hue
+ *            hue
+ * @param saturation
+ *            saturation
+ * @param lightness
+ *            lightness
  *
  * @return new color
  */
@@ -216,8 +219,12 @@
 /**
  * Create the color with HSLA (hue, saturation, lightness, alpha) values
  *
- * @param hsl
- *            HSL array where: 0 = hue, 1 = saturation, 2 = lightness
+ * @param hue
+ *            hue
+ * @param saturation
+ *            saturation
+ * @param lightness
+ *            lightness
  * @param alpha
  *            alpha inclusively between 0.0 and 1.0
  *
