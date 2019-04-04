@@ -151,7 +151,7 @@ static int ICON_LAYER = 3;
     if(contextObject != nil){
         context = (__bridge CGContextRef) contextObject;
     }else{
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         context = CGBitmapContextCreate(NULL, self.tileWidth, self.tileHeight, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
         CGColorSpaceRelease(colorSpace);
         

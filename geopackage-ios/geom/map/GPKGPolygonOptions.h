@@ -16,7 +16,7 @@
 /**
  * The fill color to use for the path
  */
-@property (strong, nullable) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *fillColor;
 
 /**
  * The stroke color to use for the path
