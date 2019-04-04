@@ -169,7 +169,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/geopackage-ios/geopackage_ios.framework",
 				"${BUILT_PRODUCTS_DIR}/proj4-ios/proj4_ios.framework",
 				"${BUILT_PRODUCTS_DIR}/sf-ios/sf_ios.framework",
@@ -188,7 +188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A2DC593E835F4B7A773DC2A7 /* [CP] Check Pods Manifest.lock */ = {
