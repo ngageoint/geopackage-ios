@@ -29,6 +29,7 @@
 @interface GPKGUserRowSync()
 
 @property (nonatomic, strong) NSMutableDictionary *rows;
+@property (nonatomic, strong) NSLock *rowsLock;
 
 @end
 
@@ -38,6 +39,7 @@
     self = [super init];
     if(self != nil){
         self.rows = [[NSMutableDictionary alloc] init];
+        self.rowsLock = [NSLock new];
     }
     return self;
 }
@@ -50,27 +52,34 @@
     
     GPKGUserRow *row = nil;
     
-    @synchronized(self.rows){
-        GPKGRowCondition *rowCondition = [self.rows objectForKey:id];
-        if(rowCondition != nil){
+    [self.rowsLock lock];
+    
+    GPKGRowCondition *rowCondition = [self.rows objectForKey:id];
+    if(rowCondition != nil){
+        row = rowCondition.row;
+        if(row == nil){
+            // Another thread is currently retrieving the row, wait
+            [rowCondition.condition lock];
+            
+            [self.rowsLock unlock];
+            
+            [rowCondition.condition wait];
+            [rowCondition.condition unlock];
+            
+            // Row has now been retrieved
             row = rowCondition.row;
-            if(row == nil){
-                // Another thread is currently retrieving the row, wait
-                [rowCondition.condition lock];
-                [rowCondition.condition wait];
-                [rowCondition.condition unlock];
-                
-                // Row has now been retrieved
-                row = rowCondition.row;
-            }
-        } else{
-            // Set the row condition and the calling thread is now
-            // responsible for retrieving the row
-            rowCondition = [[GPKGRowCondition alloc] init];
-            NSCondition *condition = [[NSCondition alloc] init];
-            [rowCondition setCondition:condition];
-            [self.rows setObject:rowCondition forKey:id];
+        }else{
+            [self.rowsLock unlock];
         }
+    } else{
+        // Set the row condition and the calling thread is now
+        // responsible for retrieving the row
+        rowCondition = [[GPKGRowCondition alloc] init];
+        NSCondition *condition = [[NSCondition alloc] init];
+        [rowCondition setCondition:condition];
+        [self.rows setObject:rowCondition forKey:id];
+        
+        [self.rowsLock unlock];
     }
     
     return row;
@@ -82,17 +91,19 @@
 
 -(void) setRow: (GPKGUserRow *) row withNumber: (NSNumber *) id{
     
-    @synchronized(self.rows){
+    [self.rowsLock lock];
         
-        GPKGRowCondition *rowCondition = [self.rows objectForKey:id];
-        if(rowCondition != nil){
-            [self.rows removeObjectForKey:id];
-            [rowCondition setRow:row];
-            [rowCondition.condition broadcast];
-        }
+    GPKGRowCondition *rowCondition = [self.rows objectForKey:id];
+    if(rowCondition != nil){
+        [self.rows removeObjectForKey:id];
+        [rowCondition setRow:row];
         
+        [rowCondition.condition lock];
+        [rowCondition.condition broadcast];
+        [rowCondition.condition unlock];
     }
     
+    [self.rowsLock unlock];
 }
 
 @end
