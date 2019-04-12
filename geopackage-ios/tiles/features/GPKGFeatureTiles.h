@@ -19,6 +19,16 @@
 #import "GPKGIconCache.h"
 
 /**
+ * Default max number of feature bounding boxes to retain in cache
+ */
+static int DEFAULT_BOUNDING_BOX_CACHE_SIZE = 1000;
+
+/**
+ * Default max number of feature zoom specific map shapes to retain in cache
+ */
+static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
+
+/**
  *  Tiles drawn from or linked to features. Used to query features and optionally draw tiles
  *  from those features.
  */
@@ -125,6 +135,16 @@
  * Scale factor from pixels to map points
  */
 @property (nonatomic) float scale;
+
+/**
+ * When true, geometry bounds are cached.  Default is true
+ */
+@property (nonatomic) BOOL cacheBoundingBoxes;
+
+/**
+ * When true, geometry map shapes are cached.  Default is true
+ */
+@property (nonatomic) BOOL cacheMapShapes;
 
 /**
  *  Initialize
@@ -236,6 +256,11 @@
 -(void) ignoreFeatureTableStyles;
 
 /**
+ * Clear all caches
+ */
+-(void) clearCache;
+
+/**
  * Clear the icon cache
  */
 -(void) clearIconCache;
@@ -246,6 +271,30 @@
  * @param size new size
  */
 -(void) setIconCacheSize: (int) size;
+
+/**
+ * Clear the bounding box cache
+ */
+-(void) clearBoundingBoxCache;
+
+/**
+ * Set / resize the bounding box cache size
+ *
+ * @param size new size
+ */
+-(void) setBoundingBoxCacheSize: (int) size;
+
+/**
+ * Clear the map shape cache
+ */
+-(void) clearMapShapeCache;
+
+/**
+ * Set / resize the map shape cache size
+ *
+ * @param size new size
+ */
+-(void) setMapShapeCacheSize: (int) size;
 
 /**
  *  Draw the tile and get the tile data from the x, y, and zoom level

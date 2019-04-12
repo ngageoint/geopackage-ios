@@ -30,6 +30,8 @@
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
 @property (nonatomic, strong) SFPProjectionTransform *wgs84ToWebMercatorTransform;
 @property (nonatomic) GPKGIconCache *iconCache;
+@property (nonatomic, strong) NSCache<NSNumber *, GPKGBoundingBox *> *boundingBoxCache;
+@property (nonatomic, strong) NSCache<NSString *, GPKGMapShape *> *mapShapeCache;
 
 @end
 
@@ -73,6 +75,12 @@
         self.featureDao = featureDao;
         
         self.iconCache = [[GPKGIconCache alloc] init];
+        self.cacheBoundingBoxes = YES;
+        self.boundingBoxCache = [[NSCache alloc] init];
+        [self.boundingBoxCache setCountLimit:DEFAULT_BOUNDING_BOX_CACHE_SIZE];
+        self.cacheMapShapes = YES;
+        self.mapShapeCache = [[NSCache alloc] init];
+        [self.mapShapeCache setCountLimit:DEFAULT_MAP_SHAPE_CACHE_SIZE];
         self.scale = scale;
         self.simplifyGeometries = YES;
         
@@ -205,12 +213,34 @@
     [self calculateDrawOverlap];
 }
 
+-(void) clearCache{
+    [self clearIconCache];
+    [self clearBoundingBoxCache];
+    [self clearMapShapeCache];
+}
+
 -(void) clearIconCache{
     [self.iconCache clear];
 }
 
 -(void) setIconCacheSize: (int) size{
     [self.iconCache resizeWithSize:size];
+}
+
+-(void) clearBoundingBoxCache{
+    [self.boundingBoxCache removeAllObjects];
+}
+
+-(void) setBoundingBoxCacheSize: (int) size{
+    [self.boundingBoxCache setCountLimit:size];
+}
+
+-(void) clearMapShapeCache{
+    [self.mapShapeCache removeAllObjects];
+}
+
+-(void) setMapShapeCacheSize: (int) size{
+    [self.mapShapeCache setCountLimit:size];
 }
 
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom{
@@ -429,7 +459,7 @@
         
         BOOL drawn = NO;
         for(GPKGFeatureRow *featureRow in results){
-            if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:featureRow andShapeConverter:converter]){
+            if([self drawFeatureWithZoom:zoom andBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:featureRow andShapeConverter:converter]){
                 drawn = YES;
             }
         }
@@ -461,7 +491,7 @@
         BOOL drawn = NO;
         while([results moveToNext]){
             GPKGFeatureRow *row = [self.featureDao getFeatureRow:results];
-            if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
+            if([self drawFeatureWithZoom:zoom andBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
                 drawn = YES;
             }
         }
@@ -490,7 +520,7 @@
     
     BOOL drawn = NO;
     for(GPKGFeatureRow *row in featureRows){
-        if([self drawFeatureWithBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
+        if([self drawFeatureWithZoom:zoom andBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
             drawn = YES;
         }
     }
@@ -504,33 +534,118 @@
     return image;
 }
 
--(BOOL) drawFeatureWithBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andContext: (GPKGFeatureTileContext *) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
+-(BOOL) drawFeatureWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) boundingBox andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andContext: (GPKGFeatureTileContext *) context andRow: (GPKGFeatureRow *) row andShapeConverter: (GPKGMapShapeConverter *) converter{
     
     BOOL drawn = NO;
     
     @try{
-        GPKGGeometryData * geomData = [row getGeometry];
-        if(geomData != nil){
-            SFGeometry * geometry = geomData.geometry;
-            if(geometry != nil){
-                
-                SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
-                GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
-                GPKGBoundingBox *transformedBoundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
-                
-                if([expandedBoundingBox intersects:transformedBoundingBox withAllowEmpty:YES]){
-                
-                    GPKGMapShape * shape = [converter toShapeWithGeometry:geometry];
-                    drawn = [self drawShapeWithBoundingBox:boundingBox andContext:context andFeature:row andMapShape:shape];
-
-                }
-            }
+        
+        GPKGMapShape *shape = [self mapShapeFromFeature:row withZoom:zoom andExpandedBoundingBox:expandedBoundingBox andShapeConverter:converter];
+        if(shape != nil){
+            drawn = [self drawShapeWithBoundingBox:boundingBox andContext:context andFeature:row andMapShape:shape];
         }
+
     }@catch (NSException *e) {
         NSLog(@"Failed to draw feature in tile. Table: %@", self.featureDao.tableName);
     }
     
     return drawn;
+}
+
+-(GPKGMapShape *) mapShapeFromFeature: (GPKGFeatureRow *) row withZoom: (int) zoom andExpandedBoundingBox: (GPKGBoundingBox *) expandedBoundingBox andShapeConverter: (GPKGMapShapeConverter *) converter{
+    
+    GPKGMapShape *shape = nil;
+    
+    GPKGBoundingBox *boundingBox = nil;
+    GPKGGeometryData * geomData = nil;
+    
+    NSNumber *rowId = nil;
+    
+    // Check the cache for the transformed geometry bounding box
+    if(self.cacheBoundingBoxes){
+        rowId = [row getId];
+        boundingBox = [self.boundingBoxCache objectForKey:rowId];
+    }
+    
+    if(boundingBox == nil){
+        
+        // Build the transformed feature bounding box
+        geomData = [row getGeometry];
+        boundingBox = [self boundingBoxOfFeature:row withGeometryData:geomData andShapeConverter:converter];
+        
+        // Cache the transformed feature bounding box
+        if(self.cacheBoundingBoxes && boundingBox != nil){
+            [self.boundingBoxCache setObject:boundingBox forKey:rowId];
+        }
+    }
+    
+    if(boundingBox != nil){
+        
+        // Does the expanded draw bounding box intersect the geometry bounding box
+        if([expandedBoundingBox intersects:boundingBox withAllowEmpty:YES]){
+            
+            NSString *rowZoomId = nil;
+            
+            // Check the cache for the map shape
+            if(self.cacheMapShapes){
+                if(rowId == nil){
+                    rowId = [row getId];
+                }
+                rowZoomId = [NSString stringWithFormat:@"%@_%d", rowId, zoom];
+                shape = [self.mapShapeCache objectForKey:rowZoomId];
+            }
+            
+            if(shape == nil){
+                
+                // Build the zoom level simplified map shape from the feature
+                shape = [self mapShapeFromFeature:row withGeometryData:geomData andShapeConverter:converter];
+                
+                // Cache the map shape
+                if(self.cacheMapShapes && shape != nil){
+                    [self.mapShapeCache setObject:shape forKey:rowZoomId];
+                }
+            }
+            
+        }
+        
+    }
+    
+    return shape;
+}
+
+-(GPKGBoundingBox *) boundingBoxOfFeature: (GPKGFeatureRow *) row withGeometryData: (GPKGGeometryData *) geomData andShapeConverter: (GPKGMapShapeConverter *) converter{
+    
+    GPKGBoundingBox *boundingBox = nil;
+    
+    if(geomData != nil){
+        
+        SFGeometry * geometry = geomData.geometry;
+        if(geometry != nil){
+            
+            SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
+            GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
+            boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
+            
+        }
+    }
+    
+    return boundingBox;
+}
+
+-(GPKGMapShape *) mapShapeFromFeature: (GPKGFeatureRow *) row withGeometryData: (GPKGGeometryData *) geomData andShapeConverter: (GPKGMapShapeConverter *) converter{
+    
+    GPKGMapShape *shape = nil;
+    
+    if(geomData == nil){
+        geomData = [row getGeometry];
+    }
+    
+    SFGeometry * geometry = geomData.geometry;
+    if(geometry != nil){
+        shape = [converter toShapeWithGeometry:geometry];
+    }
+    
+    return shape;
 }
 
 -(BOOL) drawShapeWithBoundingBox: (GPKGBoundingBox *) boundingBox andContext: (GPKGFeatureTileContext *) context andFeature: (GPKGFeatureRow *) featureRow andMapShape: (GPKGMapShape *) shape{
