@@ -1,14 +1,23 @@
+---
+name: Bug report
+about: Report an issue
+title: ''
+labels: bug
+assignees: ''
+
+---
+
 Please fill out as much known and relevant information as possible.
 
 #### Version Information:
 
-  * GeoPackage iOS Version: 
+  * GeoPackage iOS Version:
   * GeoPackage iOS Source: (e.g. CocoaPods, Source Code Build)
-  * CocoaPods Version: 
-  * Xcode Version: 
-  * Device or Emulator: 
-  * iOS Version: 
-  * Other Relevant Libraries: 
+  * CocoaPods Version:
+  * Xcode Version:
+  * Device or Emulator:
+  * iOS Version:
+  * Other Relevant Libraries:
 
 #### Expected Results:
 
