@@ -193,7 +193,6 @@
 #import "GPKGTileScalingTypes.h"
 #import "GPKGTileTableScaling.h"
 #import "GPKGCompositeOverlay.h"
-#import "GPKGGeometryJSONCompatible.h"
 #import "GPKGExtendedRelation.h"
 #import "GPKGExtendedRelationsDao.h"
 #import "GPKGRelatedTablesExtension.h"

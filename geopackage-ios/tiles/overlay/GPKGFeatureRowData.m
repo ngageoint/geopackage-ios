@@ -7,7 +7,7 @@
 //
 
 #import "GPKGFeatureRowData.h"
-#import "GPKGGeometryJSONCompatible.h"
+#import "SFGFeatureConverter.h"
 
 @interface GPKGFeatureRowData ()
 
@@ -66,7 +66,7 @@
             GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
             if(geometryData.geometry != nil){
                 if(includeGeometries || (includePoints && geometryData.geometry.geometryType == SF_POINT)){
-                    jsonValue = [GPKGGeometryJSONCompatible jsonCompatibleGeometry:geometryData.geometry];
+                    jsonValue = [SFGFeatureConverter simpleGeometryToMutableTree:geometryData.geometry];
                 }
             }
         }else{
