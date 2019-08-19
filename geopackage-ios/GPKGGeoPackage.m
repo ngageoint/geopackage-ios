@@ -112,6 +112,10 @@
     return [self isTable:table ofType:GPKG_CDT_TILES];
 }
 
+-(BOOL) isAttributeTable: (NSString *) table{
+    return [self isTable:table ofType:GPKG_CDT_ATTRIBUTES];
+}
+
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
     return [self isTable:table ofTypeName:[GPKGContentsDataTypes name:type]];
 }
@@ -149,6 +153,15 @@
     GPKGContents *contents = [self contentsOfTable:table];
     if(contents != nil){
         tableType = contents.dataType;
+    }
+    return tableType;
+}
+
+-(enum GPKGContentsDataType) dataTypeOfTable: (NSString *) table{
+    enum GPKGContentsDataType tableType = -1;
+    GPKGContents *contents = [self contentsOfTable:table];
+    if(contents != nil){
+        tableType = [contents getContentsDataType];
     }
     return tableType;
 }
@@ -350,12 +363,9 @@
     }
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:idColumnName]];
-    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithIndex:1
-                                                                andName:geometryColumns.columnName
-                                                        andGeometryType:[geometryColumns getGeometryType]
-                                                             andNotNull:false
-                                                        andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:idColumnName]];
+    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithName:geometryColumns.columnName
+                                                        andGeometryType:[geometryColumns getGeometryType]]];
     
     if(additionalColumns != nil){
         [columns addObjectsFromArray:additionalColumns];
@@ -376,7 +386,7 @@
     [self createGeometryColumnsTable];
     
     // Create the user feature table
-    GPKGFeatureTable * table = [[GPKGFeatureTable alloc] initWithTable:geometryColumns.tableName andColumns:columns];
+    GPKGFeatureTable * table = [[GPKGFeatureTable alloc] initWithGeometryColumns:geometryColumns andColumns:columns];
     [self createFeatureTable:table];
     
     @try {
@@ -828,8 +838,243 @@
     [self.database exec:sql];
 }
 
+-(void) beginTransaction{
+    [self.database beginTransaction];
+}
+
+-(void) commitTransaction{
+    [self.database commitTransaction];
+}
+
+-(void) rollbackTransaction{
+    [self.database rollbackTransaction];
+}
+
+-(void) enableForeignKeys{
+    [self.database enableForeignKeys];
+}
+
+-(BOOL) foreignKeys{
+    return [self.database foreignKeys];
+}
+
+-(BOOL) foreignKeysAsOn: (BOOL) on{
+    return [self.database foreignKeysAsOn:on];
+}
+
 -(void) dropTable: (NSString *) table{
     [self.tableCreator dropTable:table];
+}
+
+-(void) renameTable: (NSString *) tableName toTable: (NSString *) newTableName{
+    if((int)[self dataTypeOfTable:tableName] != -1){
+        [self copyTable:tableName toTable:newTableName];
+        [self deleteTable:tableName];
+    }else{
+        [GPKGAlterTable renameTable:tableName toTable:newTableName withConnection:self.database];
+    }
+}
+
+-(void) copyTable: (NSString *) tableName toTable: (NSString *) newTableName{
+    [self copyTable:tableName toTable:newTableName andTransfer:YES andExtensions:YES];
+}
+
+-(void) copyTableNoExtensions: (NSString *) tableName toTable: (NSString *) newTableName{
+    [self copyTable:tableName toTable:newTableName andTransfer:YES andExtensions:NO];
+}
+
+-(void) copyTableAsEmpty: (NSString *) tableName toTable: (NSString *) newTableName{
+    [self copyTable:tableName toTable:newTableName andTransfer:NO andExtensions:NO];
+}
+
+/**
+ * Copy the table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer content flag
+ * @param extensions
+ *            extensions copy flag
+ */
+-(void) copyTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent andExtensions: (BOOL) extensions{
+    
+    enum GPKGContentsDataType dataType = [self dataTypeOfTable:tableName];
+    if((int)dataType != -1){
+        switch(dataType){
+                
+            case GPKG_CDT_ATTRIBUTES:
+                [self copyAttributeTable:tableName toTable:newTableName andTransfer:transferContent];
+                break;
+                
+            case GPKG_CDT_FEATURES:
+                [self copyFeatureTable:tableName toTable:newTableName andTransfer:transferContent];
+                break;
+                
+            case GPKG_CDT_TILES:
+            case GPKG_CDT_GRIDDED_COVERAGE:
+                [self copyTileTable:tableName toTable:newTableName andTransfer:transferContent];
+                break;
+                
+            default:
+                [NSException raise:@"Unsupported data type" format:@"Unsupported data type: %@", [GPKGContentsDataTypes name:dataType]];
+        }
+    }else{
+        [self copyUserTable:tableName toTable:newTableName andTransfer:transferContent andValidate:NO];
+    }
+    
+    // Copy extensions
+    if(extensions){
+        [GPKGGeoPackageExtensions copyTableExtensions:tableName toTable:newTableName inGeoPackage:self];
+    }
+    
+}
+
+/**
+ * Copy the attribute table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer content flag
+ */
+-(void) copyAttributeTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent{
+    [self copyUserTable:tableName toTable:newTableName andTransfer:transferContent];
+}
+
+/**
+ * Copy the feature table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer content flag
+ */
+-(void) copyFeatureTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent{
+    
+    GPKGGeometryColumnsDao *geometryColumnsDao = [self getGeometryColumnsDao];
+    GPKGGeometryColumns *geometryColumns = [geometryColumnsDao queryForTableName:tableName];
+    if(geometryColumns == nil){
+        [NSException raise:@"No Geometry Columns" format:@"No geometry columns for table: %@", tableName];
+    }
+    
+    GPKGContents *contents = [self copyUserTable:tableName toTable:newTableName andTransfer:transferContent];
+    
+    [geometryColumns setContents:contents];
+    [geometryColumnsDao create:geometryColumns];
+}
+
+/**
+ * Copy the tile table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer content flag
+ */
+-(void) copyTileTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent{
+    
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [self getTileMatrixSetDao];
+    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:tableName];
+    if(tileMatrixSet == nil){
+        [NSException raise:@"No Tile Matrix Set" format:@"No tile matrix set for table: %@", tableName];
+    }
+    
+    GPKGContents *contents = [self copyUserTable:tableName toTable:newTableName andTransfer:transferContent];
+    
+    [tileMatrixSet setContents:contents];
+    [tileMatrixSetDao create:tileMatrixSet];
+    
+    GPKGTileMatrixDao *tileMatrixDao = [self getTileMatrixDao];
+    GPKGResultSet *tileMatrices = [tileMatrixDao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:tableName];
+    @try{
+        while([tileMatrices moveToNext]){
+            GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:tileMatrices];
+            [tileMatrix setContents:contents];
+            [tileMatrixDao create:tileMatrix];
+        }
+    }@finally{
+        [tileMatrices close];
+    }
+    
+}
+
+/**
+ * Copy the user table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer user table content flag
+ * @return copied contents
+ */
+-(GPKGContents *) copyUserTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent{
+    return [self copyUserTable:tableName toTable:newTableName andTransfer:transferContent andValidate:YES];
+}
+
+/**
+ * Copy the user table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @param transferContent
+ *            transfer user table content flag
+ * @param validateContents
+ *            true to validate a contents was copied
+ * @return copied contents
+ */
+-(GPKGContents *) copyUserTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent andValidate: (BOOL) validateContents{
+    
+    [GPKGAlterTable copyTable:tableName toTable:newTableName andTransfer:transferContent withConnection:self.database];
+    
+    GPKGContents *contents = [self copyContentsFromTable:tableName toTable:newTableName];
+    
+    if(contents == nil && validateContents){
+        [NSException raise:@"No Table Contents" format:@"No table contents found for table: %@", tableName];
+    }
+    
+    return contents;
+}
+
+/**
+ * Copy the contents
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ * @return copied contents
+ */
+-(GPKGContents *) copyContentsFromTable: (NSString *) tableName toTable: (NSString *) newTableName{
+    
+    GPKGContents *contents = [self contentsOfTable:tableName];
+    
+    if(contents != nil){
+        
+        [contents setTableName:newTableName];
+        [contents setIdentifier:newTableName];
+        
+        [[self getContentsDao] create:contents];
+        
+    }
+    
+    return contents;
+}
+
+-(void) vacuum{
+    [GPKGSqlUtils vacuum:self.database];
 }
 
 -(GPKGResultSet *) rawQuery: (NSString *) sql andArgs: (NSArray *) args{
@@ -916,50 +1161,50 @@
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                        andAdditionalColumns: (NSArray *) additionalColumns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
-    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns andUniqueConstraints:uniqueConstraints];
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns andConstraints:constraints];
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                             andIdColumnName: (NSString *) idColumnName
                                        andAdditionalColumns: (NSArray *) additionalColumns{
-    return [self createAttributesTableWithTableName:tableName andIdColumnName:idColumnName andAdditionalColumns:additionalColumns andUniqueConstraints:nil];
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:idColumnName andAdditionalColumns:additionalColumns andConstraints:nil];
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                             andIdColumnName: (NSString *) idColumnName
                                        andAdditionalColumns: (NSArray *) additionalColumns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
     
     if(idColumnName == nil){
         idColumnName = @"id";
     }
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:idColumnName]];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:idColumnName]];
     
     if(additionalColumns != nil){
         [columns addObjectsFromArray:additionalColumns];
     }
     
-    return [self createAttributesTableWithTableName:tableName andColumns:columns andUniqueConstraints:uniqueConstraints];
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:constraints];
 }
 
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                                  andColumns: (NSArray *) columns{
-    return [self createAttributesTableWithTableName:tableName andColumns:columns andUniqueConstraints:nil];
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:nil];
 }
     
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                                  andColumns: (NSArray *) columns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
     
     // Build the user attributes table
     GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
     
-    // Add unique constraints
-    if(uniqueConstraints != nil){
-        [table addUniqueConstraints:uniqueConstraints];
+    // Add constraints
+    if(constraints != nil){
+        [table addConstraints:constraints];
     }
     
     // Create the user attributes table

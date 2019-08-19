@@ -10,6 +10,11 @@
 #import "GPKGDataTypes.h"
 
 /**
+ * User Column index value
+ */
+static int NO_INDEX = -1;
+
+/**
  *  Metadata about a single column from a user table
  */
 @interface GPKGUserColumn : NSObject

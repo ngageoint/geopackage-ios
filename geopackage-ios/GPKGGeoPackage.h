@@ -35,6 +35,7 @@
 #import "GPKGTileScalingDao.h"
 #import "GPKGExtendedRelationsDao.h"
 #import "GPKGContentsIdDao.h"
+#import "GPKGConstraint.h"
 
 /**
  *  A single GeoPackage database connection
@@ -188,6 +189,15 @@
 -(BOOL) isTileTable: (NSString *) table;
 
 /**
+ *  Check if the table is an attribute table
+ *
+ *  @param table table name
+ *
+ *  @return true if a tile table
+ */
+-(BOOL) isAttributeTable: (NSString *) table;
+
+/**
  *  Check if the table is the provided type
  *
  *  @param table table name
@@ -226,11 +236,11 @@
 -(BOOL) isContentsTable: (NSString *) table;
 
 /**
- * Check if the table exists as a user table
+ * Check if the table exists
  *
  * @param table
  *            table name
- * @return true if a user table
+ * @return true if a table
  */
 -(BOOL) isTable: (NSString *) table;
 
@@ -251,6 +261,15 @@
  * @return table type
  */
 -(NSString *) typeOfTable: (NSString *) table;
+
+/**
+ * Get the contents data type of the user table
+ *
+ * @param table
+ *            table name
+ * @return table type or -1 if not an enumerated type
+ */
+-(enum GPKGContentsDataType) dataTypeOfTable: (NSString *) table;
 
 /**
  *  Get the feature table count
@@ -820,12 +839,94 @@
 -(void) execSQL: (NSString *) sql;
 
 /**
+ * Begin a transaction
+ */
+-(void) beginTransaction;
+
+/**
+ * Commit the transaction
+ */
+-(void) commitTransaction;
+
+/**
+ * Rollback the transaction
+ */
+-(void) rollbackTransaction;
+
+/**
+ * If foreign keys is disabled and there are no foreign key violations,
+ * enables foreign key checks, else logs violations
+ */
+-(void) enableForeignKeys;
+
+/**
+ * Query for the foreign keys value
+ *
+ * @return true if enabled, false if disabled
+ */
+-(BOOL) foreignKeys;
+
+/**
+ * Change the foreign keys state
+ *
+ * @param on
+ *            true to turn on, false to turn off
+ * @return previous foreign keys value
+ */
+-(BOOL) foreignKeysAsOn: (BOOL) on;
+
+/**
  *  Drop the table if it exists. Drops the table with the table name, not
  +	limited to GeoPackage specific tables.
  *
  *  @param table table to drop
  */
 -(void) dropTable: (NSString *) table;
+
+/**
+ * Rename the table
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ */
+-(void) renameTable: (NSString *) tableName toTable: (NSString *) newTableName;
+
+/**
+ * Copy the table with transferred contents and extensions
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ */
+-(void) copyTable: (NSString *) tableName toTable: (NSString *) newTableName;
+
+/**
+ * Copy the table with transferred contents but no extensions
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ */
+-(void) copyTableNoExtensions: (NSString *) tableName toTable: (NSString *) newTableName;
+
+/**
+ * Copy the table but leave the user table empty and without extensions
+ *
+ * @param tableName
+ *            table name
+ * @param newTableName
+ *            new table name
+ */
+-(void) copyTableAsEmpty: (NSString *) tableName toTable: (NSString *) newTableName;
+
+/**
+ * Rebuild the GeoPackage, repacking it into a minimal amount of disk space
+ */
+-(void) vacuum;
 
 /**
  *  Perform a raw query on the database
@@ -887,7 +988,7 @@
 -(BOOL) createGriddedTileTable;
 
 /**
- * Create a new attributes table
+ * Create a new attributes table (only the attributes table is created, no Contents entry is created)
  *
  * @param table
  *            attributes table
@@ -921,13 +1022,13 @@
  * @param additionalColumns
  *            additional attributes table columns to create in addition to
  *            id
- * @param uniqueConstraints
- *            unique constraints
+ * @param constraints
+ *            constraints
  * @return attributes table
  */
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                        andAdditionalColumns: (NSArray *) additionalColumns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
 
 /**
  * Create a new attributes table.
@@ -963,14 +1064,14 @@
  * @param additionalColumns
  *            additional attributes table columns to create in addition to
  *            id
- * @param uniqueConstraints
- *            unique constraints
+ * @param constraints
+ *            constraints
  * @return attributes table
  */
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                             andIdColumnName: (NSString *) idColumnName
                                        andAdditionalColumns: (NSArray *) additionalColumns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
 
 /**
  * Create a new attributes table.
@@ -997,13 +1098,13 @@
  *            table name
  * @param columns
  *            table columns to create
- * @param uniqueConstraints
- *            unique constraints
+ * @param constraints
+ *            constraints
  * @return attributes table
  */
 -(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
                                                  andColumns: (NSArray *) columns
-                                       andUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
 
 /**
  * Get a Tile Scaling DAO
