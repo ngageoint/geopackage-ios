@@ -11,6 +11,11 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 
+/**
+ * Copy stream buffer chunk size in bytes
+ */
+static int COPY_BUFFER_SIZE = 8192;
+
 @implementation GPKGIOUtils
 
 +(NSString *) getPropertyListPathWithName: (NSString *) name{
@@ -164,6 +169,16 @@
     return data;
 }
 
++(NSString *) streamString: (NSInputStream *) stream{
+    return [self streamString:stream withEncoding:NSUTF8StringEncoding];
+}
+
++(NSString *) streamString: (NSInputStream *) stream withEncoding: (NSStringEncoding) encoding{
+    NSData *data = [self streamData:stream];
+    NSString *string = [[NSString alloc] initWithData:data encoding:encoding];
+    return string;
+}
+
 +(void) copyInputStream: (NSInputStream *) copyFrom toOutputStream: (NSOutputStream *) copyTo{
     [self copyInputStream:copyFrom toOutputStream:copyTo withProgress:nil];
 }
@@ -172,7 +187,7 @@
     
     @try {
     
-        NSInteger bufferSize = 1024;
+        NSInteger bufferSize = COPY_BUFFER_SIZE;
         NSInteger length;
         uint8_t buffer[bufferSize];
         while((progress == nil || [progress isActive])

@@ -16,9 +16,9 @@
 @interface GPKGFeatureTableReader : GPKGUserTableReader
 
 /**
- *  Geometry Columns
+ *  Geometry column name
  */
-@property (nonatomic, strong) GPKGGeometryColumns * geometryColumns;
+@property (nonatomic, strong) NSString *columnName;
 
 /**
  *  Initialize
@@ -28,6 +28,25 @@
  *  @return new feature table reader
  */
 -(instancetype) initWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
+
+/**
+ *  Initialize
+ *
+ *  @param tableName          table name
+ *  @param geometryColumnName geometry column name
+ *
+ *  @return new feature table reader
+ */
+-(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumnName;
+
+/**
+ *  Initialize
+ *
+ *  @param tableName          table name
+ *
+ *  @return new feature table reader
+ */
+-(instancetype) initWithTable: (NSString *) tableName;
 
 /**
  *  Read the feature table with the database connection

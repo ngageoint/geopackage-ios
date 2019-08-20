@@ -82,7 +82,7 @@ extern NSString * const GPKG_TT_COLUMN_TILE_DATA;
 -(GPKGTileColumn *) getTileDataColumn;
 
 /**
- *  Create the required table columns, starting at index 0
+ *  Create the required table columns
  *
  *  @return columns
  */

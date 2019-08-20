@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGUserColumn.h"
-#import "GPKGUserUniqueConstraint.h"
 #import "GPKGContents.h"
 
 /**
  *  Abstract user table
  */
-@interface GPKGUserTable : NSObject
+@interface GPKGUserTable : NSObject <NSMutableCopying>
 
 /**
  *  Table name

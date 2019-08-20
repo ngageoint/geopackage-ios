@@ -20,7 +20,7 @@ NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
 
 @implementation GPKGUserTableReader
 
--(instancetype) initWithTableName: (NSString *) tableName{
+-(instancetype) initWithTable: (NSString *) tableName{
     self = [super init];
     if(self != nil){
         self.tableName = tableName;

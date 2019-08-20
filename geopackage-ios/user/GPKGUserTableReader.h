@@ -34,7 +34,7 @@ extern NSString * const GPKG_UTR_DFLT_VALUE;
  *
  *  @return new table reader
  */
--(instancetype) initWithTableName: (NSString *) tableName;
+-(instancetype) initWithTable: (NSString *) tableName;
 
 /**
  *  Read the table

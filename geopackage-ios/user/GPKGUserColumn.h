@@ -17,7 +17,7 @@ static int NO_INDEX = -1;
 /**
  *  Metadata about a single column from a user table
  */
-@interface GPKGUserColumn : NSObject
+@interface GPKGUserColumn : NSObject <NSMutableCopying>
 
 /**
  *  Column index

@@ -171,7 +171,6 @@
 #import "GPKGUserRow.h"
 #import "GPKGUserTable.h"
 #import "GPKGUserTableReader.h"
-#import "GPKGUserUniqueConstraint.h"
 #import "GPKGGeoPackageValidate.h"
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"

@@ -53,6 +53,15 @@
 -(GPKGDataColumns *) getDataColumnByTableName: tableName andColumnName: columnName;
 
 /**
+ *  Query by table name
+ *
+ *  @param tableName table name
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryByTable: (NSString *) tableName;
+
+/**
  * Delete by table name
  *
  * @param tableName

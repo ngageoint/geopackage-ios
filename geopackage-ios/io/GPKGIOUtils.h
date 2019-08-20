@@ -134,6 +134,25 @@
 +(NSData *) streamData: (NSInputStream *) stream;
 
 /**
+ *  Get the input stream string
+ *
+ *  @param stream input stream
+ *
+ *  @return input stream string
+ */
++(NSString *) streamString: (NSInputStream *) stream;
+
+/**
+ *  Get the input stream string
+ *
+ *  @param stream   input stream
+ *  @param encoding string encoding
+ *
+ *  @return input stream string
+ */
++(NSString *) streamString: (NSInputStream *) stream withEncoding: (NSStringEncoding) encoding;
+
+/**
  *  Copy the input stream to an output stream
  *
  *  @param copyFrom input stream

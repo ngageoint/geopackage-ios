@@ -8,6 +8,7 @@
 
 #import "GPKGUserColumn.h"
 #import "SFGeometryTypes.h"
+#import "GPKGTableColumn.h"
 
 /**
  *  Feature column
@@ -244,7 +245,14 @@
                       andNotNull: (BOOL) notNull
                       andDefaultValue: (NSObject *) defaultValue;
 
-// TODO
+/**
+ * Create a new column
+ *
+ * @param tableColumn
+ *            table column
+ * @return feature column
+ */
++(GPKGFeatureColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn;
 
 /**
  *  Initialize

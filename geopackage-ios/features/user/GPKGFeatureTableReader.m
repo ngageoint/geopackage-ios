@@ -11,10 +11,20 @@
 @implementation GPKGFeatureTableReader
 
 -(instancetype) initWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns{
-    self = [super initWithTableName:geometryColumns.tableName];
+    self = [self initWithTable:geometryColumns.tableName andGeometryColumn:geometryColumns.columnName];
+    return self;
+}
+
+-(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumnName{
+    self = [super initWithTable:tableName];
     if(self != nil){
-        self.geometryColumns = geometryColumns;
+        self.columnName = geometryColumnName;
     }
+    return self;
+}
+
+-(instancetype) initWithTable: (NSString *) tableName{
+    self = [self initWithTable:tableName andGeometryColumn:nil];
     return self;
 }
 
@@ -23,33 +33,11 @@
 }
 
 -(GPKGUserTable *) createTableWithName: (NSString *) tableName andColumns: (NSArray *) columns{
-    return [[GPKGFeatureTable alloc] initWithTable:tableName andColumns:columns];
+    return [[GPKGFeatureTable alloc] initWithTable:tableName andGeometryColumn:self.columnName andColumns:columns];
 }
 
--(GPKGUserColumn *) createColumnWithResults: (GPKGResultSet *) results
-                                   andIndex: (int) index
-                                    andName: (NSString *) name
-                                    andType: (NSString *) type
-                                     andMax: (NSNumber *) max
-                                 andNotNull: (BOOL) notNull
-                       andDefaultValueIndex: (int) defaultValueIndex
-                              andPrimaryKey: (BOOL) primaryKey{
-    
-    BOOL geometry = [name caseInsensitiveCompare:self.geometryColumns.columnName] == NSOrderedSame;
-    
-    enum SFGeometryType geometryType = SF_NONE;
-    enum GPKGDataType dataType = GPKG_DT_GEOMETRY;
-    if(geometry){
-        geometryType = [SFGeometryTypes fromName:type];
-    }else{
-        dataType = [GPKGDataTypes fromName:type];
-    }
-    
-    NSObject * defaultValue = [results getValueWithIndex:defaultValueIndex];
-    
-    GPKGFeatureColumn * column = [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey andGeometryType:geometryType];
-    
-    return column;
+-(GPKGUserColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
+    return [GPKGFeatureColumn createColumnWithTableColumn:tableColumn];
 }
 
 @end

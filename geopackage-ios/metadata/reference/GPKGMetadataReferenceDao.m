@@ -133,6 +133,10 @@
     return [self queryForEqWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
 }
 
+-(GPKGResultSet *) queryByTable: (NSString *) tableName{
+    return [self queryForEqWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:tableName];
+}
+
 -(int) deleteByTableName: (NSString *) tableName{
     NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:tableName];
     NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];

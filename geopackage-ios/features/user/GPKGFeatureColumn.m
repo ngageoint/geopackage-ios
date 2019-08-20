@@ -113,6 +113,10 @@
     return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:SF_NONE];
 }
 
++(GPKGFeatureColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
+    return [[GPKGFeatureColumn alloc] initWithTableColumn:tableColumn];
+}
+
 -(instancetype) initWithIndex: (int) index
                       andName: (NSString *) name
                   andDataType: (enum GPKGDataType) dataType
@@ -121,29 +125,47 @@
               andDefaultValue: (NSObject *) defaultValue
                 andPrimaryKey: (BOOL) primaryKey
               andGeometryType: (enum SFGeometryType) geometryType{
-    self = [super initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
+    self = [super initWithIndex:index andName:name andType:[self typeNameForName:name withDataType:dataType andGeometryType:geometryType] andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
     if(self != nil){
         self.geometryType = geometryType;
-        if((geometryType == SF_NONE || geometryType < 0) && dataType == GPKG_DT_GEOMETRY){
-            [NSException raise:@"Data or Geometry Type" format:@"Data or Geometry Type is required to create column: %@", name];
-        }
     }
     return self;
 }
 
--(NSString *) getTypeName{
+-(instancetype) initWithTableColumn: (GPKGTableColumn *) tableColumn{
+    self = [super initWithTableColumn:tableColumn];
+    if(self != nil){
+        self.geometryType = [self geometryTypeOfTableColumn:tableColumn];
+    }
+    return self;
+}
+
+-(NSString *) typeNameForName: (NSString *) name withDataType: (enum GPKGDataType) dataType andGeometryType: (enum SFGeometryType) geometryType{
     NSString * type = nil;
-    if([self isGeometry]){
-        type = [SFGeometryTypes name:self.geometryType];
+    if(geometryType != SF_NONE){
+        type = [GPKGDataTypes name:dataType];
     }else {
-        type = [super getTypeName];
+        type = [super typeNameForName:name withDataType:dataType];
     }
     return type;
 }
 
--(BOOL) isGeometry
-{
+-(enum SFGeometryType) geometryTypeOfTableColumn: (GPKGTableColumn *) tableColumn{
+    enum SFGeometryType geometryType = SF_NONE;
+    if([tableColumn isDataType:GPKG_DT_BLOB]){
+        geometryType = [SFGeometryTypes fromName:tableColumn.type];
+    }
+    return geometryType;
+}
+
+-(BOOL) isGeometry{
     return self.geometryType != SF_NONE && self.geometryType >= 0;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGFeatureColumn *featureColumn = [super mutableCopyWithZone:zone];
+    featureColumn.geometryType = _geometryType;
+    return featureColumn;
 }
 
 @end

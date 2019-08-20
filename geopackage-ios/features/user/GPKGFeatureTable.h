@@ -8,6 +8,7 @@
 
 #import "GPKGUserTable.h"
 #import "GPKGFeatureColumn.h"
+#import "GPKGGeometryColumns.h"
 
 /**
  *  Represents a user feature table
@@ -22,12 +23,33 @@
 /**
  *  Initialize
  *
+ *  @param geometryColumns geometry columns
+ *  @param columns         feature columns
+ *
+ *  @return new feature table
+ */
+-(instancetype) initWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns andColumns: (NSArray *) columns;
+
+/**
+ *  Initialize
+ *
  *  @param tableName table name
  *  @param columns   feature columns
  *
  *  @return new feature table
  */
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
+
+/**
+ *  Initialize
+ *
+ *  @param tableName      table name
+ *  @param geometryColumn geometry column
+ *  @param columns        feature columns
+ *
+ *  @return new feature table
+ */
+-(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andColumns: (NSArray *) columns;
 
 /**
  *  Get the geometry feature column

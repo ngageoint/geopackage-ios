@@ -11,7 +11,17 @@
 
 @implementation GPKGFeatureTable
 
+-(instancetype) initWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns andColumns: (NSArray *) columns{
+    self = [self initWithTable:geometryColumns.tableName andGeometryColumn:geometryColumns.columnName andColumns:columns];
+    return self;
+}
+
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
+    self = [self initWithTable:tableName andGeometryColumn:nil andColumns:columns];
+    return self;
+}
+
+-(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andColumns: (NSArray *) columns{
     self = [super initWithTable:tableName andColumns:columns];
     if(self != nil){
         
@@ -19,14 +29,25 @@
         
         // Find the geometry
         for(GPKGFeatureColumn *column in columns){
-            if([column isGeometry]){
-                [self duplicateCheckWithIndex:column.index andPreviousIndex:geometry andColumn:SF_GEOMETRY_NAME];
-                geometry = [NSNumber numberWithInt:column.index];
+            
+            BOOL isGeometryColumn = NO;
+            
+            if(geometryColumn != nil){
+                isGeometryColumn = [geometryColumn caseInsensitiveCompare:column.name] == NSOrderedSame;
+            }else{
+                isGeometryColumn = [column isGeometry];
             }
+            
+            if(isGeometryColumn){
+                geometry = [NSNumber numberWithInt:column.index];
+                break;
+            }
+            
         }
         
         [self missingCheckWithIndex:geometry andColumn:SF_GEOMETRY_NAME];
         self.geometryIndex = [geometry intValue];
+        
     }
     return self;
 }
@@ -45,6 +66,12 @@
 
 -(GPKGFeatureColumn *) getGeometryColumn{
     return (GPKGFeatureColumn *) [self getColumnWithIndex:self.geometryIndex];
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGFeatureTable *featureTable = [super mutableCopyWithZone:zone];
+    featureTable.geometryIndex = _geometryIndex;
+    return featureTable;
 }
 
 @end

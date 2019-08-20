@@ -9,8 +9,8 @@
 #import "GPKGTileTable.h"
 #import "GPKGUtils.h"
 #import "GPKGTileColumn.h"
-#import "GPKGUserUniqueConstraint.h"
 #import "GPKGContentsDataTypes.h"
+#import "GPKGUniqueConstraint.h"
 
 NSString * const GPKG_TT_COLUMN_ID = @"id";
 NSString * const GPKG_TT_COLUMN_ZOOM_LEVEL = @"zoom_level";
@@ -30,7 +30,7 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
         NSNumber * tileData = nil;
         
         // Build a unique constraint on zoom level, tile column, and tile data
-        GPKGUserUniqueConstraint * uniqueConstraint = [[GPKGUserUniqueConstraint alloc] init];
+        GPKGUniqueConstraint *uniqueConstraint = [[GPKGUniqueConstraint alloc] init];
         
         // Find the required columns
         for (GPKGTileColumn * column in columns) {
@@ -74,7 +74,7 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
         self.tileDataIndex = [tileData intValue];
         
         // Add the unique constraint
-        [self addUniqueConstraint:uniqueConstraint];
+        [self addConstraint:uniqueConstraint];
 
     }
     return self;
@@ -109,7 +109,14 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
 }
 
 +(NSArray *) createRequiredColumns{
-    return [self createRequiredColumnsWithStartingIndex:0];
+    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    [GPKGUtils addObject:[GPKGTileColumn createIdColumn] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumn] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumn] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileRowColumn] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileDataColumn] toArray:columns];
+    
+    return columns;
 }
 
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex{
@@ -121,6 +128,15 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
     [GPKGUtils addObject:[GPKGTileColumn createTileDataColumn:startingIndex++] toArray:columns];
 
     return columns;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGTileTable *tileTable = [super mutableCopyWithZone:zone];
+    tileTable.zoomLevelIndex = _zoomLevelIndex;
+    tileTable.tileColumnIndex = _tileColumnIndex;
+    tileTable.tileRowIndex = _tileRowIndex;
+    tileTable.tileDataIndex = _tileDataIndex;
+    return tileTable;
 }
 
 @end
