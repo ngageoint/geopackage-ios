@@ -12,7 +12,7 @@
 @implementation GPKGTileTableReader
 
 -(instancetype) initWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
-    self = [super initWithTableName:tileMatrixSet.tableName];
+    self = [super initWithTable:tileMatrixSet.tableName];
     if(self != nil){
         self.tileMatrixSet = tileMatrixSet;
     }

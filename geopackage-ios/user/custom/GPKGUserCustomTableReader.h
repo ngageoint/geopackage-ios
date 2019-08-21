@@ -21,7 +21,7 @@
  *
  *  @return new user custom table reader
  */
--(instancetype) initWithTableName: (NSString *) tableName;
+-(instancetype) initWithTable: (NSString *) tableName;
 
 /**
  *  Read the user custom table with the database connection

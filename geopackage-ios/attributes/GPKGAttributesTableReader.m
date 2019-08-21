@@ -11,8 +11,8 @@
 
 @implementation GPKGAttributesTableReader
 
--(instancetype) initWithTableName: (NSString *) tableName{
-    self = [super initWithTableName:tableName];
+-(instancetype) initWithTable: (NSString *) tableName{
+    self = [super initWithTable:tableName];
     return self;
 }
 
@@ -24,22 +24,8 @@
     return [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
 }
 
--(GPKGUserColumn *) createColumnWithResults: (GPKGResultSet *) results
-                                   andIndex: (int) index
-                                    andName: (NSString *) name
-                                    andType: (NSString *) type
-                                     andMax: (NSNumber *) max
-                                 andNotNull: (BOOL) notNull
-                       andDefaultValueIndex: (int) defaultValueIndex
-                              andPrimaryKey: (BOOL) primaryKey{
-    
-    enum GPKGDataType dataType = [self dataType:type];
-    
-    NSObject * defaultValue = [results getValueWithIndex:defaultValueIndex];
-    
-    GPKGAttributesColumn * column = [[GPKGAttributesColumn alloc] initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
-    
-    return column;
+-(GPKGUserColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
+    return [GPKGAttributesColumn createColumnWithTableColumn:tableColumn];
 }
 
 @end

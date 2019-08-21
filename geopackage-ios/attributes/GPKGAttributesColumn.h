@@ -7,11 +7,21 @@
 //
 
 #import "GPKGUserColumn.h"
+#import "GPKGTableColumn.h"
 
 /**
  * Attributes column
  */
 @interface GPKGAttributesColumn : GPKGUserColumn
+
+/**
+ *  Create a new primary key column
+ *
+ *  @param name  column name
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createPrimaryKeyColumnWithName: (NSString *) name;
 
 /**
  *  Create a new primary key column
@@ -23,6 +33,73 @@
  */
 +(GPKGAttributesColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                andName: (NSString *) name;
+
+/**
+ *  Create a new column
+ *
+ *  @param name         column name
+ *  @param type         data type
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type;
+
+/**
+ *  Create a new column
+ *
+ *  @param index        column index
+ *  @param name         column name
+ *  @param type         data type
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithIndex: (int) index
+                                        andName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type;
+
+/**
+ *  Create a new column
+ *
+ *  @param name         column name
+ *  @param type         data type
+ *  @param notNull      not null
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                     andNotNull: (BOOL) notNull;
+
+/**
+ *  Create a new column
+ *
+ *  @param index        column index
+ *  @param name         column name
+ *  @param type         data type
+ *  @param notNull      not null
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithIndex: (int) index
+                                        andName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                     andNotNull: (BOOL) notNull;
+
+/**
+ *  Create a new column
+ *
+ *  @param name         column name
+ *  @param type         data type
+ *  @param notNull      not null
+ *  @param defaultValue default value or nil
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                     andNotNull: (BOOL) notNull
+                                andDefaultValue: (NSObject *) defaultValue;
 
 /**
  *  Create a new column
@@ -40,6 +117,51 @@
                                  andDataType: (enum GPKGDataType) type
                                   andNotNull: (BOOL) notNull
                              andDefaultValue: (NSObject *) defaultValue;
+
+/**
+ *  Create a new column
+ *
+ *  @param name         column name
+ *  @param type         data type
+ *  @param max          max value
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                         andMax: (NSNumber *) max;
+
+/**
+ *  Create a new column
+ *
+ *  @param index        column index
+ *  @param name         column name
+ *  @param type         data type
+ *  @param max          max value
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithIndex: (int) index
+                                        andName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                         andMax: (NSNumber *) max;
+
+/**
+ *  Create a new column
+ *
+ *  @param name         column name
+ *  @param type         data type
+ *  @param max          max value
+ *  @param notNull      not null
+ *  @param defaultValue default value or nil
+ *
+ *  @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithName: (NSString *) name
+                                    andDataType: (enum GPKGDataType) type
+                                         andMax: (NSNumber *) max
+                                     andNotNull: (BOOL) notNull
+                                andDefaultValue: (NSObject *) defaultValue;
 
 /**
  *  Create a new column
@@ -59,6 +181,15 @@
                                       andMax: (NSNumber *) max
                                   andNotNull: (BOOL) notNull
                              andDefaultValue: (NSObject *) defaultValue;
+
+/**
+ * Create a new column
+ *
+ * @param tableColumn
+ *            table column
+ * @return attributes column
+ */
++(GPKGAttributesColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn;
 
 /**
  *  Initialize

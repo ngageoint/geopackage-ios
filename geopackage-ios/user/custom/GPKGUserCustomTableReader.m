@@ -10,8 +10,8 @@
 
 @implementation GPKGUserCustomTableReader
 
--(instancetype) initWithTableName: (NSString *) tableName{
-    self = [super initWithTableName:tableName];
+-(instancetype) initWithTable: (NSString *) tableName{
+    self = [super initWithTable:tableName];
     return self;
 }
 
@@ -42,7 +42,7 @@
 }
 
 +(GPKGUserCustomTable *) readTableWithConnection: (GPKGConnection *) db andTableName: (NSString *) tableName{
-    GPKGUserCustomTableReader *tableReader = [[GPKGUserCustomTableReader alloc] initWithTableName:tableName];
+    GPKGUserCustomTableReader *tableReader = [[GPKGUserCustomTableReader alloc] initWithTable:tableName];
     GPKGUserCustomTable *customTable = [tableReader readUserCustomTableWithConnection:db];
     return customTable;
 }

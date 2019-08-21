@@ -13,6 +13,9 @@
 #import "GPKGDbConnection.h"
 #import "GPKGSqliteConnection.h"
 #import "GPKGDataTypes.h"
+#import "GPKGUserTable.h"
+#import "GPKGConnection.h"
+#import "GPKGTableMapping.h"
 
 /**
  *  SQL utility methods
@@ -407,5 +410,374 @@
  * @return quoted names
  */
 +(NSArray *) quoteWrapNames: (NSArray *) names;
+
+/**
+ * Remove double quotes from the name
+ *
+ * @param name
+ *            name
+ * @return unquoted names
+ */
++(NSString *) quoteUnwrapName: (NSString *) name;
+
+/**
+ * Create the user defined table SQL
+ *
+ * @param table
+ *            user table
+ * @return create table SQL
+ */
++(NSString *) createTableSQL: (GPKGUserTable *) table;
+
+/**
+ * Create the column SQL in the format:
+ *
+ * "column_name" column_type[(max)] [NOT NULL] [PRIMARY KEY AUTOINCREMENT]
+ *
+ * @param column
+ *            user column
+ * @return column SQL
+ */
++(NSString *) columnSQL: (GPKGUserColumn *) column;
+
+/**
+ * Create the column definition SQL in the format:
+ *
+ * column_type[(max)] [NOT NULL] [PRIMARY KEY AUTOINCREMENT]
+ *
+ * @param column
+ *            user column
+ * @return column definition SQL
+ */
++(NSString *) columnDefinition: (GPKGUserColumn *) column;
+
+/**
+ * Get the column default value as a string
+ *
+ * @param column
+ *            user column
+ * @return default value
+ */
++(NSString *) columnDefaultValue: (GPKGUserColumn *) column;
+
+/**
+ * Get the column default value as a string
+ *
+ * @param defaultValue
+ *            default value
+ * @param dataType
+ *            data type
+ * @return default value
+ */
++(NSString *) columnDefaultValue: (NSObject *) defaultValue withType: (enum GPKGDataType) dataType;
+
+/**
+ * Add a column to a table
+ *
+ * @param column
+ *            user column
+ * @param tableName
+ *            table name
+ * @param db
+ *            connection
+ */
++(void) addColumn: (GPKGUserColumn *) column toTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
+
+/**
+ * Query for the foreign keys value
+ *
+ * @param db
+ *            connection
+ * @return true if enabled, false if disabled
+ */
++(BOOL) foreignKeysWithConnection: (GPKGConnection *) db;
+
+/**
+ * Change the foreign keys state
+ *
+ *
+ * @param on
+ *            true to turn on, false to turn off
+ * @param db
+ *            connection
+ * @return previous foreign keys value
+ */
++(BOOL) foreignKeysAsOn: (BOOL) on withConnection: (GPKGConnection *) db;
+
+/**
+ * Create the foreign keys SQL
+ *
+ * @param on
+ *            true to turn on, false to turn off
+ * @return foreign keys SQL
+ */
++(NSString *) foreignKeysSQLAsOn: (BOOL) on;
+
+/**
+ * Perform a foreign key check
+ *
+ * @param db
+ *            connection
+ * @return empty list if valid or violation errors, 4 column values for each
+ *         violation. see SQLite PRAGMA foreign_key_check
+ */
++(NSArray<NSArray *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db;
+
+/**
+ * Perform a foreign key check
+ *
+ * @param tableName
+ *            table name
+ * @param db
+ *            connection
+ * @return empty list if valid or violation errors, 4 column values for each
+ *         violation. see SQLite PRAGMA foreign_key_check
+ */
++(NSArray<NSArray *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
+
+/**
+ * Create the foreign key check SQL
+ *
+ * @return foreign key check SQL
+ */
++(NSString *) foreignKeyCheckSQL;
+
+/**
+ * Create the foreign key check SQL
+ *
+ * @param tableName
+ *            table name
+ * @return foreign key check SQL
+ */
++(NSString *) foreignKeyCheckSQLOnTable: (NSString *) tableName;
+
+/**
+ * Create the integrity check SQL
+ *
+ * @return integrity check SQL
+ */
++(NSString *) integrityCheckSQL;
+
+/**
+ * Create the quick check SQL
+ *
+ * @return quick check SQL
+ */
++(NSString *) quickCheckSQL;
+
+/**
+ * Drop the table if it exists
+ *
+ * @param tableName
+ *            table name
+ * @param db
+ *            connection
+ */
++(void) dropTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
+
+/**
+ * Create the drop table if exists SQL
+ *
+ * @param tableName
+ *            table name
+ * @return drop table SQL
+ */
++(NSString *) dropTableSQL: (NSString *) tableName;
+
+/**
+ * Drop the view if it exists
+ *
+ * @param viewName
+ *            view name
+ * @param db
+ *            connection
+ */
++(void) dropView: (NSString *) viewName withConnection: (GPKGConnection *) db;
+
+/**
+ * Create the drop view if exists SQL
+ *
+ * @param viewName
+ *            view name
+ * @return drop view SQL
+ */
++(NSString *) dropViewSQL: (NSString *) viewName;
+
+/**
+ * Transfer table content from one table to another
+ *
+ * @param tableMapping
+ *            table mapping
+ * @param db
+ *            connection
+ */
++(void) transferTableContent: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db;
+
+/**
+ * Create insert SQL to transfer table content from one table to another
+ *
+ * @param tableMapping
+ *            table mapping
+ * @return transfer SQL
+ */
++(NSString *) transferTableContentSQL: (GPKGTableMapping *) tableMapping;
+
+/**
+ * Transfer table content to itself with new rows containing a new column
+ * value. All rows containing the current column value are inserted as new
+ * rows with the new column value.
+ *
+ * @param tableName
+ *            table name
+ * @param columnName
+ *            column name
+ * @param newColumnValue
+ *            new column value for new rows
+ * @param currentColumnValue
+ *            column value for rows to insert as new rows
+ * @param db
+ *            connection
+ */
++(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue withConnection: (GPKGConnection *) db;
+
+/**
+ * Transfer table content to itself with new rows containing a new column
+ * value. All rows containing the current column value are inserted as new
+ * rows with the new column value.
+ *
+ * @param tableName
+ *            table name
+ * @param columnName
+ *            column name
+ * @param newColumnValue
+ *            new column value for new rows
+ * @param currentColumnValue
+ *            column value for rows to insert as new rows
+ * @param idColumnName
+ *            id column name
+ * @param db
+ *            connection
+ */
++(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue andIdColumn: (NSString *) idColumnName withConnection: (GPKGConnection *) db;
+
+/**
+ * Get an available temporary table name. Starts with prefix_baseName and
+ * then continues with prefix#_baseName starting at 1 and increasing.
+ *
+ * @param prefix
+ *            name prefix
+ * @param baseName
+ *            base name
+ * @param db
+ *            connection
+ * @return unused table name
+ */
++(NSString *) tempTableNameWithPrefix: (NSString *) prefix andBaseName: (NSString *) baseName withConnection: (GPKGConnection *) db;
+
+/**
+ * Modify the SQL with a name change and the table mapping modifications
+ *
+ * @param name
+ *            statement name
+ * @param sql
+ *            SQL statement
+ * @param tableMapping
+ *            table mapping
+ * @return updated SQL, null if SQL contains a deleted column
+ */
++(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping;
+
+/**
+ * Modify the SQL with a name change and the table mapping modifications
+ *
+ * @param name
+ *            statement name
+ * @param sql
+ *            SQL statement
+ * @param tableMapping
+ *            table mapping
+ * @param db
+ *            optional connection, used for SQLite Master name conflict
+ *            detection
+ * @return updated SQL, null if SQL contains a deleted column
+ */
++(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db;
+
+/**
+ * Modify the SQL with table mapping modifications
+ *
+ * @param sql
+ *            SQL statement
+ * @param tableMapping
+ *            table mapping
+ * @return updated SQL, null if SQL contains a deleted column
+ */
++(NSString *) modifySQL: (NSString *) sql withTableMapping: (GPKGTableMapping *) tableMapping;
+
+/**
+ * Replace the name (table, column, etc) in the SQL with the replacement.
+ * The name must be surrounded by non word characters (i.e. not a subset of
+ * another name).
+ *
+ * @param name
+ *            name
+ * @param sql
+ *            SQL statement
+ * @param replacement
+ *            replacement value
+ * @return null if not modified, SQL value if replaced at least once
+ */
++(NSString *) replaceName: (NSString *) name inSQL: (NSString *) sql withReplacement: (NSString *) replacement;
+
+/**
+ * Create a new name by replacing a case insensitive value with a new value.
+ * If no replacement is done, create a new name in the form name_#, where #
+ * is either 2 or one greater than an existing name number suffix.
+ *
+ * @param name
+ *            current name
+ * @param replace
+ *            value to replace
+ * @param replacement
+ *            replacement value
+ * @return new name
+ */
++(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement;
+
+/**
+ * Create a new name by replacing a case insensitive value with a new value.
+ * If no replacement is done, create a new name in the form name_#, where #
+ * is either 2 or one greater than an existing name number suffix. When a db
+ * connection is provided, check for conflicting SQLite Master names and
+ * increment # until an available name is found.
+ *
+ * @param name
+ *            current name
+ * @param replace
+ *            value to replace
+ * @param replacement
+ *            replacement value
+ * @param db
+ *            optional connection, used for SQLite Master name conflict
+ *            detection
+ * @return new name
+ */
++(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement withConnection: (GPKGConnection *) db;
+
+/**
+ * Rebuild the GeoPackage, repacking it into a minimal amount of disk space
+ *
+ * @param db
+ *            connection
+ */
++(void) vacuumWithConnection: (GPKGConnection *) db;
+
+/**
+ * Get the BOOL value of the number
+ *
+ * @param number
+ *            BOOL number
+ */
++(BOOL) boolValueOfNumber: (NSNumber *) number;
 
 @end

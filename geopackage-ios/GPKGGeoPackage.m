@@ -763,7 +763,7 @@
     }
     
     // Read the existing table and create the dao
-    GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTableName:tileMatrixSet.tableName];
+    GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTable:tileMatrixSet.tableName];
     GPKGTileTable * tileTable = [tableReader readTileTableWithConnection:self.database];
     [tileTable setContents:[[self getTileMatrixSetDao] getContents:tileMatrixSet]];
     GPKGTileDao * dao = [[GPKGTileDao alloc] initWithDatabase:self.database andTable:tileTable andTileMatrixSet:tileMatrixSet andTileMatrices:tileMatrices];
@@ -816,7 +816,7 @@
     }
     
     // Read the existing table and create the dao
-    GPKGAttributesTableReader * tableReader = [[GPKGAttributesTableReader alloc] initWithTableName:contents.tableName];
+    GPKGAttributesTableReader * tableReader = [[GPKGAttributesTableReader alloc] initWithTable:contents.tableName];
     GPKGAttributesTable * attributesTable = [tableReader readAttributesTableWithConnection:self.database];
     [attributesTable setContents:contents];
     GPKGAttributesDao * dao = [[GPKGAttributesDao alloc] initWithDatabase:self.database andTable:attributesTable];

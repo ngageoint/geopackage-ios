@@ -55,8 +55,8 @@ NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
             int index = [[result getInt:[result getColumnIndexWithName:GPKG_UTR_CID]] intValue];
             NSString * name = [result getString:[result getColumnIndexWithName:GPKG_UTR_NAME]];
             NSString * type = [result getString:[result getColumnIndexWithName:GPKG_UTR_TYPE]];
-            BOOL notNull = [[result getInt:[result getColumnIndexWithName:GPKG_UTR_NOT_NULL]] intValue] == 1;
-            BOOL primarykey = [[result getInt:[result getColumnIndexWithName:GPKG_UTR_PK]] intValue] == 1;
+            BOOL notNull = [GPKGSqlUtils boolValueOfNumber:[result getInt:[result getColumnIndexWithName:GPKG_UTR_NOT_NULL]]];
+            BOOL primarykey = [GPKGSqlUtils boolValueOfNumber:[result getInt:[result getColumnIndexWithName:GPKG_UTR_PK]]];
             
             NSNumber * max = nil;
             if(type != nil&& [type hasSuffix:@")"]){

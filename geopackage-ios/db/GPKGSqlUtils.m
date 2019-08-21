@@ -11,7 +11,24 @@
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
 
+/**
+ * Pattern for matching numbers
+ */
+NSString *const NUMBER_PATTERN = @"\\d+";
+
 @implementation GPKGSqlUtils
+
+static NSRegularExpression *numberExpression = nil;
+
++(void) initialize{
+    if(numberExpression == nil){
+        NSError  *error = nil;
+        numberExpression = [NSRegularExpression regularExpressionWithPattern:NUMBER_PATTERN options:0 error:nil];
+        if(error){
+            [NSException raise:@"Number Regular Expression" format:@"Failed to create number regular expression with error: %@", error];
+        }
+    }
+}
 
 +(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
     
@@ -283,7 +300,7 @@
             {
                 NSNumber *booleanNumberValue = [result getInt:index];
                 if(booleanNumberValue != nil){
-                    BOOL booleanValue = [booleanNumberValue intValue] == 0 ? NO : YES;
+                    BOOL booleanValue = [GPKGSqlUtils boolValueOfNumber:booleanNumberValue];
                     value = [NSNumber numberWithBool:booleanValue];
                 }
             }
@@ -669,6 +686,235 @@
         }
     }
     return quoteNames;
+}
+
++(NSString *) quoteUnwrapName: (NSString *) name{
+    NSString *unquotedName = nil;
+    if(name != nil){
+        if([name hasPrefix:@"\""] && [name hasSuffix:@"\""]){
+            unquotedName = [name substringWithRange:NSMakeRange(1, [name length] - 1)];
+        }else{
+            unquotedName = name;
+        }
+    }
+    return unquotedName;
+}
+
++(NSString *) createTableSQL: (GPKGUserTable *) table{
+    
+    // Build the create table sql
+    NSMutableString *sql = [[NSMutableString alloc] init];
+    [sql appendFormat:@"CREATE TABLE %@ (", [self quoteWrapName:table.tableName]];
+    
+    // Add each column to the sql
+    NSArray *columns = [table columns];
+    for(int i = 0; i < [columns count]; i++){
+        GPKGUserColumn *column = [columns objectAtIndex:i];
+        if(i > 0){
+            [sql appendString:@","];
+        }
+        [sql appendFormat:@"\n  "];
+        [sql appendString:[self columnSQL:column]];
+    }
+    
+    // Add constraints
+    NSArray *constraints = [table constraints];
+    for(int i = 0; i < [constraints count]; i++){
+        [sql appendFormat:@",\n  "];
+        GPKGConstraint *constraint = [constraints objectAtIndex:i];
+        [sql appendString:[constraint buildSql]];
+    }
+    
+    [sql appendString:@"\n);"];
+    
+    return sql;
+}
+
++(NSString *) columnSQL: (GPKGUserColumn *) column{
+    return [NSString stringWithFormat:@"%@ %@", [self quoteWrapName:column.name], [self columnDefinition:column]];
+}
+
++(NSString *) columnDefinition: (GPKGUserColumn *) column{
+    
+    NSMutableString *sql = [[NSMutableString alloc] init];
+    
+    [sql appendString:column.type];
+    
+    if([column hasMax]){
+        [sql appendFormat:@"(%d)", [column.max intValue]];
+    }
+    
+    for(GPKGConstraint *constraint in column.constraints){
+        [sql appendFormat:@" %@", [constraint buildSql]];
+    }
+    
+    return sql;
+}
+
++(NSString *) columnDefaultValue: (GPKGUserColumn *) column{
+    return [self columnDefaultValue:column.defaultValue withType:column.dataType];
+}
+
++(NSString *) columnDefaultValue: (NSObject *) defaultValue withType: (enum GPKGDataType) dataType{
+
+    NSString *value = nil;
+    
+    if (defaultValue != nil) {
+        
+        if ((int)dataType != -1) {
+            
+            switch (dataType) {
+                case GPKG_DT_BOOLEAN:
+                    if ([defaultValue isKindOfClass:[NSNumber class]]) {
+                        NSNumber *booleanNumber = (NSNumber *) defaultValue;
+                        if([self boolValueOfNumber:booleanNumber]){
+                            value = @"1";
+                        }else{
+                            value = @"0";
+                        }
+                    } else if ([defaultValue isKindOfClass:[NSString class]]) {
+                        NSString *stringBooleanValue = (NSString *) defaultValue;
+                        if([stringBooleanValue isEqualToString:@"1"] || [stringBooleanValue caseInsensitiveCompare:@"true"] == NSOrderedSame){
+                            value = @"1";
+                        }else{
+                            value = @"0";
+                        }
+                    }
+                    break;
+                case GPKG_DT_TEXT:
+                    value = [NSString stringWithFormat:@"%@", defaultValue];
+                    if(![value hasPrefix:@"'"] || ![value hasSuffix:@"'"]){
+                        value = [NSString stringWithFormat:@"'%@'", value];
+                    }
+                    break;
+                default:
+            }
+            
+        }
+        
+        if (value == nil) {
+            value = [NSString stringWithFormat:@"%@", defaultValue];
+        }
+    }
+    
+    return value;
+}
+
++(void) addColumn: (GPKGUserColumn *) column toTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
+    [GPKGAlterTable addColumn:column.name withDefinition:[self columnDefinition:column] toTable:tableName withConnection:db];
+}
+
++(BOOL) foreignKeysWithConnection: (GPKGConnection *) db{
+    NSNumber *foreignKeys = [db querySingleResultWithSql:@"PRAGMA foreign_keys" andArgs:nil andDataType:GPKG_DT_BOOLEAN];
+    return [self boolValueOfNumber:foreignKeys];
+}
+
++(BOOL) foreignKeysAsOn: (BOOL) on withConnection: (GPKGConnection *) db{
+    
+    BOOL foreignKeys = [self foreignKeysWithConnection:db];
+    
+    if(foreignKeys != on){
+        NSString *sql = [self foreignKeysSQLAsOn:on];
+        [db exec:sql];
+    }
+    
+    return foreignKeys;
+}
+
++(NSString *) foreignKeysSQLAsOn: (BOOL) on{
+    return [NSString stringWithFormat:"PRAGMA foreign_keys = %@", (on ? @"true" : @"false")];
+}
+
++(NSArray<NSArray *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
+    return nil; // TODO
+}
+
++(NSArray<NSArray *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
+    return nil; // TODO
+}
+
++(NSString *) foreignKeyCheckSQL{
+    return nil; // TODO
+}
+
++(NSString *) foreignKeyCheckSQLOnTable: (NSString *) tableName{
+    return nil; // TODO
+}
+
++(NSString *) integrityCheckSQL{
+    return nil; // TODO
+}
+
++(NSString *) quickCheckSQL{
+    return nil; // TODO
+}
+
++(void) dropTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(NSString *) dropTableSQL: (NSString *) tableName{
+    return nil; // TODO
+}
+
++(void) dropView: (NSString *) viewName withConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(NSString *) dropViewSQL: (NSString *) viewName{
+    return nil; // TODO
+}
+
++(void) transferTableContent: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(NSString *) transferTableContentSQL: (GPKGTableMapping *) tableMapping{
+    return nil; // TODO
+}
+
++(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue withConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue andIdColumn: (NSString *) idColumnName withConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(NSString *) tempTableNameWithPrefix: (NSString *) prefix andBaseName: (NSString *) baseName withConnection: (GPKGConnection *) db{
+    return nil; // TODO
+}
+
++(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping{
+    return nil; // TODO
+}
+
++(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
+    return nil; // TODO
+}
+
++(NSString *) modifySQL: (NSString *) sql withTableMapping: (GPKGTableMapping *) tableMapping{
+    return nil; // TODO
+}
+
++(NSString *) replaceName: (NSString *) name inSQL: (NSString *) sql withReplacement: (NSString *) replacement{
+    return nil; // TODO
+}
+
++(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement{
+    return nil; // TODO
+}
+
++(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement withConnection: (GPKGConnection *) db{
+    return nil; // TODO
+}
+
++(void) vacuumWithConnection: (GPKGConnection *) db{
+    // TODO
+}
+
++(BOOL) boolValueOfNumber: (NSNumber *) number{
+    return number != nil && [number intValue] == 1;
 }
 
 @end

@@ -28,4 +28,9 @@
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGAttributesTable *attributesTable = [super mutableCopyWithZone:zone];
+    return attributesTable;
+}
+
 @end
