@@ -119,17 +119,12 @@
 
 -(int) createTable: (NSString *) tableName{
     
-    NSString * tablesProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
-    
-    NSDictionary *tables = [NSDictionary dictionaryWithContentsOfFile:tablesProperties];
-    NSArray *statements = [tables objectForKey:tableName];
-    if(statements == nil){
-        [NSException raise:@"Table Creation" format:@"Failed to find table creation statements for table: %@, in resource: %@", tableName, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
-    }
+    NSArray<NSString *> *statements = [self readSQLScript:tableName];
     
     for(NSString * statement in statements){
         [self.db exec:statement];
     }
+    
     return (int)[statements count];
 }
 
@@ -141,45 +136,7 @@
     }
     
     // Build the create table sql
-    NSMutableString * sql = [[NSMutableString alloc] init];
-    [sql appendFormat:@"create table %@ (", [GPKGSqlUtils quoteWrapName:table.tableName]];
-    
-    // Add each column to the sql
-    NSArray * columns = [table columns];
-    for(int i = 0; i < [columns count]; i++){
-        GPKGUserColumn *column = [columns objectAtIndex:i];
-        if(i > 0){
-            [sql appendString:@","];
-        }
-        [sql appendFormat:@"\n %@ %@", [GPKGSqlUtils quoteWrapName:column.name], [column getTypeName]];
-        if(column.max != nil){
-            [sql appendFormat:@"(%@)", column.max];
-        }
-        if(column.notNull){
-            [sql appendString:@" not null"];
-        }
-        if(column.primaryKey){
-            [sql appendString:@" primary key autoincrement"];
-        }
-    }
-    
-    // Add unique constraints
-    NSArray * uniqueConstraints = [table uniqueConstraints];
-    for(int i = 0; i < [uniqueConstraints count]; i++){
-        GPKGUserUniqueConstraint *uniqueConstraint = [uniqueConstraints objectAtIndex:i];
-        [sql appendString:@",\n unique ("];
-        NSArray * uniqueColumns = uniqueConstraint.columns;
-        for(int j = 0; j < [uniqueColumns count]; j++){
-            GPKGUserColumn *uniqueColumn = [uniqueColumns objectAtIndex:j];
-            if(j > 0){
-                [sql appendString:@", "];
-            }
-            [sql appendFormat:@"%@", uniqueColumn.name];
-        }
-        [sql appendString:@")"];
-    }
-    
-    [sql appendString:@"\n);"];
+    NSString *sql = [GPKGSqlUtils createTableSQL:table];
     
     // Create the table
     [self.db exec:sql];
@@ -203,7 +160,7 @@
 }
 
 -(void) dropTable: (NSString *) table{
-    [self.db exec:[NSString stringWithFormat:@"drop table if exists %@", [GPKGSqlUtils quoteWrapName:table]]];
+    [GPKGSqlUtils dropTable:table withConnection:self.db];
 }
 
 @end

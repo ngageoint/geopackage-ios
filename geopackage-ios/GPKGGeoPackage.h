@@ -856,8 +856,11 @@
 /**
  * If foreign keys is disabled and there are no foreign key violations,
  * enables foreign key checks, else logs violations
+ *
+ * @return true if enabled or already enabled, false if foreign key
+ *         violations and not enabled
  */
--(void) enableForeignKeys;
+-(BOOL) enableForeignKeys;
 
 /**
  * Query for the foreign keys value

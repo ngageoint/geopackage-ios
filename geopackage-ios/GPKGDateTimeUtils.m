@@ -10,6 +10,16 @@
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 
+NSString * const GPKG_DTU_DATE_FORMAT = @"yyyy-MM-dd";
+NSString * const GPKG_DTU_DATE_FORMAT2 = @"yyyy/MM/dd";
+NSString * const GPKG_DTU_DATETIME_FORMAT = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+NSString * const GPKG_DTU_DATETIME_FORMAT2 = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+NSString * const GPKG_DTU_FUNCTION_DATE = @"date";
+NSString * const GPKG_DTU_FUNCTION_TIME = @"time";
+NSString * const GPKG_DTU_FUNCTION_DATETIME = @"datetime";
+NSString * const GPKG_DTU_FUNCTION_JULIANDAY = @"julianday";
+NSString * const GPKG_DTU_FUNCTION_STRFTIME = @"strftime";
+
 @implementation GPKGDateTimeUtils
 
 static NSArray * dateFormatters;
@@ -57,11 +67,11 @@ static NSArray * dateFormatters;
 }
 
 +(NSString *) convertToDateStringWithDate: (NSDate *) date{
-    return [self convertToStringWithDate:date withFormat:@"yyyy-MM-dd"];
+    return [self convertToStringWithDate:date withFormat:GPKG_DTU_DATE_FORMAT];
 }
 
 +(NSString *) convertToDateTimeStringWithDate: (NSDate *) date{
-    return [self convertToStringWithDate:date withFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    return [self convertToStringWithDate:date withFormat:GPKG_DTU_DATETIME_FORMAT];
 }
 
 +(NSString *) convertToStringWithDate: (NSDate *) date andType: (enum GPKGDataType) dataType{
@@ -84,6 +94,19 @@ static NSArray * dateFormatters;
     [dateFormatter setDateFormat:format];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     return dateFormatter;
+}
+
++(BOOL) isFunction: (NSString *) value{
+    BOOL function = NO;
+    if(value != nil){
+        value = [[value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
+        function = [value hasPrefix:GPKG_DTU_FUNCTION_DATE]
+            || [value hasPrefix:GPKG_DTU_FUNCTION_TIME]
+            || [value hasPrefix:GPKG_DTU_FUNCTION_DATETIME]
+            || [value hasPrefix:GPKG_DTU_FUNCTION_JULIANDAY]
+            || [value hasPrefix:GPKG_DTU_FUNCTION_STRFTIME];
+    }
+    return function;
 }
 
 @end

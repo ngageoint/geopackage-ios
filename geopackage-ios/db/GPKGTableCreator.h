@@ -54,4 +54,13 @@
  */
 -(void) execSQLStatements: (NSArray *) statements;
 
+/**
+ * Read the SQL Script and parse the statements
+ *
+ * @param name
+ *            table or property name
+ * @return statements
+ */
+-(NSArray<NSString *> *) readSQLScript: (NSString *) name;
+
 @end

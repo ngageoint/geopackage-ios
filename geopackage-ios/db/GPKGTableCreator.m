@@ -26,13 +26,7 @@
     
 -(int) execSQLScript: (NSString *) propertyName{
     
-    NSString * tablesProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
-    
-    NSDictionary *tables = [NSDictionary dictionaryWithContentsOfFile:tablesProperties];
-    NSArray *statements = [tables objectForKey:propertyName];
-    if(statements == nil){
-        [NSException raise:@"SQL Script" format:@"Failed to find SQL statements for property: %@, in resource: %@", propertyName, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
-    }
+    NSArray<NSString *> *statements = [self readSQLScript:propertyName];
     
     [self execSQLStatements:statements];
 
@@ -43,6 +37,19 @@
     for(NSString * statement in statements){
         [self.db exec:statement];
     }
+}
+
+-(NSArray<NSString *> *) readSQLScript: (NSString *) name{
+    
+    NSString * propertiesFile = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
+    
+    NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:propertiesFile];
+    NSArray<NSString *> *statements = [properties objectForKey:name];
+    if(statements == nil){
+        [NSException raise:@"SQL Script" format:@"Failed to find SQL statements for name: %@, in resource: %@", name, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
+    }
+    
+    return statements;
 }
 
 @end

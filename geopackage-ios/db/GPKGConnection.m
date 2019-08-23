@@ -143,6 +143,42 @@
     [self.connectionPool rollbackTransaction];
 }
 
+-(BOOL) enableForeignKeys{
+    BOOL enabled = [self foreignKeys];
+    if (!enabled) {
+        NSArray<NSArray<NSObject *> *> *violations = [self foreignKeyCheck];
+        if(violations.count == 0){
+            [self foreignKeysAsOn:YES];
+            enabled = YES;
+        }else{
+            for(NSArray<NSObject *> *violation in violations){
+                NSLog(@"Foreign Key violation. Table: %@, Row Id: %@, Referred Table: %@, FK Index: %@",
+                      [violation objectAtIndex:0],
+                      [violation objectAtIndex:1],
+                      [violation objectAtIndex:2],
+                      [violation objectAtIndex:3]);
+            }
+        }
+    }
+    return enabled;
+}
+
+-(BOOL) foreignKeys{
+    return [GPKGSqlUtils foreignKeysWithConnection:self];
+}
+
+-(BOOL) foreignKeysAsOn: (BOOL) on{
+    return [GPKGSqlUtils foreignKeysAsOn:on withConnection:self];
+}
+
+-(NSArray<NSArray<NSObject *> *> *) foreignKeyCheck{
+    return [GPKGSqlUtils foreignKeyCheckWithConnection:self];
+}
+
+-(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName{
+    return [GPKGSqlUtils foreignKeyCheckOnTable:tableName withConnection:self];
+}
+
 -(long long) insert:(NSString *) statement{
     GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andStatement:statement];
@@ -206,34 +242,23 @@
 }
 
 -(BOOL) tableExists: (NSString *) table{
-    int count = [self countWithTable:@"sqlite_master" andWhere:[NSString stringWithFormat:@"type ='table' and name = '%@'", table]];
-    BOOL found = count > 0;
-    return found;
+    return [GPKGSQLiteMaster countByType:GPKG_SMT_TABLE andTable:tableName] > 0;
 }
 
 -(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     
     BOOL exists = false;
     
-    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", [GPKGSqlUtils quoteWrapName:tableName]]];
-    @try{
-        while ([result moveToNext]){
-            NSString * name = [result getString:[result getColumnIndexWithName:@"name"]];
-            if([columnName isEqualToString:name]){
-                exists = true;
-                break;
-            }
-        }
-    }@finally{
-        [result close];
+    GPKGTableInfo *tableInfo = [GPKGTableInfo infoForTable:tableName withConnection:self];
+    if(tableInfo != nil){
+        exists = [tableInfo hasColumn:columnName];
     }
-    
     
     return exists;
 }
 
 -(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef{
-    [self exec:[NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@;", [GPKGSqlUtils quoteWrapName:tableName], [GPKGSqlUtils quoteWrapName:columnName], columndef]];
+    [GPKGAlterTable addColumnWithTableName:tableName andColumnName:columnName andColumnDef:columndef withConnection:self];
 }
 
 -(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args{

@@ -193,6 +193,49 @@
 -(void) rollbackTransaction;
 
 /**
+ * If foreign keys is disabled and there are no foreign key violations,
+ * enables foreign key checks, else logs violations
+ *
+ * @return true if enabled or already enabled, false if foreign key
+ *         violations and not enabled
+ */
+-(BOOL) enableForeignKeys;
+
+/**
+ * Query for the foreign keys value
+ *
+ * @return true if enabled, false if disabled
+ */
+-(BOOL) foreignKeys;
+
+/**
+ * Change the foreign keys state
+ *
+ * @param on
+ *            true to turn on, false to turn off
+ * @return previous foreign keys value
+ */
+-(BOOL) foreignKeysAsOn: (BOOL) on;
+
+/**
+ * Perform a foreign key check
+ *
+ * @return empty list if valid or violation errors, 4 column values for each
+ *         violation. see SQLite PRAGMA foreign_key_check
+ */
+-(NSArray<NSArray<NSObject *> *> *) foreignKeyCheck;
+
+/**
+ * Perform a foreign key check
+ *
+ * @param tableName
+ *            table name
+ * @return empty list if valid or violation errors, 4 column values for each
+ *         violation. see SQLite PRAGMA foreign_key_check
+ */
+-(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName;
+
+/**
  *  Insert statement
  *
  *  @param statement insert statement

@@ -10,6 +10,51 @@
 #import "GPKGDataTypes.h"
 
 /**
+ * Date format
+ */
+extern NSString * const GPKG_DTU_DATE_FORMAT;
+
+/**
+ * Non standard Date format
+ */
+extern NSString * const GPKG_DTU_DATE_FORMAT2;
+
+/**
+ * Date Time format
+ */
+extern NSString * const GPKG_DTU_DATETIME_FORMAT;
+
+/**
+ * Secondary Date Time format w/o milliseconds for parsing string dates
+ */
+extern NSString * const GPKG_DTU_DATETIME_FORMAT2;
+
+/**
+ * SQLite date function
+ */
+extern NSString * const GPKG_DTU_FUNCTION_DATE;
+
+/**
+ * SQLite time function
+ */
+extern NSString * const GPKG_DTU_FUNCTION_TIME;
+
+/**
+ * SQLite datetime function
+ */
+extern NSString * const GPKG_DTU_FUNCTION_DATETIME;
+
+/**
+ * SQLite julianday function
+ */
+extern NSString * const GPKG_DTU_FUNCTION_JULIANDAY;
+
+/**
+ * SQLite strftime function
+ */
+extern NSString * const GPKG_DTU_FUNCTION_STRFTIME;
+
+/**
  *  Provides DateTime utility methods
  */
 @interface GPKGDateTimeUtils : NSObject
@@ -69,5 +114,14 @@
  *  @return date formatter
  */
 +(NSDateFormatter *) createFormatterWithFormat: (NSString *) format;
+
+/**
+ * Determine if the date/time string value is a SQLite function
+ *
+ * @param value
+ *            date/time string value
+ * @return true if a function, false if the value should be parsed
+ */
++(BOOL) isFunction: (NSString *) value;
 
 @end

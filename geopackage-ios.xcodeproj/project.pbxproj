@@ -598,6 +598,8 @@
 		0491561F230DCF7400B92B3F /* GPKGTableMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 0491561D230DCF7400B92B3F /* GPKGTableMapping.m */; };
 		04915622230F114D00B92B3F /* GPKGMappedColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 04915620230F114D00B92B3F /* GPKGMappedColumn.h */; };
 		04915623230F114D00B92B3F /* GPKGMappedColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 04915621230F114D00B92B3F /* GPKGMappedColumn.m */; };
+		0491562623106D1700B92B3F /* GPKGTableInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0491562423106D1600B92B3F /* GPKGTableInfo.h */; };
+		0491562723106D1700B92B3F /* GPKGTableInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0491562523106D1700B92B3F /* GPKGTableInfo.m */; };
 		049675061D08774F00D65851 /* GPKGLoadGeoPackageTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 049675051D08774F00D65851 /* GPKGLoadGeoPackageTestCase.m */; };
 		0496750A1D08BE6300D65851 /* GPKGTileCreatorGetTileTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 049675091D08BE6300D65851 /* GPKGTileCreatorGetTileTest.m */; };
 		049FDF0E222F18F3003399A3 /* GPKGTileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */; };
@@ -1331,6 +1333,8 @@
 		0491561D230DCF7400B92B3F /* GPKGTableMapping.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTableMapping.m; sourceTree = "<group>"; };
 		04915620230F114D00B92B3F /* GPKGMappedColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGMappedColumn.h; sourceTree = "<group>"; };
 		04915621230F114D00B92B3F /* GPKGMappedColumn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGMappedColumn.m; sourceTree = "<group>"; };
+		0491562423106D1600B92B3F /* GPKGTableInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTableInfo.h; sourceTree = "<group>"; };
+		0491562523106D1700B92B3F /* GPKGTableInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTableInfo.m; sourceTree = "<group>"; };
 		049675041D08774F00D65851 /* GPKGLoadGeoPackageTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGLoadGeoPackageTestCase.h; sourceTree = "<group>"; };
 		049675051D08774F00D65851 /* GPKGLoadGeoPackageTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGLoadGeoPackageTestCase.m; sourceTree = "<group>"; };
 		049675081D08BE6300D65851 /* GPKGTileCreatorGetTileTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTileCreatorGetTileTest.h; sourceTree = "<group>"; };
@@ -2067,6 +2071,8 @@
 				0491561D230DCF7400B92B3F /* GPKGTableMapping.m */,
 				04915620230F114D00B92B3F /* GPKGMappedColumn.h */,
 				04915621230F114D00B92B3F /* GPKGMappedColumn.m */,
+				0491562423106D1600B92B3F /* GPKGTableInfo.h */,
+				0491562523106D1700B92B3F /* GPKGTableInfo.m */,
 			);
 			path = db;
 			sourceTree = "<group>";
@@ -3108,6 +3114,7 @@
 				042FC88D1B964D8C00549A4B /* GPKGFeatureTilePointIcon.h in Headers */,
 				04711B1B221C626E007DC3A4 /* GPKGPolyline.h in Headers */,
 				042FC82B1B964D8C00549A4B /* GPKGFeatureColumn.h in Headers */,
+				0491562623106D1700B92B3F /* GPKGTableInfo.h in Headers */,
 				0407C47C21F1447B008ABBF6 /* GPKGIconTable.h in Headers */,
 				0409CCA720D1D5F50069B797 /* GPKGRelationTypes.h in Headers */,
 				042FC8171B964D8C00549A4B /* GPKGMetadataDb.h in Headers */,
@@ -3437,6 +3444,7 @@
 				042FC8AA1B964D8C00549A4B /* GPKGTileColumn.m in Sources */,
 				0488A02A1FA10393006B5C75 /* GPKGFeatureIndexListResults.m in Sources */,
 				042FC88E1B964D8C00549A4B /* GPKGFeatureTilePointIcon.m in Sources */,
+				0491562723106D1700B92B3F /* GPKGTableInfo.m in Sources */,
 				042FC8A81B964D8C00549A4B /* GPKGStandardFormatOverlay.m in Sources */,
 				0447FA171CDAA42700418104 /* GPKGSchemaExtension.m in Sources */,
 				0409CCB520D2B38F0069B797 /* GPKGDublinCoreMetadata.m in Sources */,

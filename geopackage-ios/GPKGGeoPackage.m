@@ -850,8 +850,8 @@
     [self.database rollbackTransaction];
 }
 
--(void) enableForeignKeys{
-    [self.database enableForeignKeys];
+-(BOOL) enableForeignKeys{
+    return [self.database enableForeignKeys];
 }
 
 -(BOOL) foreignKeys{
