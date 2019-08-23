@@ -521,7 +521,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
-+(NSArray<NSArray *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db;
++(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db;
 
 /**
  * Perform a foreign key check
@@ -533,7 +533,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
-+(NSArray<NSArray *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
++(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
 
 /**
  * Create the foreign key check SQL

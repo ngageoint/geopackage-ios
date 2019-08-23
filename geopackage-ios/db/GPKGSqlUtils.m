@@ -16,9 +16,15 @@
  */
 NSString *const NUMBER_PATTERN = @"\\d+";
 
+/**
+ * Pattern for matching a non word character
+ */
+NSString *const NON_WORD_CHARACTER_PATTERN = @"\\W";
+
 @implementation GPKGSqlUtils
 
 static NSRegularExpression *numberExpression = nil;
+static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(void) initialize{
     if(numberExpression == nil){
@@ -26,6 +32,11 @@ static NSRegularExpression *numberExpression = nil;
         numberExpression = [NSRegularExpression regularExpressionWithPattern:NUMBER_PATTERN options:0 error:nil];
         if(error){
             [NSException raise:@"Number Regular Expression" format:@"Failed to create number regular expression with error: %@", error];
+        }
+        error = nil;
+        nonWordCharacterExpression = [NSRegularExpression regularExpressionWithPattern:NON_WORD_CHARACTER_PATTERN options:0 error:nil];
+        if(error){
+            [NSException raise:@"Non Word Character Expression" format:@"Failed to create non word character expression with error: %@", error];
         }
     }
 }
@@ -825,92 +836,322 @@ static NSRegularExpression *numberExpression = nil;
     return [NSString stringWithFormat:"PRAGMA foreign_keys = %@", (on ? @"true" : @"false")];
 }
 
-+(NSArray<NSArray *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
-    return nil; // TODO
++(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
+    NSString *sql = [self foreignKeyCheckSQL];
+    return [db queryResultsWithSql:sql andArgs:nil];
 }
 
-+(NSArray<NSArray *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
-    return nil; // TODO
++(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
+    NSString *sql = [self foreignKeyCheckSQLOnTable:tableName];
+    return [db queryResultsWithSql:sql andArgs:nil];
 }
 
 +(NSString *) foreignKeyCheckSQL{
-    return nil; // TODO
+    return [self foreignKeyCheckSQLOnTable:nil];
 }
 
 +(NSString *) foreignKeyCheckSQLOnTable: (NSString *) tableName{
-    return nil; // TODO
+    return [NSString stringWithFormat:@"PRAGMA foreign_key_check%@", (tableName != nil ? [NSString stringWithFormat:@"(%@)", [self quoteWrapName:tableName]] : @"")];
 }
 
 +(NSString *) integrityCheckSQL{
-    return nil; // TODO
+    return @"PRAGMA integrity_check";
 }
 
 +(NSString *) quickCheckSQL{
-    return nil; // TODO
+    return @"PRAGMA quick_check";
 }
 
 +(void) dropTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
-    // TODO
+    NSString *sql = [self dropTableSQL:tableName];
+    [db exec:sql];
 }
 
 +(NSString *) dropTableSQL: (NSString *) tableName{
-    return nil; // TODO
+    return [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@", [self quoteWrapName:tableName]];
 }
 
 +(void) dropView: (NSString *) viewName withConnection: (GPKGConnection *) db{
-    // TODO
+    NSString *sql = [self dropViewSQL:viewName];
+    [db exec:sql];
 }
 
 +(NSString *) dropViewSQL: (NSString *) viewName{
-    return nil; // TODO
+    return [NSString stringWithFormat:@"DROP VIEW IF EXISTS %@", [self quoteWrapName:viewName]];
 }
 
 +(void) transferTableContent: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
-    // TODO
+    NSString *sql = [self transferTableContentSQL:tableMapping];
+    [db exec:sql];
 }
 
 +(NSString *) transferTableContentSQL: (GPKGTableMapping *) tableMapping{
-    return nil; // TODO
+    
+    NSMutableString *insert = [[NSMutableString alloc] initWithString:@"INSERT INTO "];
+    [insert appendString:[self quoteWrapName:tableMapping.toTable]];
+    [insert appendString:@" ("];
+    
+    NSMutableString *selectColumns = [[NSMutableString alloc] init];
+    
+    NSMutableString *where = [[NSMutableString alloc] init];
+    if([tableMapping hasWhere]){
+        [where appendString:tableMapping.where];
+    }
+    
+    for(NSString *toColumn in [tableMapping columns]){
+        
+        GPKGMappedColumn *column = [tableMapping column:toColumn];
+        
+        if(selectColumns.length > 0){
+            [insert appendString:@", "];
+            [selectColumns appendString:@", "];
+        }
+        [insert appendString:[self quoteWrapName:toColumn]];
+        
+        if([column hasConstantValue]){
+            
+            [selectColumns appendString:[column constantValueAsString]];
+            
+        }else{
+            
+            if([column hasDefaultValue]){
+                [selectColumns appendString:@"ifnull("];
+            }
+            [selectColumns appendString:[self quoteWrapName:[column fromColumn]]];
+            if([column hasDefaultValue]){
+                [selectColumns appendString:@","];
+                [selectColumns appendString:[column defaultValueAsString]];
+                [selectColumns appendString:@")"];
+            }
+            
+        }
+        
+        if([column hasWhereValue]){
+            if(where.length > 0){
+                [where appendString:@" AND "];
+            }
+            [where [self quoteWrapName:[column fromColumn]]];
+            [where appendString:@" "];
+            [where appendString:[column whereOperator]];
+            [where appendString:@" "];
+            [where appendString:[column whereValueAsString]]
+        }
+        
+    }
+    [insert appendString:@") SELECT "];
+    [insert appendString:selectColumns];
+    [insert appendString:@" FROM "];
+    [insert appendString:[self quoteWrapName:tableMapping.fromTable]];
+
+    if(where.length > 0){
+        [insert appendString:@" WHERE "];
+        [insert appendString:where];
+    }
+    
+    return insert;
 }
 
 +(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue withConnection: (GPKGConnection *) db{
-    // TODO
+    [self transferContentInTable:tableName inColumn:columnName withNewValue:newColumnValue andCurrentValue:currentColumnValue andIdColumn:nil withConnection:db];
 }
 
 +(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue andIdColumn: (NSString *) idColumnName withConnection: (GPKGConnection *) db{
-    // TODO
+    
+    GPKGTableMapping *tableMapping = [[GPKGTableMapping alloc] initWithConnection:db andTable:tableName];
+    if(idColumnName != nil){
+        [tableMapping removeColumn:idColumnName];
+    }
+    GPKGMappedColumn *tileMatrixSetNameColumn = [tableMapping column:columnName];
+    [tileMatrixSetNameColumn setConstantValue:newColumnValue];
+    [tileMatrixSetNameColumn setWhereValue:currentColumnValue];
+    
+    [self transferTableContent:tableMapping withConnection:db];
 }
 
 +(NSString *) tempTableNameWithPrefix: (NSString *) prefix andBaseName: (NSString *) baseName withConnection: (GPKGConnection *) db{
-    return nil; // TODO
+    NSString *name = [NSString stringWithFormat:@"%@_%@", prefix, baseName];
+    int nameNumber = 0;
+    while([db tableExists:name]){
+        name = [NSString stringWithFormat:@"%@%@_%@", prefix, ++nameNumber, baseName];
+    }
+    return name;
 }
 
 +(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping{
-    return nil; // TODO
+    return [self modifySQL:sql withName:name andTableMapping:tableMapping withConnection:nil];
 }
 
 +(NSString *) modifySQL: (NSString *) sql withName: (NSString *) name andTableMapping: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
-    return nil; // TODO
+
+    NSString *updatedSql = sql;
+    
+    if(name != nil && [tableMapping isNewTable]){
+        
+        NSString *newName = [self createName:name andReplace:tableMapping.fromTable withReplacement:tableMapping.toTable withConnection:db];
+        
+        NSString *updatedName = [self replaceName:name inSQL:updatedSql withReplacement:newName];
+        if(updatedName != nil){
+            updatedSql = updatedName;
+        }
+        
+        NSString *updatedTable = [self replaceName:tableMapping.fromTable inSQL:updatedSql withReplacement:tableMapping.toTable];
+        if(updatedTable != nil){
+            updatedSql = updatedTable;
+        }
+        
+    }
+    
+    updatedSql = [self modifySQL:updatedSql withTableMapping:tableMapping];
+    
+    return updatedSql;
 }
 
 +(NSString *) modifySQL: (NSString *) sql withTableMapping: (GPKGTableMapping *) tableMapping{
-    return nil; // TODO
+
+    NSString *updatedSql = sql;
+    
+    for(NSString *column in [tableMapping droppedColumns]){
+        
+        NSString *updated = [self replaceName:column inSQL:updatedSql withReplacement:@" "];
+        if(updated != nil){
+            updatedSql = nil;
+            break;
+        }
+        
+    }
+    
+    if(updatedSql != nil){
+        
+        for(GPKGMappedColumn *column in [tableMapping mappedColumns]){
+            if([column hasNewName]){
+                
+                NSString *updated = [self replaceName:[column fromColumn] inSQL:updatedSql withReplacement:[column toColumn]];
+                if(updated != nil){
+                    updatedSql = updated;
+                }
+                
+            }
+        }
+        
+    }
+    
+    return updatedSql;
 }
 
 +(NSString *) replaceName: (NSString *) name inSQL: (NSString *) sql withReplacement: (NSString *) replacement{
-    return nil; // TODO
+
+    NSString *updatedSql = nil;
+    
+    // Quick check if contained in the SQL
+    if([sql containsString:name]){
+        
+        BOOL updated = NO;
+        NSMutableString *updatedSqlBuilder = [[NSMutableString alloc] init];
+        
+        // Split the SQL apart by the name
+        NSArray<NSString *> *parts = [sql componentsSeparatedByString:name];
+        
+        for (int i = 0; i <= parts.count; i++) {
+            
+            if (i > 0) {
+                
+                // Find the character before the name
+                NSString *before = @"_";
+                NSString *beforePart = [parts objectAtIndex:i - 1];
+                if(beforePart.length == 0){
+                    if (i == 1) {
+                        // SQL starts with the name, allow
+                        before = @" ";
+                    }
+                } else {
+                    before = [beforePart substringFromIndex:beforePart.length - 1];
+                }
+                
+                // Find the character after the name
+                NSString *after = @"_";
+                if (i < parts.count) {
+                    NSString *afterPart = [parts objectAtIndex:i];
+                    if(afterPart.length > 0){
+                        after = [afterPart substringWithRange:NSMakeRange(0, 1)];
+                    }
+                } else if ([sql hasSuffix:name]) {
+                    // SQL ends with the name, allow
+                    after = @" ";
+                } else {
+                    break;
+                }
+                
+                // Check the before and after characters for non word
+                // characters
+                if([nonWordCharacterExpression numberOfMatchesInString:before options:0 range:NSMakeRange(0, before.length)] == 1 && [nonWordCharacterExpression numberOfMatchesInString:after options:0 range:NSMakeRange(0, after.length)] == 1){
+                    // Replace the name
+                    [updatedSqlBuilder appendString:replacement];
+                    updated = YES;
+                }else {
+                    // Preserve the name
+                    [updatedSqlBuilder appendString:name];
+                }
+            }
+            
+            // Add the part to the SQL
+            if(i < parts.count){
+                [updatedSqlBuilder appendString:[parts objectAtIndex:i]];
+            }
+            
+        }
+        
+        // Set if the SQL was modified
+        if (updated) {
+            updatedSql = updatedSqlBuilder;
+        }
+        
+    }
+    
+    return updatedSql;
 }
 
 +(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement{
-    return nil; // TODO
+    return [self createName:name andReplace:replace withReplacement:replacement withConnection:nil];
 }
 
 +(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement withConnection: (GPKGConnection *) db{
-    return nil; // TODO
+
+    // Attempt the replacement
+    NSString *newName = [name stringByReplacingOccurrencesOfString:replace withString:replacement options:NSCaseInsensitiveSearch range:NSMakeRange(0, name.length);
+    
+    // If no name change was made
+    if([newName isEqualToString:name]){
+        
+        NSString *baseName = newName;
+        int count = 1;
+        
+        // Find any existing end number: name_#
+        int index = [baseName rangeOfString:@"_" options:NSBackwardsSearch].location;
+        if (index != NSNotFound && index + 1 < baseName.length) {
+            NSString *numberPart = [baseName substringFromIndex:index + 1];
+            if([numberExpression numberOfMatchesInString:numberPart options:0 range:NSMakeRange(0, numberPart.length)] == 1){
+                baseName = [baseName substringWithRange:NSMakeRange(0, index)];
+                count = [baseName intValue];
+            }
+        }
+        
+        // Set the new name to name_2 or name_(#+1)
+        newName = [NSString stringWithFormat:@"%@_%d", baseName, ++count];
+        
+        if (db != nil) {
+            // Check for conflicting SQLite Master table names
+            while([GPKGSQLiteMaster countWithConnection:db andQuery:[GPKGSQLiteMasterQuery createWithColumn:GPKG_SQLITE_MASTER_NAME andValue:newName]] > 0){
+                newName = [NSString stringWithFormat:@"%@_%d", baseName, ++count];
+            }
+        }
+        
+    }
+    
+    return newName;
 }
 
 +(void) vacuumWithConnection: (GPKGConnection *) db{
-    // TODO
+    [db exec:@"VACUUM"];
 }
 
 +(BOOL) boolValueOfNumber: (NSNumber *) number{
