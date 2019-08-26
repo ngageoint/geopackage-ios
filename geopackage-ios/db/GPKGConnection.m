@@ -13,6 +13,7 @@
 #import "GPKGConnectionPool.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGConnectionFunction.h"
+#import "GPKGAlterTable.h"
 
 @interface GPKGConnection()
 
@@ -258,7 +259,7 @@
 }
 
 -(void) addColumnWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName andColumnDef: (NSString *) columndef{
-    [GPKGAlterTable addColumnWithTableName:tableName andColumnName:columnName andColumnDef:columndef withConnection:self];
+    [GPKGAlterTable addColumn:columnName withDefinition:columndef toTable:tableName withConnection:self];
 }
 
 -(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args{

@@ -177,7 +177,7 @@
         
         // Delete the table if canceled
         if(self.progress != nil && ![self.progress isActive] && [self.progress cleanupOnCancel]){
-            [self.geoPackage deleteUserTableQuietly:self.tableName];
+            [self.geoPackage deleteTableQuietly:self.tableName];
             count = 0;
         } else{
             // Update the contents last modified date
@@ -194,7 +194,7 @@
     }
     @catch (NSException *e) {
         NSLog(@"Tile Generator Error: %@", [e description]);
-        [self.geoPackage deleteUserTableQuietly:self.tableName];
+        [self.geoPackage deleteTableQuietly:self.tableName];
         [self.progress failureWithError:[e description]];
     }
     

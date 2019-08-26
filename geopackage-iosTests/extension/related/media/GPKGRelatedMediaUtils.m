@@ -360,7 +360,7 @@
     // Delete the media table and contents row
     [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName]];
     [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:mediaTable.tableName]];
-    [geoPackage deleteUserTable:mediaTable.tableName];
+    [geoPackage deleteTable:mediaTable.tableName];
     [GPKGTestUtils assertFalse:[geoPackage isTable:mediaTable.tableName]];
     [GPKGTestUtils assertNil:[contentsDao queryForIdObject:mediaTable.tableName]];
     

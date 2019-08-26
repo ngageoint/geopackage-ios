@@ -139,7 +139,7 @@
 
     NSArray *coverageTables = [geoPackage getTablesByType:GPKG_CDT_GRIDDED_COVERAGE];
     for(NSString *table in coverageTables){
-        [geoPackage deleteUserTable:table];
+        [geoPackage deleteTable:table];
     }
     
     GPKGGriddedTileDao *griddedTileDao = [geoPackage getGriddedTileDao];

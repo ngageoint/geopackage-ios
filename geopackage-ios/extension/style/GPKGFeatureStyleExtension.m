@@ -246,9 +246,9 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
     [self deleteRelationships];
     
-    [self.geoPackage deleteUserTable:GPKG_ST_TABLE_NAME];
+    [self.geoPackage deleteTable:GPKG_ST_TABLE_NAME];
     
-    [self.geoPackage deleteUserTable:GPKG_IT_TABLE_NAME];
+    [self.geoPackage deleteTable:GPKG_IT_TABLE_NAME];
     
     if([self.extensionsDao tableExists]){
         [self.extensionsDao deleteByExtension:self.extensionName];

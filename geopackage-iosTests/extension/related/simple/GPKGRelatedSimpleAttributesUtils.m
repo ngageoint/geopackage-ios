@@ -347,7 +347,7 @@
     // Delete the simple attributes table and contents row
     [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName]];
     [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:simpleTable.tableName]];
-    [geoPackage deleteUserTable:simpleTable.tableName];
+    [geoPackage deleteTable:simpleTable.tableName];
     [GPKGTestUtils assertFalse:[geoPackage isTable:simpleTable.tableName]];
     [GPKGTestUtils assertNil:[contentsDao queryForIdObject:simpleTable.tableName]];
     

@@ -20,6 +20,7 @@
 #import "GPKGAttributesTableReader.h"
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGFeatureIndexManager.h"
+#import "GPKGAlterTable.h"
 
 @interface GPKGGeoPackage()
 
@@ -413,7 +414,7 @@
         [[self getGeometryColumnsDao] create:geometryColumns];
     }
     @catch (NSException *e) {
-        [self deleteUserTableQuietly:geometryColumns.tableName];
+        [self deleteTableQuietly:geometryColumns.tableName];
         @throw e;
     }
     
@@ -513,7 +514,7 @@
         [[self getTileMatrixSetDao] create:tileMatrixSet];
     }
     @catch (NSException *e) {
-        [self deleteUserTableQuietly:tableName];
+        [self deleteTableQuietly:tableName];
         @throw e;
     }
     
@@ -608,7 +609,7 @@
     return created;
 }
 
--(void) deleteUserTable: (NSString *) tableName{
+-(void) deleteTable: (NSString *) tableName{
     [self verifyWritable];
     
     [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:self andTable:tableName];
@@ -617,11 +618,11 @@
     [contentsDao deleteTable:tableName];
 }
 
--(void) deleteUserTableQuietly: (NSString *) tableName{
+-(void) deleteTableQuietly: (NSString *) tableName{
     [self verifyWritable];
     
     @try{
-        [self deleteUserTable:tableName];
+        [self deleteTable:tableName];
     }@catch(NSException * e){
         // eat
     }
@@ -1037,7 +1038,7 @@
  */
 -(GPKGContents *) copyUserTable: (NSString *) tableName toTable: (NSString *) newTableName andTransfer: (BOOL) transferContent andValidate: (BOOL) validateContents{
     
-    [GPKGAlterTable copyTable:tableName toTable:newTableName andTransfer:transferContent withConnection:self.database];
+    [GPKGAlterTable copyTableName:tableName toTable:newTableName andTransfer:transferContent withConnection:self.database];
     
     GPKGContents *contents = [self copyContentsFromTable:tableName toTable:newTableName];
     
@@ -1074,7 +1075,7 @@
 }
 
 -(void) vacuum{
-    [GPKGSqlUtils vacuum:self.database];
+    [GPKGSqlUtils vacuumWithConnection:self.database];
 }
 
 -(GPKGResultSet *) rawQuery: (NSString *) sql andArgs: (NSArray *) args{
@@ -1223,7 +1224,7 @@
         [table setContents:contents];
     }
     @catch (NSException *e) {
-        [self deleteUserTableQuietly:tableName];
+        [self deleteTableQuietly:tableName];
         @throw e;
     }
     

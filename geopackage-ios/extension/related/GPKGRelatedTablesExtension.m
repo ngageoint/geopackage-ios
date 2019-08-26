@@ -353,7 +353,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 -(void) removeRelationship: (GPKGExtendedRelation *) extendedRelation{
     if([self.extendedRelationsDao tableExists]){
-        [self.geoPackage deleteUserTable:extendedRelation.mappingTableName];
+        [self.geoPackage deleteTable:extendedRelation.mappingTableName];
         [self.extendedRelationsDao delete:extendedRelation];
     }
 }
@@ -422,7 +422,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
             [extendedRelations close];
         }
         for(NSString *mappingTable in mappingTables){
-            [self.geoPackage deleteUserTable:mappingTable];
+            [self.geoPackage deleteTable:mappingTable];
         }
         [self.extendedRelationsDao dropTable];
     }

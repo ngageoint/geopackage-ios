@@ -685,18 +685,18 @@
 -(BOOL) createExtensionsTable;
 
 /**
- *  Delete the user table (a feature or tile table) and all GeoPackage metadata
+ *  Delete the table and all GeoPackage metadata
  *
  *  @param tableName table name
  */
--(void) deleteUserTable: (NSString *) tableName;
+-(void) deleteTable: (NSString *) tableName;
 
 /**
- *  Attempt to delete the user table (a feature or tile table) and all GeoPackage metadata quietly
+ *  Attempt to delete the table and all GeoPackage metadata quietly
  *
  *  @param tableName table name
  */
--(void) deleteUserTableQuietly: (NSString *) tableName;
+-(void) deleteTableQuietly: (NSString *) tableName;
 
 /**
  * Get a Table Index DAO

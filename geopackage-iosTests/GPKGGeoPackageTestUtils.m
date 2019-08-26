@@ -155,7 +155,7 @@
         for(NSString *featureTable in [geoPackage getFeatureTables]){
             [GPKGTestUtils assertTrue:[geoPackage isTable:featureTable]];
             [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:featureTable]];
-            [geoPackage deleteUserTable:featureTable];
+            [geoPackage deleteTable:featureTable];
             [GPKGTestUtils assertFalse:[geoPackage isTable:featureTable]];
             [GPKGTestUtils assertNil:[contentsDao queryForIdObject:featureTable]];
         }
@@ -176,7 +176,7 @@
         for(NSString *tileTable in [geoPackage getTileTables]){
             [GPKGTestUtils assertTrue:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:tileTable]];
-            [geoPackage deleteUserTable:tileTable];
+            [geoPackage deleteTable:tileTable];
             [GPKGTestUtils assertFalse:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNil:[contentsDao queryForIdObject:tileTable]];
         }
@@ -192,7 +192,7 @@
     for(NSString *attributeTable in [geoPackage getAttributesTables]){
         [GPKGTestUtils assertTrue:[geoPackage isTable:attributeTable]];
         [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:attributeTable]];
-        [geoPackage deleteUserTable:attributeTable];
+        [geoPackage deleteTable:attributeTable];
         [GPKGTestUtils assertFalse:[geoPackage isTable:attributeTable]];
         [GPKGTestUtils assertNil:[contentsDao queryForIdObject:attributeTable]];
     }
