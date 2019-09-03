@@ -41,7 +41,7 @@ NSString * const GPKG_SMT_TRIGGER_NAME = @"TRIGGER";
     enum GPKGSQLiteMasterType value = -1;
     
     if(name != nil){
-        name = [name lowercaseString];
+        name = [name uppercaseString];
         NSDictionary *types = [NSDictionary dictionaryWithObjectsAndKeys:
                                [NSNumber numberWithInteger:GPKG_SMT_TABLE], GPKG_SMT_TABLE_NAME,
                                [NSNumber numberWithInteger:GPKG_SMT_INDEX], GPKG_SMT_INDEX_NAME,
