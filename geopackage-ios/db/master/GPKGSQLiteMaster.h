@@ -11,6 +11,7 @@
 #import "GPKGSQLiteMasterColumns.h"
 #import "GPKGTableConstraints.h"
 #import "GPKGConnection.h"
+#import "GPKGSQLiteMasterQuery.h"
 
 /**
  * SQLite Master table queries (sqlite_master)
@@ -140,6 +141,24 @@ extern NSString * const GPKG_SM_TABLE_NAME;
 -(GPKGTableConstraints *) constraintsAtRow: (int) row;
 
 /**
+ * Shortcut to build a column into an array
+ *
+ * @param column
+ *            column
+ * @return columns
+ */
++(NSArray *) columnsFromColumn: (enum GPKGSQLiteMasterColumn) column;
+
+/**
+ * Shortcut to build a type into an array
+ *
+ * @param type
+ *            type
+ * @return types
+ */
++(NSArray *) typesFromType: (enum GPKGSQLiteMasterType) type;
+
+/**
  * Count the sqlite_master table
  *
  * @param db
@@ -155,9 +174,7 @@ extern NSString * const GPKG_SM_TABLE_NAME;
  *            connection
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db) {
-    return query(db, SQLiteMasterQuery.create());
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db;
 
 /**
  * Count the sqlite_master table
@@ -168,9 +185,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db) {
  *            table name
  * @return count
  */
-public static int count(GeoPackageCoreConnection db, String tableName) {
-    return count(db, types(), tableName);
-}
++(int) countWithConnection: (GPKGConnection *) db andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -181,10 +196,7 @@ public static int count(GeoPackageCoreConnection db, String tableName) {
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 String tableName) {
-    return query(db, SQLiteMasterColumn.values(), types(), tableName);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -195,10 +207,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            result columns
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryForColumns(GeoPackageCoreConnection db,
-                                           Collection<SQLiteMasterColumn> columns) {
-    return queryForColumns(db, columns, null);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns;
 
 /**
  * Query the sqlite_master table
@@ -211,25 +220,7 @@ public static SQLiteMaster queryForColumns(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryForColumns(GeoPackageCoreConnection db,
-                                           Collection<SQLiteMasterColumn> columns, String tableName) {
-    return query(db, columns.toArray(new SQLiteMasterColumn[0]), types(),
-                 tableName);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param type
- *            result type
- * @return count
- */
-public static int countByType(GeoPackageCoreConnection db,
-                              SQLiteMasterType type) {
-    return countByType(db, type, null);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -240,24 +231,7 @@ public static int countByType(GeoPackageCoreConnection db,
  *            result type
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryByType(GeoPackageCoreConnection db,
-                                       SQLiteMasterType type) {
-    return queryByType(db, type, null);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param types
- *            result types
- * @return count
- */
-public static int countByType(GeoPackageCoreConnection db,
-                              Collection<SQLiteMasterType> types) {
-    return countByType(db, types, null);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type;
 
 /**
  * Query the sqlite_master table
@@ -268,26 +242,7 @@ public static int countByType(GeoPackageCoreConnection db,
  *            result types
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryByType(GeoPackageCoreConnection db,
-                                       Collection<SQLiteMasterType> types) {
-    return queryByType(db, types, null);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param type
- *            result type
- * @param tableName
- *            table name
- * @return count
- */
-public static int countByType(GeoPackageCoreConnection db,
-                              SQLiteMasterType type, String tableName) {
-    return count(db, type, tableName);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andTypes: (NSArray<NSNumber *> *) types;
 
 /**
  * Query the sqlite_master table
@@ -300,26 +255,7 @@ public static int countByType(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryByType(GeoPackageCoreConnection db,
-                                       SQLiteMasterType type, String tableName) {
-    return query(db, SQLiteMasterColumn.values(), type, tableName);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param types
- *            result types
- * @param tableName
- *            table name
- * @return count
- */
-public static int countByType(GeoPackageCoreConnection db,
-                              Collection<SQLiteMasterType> types, String tableName) {
-    return count(db, types.toArray(new SQLiteMasterType[0]), tableName);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -332,29 +268,20 @@ public static int countByType(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryByType(GeoPackageCoreConnection db,
-                                       Collection<SQLiteMasterType> types, String tableName) {
-    return query(db, SQLiteMasterColumn.values(),
-                 types.toArray(new SQLiteMasterType[0]), tableName);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andTypes: (NSArray<NSNumber *> *) types andTable: (NSString *) tableName;
 
 /**
- *
  * Count the sqlite_master table
  *
  * @param db
  *            connection
- * @param types
- *            result types
+ * @param type
+ *            result type
  * @return count
  */
-public static int count(GeoPackageCoreConnection db,
-                        Collection<SQLiteMasterType> types) {
-    return count(db, types, null);
-}
++(int) countWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type;
 
 /**
- *
  * Query the sqlite_master table
  *
  * @param db
@@ -365,28 +292,20 @@ public static int count(GeoPackageCoreConnection db,
  *            result type
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 Collection<SQLiteMasterColumn> columns, SQLiteMasterType type) {
-    return query(db, columns, type, null);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andType: (enum GPKGSQLiteMasterType) type;
 
 /**
- *
- * Query the sqlite_master table
+ * Count the sqlite_master table
  *
  * @param db
  *            connection
- * @param columns
- *            result columns
- * @param types
- *            result types
- * @return SQLiteMaster result
+ * @param type
+ *            result type
+ * @param tableName
+ *            table name
+ * @return count
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 Collection<SQLiteMasterColumn> columns,
-                                 Collection<SQLiteMasterType> types) {
-    return query(db, columns, types, null);
-}
++(int) countWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -401,12 +320,31 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 Collection<SQLiteMasterColumn> columns, SQLiteMasterType type,
-                                 String tableName) {
-    return query(db, columns.toArray(new SQLiteMasterColumn[0]), type,
-                 tableName);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andType: (enum GPKGSQLiteMasterType) type andTable: (NSString *) tableName;
+
+/**
+ * Count the sqlite_master table
+ *
+ * @param db
+ *            connection
+ * @param types
+ *            result types
+ * @return count
+ */
++(int) countWithConnection: (GPKGConnection *) db andTypes: (NSArray<NSNumber *> *) types;
+
+/**
+ * Query the sqlite_master table
+ *
+ * @param db
+ *            connection
+ * @param columns
+ *            result columns
+ * @param types
+ *            result types
+ * @return SQLiteMaster result
+ */
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types;
 
 /**
  * Count the sqlite_master table
@@ -419,10 +357,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            table name
  * @return count
  */
-public static int count(GeoPackageCoreConnection db,
-                        Collection<SQLiteMasterType> types, String tableName) {
-    return count(db, types.toArray(new SQLiteMasterType[0]), tableName);
-}
++(int) countWithConnection: (GPKGConnection *) db andTypes: (NSArray<NSNumber *> *) types andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -437,144 +372,7 @@ public static int count(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 Collection<SQLiteMasterColumn> columns,
-                                 Collection<SQLiteMasterType> types, String tableName) {
-    return query(db, columns.toArray(new SQLiteMasterColumn[0]),
-                 types.toArray(new SQLiteMasterType[0]), tableName);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param type
- *            result type
- * @return count
- */
-public static int count(GeoPackageCoreConnection db,
-                        SQLiteMasterType type) {
-    return count(db, types(type));
-}
-
-/**
- * Query the sqlite_master table
- *
- * @param db
- *            connection
- * @param columns
- *            result columns
- * @param type
- *            result type
- * @return SQLiteMaster result
- */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType type) {
-    return query(db, columns, types(type));
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param type
- *            result type
- * @param tableName
- *            table name
- * @return count
- */
-public static int count(GeoPackageCoreConnection db, SQLiteMasterType type,
-                        String tableName) {
-    return count(db, types(type), tableName);
-}
-
-/**
- * Query the sqlite_master table
- *
- * @param db
- *            connection
- * @param columns
- *            result columns
- * @param type
- *            result type
- * @param tableName
- *            table name
- * @return SQLiteMaster result
- */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType type,
-                                 String tableName) {
-    return query(db, columns, types(type), tableName);
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param types
- *            result types
- * @return count
- */
-public static int count(GeoPackageCoreConnection db,
-                        SQLiteMasterType[] types) {
-    return count(db, types, SQLiteMasterQuery.create());
-}
-
-/**
- * Query the sqlite_master table
- *
- * @param db
- *            connection
- * @param columns
- *            result columns
- * @param types
- *            result types
- * @return SQLiteMaster result
- */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType[] types) {
-    return query(db, columns, types, SQLiteMasterQuery.create());
-}
-
-/**
- * Count the sqlite_master table
- *
- * @param db
- *            connection
- * @param types
- *            result types
- * @param tableName
- *            table name
- * @return count
- */
-public static int count(GeoPackageCoreConnection db,
-                        SQLiteMasterType[] types, String tableName) {
-    return count(db, types, SQLiteMasterQuery
-                 .create(SQLiteMasterColumn.TBL_NAME, tableName));
-}
-
-/**
- * Query the sqlite_master table
- *
- * @param db
- *            connection
- * @param columns
- *            result columns
- * @param types
- *            result types
- * @param tableName
- *            table name
- * @return SQLiteMaster result
- */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType[] types,
-                                 String tableName) {
-    return query(db, columns, types, SQLiteMasterQuery
-                 .create(SQLiteMasterColumn.TBL_NAME, tableName));
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master table
@@ -585,10 +383,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            query
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterQuery query) {
-    return query(db, SQLiteMasterColumn.values(), query);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Count the sqlite_master table
@@ -599,10 +394,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            query
  * @return count
  */
-public static int count(GeoPackageCoreConnection db,
-                        SQLiteMasterQuery query) {
-    return count(db, types(), query);
-}
++(int) countWithConnection: (GPKGConnection *) db andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Query the sqlite_master table
@@ -615,10 +407,7 @@ public static int count(GeoPackageCoreConnection db,
  *            query
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterQuery query) {
-    return query(db, columns, types(), query);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Query the sqlite_master table
@@ -631,10 +420,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            query
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterType type, SQLiteMasterQuery query) {
-    return query(db, SQLiteMasterColumn.values(), type, query);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Count the sqlite_master table
@@ -647,10 +433,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            query
  * @return count
  */
-public static int count(GeoPackageCoreConnection db, SQLiteMasterType type,
-                        SQLiteMasterQuery query) {
-    return count(db, types(type), query);
-}
++(int) countWithConnection: (GPKGConnection *) db andType: (enum GPKGSQLiteMasterType) type andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Query the sqlite_master table
@@ -665,11 +448,7 @@ public static int count(GeoPackageCoreConnection db, SQLiteMasterType type,
  *            query
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType type,
-                                 SQLiteMasterQuery query) {
-    return query(db, columns, types(type), query);
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andType: (enum GPKGSQLiteMasterType) type andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Count the sqlite_master table
@@ -682,10 +461,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            query
  * @return count
  */
-public static int count(GeoPackageCoreConnection db,
-                        SQLiteMasterType[] types, SQLiteMasterQuery query) {
-    return query(db, null, types, query).count();
-}
++(int) countWithConnection: (GPKGConnection *) db andTypes: (NSArray<NSNumber *> *) types andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Query the sqlite_master table
@@ -700,66 +476,7 @@ public static int count(GeoPackageCoreConnection db,
  *            query
  * @return SQLiteMaster result
  */
-public static SQLiteMaster query(GeoPackageCoreConnection db,
-                                 SQLiteMasterColumn[] columns, SQLiteMasterType[] types,
-                                 SQLiteMasterQuery query) {
-    
-    StringBuilder sql = new StringBuilder("SELECT ");
-    List<String> args = new ArrayList<>();
-    
-    if (columns != null && columns.length > 0) {
-        
-        for (int i = 0; i < columns.length; i++) {
-            if (i > 0) {
-                sql.append(", ");
-            }
-            sql.append(columns[i].name().toLowerCase());
-        }
-        
-    } else {
-        sql.append("count(*)");
-    }
-    
-    sql.append(" FROM ");
-    sql.append(TABLE_NAME);
-    
-    boolean hasQuery = query != null && query.has();
-    boolean hasTypes = types != null && types.length > 0;
-    
-    if (hasQuery || hasTypes) {
-        
-        sql.append(" WHERE ");
-        
-        if (hasQuery) {
-            sql.append(query.buildSQL());
-            args.addAll(query.getArguments());
-        }
-        
-        if (hasTypes) {
-            
-            if (hasQuery) {
-                sql.append(" AND");
-            }
-            
-            sql.append(" type IN (");
-            for (int i = 0; i < types.length; i++) {
-                if (i > 0) {
-                    sql.append(", ");
-                }
-                sql.append("?");
-                args.add(types[i].name().toLowerCase());
-            }
-            sql.append(")");
-        }
-    }
-    
-    List<List<Object>> results = db.queryResults(sql.toString(),
-                                                 args.toArray(new String[0]));
-    
-    SQLiteMaster sqliteMaster = new SQLiteMaster(results, columns);
-    
-    return sqliteMaster;
-}
++(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types andQuery: (GPKGSQLiteMasterQuery *) query;
 
 /**
  * Query the sqlite_master views on the table
@@ -770,10 +487,7 @@ public static SQLiteMaster query(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryViewsOnTable(GeoPackageCoreConnection db,
-                                             String tableName) {
-    return queryViewsOnTable(db, SQLiteMasterColumn.values(), tableName);
-}
++(GPKGSQLiteMaster *) queryViewsWithConnection: (GPKGConnection *) db andTable: (NSString *) tableName;
 
 /**
  * Query the sqlite_master views on the table
@@ -786,11 +500,7 @@ public static SQLiteMaster queryViewsOnTable(GeoPackageCoreConnection db,
  *            table name
  * @return SQLiteMaster result
  */
-public static SQLiteMaster queryViewsOnTable(GeoPackageCoreConnection db,
-                                             SQLiteMasterColumn[] columns, String tableName) {
-    return query(db, columns, SQLiteMasterType.VIEW,
-                 SQLiteMasterQuery.createTableViewQuery(tableName));
-}
++(GPKGSQLiteMaster *) queryViewsWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTable: (NSString *) tableName;
 
 /**
  * Count the sqlite_master views on the table
@@ -801,11 +511,7 @@ public static SQLiteMaster queryViewsOnTable(GeoPackageCoreConnection db,
  *            table name
  * @return count
  */
-public static int countViewsOnTable(GeoPackageCoreConnection db,
-                                    String tableName) {
-    return count(db, SQLiteMasterType.VIEW,
-                 SQLiteMasterQuery.createTableViewQuery(tableName));
-}
++(int) countViewsWithConnection: (GPKGConnection *) db andTable: (NSString *) tableName;
 
 /**
  * Query for the table constraints
@@ -816,15 +522,6 @@ public static int countViewsOnTable(GeoPackageCoreConnection db,
  *            table name
  * @return SQL constraints
  */
-public static TableConstraints queryForConstraints(
-                                                   GeoPackageCoreConnection db, String tableName) {
-    TableConstraints constraints = new TableConstraints();
-    SQLiteMaster tableMaster = SQLiteMaster.queryByType(db,
-                                                        SQLiteMasterType.TABLE, tableName);
-    for (int i = 0; i < tableMaster.count(); i++) {
-        constraints.addConstraints(tableMaster.getConstraints(i));
-    }
-    return constraints;
-}
++(GPKGTableConstraints *) queryForConstraintsWithConnection: (GPKGConnection *) db andTable: (NSString *) tableName;
 
 @end

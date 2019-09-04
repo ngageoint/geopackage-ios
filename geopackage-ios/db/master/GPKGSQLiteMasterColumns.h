@@ -51,4 +51,11 @@ extern NSString * const GPKG_SMC_SQL_NAME;
  */
 +(enum GPKGSQLiteMasterColumn) fromName: (NSString *) name;
 
+/**
+ *  Get all SQLite Master column keyword type values
+ *
+ *  @return SQLite Master column keyword type values
+ */
++(NSArray<NSNumber *> *) values;
+
 @end

@@ -14,6 +14,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGConnectionFunction.h"
 #import "GPKGAlterTable.h"
+#import "GPKGSQLiteMaster.h"
 
 @interface GPKGConnection()
 
@@ -243,7 +244,7 @@
 }
 
 -(BOOL) tableExists: (NSString *) table{
-    return [GPKGSQLiteMaster countByType:GPKG_SMT_TABLE andTable:tableName] > 0;
+    return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_TABLE andTable:tableName] > 0;
 }
 
 -(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{

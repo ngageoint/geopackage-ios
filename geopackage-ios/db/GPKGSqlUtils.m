@@ -10,6 +10,7 @@
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
+#import "GPKGSQLiteMaster.h
 
 /**
  * Pattern for matching numbers

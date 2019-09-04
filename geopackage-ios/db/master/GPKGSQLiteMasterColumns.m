@@ -63,4 +63,14 @@ NSString * const GPKG_SMC_SQL_NAME = @"SQL";
     return value;
 }
 
++(NSArray<NSNumber *> *) values{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithInteger:GPKG_SMC_TYPE],
+            [NSNumber numberWithInteger:GPKG_SMC_NAME],
+            [NSNumber numberWithInteger:GPKG_SMC_TBL_NAME],
+            [NSNumber numberWithInteger:GPKG_SMC_ROOTPAGE],
+            [NSNumber numberWithInteger:GPKG_SMC_SQL],
+            nil];
+}
+
 @end

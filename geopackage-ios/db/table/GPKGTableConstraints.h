@@ -12,4 +12,12 @@
 
 // TODO
 
+/**
+ * Add table constraints
+ *
+ * @param constraints
+ *            table constraints
+ */
+-(void) addConstraints: (GPKGTableConstraints *) constraints;
+
 @end
