@@ -7,9 +7,42 @@
 //
 
 #import "GPKGConstraint.h"
+#import "GPKGSqlUtils.h"
+
+NSString * const GPKG_CONSTRAINT = @"CONSTRAINT";
 
 @implementation GPKGConstraint
 
-// TODO
+-(instancetype) initWithType: (enum GPKGConstraintType) type{
+    return [self initWithType:type andName:nil];
+}
+
+-(instancetype) initWithType: (enum GPKGConstraintType) type andName: (NSString *) name{
+    self = [super self];
+    if(self != nil){
+        self.type = type;
+        self.name = name;
+    }
+}
+
+-(NSString *) buildNameSql{
+    NSString *sql = @"";
+    if(self.name != nil){
+        sql = [NSString stringWithFormat:@"%@ %@ ", GPKG_CONSTRAINT, [GPKGSqlUtils quoteWrapName:self.name]];
+    }
+    return sql;
+}
+
+-(NSString *) buildSql{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGConstraint *constraint = [[[self class] allocWithZone:zone] init];
+    constraint.name = _name;
+    constraint.type = _type;
+    return constraint;
+}
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGConstraintTypes.h"
 
 @interface GPKGConstraintParser : NSObject
 
@@ -20,5 +21,23 @@
  * @return constraints
  */
 +(GPKGTableConstraints *) constraintsForSQL: (NSString *) tableSql;
+
+/**
+ * Get the constraint type of the constraint SQL
+ *
+ * @param constraintSql
+ *            constraint SQL
+ * @return constraint type or null
+ */
++(enum GPKGConstraintType) typeForSQL: (NSString *) constraintSql;
+
+/**
+ * Get the constraint name if it has one
+ *
+ * @param constraintSql
+ *            constraint SQL
+ * @return constraint name or null
+ */
++(NSString *) nameForSQL: (NSString *) constraintSql;
 
 @end

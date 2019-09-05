@@ -14,14 +14,14 @@
 #import "GPKGSQLiteMasterQuery.h"
 
 /**
- * SQLite Master table queries (sqlite_master)
- */
-@interface GPKGSQLiteMaster : NSObject
-
-/**
  * Table Name
  */
 extern NSString * const GPKG_SM_TABLE_NAME;
+
+/**
+ * SQLite Master table queries (sqlite_master)
+ */
+@interface GPKGSQLiteMaster : NSObject
 
 /**
  * Result count
