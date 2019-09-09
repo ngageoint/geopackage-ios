@@ -12,6 +12,7 @@
 @class GPKGRTreeIndexTableDao;
 
 extern NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME;
+extern NSString * const GPKG_RTREE_INDEX_PREFIX;
 extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID;
 extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X;
 extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X;

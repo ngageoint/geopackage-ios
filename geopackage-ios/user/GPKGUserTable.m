@@ -9,6 +9,20 @@
 #import "GPKGUserTable.h"
 #import "GPKGUtils.h"
 
+@interface GPKGUserTable()
+
+/**
+ *  Constraints
+ */
+@property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
+
+/**
+ * Type Constraints
+ */
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray<GPKGConstraint *> *> *typedContraints;
+
+@end
+
 @implementation GPKGUserTable
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
@@ -92,7 +106,7 @@
 -(void) typeCheckWithExpected: (enum GPKGDataType) expected andColumn: (GPKGUserColumn *) column{
     enum GPKGDataType actual = column.dataType;
     if(actual != expected){
-        [NSException raise:@"Unexpected Data Type" format:@"Unexpected %@ column data type was found for table '%@', expected: %@, actual: %@", column.name, self.tableName, [GPKGDataTypes name:expected], [column getTypeName]];
+        [NSException raise:@"Unexpected Data Type" format:@"Unexpected %@ column data type was found for table '%@', expected: %@, actual: %@", column.name, self.tableName, [GPKGDataTypes name:expected], column.type];
     }
 }
 
@@ -142,17 +156,45 @@
     return column;
 }
 
--(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint{
-    if(self.uniqueConstraints == nil){
-        self.uniqueConstraints = [[NSMutableArray alloc] init];
+-(void) addConstraint: (GPKGConstraint *) constraint{
+    // TODO init array and dictionary on construction
+    [GPKGUtils addObject:constraint toArray:_constraints];
+    NSNumber *typeNumber = [NSNumber numberWithInteger:constraint.type];
+    NSMutableArray<GPKGConstraint *> *typeConstraints = [self.typedContraints objectForKey:typeNumber];
+    if(typeConstraints == nil){
+        typeConstraints = [[NSMutableArray alloc] init];
+        [self.typedContraints setObject:typeConstraints forKey:typeNumber];
     }
-    [GPKGUtils addObject:uniqueConstraint toArray:self.uniqueConstraints];
+    [typeConstraints addObject:constraint];
 }
 
--(void) addUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints{
-    for(GPKGUserUniqueConstraint *uniqueConstraint in uniqueConstraints){
-        [self addUniqueConstraint:uniqueConstraint];
+-(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints{
+    for(GPKGConstraint *constraint in constraints){
+        [self addConstraint:constraint];
     }
+}
+
+-(BOOL) hasConstraints{
+    return self.constraints.count > 0;
+}
+
+-(NSArray<GPKGConstraint *> *) constraints{
+    return self.constraints;
+}
+
+-(NSArray<GPKGConstraint *> *) constraintsForType: (enum GPKGConstraintType) type{
+    NSArray<GPKGConstraint *> *constraints = [self.typedContraints objectForKey:[NSNumber numberWithInteger:type]];
+    if(constraints == nil){
+        constraints = [[NSArray alloc] init];
+    }
+    return constraints;
+}
+
+-(NSArray<GPKGConstraint *> *) clearConstraints{
+    NSArray<GPKGConstraint *> *constraintsCopy = [NSArray arrayWithArray:self.constraints];
+    [_constraints removeAllObjects];
+    [_typedContraints removeAllObjects];
+    return constraintsCopy;
 }
 
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GPKGFeatureGenerator.h"
 
 @interface GPKGOAPIFeatureGenerator : GPKGFeatureGenerator
 

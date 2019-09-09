@@ -15,6 +15,7 @@
 #import "SFGeometryEnvelopeBuilder.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
+NSString * const GPKG_RTREE_INDEX_PREFIX = @"rtree_";
 NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID = @"id";
 NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X = @"minx";
 NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X = @"maxx";
@@ -244,11 +245,11 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 -(GPKGUserCustomTable *) rTreeTableWithFeatureTable: (GPKGFeatureTable *) featureTable{
 
     NSMutableArray *columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithIndex:0 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:1 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:2 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:3 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:4 andName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y andDataType:GPKG_DT_FLOAT andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X andDataType:GPKG_DT_FLOAT]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X andDataType:GPKG_DT_FLOAT]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y andDataType:GPKG_DT_FLOAT]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y andDataType:GPKG_DT_FLOAT]];
     
     NSString *rTreeTableName = [self rTreeTableNameWithTable:featureTable.tableName andColumn:[featureTable getGeometryColumn].name];
     

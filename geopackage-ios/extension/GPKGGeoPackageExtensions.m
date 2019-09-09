@@ -77,6 +77,25 @@
     }
 }
 
++(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    
+    @try {
+        
+        [self copyRTreeSpatialIndexWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyRelatedTablesWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyGriddedCoverageWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copySchemaWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyMetadataWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        
+        // Handle copying any extensions with extra tables here
+        [GPKGNGAExtensions copyTableExtensionsWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to copy extensions for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
+}
+
 +(void) deleteRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
     GPKGRTreeIndexExtension *rTreeIndexExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
@@ -95,6 +114,10 @@
     
 }
 
++(void) copyRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
     GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
@@ -111,6 +134,10 @@
         [relatedTablesExtension removeExtension];
     }
     
+}
+
++(void) copyRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
 }
 
 +(void) deleteGriddedCoverageWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -158,6 +185,10 @@
     
 }
 
++(void) copyGriddedCoverageWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteSchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
     GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
@@ -176,6 +207,10 @@
     
 }
 
++(void) copySchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
     GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
@@ -192,6 +227,10 @@
         [metadataExtension removeExtension];
     }
     
+}
+
++(void) copyMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
 }
 
 +(void) deleteCrsWktExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{

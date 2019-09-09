@@ -45,13 +45,4 @@ extern NSString * const GPKG_UTR_DFLT_VALUE;
  */
 -(GPKGUserTable *) readTableWithConnection: (GPKGConnection *) db;
 
-/**
- *  Get the data type of the string type.
- *
- *  @param type data type string
- *
- *  @return data type
- */
--(enum GPKGDataType) dataType: (NSString *) type;
-
 @end

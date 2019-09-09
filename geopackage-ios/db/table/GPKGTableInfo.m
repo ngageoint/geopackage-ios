@@ -9,6 +9,7 @@
 #import "GPKGTableInfo.h"
 #import "SFGeometryTypes.h"
 #import "GPKGSqlUtils.h"
+#import "GPKGDateTimeUtils.h"
 
 NSString * const GPKG_TI_CID = @"cid";
 int const GPKG_TI_CID_INDEX = 0;
@@ -126,7 +127,7 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
     
     NSMutableArray<GPKGTableColumn *> *tableColumns = [[NSMutableArray alloc] init];
     
-    for (NSArray<NSObject *> *column : results) {
+    for (NSArray<NSObject *> *column in results) {
         
         int index = [((NSNumber *)[column objectAtIndex:GPKG_TI_CID_INDEX]) intValue];
         NSString *name = (NSString *)[column objectAtIndex:GPKG_TI_NAME_INDEX];
@@ -187,65 +188,52 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
 }
 
 +(NSObject *) defaultValue: (NSString *) defaultValue withDataType: (enum GPKGDataType) type{
-    return nil; // TODO
-    /*
-    Object value = defaultValue;
     
-    if (defaultValue != null && type != null
-        && !defaultValue.equalsIgnoreCase(DEFAULT_NULL)) {
+    NSObject *value = defaultValue;
+    
+    if (defaultValue != nil && (int)type >= 0
+        && [defaultValue caseInsensitiveCompare:GPKG_TI_DEFAULT_NULL] != NSOrderedSame){
         
         switch (type) {
-            case TEXT:
+            case GPKG_DT_TEXT:
                 break;
-            case DATE:
-            case DATETIME:
-                if (!DateConverter.isFunction(defaultValue)) {
-                    DateConverter converter = DateConverter.converter(type);
-                    try {
-                        value = converter.dateValue(defaultValue);
-                    } catch (Exception e) {
-                        logger.log(
-                                   Level.WARNING, "Invalid " + type + " format: "
-                                   + defaultValue + ", String value used",
-                                   e);
+            case GPKG_DT_DATE:
+            case GPKG_DT_DATETIME:
+                if(![GPKGDateTimeUtils isFunction:defaultValue]){
+                    @try{
+                        value = [GPKGDateTimeUtils convertToDateWithString:defaultValue];
+                    } @catch (NSException *exception) {
+                        NSLog(@"Invalid %@ format: %@, String value used, error: %@", [GPKGDataTypes name:type], defaultValue, exception);
                     }
                 }
                 break;
-            case BOOLEAN:
-                value = Integer.parseInt(defaultValue) == 0 ? Boolean.FALSE
-                : Boolean.TRUE;
+            case GPKG_DT_BOOLEAN:
+            case GPKG_DT_TINYINT:
+            case GPKG_DT_SMALLINT:
+            case GPKG_DT_MEDIUMINT:
+                value = [NSNumber numberWithInt:[defaultValue intValue]];
                 break;
-            case TINYINT:
-                value = Byte.parseByte(defaultValue);
+            case GPKG_DT_INT:
+            case GPKG_DT_INTEGER:
+                value = [NSNumber numberWithLongLong:[defaultValue longLongValue]];
                 break;
-            case SMALLINT:
-                value = Short.parseShort(defaultValue);
+            case GPKG_DT_FLOAT:
+                value = [NSNumber numberWithFloat:[defaultValue floatValue]];
                 break;
-            case MEDIUMINT:
-                value = Integer.parseInt(defaultValue);
+            case GPKG_DT_DOUBLE:
+            case GPKG_DT_REAL:
+                value = [NSNumber numberWithDouble:[defaultValue doubleValue]];
                 break;
-            case INT:
-            case INTEGER:
-                value = Long.parseLong(defaultValue);
-                break;
-            case FLOAT:
-                value = Float.parseFloat(defaultValue);
-                break;
-            case DOUBLE:
-            case REAL:
-                value = Double.parseDouble(defaultValue);
-                break;
-            case BLOB:
-                value = defaultValue.getBytes();
+            case GPKG_DT_BLOB:
+                value = [defaultValue dataUsingEncoding:NSUTF8StringEncoding];
                 break;
             default:
-                throw new GeoPackageException("Unsupported Data Type " + type);
+                [NSException raise:@"Unsupported" format:@"Unsupported Data Type %@", [GPKGDataTypes name:type]];
         }
         
     }
     
     return value;
-     */
 }
 
 @end

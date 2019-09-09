@@ -10,7 +10,8 @@
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
-#import "GPKGSQLiteMaster.h
+#import "GPKGSQLiteMaster.h"
+#import "GPKGAlterTable.h"
 
 /**
  * Pattern for matching numbers
@@ -800,6 +801,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                     }
                     break;
                 default:
+                    break;
             }
             
         }
@@ -817,7 +819,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(BOOL) foreignKeysWithConnection: (GPKGConnection *) db{
-    NSNumber *foreignKeys = [db querySingleResultWithSql:@"PRAGMA foreign_keys" andArgs:nil andDataType:GPKG_DT_BOOLEAN];
+    NSNumber *foreignKeys = (NSNumber *)[db querySingleResultWithSql:@"PRAGMA foreign_keys" andArgs:nil andDataType:GPKG_DT_BOOLEAN];
     return [self boolValueOfNumber:foreignKeys];
 }
 
@@ -834,7 +836,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(NSString *) foreignKeysSQLAsOn: (BOOL) on{
-    return [NSString stringWithFormat:"PRAGMA foreign_keys = %@", (on ? @"true" : @"false")];
+    return [NSString stringWithFormat:@"PRAGMA foreign_keys = %@", (on ? @"true" : @"false")];
 }
 
 +(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
@@ -899,9 +901,9 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         [where appendString:tableMapping.where];
     }
     
-    for(NSString *toColumn in [tableMapping columns]){
+    for(NSString *toColumn in [tableMapping columnNames]){
         
-        GPKGMappedColumn *column = [tableMapping column:toColumn];
+        GPKGMappedColumn *column = [tableMapping columnForName:toColumn];
         
         if(selectColumns.length > 0){
             [insert appendString:@", "];
@@ -931,11 +933,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             if(where.length > 0){
                 [where appendString:@" AND "];
             }
-            [where [self quoteWrapName:[column fromColumn]]];
+            [where appendString:[self quoteWrapName:[column fromColumn]]];
             [where appendString:@" "];
             [where appendString:[column whereOperator]];
             [where appendString:@" "];
-            [where appendString:[column whereValueAsString]]
+            [where appendString:[column whereValueAsString]];
         }
         
     }
@@ -958,11 +960,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(void) transferContentInTable: (NSString *) tableName inColumn: (NSString *) columnName withNewValue: (NSObject *) newColumnValue andCurrentValue: (NSObject *) currentColumnValue andIdColumn: (NSString *) idColumnName withConnection: (GPKGConnection *) db{
     
-    GPKGTableMapping *tableMapping = [[GPKGTableMapping alloc] initWithConnection:db andTable:tableName];
+    GPKGTableMapping *tableMapping = [[GPKGTableMapping alloc] initWithTableName:tableName andConnection:db];
     if(idColumnName != nil){
         [tableMapping removeColumn:idColumnName];
     }
-    GPKGMappedColumn *tileMatrixSetNameColumn = [tableMapping column:columnName];
+    GPKGMappedColumn *tileMatrixSetNameColumn = [tableMapping columnForName:columnName];
     [tileMatrixSetNameColumn setConstantValue:newColumnValue];
     [tileMatrixSetNameColumn setWhereValue:currentColumnValue];
     
@@ -973,7 +975,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     NSString *name = [NSString stringWithFormat:@"%@_%@", prefix, baseName];
     int nameNumber = 0;
     while([db tableExists:name]){
-        name = [NSString stringWithFormat:@"%@%@_%@", prefix, ++nameNumber, baseName];
+        name = [NSString stringWithFormat:@"%@%d_%@", prefix, ++nameNumber, baseName];
     }
     return name;
 }
@@ -1118,7 +1120,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(NSString *) createName: (NSString *) name andReplace: (NSString *) replace withReplacement: (NSString *) replacement withConnection: (GPKGConnection *) db{
 
     // Attempt the replacement
-    NSString *newName = [name stringByReplacingOccurrencesOfString:replace withString:replacement options:NSCaseInsensitiveSearch range:NSMakeRange(0, name.length);
+    NSString *newName = [name stringByReplacingOccurrencesOfString:replace withString:replacement options:NSCaseInsensitiveSearch range:NSMakeRange(0, name.length)];
     
     // If no name change was made
     if([newName isEqualToString:name]){
@@ -1127,7 +1129,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         int count = 1;
         
         // Find any existing end number: name_#
-        int index = [baseName rangeOfString:@"_" options:NSBackwardsSearch].location;
+        int index = (int)[baseName rangeOfString:@"_" options:NSBackwardsSearch].location;
         if (index != NSNotFound && index + 1 < baseName.length) {
             NSString *numberPart = [baseName substringFromIndex:index + 1];
             if([numberExpression numberOfMatchesInString:numberPart options:0 range:NSMakeRange(0, numberPart.length)] == 1){
@@ -1141,7 +1143,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         
         if (db != nil) {
             // Check for conflicting SQLite Master table names
-            while([GPKGSQLiteMaster countWithConnection:db andQuery:[GPKGSQLiteMasterQuery createWithColumn:GPKG_SQLITE_MASTER_NAME andValue:newName]] > 0){
+            while([GPKGSQLiteMaster countWithConnection:db andQuery:[GPKGSQLiteMasterQuery createWithColumn:GPKG_SMC_NAME andValue:newName]] > 0){
                 newName = [NSString stringWithFormat:@"%@_%d", baseName, ++count];
             }
         }

@@ -10,6 +10,7 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
+#import "GPKGAlterTable.h"
 
 NSString * const GPKG_CRS_WKT_EXTENSION_NAME = @"crs_wkt";
 NSString * const GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION = @"geopackage.extensions.crs_wkt";
@@ -81,7 +82,8 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
  *  Create the extension column
  */
 -(void) createColumn{
-    [self.connection addColumnWithTableName:GPKG_SRS_TABLE_NAME andColumnName:self.columnName andColumnDef:self.columnDef];
+    
+    [GPKGAlterTable addColumn:self.columnName withDefinition:self.columnDef toTable:GPKG_SRS_TABLE_NAME withConnection:self.connection];
     
     // Update the existing known SRS values
     [self updateDefinitionWithSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_ID]

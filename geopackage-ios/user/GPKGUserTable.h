@@ -41,11 +41,6 @@
 @property (nonatomic) int pkIndex;
 
 /**
- *  Array of unique constraints
- */
-@property (nonatomic, strong) NSMutableArray *uniqueConstraints;
-
-/**
  * Foreign key to Contents
  */
 @property (nonatomic, strong) GPKGContents *contents;
@@ -168,19 +163,49 @@
 -(GPKGUserColumn *) getPkColumn;
 
 /**
- *  Add a unique constraint
+ *  Add constraint
  *
- *  @param uniqueConstraint unique constraint
+ *  @param constraint constraint
  */
--(void) addUniqueConstraint: (GPKGUserUniqueConstraint *) uniqueConstraint;
+-(void) addConstraint: (GPKGConstraint *) constraint;
 
 /**
- * Add unique constraint
+ * Add constraints
  *
- * @param uniqueConstraints
- *            unique constraints
+ * @param constraints
+ *            constraints
  */
--(void) addUniqueConstraints: (NSArray<GPKGUserUniqueConstraint *> *) uniqueConstraints;
+-(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints;
+
+/**
+ * Check if has constraints
+ *
+ * @return true if has constraints
+ */
+-(BOOL) hasConstraints;
+
+/**
+ * Get the constraints
+ *
+ * @return constraints
+ */
+-(NSArray<GPKGConstraint *> *) constraints;
+
+/**
+ * Get the constraints of the provided type
+ *
+ * @param type
+ *            constraint type
+ * @return constraints
+ */
+-(NSArray<GPKGConstraint *> *) constraintsForType: (enum GPKGConstraintType) type;
+
+/**
+ * Clear the constraints
+ *
+ * @return cleared constraints
+ */
+-(NSArray<GPKGConstraint *> *) clearConstraints;
 
 /**
  * Get the columns with the provided data type

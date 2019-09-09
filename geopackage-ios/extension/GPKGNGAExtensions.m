@@ -41,6 +41,10 @@
     // Delete future extension tables here
 }
 
++(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
     GPKGTableIndexDao * tableIndexDao = [geoPackage getTableIndexDao];
@@ -75,6 +79,10 @@
     
 }
 
++(void) copyGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
     GPKGFeatureTileLinkDao * featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
@@ -96,6 +104,10 @@
         NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension];
     }
+}
+
++(void) copyFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
 }
 
 +(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -126,6 +138,10 @@
         [extensionsDao deleteByExtension:extension];
     }
     
+}
+
++(void) copyTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
 }
 
 +(void) deletePropertiesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -165,6 +181,10 @@
     }
 }
 
++(void) copyFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
+}
+
 +(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
     GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
@@ -181,6 +201,10 @@
         [contentsIdExtension removeExtension];
     }
     
+}
+
++(void) copyContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+    // TODO
 }
 
 @end

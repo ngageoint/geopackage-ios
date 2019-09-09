@@ -31,6 +31,18 @@
 +(void) deleteExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Copy all table extensions for the table within the GeoPackage
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+
+/**
  * Delete the RTree Spatial extension for the table
  *
  * @param geoPackage
@@ -47,6 +59,18 @@
  *            GeoPackage
  */
 +(void) deleteRTreeSpatialIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Copy the RTree Spatial extension for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copyRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
 
 /**
  * Delete the Related Tables extensions for the table
@@ -67,6 +91,18 @@
 +(void) deleteRelatedTablesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Copy the Related Tables extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copyRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+
+/**
  * Delete the Gridded Coverage extensions for the table
  *
  * @param geoPackage
@@ -83,6 +119,18 @@
  *            GeoPackage
  */
 +(void) deleteGriddedCoverageExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Copy the Gridded Coverage extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copyGriddedCoverageWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
 
 /**
  * Delete the Schema extensions for the table
@@ -103,6 +151,18 @@
 +(void) deleteSchemaExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Copy the Schema extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copySchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+
+/**
  * Delete the Metadata extensions for the table
  *
  * @param geoPackage
@@ -119,6 +179,18 @@
  *            GeoPackage
  */
 +(void) deleteMetadataExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Copy the Metadata extensions for the table
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ */
++(void) copyMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
 
 /**
  * Delete the WKT for Coordinate Reference Systems extension
