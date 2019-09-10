@@ -145,7 +145,7 @@
     if(geometryType != SF_NONE){
         type = [GPKGDataTypes name:dataType];
     }else {
-        type = [super typeNameForName:name withDataType:dataType];
+        type = [GPKGUserColumn nameOfDataType:dataType forColumn:name];
     }
     return type;
 }

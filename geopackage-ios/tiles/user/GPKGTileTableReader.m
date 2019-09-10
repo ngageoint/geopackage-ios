@@ -11,11 +11,8 @@
 
 @implementation GPKGTileTableReader
 
--(instancetype) initWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
-    self = [super initWithTable:tileMatrixSet.tableName];
-    if(self != nil){
-        self.tileMatrixSet = tileMatrixSet;
-    }
+-(instancetype) initWithTable: (NSString *) tableName{
+    self = [super initWithTable:tableName];
     return self;
 }
 
@@ -27,22 +24,8 @@
     return [[GPKGTileTable alloc] initWithTable:tableName andColumns:columns];
 }
 
--(GPKGUserColumn *) createColumnWithResults: (GPKGResultSet *) results
-                                   andIndex: (int) index
-                                    andName: (NSString *) name
-                                    andType: (NSString *) type
-                                     andMax: (NSNumber *) max
-                                 andNotNull: (BOOL) notNull
-                       andDefaultValueIndex: (int) defaultValueIndex
-                              andPrimaryKey: (BOOL) primaryKey{
-    
-    enum GPKGDataType dataType = [self dataType:type];
-    
-    NSObject * defaultValue = [results getValueWithIndex:defaultValueIndex];
-    
-    GPKGTileColumn * column = [[GPKGTileColumn alloc] initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
-    
-    return column;
+-(GPKGUserColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
+    return [GPKGTileColumn createColumnWithTableColumn:tableColumn];
 }
 
 @end

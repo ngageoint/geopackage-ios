@@ -244,14 +244,14 @@
 }
 
 -(BOOL) tableExists: (NSString *) table{
-    return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_TABLE andTable:tableName] > 0;
+    return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_TABLE andTable:table] > 0;
 }
 
 -(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     
     BOOL exists = false;
     
-    GPKGTableInfo *tableInfo = [GPKGTableInfo infoForTable:tableName withConnection:self];
+    GPKGTableInfo *tableInfo = [GPKGTableInfo infoWithConnection:self andTable:tableName];
     if(tableInfo != nil){
         exists = [tableInfo hasColumn:columnName];
     }

@@ -24,6 +24,7 @@
     if(self != nil){
         self.sql = sql;
     }
+    return self;
 }
 
 -(void) setTypeFromSql: (NSString *) sql{

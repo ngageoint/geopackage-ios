@@ -21,26 +21,6 @@
 @property (nonatomic, strong) NSString *tableName;
 
 /**
- *  Array of column names
- */
-@property (nonatomic, strong) NSArray *columnNames;
-
-/**
- *  Array of columns
- */
-@property (nonatomic, strong) NSArray *columns;
-
-/**
- *  Mapping between column names and their index
- */
-@property (nonatomic, strong) NSDictionary *nameToIndex;
-
-/**
- *  Primary key column index
- */
-@property (nonatomic) int pkIndex;
-
-/**
  * Foreign key to Contents
  */
 @property (nonatomic, strong) GPKGContents *contents;
@@ -56,9 +36,10 @@
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
 /**
- *  Initialize
+ * Initialize
  *
- *  @param userTable user table
+ * @param userTable
+ *            user table
  *
  *  @return new user table
  */
@@ -106,6 +87,13 @@
 -(int) getColumnIndexWithColumnName: (NSString *) columnName;
 
 /**
+ * Get the array of column names
+ *
+ * @return column names
+ */
+-(NSArray<NSString *> *) columnNames;
+
+/**
  *  Get the column name at the index
  *
  *  @param index index
@@ -113,6 +101,13 @@
  *  @return column name
  */
 -(NSString *) getColumnNameWithIndex: (int) index;
+
+/**
+ * Get the list of columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGUserColumn *> *) columns;
 
 /**
  *  Get the column at the index
@@ -154,6 +149,13 @@
  * @return true if has a primary key
  */
 -(BOOL) hasPkColumn;
+
+/**
+ * Get the primary key column index
+ *
+ * @return primary key column index
+ */
+-(int) pkIndex;
 
 /**
  *  Get the primary key column index
@@ -215,5 +217,75 @@
  * @return columns
  */
 -(NSArray *) columnsOfType: (enum GPKGDataType) type;
+
+/**
+ * Add a new column
+ *
+ * @param column
+ *            new column
+ */
+-(void) addColumn: (GPKGUserColumn *) column;
+
+/**
+ * Rename a column
+ *
+ * @param column
+ *            column
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName;
+
+/**
+ * Rename a column
+ *
+ * @param columnName
+ *            column name
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName;
+
+/**
+ * Rename a column
+ *
+ * @param index
+ *            column index
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName;
+
+/**
+ * Drop a column
+ *
+ * @param column
+ *            column to drop
+ */
+-(void) dropColumn: (GPKGUserColumn *) column;
+
+/**
+ * Drop a column
+ *
+ * @param columnName
+ *            column name
+ */
+-(void) dropColumnWithName: (NSString *) columnName;
+
+/**
+ * Drop a column
+ *
+ * @param index
+ *            column index
+ */
+-(void) dropColumnWithIndex: (int) index;
+
+/**
+ * Alter a column
+ *
+ * @param column
+ *            altered column
+ */
+-(void) alterColumn: (GPKGUserColumn *) column;
 
 @end

@@ -42,17 +42,17 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
                 [self duplicateCheckWithIndex:columnIndex andPreviousIndex:zoomLevel andColumn:GPKG_TT_COLUMN_ZOOM_LEVEL];
                 [self typeCheckWithExpected:GPKG_DT_INTEGER andColumn:column];
                 zoomLevel = [NSNumber numberWithInt:columnIndex];
-                [uniqueConstraint add:column];
+                [uniqueConstraint addColumn:column];
             } else if ([columnName isEqualToString:GPKG_TT_COLUMN_TILE_COLUMN]) {
                 [self duplicateCheckWithIndex:columnIndex andPreviousIndex:tileColumn andColumn:GPKG_TT_COLUMN_TILE_COLUMN];
                 [self typeCheckWithExpected:GPKG_DT_INTEGER andColumn:column];
                 tileColumn = [NSNumber numberWithInt:columnIndex];
-                [uniqueConstraint add:column];
+                [uniqueConstraint addColumn:column];
             } else if ([columnName isEqualToString:GPKG_TT_COLUMN_TILE_ROW]) {
                 [self duplicateCheckWithIndex:columnIndex andPreviousIndex:tileRow andColumn:GPKG_TT_COLUMN_TILE_ROW];
                 [self typeCheckWithExpected:GPKG_DT_INTEGER andColumn:column];
                 tileRow = [NSNumber numberWithInt:columnIndex];
-                [uniqueConstraint add:column];
+                [uniqueConstraint addColumn:column];
             } else if ([columnName isEqualToString:GPKG_TT_COLUMN_TILE_DATA]) {
                 [self duplicateCheckWithIndex:columnIndex andPreviousIndex:tileData andColumn:GPKG_TT_COLUMN_TILE_DATA];
                 [self typeCheckWithExpected:GPKG_DT_BLOB andColumn:column];

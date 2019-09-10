@@ -101,7 +101,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 
 -(void) validateColumns{
     
-    NSArray<GPKGUserCustomColumn *> *columns = self.columns;
+    NSArray<GPKGUserCustomColumn *> *columns = self.columns; // TODO
     if(columns.count < 2){
         [NSException raise:@"Simple Attributes Columns" format:@"Simple Attributes Tables require at least one non id column. Columns: %lu", (unsigned long)columns.count];
     }

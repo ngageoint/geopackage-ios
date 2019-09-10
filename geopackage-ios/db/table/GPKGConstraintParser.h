@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGConstraintTypes.h"
+#import "GPKGTableConstraints.h"
 
 @interface GPKGConstraintParser : NSObject
 

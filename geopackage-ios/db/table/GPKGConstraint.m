@@ -23,6 +23,7 @@ NSString * const GPKG_CONSTRAINT = @"CONSTRAINT";
         self.type = type;
         self.name = name;
     }
+    return self;
 }
 
 -(NSString *) buildNameSql{

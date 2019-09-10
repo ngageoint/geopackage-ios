@@ -12,6 +12,26 @@
 @interface GPKGUserTable()
 
 /**
+ *  Array of column names
+ */
+@property (nonatomic, strong) NSMutableArray<NSString *> *columnNames;
+
+/**
+ *  Array of columns
+ */
+@property (nonatomic, strong) NSMutableArray<GPKGUserColumn *> *columns;
+
+/**
+ *  Mapping between column names and their index
+ */
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *nameToIndex;
+
+/**
+ *  Primary key column index
+ */
+@property (nonatomic) int pkIndex;
+
+/**
  *  Constraints
  */
 @property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
@@ -28,53 +48,13 @@
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
     self = [super init];
     if(self != nil){
-    
+        self.nameToIndex = [[NSMutableDictionary alloc] init];
+        self.constraints = [[NSMutableArray alloc] init];
+        self.typedContraints = [[NSMutableDictionary alloc] init];
         self.tableName = tableName;
-    
-        // Sort the columns by index
-        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
-        columns = [columns sortedArrayUsingDescriptors:@[sort]];
+        self.columns = [NSMutableArray arrayWithArray:columns];
         
-        // Verify the columns have ordered indices without gaps
-        for(int i = 0; i < [columns count]; i++){
-            GPKGUserColumn * column = [GPKGUtils objectAtIndex:i inArray:columns];
-            if(column == nil){
-                [NSException raise:@"Missing Column" format:@"No column found at index: %d, Table Name: %@", i, tableName];
-            } else if(column.index != i){
-                [NSException raise:@"Invalid Column" format:@"Column has wrong index of %d, found at index: %d, Table Name: %@", column.index, i, tableName];
-            }
-        }
-        
-        NSNumber * pk = nil;
-    
-        // Build the column name array for queries, find the primary key and geometry
-        NSMutableArray * tempColumnNames = [NSMutableArray arrayWithCapacity:[columns count]];
-        NSMutableDictionary * tempNameToIndex = [NSMutableDictionary dictionaryWithCapacity:[columns count]];
-        for(GPKGUserColumn * column in columns){
-        
-            int index = column.index;
-            NSNumber * indexNumber = [NSNumber numberWithInt:index];
-        
-            if(column.primaryKey){
-                if(pk != nil){
-                    [NSException raise:@"Multiple Primary Keys" format:@"More than one primary key column was found for table '%@'. Index %@ and %d", tableName, pk, index];
-                }
-                pk = indexNumber;
-            }
-            
-            [GPKGUtils addObject:column.name toArray:tempColumnNames];
-            [GPKGUtils setObject:indexNumber forKey:column.name inDictionary:tempNameToIndex];
-        }
-        self.columns = columns;
-        self.columnNames = tempColumnNames;
-        self.nameToIndex = tempNameToIndex;
-        
-        if(pk != nil){
-            self.pkIndex = [pk intValue];
-        }else{
-            self.pkIndex = -1;
-        }
-
+        [self updateColumns];
     }
     return self;
 }
@@ -82,14 +62,84 @@
 -(instancetype) initWithUserTable: (GPKGUserTable *) userTable{
     self = [super init];
     if(self != nil){
+
         self.tableName = userTable.tableName;
-        self.columnNames = userTable.columnNames;
-        self.columns = userTable.columns;
-        self.nameToIndex = userTable.nameToIndex;
+        self.columnNames = [NSMutableArray arrayWithArray:userTable.columnNames];
+        self.columns = [[NSMutableArray alloc] init];
+        for(GPKGUserColumn *column in userTable.columns){
+            GPKGUserColumn *copiedColumn = [column mutableCopy];
+            [_columns addObject:copiedColumn];
+        }
+        self.nameToIndex = [NSMutableDictionary dictionaryWithDictionary:userTable.nameToIndex];
         self.pkIndex = userTable.pkIndex;
-        self.uniqueConstraints = userTable.uniqueConstraints;
+        
+        self.constraints = [[NSMutableArray alloc] init];
+        self.typedContraints = [[NSMutableDictionary alloc] init];
+        for(GPKGConstraint *constraint in userTable.constraints){
+            [self addConstraint:[constraint mutableCopy]];
+        }
+        self.contents = userTable.contents;
+        
     }
     return self;
+}
+
+-(void) updateColumns{
+    
+    [self.nameToIndex removeAllObjects];
+    
+    NSMutableSet<NSNumber *> *indices = [[NSMutableSet alloc] init];
+    
+    // Check for missing indices and duplicates
+    NSMutableArray<GPKGUserColumn *> *needsIndex = [[NSMutableArray alloc] init];
+    for (GPKGUserColumn *column in self.columns) {
+        if ([column hasIndex]) {
+            NSNumber *index = [NSNumber numberWithInt:column.index];
+            if([indices containsObject:index]){
+                [NSException raise:@"Duplicate Index" format:@"Duplicate index: %@, Table Name: %@", index, self.tableName];
+            }else{
+                [indices addObject:index];
+            }
+        } else {
+            [needsIndex addObject:column];
+        }
+    }
+    
+    // Update columns that need an index
+    int currentIndex = -1;
+    for (GPKGUserColumn *column in needsIndex) {
+        while([indices containsObject:[NSNumber numberWithInt:++currentIndex]]){
+        }
+        [column setIndex:currentIndex];
+    }
+    
+    // Sort the columns by index
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
+    self.columns = [NSMutableArray arrayWithArray:[self.columns sortedArrayUsingDescriptors:@[sort]]];
+    
+    self.pkIndex = -1;
+    self.columnNames = [[NSMutableArray alloc] initWithCapacity:self.columns.count];
+    
+    for (int index = 0; index < self.columns.count; index++) {
+        
+        GPKGUserColumn *column = [self.columns objectAtIndex:index];
+        
+        if(column.index != index){
+            [NSException raise:@"No Column" format:@"No column found at index: %d, Table Name: %@", index, self.tableName];
+        }
+        
+        if(column.primaryKey){
+            if(self.pkIndex != -1){
+                [NSException raise:@"Multiple Primary Keys" format:@"More than one primary key column was found for table '%@'. Index %d and %d", self.tableName, self.pkIndex, index];
+            }
+            self.pkIndex = index;
+        }
+        
+        NSString *columnName = column.name;
+        [_columnNames addObject:columnName];
+        [self.nameToIndex setObject:[NSNumber numberWithInt:index] forKey:columnName];
+    }
+    
 }
 
 -(NSString *) dataType{
@@ -124,8 +174,16 @@
     return [index intValue];
 }
 
+-(NSArray<NSString *> *) columnNames{
+    return _columnNames;
+}
+
 -(NSString *) getColumnNameWithIndex: (int) index{
     return [GPKGUtils objectAtIndex:index inArray:self.columnNames];
+}
+
+-(NSArray<GPKGUserColumn *> *) columns{
+    return _columns;
 }
 
 -(GPKGUserColumn *) getColumnWithIndex: (int) index{
@@ -148,6 +206,10 @@
     return self.pkIndex >= 0;
 }
 
+-(int) pkIndex{
+    return _pkIndex;
+}
+
 -(GPKGUserColumn *) getPkColumn{
     GPKGUserColumn * column = nil;
     if([self hasPkColumn]){
@@ -157,7 +219,6 @@
 }
 
 -(void) addConstraint: (GPKGConstraint *) constraint{
-    // TODO init array and dictionary on construction
     [GPKGUtils addObject:constraint toArray:_constraints];
     NSNumber *typeNumber = [NSNumber numberWithInteger:constraint.type];
     NSMutableArray<GPKGConstraint *> *typeConstraints = [self.typedContraints objectForKey:typeNumber];
@@ -222,6 +283,56 @@
  */
 -(void) validateContents: (GPKGContents *) contents{
     
+}
+
+-(void) addColumn: (GPKGUserColumn *) column{
+    [_columns addObject:column];
+    [self updateColumns];
+}
+
+-(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
+    [self renameColumnWithName:column.name toColumn:newColumnName];
+    [column setName:newColumnName];
+}
+
+-(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
+    [self renameColumnWithIndex:[self getColumnIndexWithColumnName:columnName] toColumn:newColumnName];
+}
+
+-(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
+    [[_columns  objectAtIndex:index] setName:newColumnName];
+    [self updateColumns];
+}
+
+-(void) dropColumn: (GPKGUserColumn *) column{
+    [self dropColumnWithIndex:column.index];
+}
+
+-(void) dropColumnWithName: (NSString *) columnName{
+    [self dropColumnWithIndex:[self getColumnIndexWithColumnName:columnName]];
+}
+
+-(void) dropColumnWithIndex: (int) index{
+    [_columns removeObjectAtIndex:index];
+    for(GPKGUserColumn *column in _columns){
+        [column resetIndex];
+    }
+    [self updateColumns];
+}
+
+-(void) alterColumn: (GPKGUserColumn *) column{
+    GPKGUserColumn *existingColumn = [self getColumnWithColumnName:column.name];
+    [column setIndex:existingColumn.index];
+    [_columns replaceObjectAtIndex:column.index withObject:column];
+}
+
+-(void) addColumnWithoutUpdate: (GPKGUserColumn *) column{
+    [_columns addObject:column];
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserTable *userTable = [[GPKGUserTable alloc] initWithUserTable:self];
+    return userTable;
 }
 
 @end

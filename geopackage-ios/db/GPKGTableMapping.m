@@ -30,6 +30,7 @@
         self.columns = [[NSMutableDictionary alloc] init];
         self.droppedColumns = [[NSMutableSet alloc] init];
     }
+    return self;
 }
 
 -(instancetype) initWithTableName: (NSString *) tableName andColumns: (NSArray<GPKGUserColumn *> *) columns{
@@ -41,6 +42,7 @@
             [self addColumn:[[GPKGMappedColumn alloc] initWithUserColumn:column]];
         }
     }
+    return self;
 }
 
 -(instancetype) initWithTable: (GPKGUserTable *) table{
@@ -54,6 +56,7 @@
             [self addDroppedColumn:droppedColumnName];
         }
     }
+    return self;
 }
 
 -(instancetype) initWithTable: (GPKGUserTable *) table andNewTable: (NSString *) newTableName{
@@ -61,6 +64,7 @@
     if(self != nil){
         self.toTable = newTableName;
     }
+    return self;
 }
 
 -(instancetype) initWithTableInfo: (GPKGTableInfo *) tableInfo{
@@ -72,10 +76,11 @@
             [self addColumn:[[GPKGMappedColumn alloc] initWithTableColumn:column]];
         }
     }
+    return self;
 }
 
 -(instancetype) initWithTableName: (NSString *) tableName andConnection: (GPKGConnection *) db{
-    return [self initWithTableInfo:[GPKGTableInfo infoWithTable:tableName andConnection:db]];
+    return [self initWithTableInfo:[GPKGTableInfo infoWithConnection:db andTable:tableName]];
 }
 
 -(BOOL) isNewTable{

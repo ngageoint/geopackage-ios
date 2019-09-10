@@ -42,7 +42,7 @@ NSString * const GPKG_SMC_SQL_NAME = @"SQL";
 }
 
 +(enum GPKGSQLiteMasterColumn) fromName: (NSString *) name{
-    enum GPKGSQLiteMasterType value = -1;
+    enum GPKGSQLiteMasterColumn value = -1;
     
     if(name != nil){
         name = [name uppercaseString];
@@ -56,7 +56,7 @@ NSString * const GPKG_SMC_SQL_NAME = @"SQL";
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
         if(enumValue != nil){
-            value = (enum GPKGSQLiteMasterType)[enumValue intValue];
+            value = (enum GPKGSQLiteMasterColumn)[enumValue intValue];
         }
     }
     

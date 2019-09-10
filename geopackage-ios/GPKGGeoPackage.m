@@ -928,7 +928,7 @@
     
     // Copy extensions
     if(extensions){
-        [GPKGGeoPackageExtensions copyTableExtensions:tableName toTable:newTableName inGeoPackage:self];
+        [GPKGGeoPackageExtensions copyTableExtensionsWithGeoPackage:self andTable:tableName andNewTable:newTableName];
     }
     
 }

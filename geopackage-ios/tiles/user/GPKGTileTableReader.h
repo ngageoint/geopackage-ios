@@ -16,18 +16,13 @@
 @interface GPKGTileTableReader : GPKGUserTableReader
 
 /**
- *  Tile Matrix Set
- */
-@property (nonatomic, strong) GPKGTileMatrixSet * tileMatrixSet;
-
-/**
  *  Initialize
  *
- *  @param tileMatrixSet tile matrix set
+ *  @param tableName  table name
  *
  *  @return new tile table reader
  */
--(instancetype) initWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
+-(instancetype) initWithTable: (NSString *) tableName;
 
 /**
  *  Read the tile table with the database connection
