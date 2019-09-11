@@ -68,7 +68,7 @@
  *            constraint type
  * @return true if the constraint type
  */
--(BOOL) isTableSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
++(BOOL) isTableSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
 
 /**
  * Attempt to get a column constraint by parsing the SQL statement
@@ -106,7 +106,7 @@
  *            constraint type
  * @return true if the constraint type
  */
--(BOOL) isColumnSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
++(BOOL) isColumnSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
 
 /**
  * Attempt to get a constraint by parsing the SQL statement
@@ -144,7 +144,7 @@
  *            constraint SQL
  * @return true if the constraint type
  */
--(BOOL) isSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
++(BOOL) isSQL: (NSString *) constraintSql type: (enum GPKGConstraintType) type;
 
 /**
  * Get the constraint name if it has one
