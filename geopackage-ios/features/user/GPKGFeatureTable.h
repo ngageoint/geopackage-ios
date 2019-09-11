@@ -58,4 +58,11 @@
  */
 -(GPKGFeatureColumn *) getGeometryColumn;
 
+/**
+ * Get the list of feature columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGFeatureColumn *> *) featureColumns;
+
 @end

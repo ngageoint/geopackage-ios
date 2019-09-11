@@ -130,6 +130,10 @@ NSString * const GPKG_TT_COLUMN_TILE_DATA = @"tile_data";
     return columns;
 }
 
+-(NSArray<GPKGTileColumn *> *) tileColumns{
+    return (NSArray<GPKGTileColumn *> *) [super columns];
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGTileTable *tileTable = [super mutableCopyWithZone:zone];
     tileTable.zoomLevelIndex = _zoomLevelIndex;

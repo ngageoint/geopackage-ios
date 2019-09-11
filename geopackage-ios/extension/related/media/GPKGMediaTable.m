@@ -139,4 +139,9 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
     return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGMediaTable *mediaTable = [super mutableCopyWithZone:zone];
+    return mediaTable;
+}
+
 @end

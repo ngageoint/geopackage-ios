@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUserTable.h"
+#import "GPKGAttributesColumn.h"
 
 @interface GPKGAttributesTable : GPKGUserTable
 
@@ -19,5 +20,12 @@
  *  @return new attributes table
  */
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
+
+/**
+ * Get the list of attributes columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGAttributesColumn *> *) attributesColumns;
 
 @end

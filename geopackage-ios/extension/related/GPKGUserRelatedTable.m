@@ -55,4 +55,11 @@
     }
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserRelatedTable *userRelatedTable = [super mutableCopyWithZone:zone];
+    userRelatedTable.relationName = _relationName;
+    userRelatedTable.dataType = _dataType;
+    return userRelatedTable;
+}
+
 @end

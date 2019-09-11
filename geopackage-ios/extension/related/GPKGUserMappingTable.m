@@ -87,4 +87,9 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
     return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserMappingTable *userMappingTable = [super mutableCopyWithZone:zone];
+    return userMappingTable;
+}
+
 @end

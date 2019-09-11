@@ -55,4 +55,13 @@
     return nil;
 }
 
+-(NSArray<GPKGUserCustomColumn *> *) userCustomColumns{
+    return (NSArray<GPKGUserCustomColumn *> *) [super columns];
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserCustomTable *userCustomTable = [super mutableCopyWithZone:zone];
+    return userCustomTable;
+}
+
 @end

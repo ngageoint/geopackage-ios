@@ -97,4 +97,9 @@ NSString * const GPKG_IT_COLUMN_ANCHOR_V = @"anchor_v";
     return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGIconTable *iconTable = [super mutableCopyWithZone:zone];
+    return iconTable;
+}
+
 @end

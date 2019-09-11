@@ -97,4 +97,11 @@ extern NSString * const GPKG_TT_COLUMN_TILE_DATA;
  */
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex;
 
+/**
+ * Get the list of tile columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGTileColumn *> *) tileColumns;
+
 @end

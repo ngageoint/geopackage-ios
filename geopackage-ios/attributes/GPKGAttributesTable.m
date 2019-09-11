@@ -28,6 +28,10 @@
     }
 }
 
+-(NSArray<GPKGAttributesColumn *> *) attributesColumns{
+    return (NSArray<GPKGAttributesColumn *> *) [super columns];
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGAttributesTable *attributesTable = [super mutableCopyWithZone:zone];
     return attributesTable;

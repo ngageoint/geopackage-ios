@@ -127,4 +127,9 @@
     return self;
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGUserCustomColumn *userCustomColumn = [super mutableCopyWithZone:zone];
+    return userCustomColumn;
+}
+
 @end

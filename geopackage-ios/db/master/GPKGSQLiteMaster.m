@@ -129,7 +129,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
     if([self typeAtRow:row] == GPKG_SMT_TABLE){
         NSString *sql = [self sqlAtRow:row];
         if(sql != nil){
-            constraints = [GPKGConstraintParser constraintsForSQL:sql];
+            constraints = [GPKGConstraintParser tableConstraintsForSQL:sql];
         }
     }
     return constraints;

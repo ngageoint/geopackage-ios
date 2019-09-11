@@ -68,6 +68,10 @@
     return (GPKGFeatureColumn *) [self getColumnWithIndex:self.geometryIndex];
 }
 
+-(NSArray<GPKGFeatureColumn *> *) featureColumns{
+    return (NSArray<GPKGFeatureColumn *> *) [super columns];
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGFeatureTable *featureTable = [super mutableCopyWithZone:zone];
     featureTable.geometryIndex = _geometryIndex;

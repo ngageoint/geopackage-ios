@@ -46,4 +46,9 @@ NSString * const GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
     return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
 }
 
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGStyleMappingTable *styleMappingTable = [super mutableCopyWithZone:zone];
+    return styleMappingTable;
+}
+
 @end

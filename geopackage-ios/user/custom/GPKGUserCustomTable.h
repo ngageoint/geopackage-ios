@@ -45,4 +45,11 @@
  */
 -(instancetype) initWithCustomTable: (GPKGUserCustomTable *) userCustomTable;
 
+/**
+ * Get the list of user custom columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGUserCustomColumn *> *) userCustomColumns;
+
 @end

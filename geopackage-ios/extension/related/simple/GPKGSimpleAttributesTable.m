@@ -101,7 +101,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 
 -(void) validateColumns{
     
-    NSArray<GPKGUserCustomColumn *> *columns = self.columns; // TODO
+    NSArray<GPKGUserColumn *> *columns = [self columns];
     if(columns.count < 2){
         [NSException raise:@"Simple Attributes Columns" format:@"Simple Attributes Tables require at least one non id column. Columns: %lu", (unsigned long)columns.count];
     }
@@ -127,6 +127,11 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 
 +(BOOL) isSimpleDataType: (enum GPKGDataType) dataType{
     return dataType != GPKG_DT_BLOB;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGSimpleAttributesTable *simpleAttributesTable = [super mutableCopyWithZone:zone];
+    return simpleAttributesTable;
 }
 
 @end
