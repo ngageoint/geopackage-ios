@@ -253,7 +253,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 
 +(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types andQuery: (GPKGSQLiteMasterQuery *) query{
     
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [[NSMutableString alloc] initWithString:@"SELECT "];
     NSMutableArray<NSString *> *args = [[NSMutableArray alloc] init];
     
     if(columns != nil && columns.count > 0){

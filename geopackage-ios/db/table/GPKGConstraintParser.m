@@ -8,6 +8,8 @@
 
 #import "GPKGConstraintParser.h"
 #import "GPKGRawConstraint.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGUtils.h"
 
 /**
  * Constraint name regex
@@ -70,7 +72,7 @@ static NSRegularExpression *constraintExpression = nil;
     
     if (start != NSNotFound && end != NSNotFound) {
         
-        NSString *definitions = [[tableSql substringWithRange:NSMakeRange(start + 1, (end - start) - 1)] lowercaseString];
+        NSString *definitions = [[tableSql substringWithRange:NSMakeRange(start + 1, (end - start) - 1)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         // Parse the column definitions and table constraints, divided by
         // columns when not within parentheses. Create constraints when
@@ -120,7 +122,53 @@ static NSRegularExpression *constraintExpression = nil;
 }
 
 +(GPKGColumnConstraints *) columnConstraintsForSQL: (NSString *) constraintSql{
-    return nil; // TODO
+
+    NSString *trimmedConstraintSql = [constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray<NSString *> *parts = [trimmedConstraintSql componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    parts = [parts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
+    NSString *columnName = [GPKGSqlUtils quoteUnwrapName:[parts objectAtIndex:0]];
+    
+    GPKGColumnConstraints *constraints = [[GPKGColumnConstraints alloc] initWithName:columnName];
+    
+    int constraintIndex = -1;
+    enum GPKGConstraintType constraintType = -1;
+    
+    for (int i = 1; i < parts.count; i++) {
+        NSString *part = [parts objectAtIndex:i];
+        
+        if([GPKG_CONSTRAINT caseInsensitiveCompare:part] == NSOrderedSame){
+            
+            if ((int)constraintType >= 0) {
+                [constraints addConstraint:[self createConstraintWithParts:parts andStartIndex:constraintIndex andEndIndex:i andType:constraintType]];
+                constraintType = -1;
+            }
+            
+            constraintIndex = i;
+            
+        } else {
+            
+            enum GPKGConstraintType type = [GPKGConstraintTypes columnTypeOfValue:part];
+            if ((int)type >= 0) {
+                
+                if ((int)constraintType >= 0) {
+                    [constraints addConstraint:[self createConstraintWithParts:parts andStartIndex:constraintIndex andEndIndex:i andType:constraintType]];
+                    constraintIndex = -1;
+                }
+                
+                if (constraintIndex < 0) {
+                    constraintIndex = i;
+                }
+                constraintType = type;
+                
+            }
+        }
+    }
+    
+    if ((int)constraintType >= 0) {
+        [constraints addConstraint:[self createConstraintWithParts:parts andStartIndex:constraintIndex andEndIndex:(int)parts.count andType:constraintType]];
+    }
+    
+    return constraints;
 }
 
 /**
@@ -167,7 +215,7 @@ static NSRegularExpression *constraintExpression = nil;
     
     NSArray<NSString *> *nameAndDefinition = [self nameAndDefinitionForSQL:constraintSql];
     
-    NSString *definition = [nameAndDefinition objectAtIndex:1];
+    NSString *definition = [GPKGUtils objectAtIndex:1 inArray:nameAndDefinition];
     if(definition != nil){
         
         NSArray<NSString *> *parts = [definition componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -181,7 +229,7 @@ static NSRegularExpression *constraintExpression = nil;
         }
         
         if((int)type >= 0){
-            constraint = [[GPKGRawConstraint alloc] initWithType:type andName:[nameAndDefinition objectAtIndex:0] andSql:[constraintSql lowercaseString]];
+            constraint = [[GPKGRawConstraint alloc] initWithType:type andName:[GPKGUtils objectAtIndex:0 inArray:nameAndDefinition] andSql:[constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         }
     }
     
@@ -272,34 +320,43 @@ static NSRegularExpression *constraintExpression = nil;
 
 +(NSString *) nameForSQL: (NSString *) constraintSql{
     NSString *name = nil;
-    /* TODO
-    Matcher matcher = NAME_PATTERN.matcher(constraintSql);
-    if (matcher.find()) {
-        name = CoreSQLUtils
-        .quoteUnwrap(matcher.group(NAME_PATTERN_NAME_GROUP));
+    NSArray *matches = [nameExpression matchesInString:constraintSql options:0 range:NSMakeRange(0, [constraintSql length])];
+    if([matches count] > 0){
+        NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
+        NSRange nameRange = [match rangeAtIndex:NAME_EXPRESSION_NAME_GROUP];
+        if(nameRange.length > 0){
+            name = [constraintSql substringWithRange:nameRange];
+        }
     }
-     */
     return name;
 }
 
 +(NSArray<NSString *> *) nameAndDefinitionForSQL: (NSString *) constraintSql{
     NSArray<NSString *> *parts = nil;
-    /* TODO
-    Matcher matcher = CONSTRAINT_PATTERN.matcher(constraintSql.trim());
-    if (matcher.find()) {
-        String name = CoreSQLUtils
-        .quoteUnwrap(matcher.group(CONSTRAINT_PATTERN_NAME_GROUP));
-        if (name != null) {
-            name = name.trim();
+    NSArray *matches = [constraintExpression matchesInString:[constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] options:0 range:NSMakeRange(0, [constraintSql length])];
+    if([matches count] > 0){
+        NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
+        NSString *name = nil;
+        NSRange nameRange = [match rangeAtIndex:CONSTRAINT_EXPRESSION_NAME_GROUP];
+        if(nameRange.length > 0){
+            name = [GPKGSqlUtils quoteUnwrapName:[constraintSql substringWithRange:nameRange]];
+            if(name != nil){
+                name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            }
         }
-        String definition = matcher
-        .group(CONSTRAINT_PATTERN_DEFINITION_GROUP);
-        if (definition != null) {
-            definition = definition.trim();
+        NSString *definition = nil;
+        NSRange definitionRange = [match rangeAtIndex:CONSTRAINT_EXPRESSION_DEFINITION_GROUP];
+        if(definitionRange.length > 0){
+            definition = [constraintSql substringWithRange:definitionRange];
+            if(definition != nil){
+                definition = [definition stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            }
         }
-        parts = new String[] { name, definition };
+        NSMutableArray *partsArray = [[NSMutableArray alloc] init];
+        [GPKGUtils addObject:name toArray:partsArray];
+        [GPKGUtils addObject:definition toArray:partsArray];
+        parts = partsArray;
     }
-     */
     return parts;
 }
 
