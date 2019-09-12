@@ -119,7 +119,7 @@
 
 -(int) createTable: (NSString *) tableName{
     
-    NSArray<NSString *> *statements = [self readSQLScript:tableName];
+    NSArray<NSString *> *statements = [GPKGTableCreator readSQLScript:tableName];
     
     for(NSString * statement in statements){
         [self.db exec:statement];

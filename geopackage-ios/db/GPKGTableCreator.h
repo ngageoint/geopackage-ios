@@ -61,6 +61,6 @@
  *            table or property name
  * @return statements
  */
--(NSArray<NSString *> *) readSQLScript: (NSString *) name;
++(NSArray<NSString *> *) readSQLScript: (NSString *) name;
 
 @end

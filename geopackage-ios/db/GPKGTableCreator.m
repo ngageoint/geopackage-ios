@@ -26,7 +26,7 @@
     
 -(int) execSQLScript: (NSString *) propertyName{
     
-    NSArray<NSString *> *statements = [self readSQLScript:propertyName];
+    NSArray<NSString *> *statements = [GPKGTableCreator readSQLScript:propertyName];
     
     [self execSQLStatements:statements];
 
@@ -39,7 +39,7 @@
     }
 }
 
--(NSArray<NSString *> *) readSQLScript: (NSString *) name{
++(NSArray<NSString *> *) readSQLScript: (NSString *) name{
     
     NSString * propertiesFile = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
     

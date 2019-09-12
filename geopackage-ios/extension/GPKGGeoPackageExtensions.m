@@ -15,6 +15,12 @@
 #import "GPKGSchemaExtension.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGCrsWktExtension.h"
+#import "GPKGTableInfo.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGUserCustomTableReader.h"
+#import "GPKGAlterTable.h"
+#import "GPKGTableCreator.h"
+#import "GPKGConstraintParser.h"
 
 @implementation GPKGGeoPackageExtensions
 
@@ -115,7 +121,27 @@
 }
 
 +(void) copyRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGRTreeIndexExtension *rTreeIndexExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
+        
+        if([rTreeIndexExtension hasWithTableName:table]){
+            GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+            
+            GPKGGeometryColumns *geometryColumns = [geometryColumnsDao queryForTableName:newTable];
+            if(geometryColumns != nil){
+                GPKGTableInfo *tableInfo = [GPKGTableInfo infoWithConnection:geoPackage.database andTable:newTable];
+                if(tableInfo != nil){
+                    NSString *pk = [[tableInfo primaryKey] name];
+                    [rTreeIndexExtension createWithTableName:newTable andGeometryColumnName:geometryColumns.columnName andIdColumnName:pk];
+                }
+            }
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create RTree for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
 }
 
 +(void) deleteRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -137,7 +163,60 @@
 }
 
 +(void) copyRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+        if([relatedTablesExtension has]){
+            
+            GPKGExtendedRelationsDao *extendedRelationsDao = [relatedTablesExtension getExtendedRelationsDao];
+            GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+            
+            GPKGResultSet *extendRelations = [extendedRelationsDao relationsToBaseTable:table];
+            @try {
+                while([extendRelations moveToNext]){
+                    GPKGExtendedRelation *extendedRelation = [extendedRelationsDao relation:extendRelations];
+                    
+                    NSString *mappingTableName = extendedRelation.mappingTableName;
+                    
+                    GPKGResultSet *extensions = [extensionsDao queryByExtension:[relatedTablesExtension getExtensionName] andTable:mappingTableName];
+                    @try {
+                        if([extensions moveToNext]){
+                            GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+                            
+                            NSString *newMappingTableName = [GPKGSqlUtils createName:mappingTableName andReplace:table withReplacement:newTable withConnection:geoPackage.database];
+                            
+                            GPKGUserCustomTable *userTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:mappingTableName];
+                            [GPKGAlterTable copyTable:userTable toTable:newMappingTableName withConnection:geoPackage.database];
+                            
+                            [extension setTableName:newMappingTableName];
+                            [extensionsDao create:extension];
+                            
+                            GPKGTableMapping *extendedRelationTableMapping = [[GPKGTableMapping alloc] initWithTableName:GPKG_ER_TABLE_NAME andConnection:geoPackage.database];
+                            [extendedRelationTableMapping removeColumn:GPKG_ER_COLUMN_ID];
+                            GPKGMappedColumn *baseTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_BASE_TABLE_NAME];
+                            [baseTableNameColumn setConstantValue:newTable];
+                            [baseTableNameColumn setWhereValue:table];
+                            GPKGMappedColumn *mappingTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_MAPPING_TABLE_NAME];
+                            [mappingTableNameColumn setConstantValue:newMappingTableName];
+                            [mappingTableNameColumn setWhereValue:mappingTableName];
+                            [GPKGSqlUtils transferTableContent:extendedRelationTableMapping withConnection:geoPackage.database];
+                            
+                        }
+                    } @finally {
+                        [extensions close];
+                    }
+                    
+                }
+            } @finally {
+                [extendRelations close];
+            }
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Related Tables for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteGriddedCoverageWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -186,7 +265,49 @@
 }
 
 +(void) copyGriddedCoverageWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        if([geoPackage isTable:table ofType:GPKG_CDT_GRIDDED_COVERAGE]){
+            
+            GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+            
+            if ([extensionsDao tableExists]) {
+                
+                GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GRIDDED_COVERAGE_EXTENSION_NAME] andTable:table];
+                @try {
+                    if([extensions moveToNext]){
+                        GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+                        
+                        [extension setTableName:newTable];
+                        [extensionsDao create:extension];
+                        
+                        GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
+                        if([griddedCoverageDao tableExists]){
+                            
+                            [GPKGSqlUtils transferContentInTable:GPKG_CDGC_TABLE_NAME inColumn:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME withNewValue:newTable andCurrentValue:table andIdColumn:GPKG_CDGC_COLUMN_ID withConnection:geoPackage.database];
+                            
+                        }
+                        
+                        GPKGGriddedTileDao *griddedTileDao = [geoPackage getGriddedTileDao];
+                        if([griddedTileDao tableExists]){
+                            
+                            [GPKGSqlUtils transferContentInTable:GPKG_CDGT_TABLE_NAME inColumn:GPKG_CDGT_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table andIdColumn:GPKG_CDGT_COLUMN_ID withConnection:geoPackage.database];
+                            
+                        }
+                        
+                    }
+                } @finally {
+                    [extensions close];
+                }
+                
+            }
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Gridded Coverage for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteSchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -208,7 +329,32 @@
 }
 
 +(void) copySchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        if([geoPackage isTable:GPKG_DC_TABLE_NAME]){
+            
+            GPKGUserCustomTable *dataColumnsTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:GPKG_DC_TABLE_NAME];
+            GPKGUserColumn *nameColumn = [dataColumnsTable getColumnWithColumnName:GPKG_DC_COLUMN_NAME];
+            if([nameColumn hasConstraints]){
+                [nameColumn clearConstraints];
+                if([dataColumnsTable hasConstraints]){
+                    [dataColumnsTable clearConstraints];
+                    NSString *constraintSql = [[GPKGTableCreator readSQLScript:GPKG_DC_TABLE_NAME] objectAtIndex:0];
+                    GPKGTableConstraints *constraints = [GPKGConstraintParser tableConstraintsForSQL:constraintSql];
+                    [dataColumnsTable addConstraints:[constraints tableConstraints]];
+                }
+                [GPKGAlterTable alterColumn:nameColumn inTable:dataColumnsTable withConnection:geoPackage.database];
+            }
+            
+            [GPKGSqlUtils transferContentInTable:GPKG_DC_TABLE_NAME inColumn:GPKG_DC_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table withConnection:geoPackage.database];
+            
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Schema for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -230,7 +376,19 @@
 }
 
 +(void) copyMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+        @try {
+    
+            if([geoPackage isTable:GPKG_MR_TABLE_NAME]){
+                
+                [GPKGSqlUtils transferContentInTable:GPKG_MR_TABLE_NAME inColumn:GPKG_MR_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table withConnection:geoPackage.database];
+                
+            }
+            
+        } @catch (NSException *exception) {
+            NSLog(@"Failed to create Metadata for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+        }
+            
 }
 
 +(void) deleteCrsWktExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
