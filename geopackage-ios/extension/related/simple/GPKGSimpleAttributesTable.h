@@ -52,14 +52,14 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 +(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns;
 
 /**
- * Create the required table columns, starting at index 0
+ * Create the required table columns
  *
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns;
 
 /**
- * Create the required table columns with the id column name, starting at index 0
+ * Create the required table columns with the id column name
  *
  * @param idColumnName
  *            id column name
@@ -86,6 +86,15 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName;
+
+/**
+ * Create the primary key id column
+ *
+ * @param idColumnName
+ *            id column name
+ * @return id column
+ */
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName;
 
 /**
  * Create the primary key id column

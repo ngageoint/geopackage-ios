@@ -38,13 +38,12 @@ NSString * const GPKG_IT_COLUMN_ANCHOR_V = @"anchor_v";
     NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
     [columns addObjectsFromArray:[self createRequiredColumns]];
     
-    int index = (int)columns.count;
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_NAME andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_DESCRIPTION andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_WIDTH andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_HEIGHT andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_ANCHOR_U andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_IT_COLUMN_ANCHOR_V andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_NAME andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_DESCRIPTION andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_WIDTH andDataType:GPKG_DT_REAL]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_HEIGHT andDataType:GPKG_DT_REAL]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_ANCHOR_U andDataType:GPKG_DT_REAL]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_ANCHOR_V andDataType:GPKG_DT_REAL]];
     
     return columns;
 }

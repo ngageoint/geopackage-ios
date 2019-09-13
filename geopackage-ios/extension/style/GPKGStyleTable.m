@@ -41,16 +41,15 @@ NSString * const GPKG_ST_COLUMN_FILL_OPACITY = @"fill_opacity";
 +(NSArray *) createColumns{
     
     NSMutableArray<GPKGAttributesColumn *> *columns = [[NSMutableArray alloc] init];
-    int index = 0;
     
-    [columns addObject:[GPKGAttributesColumn createPrimaryKeyColumnWithIndex:index++ andName:GPKG_ST_COLUMN_ID]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_NAME andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_DESCRIPTION andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_COLOR andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_OPACITY andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_WIDTH andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_FILL_COLOR andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGAttributesColumn createColumnWithIndex:index++ andName:GPKG_ST_COLUMN_FILL_OPACITY andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGAttributesColumn createPrimaryKeyColumnWithName:GPKG_ST_COLUMN_ID]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_NAME andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_DESCRIPTION andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_COLOR andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_OPACITY andDataType:GPKG_DT_REAL]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_WIDTH andDataType:GPKG_DT_REAL]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_FILL_COLOR andDataType:GPKG_DT_TEXT]];
+    [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_FILL_OPACITY andDataType:GPKG_DT_REAL]];
     
     return columns;
 }

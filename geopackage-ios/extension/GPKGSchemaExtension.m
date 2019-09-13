@@ -24,16 +24,19 @@ NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions
     return self;
 }
 
--(GPKGExtensions *) getOrCreate{
+-(NSArray<GPKGExtensions *> *) getOrCreate{
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    NSMutableArray<GPKGExtensions *> *extensions = [[NSMutableArray alloc] init];
     
-    return extension;
+    [extensions addObject:[self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_DC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
+    [extensions addObject:[self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_DCC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
+    
+    return extensions;
 }
 
 -(BOOL) has{
     
-    BOOL exists = [self hasWithExtensionName:self.extensionName andTableName:nil andColumnName:nil];
+    BOOL exists = [self hasWithExtensionName:self.extensionName];
     
     return exists;
 }

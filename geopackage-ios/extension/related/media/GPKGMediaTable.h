@@ -75,14 +75,14 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 +(GPKGMediaTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName andAdditionalColumns: (NSArray<GPKGUserCustomColumn *> *) additionalColumns;
 
 /**
- * Create the required table columns, starting at index 0
+ * Create the required table columns
  *
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns;
 
 /**
- * Create the required table columns with the id column name, starting at index 0
+ * Create the required table columns with the id column name
  *
  * @param idColumnName
  *            id column name
@@ -119,7 +119,25 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  *            id column name
  * @return id column
  */
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName;
+
+/**
+ * Create the primary key id column
+ *
+ * @param index
+ *            column index
+ * @param idColumnName
+ *            id column name
+ * @return id column
+ */
 +(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName;
+
+/**
+ * Create a data column
+ *
+ * @return data column
+ */
++(GPKGUserCustomColumn *) createDataColumn;
 
 /**
  * Create a data column
@@ -129,6 +147,13 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  * @return data column
  */
 +(GPKGUserCustomColumn *) createDataColumnWithIndex: (int) index;
+
+/**
+ * Create a content type column
+ *
+ * @return content type column
+ */
++(GPKGUserCustomColumn *) createContentTypeColumn;
 
 /**
  * Create a content type column

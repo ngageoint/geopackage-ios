@@ -35,11 +35,11 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
- *  Get or create the extension
+ *  Get or create the extensions
  *
- *  @return extension
+ *  @return extensions
  */
--(GPKGExtensions *) getOrCreate;
+-(NSArray<GPKGExtensions *> *) getOrCreate;
 
 /**
  *  Determine if the GeoPackage has the extension

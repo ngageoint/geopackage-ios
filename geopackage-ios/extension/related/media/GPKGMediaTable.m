@@ -43,11 +43,21 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
-    return [self createRequiredColumnsWithIndex:0];
+    return [self createRequiredColumnsWithIdColumnName:nil];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName{
-    return [self createRequiredColumnsWithIndex:0 andIdColumnName:idColumnName];
+    
+    if(idColumnName == nil){
+        idColumnName = GPKG_RMT_COLUMN_ID;
+    }
+    
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    [columns addObject:[self createIdColumnWithName:idColumnName]];
+    [columns addObject:[self createDataColumn]];
+    [columns addObject:[self createContentTypeColumn]];
+    
+    return columns;
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex{
@@ -68,16 +78,28 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
     return columns;
 }
 
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName{
+    return [self createIdColumnWithIndex:NO_INDEX andName:idColumnName];
+}
+
 +(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName{
     return [GPKGUserCustomColumn createPrimaryKeyColumnWithIndex:index andName:idColumnName];
 }
 
++(GPKGUserCustomColumn *) createDataColumn{
+    return [self createDataColumnWithIndex:NO_INDEX];
+}
+
 +(GPKGUserCustomColumn *) createDataColumnWithIndex: (int) index{
-    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_RMT_COLUMN_DATA andDataType:GPKG_DT_BLOB andNotNull:YES andDefaultValue:nil];
+    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_RMT_COLUMN_DATA andDataType:GPKG_DT_BLOB andNotNull:YES];
+}
+
++(GPKGUserCustomColumn *) createContentTypeColumn{
+    return [self createContentTypeColumnWithIndex:NO_INDEX];
 }
 
 +(GPKGUserCustomColumn *) createContentTypeColumnWithIndex: (int) index{
-    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_RMT_COLUMN_CONTENT_TYPE andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:nil];
+    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_RMT_COLUMN_CONTENT_TYPE andDataType:GPKG_DT_TEXT andNotNull:YES];
 }
 
 +(int) numRequiredColumns{

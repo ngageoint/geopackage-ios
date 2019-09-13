@@ -32,8 +32,7 @@ NSString * const GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
     NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
     [columns addObjectsFromArray:[self createRequiredColumns]];
     
-    int index = (int)columns.count;
-    [columns addObject:[GPKGUserCustomColumn createColumnWithIndex:index++ andName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME andDataType:GPKG_DT_TEXT]];
     
     return columns;
 }

@@ -30,7 +30,12 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
-    return [self createRequiredColumnsWithIndex:0];
+    
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    [columns addObject:[self createBaseIdColumn]];
+    [columns addObject:[self createRelatedIdColumn]];
+    
+    return columns;
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex{
@@ -42,12 +47,20 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
     return columns;
 }
 
++(GPKGUserCustomColumn *) createBaseIdColumn{
+    return [self createBaseIdColumnWithIndex:NO_INDEX];
+}
+
 +(GPKGUserCustomColumn *) createBaseIdColumnWithIndex: (int) index{
-    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_UMT_COLUMN_BASE_ID andDataType:GPKG_DT_INTEGER andNotNull:YES andDefaultValue:nil];
+    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_UMT_COLUMN_BASE_ID andDataType:GPKG_DT_INTEGER andNotNull:YES];
+}
+
++(GPKGUserCustomColumn *) createRelatedIdColumn{
+    return [self createRelatedIdColumnWithIndex:NO_INDEX];
 }
 
 +(GPKGUserCustomColumn *) createRelatedIdColumnWithIndex: (int) index{
-    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_UMT_COLUMN_RELATED_ID andDataType:GPKG_DT_INTEGER andNotNull:YES andDefaultValue:nil];
+    return [GPKGUserCustomColumn createColumnWithIndex:index andName:GPKG_UMT_COLUMN_RELATED_ID andDataType:GPKG_DT_INTEGER andNotNull:YES];
 }
 
 +(int) numRequiredColumns{

@@ -42,7 +42,7 @@ extern NSString * const GPKG_UMT_COLUMN_RELATED_ID;
 +(GPKGUserMappingTable *) createWithName: (NSString *) tableName andAdditionalColumns: (NSArray<GPKGUserCustomColumn *> *) additionalColumns;
 
 /**
- * Create the required table columns, starting at index 0
+ * Create the required table columns
  *
  * @return user custom columns
  */
@@ -60,11 +60,25 @@ extern NSString * const GPKG_UMT_COLUMN_RELATED_ID;
 /**
  * Create a base id column
  *
+ * @return base id column
+ */
++(GPKGUserCustomColumn *) createBaseIdColumn;
+
+/**
+ * Create a base id column
+ *
  * @param index
  *            column index
  * @return base id column
  */
 +(GPKGUserCustomColumn *) createBaseIdColumnWithIndex: (int) index;
+
+/**
+ * Create a related id column
+ *
+ * @return related id column
+ */
++(GPKGUserCustomColumn *) createRelatedIdColumn;
 
 /**
  * Create a related id column
