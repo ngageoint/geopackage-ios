@@ -74,6 +74,10 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     return tables;
 }
 
+-(NSString *) getExtensionName{
+    return self.extensionName;
+}
+
 -(BOOL) has{
     return [self hasWithExtensionName:self.extensionName];
 }

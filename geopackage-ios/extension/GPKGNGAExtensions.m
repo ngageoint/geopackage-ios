@@ -14,6 +14,9 @@
 #import "GPKGPropertiesExtension.h"
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGContentsIdExtension.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGUserCustomTableReader.h"
+#import "GPKGAlterTable.h"
 
 @implementation GPKGNGAExtensions
 
@@ -42,7 +45,21 @@
 }
 
 +(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        [self copyContentsIdWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyFeatureStyleWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyTileScalingWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyFeatureTileLinkWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyGeometryIndexWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        
+        // Copy future extensions for the table here
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to copy extensions for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -80,7 +97,48 @@
 }
 
 +(void) copyGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+        
+        if ([extensionsDao tableExists]) {
+            
+            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR] andTable:table];
+            @try {
+                if([extensions moveToNext]){
+                    GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+                    
+                    [extension setTableName:newTable];
+                    [extensionsDao create:extension];
+                    
+                    GPKGTableIndexDao *tableIndexDao = [geoPackage getTableIndexDao];
+                    if([tableIndexDao tableExists]){
+                        
+                        GPKGTableIndex *tableIndex = (GPKGTableIndex *)[tableIndexDao queryForIdObject:table];
+                        if(tableIndex != nil){
+                            
+                            [tableIndex setTableName:newTable];
+                            [tableIndexDao create:tableIndex];
+                            
+                            if([geoPackage isTable:GPKG_GI_TABLE_NAME]){
+                                
+                                [GPKGSqlUtils transferContentInTable:GPKG_GI_TABLE_NAME inColumn:GPKG_GI_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table withConnection:geoPackage.database];
+                                
+                            }
+                        }
+                    }
+                }
+            } @finally {
+                [extensions close];
+            }
+
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Geometry Index for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -107,7 +165,51 @@
 }
 
 +(void) copyFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+        
+        if ([extensionsDao tableExists]) {
+            
+            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR]];
+            @try {
+                if(extensions.count > 0){
+
+                    GPKGFeatureTileLinkDao *featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
+                    if([featureTileLinkDao tableExists]){
+                        
+                        GPKGResultSet *featureTileLinks = [featureTileLinkDao queryForFeatureTableName:table];
+                        @try {
+                            GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                            [featureTileLink setFeatureTableName:newTable];
+                            [featureTileLinkDao create:featureTileLink];
+                        } @finally {
+                            [featureTileLinks close];
+                        }
+                        
+                        featureTileLinks = [featureTileLinkDao queryForTileTableName:table];
+                        @try {
+                            GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                            [featureTileLink setFeatureTableName:newTable];
+                            [featureTileLinkDao create:featureTileLink];
+                        } @finally {
+                            [featureTileLinks close];
+                        }
+                        
+                    }
+                    
+                }
+            } @finally {
+                [extensions close];
+            }
+            
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Feature Tile Link for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -141,7 +243,31 @@
 }
 
 +(void) copyTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGTileTableScaling *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTableName:table];
+        
+        if ([tileTableScaling has]) {
+            
+            GPKGExtensions *extension = [tileTableScaling getExtension];
+            
+            if(extension != nil){
+                [extension setTableName:newTable];
+                [tileTableScaling.extensionsDao create:extension];
+                
+                if([geoPackage isTable:GPKG_TS_TABLE_NAME]){
+                    
+                    [GPKGSqlUtils transferContentInTable:GPKG_TS_TABLE_NAME inColumn:GPKG_TS_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table withConnection:geoPackage.database];
+                    
+                }
+            }
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Tile Scaling for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 +(void) deletePropertiesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -182,7 +308,105 @@
 }
 
 +(void) copyFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
+        if([featureStyleExtension hasRelationshipWithTable:table]){
+            
+            GPKGExtensions *extension = [featureStyleExtension getWithExtensionName:[featureStyleExtension getExtensionName] andTableName:table andColumnName:nil];
+            
+            if (extension != nil) {
+                [extension setTableName:newTable];
+                [featureStyleExtension.extensionsDao create:extension];
+                
+                GPKGContentsIdExtension *contentsIdExtension = [featureStyleExtension contentsId];
+                NSNumber *contentsId = [contentsIdExtension getIdForTableName:table];
+                NSNumber *newContentsId = [contentsIdExtension getIdForTableName:newTable];
+                
+                if (contentsId != nil && newContentsId != nil) {
+                    
+                    if([featureStyleExtension hasTableStyleRelationshipWithTable:table]){
+                        
+                        [self copyFeatureTableStyleWithExtension:featureStyleExtension andMappingTablePrefix:GPKG_FSE_TABLE_MAPPING_TABLE_STYLE andTable:table andNewTable:newTable andContentsId:contentsId andNewContentsId:newContentsId];
+                        
+                    }
+                    
+                    if ([featureStyleExtension hasTableIconRelationshipWithTable:table]) {
+                        
+                        [self copyFeatureTableStyleWithExtension:featureStyleExtension andMappingTablePrefix:GPKG_FSE_TABLE_MAPPING_TABLE_ICON andTable:table andNewTable:newTable andContentsId:contentsId andNewContentsId:newContentsId];
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Feature Style for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
+}
+
+/**
+ * Copy the feature table style
+ *
+ * @param featureStyleExtension
+ *            feature style extension
+ * @param mappingTablePrefix
+ *            mapping table prefix
+ * @param table
+ *            table name
+ * @param newTable
+ *            new table name
+ * @param contentsId
+ *            contents id
+ * @param newContentsId
+ *            new contents id
+ */
++(void) copyFeatureTableStyleWithExtension: (GPKGFeatureStyleExtension *) featureStyleExtension andMappingTablePrefix: (NSString *) mappingTablePrefix andTable: (NSString *) table andNewTable: (NSString *) newTable andContentsId: (NSNumber *) contentsId andNewContentsId: (NSNumber *) newContentsId{
+    
+    GPKGGeoPackage *geoPackage = featureStyleExtension.geoPackage;
+    
+    NSString *mappingTableName = [featureStyleExtension mappingTableNameWithPrefix:mappingTablePrefix andTable:table];
+    
+    GPKGExtensionsDao *extensionsDao = featureStyleExtension.extensionsDao;
+    GPKGResultSet *extensions = [extensionsDao queryByExtension:[[featureStyleExtension relatedTables] getExtensionName] andTable:mappingTableName];
+    
+    @try {
+        if([extensions moveToNext]){
+            GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+            
+            NSString *newMappingTableName = [featureStyleExtension mappingTableNameWithPrefix:mappingTablePrefix andTable:newTable];
+            
+            GPKGUserCustomTable *userTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:mappingTableName];
+            [GPKGAlterTable copyTable:userTable toTable:newMappingTableName andTransfer:NO withConnection:geoPackage.database];
+            
+            GPKGTableMapping *mappingTableTableMapping = [[GPKGTableMapping alloc] initWithTable:userTable andNewTable:newMappingTableName];
+            GPKGMappedColumn *baseIdColumn = [mappingTableTableMapping columnForName:GPKG_UMT_COLUMN_BASE_ID];
+            [baseIdColumn setConstantValue:newContentsId];
+            [baseIdColumn setWhereValue:contentsId];
+            [GPKGSqlUtils transferTableContent:mappingTableTableMapping withConnection:geoPackage.database];
+            
+            [extension setTableName:newMappingTableName];
+            [extensionsDao create:extension];
+
+            GPKGTableMapping *extendedRelationTableMapping = [[GPKGTableMapping alloc] initWithTableName:GPKG_ER_TABLE_NAME andConnection:geoPackage.database];
+            [extendedRelationTableMapping removeColumn:GPKG_ER_COLUMN_ID];
+            GPKGMappedColumn *baseTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_BASE_TABLE_NAME];
+            [baseTableNameColumn setWhereValue:GPKG_CI_TABLE_NAME];
+            GPKGMappedColumn *mappingTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_MAPPING_TABLE_NAME];
+            [mappingTableNameColumn setConstantValue:newMappingTableName];
+            [mappingTableNameColumn setWhereValue:mappingTableName];
+            [GPKGSqlUtils transferTableContent:extendedRelationTableMapping withConnection:geoPackage.database];
+
+        }
+    } @finally {
+        [extensions close];
+    }
+    
 }
 
 +(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -204,7 +428,21 @@
 }
 
 +(void) copyContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
-    // TODO
+
+    @try {
+        
+        GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+        
+        if ([contentsIdExtension has]) {
+            if([contentsIdExtension getForTableName:table] != nil){
+                [contentsIdExtension createForTableName:newTable];
+            }
+        }
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Failed to create Contents Id for table: %@, copied from table: %@. error: %@", newTable, table, exception);
+    }
+    
 }
 
 @end
