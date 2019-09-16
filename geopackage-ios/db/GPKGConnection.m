@@ -395,7 +395,7 @@
 }
 
 -(void) dropTable: (NSString *) table{
-    [self exec:[NSString stringWithFormat:@"drop table if exists %@", [GPKGSqlUtils quoteWrapName:table]]];
+    [GPKGSqlUtils dropTable:table withConnection:self];
 }
 
 -(void) addWriteFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs{

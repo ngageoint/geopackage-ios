@@ -7,17 +7,8 @@
 //
 
 #import "GPKGUserTableReader.h"
-#import "GPKGUtils.h"
-#import "GPKGSqlUtils.h"
-#import "SFGeometryTypes.h"
 #import "GPKGSQLiteMaster.h"
-
-NSString * const GPKG_UTR_CID = @"cid";
-NSString * const GPKG_UTR_NAME = @"name";
-NSString * const GPKG_UTR_TYPE = @"type";
-NSString * const GPKG_UTR_NOT_NULL = @"notnull";
-NSString * const GPKG_UTR_PK = @"pk";
-NSString * const GPKG_UTR_DFLT_VALUE = @"dflt_value";
+#import "GPKGTableInfo.h"
 
 @implementation GPKGUserTableReader
 

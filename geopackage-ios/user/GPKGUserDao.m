@@ -11,6 +11,8 @@
 #import "SFPProjectionTransform.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGAlterTable.h"
 
 @implementation GPKGUserDao
 
@@ -115,6 +117,10 @@
     return projectedBoundingBox;
 }
 
+-(GPKGContents *) contents{
+    return self.table.contents;
+}
+
 -(int) getZoomLevel{
     if(self.projection == nil){
         [NSException raise:@"No Projection" format:@"No projection was set which is required to determine the zoom level"];
@@ -131,6 +137,66 @@
         zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;
+}
+
+-(void) addColumn: (GPKGUserColumn *) column{
+    [GPKGSqlUtils addColumn:column toTable:self.tableName withConnection:self.database];
+    [self.table addColumn:column];
+}
+
+-(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
+    [super renameColumnWithName:column.name toColumn:newColumnName];
+    [self.table renameColumn:column toColumn:newColumnName];
+}
+
+-(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
+    [super renameColumnWithName:columnName toColumn:newColumnName];
+    [self.table renameColumnWithName:columnName toColumn:newColumnName];
+}
+
+-(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
+    [super renameColumnWithIndex:index toColumn:newColumnName];
+    [self.table renameColumnWithIndex:index toColumn:newColumnName];
+}
+
+-(void) dropColumn: (GPKGUserColumn *) column{
+    [self dropColumnWithName:column.name];
+}
+
+-(void) dropColumnWithIndex: (int) index{
+    [self dropColumnWithName:[self.table getColumnNameWithIndex:index]];
+}
+
+-(void) dropColumnWithName: (NSString *) columnName{
+    [GPKGAlterTable dropColumn:columnName fromTable:self.table withConnection:self.database];
+}
+
+-(void) dropColumns: (NSArray<GPKGUserColumn *> *) columns{
+    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    for(GPKGUserColumn *column in columns){
+        [columnNames addObject:column.name];
+    }
+    [self dropColumnNames:columnNames];
+}
+
+-(void) dropColumnIndexes: (NSArray<NSNumber *> *) indexes{
+    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    for(NSNumber *index in indexes){
+        [columnNames addObject:[self columnNameWithIndex:[index intValue]]];
+    }
+    [self dropColumnNames:columnNames];
+}
+
+-(void) dropColumnNames: (NSArray<NSString *> *) columnNames{
+    [GPKGAlterTable dropColumns:columnNames fromTable:self.table withConnection:self.database];
+}
+
+-(void) alterColumn: (GPKGUserColumn *) column{
+    [GPKGAlterTable alterColumn:column inTable:self.table withConnection:self.database];
+}
+
+-(void) alterColumns: (NSArray<GPKGUserColumn *> *) columns{
+    [GPKGAlterTable alterColumns:columns inTable:self.table withConnection:self.database];
 }
 
 @end

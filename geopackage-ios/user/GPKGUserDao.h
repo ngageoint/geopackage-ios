@@ -85,10 +85,67 @@
 -(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
+ * Get the contents
+ *
+ * @return contents
+ */
+-(GPKGContents *) contents;
+
+/**
  *  Get the approximate zoom level of where the bounding box of the user data fits into the world
  *
  *  @return zoom level
  */
 -(int) getZoomLevel;
+
+/**
+ * Add a new column
+ *
+ * @param column
+ *            new column
+ */
+-(void) addColumn: (GPKGUserColumn *) column;
+
+/**
+ * Rename column
+ *
+ * @param column
+ *            column
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName;
+
+/**
+ * Drop a column
+ *
+ * @param column
+ *            column
+ */
+-(void) dropColumn: (GPKGUserColumn *) column;
+
+/**
+ * Drop columns
+ *
+ * @param columnNames
+ *            column names
+ */
+-(void) dropColumns: (NSArray<GPKGUserColumn *> *) columns;
+
+/**
+ * Alter a column
+ *
+ * @param column
+ *            column
+ */
+-(void) alterColumn: (GPKGUserColumn *) column;
+
+/**
+ * Alter columns
+ *
+ * @param columns
+ *            columns
+ */
+-(void) alterColumns: (NSArray<GPKGUserColumn *> *) columns;
 
 @end

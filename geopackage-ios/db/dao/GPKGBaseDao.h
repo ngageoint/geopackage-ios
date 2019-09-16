@@ -67,6 +67,15 @@
 -(void) initializeColumnIndex;
 
 /**
+ *  Get the column name at the index
+ *
+ *  @param index index
+ *
+ *  @return column name
+ */
+-(NSString *) columnNameWithIndex: (int) index;
+
+/**
  *  Does the table exist?
  *
  *  @return true if exists
@@ -1020,5 +1029,57 @@
  * @return results
  */
 -(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
+
+/**
+ * Rename column
+ *
+ * @param columnName
+ *            column name
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName;
+
+/**
+ * Rename column
+ *
+ * @param index
+ *            column index
+ * @param newColumnName
+ *            new column name
+ */
+-(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName;
+
+/**
+ * Drop a column
+ *
+ * @param index
+ *            column index
+ */
+-(void) dropColumnWithIndex: (int) index;
+
+/**
+ * Drop a column
+ *
+ * @param columnName
+ *            column name
+ */
+-(void) dropColumnWithName: (NSString *) columnName;
+
+/**
+ * Drop columns
+ *
+ * @param indexes
+ *            column indexes
+ */
+-(void) dropColumnIndexes: (NSArray<NSNumber *> *) indexes;
+
+/**
+ * Drop columns
+ *
+ * @param columnNames
+ *            column names
+ */
+-(void) dropColumnNames: (NSArray<NSString *> *) columnNames;
 
 @end

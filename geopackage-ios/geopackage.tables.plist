@@ -129,13 +129,13 @@
 		<string>CREATE TABLE gpkg_data_columns (
   table_name TEXT NOT NULL,
   column_name TEXT NOT NULL,
-  name TEXT UNIQUE,
+  name TEXT,
   title TEXT,
   description TEXT,
   mime_type TEXT,
   constraint_name TEXT,
   CONSTRAINT pk_gdc PRIMARY KEY (table_name, column_name),
-  CONSTRAINT fk_gdc_tn FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name)
+  CONSTRAINT gdc_tn UNIQUE (table_name, name)
 );</string>
 	</array>
 	<key>gpkg_data_column_constraints</key>
@@ -248,7 +248,7 @@
   scaling_type TEXT NOT NULL,
   zoom_in INTEGER,
   zoom_out INTEGER,
-  CONSTRAINT fk_nts_gtms_tn FOREIGN KEY(&apos;table_name&apos;) REFERENCES gpkg_tile_matrix_set(&apos;table_name&apos;)
+  CONSTRAINT fk_nts_gtms_tn FOREIGN KEY(&apos;table_name&apos;) REFERENCES gpkg_tile_matrix_set(&apos;table_name&apos;),
   CHECK (scaling_type in (&apos;in&apos;,&apos;out&apos;,&apos;in_out&apos;,&apos;out_in&apos;,&apos;closest_in_out&apos;,&apos;closest_out_in&apos;))
 );</string>
 	</array>
@@ -303,7 +303,7 @@
   uom TEXT,
   field_name TEXT DEFAULT &apos;Height&apos;,
   quantity_definition TEXT DEFAULT &apos;Height&apos;,
-  CONSTRAINT fk_g2dgtct_name FOREIGN KEY(&apos;tile_matrix_set_name&apos;) REFERENCES gpkg_tile_matrix_set ( table_name )
+  CONSTRAINT fk_g2dgtct_name FOREIGN KEY(&apos;tile_matrix_set_name&apos;) REFERENCES gpkg_tile_matrix_set (table_name),
   CHECK (datatype in (&apos;integer&apos;,&apos;float&apos;))
 );</string>
 	</array>

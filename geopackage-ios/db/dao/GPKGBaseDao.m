@@ -9,6 +9,7 @@
 #import "GPKGBaseDao.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGUtils.h"
+#import "GPKGAlterTable.h"
 
 @implementation GPKGBaseDao
 
@@ -63,6 +64,10 @@
     for(int i = 0; i < count; i++){
         [GPKGUtils setObject:[NSNumber numberWithInt:i] forKey:[GPKGUtils objectAtIndex:i inArray:self.columns] inDictionary:self.columnIndex];
     }
+}
+
+-(NSString *) columnNameWithIndex: (int) index{
+    return [self.columns objectAtIndex:index];
 }
 
 -(BOOL) tableExists{
@@ -704,6 +709,34 @@
     double doubleValue = [(NSNumber *)value.value doubleValue];
     double tolerance = [value.tolerance doubleValue];
     return [NSArray arrayWithObjects:[[NSDecimalNumber alloc]initWithDouble:doubleValue - tolerance], [[NSDecimalNumber alloc]initWithDouble:doubleValue + tolerance], nil];
+}
+
+-(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
+    [GPKGAlterTable renameColumn:columnName inTable:self.tableName toColumn:newColumnName withConnection:self.database];
+}
+
+-(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
+    [self renameColumnWithName:[self columnNameWithIndex:index] toColumn:newColumnName];
+}
+
+-(void) dropColumnWithIndex: (int) index{
+    [self dropColumnWithName:[self columnNameWithIndex:index]];
+}
+
+-(void) dropColumnWithName: (NSString *) columnName{
+    [GPKGAlterTable dropColumn:columnName fromTableName:self.tableName withConnection:self.database];
+}
+
+-(void) dropColumnIndexes: (NSArray<NSNumber *> *) indexes{
+    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    for(NSNumber *index in indexes){
+        [columnNames addObject:[self columnNameWithIndex:[index intValue]]];
+    }
+    [self dropColumnNames:columnNames];
+}
+
+-(void) dropColumnNames: (NSArray<NSString *> *) columnNames{
+    [GPKGAlterTable dropColumns:columnNames fromTableName:self.tableName withConnection:self.database];
 }
 
 @end
