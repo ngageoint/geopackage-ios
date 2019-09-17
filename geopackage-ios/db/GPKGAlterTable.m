@@ -10,6 +10,8 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGRawConstraint.h"
+#import "GPKGSQLiteMaster.h"
+#import "GPKGRTreeIndexExtension.h"
 
 @implementation GPKGAlterTable
 
@@ -162,7 +164,169 @@
 }
 
 +(void) alterTableSQL: (NSString *) sql withMapping: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
-    // TODO
+
+    NSString *tableName = tableMapping.fromTable;
+    
+    // Determine if a new table copy vs an alter table
+    BOOL newTable = [tableMapping isNewTable];
+    
+    // 1. Disable foreign key constraints
+    BOOL enableForeignKeys = [GPKGSqlUtils foreignKeysAsOn:NO withConnection:db];
+    
+    // 2. Start a transaction
+    BOOL successful = YES;
+    [db beginTransaction];
+    @try {
+        
+        // 9a. Query for views
+        GPKGSQLiteMaster *views = [GPKGSQLiteMaster queryViewsWithConnection:db andColumns:[NSArray arrayWithObjects:[NSNumber numberWithInteger:GPKG_SMC_NAME], [NSNumber numberWithInteger:GPKG_SMC_SQL], nil] andTable:tableName];
+        // Remove the views if not a new table
+        if (!newTable) {
+            for (int i = 0; i < views.count; i++) {
+                NSString *viewName = [views nameAtRow:i];
+                @try {
+                    [GPKGSqlUtils dropView:viewName withConnection:db];
+                } @catch (NSException *exception) {
+                    NSLog(@"Failed to drop view: %@, table: %@. error: %@", viewName, tableName, exception);
+                }
+            }
+        }
+        
+        // 3. Query indexes and triggers
+        GPKGSQLiteMaster *indexesAndTriggers = [GPKGSQLiteMaster queryWithConnection:db
+                                                    andColumns:[NSArray arrayWithObjects:
+                                                                [NSNumber numberWithInteger:GPKG_SMC_NAME],
+                                                                [NSNumber numberWithInteger:GPKG_SMC_TYPE],
+                                                                [NSNumber numberWithInteger:GPKG_SMC_SQL],
+                                                                nil]
+                                                    andTypes:[NSArray arrayWithObjects:
+                                                              [NSNumber numberWithInteger:GPKG_SMT_INDEX],
+                                                              [NSNumber numberWithInteger:GPKG_SMT_TRIGGER],
+                                                              nil]
+                                                    andTable:tableName];
+        
+        // Get the temporary or new table name
+        NSString *transferTable;
+        if (newTable) {
+            transferTable = tableMapping.toTable;
+        } else {
+            transferTable = [GPKGSqlUtils tempTableNameWithPrefix:@"new" andBaseName:tableName withConnection:db];
+            [tableMapping setToTable:transferTable];
+        }
+        
+        // 4. Create the new table
+        NSRange tableNameRange = [sql rangeOfString:tableName];
+        if (tableNameRange.location != NSNotFound) {
+            sql = [sql stringByReplacingCharactersInRange:tableNameRange withString:transferTable];
+        }
+        [db exec:sql];
+        
+        // If transferring content
+        if (tableMapping.transferContent) {
+            
+            // 5. Transfer content to new table
+            [GPKGSqlUtils transferTableContent:tableMapping withConnection:db];
+            
+        }
+        
+        // If altering a table
+        if (!newTable) {
+            
+            // 6. Drop the old table
+            [GPKGSqlUtils dropTable:tableName withConnection:db];
+            
+            // 7. Rename the new table
+            [self renameTable:transferTable toTable:tableName withConnection:db];
+            
+            [tableMapping setToTable:tableName];
+        }
+        
+        // 8. Create the indexes and triggers
+        for (int i = 0; i < [indexesAndTriggers count]; i++) {
+            BOOL create = !newTable;
+            if (!create) {
+                // Don't create rtree triggers for new tables
+                create = [indexesAndTriggers typeAtRow:i] != GPKG_SMT_TRIGGER
+                    || ![[indexesAndTriggers nameAtRow:i] hasPrefix:GPKG_RTREE_INDEX_PREFIX];
+            }
+            if (create) {
+                NSString *tableSql = [indexesAndTriggers sqlAtRow:i];
+                if (tableSql != nil) {
+                    tableSql = [GPKGSqlUtils modifySQL:tableSql withName:[indexesAndTriggers nameAtRow:i] andTableMapping:tableMapping withConnection:db];
+                    if (tableSql != nil) {
+                        @try {
+                            [db exec:tableSql];
+                        } @catch (NSException *exception) {
+                            NSLog(@"Failed to recreate %@ after table alteration. table: %@, sql: %@. error: %@", [GPKGSQLiteMasterTypes name:[indexesAndTriggers typeAtRow:i]], tableMapping.toTable, tableSql, exception);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 9b. Recreate views
+        for (int i = 0; i < views.count; i++) {
+            NSString *viewSql = [views sqlAtRow:i];
+            if (viewSql != nil) {
+                viewSql = [GPKGSqlUtils modifySQL:viewSql withName:[views nameAtRow:i] andTableMapping:tableMapping withConnection:db];
+                if (viewSql != nil) {
+                    @try {
+                        [db exec:viewSql];
+                    } @catch (NSException *exception) {
+                        NSLog(@"Failed to recreate view: %@, table: %@, sql: %@. error: %@", [views nameAtRow:i], tableMapping.toTable, viewSql, exception);
+                    }
+                }
+            }
+        }
+        
+        // 10. Foreign key check
+        if (enableForeignKeys) {
+            [self foreignKeyCheck:db];
+        }
+        
+    } @catch (NSException *exception) {
+        successful = NO;
+        @throw exception;
+    } @finally {
+        // 11. Commit the transaction
+        [db commitTransaction];
+    }
+    
+    // 12. Re-enable foreign key constraints
+    if (enableForeignKeys) {
+        [GPKGSqlUtils foreignKeysAsOn:YES withConnection:db];
+    }
+
+}
+
+/**
+ * Perform a foreign key check for violations
+ *
+ * @param db
+ *            connection
+ */
++(void) foreignKeyCheck: (GPKGConnection *) db{
+    
+    NSArray<NSArray<NSObject *> *> *violations = [GPKGSqlUtils foreignKeyCheckWithConnection:db];
+    
+    if(violations.count > 0){
+        NSMutableString *violationsMessage = [[NSMutableString alloc] init];
+        for (int i = 0; i < violations.count; i++) {
+            if (i > 0) {
+                [violationsMessage appendString:@"; "];
+            }
+            [violationsMessage appendFormat:@"%d: ", i + 1];
+            NSArray<NSObject *> *violation = [violations objectAtIndex:i];
+            for (int j = 0; j < violation.count; j++) {
+                if (j > 0) {
+                    [violationsMessage appendString:@", "];
+                }
+                [violationsMessage appendString:[[violation objectAtIndex:j] description]];
+            }
+        }
+        [NSException raise:@"Foreign Key Check" format:@"Foreign Key Check Violations: %@", violationsMessage];
+    }
+    
 }
 
 @end
