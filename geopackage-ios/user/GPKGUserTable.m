@@ -240,7 +240,7 @@
 }
 
 -(NSArray<GPKGConstraint *> *) constraints{
-    return self.constraints;
+    return _constraints;
 }
 
 -(NSArray<GPKGConstraint *> *) constraintsForType: (enum GPKGConstraintType) type{

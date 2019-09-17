@@ -223,7 +223,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                 if(dataTypes != nil){
                     dataType = [((NSNumber *)dataTypes[i]) intValue];
                 }
-                [row addObject:[self valueInResult:result atIndex:i withDataType:dataType]];
+                [GPKGUtils addObject:[self valueInResult:result atIndex:i withDataType:dataType] toArray:row];
             }
             [results addObject:row];
             if(limit != nil && results.count >= [limit intValue]){

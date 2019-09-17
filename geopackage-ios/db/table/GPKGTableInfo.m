@@ -10,6 +10,7 @@
 #import "SFGeometryTypes.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGDateTimeUtils.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_TI_CID = @"cid";
 int const GPKG_TI_CID_INDEX = 0;
@@ -129,12 +130,12 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
     
     for (NSArray<NSObject *> *column in results) {
         
-        int index = [((NSNumber *)[column objectAtIndex:GPKG_TI_CID_INDEX]) intValue];
-        NSString *name = (NSString *)[column objectAtIndex:GPKG_TI_NAME_INDEX];
-        NSString *type = (NSString *)[column objectAtIndex:GPKG_TI_TYPE_INDEX];
-        BOOL notNull = [((NSNumber *)[column objectAtIndex:GPKG_TI_NOT_NULL_INDEX]) intValue] == 1;
-        NSString *defaultValueString = (NSString *)[column objectAtIndex:GPKG_TI_DFLT_VALUE_INDEX];
-        BOOL primaryKey = [((NSNumber *)[column objectAtIndex:GPKG_TI_PK_INDEX]) intValue] == 1;
+        int index = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_CID_INDEX inArray:column]) intValue];
+        NSString *name = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_NAME_INDEX inArray:column];
+        NSString *type = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_TYPE_INDEX inArray:column];
+        BOOL notNull = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_NOT_NULL_INDEX inArray:column]) intValue] == 1;
+        NSString *defaultValueString = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_DFLT_VALUE_INDEX inArray:column];
+        BOOL primaryKey = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_PK_INDEX inArray:column]) intValue] == 1;
 
         // If the type has a max limit on it, pull it off
         NSNumber *max = nil;

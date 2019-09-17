@@ -32,15 +32,15 @@
                 andPrimaryKey: (BOOL) primaryKey{
     self = [super init];
     if(self != nil){
-        self.index = index;
-        self.name = name;
-        self.max = max;
-        self.notNull = notNull;
-        self.defaultValue = defaultValue;
-        self.primaryKey = primaryKey;
-        self.type = type;
-        self.dataType = dataType;
-        self.constraints = [[NSMutableArray alloc] init];
+        _index = index;
+        _name = name;
+        _max = max;
+        _notNull = notNull;
+        _defaultValue = defaultValue;
+        _primaryKey = primaryKey;
+        _type = type;
+        _dataType = dataType;
+        _constraints = [[NSMutableArray alloc] init];
         
         [GPKGUserColumn validateDataType:dataType forColumn:name];
         [self validateMax];

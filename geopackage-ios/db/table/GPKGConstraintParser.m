@@ -333,7 +333,8 @@ static NSRegularExpression *constraintExpression = nil;
 
 +(NSArray<NSString *> *) nameAndDefinitionForSQL: (NSString *) constraintSql{
     NSArray<NSString *> *parts = nil;
-    NSArray *matches = [constraintExpression matchesInString:[constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] options:0 range:NSMakeRange(0, [constraintSql length])];
+    NSString *constraintSqlTrimmed = [constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray *matches = [constraintExpression matchesInString:constraintSqlTrimmed options:0 range:NSMakeRange(0, [constraintSqlTrimmed length])];
     if([matches count] > 0){
         NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
         NSString *name = nil;

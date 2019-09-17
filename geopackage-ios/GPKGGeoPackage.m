@@ -21,6 +21,7 @@
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGAlterTable.h"
+#import "GPKGUserCustomTableReader.h"
 
 @interface GPKGGeoPackage()
 
@@ -835,6 +836,12 @@
     return [self getAttributesDaoWithContents:contents];
 }
 
+-(GPKGUserCustomDao *) getUserCustomDaoWithTableName: (NSString *) tableName{
+    GPKGUserCustomTable *table = [GPKGUserCustomTableReader readTableWithConnection:self.database andTableName:tableName];
+    GPKGUserCustomDao *dao = [[GPKGUserCustomDao alloc] initWithDatabase:self.database andTable:table];
+    return dao;
+}
+
 -(void) execSQL: (NSString *) sql{
     [self.database exec:sql];
 }
@@ -1083,7 +1090,11 @@
 }
 
 -(GPKGResultSet *) foreignKeyCheck{
-    GPKGResultSet * resultSet = [self rawQuery:@"PRAGMA foreign_key_check" andArgs:nil];
+    return [self foreignKeyCheckOnTable:nil];
+}
+
+-(GPKGResultSet *) foreignKeyCheckOnTable: (NSString *) tableName{
+    GPKGResultSet *resultSet = [self rawQuery:[GPKGSqlUtils foreignKeyCheckSQLOnTable:tableName] andArgs:nil];
     if(![resultSet moveToNext]){
         [resultSet close];
         resultSet = nil;

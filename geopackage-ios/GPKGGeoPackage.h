@@ -36,6 +36,7 @@
 #import "GPKGExtendedRelationsDao.h"
 #import "GPKGContentsIdDao.h"
 #import "GPKGConstraint.h"
+#import "GPKGUserCustomDao.h"
 
 /**
  *  A single GeoPackage database connection
@@ -832,6 +833,15 @@
 -(GPKGAttributesDao *) getAttributesDaoWithTableName: (NSString *) tableName;
 
 /**
+ * Get a User Custom DAO from a table name
+ *
+ * @param tableName
+ *            table name
+ * @return user custom dao
+ */
+-(GPKGUserCustomDao *) getUserCustomDaoWithTableName: (NSString *) tableName;
+
+/**
  *  Execute the sql on the GeoPackage database
  *
  *  @param sql sql
@@ -947,6 +957,15 @@
  *  @return nil if check passed, open result set with results if failed
  */
 -(GPKGResultSet *) foreignKeyCheck;
+
+/**
+ * Perform a foreign key check on the database table
+ *
+ * @param tableName
+ *            table name
+ * @return null if check passed, open result set with results if failed
+ */
+-(GPKGResultSet *) foreignKeyCheckOnTable: (NSString *) tableName;
 
 /**
  *  Perform an integrity check on the database
