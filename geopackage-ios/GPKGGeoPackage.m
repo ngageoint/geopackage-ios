@@ -1103,11 +1103,11 @@
 }
 
 -(GPKGResultSet *) integrityCheck{
-    return [self integrityCheck:[self rawQuery:@"PRAGMA integrity_check" andArgs:nil]];
+    return [self integrityCheck:[self rawQuery:[GPKGSqlUtils integrityCheckSQL] andArgs:nil]];
 }
 
 -(GPKGResultSet *) quickCheck{
-    return [self integrityCheck:[self rawQuery:@"PRAGMA quick_check" andArgs:nil]];
+    return [self integrityCheck:[self rawQuery:[GPKGSqlUtils quickCheckSQL] andArgs:nil]];
 }
 
 /**

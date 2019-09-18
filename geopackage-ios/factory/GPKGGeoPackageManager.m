@@ -597,6 +597,8 @@ didCompleteWithError:(nullable NSError *)error{
         [self validateDatabaseFile:documentsPath andValidateHeader:self.openHeaderValidation andValidateIntegrity:self.openIntegrityValidation];
         
         GPKGConnection *db = [[GPKGConnection alloc] initWithDatabaseFilename:documentsPath andName:database];
+        [db enableForeignKeys];
+        
         geoPackage = [[GPKGGeoPackage alloc] initWithConnection:db andWritable:writable andMetadataDb:self.metadataDb];
     }
 

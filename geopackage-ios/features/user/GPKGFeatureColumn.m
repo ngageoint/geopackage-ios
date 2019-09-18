@@ -41,7 +41,7 @@
                                      andGeometryType: (enum SFGeometryType) type
                                           andNotNull: (BOOL) notNull
                                      andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_GEOMETRY andMax:nil andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:type];
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_BLOB andMax:nil andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:type];
 }
 
 +(GPKGFeatureColumn *) createColumnWithName: (NSString *) name
@@ -142,8 +142,8 @@
 
 -(NSString *) typeNameForName: (NSString *) name withDataType: (enum GPKGDataType) dataType andGeometryType: (enum SFGeometryType) geometryType{
     NSString * type = nil;
-    if(geometryType != SF_NONE){
-        type = [GPKGDataTypes name:dataType];
+    if(geometryType != SF_NONE && geometryType >= 0){
+        type = [SFGeometryTypes name:geometryType];
     }else {
         type = [GPKGUserColumn nameOfDataType:dataType forColumn:name];
     }

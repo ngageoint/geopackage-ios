@@ -22,7 +22,6 @@ NSString * const GPKG_DT_TEXT_NAME = @"TEXT";
 NSString * const GPKG_DT_BLOB_NAME = @"BLOB";
 NSString * const GPKG_DT_DATE_NAME = @"DATE";
 NSString * const GPKG_DT_DATETIME_NAME = @"DATETIME";
-NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
 
 @implementation GPKGDataTypes
 
@@ -69,9 +68,6 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
         case GPKG_DT_DATETIME:
             name = GPKG_DT_DATETIME_NAME;
             break;
-        case GPKG_DT_GEOMETRY:
-            name = GPKG_DT_GEOMETRY_NAME;
-            break;
     }
     
     return name;
@@ -96,7 +92,6 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
                                [NSNumber numberWithInteger:GPKG_DT_BLOB], GPKG_DT_BLOB_NAME,
                                [NSNumber numberWithInteger:GPKG_DT_DATE], GPKG_DT_DATE_NAME,
                                [NSNumber numberWithInteger:GPKG_DT_DATETIME], GPKG_DT_DATETIME_NAME,
-                               [NSNumber numberWithInteger:GPKG_DT_GEOMETRY], GPKG_DT_GEOMETRY_NAME,
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];
@@ -134,8 +129,6 @@ NSString * const GPKG_DT_GEOMETRY_NAME = @"GEOMETRY";
         case GPKG_DT_DATE:
         case GPKG_DT_DATETIME:
             class = [NSDate class];
-            break;
-        case GPKG_DT_GEOMETRY:
             break;
     }
     

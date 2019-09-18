@@ -366,6 +366,7 @@
         }
         
         // Delete the contents
+        [dao.database foreignKeysAsOn:NO];
         if (cascade) {
             [dao deleteCascade:contents];
         } else {

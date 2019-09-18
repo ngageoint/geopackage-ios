@@ -14,17 +14,24 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 
 -(instancetype) init{
     self = [super initWithType:GPKG_CT_UNIQUE];
+    if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
+    }
     return self;
 }
 
 -(instancetype) initWithName: (NSString *) name{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
+    if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
+    }
     return self;
 }
 
 -(instancetype) initWithColumn: (GPKGUserColumn *) column{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
         [self addColumn:column];
     }
     return self;
@@ -33,6 +40,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithColumns: (NSArray<GPKGUserColumn *> *) columns{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
         [self addColumns:columns];
     }
     return self;
@@ -41,6 +49,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name andColumn: (GPKGUserColumn *) column{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
     if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
         [self addColumn:column];
     }
     return self;
@@ -49,6 +58,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name andColumns: (NSArray<GPKGUserColumn *> *) columns{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
     if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
         [self addColumns:columns];
     }
     return self;
@@ -80,8 +90,9 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUniqueConstraint *constraint = [super mutableCopyWithZone:zone];
+    constraint.columns = [[NSMutableArray alloc] init];
     for(GPKGUserColumn *column in _columns){
-        [self addColumn:[column mutableCopy]];
+        [constraint addColumn:[column mutableCopy]];
     }
     return constraint;
 }

@@ -24,8 +24,7 @@ enum GPKGDataType{
     GPKG_DT_TEXT,
     GPKG_DT_BLOB,
     GPKG_DT_DATE,
-    GPKG_DT_DATETIME,
-    GPKG_DT_GEOMETRY
+    GPKG_DT_DATETIME
 };
 
 /**
@@ -44,7 +43,6 @@ extern NSString * const GPKG_DT_TEXT_NAME;
 extern NSString * const GPKG_DT_BLOB_NAME;
 extern NSString * const GPKG_DT_DATE_NAME;
 extern NSString * const GPKG_DT_DATETIME_NAME;
-extern NSString * const GPKG_DT_GEOMETRY_NAME;
 
 @interface GPKGDataTypes : NSObject
 
