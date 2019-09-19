@@ -29,7 +29,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_DATA_COLUMN_COUNT = 4;
 NSInteger const GPKG_TEST_SETUP_CREATE_DATA_COLUMN_CONSTRAINTS_COUNT = 7;
 NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_COUNT = 4;
 NSInteger const GPKG_TEST_SETUP_CREATE_METADATA_REFERENCE_COUNT = 13;
-NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
+NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
 
 @implementation GPKGTestSetupTeardown
 
@@ -167,15 +167,15 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 5;
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
     
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:6 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:8 andName:@"test_date" andDataType:GPKG_DT_DATE andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:9 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:6 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5]] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7]] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:8 andName:@"test_date" andDataType:GPKG_DT_DATE] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:9 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:false andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:5 andName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:false andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:5 andName:@"test_integer" andDataType:GPKG_DT_INTEGER] toArray:columns];
     
     GPKGAttributesTable * attributesTable = [geoPackage createAttributesTableWithTableName:@"test_attributes" andAdditionalColumns:columns];
     [GPKGTestUtils assertNotNil:attributesTable];

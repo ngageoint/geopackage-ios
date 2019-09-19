@@ -23,4 +23,6 @@
 
 +(void)testBounds: (GPKGGeoPackage *) geoPackage;
 
++(void)testVacuum: (GPKGGeoPackage *) geoPackage;
+
 @end

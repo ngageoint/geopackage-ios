@@ -35,28 +35,28 @@
     
     // Validate nullable non simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGSimpleAttributesTable numRequiredColumns]]];
+        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumns]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with nullable non simple columns"];
     } @catch (NSException *exception) {
         // pass
     }
     // Validate non nullable non simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGSimpleAttributesTable numRequiredColumns] andNotNil:YES]];
+        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumnsWithNotNil:YES]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with non nullable non simple columns"];
     } @catch (NSException *exception) {
         // pass
     }
     // Validate nullable simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createSimpleUserColumnsAtIndex:[GPKGSimpleAttributesTable numRequiredColumns] andNotNil:NO]];
+        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createSimpleUserColumnsWithNotNil:NO]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with nullable simple columns"];
     } @catch (NSException *exception) {
         // pass
     }
     
     // Populate and validate a simple attributes table
-    NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumnsAtIndex:[GPKGSimpleAttributesTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumns];
     GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:simpleUserColumns];
     NSArray<NSString *> *simpleColumns = simpleTable.columnNames;
     [GPKGTestUtils assertEqualIntWithValue:[GPKGSimpleAttributesTable numRequiredColumns] + (int)simpleUserColumns.count andValue2:(int)simpleColumns.count];
@@ -68,7 +68,7 @@
     [GPKGTestUtils assertTrue:idColumn.primaryKey];
     
     // Create and validate a mapping table
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     NSString *mappingTableName = @"attributes_simple_attributes";
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalMappingColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];

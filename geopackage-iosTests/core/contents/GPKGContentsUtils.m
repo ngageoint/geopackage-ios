@@ -366,7 +366,7 @@
         }
         
         // Delete the contents
-        [dao.database foreignKeysAsOn:NO];
+        [geoPackage foreignKeysAsOn:NO];
         if (cascade) {
             [dao deleteCascade:contents];
         } else {

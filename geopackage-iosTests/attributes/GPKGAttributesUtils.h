@@ -26,6 +26,13 @@
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Test update with added columns
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testUpdateAddColumnsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
  * Test create
  *
  * @param geoPackage

@@ -47,4 +47,10 @@
     
 }
 
+- (void) testVacuum {
+    
+    [GPKGGeoPackageTestUtils testVacuum:self.geoPackage];
+    
+}
+
 @end

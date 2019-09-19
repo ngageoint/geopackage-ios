@@ -40,7 +40,7 @@
     NSString *relatedTableName = [tilesTables objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)tilesTables.count]];
     
     // Create and validate a mapping table
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     NSString *mappingTableName = @"features_tiles";
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalMappingColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];

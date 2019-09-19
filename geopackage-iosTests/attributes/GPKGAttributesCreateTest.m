@@ -19,6 +19,10 @@
     [GPKGAttributesUtils testUpdateWithGeoPackage: self.geoPackage];
 }
 
+-(void) testUpdateAddColumns{
+    [GPKGAttributesUtils testUpdateAddColumnsWithGeoPackage: self.geoPackage];
+}
+
 -(void) testCreate{
     [GPKGAttributesUtils testCreateWithGeoPackage: self.geoPackage];
 }

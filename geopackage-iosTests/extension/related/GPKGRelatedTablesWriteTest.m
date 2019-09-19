@@ -44,7 +44,7 @@
     NSString *relatedTableName = @"geometry2";
     NSString *mappingTableName = @"g1_g2";
     
-    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
@@ -157,7 +157,7 @@
     NSString *relatedTableName = @"attributes";
     NSString *mappingTableName = @"g1_a";
     
-    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
@@ -270,7 +270,7 @@
     NSString *relatedTableName = @"geometry1_tiles";
     NSString *mappingTableName = @"g1_g1t";
     
-    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];

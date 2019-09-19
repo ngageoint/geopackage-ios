@@ -38,7 +38,7 @@
     NSString *baseTableName = [featureTables objectAtIndex:(int)([GPKGTestUtils randomDouble] * featureTables.count)];
     
     // Populate and validate a media table
-    NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGMediaTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"media_table" andAdditionalColumns:additionalMediaColumns];
     NSArray<NSString *> *mediaColumns = mediaTable.columnNames;
     [GPKGTestUtils assertEqualIntWithValue:[GPKGMediaTable numRequiredColumns] + (int)additionalMediaColumns.count andValue2:(int)mediaTable.columns.count];
@@ -62,7 +62,7 @@
     [GPKGTestUtils assertFalse:contentTypeColumn.primaryKey];
     
     // Create and validate a mapping table
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     NSString *mappingTableName = @"features_media";
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalMappingColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];
@@ -344,6 +344,50 @@
         [GPKGTestUtils assertEqualIntWithValue:totalMappedCount andValue2:totalMapped];
     }
     [mediaExtendedRelations close];
+    
+    // Add more columns to the media table
+    int existingColumns = (int)[mediaTable columns].count;
+    GPKGUserCustomColumn *mediaIdColumn = [mediaTable idColumn];
+    GPKGUserCustomColumn *mediaDataColumn = [mediaTable dataColumn];
+    GPKGUserCustomColumn *mediaContentTypeColumn = [mediaTable contentTypeColumn];
+    int newColumns = 0;
+    NSString *newColumnName = @"new_column";
+    [mediaDao addColumn:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT]];
+    [mediaDao addColumn:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB]];
+    [GPKGTestUtils assertEqualIntWithValue:existingColumns + 2 andValue2:[mediaTable columns].count];
+    for (int index = existingColumns; index < [mediaTable columns].count; index++) {
+        NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable getColumnNameWithIndex:index]];
+        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable getColumnIndexWithColumnName:name]];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable getColumnWithIndex:index].name];
+        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable getColumnWithIndex:index].index];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable.columnNames objectAtIndex:index]];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable.columns objectAtIndex:index].name];
+        @try {
+            [[mediaTable getColumnWithIndex:index] setIndex:index - 1];
+            [GPKGTestUtils fail:@"Changed index on a created table column"];
+        } @catch (NSException *exception) {
+        }
+        [[mediaTable getColumnWithIndex:index] setIndex:index];
+    }
+    [GPKGTestUtils assertEqualWithValue:mediaIdColumn andValue2:[mediaTable idColumn]];
+    [GPKGTestUtils assertEqualWithValue:mediaDataColumn andValue2:[mediaTable dataColumn]];
+    [GPKGTestUtils assertEqualWithValue:mediaContentTypeColumn andValue2:[mediaTable contentTypeColumn]];
+    
+    // Add another row with the new columns and read it
+    GPKGMediaRow *mediaRow = [mediaDao newRow];
+    [mediaRow setData:mediaData];
+    [mediaRow setContentType:contentType];
+    [GPKGRelatedTablesUtils populateUserRowWithTable:mediaTable andRow:mediaRow andSkipColumns:[GPKGMediaTable requiredColumns]];
+    NSString *newValue = [[NSProcessInfo processInfo] globallyUniqueString];
+    [mediaRow setValueWithIndex:existingColumns andValue:newValue];
+    [mediaRow setValueWithIndex:existingColumns + 1 andValue:[mediaRow data]];
+    mediaRowId = [mediaDao create:mediaRow];
+    [GPKGTestUtils assertTrue:mediaRowId > 0];
+    GPKGMediaRow *newMediaRow = (GPKGMediaRow *)[mediaDao queryForIdObject:[NSNumber numberWithInt:mediaRowId]];
+    [GPKGTestUtils assertNotNil:newMediaRow];
+    [GPKGTestUtils assertEqualWithValue:newValue andValue2:[newMediaRow getValueWithIndex:existingColumns]];
+    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[mediaRow data] andActual:(NSData *)[newMediaRow getValueWithIndex:existingColumns + 1]];
     
     // Delete a single mapping
     int countOfIds = [dao countByIdsFromRow:userMappingRow];

@@ -12,6 +12,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGFeatureIndexManager.h"
+#import "GPKGGeoPackageFactory.h"
 
 @implementation GPKGGeoPackageTestUtils
 
@@ -148,6 +149,8 @@
     GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
     
     [GPKGTestUtils assertTrue:[geometryColumnsDao tableExists] || [tileMatrixSetDao tableExists]];
+    
+    [geoPackage foreignKeysAsOn:NO];
     
     if([geometryColumnsDao tableExists]){
         
@@ -367,6 +370,25 @@
     
     [GPKGTestUtils assertEqualWithValue:expectedBoundingBox andValue2:geoPackageBoundingBox];
     [GPKGTestUtils assertEqualWithValue:expectedManualBoundingBox andValue2:geoPackageManualBoundingBox];
+    
+}
+
++(void)testVacuum: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    int size = [manager size:geoPackage.name];
+    
+    for(NSString *table in [geoPackage getTables]){
+        
+        [geoPackage deleteTable:table];
+        
+        [geoPackage vacuum];
+        
+        int newSize = [manager size:geoPackage.name];
+        [GPKGTestUtils assertTrue:size > newSize];
+        size = newSize;
+        
+    }
     
 }
 

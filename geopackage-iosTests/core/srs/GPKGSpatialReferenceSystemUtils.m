@@ -256,6 +256,7 @@
         }
         
         // Delete the srs
+        [geoPackage foreignKeysAsOn:NO];
         if (cascade) {
             [dao deleteCascade:srs];
         } else {

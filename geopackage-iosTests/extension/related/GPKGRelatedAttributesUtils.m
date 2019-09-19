@@ -34,7 +34,7 @@
     NSString *relatedTableName = [attributesTables objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)attributesTables.count]];
     
     // Create and validate a mapping table
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     NSString *mappingTableName = @"attributes_attributes";
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:mappingTableName andAdditionalColumns:additionalMappingColumns];
     [GPKGTestUtils assertFalse:[rte hasWithMappingTable:userMappingTable.tableName]];

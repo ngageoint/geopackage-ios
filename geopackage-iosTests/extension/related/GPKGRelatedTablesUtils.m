@@ -16,50 +16,47 @@
 
 @implementation GPKGRelatedTablesUtils
 
-+(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsAtIndex: (int) startingIndex{
-    return [self createAdditionalUserColumnsAtIndex:startingIndex andNotNil:NO];
++(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumns{
+    return [self createAdditionalUserColumnsWithNotNil:NO];
 }
 
-+(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull{
++(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsWithNotNil: (BOOL) notNull{
     
     NSMutableArray * columns = [[NSMutableArray alloc] init];
     
-    int columnIndex = startingIndex;
-    
     // Add Dublin Core Metadata term columns
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_DATE] andDataType:GPKG_DT_DATETIME andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_DESCRIPTION] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_SOURCE] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:[GPKGDublinCoreTypes name:GPKG_DCM_TITLE] andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_DATE] andDataType:GPKG_DT_DATETIME andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_DESCRIPTION] andDataType:GPKG_DT_TEXT andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_SOURCE] andDataType:GPKG_DT_TEXT andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_TITLE] andDataType:GPKG_DT_TEXT andNotNull:notNull] toArray:columns];
     
     // Add test columns for common data types, some with limits
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:@""] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_date" andDataType:GPKG_DT_DATE andNotNull:notNull andDefaultValue:nil] toArray:columns];
-    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:@"test_datetime" andDataType:GPKG_DT_DATETIME andNotNull:notNull andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:notNull andDefaultValue:@""] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_real" andDataType:GPKG_DT_REAL andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_blob" andDataType:GPKG_DT_BLOB andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_integer" andDataType:GPKG_DT_INTEGER andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:notNull andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:notNull andDefaultValue:nil] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_date" andDataType:GPKG_DT_DATE andNotNull:notNull] toArray:columns];
+    [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:@"test_datetime" andDataType:GPKG_DT_DATETIME andNotNull:notNull] toArray:columns];
     
     return columns;
 }
 
-+(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex{
-    return [self createSimpleUserColumnsAtIndex:startingIndex andNotNil:YES];
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumns{
+    return [self createSimpleUserColumnsWithNotNil:YES];
 }
 
-+(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull{
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsWithNotNil: (BOOL) notNull{
     
     NSMutableArray<GPKGUserCustomColumn *> *simpleUserColumns = [[NSMutableArray alloc] init];
-    int columnIndex = startingIndex;
     
-    NSArray<GPKGUserCustomColumn *> *allAdditionalColumns = [self createAdditionalUserColumnsAtIndex:startingIndex andNotNil:notNull];
+    NSArray<GPKGUserCustomColumn *> *allAdditionalColumns = [self createAdditionalUserColumnsWithNotNil:notNull];
     
     for(GPKGUserCustomColumn *column in allAdditionalColumns){
         if([GPKGSimpleAttributesTable isSimpleColumn:column]){
-            [simpleUserColumns addObject:[GPKGUserCustomColumn createColumnWithIndex:columnIndex++ andName:column.name andDataType:column.dataType andMax:column.max andNotNull:column.notNull andDefaultValue:column.defaultValue]];
+            [simpleUserColumns addObject:[GPKGUserCustomColumn createColumnWithName:column.name andDataType:column.dataType andMax:column.max andNotNull:column.notNull andDefaultValue:column.defaultValue]];
         }
     }
 

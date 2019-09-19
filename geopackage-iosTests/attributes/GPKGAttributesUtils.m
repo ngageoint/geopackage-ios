@@ -191,7 +191,7 @@
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[attributesRow columnCount]];
     
     for (int i = 0; i < [attributesRow columnCount]; i++) {
-        GPKGAttributesColumn * column = [attributesRow.table.columns objectAtIndex:i];
+        GPKGAttributesColumn * column = (GPKGAttributesColumn *) [attributesRow.table.columns objectAtIndex:i];
         enum GPKGDataType dataType = column.dataType;
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
         [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow getColumnNameWithIndex:i]];
@@ -250,288 +250,425 @@
             }
             
             GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
-            [GPKGTestUtils assertNotNil:dao];
+            [self testUpdateWithDao:dao];
             
-            // Query for all
-            GPKGResultSet * results = [dao queryForAll];
-            int count = results.count;
-            if (count > 0) {
-                
-                // // Choose random attribute
-                // int random = (int) (Math.random() * count);
-                // cursor.moveToPosition(random);
-                [results moveToFirst];
-                [results moveToNext];
-                
-                NSString * updatedString = nil;
-                NSString * updatedLimitedString = nil;
-                NSDate *updatedDate = nil;
-                NSNumber * updatedBoolean = nil;
-                NSNumber * updatedByte = nil;
-                NSNumber * updatedShort = nil;
-                NSNumber * updatedInteger = nil;
-                NSNumber * updatedLong = nil;
-                NSDecimalNumber * updatedFloat = nil;
-                NSDecimalNumber * updatedDouble = nil;
-                NSData * updatedBytes = nil;
-                NSData * updatedLimitedBytes = nil;
-                
-                GPKGAttributesRow * originalRow = [dao getAttributesRow:results];
-                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
-                
-                @try {
-                    [attributesRow setValueWithIndex:[attributesRow getPkColumnIndex] andValue:[NSNumber numberWithInt:9]];
-                    [GPKGTestUtils fail:@"Updated the primary key value"];
-                } @catch (NSException *exception) {
-                    // expected
-                }
-                
-                for (GPKGAttributesColumn * attributesColumn in dao.table.columns) {
-                    if (!attributesColumn.primaryKey) {
-                        
-                        enum GPKGDataType dataType = attributesColumn.dataType;
-                        
-                        switch([attributesRow getRowColumnTypeWithIndex:attributesColumn.index]){
-                                
-                            case SQLITE_TEXT:
-                                {
-                                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
-                                        
-                                        if (updatedDate == nil) {
-                                            updatedDate = [NSDate date];
-                                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
-                                        }
-                                        if ([GPKGTestUtils randomDouble] < .5) {
-                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDate];
-                                        } else {
-                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
-                                        }
-                                    }else{
-                                    
-                                        if (updatedString == nil) {
-                                            updatedString = [[NSProcessInfo processInfo] globallyUniqueString];
-                                        }
-                                        if(attributesColumn.max != nil){
-                                            if(updatedLimitedString == nil){
-                                                if(updatedString.length > [attributesColumn.max intValue]){
-                                                    updatedLimitedString = [updatedString substringToIndex:[attributesColumn.max intValue]];
-                                                } else{
-                                                    updatedLimitedString = updatedString;
-                                                }
-                                            }
-                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedString];
-                                        }else{
-                                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedString];
-                                        }
-                                    }
-                                }
-                                break;
-   
-                            case SQLITE_INTEGER:
-                                {
-                                    switch (attributesColumn.dataType) {
-                                        case GPKG_DT_BOOLEAN:
-                                            {
-                                                if (updatedBoolean == nil) {
-                                                    updatedBoolean = [NSNumber numberWithBool:![((NSNumber *)[attributesRow getValueWithIndex:attributesColumn.index]) boolValue]];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBoolean];
-                                            }
-                                            break;
-                                        case GPKG_DT_TINYINT:
-                                            {
-                                                if (updatedByte == nil) {
-                                                    updatedByte = [NSNumber numberWithChar:((char)([GPKGTestUtils randomDouble] * (CHAR_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedByte];
-                                            }
-                                            break;
-                                        case GPKG_DT_SMALLINT:
-                                            {
-                                                if (updatedShort == nil) {
-                                                    updatedShort = [NSNumber numberWithShort:((short)([GPKGTestUtils randomDouble] * (SHRT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedShort];
-                                            }
-                                            break;
-                                        case GPKG_DT_MEDIUMINT:
-                                            {
-                                                if (updatedInteger == nil) {
-                                                    updatedInteger = [NSNumber numberWithInt:((int)([GPKGTestUtils randomDouble] * (INT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedInteger];
-                                            }
-                                            break;
-                                        case GPKG_DT_INT:
-                                        case GPKG_DT_INTEGER:
-                                            {
-                                                if (updatedLong == nil) {
-                                                    updatedLong = [NSNumber numberWithLongLong:((long long)([GPKGTestUtils randomDouble] * (LLONG_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLong];
-                                            }
-                                            break;
-                                        default:
-                                            [GPKGTestUtils fail:@"Unexpected integer type"];
-                                    }
-                                }
-                                break;
-                            case SQLITE_FLOAT:
-                                {
-                                    switch (attributesColumn.dataType) {
-                                        case GPKG_DT_FLOAT:
-                                            {
-                                                if(updatedFloat == nil){
-                                                    updatedFloat = [[NSDecimalNumber alloc] initWithFloat:[GPKGTestUtils randomDouble] * FLT_MAX];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedFloat];
-                                            }
-                                            break;
-                                        case GPKG_DT_DOUBLE:
-                                        case GPKG_DT_REAL:
-                                            {
-                                                if(updatedDouble == nil){
-                                                    updatedDouble = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDouble] * DBL_MAX];
-                                                }
-                                                [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDouble];
-                                            }
-                                            break;
-                                        default:
-                                            [GPKGTestUtils fail:@"Unexpected float type"];
-                                    }
-                                }
-                                break;
-                            case SQLITE_BLOB:
-                                {
-                                    if (updatedBytes == nil) {
-                                        updatedBytes = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
-                                    }
-                                    if (attributesColumn.max != nil) {
-                                        if (updatedLimitedBytes == nil) {
-                                            if (updatedBytes.length > [attributesColumn.max intValue]) {
-                                                updatedLimitedBytes = [NSData dataWithBytes:updatedBytes.bytes length:[attributesColumn.max intValue]];
-                                            } else {
-                                                updatedLimitedBytes = updatedBytes;
-                                            }
-                                        }
-                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedBytes];
-                                    } else {
-                                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBytes];
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                    }
-                }
-                
-                [results close];
-                
-                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao update:attributesRow]];
-                
-                NSNumber * id = [attributesRow getId];
-                GPKGResultSet * readRowResults = [dao queryForId:id];
-                [readRowResults moveToNext];
-                GPKGAttributesRow * readRow = [dao getAttributesRow:readRowResults];
-                [readRowResults close];
-                [GPKGTestUtils assertNotNil:readRow];
-                [GPKGTestUtils assertEqualWithValue:[originalRow getId] andValue2:[readRow getId]];
-                
-                for (NSString * readColumnName in [readRow getColumnNames ]) {
-                    
-                    GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow getColumnWithColumnName:readColumnName];
-                    if (!readAttributesColumn.primaryKey) {
-                        
-                        enum GPKGDataType dataType = readAttributesColumn.dataType;
-                        
-                        switch ([readRow getRowColumnTypeWithColumnName:readColumnName]) {
-                            case SQLITE_TEXT:
-                                {
-                                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
-                                        
-                                        NSObject *value = [readRow getValueWithIndex:readAttributesColumn.index];
-                                        NSDate *date = nil;
-                                        if([value isKindOfClass:[NSDate class]]){
-                                            date = (NSDate *) value;
-                                        } else {
-                                            date = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
-                                        }
-                                        NSDate *compareDate = updatedDate;
-                                        if (dataType == GPKG_DT_DATE) {
-                                            compareDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:compareDate andType:dataType]];
-                                        }
-                                        [GPKGTestUtils assertTrue:[compareDate compare:date] == NSOrderedSame];
-                                    }else{
-                                        if (readAttributesColumn.max != nil) {
-                                            [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                        } else {
-                                            [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                        }
-                                    }
-                                }
-                                break;
-                            case SQLITE_INTEGER:
-                                {
-                                    switch (readAttributesColumn.dataType) {
-                                        case GPKG_DT_BOOLEAN:
-                                            [GPKGTestUtils assertEqualWithValue:updatedBoolean andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                            break;
-                                        case GPKG_DT_TINYINT:
-                                            [GPKGTestUtils assertEqualWithValue:updatedByte andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                            break;
-                                        case GPKG_DT_SMALLINT:
-                                            [GPKGTestUtils assertEqualWithValue:updatedShort andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                            break;
-                                        case GPKG_DT_MEDIUMINT:
-                                            [GPKGTestUtils assertEqualWithValue:updatedInteger andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                            break;
-                                        case GPKG_DT_INT:
-                                        case GPKG_DT_INTEGER:
-                                            [GPKGTestUtils assertEqualWithValue:updatedLong andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
-                                            break;
-                                        default:
-                                            [GPKGTestUtils fail:@"Unexpected integer type"];
-                                    }
-                                }
-                                break;
-                            case SQLITE_FLOAT:
-                                {
-                                    switch (readAttributesColumn.dataType) {
-                                        case GPKG_DT_FLOAT:
-                                            [GPKGTestUtils assertEqualDoubleWithValue:[updatedFloat floatValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) floatValue] andPercentage:.0000000001];
-                                            break;
-                                        case GPKG_DT_DOUBLE:
-                                        case GPKG_DT_REAL:
-                                            [GPKGTestUtils assertEqualDoubleWithValue:[updatedDouble doubleValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) doubleValue] andPercentage:.0000000001];
-                                            break;
-                                        default:
-                                            [GPKGTestUtils fail:@"Unexpected float type"];
-                                    }
-                                }
-                                break;
-                            case SQLITE_BLOB:
-                                {
-                                    if (readAttributesColumn.max != nil) {
-                                        [GPKGTestUtils assertEqualDataWithValue:updatedLimitedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
-                                    } else {
-                                        [GPKGTestUtils assertEqualDataWithValue:updatedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    
-                }
-                
-            }
-            [results close];
         }
     }
     
+}
+
++(void) testUpdateAddColumnsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    NSArray * tables = [geoPackage getAttributesTables];
+    
+    if (tables.count > 0) {
+        
+        for (NSString * tableName in tables) {
+            
+            if([tableName isEqualToString:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+                continue;
+            }
+            
+            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+
+            int rowCount = [dao count];
+            
+            GPKGAttributesTable *table = [dao getAttributesTable];
+            int existingColumns = [table columnCount];
+            GPKGAttributesColumn *pk = (GPKGAttributesColumn *)[table getPkColumn];
+            
+            int newColumns = 0;
+            NSString *newColumnName = @"new_column";
+            
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_REAL]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BOOLEAN]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_INTEGER]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length]]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]]]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_DATE]];
+            [dao addColumn:[GPKGAttributesColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_DATETIME]];
+
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns + newColumns andValue2:[table columnCount]];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            
+            for (int index = existingColumns; index < [table columnCount]; index++) {
+                NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columnNames objectAtIndex:index]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columns objectAtIndex:index].name];
+                @try {
+                    [[table getColumnWithIndex:index] setIndex:index - 1];
+                    [GPKGTestUtils fail:@"Changed index on a created table column"];
+                } @catch (NSException *exception) {
+                }
+                [[table getColumnWithIndex:index] setIndex:index];
+            }
+            
+            [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            
+            [self testUpdateWithDao:dao];
+            
+            NSString *newerColumnName = @"newer_column";
+            for (int newColumn = 1; newColumn <= newColumns; newColumn++) {
+                [dao renameColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, newColumn] toColumn:[NSString stringWithFormat:@"%@%d", newerColumnName, newColumn]];
+            }
+            for (int index = existingColumns; index < [table columnCount]; index++) {
+                NSString *name = [NSString stringWithFormat:@"%@%d", newerColumnName, index - existingColumns + 1];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columnNames objectAtIndex:index]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columns objectAtIndex:index].name];
+            }
+            
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns + newColumns andValue2:[table columnCount]];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            
+            [self testUpdateWithDao:dao];
+            
+            for (int newColumn = 1; newColumn <= newColumns; newColumn++) {
+                [dao dropColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, newColumn]];
+            }
+            
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[table columnCount]];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            
+            for (int index = 0; index < existingColumns; index++) {
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+            }
+            
+            [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            
+        }
+    }
+    
+}
+
++(void) testUpdateWithDao: (GPKGAttributesDao *) dao{
+    
+    [GPKGTestUtils assertNotNil:dao];
+    
+    // Query for all
+    GPKGResultSet * results = [dao queryForAll];
+    int count = results.count;
+    if (count > 0) {
+        
+        // // Choose random attribute
+        // int random = (int) (Math.random() * count);
+        // cursor.moveToPosition(random);
+        [results moveToFirst];
+        [results moveToNext];
+        
+        NSString * updatedString = nil;
+        NSString * updatedLimitedString = nil;
+        NSDate *updatedDate = nil;
+        NSNumber * updatedBoolean = nil;
+        NSNumber * updatedByte = nil;
+        NSNumber * updatedShort = nil;
+        NSNumber * updatedInteger = nil;
+        NSNumber * updatedLong = nil;
+        NSDecimalNumber * updatedFloat = nil;
+        NSDecimalNumber * updatedDouble = nil;
+        NSData * updatedBytes = nil;
+        NSData * updatedLimitedBytes = nil;
+        
+        GPKGAttributesRow * originalRow = [dao getAttributesRow:results];
+        GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+        
+        @try {
+            [attributesRow setValueWithIndex:[attributesRow getPkColumnIndex] andValue:[NSNumber numberWithInt:9]];
+            [GPKGTestUtils fail:@"Updated the primary key value"];
+        } @catch (NSException *exception) {
+            // expected
+        }
+        
+        for (GPKGAttributesColumn * attributesColumn in dao.table.columns) {
+            if (!attributesColumn.primaryKey) {
+                
+                enum GPKGDataType dataType = attributesColumn.dataType;
+                int rowColumnType  = [attributesRow getRowColumnTypeWithIndex:attributesColumn.index];
+                
+                switch(dataType){
+                        
+                    case GPKG_DT_TEXT:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_TEXT]){
+                            break;
+                        }
+                        if (updatedString == nil) {
+                            updatedString = [[NSProcessInfo processInfo] globallyUniqueString];
+                        }
+                        if(attributesColumn.max != nil){
+                            if(updatedLimitedString == nil){
+                                if(updatedString.length > [attributesColumn.max intValue]){
+                                    updatedLimitedString = [updatedString substringToIndex:[attributesColumn.max intValue]];
+                                } else{
+                                    updatedLimitedString = updatedString;
+                                }
+                            }
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedString];
+                        }else{
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedString];
+                        }
+                    }
+                        break;
+                    case GPKG_DT_DATE:
+                    case GPKG_DT_DATETIME:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_TEXT]){
+                            break;
+                        }
+                        if (updatedDate == nil) {
+                            updatedDate = [NSDate date];
+                            updatedDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                        }
+                        if ([GPKGTestUtils randomDouble] < .5) {
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDate];
+                        } else {
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:[GPKGDateTimeUtils convertToStringWithDate:updatedDate andType:dataType]];
+                        }
+                    }
+                        break;
+                    case GPKG_DT_BOOLEAN:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                            break;
+                        }
+                        if (updatedBoolean == nil) {
+                            updatedBoolean = [NSNumber numberWithBool:![((NSNumber *)[attributesRow getValueWithIndex:attributesColumn.index]) boolValue]];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBoolean];
+                    }
+                        break;
+                    case GPKG_DT_TINYINT:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                            break;
+                        }
+                        if (updatedByte == nil) {
+                            updatedByte = [NSNumber numberWithChar:((char)([GPKGTestUtils randomDouble] * (CHAR_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedByte];
+                    }
+                        break;
+                    case GPKG_DT_SMALLINT:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                            break;
+                        }
+                        if (updatedShort == nil) {
+                            updatedShort = [NSNumber numberWithShort:((short)([GPKGTestUtils randomDouble] * (SHRT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedShort];
+                    }
+                        break;
+                    case GPKG_DT_MEDIUMINT:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                            break;
+                        }
+                        if (updatedInteger == nil) {
+                            updatedInteger = [NSNumber numberWithInt:((int)([GPKGTestUtils randomDouble] * (INT_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedInteger];
+                    }
+                        break;
+                    case GPKG_DT_INT:
+                    case GPKG_DT_INTEGER:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                            break;
+                        }
+                        if (updatedLong == nil) {
+                            updatedLong = [NSNumber numberWithLongLong:((long long)([GPKGTestUtils randomDouble] * (LLONG_MAX + 1))) * ([GPKGTestUtils randomDouble]  < .5 ? 1 : -1)];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLong];
+                    }
+                        break;
+                    case GPKG_DT_FLOAT:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_FLOAT]){
+                            break;
+                        }
+                        if(updatedFloat == nil){
+                            updatedFloat = [[NSDecimalNumber alloc] initWithFloat:[GPKGTestUtils randomDouble] * FLT_MAX];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedFloat];
+                    }
+                        break;
+                    case GPKG_DT_DOUBLE:
+                    case GPKG_DT_REAL:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_FLOAT]){
+                            break;
+                        }
+                        if(updatedDouble == nil){
+                            updatedDouble = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDouble] * DBL_MAX];
+                        }
+                        [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedDouble];
+                    }
+                        break;
+                    case GPKG_DT_BLOB:
+                    {
+                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_BLOB]){
+                            break;
+                        }
+                        if (updatedBytes == nil) {
+                            updatedBytes = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                        }
+                        if (attributesColumn.max != nil) {
+                            if (updatedLimitedBytes == nil) {
+                                if (updatedBytes.length > [attributesColumn.max intValue]) {
+                                    updatedLimitedBytes = [NSData dataWithBytes:updatedBytes.bytes length:[attributesColumn.max intValue]];
+                                } else {
+                                    updatedLimitedBytes = updatedBytes;
+                                }
+                            }
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedLimitedBytes];
+                        } else {
+                            [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBytes];
+                        }
+                    }
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+        }
+        
+        [results close];
+        
+        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao update:attributesRow]];
+        
+        NSNumber * id = [attributesRow getId];
+        GPKGResultSet * readRowResults = [dao queryForId:id];
+        [readRowResults moveToNext];
+        GPKGAttributesRow * readRow = [dao getAttributesRow:readRowResults];
+        [readRowResults close];
+        [GPKGTestUtils assertNotNil:readRow];
+        [GPKGTestUtils assertEqualWithValue:[originalRow getId] andValue2:[readRow getId]];
+        
+        for (NSString * readColumnName in [readRow getColumnNames ]) {
+            
+            GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow getColumnWithColumnName:readColumnName];
+            if (!readAttributesColumn.primaryKey) {
+                
+                enum GPKGDataType dataType = readAttributesColumn.dataType;
+                
+                switch ([readRow getRowColumnTypeWithColumnName:readColumnName]) {
+                    case SQLITE_TEXT:
+                    {
+                        if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                            
+                            NSObject *value = [readRow getValueWithIndex:readAttributesColumn.index];
+                            NSDate *date = nil;
+                            if([value isKindOfClass:[NSDate class]]){
+                                date = (NSDate *) value;
+                            } else {
+                                date = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
+                            }
+                            NSDate *compareDate = updatedDate;
+                            if (dataType == GPKG_DT_DATE) {
+                                compareDate = [GPKGDateTimeUtils convertToDateWithString:[GPKGDateTimeUtils convertToStringWithDate:compareDate andType:dataType]];
+                            }
+                            [GPKGTestUtils assertTrue:[compareDate compare:date] == NSOrderedSame];
+                        }else{
+                            if (readAttributesColumn.max != nil) {
+                                [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                            } else {
+                                [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                            }
+                        }
+                    }
+                        break;
+                    case SQLITE_INTEGER:
+                    {
+                        switch (readAttributesColumn.dataType) {
+                            case GPKG_DT_BOOLEAN:
+                                [GPKGTestUtils assertEqualWithValue:updatedBoolean andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                break;
+                            case GPKG_DT_TINYINT:
+                                [GPKGTestUtils assertEqualWithValue:updatedByte andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                break;
+                            case GPKG_DT_SMALLINT:
+                                [GPKGTestUtils assertEqualWithValue:updatedShort andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                break;
+                            case GPKG_DT_MEDIUMINT:
+                                [GPKGTestUtils assertEqualWithValue:updatedInteger andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                break;
+                            case GPKG_DT_INT:
+                            case GPKG_DT_INTEGER:
+                                [GPKGTestUtils assertEqualWithValue:updatedLong andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                break;
+                            default:
+                                [GPKGTestUtils fail:@"Unexpected integer type"];
+                        }
+                    }
+                        break;
+                    case SQLITE_FLOAT:
+                    {
+                        switch (readAttributesColumn.dataType) {
+                            case GPKG_DT_FLOAT:
+                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedFloat floatValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) floatValue] andPercentage:.0000000001];
+                                break;
+                            case GPKG_DT_DOUBLE:
+                            case GPKG_DT_REAL:
+                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedDouble doubleValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) doubleValue] andPercentage:.0000000001];
+                                break;
+                            default:
+                                [GPKGTestUtils fail:@"Unexpected float type"];
+                        }
+                    }
+                        break;
+                    case SQLITE_BLOB:
+                    {
+                        if (readAttributesColumn.max != nil) {
+                            [GPKGTestUtils assertEqualDataWithValue:updatedLimitedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                        } else {
+                            [GPKGTestUtils assertEqualDataWithValue:updatedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                        }
+                    }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+        }
+        
+    }
+    [results close];
+}
+
+/**
+ * Validate the row type. If a null value, randomly decide if the value
+ * should be updated.
+ *
+ * @param rowColumnType      row column type
+ * @param expectedColumnType expected column type
+ * @return true to skip setting value
+ */
++(BOOL) validateRowColumnType: (int) rowColumnType withExpected: (int) expectedColumnType{
+    BOOL skip = NO;
+    if (rowColumnType == SQLITE_NULL) {
+        if ([GPKGTestUtils randomDouble] < .5) {
+            skip = YES;
+        }
+    } else {
+        [GPKGTestUtils assertEqualIntWithValue:expectedColumnType andValue2:rowColumnType];
+    }
+    return skip;
 }
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{

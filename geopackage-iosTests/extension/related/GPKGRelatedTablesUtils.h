@@ -17,42 +17,34 @@
 /**
  * Create additional user table columns
  *
- * @param startingIndex
- *            starting index
  * @return additional user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsAtIndex: (int) startingIndex;
++(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumns;
 
 /**
  * Create additional user table columns
  *
- * @param startingIndex
- *            starting index
  * @param notNull
  *            columns not nil value
  * @return additional user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull;
++(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsWithNotNil: (BOOL) notNull;
 
 /**
  * Create simple user table columns
  *
- * @param startingIndex
- *            starting index
  * @return simple user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex;
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumns;
 
 /**
  * Create simple user table columns
  *
- * @param startingIndex
- *            starting index
  * @param notNull
  *            columns not nil value
  * @return simple user table columns
  */
-+(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsAtIndex: (int) startingIndex andNotNil: (BOOL) notNull;
++(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsWithNotNil: (BOOL) notNull;
 
 /**
  * Populate the user row additional column values

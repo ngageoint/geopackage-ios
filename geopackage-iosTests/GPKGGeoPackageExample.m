@@ -607,18 +607,17 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     NSMutableArray *columns = [[NSMutableArray alloc] init];
     
-    int columnNumber = 0;
-    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:columnNumber++ andName:ID_COLUMN]];
-    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithIndex:columnNumber++ andName:GEOMETRY_COLUMN andGeometryType:type andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:TEXT_COLUMN andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:REAL_COLUMN andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BOOLEAN_COLUMN andDataType:GPKG_DT_BOOLEAN andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BLOB_COLUMN andDataType:GPKG_DT_BLOB andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:INTEGER_COLUMN andDataType:GPKG_DT_INTEGER andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:TEXT_LIMITED_COLUMN andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length] andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BLOB_LIMITED_COLUMN andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]] andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:DATE_COLUMN andDataType:GPKG_DT_DATE andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:DATETIME_COLUMN andDataType:GPKG_DT_DATETIME andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:ID_COLUMN]];
+    [columns addObject:[GPKGFeatureColumn createGeometryColumnWithName:GEOMETRY_COLUMN andGeometryType:type andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:TEXT_COLUMN andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:REAL_COLUMN andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BOOLEAN_COLUMN andDataType:GPKG_DT_BOOLEAN andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BLOB_COLUMN andDataType:GPKG_DT_BLOB andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:INTEGER_COLUMN andDataType:GPKG_DT_INTEGER andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:TEXT_LIMITED_COLUMN andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length] andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BLOB_LIMITED_COLUMN andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]] andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:DATE_COLUMN andDataType:GPKG_DT_DATE andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:DATETIME_COLUMN andDataType:GPKG_DT_DATETIME andNotNull:NO andDefaultValue:nil]];
 
     GPKGFeatureTable *table = [[GPKGFeatureTable alloc] initWithTable:tableName andColumns:columns];
     [geoPackage createFeatureTable:table];
@@ -801,16 +800,15 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
     NSMutableArray *columns = [[NSMutableArray alloc] init];
     
-    int columnNumber = 1;
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:TEXT_COLUMN andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:REAL_COLUMN andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BOOLEAN_COLUMN andDataType:GPKG_DT_BOOLEAN andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BLOB_COLUMN andDataType:GPKG_DT_BLOB andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:INTEGER_COLUMN andDataType:GPKG_DT_INTEGER andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:TEXT_LIMITED_COLUMN andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length] andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:BLOB_LIMITED_COLUMN andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]] andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:DATE_COLUMN andDataType:GPKG_DT_DATE andNotNull:NO andDefaultValue:nil]];
-    [columns addObject:[GPKGFeatureColumn createColumnWithIndex:columnNumber++ andName:DATETIME_COLUMN andDataType:GPKG_DT_DATETIME andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:TEXT_COLUMN andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:REAL_COLUMN andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BOOLEAN_COLUMN andDataType:GPKG_DT_BOOLEAN andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BLOB_COLUMN andDataType:GPKG_DT_BLOB andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:INTEGER_COLUMN andDataType:GPKG_DT_INTEGER andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:TEXT_LIMITED_COLUMN andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length] andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:BLOB_LIMITED_COLUMN andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]] andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:DATE_COLUMN andDataType:GPKG_DT_DATE andNotNull:NO andDefaultValue:nil]];
+    [columns addObject:[GPKGFeatureColumn createColumnWithName:DATETIME_COLUMN andDataType:GPKG_DT_DATETIME andNotNull:NO andDefaultValue:nil]];
     
     GPKGAttributesTable *attributesTable = [geoPackage createAttributesTableWithTableName:@"attributes" andAdditionalColumns:columns];
     
@@ -1416,10 +1414,10 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGMediaTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"media" andAdditionalColumns:additionalMediaColumns];
     
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
     NSString *tableName1 = @"geometry1";
     GPKGUserMappingTable *userMappingTable1 = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName1, mediaTable.tableName] andAdditionalColumns:additionalMappingColumns];
@@ -1484,7 +1482,7 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName1, tableName2] andAdditionalColumns:additionalMappingColumns];
     GPKGExtendedRelation *relation = [relatedTables addFeaturesRelationshipWithBaseTable:tableName1 andRelatedTable:tableName2 andUserMappingTable:userMappingTable];
@@ -1538,12 +1536,12 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumnsAtIndex:[GPKGSimpleAttributesTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumns];
     GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithName:@"simple_attributes" andColumns:simpleUserColumns];
     
     NSString *tableName = @"attributes";
     
-    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumnsAtIndex:[GPKGUserMappingTable numRequiredColumns]];
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", tableName, simpleTable.tableName] andAdditionalColumns:additionalMappingColumns];
     GPKGExtendedRelation *relation = [relatedTables addSimpleAttributesRelationshipWithBaseTable:tableName andSimpleAttributesTable:simpleTable andUserMappingTable:userMappingTable];
     
