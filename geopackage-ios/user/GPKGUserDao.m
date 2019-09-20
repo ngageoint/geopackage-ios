@@ -142,21 +142,41 @@
 -(void) addColumn: (GPKGUserColumn *) column{
     [GPKGSqlUtils addColumn:column toTable:self.tableName withConnection:self.database];
     [self.table addColumn:column];
+    [self updateColumns];
 }
 
 -(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
-    [super renameColumnWithName:column.name toColumn:newColumnName];
+    [self renameTableColumnWithName:column.name toColumn:newColumnName];
     [self.table renameColumn:column toColumn:newColumnName];
+    [self updateColumns];
 }
 
 -(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
-    [super renameColumnWithName:columnName toColumn:newColumnName];
+    [self renameTableColumnWithName:columnName toColumn:newColumnName];
     [self.table renameColumnWithName:columnName toColumn:newColumnName];
+    [self updateColumns];
 }
 
 -(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
-    [super renameColumnWithIndex:index toColumn:newColumnName];
+    [self renameTableColumnWithName:[self.table getColumnNameWithIndex:index] toColumn:newColumnName];
     [self.table renameColumnWithIndex:index toColumn:newColumnName];
+    [self updateColumns];
+}
+
+-(void) renameTableColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
+    
+    // Alter Table in SQLite does not support renaming columns until version 3.25.0
+    // Once iOS sqlite3 supports column rename alter table statements, this method can be modified to call:
+    // [super renameColumnWithName:columnName toColumn:newColumnName];
+    
+    GPKGUserTable *newTable = [self.table mutableCopy];
+    
+    [newTable renameColumnWithName:columnName toColumn:newColumnName];
+    
+    GPKGTableMapping *tableMapping = [[GPKGTableMapping alloc] initWithTable:newTable];
+    [[tableMapping columnForName:newColumnName] setFromColumn:columnName];
+    
+    [GPKGAlterTable alterTable:newTable withMapping:tableMapping withConnection:self.database];
 }
 
 -(void) dropColumn: (GPKGUserColumn *) column{
@@ -169,6 +189,7 @@
 
 -(void) dropColumnWithName: (NSString *) columnName{
     [GPKGAlterTable dropColumn:columnName fromTable:self.table withConnection:self.database];
+    [self updateColumns];
 }
 
 -(void) dropColumns: (NSArray<GPKGUserColumn *> *) columns{
@@ -189,14 +210,22 @@
 
 -(void) dropColumnNames: (NSArray<NSString *> *) columnNames{
     [GPKGAlterTable dropColumns:columnNames fromTable:self.table withConnection:self.database];
+    [self updateColumns];
 }
 
 -(void) alterColumn: (GPKGUserColumn *) column{
     [GPKGAlterTable alterColumn:column inTable:self.table withConnection:self.database];
+    [self updateColumns];
 }
 
 -(void) alterColumns: (NSArray<GPKGUserColumn *> *) columns{
     [GPKGAlterTable alterColumns:columns inTable:self.table withConnection:self.database];
+    [self updateColumns];
+}
+
+-(void) updateColumns{
+    self.columns = [self.table columnNames];
+    [self initializeColumnIndex];
 }
 
 @end

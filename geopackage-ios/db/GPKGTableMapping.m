@@ -27,6 +27,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
+        self.transferContent = YES;
         self.columns = [[NSMutableDictionary alloc] init];
         self.droppedColumns = [[NSMutableSet alloc] init];
     }

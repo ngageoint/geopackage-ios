@@ -54,6 +54,27 @@
     return [self initWithIndex:[tableColumn index] andName:[tableColumn name] andType:[tableColumn type] andDataType:[tableColumn dataType] andMax:[tableColumn max] andNotNull:[tableColumn notNull] andDefaultValue:[tableColumn defaultValue] andPrimaryKey:[tableColumn primaryKey]];
 }
 
+/**
+ * Copy Initialize
+ *
+ * @param userColumn
+ *            user column
+ */
+-(instancetype) initWithUserColumn: (GPKGUserColumn *) userColumn{
+    self = [super init];
+    if(self != nil){
+        _index = userColumn.index;
+        _name = userColumn.name;
+        _max = userColumn.max;
+        _notNull = userColumn.notNull;
+        _defaultValue = userColumn.defaultValue;
+        _primaryKey = userColumn.primaryKey;
+        _type = userColumn.type;
+        _dataType = userColumn.dataType;
+    }
+    return self;
+}
+
 +(NSString *) nameOfDataType: (enum GPKGDataType) dataType forColumn: (NSString *) name{
     [self validateDataType:dataType forColumn:name];
     return [GPKGDataTypes name:dataType];
@@ -89,7 +110,7 @@
 }
 
 -(void) resetIndex{
-    self.index = NO_INDEX;
+    _index = NO_INDEX;
 }
 
 -(BOOL) isNamed: (NSString *) name{
@@ -176,15 +197,7 @@
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
-    GPKGUserColumn *userColumn = [[GPKGUserColumn alloc] init];
-    userColumn.index = _index;
-    userColumn.name = _name;
-    userColumn.max = _max;
-    userColumn.notNull = _notNull;
-    userColumn.defaultValue = _defaultValue;
-    userColumn.primaryKey = _primaryKey;
-    userColumn.type = _type;
-    userColumn.dataType = _dataType;
+    GPKGUserColumn *userColumn = [[GPKGUserColumn alloc] initWithUserColumn:self];
     return userColumn;
 }
 
