@@ -243,6 +243,18 @@
     [self.connectionPool releaseConnection:connection];
 }
 
+-(void) execAllConnectionStatement: (NSString *) statement{
+    [self.connectionPool execAllConnectionStatement:statement];
+}
+
+-(void) execPersistentAllConnectionStatement: (NSString *) statement asName: (NSString *) name{
+    [self.connectionPool execPersistentAllConnectionStatement:statement asName:name];
+}
+
+-(NSString *) removePersistentAllConnectionStatementWithName: (NSString *) name{
+    return [self.connectionPool removePersistentAllConnectionStatementWithName:name];
+}
+
 -(BOOL) tableExists: (NSString *) table{
     return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_TABLE andTable:table] > 0;
 }

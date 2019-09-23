@@ -18,6 +18,11 @@
 @interface GPKGSqliteConnection : NSObject
 
 /**
+ *  Reusable connection flag
+ */
+@property (nonatomic) BOOL reusable;
+
+/**
  *  Initialize
  *
  *  @param connectionId   connection id

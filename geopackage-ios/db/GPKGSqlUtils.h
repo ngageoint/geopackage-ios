@@ -31,6 +31,14 @@
 +(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement;
 
 /**
+ *  Execute statement on the SQLite connection
+ *
+ *  @param connection  connection
+ *  @param statement statement
+ */
++(void) execWithSQLiteConnection: (GPKGSqliteConnection *) connection andStatement: (NSString *) statement;
+
+/**
  *  Query statement on the database
  *
  *  @param connection  connection

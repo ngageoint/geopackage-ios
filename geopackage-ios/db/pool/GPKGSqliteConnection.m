@@ -24,6 +24,7 @@
 -(instancetype)initWithId: (int) connectionId andConnection: (sqlite3 *) connection andPool: (GPKGConnectionPool *) connectionPool andStackTrace: (BOOL) stackTrace{
     self = [super init];
     if(self){
+        self.reusable = YES;
         self.connectionId = [NSNumber numberWithInt:connectionId];
         self.connection = connection;
         self.connectionPool = connectionPool;

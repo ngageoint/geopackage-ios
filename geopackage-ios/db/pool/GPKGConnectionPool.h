@@ -170,4 +170,35 @@
  */
 -(void) addWriteFunction: (GPKGConnectionFunction *) function;
 
+/**
+ *  Execute the statement once on all open connections, waiting for used connections
+ *
+ *  @param statement SQL statement
+ */
+-(void) execAllConnectionStatement: (NSString *) statement;
+
+/**
+ *  Execute the statement on all open and new connections, waiting for used connections
+ *
+ *  @param statement SQL statement
+ *  @param name      unique statement key name
+ */
+-(void) execPersistentAllConnectionStatement: (NSString *) statement asName: (NSString *) name;
+
+/**
+ *  Remove a persistent statement
+ *
+ *  @param name SQL statement key name
+ *
+ *  @return removed statement or nil if not found
+ */
+-(NSString *) removePersistentAllConnectionStatementWithName: (NSString *) name;
+
+/**
+ *  Clear all persistent statements
+ *
+ *  @return removed statement count
+ */
+-(int) clearPersistentStatements;
+
 @end

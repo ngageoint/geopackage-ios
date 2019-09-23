@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSMutableDictionary * resultConnections;
 @property (nonatomic, strong) GPKGDbConnection * writeConnection;
 @property (nonatomic, strong) NSMutableArray<GPKGConnectionFunction *> *writeFunctions;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *connectionExecs;
 
 @end
 
@@ -144,6 +145,7 @@ static BOOL maintainStackTraces = false;
         self.lastConnectionCheck = [NSDate date];
         self.resultConnections = [[NSMutableDictionary alloc] init];
         self.writeFunctions = [[NSMutableArray alloc] init];
+        self.connectionExecs = [[NSMutableDictionary alloc] init];
         asl_add_log_file(NULL, STDERR_FILENO);
         
         // Open a database connection
@@ -302,7 +304,7 @@ static BOOL maintainStackTraces = false;
         if(connection != nil){
             [self.usedConnections removeObjectForKey:connectionId];
             released = true;
-            if(self.availableConnections.count >= openConnectionsPerPool){
+            if(!connection.reusable || self.availableConnections.count >= openConnectionsPerPool){
                 [GPKGSqlUtils closeDatabase:connection];
                 NSLog(@"Closed a connection to %@, open connections: %lu", self.filename, (unsigned long)[self connectionCount]);
             }else{
@@ -355,6 +357,9 @@ static BOOL maintainStackTraces = false;
     }
     
     GPKGSqliteConnection * connection = [[GPKGSqliteConnection alloc] initWithId:self.idCounter++ andConnection:sqlite3Database andPool:self andStackTrace:(checkConnections && maintainStackTraces)];
+    for(NSString *exec in [self.connectionExecs allValues]){
+        [GPKGSqlUtils execWithSQLiteConnection:connection andStatement:exec];
+    }
     
     return connection;
 }
@@ -423,6 +428,44 @@ static BOOL maintainStackTraces = false;
         NSLog(@"Failed to create SQL function: %@, SQLITE Error Code: %d", [function name], result);
     }
     
+}
+
+-(void) execAllConnectionStatement: (NSString *) statement{
+    [self execPersistentAllConnectionStatement:statement asName:nil];
+}
+
+-(void) execPersistentAllConnectionStatement: (NSString *) statement asName: (NSString *) name{
+    @synchronized(self) {
+        if(name != nil){
+            [self.connectionExecs setObject:statement forKey:name];
+        }
+        for(GPKGSqliteConnection *connection in self.availableConnections){
+            [GPKGSqlUtils execWithSQLiteConnection:connection andStatement:statement];
+        }
+        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
+            connection.reusable = NO;
+        }
+    }
+}
+
+-(NSString *) removePersistentAllConnectionStatementWithName: (NSString *) name{
+    NSString *statement = nil;
+    @synchronized(self) {
+        statement = [self.connectionExecs objectForKey:name];
+        if(statement != nil){
+            [self.connectionExecs removeObjectForKey:name];
+        }
+    }
+    return statement;
+}
+
+-(int) clearPersistentStatements{
+    int count = 0;
+    @synchronized(self) {
+        count = (int) self.connectionExecs.count;
+        [self.connectionExecs removeAllObjects];
+    }
+    return count;
 }
 
 @end

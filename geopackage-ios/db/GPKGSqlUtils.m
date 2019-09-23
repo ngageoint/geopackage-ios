@@ -44,9 +44,16 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
-    
+    [self execWithSQLite3Connection:[connection getConnection] andStatement:statement];
+}
+
++(void) execWithSQLiteConnection: (GPKGSqliteConnection *) connection andStatement: (NSString *) statement{
+    [self execWithSQLite3Connection:[connection getConnection] andStatement:statement];
+}
+
++(void) execWithSQLite3Connection: (sqlite3 *) connection andStatement: (NSString *) statement{
     char * errInfo ;
-    int result = sqlite3_exec([connection getConnection], [statement UTF8String], nil, nil, &errInfo);
+    int result = sqlite3_exec(connection, [statement UTF8String], nil, nil, &errInfo);
     
     if (SQLITE_OK != result) {
         NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
@@ -829,7 +836,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     if(foreignKeys != on){
         NSString *sql = [self foreignKeysSQLAsOn:on];
-        [db exec:sql];
+        [db execPersistentAllConnectionStatement:sql asName:@"foreign_keys"];
     }
     
     return foreignKeys;
