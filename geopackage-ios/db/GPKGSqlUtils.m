@@ -712,7 +712,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     NSString *unquotedName = nil;
     if(name != nil){
         if([name hasPrefix:@"\""] && [name hasSuffix:@"\""]){
-            unquotedName = [name substringWithRange:NSMakeRange(1, [name length] - 1)];
+            unquotedName = [name substringWithRange:NSMakeRange(1, [name length] - 2)];
         }else{
             unquotedName = name;
         }

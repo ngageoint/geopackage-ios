@@ -7,9 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGTableConstraints.h"
 
+/**
+ * Constraint test result
+ */
 @interface GPKGConstraintTestResult : NSObject
 
-// TODO
+@property (nonatomic, strong) GPKGTableConstraints *constraints;
+@property (nonatomic) int primaryKeyCount;
+@property (nonatomic) int uniqueCount;
+@property (nonatomic) int checkCount;
+@property (nonatomic) int foreignKeyCount;
+
+-(instancetype) initWithTableConstraints: (GPKGTableConstraints *) constraints andPrimaryKeyCount: (int) primaryKeyCount andUniqueCount: (int) uniqueCount andCheckCount: (int) checkCount andForeignKeyCount: (int) foreignKeyCount;
+
+-(int) count;
 
 @end

@@ -325,7 +325,7 @@ static NSRegularExpression *constraintExpression = nil;
         NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
         NSRange nameRange = [match rangeAtIndex:NAME_EXPRESSION_NAME_GROUP];
         if(nameRange.length > 0){
-            name = [constraintSql substringWithRange:nameRange];
+            name = [GPKGSqlUtils quoteUnwrapName:[constraintSql substringWithRange:nameRange]];
         }
     }
     return name;
@@ -340,7 +340,7 @@ static NSRegularExpression *constraintExpression = nil;
         NSString *name = nil;
         NSRange nameRange = [match rangeAtIndex:CONSTRAINT_EXPRESSION_NAME_GROUP];
         if(nameRange.length > 0){
-            name = [GPKGSqlUtils quoteUnwrapName:[constraintSql substringWithRange:nameRange]];
+            name = [GPKGSqlUtils quoteUnwrapName:[constraintSqlTrimmed substringWithRange:nameRange]];
             if(name != nil){
                 name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             }
@@ -348,7 +348,7 @@ static NSRegularExpression *constraintExpression = nil;
         NSString *definition = nil;
         NSRange definitionRange = [match rangeAtIndex:CONSTRAINT_EXPRESSION_DEFINITION_GROUP];
         if(definitionRange.length > 0){
-            definition = [constraintSql substringWithRange:definitionRange];
+            definition = [constraintSqlTrimmed substringWithRange:definitionRange];
             if(definition != nil){
                 definition = [definition stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             }
