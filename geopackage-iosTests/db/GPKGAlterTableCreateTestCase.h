@@ -8,8 +8,9 @@
 
 #import "GPKGCreateGeoPackageTestCase.h"
 
+/**
+ * Alter Table Create Test
+ */
 @interface GPKGAlterTableCreateTestCase : GPKGCreateGeoPackageTestCase
-
-// TODO
 
 @end

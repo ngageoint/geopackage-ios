@@ -7,9 +7,51 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GPKGGeoPackage.h"
 
+/**
+ * Alter Table test utils
+ */
 @interface GPKGAlterTableUtils : NSObject
 
-// TODO
+/**
+ * Test column table alterations
+ *
+ * @param context    context
+ * @param geoPackage GeoPackage
+ */
++(void) testColumns: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test copy feature table
+ *
+ * @param context    context
+ * @param geoPackage GeoPackage
+ */
++(void) testCopyFeatureTable: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test copy tile table
+ *
+ * @param context    context
+ * @param geoPackage GeoPackage
+ */
++(void) testCopyTileTable: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test copy attributes table
+ *
+ * @param context    context
+ * @param geoPackage GeoPackage
+ */
++(void) testCopyAttributesTable: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test copy user table
+ *
+ * @param context    context
+ * @param geoPackage GeoPackage
+ */
++(void) testCopyUserTable: (GPKGGeoPackage *) geoPackage;
 
 @end
