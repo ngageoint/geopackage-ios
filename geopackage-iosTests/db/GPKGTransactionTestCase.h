@@ -10,6 +10,4 @@
 
 @interface GPKGTransactionTestCase : GPKGCreateGeoPackageTestCase
 
-// TODO
-
 @end
