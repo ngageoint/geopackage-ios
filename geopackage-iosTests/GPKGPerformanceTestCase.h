@@ -10,6 +10,4 @@
 
 @interface GPKGPerformanceTestCase : GPKGBaseTestCase
 
-// TODO
-
 @end

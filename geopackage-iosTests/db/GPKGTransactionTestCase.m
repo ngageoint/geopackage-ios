@@ -206,8 +206,6 @@
  *            GeoPackage
  * @param successful
  *            true for a successful transaction
- * @throws SQLException
- *             upon error
  */
 -(void) testGeoPackage: (GPKGGeoPackage *) geoPackage asSuccessful: (BOOL) successful{
     
