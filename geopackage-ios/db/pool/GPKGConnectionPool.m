@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSDate * lastConnectionCheck;
 @property (nonatomic, strong) NSMutableDictionary * resultConnections;
 @property (nonatomic, strong) GPKGDbConnection * writeConnection;
-@property (nonatomic, strong) NSMutableArray<GPKGConnectionFunction *> *writeFunctions;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, GPKGConnectionFunction *> *writeFunctions;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *connectionExecs;
 
 @end
@@ -144,7 +144,7 @@ static BOOL maintainStackTraces = false;
         self.idCounter = 1;
         self.lastConnectionCheck = [NSDate date];
         self.resultConnections = [[NSMutableDictionary alloc] init];
-        self.writeFunctions = [[NSMutableArray alloc] init];
+        self.writeFunctions = [[NSMutableDictionary alloc] init];
         self.connectionExecs = [[NSMutableDictionary alloc] init];
         asl_add_log_file(NULL, STDERR_FILENO);
         
@@ -401,7 +401,21 @@ static BOOL maintainStackTraces = false;
 }
 
 -(void) addWriteFunction: (GPKGConnectionFunction *) function{
-    [self.writeFunctions addObject:function];
+    [self addWriteFunctions:[NSArray arrayWithObject:function]];
+}
+
+-(void) addWriteFunctions: (NSArray<GPKGConnectionFunction *> *) functions{
+    @synchronized(self) {
+        for(GPKGConnectionFunction *function in functions){
+            [self.writeFunctions setObject:function forKey:[function name]];
+        }
+        for(GPKGSqliteConnection *connection in self.availableConnections){
+            [self createWriteFunctionsOnConnection:connection];
+        }
+        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
+            connection.reusable = NO;
+        }
+    }
 }
 
 /**
@@ -410,7 +424,7 @@ static BOOL maintainStackTraces = false;
  *  @param connection sqlite connection
  */
 -(void) createWriteFunctionsOnConnection: (GPKGSqliteConnection *) connection{
-    for(GPKGConnectionFunction *function in self.writeFunctions){
+    for(GPKGConnectionFunction *function in [self.writeFunctions allValues]){
         [self createFunction:function onConnection:connection];
     }
 }

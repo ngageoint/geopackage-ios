@@ -166,11 +166,13 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(void) createAllFunctions{
-    [self createMinXFunction];
-    [self createMaxXFunction];
-    [self createMinYFunction];
-    [self createMaxYFunction];
-    [self createIsEmptyFunction];
+    NSMutableArray<GPKGConnectionFunction *> *functions = [NSMutableArray array];
+    [functions addObject:[self buildMinXFunction]];
+    [functions addObject:[self buildMaxXFunction]];
+    [functions addObject:[self buildMinYFunction]];
+    [functions addObject:[self buildMaxYFunction]];
+    [functions addObject:[self buildIsEmptyFunction]];
+    [self addFunctions:functions];
 }
 
 /**
@@ -304,23 +306,43 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) createMinXFunction{
-    [self addFunction:minXFunction withName:GPKG_RTREE_INDEX_MIN_X_FUNCTION];
+    [self addFunction:[self buildMinXFunction]];
+}
+
+-(GPKGConnectionFunction *) buildMinXFunction{
+    return [self buildFunction:minXFunction withName:GPKG_RTREE_INDEX_MIN_X_FUNCTION];
 }
 
 -(void) createMaxXFunction{
-    [self addFunction:maxXFunction withName:GPKG_RTREE_INDEX_MAX_X_FUNCTION];
+    [self addFunction:[self buildMaxXFunction]];
+}
+
+-(GPKGConnectionFunction *) buildMaxXFunction{
+    return [self buildFunction:maxXFunction withName:GPKG_RTREE_INDEX_MAX_X_FUNCTION];
 }
 
 -(void) createMinYFunction{
-    [self addFunction:minYFunction withName:GPKG_RTREE_INDEX_MIN_Y_FUNCTION];
+    [self addFunction:[self buildMinYFunction]];
+}
+
+-(GPKGConnectionFunction *) buildMinYFunction{
+    return [self buildFunction:minYFunction withName:GPKG_RTREE_INDEX_MIN_Y_FUNCTION];
 }
 
 -(void) createMaxYFunction{
-    [self addFunction:maxYFunction withName:GPKG_RTREE_INDEX_MAX_Y_FUNCTION];
+    [self addFunction:[self buildMaxYFunction]];
+}
+
+-(GPKGConnectionFunction *) buildMaxYFunction{
+    return [self buildFunction:maxYFunction withName:GPKG_RTREE_INDEX_MAX_Y_FUNCTION];
 }
 
 -(void) createIsEmptyFunction{
-    [self addFunction:isEmptyFunction withName:GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION];
+    [self addFunction:[self buildIsEmptyFunction]];
+}
+
+-(GPKGConnectionFunction *) buildIsEmptyFunction{
+    return [self buildFunction:isEmptyFunction withName:GPKG_RTREE_INDEX_IS_EMPTY_FUNCTION];
 }
 
 -(void) loadRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -612,13 +634,41 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 /**
+ * Build the function for database connections
+ *
+ * @param function function
+ * @param name function name
+ */
+-(GPKGConnectionFunction *) buildFunction: (void *) function withName: (NSString *) name{
+    return [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:1];
+}
+
+/**
  * Add the function for database connections
  *
  * @param function function
  * @param name function name
  */
 -(void) addFunction: (void *) function withName: (NSString *) name{
-    [self.connection addWriteFunction:function withName:name andNumArgs:1];
+    [self addFunction:[self buildFunction:function withName:name]];
+}
+
+/**
+ * Add the function for database connections
+ *
+ * @param function function
+ */
+-(void) addFunction: (GPKGConnectionFunction *) function{
+    [self.connection addWriteFunction:function];
+}
+
+/**
+ * Add the functions for database connections
+ *
+ * @param functions functions
+ */
+-(void) addFunctions: (NSArray<GPKGConnectionFunction *> *) functions{
+    [self.connection addWriteFunctions:functions];
 }
 
 @end

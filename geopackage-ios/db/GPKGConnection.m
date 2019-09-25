@@ -412,7 +412,15 @@
 
 -(void) addWriteFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs{
     GPKGConnectionFunction *connectionFunction = [[GPKGConnectionFunction alloc] initWithFunction:function withName:name andNumArgs:numArgs];
-    [self.connectionPool addWriteFunction:connectionFunction];
+    [self addWriteFunction:connectionFunction];
+}
+
+-(void) addWriteFunction: (GPKGConnectionFunction *) function{
+    [self.connectionPool addWriteFunction:function];
+}
+
+-(void) addWriteFunctions: (NSArray<GPKGConnectionFunction *> *) functions{
+    [self.connectionPool addWriteFunctions:functions];
 }
 
 @end

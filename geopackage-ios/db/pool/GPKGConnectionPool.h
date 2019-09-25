@@ -171,6 +171,13 @@
 -(void) addWriteFunction: (GPKGConnectionFunction *) function;
 
 /**
+ *  Add a custom function to be created on write connections
+ *
+ *  @param functions write connection functions
+ */
+-(void) addWriteFunctions: (NSArray<GPKGConnectionFunction *> *) functions;
+
+/**
  *  Execute the statement once on all open connections, waiting for used connections
  *
  *  @param statement SQL statement

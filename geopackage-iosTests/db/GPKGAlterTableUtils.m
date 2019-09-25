@@ -12,11 +12,174 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGSQLiteMaster.h"
 #import "GPKGSQLiteMasterQuery.h"
+#import "GPKGFeatureUtils.h"
 
 @implementation GPKGAlterTableUtils
 
 +(void) testColumns: (GPKGGeoPackage *) geoPackage{
-    // TODO
+
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    
+    if([geometryColumnsDao tableExists]){
+        GPKGResultSet *results = [geometryColumnsDao queryForAll];
+        
+        while([results moveToNext]){
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:results];
+            
+            GPKGConnection *db = geoPackage.database;
+            GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            
+            GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:dao];
+            int indexGeoPackageCount;
+            if([indexManager isIndexedWithFeatureIndexType:GPKG_FIT_GEOPACKAGE]){
+                [indexManager prioritizeQueryLocationWithType:GPKG_FIT_GEOPACKAGE];
+                indexGeoPackageCount = [indexManager count];
+            }else{
+                indexGeoPackageCount = [indexManager indexWithFeatureIndexType:GPKG_FIT_GEOPACKAGE];
+            }
+            [GPKGTestUtils assertTrue:[indexManager isIndexedWithFeatureIndexType:GPKG_FIT_GEOPACKAGE]];
+            
+            int indexRTreeCount;
+            if([indexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]){
+                [indexManager prioritizeQueryLocationWithType:GPKG_FIT_RTREE];
+                indexRTreeCount = [indexManager count];
+            }else{
+                indexRTreeCount = [indexManager indexWithFeatureIndexType:GPKG_FIT_RTREE];
+            }
+            [GPKGTestUtils assertTrue:[indexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]];
+            
+            GPKGFeatureTable *featureTable = [dao getFeatureTable];
+            NSString *tableName = featureTable.tableName;
+            
+            for (GPKGFeatureColumn *column in [featureTable columns]) {
+                [self indexColumnWithConnection:db andTable:tableName andColumn:column];
+            }
+            
+            [self createViewWithConnection:db andTable:featureTable andPrefix:@"v_" andQuoteWrap:YES];
+            [self createViewWithConnection:db andTable:featureTable andPrefix:@"v2_" andQuoteWrap:NO];
+            
+            int rowCount = [dao count];
+            int tableCount = [GPKGSQLiteMaster countWithConnection:db andType:GPKG_SMT_TABLE andTable:tableName];
+            int indexCount = [self indexCountWithConnection:db andTable:tableName];
+            int triggerCount = [GPKGSQLiteMaster countWithConnection:db andType:GPKG_SMT_TRIGGER andTable:tableName];
+            int viewCount = [GPKGSQLiteMaster countViewsWithConnection:db andTable:tableName];
+            
+            [GPKGTestUtils assertEqualIntWithValue:1 andValue2:tableCount];
+            [GPKGTestUtils assertTrue:indexCount >= [featureTable columnCount] - 2];
+            [GPKGTestUtils assertTrue:triggerCount >= 6];
+            [GPKGTestUtils assertTrue:viewCount >= 2];
+            
+            GPKGFeatureTable *table = [dao getFeatureTable];
+            int existingColumns = (int)[table columns].count;
+            GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table getPkColumn];
+            GPKGFeatureColumn *geometry = [table getGeometryColumn];
+            
+            int newColumns = 0;
+            NSString *newColumnName = @"new_column";
+            
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_REAL]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BOOLEAN]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_INTEGER]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT andMax:[NSNumber numberWithUnsignedInteger:[[NSProcessInfo processInfo] globallyUniqueString].length]]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB andMax:[NSNumber numberWithUnsignedInteger:[[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding] length]]]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_DATE]];
+            [dao addColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_DATETIME]];
+                  
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns + newColumns andValue2:(int)[table columns].count];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+            
+            for (int index = existingColumns; index < [table columns].count; index++) {
+                
+                [self indexColumnWithConnection:db andTable:tableName andColumn:(GPKGFeatureColumn *)[table getColumnWithIndex:index]];
+                
+                NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columnNames] objectAtIndex:index]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columns] objectAtIndex:index].name];
+                @try {
+                    [[table getColumnWithIndex:index] setIndex:index - 1];
+                    [GPKGTestUtils fail:@"Changed index on a created table column"];
+                } @catch (NSException *exception) {
+                }
+                [[table getColumnWithIndex:index] setIndex:index];
+            }
+            
+            [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns andTriggerCount:triggerCount andViewCount:viewCount];
+            
+            [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            
+            [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
+            
+            //[GPKGFeatureUtils testUpdate:dao];
+            
+            NSString *newerColumnName = @"newer_column";
+            for (int newColumn = 2; newColumn <= newColumns; newColumn++) {
+                [dao renameColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, newColumn] toColumn:[NSString stringWithFormat:@"%@%d", newerColumnName, newColumn]];
+            }
+            
+            [dao alterColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 3] andDataType:GPKG_DT_BOOLEAN andNotNull:YES andDefaultValue:[NSNumber numberWithInt:0]]];
+            
+            NSMutableArray<GPKGFeatureColumn *> *alterColumns = [[NSMutableArray alloc] init];
+            [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 5] andDataType:GPKG_DT_FLOAT andNotNull:YES andDefaultValue:[NSNumber numberWithFloat:1.5]]];
+            [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 8] andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:@"date_to_text"]];
+            [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 9] andDataType:GPKG_DT_DATETIME andNotNull:YES andDefaultValue:@"(strftime('%Y-%m-%dT%H:%M:%fZ','now'))"]];
+            [dao alterColumns:alterColumns];
+            
+            for (int index = existingColumns + 1; index < [table columns].count; index++) {
+                NSString *name = [NSString stringWithFormat:@"%@%d", newerColumnName, index - existingColumns + 1];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columnNames] objectAtIndex:index]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columns] objectAtIndex:index].name];
+            }
+            
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns + newColumns andValue2:(int)[table columns].count];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns andTriggerCount:triggerCount andViewCount:viewCount];
+            [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            
+            [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
+            
+            //[GPKGFeatureUtils testUpdate:dao];
+            
+            [dao dropColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 1]];
+            [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns - 1 andTriggerCount:triggerCount andViewCount:viewCount];
+            [dao dropColumnNames:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%@%d", newerColumnName, 2], [NSString stringWithFormat:@"%@%d", newerColumnName, 3], [NSString stringWithFormat:@"%@%d", newerColumnName, 4], nil]];
+            for (int newColumn = 5; newColumn <= newColumns; newColumn++) {
+                [dao dropColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, newColumn]];
+            }
+            
+            [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:(int)[table columns].count];
+            [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+            [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+            
+            for (int index = 0; index < existingColumns; index++) {
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+            }
+            
+            [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            
+            [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
+            
+            //[GPKGFeatureUtils testUpdate:dao];
+            
+            [indexManager close];
+        }
+    }
 }
 
 /**

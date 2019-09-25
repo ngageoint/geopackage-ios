@@ -640,4 +640,18 @@
  */
 -(void) addWriteFunction: (void *) function withName: (NSString *) name andNumArgs: (int) numArgs;
 
+/**
+ *  Add a custom function to be created on write connections
+ *
+ *  @param function write connection function
+ */
+-(void) addWriteFunction: (GPKGConnectionFunction *) function;
+
+/**
+ *  Add a custom function to be created on write connections
+ *
+ *  @param functions write connection functions
+ */
+-(void) addWriteFunctions: (NSArray<GPKGConnectionFunction *> *) functions;
+
 @end
