@@ -465,20 +465,24 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     long long lastInsertRowId = -1;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        [self setArguments:args inStatement:compiledStatement];
-        int executeQueryResults = sqlite3_step(compiledStatement);
-        if (executeQueryResults == SQLITE_DONE) {
-            lastInsertRowId = sqlite3_last_insert_rowid([connection getConnection]);
-        }else{
+    @try {
+        
+        int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+        if(prepareStatementResult == SQLITE_OK) {
+            [self setArguments:args inStatement:compiledStatement];
+            int executeQueryResults = sqlite3_step(compiledStatement);
+            if (executeQueryResults == SQLITE_DONE) {
+                lastInsertRowId = sqlite3_last_insert_rowid([connection getConnection]);
+            }else{
+                [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+            }
+        } else{
             [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
         }
-    } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+        
+    } @finally {
+        [self closeStatement:compiledStatement];
     }
-    
-    [self closeStatement:compiledStatement];
     
     return lastInsertRowId;
 }
@@ -567,20 +571,24 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     int rowsModified = -1;
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
-        [self setArguments:args inStatement:compiledStatement];
-        int executeQueryResults = sqlite3_step(compiledStatement);
-        if (executeQueryResults == SQLITE_DONE) {
-            rowsModified = sqlite3_changes([connection getConnection]);
-        }else{
+    @try {
+    
+        int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+        if(prepareStatementResult == SQLITE_OK) {
+            [self setArguments:args inStatement:compiledStatement];
+            int executeQueryResults = sqlite3_step(compiledStatement);
+            if (executeQueryResults == SQLITE_DONE) {
+                rowsModified = sqlite3_changes([connection getConnection]);
+            }else{
+                [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+            }
+        } else{
             [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
         }
-    } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
-    }
     
-    [self closeStatement:compiledStatement];
+    } @finally {
+        [self closeStatement:compiledStatement];
+    }
     
     return rowsModified;
 }

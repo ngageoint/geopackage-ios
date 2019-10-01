@@ -930,19 +930,26 @@ didCompleteWithError:(nullable NSError *)error{
     
     sqlite3_stmt *integrity = NULL;
     
-    if ( sqlite3_prepare_v2( sqlite3Database, "PRAGMA integrity_check;", -1, &integrity, NULL ) == SQLITE_OK ) {
-        
-        while ( sqlite3_step( integrity ) == SQLITE_ROW ) {
-            const unsigned char *result = sqlite3_column_text( integrity, 0 );
-            if ( result && strcmp( ( const char * )result, (const char *)"ok" ) == 0 ) {
-                validIntegrity = true;
-                break;
+    @try {
+
+        if ( sqlite3_prepare_v2( sqlite3Database, "PRAGMA integrity_check;", -1, &integrity, NULL ) == SQLITE_OK ) {
+            
+            while ( sqlite3_step( integrity ) == SQLITE_ROW ) {
+                const unsigned char *result = sqlite3_column_text( integrity, 0 );
+                if ( result && strcmp( ( const char * )result, (const char *)"ok" ) == 0 ) {
+                    validIntegrity = true;
+                    break;
+                }
             }
+
         }
-        
-        sqlite3_finalize( integrity );
-    }
     
+    } @finally {
+        if (integrity != NULL){
+            sqlite3_finalize(integrity);
+        }
+    }
+
     return validIntegrity;
 }
 
