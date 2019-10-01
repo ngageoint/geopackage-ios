@@ -331,7 +331,7 @@
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
-    GPKGUserTable *userTable = [[GPKGUserTable alloc] initWithUserTable:self];
+    GPKGUserTable *userTable = [[[self class] allocWithZone:zone] initWithUserTable:self];
     return userTable;
 }
 

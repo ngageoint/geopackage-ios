@@ -197,7 +197,7 @@
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
-    GPKGUserColumn *userColumn = [[GPKGUserColumn alloc] initWithUserColumn:self];
+    GPKGUserColumn *userColumn = [[[self class] allocWithZone:zone] initWithUserColumn:self];
     return userColumn;
 }
 
