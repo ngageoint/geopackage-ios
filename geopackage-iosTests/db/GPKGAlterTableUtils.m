@@ -21,10 +21,11 @@
     GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
-        GPKGResultSet *results = [geometryColumnsDao queryForAll];
         
-        while([results moveToNext]){
-            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:results];
+        NSArray *featureTables = [geoPackage getFeatureTables];
+        
+        for(NSString *featureTable in featureTables){
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao queryForTableName:featureTable];
             
             GPKGConnection *db = geoPackage.database;
             GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
@@ -154,7 +155,7 @@
             
             //[GPKGFeatureUtils testUpdate:dao];
             
-            [dao dropColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 1]];
+            [dao dropColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, 1]];
             [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns - 1 andTriggerCount:triggerCount andViewCount:viewCount];
             [dao dropColumnNames:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%@%d", newerColumnName, 2], [NSString stringWithFormat:@"%@%d", newerColumnName, 3], [NSString stringWithFormat:@"%@%d", newerColumnName, 4], nil]];
             for (int newColumn = 5; newColumn <= newColumns; newColumn++) {
