@@ -1069,7 +1069,12 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         // Split the SQL apart by the name
         NSArray<NSString *> *parts = [sql componentsSeparatedByString:name];
         
-        for (int i = 0; i <= parts.count; i++) {
+        int partsCount = (int) parts.count;
+        if(partsCount > 0 && [parts objectAtIndex:partsCount - 1].length == 0){
+            partsCount -= 1;
+        }
+        
+        for (int i = 0; i <= partsCount; i++) {
             
             if (i > 0) {
                 
@@ -1087,7 +1092,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                 
                 // Find the character after the name
                 NSString *after = @"_";
-                if (i < parts.count) {
+                if (i < partsCount) {
                     NSString *afterPart = [parts objectAtIndex:i];
                     if(afterPart.length > 0){
                         after = [afterPart substringWithRange:NSMakeRange(0, 1)];
@@ -1112,7 +1117,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             }
             
             // Add the part to the SQL
-            if(i < parts.count){
+            if(i < partsCount){
                 [updatedSqlBuilder appendString:[parts objectAtIndex:i]];
             }
             
@@ -1149,7 +1154,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             NSString *numberPart = [baseName substringFromIndex:index + 1];
             if([numberExpression numberOfMatchesInString:numberPart options:0 range:NSMakeRange(0, numberPart.length)] == 1){
                 baseName = [baseName substringWithRange:NSMakeRange(0, index)];
-                count = [baseName intValue];
+                count = [numberPart intValue];
             }
         }
         

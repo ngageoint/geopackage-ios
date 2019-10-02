@@ -179,22 +179,32 @@
                     GPKGFeatureTileLinkDao *featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
                     if([featureTileLinkDao tableExists]){
                         
+                        NSMutableArray<GPKGFeatureTileLink *> *newLinks = [NSMutableArray array];
+                        
                         GPKGResultSet *featureTileLinks = [featureTileLinkDao queryForFeatureTableName:table];
                         @try {
-                            GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
-                            [featureTileLink setFeatureTableName:newTable];
-                            [featureTileLinkDao create:featureTileLink];
+                            while([featureTileLinks moveToNext]){
+                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                                [featureTileLink setFeatureTableName:newTable];
+                                [newLinks addObject:featureTileLink];
+                            }
                         } @finally {
                             [featureTileLinks close];
                         }
                         
                         featureTileLinks = [featureTileLinkDao queryForTileTableName:table];
                         @try {
-                            GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
-                            [featureTileLink setFeatureTableName:newTable];
-                            [featureTileLinkDao create:featureTileLink];
+                            while([featureTileLinks moveToNext]){
+                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                                [featureTileLink setTileTableName:newTable];
+                                [newLinks addObject:featureTileLink];
+                            }
                         } @finally {
                             [featureTileLinks close];
+                        }
+                        
+                        for(GPKGFeatureTileLink *featureTileLink in newLinks){
+                            [featureTileLinkDao create:featureTileLink];
                         }
                         
                     }

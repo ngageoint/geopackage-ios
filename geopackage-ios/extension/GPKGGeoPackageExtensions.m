@@ -172,45 +172,54 @@
             GPKGExtendedRelationsDao *extendedRelationsDao = [relatedTablesExtension getExtendedRelationsDao];
             GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
             
-            GPKGResultSet *extendRelations = [extendedRelationsDao relationsToBaseTable:table];
+            NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
+            GPKGResultSet *extendedRelationsResults = [extendedRelationsDao relationsToBaseTable:table];
             @try {
-                while([extendRelations moveToNext]){
-                    GPKGExtendedRelation *extendedRelation = [extendedRelationsDao relation:extendRelations];
-                    
-                    NSString *mappingTableName = extendedRelation.mappingTableName;
-                    
-                    GPKGResultSet *extensions = [extensionsDao queryByExtension:[relatedTablesExtension getExtensionName] andTable:mappingTableName];
-                    @try {
-                        if([extensions moveToNext]){
-                            GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
-                            
-                            NSString *newMappingTableName = [GPKGSqlUtils createName:mappingTableName andReplace:table withReplacement:newTable withConnection:geoPackage.database];
-                            
-                            GPKGUserCustomTable *userTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:mappingTableName];
-                            [GPKGAlterTable copyTable:userTable toTable:newMappingTableName withConnection:geoPackage.database];
-                            
-                            [extension setTableName:newMappingTableName];
-                            [extensionsDao create:extension];
-                            
-                            GPKGTableMapping *extendedRelationTableMapping = [[GPKGTableMapping alloc] initWithTableName:GPKG_ER_TABLE_NAME andConnection:geoPackage.database];
-                            [extendedRelationTableMapping removeColumn:GPKG_ER_COLUMN_ID];
-                            GPKGMappedColumn *baseTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_BASE_TABLE_NAME];
-                            [baseTableNameColumn setConstantValue:newTable];
-                            [baseTableNameColumn setWhereValue:table];
-                            GPKGMappedColumn *mappingTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_MAPPING_TABLE_NAME];
-                            [mappingTableNameColumn setConstantValue:newMappingTableName];
-                            [mappingTableNameColumn setWhereValue:mappingTableName];
-                            [GPKGSqlUtils transferTableContent:extendedRelationTableMapping withConnection:geoPackage.database];
-                            
-                        }
-                    } @finally {
-                        [extensions close];
-                    }
-                    
+                while([extendedRelationsResults moveToNext]){
+                    GPKGExtendedRelation *extendedRelation = [extendedRelationsDao relation:extendedRelationsResults];
+                    [extendedRelations addObject:extendedRelation];
                 }
             } @finally {
-                [extendRelations close];
+                [extendedRelationsResults close];
             }
+            
+            for(GPKGExtendedRelation *extendedRelation in extendedRelations){
+            
+                NSString *mappingTableName = extendedRelation.mappingTableName;
+                
+                GPKGExtensions *extension = nil;
+                GPKGResultSet *extensionsResults = [extensionsDao queryByExtension:[relatedTablesExtension getExtensionName] andTable:mappingTableName];
+                @try {
+                    if([extensionsResults moveToNext]){
+                        extension = (GPKGExtensions *)[extensionsDao getObject:extensionsResults];
+                    }
+                } @finally {
+                    [extensionsResults close];
+                }
+                
+                if(extension != nil){
+                        
+                        NSString *newMappingTableName = [GPKGSqlUtils createName:mappingTableName andReplace:table withReplacement:newTable withConnection:geoPackage.database];
+                        
+                        GPKGUserCustomTable *userTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:mappingTableName];
+                        [GPKGAlterTable copyTable:userTable toTable:newMappingTableName withConnection:geoPackage.database];
+                        
+                        [extension setTableName:newMappingTableName];
+                        [extensionsDao create:extension];
+                        
+                        GPKGTableMapping *extendedRelationTableMapping = [[GPKGTableMapping alloc] initWithTableName:GPKG_ER_TABLE_NAME andConnection:geoPackage.database];
+                        [extendedRelationTableMapping removeColumn:GPKG_ER_COLUMN_ID];
+                        GPKGMappedColumn *baseTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_BASE_TABLE_NAME];
+                        [baseTableNameColumn setConstantValue:newTable];
+                        [baseTableNameColumn setWhereValue:table];
+                        GPKGMappedColumn *mappingTableNameColumn = [extendedRelationTableMapping columnForName:GPKG_ER_COLUMN_MAPPING_TABLE_NAME];
+                        [mappingTableNameColumn setConstantValue:newMappingTableName];
+                        [mappingTableNameColumn setWhereValue:mappingTableName];
+                        [GPKGSqlUtils transferTableContent:extendedRelationTableMapping withConnection:geoPackage.database];
+                        
+                    }
+            }
+
         }
         
     } @catch (NSException *exception) {
