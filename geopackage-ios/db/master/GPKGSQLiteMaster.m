@@ -8,6 +8,7 @@
 
 #import "GPKGSQLiteMaster.h"
 #import "GPKGConstraintParser.h"
+#import "GPKGUtils.h"
 
 NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 
@@ -113,7 +114,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 }
 
 -(NSObject *) valueInRow: (NSArray<NSObject *> *) row forColumn: (enum GPKGSQLiteMasterColumn) column{
-    return [row objectAtIndex:[self columnIndex:column]];
+    return [GPKGUtils objectAtIndex:[self columnIndex:column] inArray:row];
 }
 
 -(int) columnIndex: (enum GPKGSQLiteMasterColumn) column{
