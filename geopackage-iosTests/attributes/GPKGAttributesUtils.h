@@ -33,6 +33,14 @@
 +(void) testUpdateAddColumnsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Test updates for the attributes table
+ *
+ * @param dao
+ *            attributes dao
+ */
++(void) testUpdateWithDao: (GPKGAttributesDao *) dao;
+
+/**
  * Test create
  *
  * @param geoPackage
