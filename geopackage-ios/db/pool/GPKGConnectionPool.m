@@ -167,6 +167,9 @@ static BOOL maintainStackTraces = false;
             [GPKGSqlUtils closeDatabase:connection];
         }
         [self.usedConnections removeAllObjects];
+        [self.resultConnections removeAllObjects];
+        [self.writeFunctions removeAllObjects];
+        [self.connectionExecs removeAllObjects];
     }
 }
 
