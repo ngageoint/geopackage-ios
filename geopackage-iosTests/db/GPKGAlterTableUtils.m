@@ -20,6 +20,9 @@
 #import "GPKGTileTableScaling.h"
 #import "GPKGCoverageData.h"
 #import "GPKGAttributesUtils.h"
+#import "GPKGUniqueConstraint.h"
+#import "GPKGRawConstraint.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGAlterTableUtils
 
@@ -947,191 +950,140 @@
 }
 
 +(void) testCopyUserTable: (GPKGGeoPackage *) geoPackage{
-    // TODO
     
-    /*
-    String tableName = "user_test_table";
-    String columnName = "column";
+    NSString *tableName = @"user_test_table";
+    NSString *columnName = @"column";
     int countCount = 0;
     int rowCount = 100;
-    String copyTableName = "user_test_copy";
-    String copyTableName2 = "user_test_another_copy";
+    NSString *copyTableName = @"user_test_copy";
+    NSString *copyTableName2 = @"user_test_another_copy";
     
-    List<UserCustomColumn> columns = new ArrayList<>();
-    columns.add(UserCustomColumn
-                .createPrimaryKeyColumn(columnName + ++countCount));
-    UserCustomColumn column2 = UserCustomColumn.createColumn(
-                                                             columnName + ++countCount, GeoPackageDataType.TEXT, true);
-    column2.addUniqueConstraint();
-    columns.add(column2);
-    columns.add(UserCustomColumn.createColumn(columnName + ++countCount,
-                                              GeoPackageDataType.TEXT, true, "default_value"));
-    columns.add(UserCustomColumn.createColumn(columnName + ++countCount,
-                                              GeoPackageDataType.BOOLEAN));
-    columns.add(UserCustomColumn.createColumn(columnName + ++countCount,
-                                              GeoPackageDataType.DOUBLE));
-    UserCustomColumn column6 = UserCustomColumn.createColumn(
-                                                             columnName + ++countCount, GeoPackageDataType.INTEGER, true);
-    column6.addConstraint("CONSTRAINT check_constraint CHECK ("
-                          + (columnName + countCount) + " >= 0)");
-    columns.add(column6);
-    UserCustomColumn column7 = UserCustomColumn.createColumn(
-                                                             columnName + ++countCount, GeoPackageDataType.INTEGER);
-    column7.addConstraint("CONSTRAINT another_check_constraint_13 CHECK ("
-                          + (columnName + countCount) + " >= 0)");
-    columns.add(column7);
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
+    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount]]];
+    GPKGUserCustomColumn *column2 = [GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_TEXT andNotNull:YES];
+    [column2 addUniqueConstraint];
+    [columns addObject:column2];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:@"default_value"]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_BOOLEAN]];
+    [columns addObject:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_DOUBLE]];
+    GPKGUserCustomColumn *column6 = [GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_INTEGER andNotNull:YES];
+    [column6 addConstraintSql:[NSString stringWithFormat:@"CONSTRAINT check_constraint CHECK (%@%d >= 0)", columnName, countCount]];
+    [columns addObject:column6];
+    GPKGUserCustomColumn *column7 = [GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", columnName, ++countCount] andDataType:GPKG_DT_INTEGER];
+    [column7 addConstraintSql:[NSString stringWithFormat:@"CONSTRAINT another_check_constraint_13 CHECK (%@%d >= 0)", columnName, countCount]];
+    [columns addObject:column7];
+
+    GPKGUserCustomTable *table = [[GPKGUserCustomTable alloc] initWithTable:tableName andColumns:columns];
     
-    UserCustomTable table = new UserCustomTable(tableName, columns);
+    [table addConstraint:[[GPKGUniqueConstraint alloc] initWithName:[NSString stringWithFormat:@"%@_unique", tableName] andColumns:[NSArray arrayWithObjects:[columns objectAtIndex:1], [columns objectAtIndex:2], nil]]];
+    [table addConstraint:[[GPKGUniqueConstraint alloc] initWithColumns:[NSArray arrayWithObjects:[columns objectAtIndex:1], [columns objectAtIndex:2], nil]]];
+    [table addConstraint:[[GPKGRawConstraint alloc] initWithSql:@"CHECK (column5 < 1.0)"]];
+    [table addConstraint:[[GPKGRawConstraint alloc] initWithSql:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", tableName]]];
     
-    table.addConstraint(new UniqueConstraint(tableName + "_unique",
-                                             columns.get(1), columns.get(2)));
-    table.addConstraint(
-                        new UniqueConstraint(columns.get(1), columns.get(2)));
-    table.addConstraint(new RawConstraint("CHECK (column5 < 1.0)"));
-    table.addConstraint(new RawConstraint("CONSTRAINT fk_" + tableName
-                                          + " FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)"));
+    [geoPackage createUserTable:table];
     
-    geoPackage.createUserTable(table);
+    NSNumber *srsId = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]].srsId;
     
-    long srsId = geoPackage.getSpatialReferenceSystemDao()
-    .getOrCreateFromEpsg(
-                         ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM)
-    .getId();
-    
-    UserCustomDao dao = geoPackage.getUserCustomDao(tableName);
+    GPKGUserCustomDao *dao = [geoPackage getUserCustomDaoWithTableName:tableName];
     for (int i = 0; i < rowCount; i++) {
-        UserCustomRow row = dao.newRow();
-        row.setValue(columnName + 2, UUID.randomUUID().toString());
-        row.setValue(columnName + 3, UUID.randomUUID().toString());
-        row.setValue(columnName + 4, Math.random() < .5);
-        row.setValue(columnName + 5, Math.random());
-        row.setValue(columnName + 6, srsId);
-        dao.create(row);
+        GPKGUserCustomRow *row = [dao newRow];
+        [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 2] andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
+        [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 3] andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
+        [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 4] andValue:[NSNumber numberWithBool:[GPKGTestUtils randomDouble] < .5]];
+        [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 5] andValue:[NSNumber numberWithDouble:[GPKGTestUtils randomDouble]]];
+        [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 6] andValue:srsId];
+        [dao create:row];
     }
     
-    TestCase.assertEquals(rowCount, dao.count());
+    [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
     
-    int tableCount = SQLiteMaster.count(geoPackage.getDatabase(),
-                                        SQLiteMasterType.TABLE, tableName);
-    int indexCount = indexCount(geoPackage.getDatabase(), tableName);
-    int triggerCount = SQLiteMaster.count(geoPackage.getDatabase(),
-                                          SQLiteMasterType.TRIGGER, tableName);
-    int viewCount = SQLiteMaster.countViewsOnTable(geoPackage.getDatabase(),
-                                                   tableName);
+    int tableCount = [GPKGSQLiteMaster countWithConnection:geoPackage.database andType:GPKG_SMT_TABLE andTable:tableName];
+    int indexCount = [self indexCountWithConnection:geoPackage.database andTable:tableName];
+    int triggerCount = [GPKGSQLiteMaster countWithConnection:geoPackage.database andType:GPKG_SMT_TRIGGER andTable:tableName];
+    int viewCount = [GPKGSQLiteMaster countViewsWithConnection:geoPackage.database andTable:tableName];
     
-    geoPackage.copyTable(tableName, copyTableName);
+    [geoPackage copyTable:tableName toTable:copyTableName];
     
-    UserCustomDao copyDao = geoPackage.getUserCustomDao(copyTableName);
-    UserCustomTable copyTable = copyDao.getTable();
+    GPKGUserCustomDao *copyDao = [geoPackage getUserCustomDaoWithTableName:copyTableName];
+    GPKGUserCustomTable *copyTable = [copyDao table];
     
-    TestCase.assertEquals(columns.size(), table.columnCount());
-    TestCase.assertEquals(columns.size(), copyTable.columnCount());
-    TestCase.assertEquals(rowCount, dao.count());
-    TestCase.assertEquals(rowCount, copyDao.count());
-    testTableCounts(geoPackage.getConnection(), tableName, tableCount,
-                    indexCount, triggerCount, viewCount);
-    testTableCounts(geoPackage.getConnection(), copyTableName, tableCount,
-                    indexCount, triggerCount, viewCount);
-    TestCase.assertEquals(copyTableName, copyTable.getTableName());
+    [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];
+    [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[copyTable columnCount]];
+    [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+    [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[copyDao count]];
+    [self testTableCountsWithConnection:geoPackage.database andTable:tableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+    [self testTableCountsWithConnection:geoPackage.database andTable:copyTableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+    [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:copyTable.tableName];
     
-    List<Constraint> copyConstraints = copyTable.getConstraints();
-    TestCase.assertEquals(4, copyConstraints.size());
-    TestCase.assertEquals(copyTableName + "_unique",
-                          copyConstraints.get(0).getName());
-    TestCase.assertEquals(ConstraintType.UNIQUE,
-                          copyConstraints.get(0).getType());
-    TestCase.assertEquals(
-                          "CONSTRAINT \"" + copyTableName
-                          + "_unique\" UNIQUE (column2, column3)",
-                          copyConstraints.get(0).buildSql());
-    TestCase.assertNull(copyConstraints.get(1).getName());
-    TestCase.assertEquals(ConstraintType.UNIQUE,
-                          copyConstraints.get(1).getType());
-    TestCase.assertEquals(table.getConstraints().get(1).buildSql(),
-                          copyConstraints.get(1).buildSql());
-    TestCase.assertNull(copyConstraints.get(2).getName());
-    TestCase.assertEquals(ConstraintType.CHECK,
-                          copyConstraints.get(2).getType());
-    TestCase.assertEquals(table.getConstraints().get(2).buildSql(),
-                          copyConstraints.get(2).buildSql());
-    TestCase.assertEquals("fk_" + copyTableName,
-                          copyConstraints.get(3).getName());
-    TestCase.assertEquals(ConstraintType.FOREIGN_KEY,
-                          copyConstraints.get(3).getType());
-    TestCase.assertEquals("CONSTRAINT fk_" + copyTableName
-                          + " FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)",
-                          copyConstraints.get(3).buildSql());
+    NSArray<GPKGConstraint *> *copyConstraints = [copyTable constraints];
+    [GPKGTestUtils assertEqualIntWithValue:4 andValue2:(int)copyConstraints.count];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName] andValue2:[copyConstraints objectAtIndex:0].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints objectAtIndex:0].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT \"%@_unique\" UNIQUE (column2, column3)", copyTableName] andValue2:[[copyConstraints objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints objectAtIndex:1].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints objectAtIndex:1].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:1] buildSql] andValue2:[[copyConstraints objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints objectAtIndex:2].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints objectAtIndex:2].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:2] buildSql] andValue2:[[copyConstraints objectAtIndex:2] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName] andValue2:[copyConstraints objectAtIndex:3].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints objectAtIndex:3].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", copyTableName] andValue2:[[copyConstraints objectAtIndex:3] buildSql]];
     
-    TestCase.assertEquals("NOT NULL",
-                          copyTable.getColumn(0).getConstraints().get(0).buildSql());
-    TestCase.assertEquals("PRIMARY KEY AUTOINCREMENT",
-                          copyTable.getColumn(0).getConstraints().get(1).buildSql());
-    TestCase.assertEquals("NOT NULL",
-                          copyTable.getColumn(1).getConstraints().get(0).buildSql());
-    TestCase.assertEquals("UNIQUE",
-                          copyTable.getColumn(1).getConstraints().get(1).buildSql());
-    TestCase.assertEquals("NOT NULL",
-                          copyTable.getColumn(2).getConstraints().get(0).buildSql());
-    TestCase.assertEquals("DEFAULT 'default_value'",
-                          copyTable.getColumn(2).getConstraints().get(1).buildSql());
-    TestCase.assertEquals("NOT NULL",
-                          copyTable.getColumn(5).getConstraints().get(0).buildSql());
-    TestCase.assertEquals(
-                          "CONSTRAINT check_constraint_2 CHECK (" + column6.getName()
-                          + " >= 0)",
-                          copyTable.getColumn(5).getConstraints().get(1).buildSql());
-    TestCase.assertEquals("check_constraint_2",
-                          copyTable.getColumn(5).getConstraints().get(1).getName());
-    TestCase.assertEquals(
-                          "CONSTRAINT another_check_constraint_14 CHECK ("
-                          + column7.getName() + " >= 0)",
-                          copyTable.getColumn(6).getConstraints().get(0).buildSql());
-    TestCase.assertEquals("another_check_constraint_14",
-                          copyTable.getColumn(6).getConstraints().get(0).getName());
     
-    geoPackage.copyTableAsEmpty(tableName, copyTableName2);
+    [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
+                              andValue2:[[[[copyTable getColumnWithIndex:0] constraints] objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"PRIMARY KEY AUTOINCREMENT"
+                              andValue2:[[[[copyTable getColumnWithIndex:0] constraints] objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
+                              andValue2:[[[[copyTable getColumnWithIndex:1] constraints] objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"UNIQUE"
+                              andValue2:[[[[copyTable getColumnWithIndex:1] constraints] objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
+                              andValue2:[[[[copyTable getColumnWithIndex:2] constraints] objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"DEFAULT 'default_value'"
+                              andValue2:[[[[copyTable getColumnWithIndex:2] constraints] objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
+                              andValue2:[[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT check_constraint_2 CHECK (%@ >= 0)", column6.name]
+                              andValue2:[[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"check_constraint_2"
+                              andValue2:[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:1].name];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT another_check_constraint_14 CHECK (%@ >= 0)", column7.name]
+                              andValue2:[[[[copyTable getColumnWithIndex:6] constraints] objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"another_check_constraint_14"
+                              andValue2:[[[copyTable getColumnWithIndex:6] constraints] objectAtIndex:0].name];
+
+    [geoPackage copyTableAsEmpty:tableName toTable:copyTableName2];
     
-    UserCustomDao copyDao2 = geoPackage.getUserCustomDao(copyTableName2);
-    UserCustomTable copyTable2 = copyDao2.getTable();
+    GPKGUserCustomDao *copyDao2 = [geoPackage getUserCustomDaoWithTableName:copyTableName2];
+    GPKGUserCustomTable *copyTable2 = [copyDao2 table];
     
-    TestCase.assertEquals(columns.size(), table.columnCount());
-    TestCase.assertEquals(columns.size(), copyTable2.columnCount());
-    TestCase.assertEquals(rowCount, dao.count());
-    TestCase.assertEquals(0, copyDao2.count());
-    testTableCounts(geoPackage.getConnection(), tableName, tableCount,
-                    indexCount, triggerCount, viewCount);
-    testTableCounts(geoPackage.getConnection(), copyTableName2, tableCount,
-                    indexCount, triggerCount, viewCount);
-    TestCase.assertEquals(copyTableName2, copyTable2.getTableName());
+    [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];
+    [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[copyTable2 columnCount]];
+    [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
+    [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[copyDao2 count]];
+    [self testTableCountsWithConnection:geoPackage.database andTable:tableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+    [self testTableCountsWithConnection:geoPackage.database andTable:copyTableName2 andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
+    [GPKGTestUtils assertEqualWithValue:copyTableName2 andValue2:copyTable2.tableName];
     
-    List<Constraint> copyConstraints2 = copyTable2.getConstraints();
-    TestCase.assertEquals(copyConstraints.size(), copyConstraints2.size());
-    TestCase.assertEquals(copyTableName2 + "_unique",
-                          copyConstraints2.get(0).getName());
-    TestCase.assertEquals(ConstraintType.UNIQUE,
-                          copyConstraints2.get(0).getType());
-    TestCase.assertEquals(
-                          "CONSTRAINT \"" + copyTableName2
-                          + "_unique\" UNIQUE (column2, column3)",
-                          copyConstraints2.get(0).buildSql());
-    TestCase.assertNull(copyConstraints2.get(1).getName());
-    TestCase.assertEquals(ConstraintType.UNIQUE,
-                          copyConstraints2.get(1).getType());
-    TestCase.assertEquals(table.getConstraints().get(1).buildSql(),
-                          copyConstraints2.get(1).buildSql());
-    TestCase.assertNull(copyConstraints2.get(2).getName());
-    TestCase.assertEquals(ConstraintType.CHECK,
-                          copyConstraints2.get(2).getType());
-    TestCase.assertEquals(table.getConstraints().get(2).buildSql(),
-                          copyConstraints2.get(2).buildSql());
-    TestCase.assertEquals("fk_" + copyTableName2,
-                          copyConstraints2.get(3).getName());
-    TestCase.assertEquals(ConstraintType.FOREIGN_KEY,
-                          copyConstraints2.get(3).getType());
-    TestCase.assertEquals("CONSTRAINT fk_" + copyTableName2
-                          + " FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)",
-                          copyConstraints2.get(3).buildSql());
-     */
+    NSArray<GPKGConstraint *> *copyConstraints2 = [copyTable2 constraints];
+    [GPKGTestUtils assertEqualIntWithValue:(int)copyConstraints.count andValue2:(int)copyConstraints2.count];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName2] andValue2:[copyConstraints2 objectAtIndex:0].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 objectAtIndex:0].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT \"%@_unique\" UNIQUE (column2, column3)", copyTableName2]
+                              andValue2:[[copyConstraints2 objectAtIndex:0] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints2 objectAtIndex:1].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 objectAtIndex:1].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:1] buildSql] andValue2:[[copyConstraints2 objectAtIndex:1] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints2 objectAtIndex:2].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints2 objectAtIndex:2].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:2] buildSql] andValue2:[[copyConstraints2 objectAtIndex:2] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName2] andValue2:[copyConstraints2 objectAtIndex:3].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints2 objectAtIndex:3].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", copyTableName2]
+                              andValue2:[[copyConstraints2 objectAtIndex:3] buildSql]];
+
 }
 
 @end
