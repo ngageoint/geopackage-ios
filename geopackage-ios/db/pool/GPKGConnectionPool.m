@@ -250,6 +250,14 @@ static BOOL maintainStackTraces = false;
 }
 
 -(void) beginTransaction{
+    [self beginTransactionAsResettable:NO];
+}
+
+-(void) beginResettableTransaction{
+    [self beginTransactionAsResettable:YES];
+}
+
+-(void) beginTransactionAsResettable: (BOOL) resettable{
     @synchronized(self) {
         if(self.writeConnection != nil){
             [NSException raise:@"Begin Transaction Failure" format:@"Can not begin a transaction while write connection is already open on database: %@", self.filename];
@@ -259,6 +267,7 @@ static BOOL maintainStackTraces = false;
         if(result != SQLITE_OK){
             [NSException raise:@"Begin Transaction Failure" format:@"Failed to begin exclusive transaction on database: %@, Error: %s", self.filename, sqlite3_errmsg([connection getConnection])];
         }
+        [connection setResettable:resettable];
     }
 }
 
@@ -307,12 +316,12 @@ static BOOL maintainStackTraces = false;
         if(connection != nil){
             [self.usedConnections removeObjectForKey:connectionId];
             released = true;
-            if(!connection.reusable || self.availableConnections.count >= openConnectionsPerPool){
+            
+            BOOL close = !connection.reusable || self.availableConnections.count >= openConnectionsPerPool;
+            
+            if(close){
                 [GPKGSqlUtils closeDatabase:connection];
                 NSLog(@"Closed a connection to %@, open connections: %lu", self.filename, (unsigned long)[self connectionCount]);
-            }else{
-                [connection checkIn];
-                [self.availableConnections addObject:connection];
             }
             
             // Release write connections
@@ -320,6 +329,12 @@ static BOOL maintainStackTraces = false;
             
             // Remove if a result connection
             [self.resultConnections removeObjectForKey:connectionId];
+            
+            if(!close){
+                [connection checkIn];
+                [self.availableConnections addObject:connection];
+            }
+            
         }
         [self checkConnections];
     }
@@ -337,10 +352,28 @@ static BOOL maintainStackTraces = false;
 -(BOOL) releaseWriteConnectionWithId: (NSNumber *) connectionId{
     BOOL writeReleased = false;
     @synchronized(self) {
+        
         // Check if the write connection
-        if(self.writeConnection != nil && [[self.writeConnection getConnectionId] intValue] == [connectionId intValue]){
+        if(self.writeConnection != nil && [[self.writeConnection getConnectionId] isEqualToNumber:connectionId]){
+            
+            // If a resettable connection, close available connections and mark used connections as not reusable
+            if(self.writeConnection.resettable){
+                for(GPKGSqliteConnection *connection in self.availableConnections){
+                    [GPKGSqlUtils closeDatabase:connection];
+                }
+                [self.availableConnections removeAllObjects];
+                for(GPKGSqliteConnection *connection in [self.usedConnections allValues]){
+                    if(![[connection getConnectionId] isEqualToNumber:connectionId]){
+                        connection.reusable = NO;
+                    }
+                }
+                [self.writeConnection setResettable:NO];
+            }
+            
+            // Clear the write connection
             self.writeConnection = nil;
             writeReleased = true;
+            
         }
     }
     return writeReleased;

@@ -882,7 +882,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(void) dropTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
     NSString *sql = [self dropTableSQL:tableName];
-    [db exec:sql];
+    [db execResettable:sql];
 }
 
 +(NSString *) dropTableSQL: (NSString *) tableName{
@@ -891,7 +891,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(void) dropView: (NSString *) viewName withConnection: (GPKGConnection *) db{
     NSString *sql = [self dropViewSQL:viewName];
-    [db exec:sql];
+    [db execResettable:sql];
 }
 
 +(NSString *) dropViewSQL: (NSString *) viewName{
@@ -1174,7 +1174,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(void) vacuumWithConnection: (GPKGConnection *) db{
-    [db exec:@"VACUUM"];
+    [db execResettable:@"VACUUM"];
 }
 
 +(BOOL) boolValueOfNumber: (NSNumber *) number{

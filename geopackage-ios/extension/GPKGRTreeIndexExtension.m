@@ -594,7 +594,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
     
     for (NSString *statement in statements) {
         NSString *sql = [self substituteSqlArgumentsWithSql:statement andTableName:tableName andGeometryColumnName:geometryColumnName andIdColumnName:idColumnName andTriggerName:triggerName];
-        [self.connection exec:sql];
+        [self.connection execResettable:sql];
     }
     
 }

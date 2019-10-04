@@ -183,6 +183,11 @@
 -(void) beginTransaction;
 
 /**
+ *  Begin an exclusive transaction on the database, resetting other open connections upon commit
+ */
+-(void) beginResettableTransaction;
+
+/**
  *  Commit an active transaction
  */
 -(void) commitTransaction;
@@ -322,6 +327,13 @@
  *  @param statement execute statement
  */
 -(void) exec:(NSString *) statement;
+
+/**
+ *  Execute statement, resetting other open connections
+ *
+ *  @param statement execute statement
+ */
+-(void) execResettable:(NSString *) statement;
 
 /**
  *  Execute the statement once on all open connections, waiting for used connections

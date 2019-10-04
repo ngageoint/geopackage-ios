@@ -28,6 +28,7 @@
         self.connection = connection;
         self.releasable = releasable;
         self.writeReleasable = writeReleasable;
+        self.resettable = NO;
     }
     return self;
 }

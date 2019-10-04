@@ -122,7 +122,7 @@
     NSArray<NSString *> *statements = [GPKGTableCreator readSQLScript:tableName];
     
     for(NSString * statement in statements){
-        [self.db exec:statement];
+        [self.db execResettable:statement];
     }
     
     return (int)[statements count];
@@ -139,7 +139,7 @@
     NSString *sql = [GPKGSqlUtils createTableSQL:table];
     
     // Create the table
-    [self.db exec:sql];
+    [self.db execResettable:sql];
 }
 
 -(void) createRequired{

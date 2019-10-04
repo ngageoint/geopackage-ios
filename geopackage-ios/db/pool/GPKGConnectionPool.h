@@ -129,6 +129,11 @@
 -(void) beginTransaction;
 
 /**
+ *  Begin an exclusive transaction on the database, resetting other open connections upon commit
+ */
+-(void) beginResettableTransaction;
+
+/**
  *  Commit an active transaction
  */
 -(void) commitTransaction;

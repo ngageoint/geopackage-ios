@@ -35,7 +35,7 @@
 
 -(void) execSQLStatements: (NSArray *) statements{
     for(NSString * statement in statements){
-        [self.db exec:statement];
+        [self.db execResettable:statement];
     }
 }
 

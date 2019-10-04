@@ -214,7 +214,7 @@
         [index appendString:columnName];
         [index appendString:@" )"];
         
-        [db exec:index];
+        [db execResettable:index];
     }
 }
 
@@ -272,7 +272,7 @@
     }
     [view appendString:tableName];
     
-    [db exec:view];
+    [db execResettable:view];
 }
 
 /**

@@ -17,6 +17,11 @@
 @interface GPKGDbConnection : NSObject
 
 /**
+ *  Upon release of a writable connection, other open connections should be reset
+ */
+@property (nonatomic) BOOL resettable;
+
+/**
  *  Initialize
  *
  *  @param connection sql connection

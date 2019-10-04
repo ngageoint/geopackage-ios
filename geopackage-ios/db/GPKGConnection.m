@@ -137,6 +137,10 @@
     [self.connectionPool beginTransaction];
 }
 
+-(void) beginResettableTransaction{
+    [self.connectionPool beginResettableTransaction];
+}
+
 -(void) commitTransaction{
     [self.connectionPool commitTransaction];
 }
@@ -238,7 +242,16 @@
 }
 
 -(void) exec:(NSString *) statement{
+    [self exec:statement asResettable:NO];
+}
+
+-(void) execResettable:(NSString *) statement{
+    [self exec:statement asResettable:YES];
+}
+
+-(void) exec:(NSString *) statement asResettable: (BOOL) resettable{
     GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    [connection setResettable:resettable];
     [GPKGSqlUtils execWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
 }

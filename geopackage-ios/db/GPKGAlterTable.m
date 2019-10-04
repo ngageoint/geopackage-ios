@@ -21,7 +21,7 @@
 
 +(void) renameTable: (NSString *) tableName toTable: (NSString *) newTableName withConnection: (GPKGConnection *) db{
     NSString *sql = [self renameTableSQL:tableName toTable:newTableName];
-    [db exec:sql];
+    [db execResettable:sql];
 }
 
 +(NSString *) renameTableSQL: (NSString *) tableName toTable: (NSString *) newTableName{
@@ -30,7 +30,7 @@
 
 +(void) renameColumn: (NSString *) columnName inTable: (NSString *) tableName toColumn: (NSString *) newColumnName withConnection: (GPKGConnection *) db{
     NSString *sql = [self renameColumnSQL:columnName inTable:tableName toColumn:newColumnName];
-    [db exec:sql];
+    [db execResettable:sql];
 }
 
 +(NSString *) renameColumnSQL: (NSString *) columnName inTable: (NSString *) tableName toColumn: (NSString *) newColumnName{
@@ -39,7 +39,7 @@
 
 +(void) addColumn: (NSString *) columnName withDefinition: (NSString *) columnDef toTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
     NSString *sql = [self addColumnSQL:columnName withDefinition:columnDef toTable:tableName];
-    [db exec:sql];
+    [db execResettable:sql];
 }
 
 +(NSString *) addColumnSQL: (NSString *) columnName withDefinition: (NSString *) columnDef toTable: (NSString *) tableName{
@@ -175,7 +175,7 @@
     
     // 2. Start a transaction
     BOOL successful = YES;
-    [db beginTransaction];
+    [db beginResettableTransaction];
     @try {
         
         // 9a. Query for views
