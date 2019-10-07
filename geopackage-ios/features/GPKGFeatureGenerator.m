@@ -106,38 +106,6 @@ static SFPProjection *EPSG_WGS84 = nil;
     return -1;
 }
 
-/**
- * Add a new column
- *
- * @param featureColumn
- *            feature column
- */
--(void) addColumn: (GPKGFeatureColumn *) featureColumn{
-    // TODO move this and remove method?
-    [self.featureDao addColumn:featureColumn];
-}
-
-/**
- * Save the feature
- *
- * @param geometry
- *            geometry
- * @param values
- *            column to value mapping
- */
--(void) saveFeatureWithGeometry: (SFGeometry *) geometry andValues: (NSDictionary<NSString *, NSObject *> *) values{
-    
-    GPKGFeatureRow *featureRow = [self.featureDao newRow];
-    
-    [featureRow setGeometry:[self createGeometryData:geometry]];
-    for(NSString *column in [values allKeys]){
-        NSObject *value = [values objectForKey:column];
-        [featureRow setValueWithColumnName:column andValue:value];
-    }
-    
-    [self.featureDao create:featureRow];
-}
-
 -(void) createFeatureWithGeometry: (SFGeometry *) geometry andProperties: (NSDictionary<NSString *, NSObject *> *) properties{
 
     if (self.srs == nil) {
@@ -148,14 +116,15 @@ static SFPProjection *EPSG_WGS84 = nil;
         [self createTableWithProperties:properties];
     }
     
-    NSMutableDictionary<NSString *, NSObject *> *values = [NSMutableDictionary dictionary];
+    GPKGFeatureRow *featureRow = [self.featureDao newRow];
+    [featureRow setGeometry:[self createGeometryData:geometry]];
     
     for(NSString *column in [properties allKeys]){
         NSObject *value = [self valueOfColumn:column withValue:[properties objectForKey:column]];
-        [values setObject:value forKey:column];
+        [featureRow setValueWithColumnName:column andValue:value];
     }
     
-    [self saveFeatureWithGeometry:geometry andValues:values];
+    [self.featureDao create:featureRow];
     
 }
 
@@ -267,7 +236,7 @@ static SFPProjection *EPSG_WGS84 = nil;
             [self.geoPackage commitTransaction];
         }
         featureColumn = [self createColumn:column withValue:value];
-        [self addColumn:featureColumn];
+        [self.featureDao addColumn:featureColumn];
         [_columns setObject:featureColumn forKey:column];
         if (inTransaction) {
             [self.geoPackage beginTransaction];
