@@ -18,9 +18,10 @@
 @property (nonatomic, strong) NSMutableArray *availableConnections;
 @property (nonatomic, strong) NSMutableDictionary *usedConnections;
 @property (nonatomic) int idCounter;
-@property (nonatomic, strong) NSDate * lastConnectionCheck;
-@property (nonatomic, strong) NSMutableDictionary * resultConnections;
-@property (nonatomic, strong) GPKGDbConnection * writeConnection;
+@property (nonatomic, strong) NSDate *lastConnectionCheck;
+@property (nonatomic, strong) NSMutableDictionary *resultConnections;
+@property (nonatomic, strong) GPKGDbConnection *writeConnection;
+@property (nonatomic) BOOL inTransaction;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, GPKGConnectionFunction *> *writeFunctions;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *connectionExecs;
 
@@ -144,6 +145,7 @@ static BOOL maintainStackTraces = false;
         self.idCounter = 1;
         self.lastConnectionCheck = [NSDate date];
         self.resultConnections = [[NSMutableDictionary alloc] init];
+        self.inTransaction = NO;
         self.writeFunctions = [[NSMutableDictionary alloc] init];
         self.connectionExecs = [[NSMutableDictionary alloc] init];
         asl_add_log_file(NULL, STDERR_FILENO);
@@ -168,6 +170,7 @@ static BOOL maintainStackTraces = false;
         }
         [self.usedConnections removeAllObjects];
         [self.resultConnections removeAllObjects];
+        self.inTransaction = NO;
         [self.writeFunctions removeAllObjects];
         [self.connectionExecs removeAllObjects];
     }
@@ -268,6 +271,7 @@ static BOOL maintainStackTraces = false;
             [NSException raise:@"Begin Transaction Failure" format:@"Failed to begin exclusive transaction on database: %@, Error: %s", self.filename, sqlite3_errmsg([connection getConnection])];
         }
         [connection setResettable:resettable];
+        self.inTransaction = YES;
     }
 }
 
@@ -279,6 +283,7 @@ static BOOL maintainStackTraces = false;
         }
         int result = sqlite3_exec([connection getConnection], "COMMIT TRANSACTION", 0, 0, 0);
         [self releaseConnection:connection];
+        self.inTransaction = NO;
         if(result != SQLITE_OK){
             [NSException raise:@"Commit Transaction Failure" format:@"Failed to commit transaction on database: %@, Error: %s", self.filename, sqlite3_errmsg([connection getConnection])];
         }
@@ -293,10 +298,15 @@ static BOOL maintainStackTraces = false;
         }
         int result = sqlite3_exec([self.writeConnection getConnection], "ROLLBACK TRANSACTION", 0, 0, 0);
         [self releaseConnection:connection];
+        self.inTransaction = NO;
         if(result != SQLITE_OK){
             [NSException raise:@"Rollback Transaction Failure" format:@"Failed to rollback transaction on database: %@, Error: %s", self.filename, sqlite3_errmsg([self.writeConnection getConnection])];
         }
     }
+}
+
+-(BOOL) inTransaction{
+    return _inTransaction;
 }
 
 -(BOOL) releaseConnection: (GPKGDbConnection *) connection{

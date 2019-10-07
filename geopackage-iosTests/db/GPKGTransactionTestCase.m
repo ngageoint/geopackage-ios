@@ -58,6 +58,7 @@
     
     GPKGConnection *db = featureDao.database;
     [db beginTransaction];
+    [GPKGTestUtils assertTrue:[db inTransaction]];
     
     @try {
         
@@ -70,11 +71,15 @@
         
     } @finally {
         
+        [GPKGTestUtils assertTrue:[db inTransaction]];
+        
         if(successful){
             [db commitTransaction];
         }else{
             [db rollbackTransaction];
         }
+        
+        [GPKGTestUtils assertFalse:[db inTransaction]];
         
     }
     
@@ -94,6 +99,7 @@
     int countBefore = [featureDao count];
     
     [featureDao beginTransaction];
+    [GPKGTestUtils assertTrue:[featureDao inTransaction]];
     
     @try {
         
@@ -106,11 +112,15 @@
         
     } @finally {
         
+        [GPKGTestUtils assertTrue:[featureDao inTransaction]];
+        
         if(successful){
             [featureDao commitTransaction];
         }else{
             [featureDao rollbackTransaction];
         }
+       
+        [GPKGTestUtils assertFalse:[featureDao inTransaction]];
         
     }
     
@@ -131,6 +141,7 @@
     int countBefore = [featureDao count];
     
     [featureDao beginTransaction];
+    [GPKGTestUtils assertTrue:[featureDao inTransaction]];
     
     @try {
         
@@ -140,12 +151,17 @@
             
             if (count % chunkSize == 0) {
                 
+                [GPKGTestUtils assertTrue:[featureDao inTransaction]];
                 if (successful) {
                     [featureDao commitTransaction];
+                    [GPKGTestUtils assertFalse:[featureDao inTransaction]];
                     [featureDao beginTransaction];
+                    [GPKGTestUtils assertTrue:[featureDao inTransaction]];
                 } else {
                     [featureDao rollbackTransaction];
+                    [GPKGTestUtils assertFalse:[featureDao inTransaction]];
                     [featureDao beginTransaction];
+                    [GPKGTestUtils assertTrue:[featureDao inTransaction]];
                 }
                 
             }
@@ -158,12 +174,15 @@
         
     } @finally {
         
+        [GPKGTestUtils assertTrue:[featureDao inTransaction]];
+        
         if(successful){
             [featureDao commitTransaction];
         }else{
             [featureDao rollbackTransaction];
         }
         
+        [GPKGTestUtils assertFalse:[featureDao inTransaction]];
     }
     
     [GPKGTestUtils assertEqualIntWithValue:successful ? countBefore + rows : countBefore andValue2:[featureDao count]];
@@ -212,6 +231,7 @@
     int count = [GPKGSQLiteMaster countViewsWithConnection:geoPackage.database andTable:GPKG_CON_TABLE_NAME];
     
     [geoPackage beginTransaction];
+    [GPKGTestUtils assertTrue:[geoPackage inTransaction]];
     
     @try {
         
@@ -224,11 +244,15 @@
         
     } @finally {
         
+        [GPKGTestUtils assertTrue:[geoPackage inTransaction]];
+        
         if(successful){
             [geoPackage commitTransaction];
         }else{
             [geoPackage rollbackTransaction];
         }
+        
+        [GPKGTestUtils assertFalse:[geoPackage inTransaction]];
         
     }
     

@@ -144,6 +144,13 @@
 -(void) rollbackTransaction;
 
 /**
+ * Determine if currently within a transaction
+ *
+ * @return true if in transaction
+ */
+-(BOOL) inTransaction;
+
+/**
  *  Release a connection, either adding it back to available pool connections or closing it
  *
  *  @param connection connection

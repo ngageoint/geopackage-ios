@@ -858,6 +858,10 @@
     [self.database rollbackTransaction];
 }
 
+-(BOOL) inTransaction{
+    return [self.database inTransaction];
+}
+
 -(BOOL) enableForeignKeys{
     return [self.database enableForeignKeys];
 }

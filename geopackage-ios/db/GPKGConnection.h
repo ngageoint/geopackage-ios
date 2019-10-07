@@ -198,6 +198,13 @@
 -(void) rollbackTransaction;
 
 /**
+ * Determine if currently within a transaction
+ *
+ * @return true if in transaction
+ */
+-(BOOL) inTransaction;
+
+/**
  * If foreign keys is disabled and there are no foreign key violations,
  * enables foreign key checks, else logs violations
  *

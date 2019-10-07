@@ -302,6 +302,10 @@
     [self.database rollbackTransaction];
 }
 
+-(BOOL) inTransaction{
+    return [self.database inTransaction];
+}
+
 -(int) update: (NSObject *) object{
     [self validateObject:object];
     

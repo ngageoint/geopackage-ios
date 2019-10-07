@@ -149,6 +149,10 @@
     [self.connectionPool rollbackTransaction];
 }
 
+-(BOOL) inTransaction{
+    return [self.connectionPool inTransaction];
+}
+
 -(BOOL) enableForeignKeys{
     BOOL enabled = [self foreignKeys];
     if (!enabled) {
