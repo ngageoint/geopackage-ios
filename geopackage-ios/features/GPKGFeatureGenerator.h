@@ -12,6 +12,9 @@
 #import "GPKGProgress.h"
 #import "SFPProjections.h"
 
+/**
+ * Feature Generator
+ */
 @interface GPKGFeatureGenerator : NSObject
 
 /**
