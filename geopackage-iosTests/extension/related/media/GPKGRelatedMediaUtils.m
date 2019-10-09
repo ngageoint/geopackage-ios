@@ -354,7 +354,7 @@
     NSString *newColumnName = @"new_column";
     [mediaDao addColumn:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_TEXT]];
     [mediaDao addColumn:[GPKGUserCustomColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newColumnName, ++newColumns] andDataType:GPKG_DT_BLOB]];
-    [GPKGTestUtils assertEqualIntWithValue:existingColumns + 2 andValue2:[mediaTable columns].count];
+    [GPKGTestUtils assertEqualIntWithValue:existingColumns + 2 andValue2:(int)[mediaTable columns].count];
     for (int index = existingColumns; index < [mediaTable columns].count; index++) {
         NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
         [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable getColumnNameWithIndex:index]];
@@ -382,7 +382,7 @@
     NSString *newValue = [[NSProcessInfo processInfo] globallyUniqueString];
     [mediaRow setValueWithIndex:existingColumns andValue:newValue];
     [mediaRow setValueWithIndex:existingColumns + 1 andValue:[mediaRow data]];
-    mediaRowId = [mediaDao create:mediaRow];
+    mediaRowId = (int)[mediaDao create:mediaRow];
     [GPKGTestUtils assertTrue:mediaRowId > 0];
     GPKGMediaRow *newMediaRow = (GPKGMediaRow *)[mediaDao queryForIdObject:[NSNumber numberWithInt:mediaRowId]];
     [GPKGTestUtils assertNotNil:newMediaRow];
