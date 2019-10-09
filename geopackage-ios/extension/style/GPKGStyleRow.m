@@ -258,7 +258,7 @@ static NSRegularExpression *colorExpression = nil;
         }
         if(colorExpression == nil){
             NSError  *error = nil;
-            colorExpression = [NSRegularExpression regularExpressionWithPattern:colorPattern options:0 error:nil];
+            colorExpression = [NSRegularExpression regularExpressionWithPattern:colorPattern options:0 error:&error];
             if(error){
                 [NSException raise:@"Hex Color Regular Expression" format:@"Failed to create hex color regular expression with error: %@", error];
             }

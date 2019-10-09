@@ -31,12 +31,12 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(void) initialize{
     if(numberExpression == nil){
         NSError  *error = nil;
-        numberExpression = [NSRegularExpression regularExpressionWithPattern:NUMBER_PATTERN options:0 error:nil];
+        numberExpression = [NSRegularExpression regularExpressionWithPattern:NUMBER_PATTERN options:0 error:&error];
         if(error){
             [NSException raise:@"Number Regular Expression" format:@"Failed to create number regular expression with error: %@", error];
         }
         error = nil;
-        nonWordCharacterExpression = [NSRegularExpression regularExpressionWithPattern:NON_WORD_CHARACTER_PATTERN options:0 error:nil];
+        nonWordCharacterExpression = [NSRegularExpression regularExpressionWithPattern:NON_WORD_CHARACTER_PATTERN options:0 error:&error];
         if(error){
             [NSException raise:@"Non Word Character Expression" format:@"Failed to create non word character expression with error: %@", error];
         }

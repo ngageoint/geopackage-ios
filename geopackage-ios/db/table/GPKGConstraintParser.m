@@ -45,12 +45,12 @@ static NSRegularExpression *constraintExpression = nil;
 +(void) initialize{
     if(nameExpression == nil){
         NSError  *error = nil;
-        nameExpression = [NSRegularExpression regularExpressionWithPattern:CONSTRAINT_NAME_REGEX options:0 error:nil];
+        nameExpression = [NSRegularExpression regularExpressionWithPattern:CONSTRAINT_NAME_REGEX options:0 error:&error];
         if(error){
             [NSException raise:@"Name Regular Expression" format:@"Failed to create name regular expression with error: %@", error];
         }
         error = nil;
-        constraintExpression = [NSRegularExpression regularExpressionWithPattern:CONSTRAINT_REGEX options:0 error:nil];
+        constraintExpression = [NSRegularExpression regularExpressionWithPattern:CONSTRAINT_REGEX options:0 error:&error];
         if(error){
             [NSException raise:@"Constraint Regular Expression" format:@"Failed to create constraint regular expression with error: %@", error];
         }
