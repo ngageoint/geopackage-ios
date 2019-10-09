@@ -47,6 +47,11 @@ NSString * const LIMIT_PATTERN = @"limit=\\d+";
 
 @implementation GPKGOAPIFeatureGenerator
 
+static int HTTP_OK = 200;
+static int HTTP_MOVED_PERM = 301;
+static int HTTP_MOVED_TEMP = 302;
+static int HTTP_SEE_OTHER = 303;
+
 /**
  * Limit expression
  */
@@ -65,7 +70,7 @@ static SFPProjections *defaultProjections;
 +(void) initialize{
     if(limitExpression == nil){
         NSError  *error = nil;
-        limitExpression = [NSRegularExpression regularExpressionWithPattern:LIMIT_PATTERN options:0 error:nil];
+        limitExpression = [NSRegularExpression regularExpressionWithPattern:LIMIT_PATTERN options:0 error:&error];
         if(error){
             [NSException raise:@"Limit Regular Expression" format:@"Failed to create limit regular expression with error: %@", error];
         }
@@ -137,7 +142,78 @@ static SFPProjections *defaultProjections;
 }
 
 -(int) generateFeatures{
-    return -1; // TODO
+
+    NSString *url = [self buildCollectionRequestUrl];
+    
+    OAFCollection *collection = [self collectionRequestForURL:url];
+    
+    SFPProjections *projections = [self projectionsForCollection:collection];
+    if(self.projection != nil && ![projections hasProjection:self.projection]){
+        NSLog(@"The projection is not advertised by the server. Authority: %@, Code: %@", self.projection.authority, self.projection.code);
+    }
+
+    NSMutableString *urlValue = [NSMutableString stringWithString:url];
+    
+    [urlValue appendString:@"/items"];
+    
+    BOOL params = NO;
+    
+    if(self.time != nil){
+        if (params) {
+            [urlValue appendString:@"&"];
+        } else {
+            [urlValue appendString:@"?"];
+            params = YES;
+        }
+        [urlValue appendString:@"time="];
+        [urlValue appendString:self.time];
+        if (self.period != nil) {
+            [urlValue appendString:@"/"];
+            [urlValue appendString:self.period];
+        }
+    }
+    
+    if (self.boundingBox != nil) {
+        if (params) {
+            [urlValue appendString:@"&"];
+        } else {
+            [urlValue appendString:@"?"];
+            params = YES;
+        }
+        [urlValue appendString:@"bbox="];
+        [urlValue appendFormat:@"%f", [self.boundingBox.minLongitude doubleValue]];
+        [urlValue appendString:@","];
+        [urlValue appendFormat:@"%f", [self.boundingBox.minLatitude doubleValue]];
+        [urlValue appendString:@","];
+        [urlValue appendFormat:@"%f", [self.boundingBox.maxLongitude doubleValue]];
+        [urlValue appendString:@","];
+        [urlValue appendFormat:@"%f", [self.boundingBox.maxLatitude doubleValue]];
+        
+        if([self requestProjection:self.boundingBoxProjection]){
+            [urlValue appendString:@"&bbox-crs="];
+            [urlValue appendString:[[self crsFromProjection:self.boundingBoxProjection] description]];
+        }
+    }
+    
+    if([self requestProjection:self.projection]){
+        if(params){
+            [urlValue appendString:@"&"];
+        }else{
+            [urlValue appendString:@"?"];
+            params = YES;
+        }
+        [urlValue appendString:@"crs="];
+        [urlValue appendString:[[self crsFromProjection:self.projection] description]];
+    }
+    
+    int count = [self generateFeaturesForURL:urlValue andCount:0];
+    
+    if (self.progress != nil && ![self.progress isActive] && [self.progress cleanupOnCancel]) {
+        [self.geoPackage deleteTableQuietly:self.tableName];
+        count = 0;
+    }
+    
+    return count;
 }
 
 /**
@@ -248,7 +324,77 @@ static SFPProjections *defaultProjections;
  *             upon failure
  */
 -(int) generateFeaturesForURL: (NSString *) urlString andCount: (int) currentCount{
-    return -1; // TODO
+
+    NSMutableString *urlValue = [NSMutableString stringWithString:urlString];
+    
+    int paramIndex = (int)[urlString rangeOfString:@"?" options:NSBackwardsSearch].location;
+    BOOL params = paramIndex != NSNotFound && paramIndex + 1 < urlString.length;
+    
+    NSNumber *requestLimit = self.limit;
+    if (self.totalLimit != nil && [self.totalLimit intValue] - currentCount < (requestLimit != nil ? [requestLimit intValue] : OAF_LIMIT_DEFAULT)) {
+            requestLimit = [NSNumber numberWithInt:[self.totalLimit intValue] - currentCount];
+    }
+    
+    NSString *url = urlValue;
+    if (requestLimit != nil) {
+        NSRange range = [limitExpression rangeOfFirstMatchInString:urlValue options:0 range:NSMakeRange(0, urlValue.length)];
+        if(range.location != NSNotFound){
+            url = [urlValue stringByReplacingCharactersInRange:range withString:[NSString stringWithFormat:@"limit=%@", requestLimit]];
+        }else{
+            if (params) {
+                [urlValue appendString:@"&"];
+            } else {
+                [urlValue appendString:@"?"];
+                params = YES;
+            }
+            [urlValue appendString:@"limit="];
+            [urlValue appendFormat:@"%@",requestLimit];
+        }
+    }
+    
+    NSString *features = nil;
+    if([self isActive]){
+        features = [self urlRequestForURL:url];
+    }
+    
+    if (features != nil && [self isActive]) {
+        
+        OAFFeatureCollection *featureCollection = [OAFFeaturesConverter jsonToFeatureCollection:features];
+        
+        if (currentCount == 0 && self.progress != nil) {
+            NSNumber *max = self.totalLimit;
+            NSNumber *numberMatched = featureCollection.numberMatched;
+            if (numberMatched != nil) {
+                if (max == nil) {
+                    max = numberMatched;
+                } else {
+                    max = [NSNumber numberWithInt:MIN([max intValue], [numberMatched intValue])];
+                }
+            }
+            if (max != nil) {
+                [self.progress setMax:[max intValue]];
+            }
+        }
+        
+        [self createFeaturesWithCollection:featureCollection];
+        
+        NSNumber *numberReturned = featureCollection.numberReturned;
+        if (numberReturned != nil) {
+            currentCount += [numberReturned intValue];
+        }
+        
+        NSMutableArray<OAFLink *> *nextLinks = [[featureCollection relationLinks] objectForKey:OAF_LINK_RELATION_NEXT];
+        if (nextLinks != nil) {
+            for (OAFLink *nextLink in nextLinks) {
+                if (self.totalLimit != nil && [self.totalLimit intValue] <= currentCount) {
+                    break;
+                }
+                currentCount = [self generateFeaturesForURL:nextLink.href andCount:currentCount];
+            }
+        }
+    }
+    
+    return currentCount;
 }
 
 /**
@@ -259,7 +405,27 @@ static SFPProjections *defaultProjections;
  * @return response string
  */
 -(NSString *) urlRequestForURL: (NSString *) urlValue{
-    return nil; // TODO
+
+    NSString *response = nil;
+    
+    NSURL *url =  [NSURL URLWithString:urlValue];
+    
+    int attempt = 1;
+    while (true) {
+        @try {
+            response = [self urlRequestForURLValue:urlValue andURL:url];
+            break;
+        } @catch (NSException *exception) {
+            if (attempt < self.downloadAttempts) {
+                NSLog(@"Failed to download features after attempt %d of %d. URL: %@, error: %@", attempt, self.downloadAttempts, urlValue, exception);
+                attempt++;
+            } else {
+                @throw exception;
+            }
+        }
+    }
+    
+    return response;
 }
 
 /**
@@ -272,7 +438,48 @@ static SFPProjections *defaultProjections;
  * @return features response
  */
 -(NSString *) urlRequestForURLValue: (NSString *) urlValue andURL: (NSURL *) url{
-    return nil; // TODO
+
+    NSString *response = nil;
+    
+    NSLog(@"%@", urlValue);
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request addValue:@"application/json,application/geo+json" forHTTPHeaderField:@"Accept"];
+    
+    NSHTTPURLResponse *urlResponse = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+    
+    if(error){
+        [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];
+    }
+    
+    int responseCode = (int) urlResponse.statusCode;
+    
+    if(responseCode == HTTP_MOVED_PERM
+       || responseCode == HTTP_MOVED_TEMP
+       || responseCode == HTTP_SEE_OTHER){
+        
+        NSString *redirect = [urlResponse.allHeaderFields objectForKey:@"Location"];
+        url =  [NSURL URLWithString:redirect];
+        
+        urlResponse = nil;
+        error = nil;
+        data = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+        
+        if(error){
+            [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];
+        }
+        
+        responseCode = (int) urlResponse.statusCode;
+    }
+    
+    if(responseCode != HTTP_OK){
+        [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, Response Code: %d, Response Message: %@, error: %@", urlValue, responseCode, [NSHTTPURLResponse localizedStringForStatusCode:responseCode], error];
+    }
+    
+    response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    return response;
 }
 
 /**
