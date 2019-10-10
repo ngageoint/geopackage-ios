@@ -166,37 +166,43 @@ static SFPProjection *EPSG_WGS84 = nil;
         [self.geoPackage commitTransaction];
     }
     
-    if (self.geometryColumns == nil) {
-        
-        NSMutableArray<GPKGFeatureColumn *> *featureColumns = [NSMutableArray array];
-        for(NSString *column in [properties allKeys]){
-            GPKGFeatureColumn *featureColumn = [self createColumn:column withValue:[properties objectForKey:column]];
-            [featureColumns addObject:featureColumn];
-            [_columns setObject:featureColumn forKey:column];
+    @try {
+    
+        if (self.geometryColumns == nil) {
+            
+            NSMutableArray<GPKGFeatureColumn *> *featureColumns = [NSMutableArray array];
+            for(NSString *column in [properties allKeys]){
+                GPKGFeatureColumn *featureColumn = [self createColumn:column withValue:[properties objectForKey:column]];
+                [featureColumns addObject:featureColumn];
+                [_columns setObject:featureColumn forKey:column];
+            }
+            
+            // Create the feature table
+            GPKGGeometryColumns *geomColumns = [[GPKGGeometryColumns alloc] init];
+            [geomColumns setTableName:self.tableName];
+            [geomColumns setColumnName:@"geometry"];
+            [geomColumns setGeometryType:SF_GEOMETRY];
+            [geomColumns setZ:[NSNumber numberWithInt:0]];
+            [geomColumns setM:[NSNumber numberWithInt:0]];
+            self.geometryColumns = [self.geoPackage createFeatureTableWithGeometryColumns:geomColumns andIdColumnName:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox andSrsId:self.srs.srsId];
+            
+        } else {
+            GPKGFeatureTableReader *tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:self.geometryColumns];
+            GPKGFeatureTable *featureTable = [tableReader readFeatureTableWithConnection:self.geoPackage.database];
+            for (GPKGFeatureColumn *featureColumn in [featureTable featureColumns]) {
+                [_columns setObject:featureColumn forKey:featureColumn.name];
+            }
         }
         
-        // Create the feature table
-        GPKGGeometryColumns *geomColumns = [[GPKGGeometryColumns alloc] init];
-        [geomColumns setTableName:self.tableName];
-        [geomColumns setColumnName:@"geometry"];
-        [geomColumns setGeometryType:SF_GEOMETRY];
-        [geomColumns setZ:[NSNumber numberWithInt:0]];
-        [geomColumns setM:[NSNumber numberWithInt:0]];
-        self.geometryColumns = [self.geoPackage createFeatureTableWithGeometryColumns:geomColumns andIdColumnName:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox andSrsId:self.srs.srsId];
-        
-    } else {
-        GPKGFeatureTableReader *tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:self.geometryColumns];
-        GPKGFeatureTable *featureTable = [tableReader readFeatureTableWithConnection:self.geoPackage.database];
-        for (GPKGFeatureColumn *featureColumn in [featureTable featureColumns]) {
-            [_columns setObject:featureColumn forKey:featureColumn.name];
+        self.featureDao = [self.geoPackage getFeatureDaoWithGeometryColumns:self.geometryColumns];
+    
+    } @finally {
+        if(inTransaction){
+            [self.geoPackage beginTransaction];
         }
     }
+        
     
-    self.featureDao = [self.geoPackage getFeatureDaoWithGeometryColumns:self.geometryColumns];
-    
-    if(inTransaction){
-        [self.geoPackage beginTransaction];
-    }
     
 }
 
@@ -235,11 +241,14 @@ static SFPProjection *EPSG_WGS84 = nil;
         if (inTransaction) {
             [self.geoPackage commitTransaction];
         }
-        featureColumn = [self createColumn:column withValue:value];
-        [self.featureDao addColumn:featureColumn];
-        [_columns setObject:featureColumn forKey:column];
-        if (inTransaction) {
-            [self.geoPackage beginTransaction];
+        @try {
+            featureColumn = [self createColumn:column withValue:value];
+            [self.featureDao addColumn:featureColumn];
+            [_columns setObject:featureColumn forKey:column];
+        } @finally {
+            if (inTransaction) {
+                [self.geoPackage beginTransaction];
+            }
         }
     }
     
@@ -287,7 +296,7 @@ static SFPProjection *EPSG_WGS84 = nil;
         type = GPKG_DT_BLOB;
     }
     
-    if (type < 0) {
+    if ((int) type < 0) {
         type = GPKG_DT_TEXT;
     }
     

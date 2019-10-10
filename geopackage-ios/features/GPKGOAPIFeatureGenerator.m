@@ -327,7 +327,7 @@ static SFPProjections *defaultProjections;
 
     NSMutableString *urlValue = [NSMutableString stringWithString:urlString];
     
-    int paramIndex = (int)[urlString rangeOfString:@"?" options:NSBackwardsSearch].location;
+    NSInteger paramIndex = [urlString rangeOfString:@"?" options:NSBackwardsSearch].location;
     BOOL params = paramIndex != NSNotFound && paramIndex + 1 < urlString.length;
     
     NSNumber *requestLimit = self.limit;
@@ -533,6 +533,7 @@ static SFPProjections *defaultProjections;
             
             if (count > 0 && count % self.transactionLimit == 0) {
                 [self.geoPackage commitTransaction];
+                [self.geoPackage beginTransaction];
             }
             
         }
