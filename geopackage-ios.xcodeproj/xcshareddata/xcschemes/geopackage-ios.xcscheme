@@ -51,6 +51,11 @@
                BlueprintName = "geopackage-iosTests"
                ReferencedContainer = "container:geopackage-ios.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "GPKGOAPIFeatureGeneratorTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
