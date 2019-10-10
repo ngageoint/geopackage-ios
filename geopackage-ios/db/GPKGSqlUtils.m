@@ -1149,7 +1149,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         int count = 1;
         
         // Find any existing end number: name_#
-        int index = (int)[baseName rangeOfString:@"_" options:NSBackwardsSearch].location;
+        NSInteger index = [baseName rangeOfString:@"_" options:NSBackwardsSearch].location;
         if (index != NSNotFound && index + 1 < baseName.length) {
             NSString *numberPart = [baseName substringFromIndex:index + 1];
             if([numberExpression numberOfMatchesInString:numberPart options:0 range:NSMakeRange(0, numberPart.length)] == 1){
