@@ -10,6 +10,4 @@
 
 @interface GPKGOAPIFeatureGeneratorTestCase : GPKGCreateGeoPackageTestCase
 
-// TODO
-
 @end
