@@ -106,7 +106,7 @@ static NSRegularExpression *constraintExpression = nil;
  *
  * @param constraints
  *            constraints to add to
- * @param constraintSQL
+ * @param constraintSql
  *            constraint SQL statement
  */
 +(void) addConstraints: (GPKGTableConstraints *) constraints withSQL: (NSString *) constraintSql{

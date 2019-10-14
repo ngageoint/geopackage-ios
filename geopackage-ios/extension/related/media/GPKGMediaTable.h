@@ -113,8 +113,6 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 /**
  * Create the primary key id column
  *
- * @param index
- *            column index
  * @param idColumnName
  *            id column name
  * @return id column

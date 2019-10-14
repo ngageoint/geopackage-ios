@@ -127,7 +127,7 @@
 /**
  * Drop columns
  *
- * @param columnNames
+ * @param columns
  *            column names
  */
 -(void) dropColumns: (NSArray<GPKGUserColumn *> *) columns;

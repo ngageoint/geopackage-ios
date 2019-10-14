@@ -185,8 +185,6 @@
  *  @param name         column name
  *  @param type         data type
  *  @param max          max value
- *  @param notNull      not null
- *  @param defaultValue default value or nil
  *
  *  @return feature column
  */

@@ -172,8 +172,6 @@
  *            table
  * @param columns
  *            columns
- * @param <T>
- *            user column type
  */
 +(void) alterColumns: (NSArray<GPKGUserColumn *> *) columns inTable: (GPKGUserTable *) table withConnection: (GPKGConnection *) db;
 
@@ -198,8 +196,6 @@
  *            table name
  * @param columns
  *            columns
- * @param <T>
- *            user column type
  */
 +(void) alterColumns: (NSArray<GPKGUserCustomColumn *> *) columns inTableName: (NSString *) tableName withConnection: (GPKGConnection *) db;
 

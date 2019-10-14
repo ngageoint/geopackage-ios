@@ -110,7 +110,7 @@
  *            collection
  * @return projections
  */
--(SFPProjections *) projectionsForCollection: (OAFCollection *) url;
+-(SFPProjections *) projectionsForCollection: (OAFCollection *) collection;
 
 /**
  * Determine if the projection should be requested from the server
