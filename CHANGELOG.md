@@ -4,9 +4,37 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 3.3.0 (TBD)
+## [3.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.3.0) (10-14-2019)
 
-* TBD
+* sf-wkb-ios version 2.0.3
+* sf-proj-ios version 2.0.3
+* ogc-api-features-json-ios version 1.0.0
+* Alter table support: rename table, rename column, add column, drop column, alter column, copy table
+* DAO and table alter support: add, rename, drop, alter
+* GeoPackage rename table, copy table, foreign keys, and vacuum support
+* Automatic user column index assignments
+* Transaction shortcut methods for the GeoPackages, connections, and Base DAO
+* Connection & Connection Pool updates: resettable, all connection, persistent, write functions, in transaction
+* User column shortcut creation methods
+* User table and user column copy methods and constructors
+* SQL utilities for tables, columns, foreign keys, views, data transfers, checks, and vacuum
+* SQLite Master table (sqlite_master) support
+* Table Info (PRAGMA table_info) support
+* Table and column mapping for table alterations
+* Table and column constraints, including manual creation and automatic table parsing
+* Date Time Utils additional formats and check for date functions
+* GeoPackage Data Type of Geometry removed, Blob used instead
+* Extensions table copy support
+* Missing extension table rows for Metadata Extension and Schema Extension
+* Missing comma in gpkg_2d_gridded_coverage_ancillary table schema
+* gpkg_data_columns table: removed foreign key requirement, unique constraint update
+* Missing comma in nga_tile_scaling table schema
+* OGC API Features download to GeoPackage support
+* Modifiable GPKGIOUtils copy buffer, defaulted at 8k byte chunks
+* Feature Tiles geometry caching
+* Automatically enable foreign key checks for new connections without preexisting violations
+* GeoPackage table foreign key check
+* Removed GPKGGeometryJSONCompatible, replaced with ogc-api-features-json-ios library
 
 ## [3.2.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.2.0) (04-04-2019)
 
