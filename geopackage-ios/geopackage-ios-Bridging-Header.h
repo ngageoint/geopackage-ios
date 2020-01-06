@@ -274,5 +274,10 @@
 #import "GPKGUserCustomTable.h"
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGGeoPackageValidate.h"
+#import "GPKGUserColumns.h"
+#import "GPKGAttributesColumns.h"
+#import "GPKGFeatureColumns.h"
+#import "GPKGTileColumns.h"
+#import "GPKGUserCustomColumns.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
