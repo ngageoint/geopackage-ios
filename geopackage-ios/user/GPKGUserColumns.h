@@ -33,7 +33,7 @@
  *  @param columns     columns
  *  @param custom       custom column specification
  *
- *  @return new user table
+ *  @return new user columns
  */
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andCustom: (BOOL) custom;
 
@@ -43,7 +43,7 @@
  * @param userColumns
  *            user columns
  *
- *  @return new user table
+ *  @return new user columns
  */
 -(instancetype) initWithUserColumns: (GPKGUserColumns *) userColumns;
 

@@ -10,6 +10,26 @@
 
 @implementation GPKGAttributesColumns
 
-// TODO
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
+    return [self initWithTable:tableName andColumns:columns andCustom:NO];
+}
+
+-(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns andCustom: (BOOL) custom{
+    self = [super initWithTable:tableName andColumns:columns andCustom:custom];
+    if(self != nil){
+        [self updateColumns];
+    }
+    return self;
+}
+
+-(instancetype) initWithAttributesColumns: (GPKGAttributesColumns *) attributesColumns{
+    self = [super initWithUserColumns:attributesColumns];
+    return self;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    GPKGAttributesColumns *attributesColumns = [super mutableCopyWithZone:zone];
+    return attributesColumns;
+}
 
 @end
