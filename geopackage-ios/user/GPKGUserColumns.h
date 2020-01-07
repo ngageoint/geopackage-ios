@@ -94,7 +94,7 @@
  *
  *  @return index
  */
--(int) columnIndexWithColumnName: (NSString *) columnName andRequired: (BOOL) required;
+-(NSNumber *) columnIndexWithColumnName: (NSString *) columnName andRequired: (BOOL) required;
 
 /**
  * Get the array of column names

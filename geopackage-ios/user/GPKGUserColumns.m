@@ -163,10 +163,10 @@
 }
 
 -(int) columnIndexWithColumnName: (NSString *) columnName{
-    return [self columnIndexWithColumnName:columnName andRequired:YES];
+    return [[self columnIndexWithColumnName:columnName andRequired:YES] intValue];
 }
 
--(int) columnIndexWithColumnName: (NSString *) columnName andRequired: (BOOL) required{
+-(NSNumber *) columnIndexWithColumnName: (NSString *) columnName andRequired: (BOOL) required{
     NSNumber *index = [GPKGUtils objectForKey:[columnName lowercaseString] inDictionary:self.nameToIndex];
     if(required && index == nil){
         NSMutableString *error = [NSMutableString stringWithString:@"Column does not exist in "];
@@ -181,7 +181,7 @@
         }
         [NSException raise:@"No Column" format:error, nil];
     }
-    return [index intValue];
+    return index;
 }
 
 -(NSArray<NSString *> *) columnNames{
