@@ -9,16 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "GPKGUserColumn.h"
 #import "GPKGContents.h"
+#import "GPKGUserColumns.h"
 
 /**
  *  Abstract user table
  */
 @interface GPKGUserTable : NSObject <NSMutableCopying>
-
-/**
- *  Table name
- */
-@property (nonatomic, strong) NSString *tableName;
 
 /**
  * Foreign key to Contents
@@ -53,29 +49,29 @@
 -(NSString *) dataType;
 
 /**
- *  Check for duplicate column names
+ * Create user columns for a subset of table columns
  *
- *  @param index         index
- *  @param previousIndex previous index
- *  @param column        column
+ * @param columns
+ *            columns
+ * @return user columns
  */
--(void) duplicateCheckWithIndex: (int) index andPreviousIndex: (NSNumber *) previousIndex andColumn: (NSString *) column;
+-(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns;
 
 /**
- *  Check for the expected data type
+ * Create user columns for a subset of table columns
  *
- *  @param expected expected data type
- *  @param column   column
+ * @param columnNames
+ *            column names
+ * @return user columns
  */
--(void) typeCheckWithExpected: (enum GPKGDataType) expected andColumn: (GPKGUserColumn *) column;
+-(GPKGUserColumns *) createUserColumnsWithNames: (NSArray<NSString *> *) columnNames;
 
 /**
- *  Check for missing columns
+ * Get the user columns
  *
- *  @param index  index
- *  @param column column
+ * @return user columns
  */
--(void) missingCheckWithIndex: (NSNumber *) index andColumn: (NSString *) column;
+-(GPKGUserColumns *) userColumns;
 
 /**
  *  Get the column index of the column name
@@ -84,7 +80,7 @@
  *
  *  @return index
  */
--(int) getColumnIndexWithColumnName: (NSString *) columnName;
+-(int) columnIndexWithColumnName: (NSString *) columnName;
 
 /**
  * Get the array of column names
@@ -100,14 +96,23 @@
  *
  *  @return column name
  */
--(NSString *) getColumnNameWithIndex: (int) index;
+-(NSString *) columnNameWithIndex: (int) index;
 
 /**
- * Get the list of columns
+ * Get the columns
  *
  * @return columns
  */
 -(NSArray<GPKGUserColumn *> *) columns;
+
+/**
+ * Get the columns from the column names
+ *
+  * @param columnNames
+ *            column names
+ * @return columns
+ */
+-(NSArray<GPKGUserColumn *> *) columnsWithNames: (NSArray<NSString *> *) columnNames;
 
 /**
  *  Get the column at the index
@@ -116,7 +121,7 @@
  *
  *  @return column
  */
--(GPKGUserColumn *) getColumnWithIndex: (int) index;
+-(GPKGUserColumn *) columnWithIndex: (int) index;
 
 /**
  *  Get the column of the column name
@@ -125,7 +130,7 @@
  *
  *  @return column
  */
--(GPKGUserColumn *) getColumnWithColumnName: (NSString *) columnName;
+-(GPKGUserColumn *) columnWithColumnName: (NSString *) columnName;
 
 /**
  * Check if the table has the column
@@ -144,6 +149,21 @@
 -(int) columnCount;
 
 /**
+ * Get the table name
+ *
+ * @return table name
+ */
+-(NSString *) tableName;
+
+/**
+ * Set the table name
+ *
+ * @param tableName
+ *            table name
+ */
+-(void) setTableName: (NSString *) tableName;
+
+/**
  * Check if the table has a primary key column
  *
  * @return true if has a primary key
@@ -158,11 +178,18 @@
 -(int) pkIndex;
 
 /**
- *  Get the primary key column index
+ *  Get the primary key column
  *
- *  @return pk index
+ *  @return pk column
  */
--(GPKGUserColumn *) getPkColumn;
+-(GPKGUserColumn *) pkColumn;
+
+/**
+ * Get the primary key column name
+ *
+ * @return primary key column name
+ */
+-(NSString *) pkColumnName;
 
 /**
  *  Add constraint

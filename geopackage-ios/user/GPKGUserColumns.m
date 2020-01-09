@@ -247,10 +247,6 @@
     [self updateColumns];
 }
 
--(void) addColumnWithoutUpdate: (GPKGUserColumn *) column{
-    [_columns addObject:column];
-}
-
 -(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
     [self renameColumnWithName:column.name toColumn:newColumnName];
     [column setName:newColumnName];
