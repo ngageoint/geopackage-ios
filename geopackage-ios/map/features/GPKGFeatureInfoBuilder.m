@@ -127,9 +127,9 @@
                 int geometryColumn = [featureRow getGeometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     if(i != geometryColumn){
-                        NSObject * value = [featureRow getValueWithIndex:i];
+                        NSObject * value = [featureRow valueWithIndex:i];
                         if(value != nil){
-                            NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                            NSString * columnName = [featureRow columnNameWithIndex:i];
                             columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                             [message appendFormat:@"\n%@: %@", columnName, value];
                         }
@@ -219,9 +219,9 @@
                 int geometryColumn = [featureRow getGeometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     
-                    NSObject * value = [featureRow getValueWithIndex:i];
+                    NSObject * value = [featureRow valueWithIndex:i];
                     
-                    NSString * columnName = [featureRow getColumnNameWithIndex:i];
+                    NSString * columnName = [featureRow columnNameWithIndex:i];
                     
                     columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                     

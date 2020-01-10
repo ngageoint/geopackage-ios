@@ -95,7 +95,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(GPKGExtensions *) getOrCreateWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    return [self getOrCreateWithTableName:featureTable.tableName andColumnName:[featureTable getGeometryColumn].name];
+    return [self getOrCreateWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
 }
 
 -(GPKGExtensions *) getOrCreateWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
@@ -103,7 +103,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(BOOL) hasWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    return [self hasWithTableName:featureTable.tableName andColumnName:[featureTable getGeometryColumn].name];
+    return [self hasWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
 }
 
 -(BOOL) hasWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
@@ -120,7 +120,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(BOOL) createFunctionsWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    return [self createFunctionsWithTableName:featureTable.tableName andColumnName:[featureTable getGeometryColumn].name];
+    return [self createFunctionsWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
 }
 
 -(BOOL) createFunctionsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
@@ -142,7 +142,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(GPKGExtensions *) createWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    return [self createWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name andIdColumnName:[featureTable getPkColumn].name];
+    return [self createWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name andIdColumnName:[featureTable pkColumn].name];
 }
 
 -(GPKGExtensions *) createWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
@@ -158,7 +158,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(void) createRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self createRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name];
+    [self createRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name];
 }
 
 -(void) createRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
@@ -253,7 +253,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y andDataType:GPKG_DT_FLOAT]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y andDataType:GPKG_DT_FLOAT]];
     
-    NSString *rTreeTableName = [self rTreeTableNameWithTable:featureTable.tableName andColumn:[featureTable getGeometryColumn].name];
+    NSString *rTreeTableName = [self rTreeTableNameWithTable:featureTable.tableName andColumn:[featureTable geometryColumn].name];
     
     GPKGUserCustomTable *userCustomTable = [[GPKGUserCustomTable alloc] initWithTable:rTreeTableName andColumns:columns];
     
@@ -346,7 +346,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) loadRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self loadRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name andIdColumnName:[featureTable getPkColumn].name];
+    [self loadRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name andIdColumnName:[featureTable pkColumn].name];
 }
 
 -(void) loadRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName {
@@ -354,7 +354,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) createAllTriggersWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self createAllTriggersWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name andIdColumnName:[featureTable getPkColumn].name];
+    [self createAllTriggersWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name andIdColumnName:[featureTable pkColumn].name];
 }
 
 -(void) createAllTriggersWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
@@ -405,7 +405,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) deleteWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self deleteWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name];
+    [self deleteWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name];
 }
 
 -(void) deleteWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
@@ -465,7 +465,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) dropWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self dropWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name ];
+    [self dropWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name ];
 }
 
 -(void) dropWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
@@ -476,7 +476,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) dropRTreeIndexWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self dropRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name];
+    [self dropRTreeIndexWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name];
 }
 
 -(void) dropRTreeIndexWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{
@@ -484,7 +484,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) dropTriggersWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self dropTriggersWithTableName:featureTable.tableName andColumnName:[featureTable getGeometryColumn].name];
+    [self dropTriggersWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
 }
 
 -(BOOL) dropTriggersWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName {
@@ -496,7 +496,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 }
 
 -(void) dropAllTriggersWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    [self dropAllTriggersWithTableName:featureTable.tableName andGeometryColumnName:[featureTable getGeometryColumn].name];
+    [self dropAllTriggersWithTableName:featureTable.tableName andGeometryColumnName:[featureTable geometryColumn].name];
 }
 
 -(void) dropAllTriggersWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName{

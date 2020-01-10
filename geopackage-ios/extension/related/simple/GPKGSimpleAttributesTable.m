@@ -130,7 +130,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 }
 
 -(GPKGUserCustomColumn *) idColumn{
-    return (GPKGUserCustomColumn *)[self getPkColumn];
+    return (GPKGUserCustomColumn *)[self pkColumn];
 }
 
 +(BOOL) isSimpleColumn: (GPKGUserColumn *) column{

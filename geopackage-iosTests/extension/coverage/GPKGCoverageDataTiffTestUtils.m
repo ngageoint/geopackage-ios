@@ -100,10 +100,10 @@
         [GPKGTestUtils assertEqualWithValue:coverageData.definition andValue2:griddedTileExtension.definition];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_EST_READ_WRITE andValue2:[griddedTileExtension getExtensionScopeType]];
         
-        GPKGExtensions * tileTableExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:tileMatrixSet.tableName andColumnName:GPKG_TT_COLUMN_TILE_DATA];
+        GPKGExtensions * tileTableExtension = [extensionsDao queryByExtension:coverageData.extensionName andTable:tileMatrixSet.tableName andColumnName:GPKG_TC_COLUMN_TILE_DATA];
         [GPKGTestUtils assertNotNil:tileTableExtension];
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:tileTableExtension.tableName];
-        [GPKGTestUtils assertEqualWithValue:GPKG_TT_COLUMN_TILE_DATA andValue2:tileTableExtension.columnName];
+        [GPKGTestUtils assertEqualWithValue:GPKG_TC_COLUMN_TILE_DATA andValue2:tileTableExtension.columnName];
         [GPKGTestUtils assertEqualWithValue:coverageData.extensionName andValue2:tileTableExtension.extensionName];
         [GPKGTestUtils assertEqualWithValue:coverageData.definition andValue2:tileTableExtension.definition];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_EST_READ_WRITE andValue2:[tileTableExtension getExtensionScopeType]];
@@ -146,7 +146,7 @@
         [GPKGTestUtils assertTrue:tileResultSet.count > 0];
         while ([tileResultSet moveToNext]) {
             GPKGTileRow * tileRow = [tileDao getTileRow:tileResultSet];
-            GPKGGriddedTile * griddedTile = [coverageData griddedTileWithTileId:[[tileRow getId] intValue]];
+            GPKGGriddedTile * griddedTile = [coverageData griddedTileWithTileId:[tileRow idValue]];
             [self testTileRowWithGeoPackage:geoPackage andValues:coverageDataValues andCoverageData:coverageData andTileMatrixSet:tileMatrixSet andGriddedTile:griddedTile andTileRow:tileRow andAlgorithm:algorithm andAllowNils:allowNils];
         }
         [tileResultSet close];

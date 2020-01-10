@@ -8,6 +8,7 @@
 
 #import "GPKGUserTable.h"
 #import "GPKGUserCustomColumn.h"
+#import "GPKGUserCustomColumns.h"
 
 /**
  * Represents a user custom table
@@ -36,6 +37,15 @@
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns andRequiredColumns: (NSArray<NSString *> *) requiredColumns;
 
 /**
+ *  Initializer
+ *
+ *  @param columns user custom columns
+ *
+ *  @return new user custom table
+ */
+-(instancetype) initWithColumns: (GPKGUserCustomColumns *) columns;
+
+/**
  * Constructor
  *
  * @param userCustomTable
@@ -46,10 +56,10 @@
 -(instancetype) initWithCustomTable: (GPKGUserCustomTable *) userCustomTable;
 
 /**
- * Get the list of user custom columns
+ * Get the user custom columns
  *
  * @return columns
  */
--(NSArray<GPKGUserCustomColumn *> *) userCustomColumns;
+-(GPKGUserCustomColumns *) userCustomColumns;
 
 @end

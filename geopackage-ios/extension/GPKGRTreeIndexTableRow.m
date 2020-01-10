@@ -21,23 +21,23 @@
 }
 
 -(NSNumber *) idNumber{
-    return (NSNumber *)[self getValueWithIndex:[self getColumnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
+    return (NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
 }
 
 -(double) minX{
-    return [((NSNumber *)[self getValueWithIndex:[self getColumnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X]]) doubleValue];
+    return [((NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X]]) doubleValue];
 }
 
 -(double) maxX{
-    return [((NSNumber *)[self getValueWithIndex:[self getColumnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X]]) doubleValue];
+    return [((NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X]]) doubleValue];
 }
 
 -(double) minY{
-    return [((NSNumber *)[self getValueWithIndex:[self getColumnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y]]) doubleValue];
+    return [((NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y]]) doubleValue];
 }
 
 -(double) maxY{
-    return [((NSNumber *)[self getValueWithIndex:[self getColumnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y]]) doubleValue];
+    return [((NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y]]) doubleValue];
 }
 
 @end

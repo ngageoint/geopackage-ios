@@ -76,7 +76,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 -(NSString *) primaryKeyColumnNameOfTable: (NSString *) tableName{
     GPKGUserCustomTable *table = [GPKGUserCustomTableReader readTableWithConnection:self.geoPackage.database andTableName:tableName];
-    GPKGUserColumn *pkColumn = [table getPkColumn];
+    GPKGUserColumn *pkColumn = [table pkColumn];
     if(pkColumn == nil){
         [NSException raise:@"No Primary Key" format:@"Found no primary key for table %@", tableName];
     }

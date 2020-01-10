@@ -36,11 +36,11 @@
     
     NSString *typeName = [GPKGDublinCoreTypes name:type];
     if([table hasColumnWithColumnName:typeName]){
-        column = [table getColumnWithColumnName:typeName];
+        column = [table columnWithColumnName:typeName];
     }else{
         for(NSString *synonym in [GPKGDublinCoreTypes synonyms:type]){
             if([table hasColumnWithColumnName:synonym]){
-                column = [table getColumnWithColumnName:synonym];
+                column = [table columnWithColumnName:synonym];
                 break;
             }
         }
@@ -57,7 +57,7 @@
     
     GPKGUserColumn *column = [self column:type fromRow:row];
     
-    NSObject *value = [row getValueWithIndex:column.index];
+    NSObject *value = [row valueWithIndex:column.index];
     
     return value;
 }

@@ -21,7 +21,7 @@
     if(self != nil){
         self.table = table;
         self.tableName = table.tableName;
-        GPKGUserColumn * pkColumn = [table getPkColumn];
+        GPKGUserColumn * pkColumn = [table pkColumn];
         if(pkColumn != nil){
             self.idColumns = @[pkColumn.name];
         }else{
@@ -61,7 +61,7 @@
 -(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     GPKGUserRow *getObject = (GPKGUserRow*) object;
-    NSObject * value = [getObject getDatabaseValueWithIndex:columnIndex];
+    NSObject * value = [getObject databaseValueWithIndex:columnIndex];
 
     return value;
 }
@@ -158,7 +158,7 @@
 }
 
 -(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
-    [self renameTableColumnWithName:[self.table getColumnNameWithIndex:index] toColumn:newColumnName];
+    [self renameTableColumnWithName:[self.table columnNameWithIndex:index] toColumn:newColumnName];
     [self.table renameColumnWithIndex:index toColumn:newColumnName];
     [self updateColumns];
 }
@@ -184,7 +184,7 @@
 }
 
 -(void) dropColumnWithIndex: (int) index{
-    [self dropColumnWithName:[self.table getColumnNameWithIndex:index]];
+    [self dropColumnWithName:[self.table columnNameWithIndex:index]];
 }
 
 -(void) dropColumnWithName: (NSString *) columnName{

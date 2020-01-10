@@ -85,19 +85,19 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 }
 
 -(int) baseIdColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
+    return [self columnIndexWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
 }
 
 -(GPKGUserCustomColumn *) baseIdColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
 }
 
 -(int) relatedIdColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
+    return [self columnIndexWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
 }
 
 -(GPKGUserCustomColumn *) relatedIdColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

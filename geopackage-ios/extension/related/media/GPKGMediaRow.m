@@ -26,15 +26,15 @@
 }
 
 -(int) idColumnIndex{
-    return [[self table] idColumnIndex];
+    return [super pkColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) idColumn{
-    return [[self table] idColumn];
+    return (GPKGUserCustomColumn *) [super pkColumn];
 }
 
--(int) id{
-    return [(NSNumber *)[self getValueWithIndex:[self idColumnIndex]] intValue];
+-(int) idValue{
+    return [[super id] intValue];
 }
 
 -(int) dataColumnIndex{
@@ -46,7 +46,7 @@
 }
 
 -(NSData *) data{
-    return (NSData *)[self getValueWithIndex:[self dataColumnIndex]];
+    return (NSData *)[self valueWithIndex:[self dataColumnIndex]];
 }
 
 -(void) setData: (NSData *) data{
@@ -85,7 +85,7 @@
 }
 
 -(NSString *) contentType{
-    return (NSString *)[self getValueWithIndex:[self contentTypeColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self contentTypeColumnIndex]];
 }
 
 -(void) setContentType: (NSString *) contentType{

@@ -135,7 +135,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
             }
             @try {
                 GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row getGeometry]];
                 if(indexed){
                     count++;
                 }
@@ -187,7 +187,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(tableIndex == nil){
         [NSException raise:@"Not Indexed" format:@"GeoPackage table is not indexed. GeoPackage: %@, Table: %@", self.geoPackage.name, self.tableName];
     }
-    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[[row getId] intValue] andGeometryData:[row getGeometry]];
+    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row getGeometry]];
     
     // Update the last indexed time
     [self updateLastIndexed];
@@ -211,7 +211,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(int) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{
-    return [self deleteIndexWithGeomId:[[row getId] intValue]];
+    return [self deleteIndexWithGeomId:[row idValue]];
 }
 
 -(BOOL) isIndexed{

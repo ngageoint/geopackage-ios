@@ -72,9 +72,9 @@
             [results close];
             
             // Query by id
-            GPKGAttributesRow * queryAttributesRow = (GPKGAttributesRow *)[dao queryForIdObject:[attributesRow getId]];
+            GPKGAttributesRow * queryAttributesRow = (GPKGAttributesRow *)[dao queryForIdObject:[attributesRow id]];
             [GPKGTestUtils assertNotNil:queryAttributesRow];
-            [GPKGTestUtils assertEqualWithValue:[attributesRow getId] andValue2:[queryAttributesRow getId]];
+            [GPKGTestUtils assertEqualWithValue:[attributesRow id] andValue2:[queryAttributesRow id]];
             
             // Find two non id columns
             GPKGAttributesColumn * column1 = nil;
@@ -93,7 +93,7 @@
             // Query for equal
             if (column1 != nil) {
                 
-                NSObject * column1Value = [attributesRow getValueWithColumnName:column1.name];
+                NSObject * column1Value = [attributesRow valueWithColumnName:column1.name];
                 enum GPKGDataType column1ClassType = column1.dataType;
                 BOOL column1Decimal = column1ClassType == GPKG_DT_DOUBLE || column1ClassType == GPKG_DT_FLOAT;
                 GPKGColumnValue * column1AttributesValue = nil;
@@ -108,9 +108,9 @@
                 BOOL found = false;
                 while([results moveToNext]){
                     queryAttributesRow = (GPKGAttributesRow *)[dao getRow:results];
-                    [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow getValueWithColumnName:column1.name]];
+                    [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if(!found){
-                        found = [[attributesRow getId] intValue] == [[queryAttributesRow getId] intValue];
+                        found = [attributesRow idValue] == [queryAttributesRow idValue];
                     }
                 }
                 [GPKGTestUtils assertTrue:found];
@@ -122,7 +122,7 @@
                 NSObject * column2Value = nil;
                 
                 if (column2 != nil) {
-                    column2Value = [attributesRow getValueWithColumnName:column2.name];
+                    column2Value = [attributesRow valueWithColumnName:column2.name];
                     enum GPKGDataType column2ClassType = column2.dataType;
                     BOOL column2Decimal = column2ClassType == GPKG_DT_DOUBLE || column1ClassType == GPKG_DT_FLOAT;
                     GPKGColumnValue * column2AttributesValue = nil;
@@ -138,12 +138,12 @@
                 found = false;
                 while ([results moveToNext]) {
                     queryAttributesRow = (GPKGAttributesRow *)[dao getRow:results];
-                    [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow getValueWithColumnName:column1.name]];
+                    [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if (column2 != nil) {
-                        [GPKGTestUtils assertEqualWithValue:column2Value andValue2:[queryAttributesRow getValueWithColumnName:column2.name]];
+                        [GPKGTestUtils assertEqualWithValue:column2Value andValue2:[queryAttributesRow valueWithColumnName:column2.name]];
                     }
                     if (!found) {
-                        found = [[attributesRow getId] intValue] == [[queryAttributesRow getId] intValue];
+                        found = [attributesRow idValue] == [queryAttributesRow idValue];
                     }
                 }
                 [GPKGTestUtils assertTrue:found];
@@ -194,10 +194,10 @@
         GPKGAttributesColumn * column = (GPKGAttributesColumn *) [attributesRow.table.columns objectAtIndex:i];
         enum GPKGDataType dataType = column.dataType;
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
-        [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow getColumnNameWithIndex:i]];
-        [GPKGTestUtils assertEqualIntWithValue:i andValue2:[attributesRow getColumnIndexWithColumnName:[columns objectAtIndex:i]]];
-        int rowType = [attributesRow getRowColumnTypeWithIndex:i];
-        NSObject * value = [attributesRow getValueWithIndex:i];
+        [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow columnNameWithIndex:i]];
+        [GPKGTestUtils assertEqualIntWithValue:i andValue2:[attributesRow columnIndexWithColumnName:[columns objectAtIndex:i]]];
+        int rowType = [attributesRow rowColumnTypeWithIndex:i];
+        NSObject * value = [attributesRow valueWithIndex:i];
         
         switch (rowType) {
                 
@@ -233,7 +233,7 @@
         }
     }
     
-    [GPKGTestUtils assertTrue:[[attributesRow getId] intValue] >= 0];
+    [GPKGTestUtils assertTrue:[attributesRow idValue] >= 0];
     
 }
 
@@ -275,7 +275,7 @@
             
             GPKGAttributesTable *table = [dao getAttributesTable];
             int existingColumns = [table columnCount];
-            GPKGAttributesColumn *pk = (GPKGAttributesColumn *)[table getPkColumn];
+            GPKGAttributesColumn *pk = (GPKGAttributesColumn *)[table pkColumn];
             
             int newColumns = 0;
             NSString *newColumnName = @"new_column";
@@ -295,22 +295,22 @@
             
             for (int index = existingColumns; index < [table columnCount]; index++) {
                 NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columnNames objectAtIndex:index]];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columns objectAtIndex:index].name];
                 @try {
-                    [[table getColumnWithIndex:index] setIndex:index - 1];
+                    [[table columnWithIndex:index] setIndex:index - 1];
                     [GPKGTestUtils fail:@"Changed index on a created table column"];
                 } @catch (NSException *exception) {
                 }
-                [[table getColumnWithIndex:index] setIndex:index];
+                [[table columnWithIndex:index] setIndex:index];
             }
             
             [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
             
             [self testUpdateWithDao:dao];
             
@@ -320,10 +320,10 @@
             }
             for (int index = existingColumns; index < [table columnCount]; index++) {
                 NSString *name = [NSString stringWithFormat:@"%@%d", newerColumnName, index - existingColumns + 1];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columnNames objectAtIndex:index]];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[table.columns objectAtIndex:index].name];
             }
@@ -331,7 +331,7 @@
             [GPKGTestUtils assertEqualIntWithValue:existingColumns + newColumns andValue2:[table columnCount]];
             [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
             [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
             
             [self testUpdateWithDao:dao];
             
@@ -343,11 +343,11 @@
             [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
             
             for (int index = 0; index < existingColumns; index++) {
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
             }
             
             [GPKGTestUtils assertEqualWithValue:tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
             
         }
     }
@@ -386,7 +386,7 @@
         GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
         
         @try {
-            [attributesRow setValueWithIndex:[attributesRow getPkColumnIndex] andValue:[NSNumber numberWithInt:9]];
+            [attributesRow setValueWithIndex:[attributesRow pkColumnIndex] andValue:[NSNumber numberWithInt:9]];
             [GPKGTestUtils fail:@"Updated the primary key value"];
         } @catch (NSException *exception) {
             // expected
@@ -396,7 +396,7 @@
             if (!attributesColumn.primaryKey) {
                 
                 enum GPKGDataType dataType = attributesColumn.dataType;
-                int rowColumnType  = [attributesRow getRowColumnTypeWithIndex:attributesColumn.index];
+                int rowColumnType  = [attributesRow rowColumnTypeWithIndex:attributesColumn.index];
                 
                 switch(dataType){
                         
@@ -445,7 +445,7 @@
                             break;
                         }
                         if (updatedBoolean == nil) {
-                            updatedBoolean = [NSNumber numberWithBool:![((NSNumber *)[attributesRow getValueWithIndex:attributesColumn.index]) boolValue]];
+                            updatedBoolean = [NSNumber numberWithBool:![((NSNumber *)[attributesRow valueWithIndex:attributesColumn.index]) boolValue]];
                         }
                         [attributesRow setValueWithIndex:attributesColumn.index andValue:updatedBoolean];
                     }
@@ -551,27 +551,27 @@
         
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao update:attributesRow]];
         
-        NSNumber * id = [attributesRow getId];
+        NSNumber * id = [attributesRow id];
         GPKGResultSet * readRowResults = [dao queryForId:id];
         [readRowResults moveToNext];
         GPKGAttributesRow * readRow = [dao getAttributesRow:readRowResults];
         [readRowResults close];
         [GPKGTestUtils assertNotNil:readRow];
-        [GPKGTestUtils assertEqualWithValue:[originalRow getId] andValue2:[readRow getId]];
+        [GPKGTestUtils assertEqualWithValue:[originalRow id] andValue2:[readRow id]];
         
-        for (NSString * readColumnName in [readRow getColumnNames ]) {
+        for (NSString * readColumnName in [readRow columnNames ]) {
             
-            GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow getColumnWithColumnName:readColumnName];
+            GPKGAttributesColumn * readAttributesColumn = (GPKGAttributesColumn *)[readRow columnWithColumnName:readColumnName];
             if (!readAttributesColumn.primaryKey) {
                 
                 enum GPKGDataType dataType = readAttributesColumn.dataType;
                 
-                switch ([readRow getRowColumnTypeWithColumnName:readColumnName]) {
+                switch ([readRow rowColumnTypeWithColumnName:readColumnName]) {
                     case SQLITE_TEXT:
                     {
                         if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
                             
-                            NSObject *value = [readRow getValueWithIndex:readAttributesColumn.index];
+                            NSObject *value = [readRow valueWithIndex:readAttributesColumn.index];
                             NSDate *date = nil;
                             if([value isKindOfClass:[NSDate class]]){
                                 date = (NSDate *) value;
@@ -585,9 +585,9 @@
                             [GPKGTestUtils assertTrue:[compareDate compare:date] == NSOrderedSame];
                         }else{
                             if (readAttributesColumn.max != nil) {
-                                [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedLimitedString andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                             } else {
-                                [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedString andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                             }
                         }
                     }
@@ -596,20 +596,20 @@
                     {
                         switch (readAttributesColumn.dataType) {
                             case GPKG_DT_BOOLEAN:
-                                [GPKGTestUtils assertEqualWithValue:updatedBoolean andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedBoolean andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                                 break;
                             case GPKG_DT_TINYINT:
-                                [GPKGTestUtils assertEqualWithValue:updatedByte andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedByte andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                                 break;
                             case GPKG_DT_SMALLINT:
-                                [GPKGTestUtils assertEqualWithValue:updatedShort andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedShort andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                                 break;
                             case GPKG_DT_MEDIUMINT:
-                                [GPKGTestUtils assertEqualWithValue:updatedInteger andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedInteger andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                                 break;
                             case GPKG_DT_INT:
                             case GPKG_DT_INTEGER:
-                                [GPKGTestUtils assertEqualWithValue:updatedLong andValue2:[readRow getValueWithIndex:readAttributesColumn.index]];
+                                [GPKGTestUtils assertEqualWithValue:updatedLong andValue2:[readRow valueWithIndex:readAttributesColumn.index]];
                                 break;
                             default:
                                 [GPKGTestUtils fail:@"Unexpected integer type"];
@@ -620,11 +620,11 @@
                     {
                         switch (readAttributesColumn.dataType) {
                             case GPKG_DT_FLOAT:
-                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedFloat floatValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) floatValue] andPercentage:.0000000001];
+                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedFloat floatValue] andValue2:[((NSDecimalNumber *)[readRow valueWithIndex:readAttributesColumn.index]) floatValue] andPercentage:.0000000001];
                                 break;
                             case GPKG_DT_DOUBLE:
                             case GPKG_DT_REAL:
-                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedDouble doubleValue] andValue2:[((NSDecimalNumber *)[readRow getValueWithIndex:readAttributesColumn.index]) doubleValue] andPercentage:.0000000001];
+                                [GPKGTestUtils assertEqualDoubleWithValue:[updatedDouble doubleValue] andValue2:[((NSDecimalNumber *)[readRow valueWithIndex:readAttributesColumn.index]) doubleValue] andPercentage:.0000000001];
                                 break;
                             default:
                                 [GPKGTestUtils fail:@"Unexpected float type"];
@@ -634,9 +634,9 @@
                     case SQLITE_BLOB:
                     {
                         if (readAttributesColumn.max != nil) {
-                            [GPKGTestUtils assertEqualDataWithValue:updatedLimitedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                            [GPKGTestUtils assertEqualDataWithValue:updatedLimitedBytes andValue2:(NSData *)[readRow valueWithIndex:readAttributesColumn.index]];
                         } else {
-                            [GPKGTestUtils assertEqualDataWithValue:updatedBytes andValue2:(NSData *)[readRow getValueWithIndex:readAttributesColumn.index]];
+                            [GPKGTestUtils assertEqualDataWithValue:updatedBytes andValue2:(NSData *)[readRow valueWithIndex:readAttributesColumn.index]];
                         }
                     }
                         break;
@@ -698,11 +698,11 @@
                 [results close];
                 
                 // Create new row from existing
-                NSNumber * id = [attributesRow getId];
+                NSNumber * id = [attributesRow id];
                 [attributesRow resetId];
                 int newRowId = (int)[dao create:attributesRow];
                 
-                [GPKGTestUtils assertEqualIntWithValue:newRowId andValue2:[[attributesRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:newRowId andValue2:[attributesRow idValue]];
                 
                 // Verify original still exists and new was created
                 GPKGResultSet * attributesRowResults = [dao queryForId:id];
@@ -733,13 +733,13 @@
                             // Expected
                         }
                     } else {
-                        [newRow setValueWithColumnName:column.name andValue:[attributesRow getValueWithColumnName:column.name]];
+                        [newRow setValueWithColumnName:column.name andValue:[attributesRow valueWithColumnName:column.name]];
                     }
                 }
                 
                 int newRowId2 = (int)[dao create:newRow];
                 
-                [GPKGTestUtils assertEqualIntWithValue:newRowId2 andValue2:[[newRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:newRowId2 andValue2:[newRow idValue]];
                 
                 // Verify new was created
                 GPKGResultSet * queryAttributesRow2Results = [dao queryForId:[NSNumber numberWithInt:newRowId2]];
@@ -756,15 +756,15 @@
                 GPKGAttributesRow *copyRow = [queryAttributesRow2 mutableCopy];
                 for (GPKGAttributesColumn *column in dao.table.columns) {
                     if (column.dataType == GPKG_DT_BLOB) {
-                        NSData *blob1 = (NSData *) [queryAttributesRow2 getValueWithColumnName:column.name];
-                        NSData *blob2 = (NSData *) [copyRow getValueWithColumnName:column.name];
+                        NSData *blob1 = (NSData *) [queryAttributesRow2 valueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [copyRow valueWithColumnName:column.name];
                         if(blob1 == nil){
                             [GPKGTestUtils assertNil:blob2];
                         }else{
                             [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
                         }
                     } else {
-                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 getValueWithColumnName:column.name] andValue2:[copyRow getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 valueWithColumnName:column.name] andValue2:[copyRow valueWithColumnName:column.name]];
                     }
                 }
                 
@@ -772,7 +772,7 @@
                 
                 NSNumber *newRowId3 = [NSNumber numberWithLongLong:[dao create:copyRow]];
                 
-                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[[copyRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[copyRow idValue]];
                 
                 // Verify new was created
                 GPKGAttributesRow *queryAttributesRow3 = (GPKGAttributesRow *)[dao queryForIdObject:newRowId3];
@@ -783,17 +783,17 @@
                 
                 for(GPKGAttributesColumn *column in dao.table.columns){
                     if(column.primaryKey){
-                        [GPKGTestUtils assertFalse:[[queryAttributesRow2 getValueWithColumnName:column.name] isEqual:[queryAttributesRow3 getValueWithColumnName:column.name]]];
+                        [GPKGTestUtils assertFalse:[[queryAttributesRow2 valueWithColumnName:column.name] isEqual:[queryAttributesRow3 valueWithColumnName:column.name]]];
                     } else if(column.dataType == GPKG_DT_BLOB){
-                        NSData *blob1 = (NSData *) [queryAttributesRow2 getValueWithColumnName:column.name];
-                        NSData *blob2 = (NSData *) [queryAttributesRow3 getValueWithColumnName:column.name];
+                        NSData *blob1 = (NSData *) [queryAttributesRow2 valueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [queryAttributesRow3 valueWithColumnName:column.name];
                         if (blob1 == nil) {
                             [GPKGTestUtils assertNil:blob2];
                         } else {
                             [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
                         }
                     }else{
-                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 getValueWithColumnName:column.name] andValue2:[queryAttributesRow3 getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryAttributesRow2 valueWithColumnName:column.name] andValue2:[queryAttributesRow3 valueWithColumnName:column.name]];
                     }
                 }
                 
@@ -830,7 +830,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao delete:attributesRow]];
                 
                 // Verify deleted
-                GPKGAttributesRow * queryAttributesRow = (GPKGAttributesRow *) [dao queryForIdObject:[attributesRow getId]];
+                GPKGAttributesRow * queryAttributesRow = (GPKGAttributesRow *) [dao queryForIdObject:[attributesRow id]];
                 [GPKGTestUtils assertNil:queryAttributesRow];
                 results = [dao queryForAll];
                 [GPKGTestUtils assertEqualIntWithValue:count - 1 andValue2:results.count];

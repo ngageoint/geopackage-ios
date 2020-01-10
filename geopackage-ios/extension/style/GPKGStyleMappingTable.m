@@ -38,11 +38,11 @@ NSString * const GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME = @"geometry_type_name";
 }
 
 -(int) geometryTypeNameColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
+    return [self columnIndexWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
 }
 
 -(GPKGUserCustomColumn *) geometryTypeNameColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

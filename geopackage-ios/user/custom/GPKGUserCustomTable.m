@@ -15,34 +15,11 @@
 }
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns andRequiredColumns: (NSArray<NSString *> *) requiredColumns{
-    self = [super initWithTable:tableName andColumns:columns];
-    if(self != nil){
+    return [self initWithColumns:[[GPKGUserCustomColumns alloc] initWithTable:tableName andColumns:columns andRequiredColumns:requiredColumns]];
+}
 
-        if (requiredColumns != nil && requiredColumns.count > 0) {
-            
-            NSSet<NSString *> *search = [[NSSet alloc] initWithArray:requiredColumns];
-            NSMutableDictionary<NSString *, NSNumber *> *found = [[NSMutableDictionary alloc] init];
-            
-            // Find the required columns
-            for (GPKGUserCustomColumn *column in columns) {
-                
-                NSString *columnName = column.name;
-                int columnIndex = column.index;
-                
-                if([search containsObject:columnName]){
-                    NSNumber *previousIndex = [found objectForKey:columnName];
-                    [self duplicateCheckWithIndex:columnIndex andPreviousIndex:previousIndex andColumn:columnName];
-                    [found setObject:[NSNumber numberWithInt:columnIndex] forKey:columnName];
-                }
-            }
-            
-            // Verify the required columns were found
-            for (NSString *requiredColumn in search) {
-                [self missingCheckWithIndex:[found objectForKey:requiredColumn] andColumn:requiredColumn];
-            }
-        }
-        
-    }
+-(instancetype) initWithColumns: (GPKGUserCustomColumns *) columns{
+    self = [super initWithColumns:columns];
     return self;
 }
 
@@ -55,8 +32,16 @@
     return nil;
 }
 
--(NSArray<GPKGUserCustomColumn *> *) userCustomColumns{
-    return (NSArray<GPKGUserCustomColumn *> *) [super columns];
+-(GPKGUserCustomColumns *) userCustomColumns{
+    return (GPKGUserCustomColumns *) [super userColumns];
+}
+
+-(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{
+    return [[GPKGUserCustomColumns alloc] initWithTable:[self tableName] andColumns:columns andRequiredColumns:[self requiredColumns] andCustom:YES];
+}
+
+-(NSArray<NSString *> *) requiredColumns{
+    return [self userCustomColumns].requiredColumns;
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

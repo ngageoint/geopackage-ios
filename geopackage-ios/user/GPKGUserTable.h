@@ -24,12 +24,11 @@
 /**
  *  Initialize
  *
- *  @param tableName table name
- *  @param columns   columns
+ *  @param columns   user columns
  *
  *  @return new user table
  */
--(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
+-(instancetype) initWithColumns: (GPKGUserColumns *) columns;
 
 /**
  * Initialize

@@ -33,7 +33,7 @@
 }
 
 -(NSString *) geometryTypeName{
-    return (NSString *)[self getValueWithIndex:[self geometryTypeNameColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self geometryTypeNameColumnIndex]];
 }
 
 -(enum SFGeometryType) geometryType{

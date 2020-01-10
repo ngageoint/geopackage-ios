@@ -38,7 +38,7 @@
 }
 
 -(NSString *) name{
-    return (NSString *)[self getValueWithIndex:[self nameColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self nameColumnIndex]];
 }
 
 -(void) setName: (NSString *) name{
@@ -54,7 +54,7 @@
 }
 
 -(NSString *) description{
-    return (NSString *)[self getValueWithIndex:[self descriptionColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self descriptionColumnIndex]];
 }
 
 -(void) setDescription: (NSString *) description{
@@ -70,7 +70,7 @@
 }
 
 -(NSDecimalNumber *) width{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self widthColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self widthColumnIndex]];
 }
 
 -(void) setWidth: (NSDecimalNumber *) width{
@@ -107,7 +107,7 @@
 }
 
 -(NSDecimalNumber *) height{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self heightColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self heightColumnIndex]];
 }
 
 -(void) setHeight: (NSDecimalNumber *) height{
@@ -190,7 +190,7 @@
 }
 
 -(NSDecimalNumber *) anchorU{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self anchorUColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self anchorUColumnIndex]];
 }
 
 -(void) setAnchorU: (NSDecimalNumber *) anchor{
@@ -220,7 +220,7 @@
 }
 
 -(NSDecimalNumber *) anchorV{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self anchorVColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self anchorVColumnIndex]];
 }
 
 -(void) setAnchorV: (NSDecimalNumber *) anchor{

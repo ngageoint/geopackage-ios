@@ -142,23 +142,23 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
 }
 
 -(GPKGUserCustomColumn *) idColumn{
-    return (GPKGUserCustomColumn *)[self getPkColumn];
+    return (GPKGUserCustomColumn *)[self pkColumn];
 }
 
 -(int) dataColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_RMT_COLUMN_DATA];
+    return [self columnIndexWithColumnName:GPKG_RMT_COLUMN_DATA];
 }
 
 -(GPKGUserCustomColumn *) dataColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_RMT_COLUMN_DATA];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_RMT_COLUMN_DATA];
 }
 
 -(int) contentTypeColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
+    return [self columnIndexWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
 }
 
 -(GPKGUserCustomColumn *) contentTypeColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

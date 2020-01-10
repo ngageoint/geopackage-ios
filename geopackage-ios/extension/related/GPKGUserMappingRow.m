@@ -33,7 +33,7 @@
 }
 
 -(int) baseId{
-    return [(NSNumber *)[self getValueWithIndex:[self baseIdColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self baseIdColumnIndex]] intValue];
 }
 
 -(void) setBaseId: (int) baseId{
@@ -49,7 +49,7 @@
 }
 
 -(int) relatedId{
-    return [(NSNumber *)[self getValueWithIndex:[self relatedIdColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self relatedIdColumnIndex]] intValue];
 }
 
 -(void) setRelatedId: (int) relatedId{

@@ -37,10 +37,10 @@
                 [featureResults close];
                 
                 // Create new row from existing
-                NSNumber *id = [featureRow getId];
+                NSNumber *id = [featureRow id];
                 [featureRow resetId];
                 NSNumber *newRowId = [NSNumber numberWithLongLong:[dao create:featureRow]];
-                [GPKGTestUtils assertEqualIntWithValue:[newRowId intValue] andValue2:[[featureRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId intValue] andValue2:[featureRow idValue]];
                 
                 // Verify original still exists and new was created
                 featureRow = (GPKGFeatureRow *)[dao queryForIdObject:id];
@@ -68,7 +68,7 @@
                 }
                 
                 NSNumber *newRowId2 = [NSNumber numberWithLongLong:[dao create:newRow]];
-                [GPKGTestUtils assertEqualIntWithValue:[newRowId2 intValue] andValue2:[[newRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId2 intValue] andValue2:[newRow idValue]];
                 
                 // Verify new was created
                 GPKGFeatureRow *queryFeatureRow2 = (GPKGFeatureRow *)[dao queryForIdObject:newRowId2];
@@ -105,7 +105,7 @@
                 [copyRow resetId];
                 
                 NSNumber *newRowId3 = [NSNumber numberWithLongLong:[dao create:copyRow]];
-                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[[copyRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[copyRow idValue]];
                 
                 // Verify new was created
                 GPKGFeatureRow *queryFeatureRow3 = (GPKGFeatureRow *)[dao queryForIdObject:newRowId3];

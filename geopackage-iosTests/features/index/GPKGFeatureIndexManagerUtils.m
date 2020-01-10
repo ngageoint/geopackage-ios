@@ -128,7 +128,7 @@
         featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
-            if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
+            if([featureRow idValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;
@@ -146,7 +146,7 @@
         for(NSNumber *featureRowId in featureIndexResults){
             GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
-            if ([featureRowId intValue] == [[testFeatureRow getId] intValue]) {
+            if ([featureRowId intValue] == [testFeatureRow idValue]) {
                 featureFound = YES;
             }
             resultCount++;
@@ -177,7 +177,7 @@
         featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
-            if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
+            if([featureRow idValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;
@@ -206,7 +206,7 @@
         featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
-            if([[featureRow getId] intValue] == [[testFeatureRow getId] intValue]){
+            if([featureRow idValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;

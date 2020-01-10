@@ -232,11 +232,11 @@
 }
 
 -(GPKGFeatureStyle *) featureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self featureStyleWithId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self featureStyleWithId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGFeatureStyle *) featureStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self featureStyleWithId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self featureStyleWithId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGFeatureStyle *) featureStyleWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -282,11 +282,11 @@
 }
 
 -(GPKGStyleRow *) styleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self styleWithId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self styleWithId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGStyleRow *) styleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self styleWithId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self styleWithId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGStyleRow *) styleWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -335,11 +335,11 @@
 }
 
 -(GPKGIconRow *) iconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self iconWithId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self iconWithId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGIconRow *) iconDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self iconWithId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self iconWithId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGIconRow *) iconWithId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{

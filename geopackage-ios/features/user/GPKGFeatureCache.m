@@ -43,14 +43,14 @@
 }
 
 -(GPKGFeatureRow *) putRow: (GPKGFeatureRow *) featureRow{
-    NSNumber *featureId = [featureRow getId];
+    NSNumber *featureId = [featureRow id];
     GPKGFeatureRow *previous = [self rowByIdNumber:featureId];
     [self.cache setObject:featureRow forKey:featureId];
     return previous;
 }
 
 -(GPKGFeatureRow *) removeRow: (GPKGFeatureRow *) featureRow{
-    return [self removeByIdNumber:[featureRow getId]];
+    return [self removeByIdNumber:[featureRow id]];
 }
 
 -(GPKGFeatureRow *) removeById: (int) featureId{

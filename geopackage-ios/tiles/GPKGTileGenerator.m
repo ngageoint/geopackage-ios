@@ -496,19 +496,19 @@
         NSMutableString * where = [[NSMutableString alloc] init];
         
         
-        [where appendString:[tileDao buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoomLevelArg]];
+        [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelArg]];
         
         [where appendString:@" and "];
-        [where appendString:[tileDao buildWhereWithField:GPKG_TT_COLUMN_TILE_COLUMN andValue:minXArg andOperation:@">="]];
+        [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_COLUMN andValue:minXArg andOperation:@">="]];
         
         [where appendString:@" and "];
-        [where appendString:[tileDao buildWhereWithField:GPKG_TT_COLUMN_TILE_COLUMN andValue:maxXArg andOperation:@"<="]];
+        [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_COLUMN andValue:maxXArg andOperation:@"<="]];
         
         [where appendString:@" and "];
-        [where appendString:[tileDao buildWhereWithField:GPKG_TT_COLUMN_TILE_ROW andValue:minYArg andOperation:@">="]];
+        [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:minYArg andOperation:@">="]];
         
         [where appendString:@" and "];
-        [where appendString:[tileDao buildWhereWithField:GPKG_TT_COLUMN_TILE_ROW andValue:maxYArg andOperation:@"<="]];
+        [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxYArg andOperation:@"<="]];
         
 
         NSArray * whereArgs =[tileDao buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoomLevelArg, minXArg, maxXArg, minYArg, maxYArg, nil]];

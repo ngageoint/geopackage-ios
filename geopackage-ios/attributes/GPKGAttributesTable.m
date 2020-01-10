@@ -8,11 +8,12 @@
 
 #import "GPKGAttributesTable.h"
 #import "GPKGContentsDataTypes.h"
+#import "GPKGAttributesColumns.h"
 
 @implementation GPKGAttributesTable
 
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
-    self = [super initWithTable:tableName andColumns:columns];
+    self = [super initWithColumns:[[GPKGAttributesColumns alloc] initWithTable:tableName andColumns:columns]];
     return self;
 }
 
@@ -30,6 +31,10 @@
 
 -(NSArray<GPKGAttributesColumn *> *) attributesColumns{
     return (NSArray<GPKGAttributesColumn *> *) [super columns];
+}
+
+-(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{
+    return [[GPKGAttributesColumns alloc] initWithTable:[self tableName] andColumns:columns andCustom:YES];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

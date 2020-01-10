@@ -189,7 +189,7 @@ static SFPProjection *EPSG_WGS84 = nil;
         } else {
             GPKGFeatureTableReader *tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:self.geometryColumns];
             GPKGFeatureTable *featureTable = [tableReader readFeatureTableWithConnection:self.geoPackage.database];
-            for (GPKGFeatureColumn *featureColumn in [featureTable featureColumns]) {
+            for (GPKGFeatureColumn *featureColumn in [featureTable columns]) {
                 [_columns setObject:featureColumn forKey:featureColumn.name];
             }
         }

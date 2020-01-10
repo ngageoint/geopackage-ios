@@ -57,11 +57,11 @@
 -(GPKGUserCustomColumn *) idColumn;
 
 /**
- * Get the id
+ * Get the id value
  *
- * @return id
+ * @return id value
  */
--(int) id;
+-(int) idValue;
 
 /**
  * Get the data column index

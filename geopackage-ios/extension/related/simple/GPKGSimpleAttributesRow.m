@@ -33,7 +33,7 @@
 }
 
 -(int) id{
-    return [(NSNumber *)[self getValueWithIndex:[self idColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self idColumnIndex]] intValue];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

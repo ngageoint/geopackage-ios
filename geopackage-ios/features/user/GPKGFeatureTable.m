@@ -22,33 +22,7 @@
 }
 
 -(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andColumns: (NSArray *) columns{
-    self = [super initWithTable:tableName andColumns:columns];
-    if(self != nil){
-        
-        NSNumber *geometry = nil;
-        
-        // Find the geometry
-        for(GPKGFeatureColumn *column in columns){
-            
-            BOOL isGeometryColumn = NO;
-            
-            if(geometryColumn != nil){
-                isGeometryColumn = [geometryColumn caseInsensitiveCompare:column.name] == NSOrderedSame;
-            }else{
-                isGeometryColumn = [column isGeometry];
-            }
-            
-            if(isGeometryColumn){
-                geometry = [NSNumber numberWithInt:column.index];
-                break;
-            }
-            
-        }
-        
-        [self missingCheckWithIndex:geometry andColumn:SF_GEOMETRY_NAME];
-        self.geometryIndex = [geometry intValue];
-        
-    }
+    self = [super initWithColumns:[[GPKGFeatureColumns alloc] initWithTable:tableName andGeometryColumn:geometryColumn andColumns:columns]];
     return self;
 }
 
@@ -64,17 +38,33 @@
     }
 }
 
--(GPKGFeatureColumn *) getGeometryColumn{
-    return (GPKGFeatureColumn *) [self getColumnWithIndex:self.geometryIndex];
+-(GPKGFeatureColumns *) featureColumns{
+    return (GPKGFeatureColumns *) [super columns];
 }
 
--(NSArray<GPKGFeatureColumn *> *) featureColumns{
-    return (NSArray<GPKGFeatureColumn *> *) [super columns];
+-(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{
+    return [[GPKGFeatureColumns alloc] initWithTable:[self tableName] andGeometryColumn:[self geometryColumnName] andColumns:columns andCustom:YES];
+}
+
+-(int) geometryColumnIndex{
+    return [self featureColumns].geometryIndex;
+}
+
+-(GPKGFeatureColumn *) geometryColumn{
+    return [[self featureColumns] geometryColumn];
+}
+
+-(NSString *) geometryColumnName{
+    return [self featureColumns].geometryColumnName;
+    
+}
+
+-(NSArray<NSString *> *) idAndGeometryColumnNames{
+    return [NSArray arrayWithObjects:[self pkColumnName], [self geometryColumnName], nil];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGFeatureTable *featureTable = [super mutableCopyWithZone:zone];
-    featureTable.geometryIndex = _geometryIndex;
     return featureTable;
 }
 

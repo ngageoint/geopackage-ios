@@ -147,7 +147,7 @@
                     double maxYMin = MIN(maxY, [envelope.maxY doubleValue]);
                     
                     if (minXMax <= maxXMin && minYMax <= maxYMin) {
-                        [featureIds addObject:[featureRow getId]];
+                        [featureIds addObject:[featureRow id]];
                     }
                     
                 }

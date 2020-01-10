@@ -39,7 +39,7 @@
 }
 
 -(NSNumber *) getFeatureId{
-    return [[self.dao row:self.results] getId];
+    return [[self.dao row:self.results] id];
 }
 
 -(void) close{

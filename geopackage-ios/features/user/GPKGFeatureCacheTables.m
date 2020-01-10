@@ -63,7 +63,7 @@
 }
 
 -(GPKGFeatureRow *) removeRow: (GPKGFeatureRow *) featureRow{
-    return [self removeRowByTable:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    return [self removeRowByTable:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(GPKGFeatureRow *) removeRowByTable: (NSString *) tableName andId: (int) featureId{

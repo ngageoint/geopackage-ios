@@ -42,7 +42,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSString *) name{
-    return (NSString *)[self getValueWithIndex:[self nameColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self nameColumnIndex]];
 }
 
 -(void) setName: (NSString *) name{
@@ -58,7 +58,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSString *) description{
-    return (NSString *)[self getValueWithIndex:[self descriptionColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self descriptionColumnIndex]];
 }
 
 -(void) setDescription: (NSString *) description{
@@ -82,7 +82,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSString *) hexColor{
-    return (NSString *)[self getValueWithIndex:[self colorColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self colorColumnIndex]];
 }
 
 -(void) setColor: (GPKGColor *) color{
@@ -126,7 +126,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSDecimalNumber *) opacity{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self opacityColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self opacityColumnIndex]];
 }
 
 -(void) setOpacity: (NSDecimalNumber *) opacity{
@@ -156,7 +156,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSDecimalNumber *) width{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self widthColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self widthColumnIndex]];
 }
 
 -(void) setWidth: (NSDecimalNumber *) width{
@@ -196,7 +196,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSString *) fillHexColor{
-    return (NSString *)[self getValueWithIndex:[self fillColorColumnIndex]];
+    return (NSString *)[self valueWithIndex:[self fillColorColumnIndex]];
 }
 
 -(void) setFillColor: (GPKGColor *) color{
@@ -224,7 +224,7 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(NSDecimalNumber *) fillOpacity{
-    return (NSDecimalNumber *)[self getValueWithIndex:[self fillOpacityColumnIndex]];
+    return (NSDecimalNumber *)[self valueWithIndex:[self fillOpacityColumnIndex]];
 }
 
 -(void) setFillOpacity: (NSDecimalNumber *) fillOpacity{

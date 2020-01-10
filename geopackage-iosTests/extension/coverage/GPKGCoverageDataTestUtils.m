@@ -287,7 +287,7 @@
                 GPKGTileMatrix *tileMatrix = [tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
                 [GPKGTestUtils assertNotNil:tileMatrix];
                 
-                GPKGGriddedTile *griddedTile = [coverageData griddedTileWithTileId:[[tileRow getId] intValue]];
+                GPKGGriddedTile *griddedTile = [coverageData griddedTileWithTileId:[tileRow idValue]];
                 [GPKGTestUtils assertNotNil:griddedTile];
                 
                 NSData *tileData = [tileRow getTileData];

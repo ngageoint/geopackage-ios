@@ -563,7 +563,7 @@
     
     // Check the cache for the transformed geometry bounding box
     if(self.cacheBoundingBoxes){
-        rowId = [row getId];
+        rowId = [row id];
         boundingBox = [self.boundingBoxCache objectForKey:rowId];
     }
     
@@ -589,7 +589,7 @@
             // Check the cache for the map shape
             if(self.cacheMapShapes){
                 if(rowId == nil){
-                    rowId = [row getId];
+                    rowId = [row id];
                 }
                 rowZoomId = [NSString stringWithFormat:@"%@_%d", rowId, zoom];
                 shape = [self.mapShapeCache objectForKey:rowZoomId];

@@ -49,51 +49,51 @@ NSString * const GPKG_IT_COLUMN_ANCHOR_V = @"anchor_v";
 }
 
 -(int) nameColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_NAME];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_NAME];
 }
 
 -(GPKGUserCustomColumn *) nameColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_NAME];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_NAME];
 }
 
 -(int) descriptionColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
 }
 
 -(GPKGUserCustomColumn *) descriptionColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
 }
 
 -(int) widthColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_WIDTH];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_WIDTH];
 }
 
 -(GPKGUserCustomColumn *) widthColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_WIDTH];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_WIDTH];
 }
 
 -(int) heightColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_HEIGHT];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_HEIGHT];
 }
 
 -(GPKGUserCustomColumn *) heightColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_HEIGHT];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_HEIGHT];
 }
 
 -(int) anchorUColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
 }
 
 -(GPKGUserCustomColumn *) anchorUColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
 }
 
 -(int) anchorVColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
+    return [self columnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
 }
 
 -(GPKGUserCustomColumn *) anchorVColumn{
-    return (GPKGUserCustomColumn *)[self getColumnWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
+    return (GPKGUserCustomColumn *)[self columnWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

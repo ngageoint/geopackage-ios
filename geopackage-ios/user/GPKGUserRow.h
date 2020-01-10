@@ -70,7 +70,7 @@
  *
  *  @return column names
  */
--(NSArray *) getColumnNames;
+-(NSArray *) columnNames;
 
 /**
  *  Get the column name at the index
@@ -79,7 +79,7 @@
  *
  *  @return column name
  */
--(NSString *) getColumnNameWithIndex: (int) index;
+-(NSString *) columnNameWithIndex: (int) index;
 
 /**
  *  Get the column index of the column name
@@ -88,7 +88,7 @@
  *
  *  @return index
  */
--(int) getColumnIndexWithColumnName: (NSString *) columnName;
+-(int) columnIndexWithColumnName: (NSString *) columnName;
 
 /**
  *  Get the value at the index
@@ -97,7 +97,7 @@
  *
  *  @return value
  */
--(NSObject *) getValueWithIndex: (int) index;
+-(NSObject *) valueWithIndex: (int) index;
 
 /**
  *  Get the value of the column name
@@ -106,7 +106,7 @@
  *
  *  @return value
  */
--(NSObject *) getValueWithColumnName: (NSString *) columnName;
+-(NSObject *) valueWithColumnName: (NSString *) columnName;
 
 /**
  * Get the value at the index as a string
@@ -115,7 +115,7 @@
  *            index
  * @return value
  */
--(NSString *) getValueStringWithIndex: (int) index;
+-(NSString *) valueStringWithIndex: (int) index;
 
 /**
  * Get the value of the column name as a string
@@ -124,7 +124,7 @@
  *            column name
  * @return value
  */
--(NSString *) getValueStringWithColumnName: (NSString *) columnName;
+-(NSString *) valueStringWithColumnName: (NSString *) columnName;
 
 /**
  *  Get the database formatted value at the index
@@ -133,7 +133,7 @@
  *
  *  @return value
  */
--(NSObject *) getDatabaseValueWithIndex: (int) index;
+-(NSObject *) databaseValueWithIndex: (int) index;
 
 /**
  *  Get the datbase formatted value of the column name
@@ -142,7 +142,7 @@
  *
  *  @return value
  */
--(NSObject *) getDatabaseValueWithColumnName: (NSString *) columnName;
+-(NSObject *) databaseValueWithColumnName: (NSString *) columnName;
 
 /**
  *  Get the row column type at the index
@@ -151,7 +151,7 @@
  *
  *  @return row column type
  */
--(int) getRowColumnTypeWithIndex: (int) index;
+-(int) rowColumnTypeWithIndex: (int) index;
 
 /**
  *  Get the row column type of the column name
@@ -160,7 +160,7 @@
  *
  *  @return row column type
  */
--(int) getRowColumnTypeWithColumnName: (NSString *) columnName;
+-(int) rowColumnTypeWithColumnName: (NSString *) columnName;
 
 /**
  *  Get the column at the index
@@ -169,7 +169,7 @@
  *
  *  @return column
  */
--(GPKGUserColumn *) getColumnWithIndex: (int) index;
+-(GPKGUserColumn *) columnWithIndex: (int) index;
 
 /**
  *  Get the column of the column name
@@ -178,7 +178,7 @@
  *
  *  @return column
  */
--(GPKGUserColumn *) getColumnWithColumnName: (NSString *) columnName;
+-(GPKGUserColumn *) columnWithColumnName: (NSString *) columnName;
 
 /**
  *  Check if the row has the column
@@ -194,7 +194,14 @@
  *
  *  @return id value
  */
--(NSNumber *) getId;
+-(NSNumber *) id;
+
+/**
+ *  Get the id value, which is the value of the primary key
+ *
+ *  @return id value
+ */
+-(int) idValue;
 
 /**
  *  Check if the row has an id column
@@ -215,14 +222,14 @@
  *
  *  @return pk index
  */
--(int) getPkColumnIndex;
+-(int) pkColumnIndex;
 
 /**
  *  Get the primary key column
  *
  *  @return pk column
  */
--(GPKGUserColumn *) getPkColumn;
+-(GPKGUserColumn *) pkColumn;
 
 /**
  *  Set the value at the index

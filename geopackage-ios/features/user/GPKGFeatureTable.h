@@ -8,17 +8,13 @@
 
 #import "GPKGUserTable.h"
 #import "GPKGFeatureColumn.h"
+#import "GPKGFeatureColumns.h"
 #import "GPKGGeometryColumns.h"
 
 /**
  *  Represents a user feature table
  */
 @interface GPKGFeatureTable : GPKGUserTable
-
-/**
- *  Geometry column index
- */
-@property (nonatomic) int geometryIndex;
 
 /**
  *  Initialize
@@ -52,17 +48,38 @@
 -(instancetype) initWithTable: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andColumns: (NSArray *) columns;
 
 /**
+ * Get the feature columns
+ *
+ * @return columns
+ */
+-(GPKGFeatureColumns *) featureColumns;
+
+/**
+ * Get the geometry column index
+ *
+ * @return geometry column index
+ */
+-(int) geometryColumnIndex;
+
+/**
  *  Get the geometry feature column
  *
  *  @return geometry feature column
  */
--(GPKGFeatureColumn *) getGeometryColumn;
+-(GPKGFeatureColumn *) geometryColumn;
 
 /**
- * Get the list of feature columns
+ * Get the geometry column name
  *
- * @return columns
+ * @return geometry column name
  */
--(NSArray<GPKGFeatureColumn *> *) featureColumns;
+-(NSString *) geometryColumnName;
+
+/**
+ * Get the Id and Geometry Column names
+ *
+ * @return column names
+ */
+-(NSArray<NSString *> *) idAndGeometryColumnNames;
 
 @end

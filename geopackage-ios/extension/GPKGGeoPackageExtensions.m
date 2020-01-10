@@ -344,7 +344,7 @@
         if([geoPackage isTable:GPKG_DC_TABLE_NAME]){
             
             GPKGUserCustomTable *dataColumnsTable = [GPKGUserCustomTableReader readTableWithConnection:geoPackage.database andTableName:GPKG_DC_TABLE_NAME];
-            GPKGUserColumn *nameColumn = [dataColumnsTable getColumnWithColumnName:GPKG_DC_COLUMN_NAME];
+            GPKGUserColumn *nameColumn = [dataColumnsTable columnWithColumnName:GPKG_DC_COLUMN_NAME];
             if([nameColumn hasConstraints]){
                 [nameColumn clearConstraints];
                 if([dataColumnsTable hasConstraints]){

@@ -122,9 +122,9 @@
 -(GPKGTileRow *) queryForTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{
     
     GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
-    [fieldValues addColumn:GPKG_TT_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
-    [fieldValues addColumn:GPKG_TT_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
-    [fieldValues addColumn:GPKG_TT_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
     GPKGResultSet * results = [self queryForFieldValues:fieldValues];
     GPKGTileRow * tileRow = nil;
@@ -140,26 +140,26 @@
 }
 
 -(GPKGResultSet *) queryforTileWithZoomLevel: (int) zoomLevel{
-    return [self queryForEqWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:[NSNumber numberWithInt:zoomLevel]];
+    return [self queryForEqWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:[NSNumber numberWithInt:zoomLevel]];
 }
 
 -(GPKGResultSet *) queryForTileDescending: (int) zoomLevel{
-    return [self queryForEqWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:[NSNumber numberWithInt:zoomLevel] andGroupBy:nil andHaving:nil andOrderBy:[NSString stringWithFormat:@"%@ DESC, %@ DESC", GPKG_TT_COLUMN_TILE_COLUMN, GPKG_TT_COLUMN_TILE_ROW]];
+    return [self queryForEqWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:[NSNumber numberWithInt:zoomLevel] andGroupBy:nil andHaving:nil andOrderBy:[NSString stringWithFormat:@"%@ DESC, %@ DESC", GPKG_TC_COLUMN_TILE_COLUMN, GPKG_TC_COLUMN_TILE_ROW]];
 }
 
 -(GPKGResultSet *) queryForTilesInColumn: (int) column andZoomLevel: (int) zoomLevel{
     
     GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
-    [fieldValues addColumn:GPKG_TT_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
-    [fieldValues addColumn:GPKG_TT_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
     return [self queryForFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryForTilesInRow: (int) row andZoomLevel: (int) zoomLevel{
     GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
-    [fieldValues addColumn:GPKG_TT_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
-    [fieldValues addColumn:GPKG_TT_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
+    [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
     return [self queryForFieldValues:fieldValues];
 }
@@ -205,19 +205,19 @@
         NSNumber * minY = [NSNumber numberWithInt:tileGrid.minY];
         NSNumber * maxY = [NSNumber numberWithInt:tileGrid.maxY];
         
-        [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoom]];
+        [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom]];
         
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_COLUMN andValue:minX andOperation:@">="]];
+        [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_COLUMN andValue:minX andOperation:@">="]];
         
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_COLUMN andValue:maxX andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_COLUMN andValue:maxX andOperation:@"<="]];
         
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_ROW andValue:minY andOperation:@">="]];
+        [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:minY andOperation:@">="]];
         
         [where appendString:@" and "];
-        [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_ROW andValue:maxY andOperation:@"<="]];
+        [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxY andOperation:@"<="]];
         
         NSArray * whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
                                minX,
@@ -233,13 +233,13 @@
 -(GPKGTileGrid *) queryForTileGridWithZoomLevel: (int) zoomLevel{
     
     NSNumber * zoomLevelNumber = [NSNumber numberWithInt:zoomLevel];
-    NSString * where = [self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoomLevelNumber];
+    NSString * where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelNumber];
     NSArray * whereArgs = [self buildWhereArgsWithValue:zoomLevelNumber];
     
-    NSNumber * minX = [self minOfColumn:GPKG_TT_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
-    NSNumber * maxX = [self maxOfColumn:GPKG_TT_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
-    NSNumber * minY = [self minOfColumn:GPKG_TT_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
-    NSNumber * maxY = [self maxOfColumn:GPKG_TT_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    NSNumber * minX = [self minOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber * maxX = [self maxOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber * minY = [self minOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    NSNumber * maxY = [self maxOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
     
     GPKGTileGrid * tileGrid = nil;
     if(minX != nil && maxX != nil && minY != nil && maxY != nil){
@@ -257,13 +257,13 @@
     NSNumber * columnNumber = [NSNumber numberWithInt:column];
     NSNumber * rowNumber = [NSNumber numberWithInt:row];
     
-    [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoom]];
+    [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom]];
     
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_COLUMN andValue:columnNumber]];
+    [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_COLUMN andValue:columnNumber]];
     
     [where appendString:@" and "];
-    [where appendString:[self buildWhereWithField:GPKG_TT_COLUMN_TILE_ROW andValue:rowNumber]];
+    [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:rowNumber]];
     
     NSArray * whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
                            columnNumber,
@@ -275,7 +275,7 @@
 
 -(int) countWithZoomLevel: (int) zoomLevel{
     NSNumber * zoom = [NSNumber numberWithInt:zoomLevel];
-    NSString * where = [self buildWhereWithField:GPKG_TT_COLUMN_ZOOM_LEVEL andValue:zoom];
+    NSString * where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom];
     NSArray * whereArgs = [self buildWhereArgsWithValue:zoom];
     return [self countWhere:where andWhereArgs:whereArgs];
 }

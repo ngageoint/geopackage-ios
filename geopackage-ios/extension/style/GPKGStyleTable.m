@@ -55,59 +55,59 @@ NSString * const GPKG_ST_COLUMN_FILL_OPACITY = @"fill_opacity";
 }
 
 -(int) nameColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_NAME];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_NAME];
 }
 
 -(GPKGAttributesColumn *) nameColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_NAME];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_NAME];
 }
 
 -(int) descriptionColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
 }
 
 -(GPKGAttributesColumn *) descriptionColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
 }
 
 -(int) colorColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_COLOR];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_COLOR];
 }
 
 -(GPKGAttributesColumn *) colorColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_COLOR];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_COLOR];
 }
 
 -(int) opacityColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_OPACITY];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_OPACITY];
 }
 
 -(GPKGAttributesColumn *) opacityColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_OPACITY];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_OPACITY];
 }
 
 -(int) widthColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_WIDTH];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_WIDTH];
 }
 
 -(GPKGAttributesColumn *) widthColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_WIDTH];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_WIDTH];
 }
 
 -(int) fillColorColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
 }
 
 -(GPKGAttributesColumn *) fillColorColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
 }
 
 -(int) fillOpacityColumnIndex{
-    return [self getColumnIndexWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
+    return [self columnIndexWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
 }
 
 -(GPKGAttributesColumn *) fillOpacityColumn{
-    return (GPKGAttributesColumn *)[self getColumnWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
+    return (GPKGAttributesColumn *)[self columnWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
 }
 
 @end

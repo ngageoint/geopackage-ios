@@ -159,7 +159,7 @@
         
         // Create the new index row
         if(envelope != nil){
-            GPKGGeometryMetadata * metadata = [self.geometryMetadataDataSource populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row getId] andEnvelope:envelope];
+            GPKGGeometryMetadata * metadata = [self.geometryMetadataDataSource populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row id] andEnvelope:envelope];
             if(possibleUpdate){
                 [self.geometryMetadataDataSource createOrUpdateMetadata:metadata];
             }else{
@@ -190,7 +190,7 @@
 }
 
 -(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{
-    return [self deleteIndexWithGeomId:[row getId]];
+    return [self deleteIndexWithGeomId:[row id]];
 }
 
 -(BOOL) deleteIndexWithGeomId: (NSNumber *) geomId{

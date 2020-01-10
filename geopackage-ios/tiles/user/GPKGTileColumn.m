@@ -16,7 +16,7 @@
 }
 
 +(GPKGTileColumn *) createIdColumn: (int) index{
-    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TT_COLUMN_ID andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:false andDefaultValue:nil andPrimaryKey:true ];
+    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TC_COLUMN_ID andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:false andDefaultValue:nil andPrimaryKey:true ];
 }
 
 +(GPKGTileColumn *) createZoomLevelColumn{
@@ -24,7 +24,7 @@
 }
 
 +(GPKGTileColumn *) createZoomLevelColumn: (int) index{
-    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TT_COLUMN_ZOOM_LEVEL andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
+    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TC_COLUMN_ZOOM_LEVEL andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
 }
 
 +(GPKGTileColumn *) createTileColumnColumn{
@@ -32,7 +32,7 @@
 }
 
 +(GPKGTileColumn *) createTileColumnColumn: (int) index{
-    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TT_COLUMN_TILE_COLUMN andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
+    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TC_COLUMN_TILE_COLUMN andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
 }
 
 +(GPKGTileColumn *) createTileRowColumn{
@@ -40,7 +40,7 @@
 }
 
 +(GPKGTileColumn *) createTileRowColumn: (int) index{
-    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TT_COLUMN_TILE_ROW andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
+    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TC_COLUMN_TILE_ROW andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:[NSNumber numberWithInt:0] andPrimaryKey:false ];
 }
 
 +(GPKGTileColumn *) createTileDataColumn{
@@ -48,7 +48,7 @@
 }
 
 +(GPKGTileColumn *) createTileDataColumn: (int) index{
-    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TT_COLUMN_TILE_DATA andDataType:GPKG_DT_BLOB andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:false ];
+    return [[GPKGTileColumn alloc] initWithIndex:index andName:GPKG_TC_COLUMN_TILE_DATA andDataType:GPKG_DT_BLOB andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:false ];
 }
 
 +(GPKGTileColumn *) createColumnWithName: (NSString *) name

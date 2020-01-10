@@ -411,7 +411,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGFeatureStyles *) featureStylesWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self featureStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    return [self featureStylesWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(GPKGFeatureStyles *) featureStylesWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -436,11 +436,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGFeatureStyle *) featureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self featureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self featureStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGFeatureStyle *) featureStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self featureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self featureStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGFeatureStyle *) featureStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -470,7 +470,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGStyles *) stylesWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self stylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    return [self stylesWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(GPKGStyles *) stylesWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -486,11 +486,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGStyleRow *) styleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self styleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self styleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGStyleRow *) styleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self styleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self styleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGStyleRow *) styleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -542,7 +542,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGIcons *) iconsWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self iconsWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    return [self iconsWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(GPKGIcons *) iconsWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -558,11 +558,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(GPKGIconRow *) iconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    return [self iconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    return [self iconWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(GPKGIconRow *) iconDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self iconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE];
+    return [self iconWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE];
 }
 
 -(GPKGIconRow *) iconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -809,7 +809,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setFeatureStylesWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyles: (GPKGFeatureStyles *) featureStyles{
-    [self setFeatureStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andFeatureStyles:featureStyles];
+    [self setFeatureStylesWithTableName:featureRow.table.tableName andId:[featureRow idValue] andFeatureStyles:featureStyles];
 }
 
 -(void) setFeatureStylesWithTableName: (NSString *) featureTable andId: (int) featureId andFeatureStyles: (GPKGFeatureStyles *) featureStyles{
@@ -831,11 +831,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setFeatureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
-    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andFeatureStyle:featureStyle];
+    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType andFeatureStyle:featureStyle];
 }
 
 -(void) setFeatureStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
-    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andFeatureStyle:featureStyle];
+    [self setFeatureStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE andFeatureStyle:featureStyle];
 }
 
 -(void) setFeatureStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andFeatureStyle: (GPKGFeatureStyle *) featureStyle{
@@ -861,7 +861,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setStylesWithFeature: (GPKGFeatureRow *) featureRow andStyles: (GPKGStyles *) styles{
-    [self setStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andStyles:styles];
+    [self setStylesWithTableName:featureRow.table.tableName andId:[featureRow idValue] andStyles:styles];
 }
 
 -(void) setStylesWithTableName: (NSString *) featureTable andId: (int) featureId andStyles: (GPKGStyles *) styles{
@@ -891,11 +891,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style{
-    [self setStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andStyle:style];
+    [self setStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType andStyle:style];
 }
 
 -(void) setStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow andStyle: (GPKGStyleRow *) style{
-    [self setStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andStyle:style];
+    [self setStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE andStyle:style];
 }
 
 -(void) setStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andStyle: (GPKGStyleRow *) style{
@@ -925,7 +925,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setIconsWithFeature: (GPKGFeatureRow *) featureRow andIcons: (GPKGIcons *) icons{
-    [self setIconsWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andIcons:icons];
+    [self setIconsWithTableName:featureRow.table.tableName andId:[featureRow idValue] andIcons:icons];
 }
 
 -(void) setIconsWithTableName: (NSString *) featureTable andId: (int) featureId andIcons: (GPKGIcons *) icons{
@@ -955,11 +955,11 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) setIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon{
-    [self setIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType andIcon:icon];
+    [self setIconWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType andIcon:icon];
 }
 
 -(void) setIconDefaultWithFeature: (GPKGFeatureRow *) featureRow andIcon: (GPKGIconRow *) icon{
-    [self setIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:SF_NONE andIcon:icon];
+    [self setIconWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:SF_NONE andIcon:icon];
 }
 
 -(void) setIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType andIcon: (GPKGIconRow *) icon{
@@ -998,7 +998,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 -(int) getOrInsertStyle: (GPKGStyleRow *) style{
     int styleId;
     if ([style hasId]) {
-        styleId = [[style getId] intValue];
+        styleId = [style idValue];
     } else {
         GPKGStyleDao *styleDao = [self styleDao];
         styleId = (int)[styleDao create:style];
@@ -1015,7 +1015,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 -(int) getOrInsertIcon: (GPKGIconRow *) icon{
     int iconId;
     if ([icon hasId]) {
-        iconId = [[icon getId] intValue];
+        iconId = [icon idValue];
     } else {
         GPKGIconDao *iconDao = [self iconDao];
         iconId = (int)[iconDao create:icon];
@@ -1175,7 +1175,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteStylesWithFeature: (GPKGFeatureRow *) featureRow{
-    [self deleteStylesWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    [self deleteStylesWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(void) deleteStylesWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -1187,7 +1187,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteStyleDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    [self deleteStyleDefaultWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    [self deleteStyleDefaultWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(void) deleteStyleDefaultWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -1203,7 +1203,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    [self deleteStyleWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    [self deleteStyleWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(void) deleteStyleWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{
@@ -1223,7 +1223,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteIconsWithFeature: (GPKGFeatureRow *) featureRow{
-    [self deleteIconsWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    [self deleteIconsWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(void) deleteIconsWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -1235,7 +1235,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteIconDefaultWithFeature: (GPKGFeatureRow *) featureRow{
-    [self deleteIconDefaultWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue]];
+    [self deleteIconDefaultWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }
 
 -(void) deleteIconDefaultWithTableName: (NSString *) featureTable andId: (int) featureId{
@@ -1251,7 +1251,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(void) deleteIconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
-    [self deleteIconWithTableName:featureRow.table.tableName andId:[[featureRow getId] intValue] andGeometryType:geometryType];
+    [self deleteIconWithTableName:featureRow.table.tableName andId:[featureRow idValue] andGeometryType:geometryType];
 }
 
 -(void) deleteIconWithTableName: (NSString *) featureTable andId: (int) featureId andGeometryType: (enum SFGeometryType) geometryType{

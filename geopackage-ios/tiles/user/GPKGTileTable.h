@@ -8,40 +8,12 @@
 
 #import "GPKGUserTable.h"
 #import "GPKGTileColumn.h"
-
-/**
- *  Tile Table constants
- */
-extern NSString * const GPKG_TT_COLUMN_ID;
-extern NSString * const GPKG_TT_COLUMN_ZOOM_LEVEL;
-extern NSString * const GPKG_TT_COLUMN_TILE_COLUMN;
-extern NSString * const GPKG_TT_COLUMN_TILE_ROW;
-extern NSString * const GPKG_TT_COLUMN_TILE_DATA;
+#import "GPKGTileColumns.h"
 
 /**
  *  Represents a user tile table
  */
 @interface GPKGTileTable : GPKGUserTable
-
-/**
- *  Zoom level column index
- */
-@property (nonatomic) int zoomLevelIndex;
-
-/**
- *  Tile column column index
- */
-@property (nonatomic) int tileColumnIndex;
-
-/**
- *  Tile row column index
- */
-@property (nonatomic) int tileRowIndex;
-
-/**
- *  Tile data column index
- */
-@property (nonatomic) int tileDataIndex;
 
 /**
  *  Initialize
@@ -54,32 +26,60 @@ extern NSString * const GPKG_TT_COLUMN_TILE_DATA;
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns;
 
 /**
+ * Get the zoom level column index
+ *
+ * @return zoom level index
+ */
+-(int) zoomLevelIndex;
+
+/**
  *  Get the zoom level column
  *
  *  @return zoom level tile column
  */
--(GPKGTileColumn *) getZoomLevelColumn;
+-(GPKGTileColumn *) zoomLevelColumn;
+
+/**
+ *  Get the tile column index
+ *
+ *  @return tile column index
+ */
+-(int) tileColumnIndex;
 
 /**
  *  Get the tile column column
  *
  *  @return tile column column
  */
--(GPKGTileColumn *) getTileColumnColumn;
+-(GPKGTileColumn *) tileColumnColumn;
+
+/**
+ *  Get the tile row index
+ *
+ *  @return tile row index
+ */
+-(int) tileRowIndex;
 
 /**
  *  Get the tile row column
  *
  *  @return tile row column
  */
--(GPKGTileColumn *) getTileRowColumn;
+-(GPKGTileColumn *) tileRowColumn;
+
+/**
+ *  Get the tile data index
+ *
+ *  @return tile data index
+ */
+-(int) tileDataIndex;
 
 /**
  *  Get the tile data column
  *
  *  @return tile data column
  */
--(GPKGTileColumn *) getTileDataColumn;
+-(GPKGTileColumn *) tileDataColumn;
 
 /**
  *  Create the required table columns
@@ -98,10 +98,10 @@ extern NSString * const GPKG_TT_COLUMN_TILE_DATA;
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex;
 
 /**
- * Get the list of tile columns
+ * Get the tile columns
  *
  * @return columns
  */
--(NSArray<GPKGTileColumn *> *) tileColumns;
+-(GPKGTileColumns *) tileColumns;
 
 @end

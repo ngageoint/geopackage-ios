@@ -272,7 +272,7 @@
 }
 
 -(BOOL) deleteIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type andFeatureRow: (GPKGFeatureRow *) row{
-    return [self deleteIndexWithFeatureIndexType:type andGeomId:[[row getId] intValue]];
+    return [self deleteIndexWithFeatureIndexType:type andGeomId:[row idValue]];
 }
 
 -(BOOL) deleteIndexWithGeomId: (int) geomId{

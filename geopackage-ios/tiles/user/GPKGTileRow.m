@@ -40,11 +40,11 @@
 }
 
 -(GPKGTileColumn *) getZoomLevelColumn{
-    return [self.tileTable getZoomLevelColumn];
+    return [self.tileTable zoomLevelColumn];
 }
 
 -(int) getZoomLevel{
-    return [(NSNumber *)[self getValueWithIndex:[self getZoomLevelColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self getZoomLevelColumnIndex]] intValue];
 }
 
 -(void) setZoomLevel: (int) zoomLevel{
@@ -56,11 +56,11 @@
 }
 
 -(GPKGTileColumn *) getTileColumnColumn{
-    return [self.tileTable getTileColumnColumn];
+    return [self.tileTable tileColumnColumn];
 }
 
 -(int) getTileColumn{
-    return [(NSNumber *)[self getValueWithIndex:[self getTileColumnColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self getTileColumnColumnIndex]] intValue];
 }
 
 -(void) setTileColumn: (int) tileColumn{
@@ -72,11 +72,11 @@
 }
 
 -(GPKGTileColumn *) getTileRowColumn{
-    return [self.tileTable getTileRowColumn];
+    return [self.tileTable tileRowColumn];
 }
 
 -(int) getTileRow{
-    return [(NSNumber *)[self getValueWithIndex:[self getTileRowColumnIndex]] intValue];
+    return [(NSNumber *)[self valueWithIndex:[self getTileRowColumnIndex]] intValue];
 }
 
 -(void) setTileRow: (int) tileRow{
@@ -88,11 +88,11 @@
 }
 
 -(GPKGTileColumn *) getTileDataColumn{
-    return [self.tileTable getTileDataColumn];
+    return [self.tileTable tileDataColumn];
 }
 
 -(NSData *) getTileData{
-    return (NSData *)[self getValueWithIndex:[self getTileDataColumnIndex]];
+    return (NSData *)[self valueWithIndex:[self getTileDataColumnIndex]];
 }
 
 -(void) setTileData: (NSData *) tileData{

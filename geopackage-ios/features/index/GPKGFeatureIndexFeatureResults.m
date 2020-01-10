@@ -29,7 +29,7 @@
 }
 
 -(NSNumber *) getFeatureId{
-    return [[self getFeatureRow] getId];
+    return [[self getFeatureRow] id];
 }
 
 @end

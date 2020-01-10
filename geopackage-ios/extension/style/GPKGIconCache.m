@@ -35,7 +35,7 @@
 }
 
 -(UIImage *) imageForRow: (GPKGIconRow *) iconRow{
-    return [self imageForId:[iconRow id]];
+    return [self imageForId:[iconRow idValue]];
 }
 
 -(UIImage *) imageForId: (int) iconRowId{
@@ -47,7 +47,7 @@
 }
 
 -(UIImage *) putImage: (UIImage *) image forRow: (GPKGIconRow *) iconRow{
-    return [self putImage:image forId:[iconRow id]];
+    return [self putImage:image forId:[iconRow idValue]];
 }
 
 -(UIImage *) putImage: (UIImage *) image forId: (int) iconRowId{
@@ -61,7 +61,7 @@
 }
 
 -(UIImage *) removeForRow: (GPKGIconRow *) iconRow{
-    return [self removeForId:[iconRow id]];
+    return [self removeForId:[iconRow idValue]];
 }
 
 -(UIImage *) removeForId: (int) iconRowId{
