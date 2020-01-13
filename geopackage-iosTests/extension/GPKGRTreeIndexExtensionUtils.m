@@ -47,7 +47,7 @@
             GPKGFeatureRow *featureRow = [tableDao featureRowFromRTreeRow:row];
             [GPKGTestUtils assertNotNil:featureRow];
             
-            [GPKGTestUtils assertEqualWithValue:[row getId] andValue2:[featureRow getId]];
+            [GPKGTestUtils assertEqualWithValue:[row id] andValue2:[featureRow id]];
             
             double minX = row.minX;
             double maxX = row.maxX;
@@ -67,7 +67,7 @@
                 BOOL found = NO;
                 while([results moveToNext]){
                     GPKGFeatureRow *queryFeatureRow = [tableDao featureRow:results];
-                    if([[queryFeatureRow getId] intValue] == [[featureRow getId] intValue]){
+                    if([queryFeatureRow idValue] == [featureRow idValue]){
                         found = YES;
                         break;
                     }

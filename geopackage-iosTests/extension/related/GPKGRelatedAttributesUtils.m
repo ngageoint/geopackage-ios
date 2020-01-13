@@ -69,7 +69,7 @@
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] getId]];
+        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
@@ -79,7 +79,7 @@
     int attributesCount2 = attributesResultSet2.count;
     NSMutableArray<NSNumber *> *attributeIds2 = [[NSMutableArray alloc] init];
     while([attributesResultSet2 moveToNext]){
-        [attributeIds2 addObject:[[attributesDao2 getAttributesRow:attributesResultSet2] getId]];
+        [attributeIds2 addObject:[[attributesDao2 getAttributesRow:attributesResultSet2] id]];
     }
     [attributesResultSet2 close];
 
@@ -143,9 +143,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:attributesRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:attributesRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:attributesRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:attributesDao2.tableName andValue2:attributesRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table getPkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_ATTRIBUTES] andValue2:attributesRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:attributesRelation.mappingTableName];
         
@@ -189,9 +189,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[relation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:relation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:relation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:relation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:attributesDao2.tableName andValue2:relation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table getPkColumn].name andValue2:relation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumn].name andValue2:relation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_ATTRIBUTES] andValue2:relation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:relation.mappingTableName];
         
@@ -225,15 +225,15 @@
         int totalMapped = 0;
         while([attributesResultSet2 moveToNext]){
             GPKGAttributesRow *attributes2Row = [attributesDao2 getAttributesRow:attributesResultSet2];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[[attributes2Row getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[attributes2Row idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGAttributesRow *attributesRow = (GPKGAttributesRow *)[attributesDao queryForIdObject:mappedId];
                 [GPKGTestUtils assertNotNil:attributesRow];
                 
                 [GPKGTestUtils assertTrue:[attributesRow hasId]];
-                [GPKGTestUtils assertTrue:[[attributesRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[attributeIds containsObject:[attributesRow getId]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[attributesRow getId]]];
+                [GPKGTestUtils assertTrue:[attributesRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[attributeIds containsObject:[attributesRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[attributesRow id]]];
             }
             
             totalMapped += mappedIds.count;

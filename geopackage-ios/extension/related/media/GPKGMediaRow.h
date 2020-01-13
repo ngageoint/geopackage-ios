@@ -43,27 +43,6 @@
 -(GPKGMediaTable *) table;
 
 /**
- * Get the id column index
- *
- * @return id column index
- */
--(int) idColumnIndex;
-
-/**
- * Get the id column
- *
- * @return id column
- */
--(GPKGUserCustomColumn *) idColumn;
-
-/**
- * Get the id value
- *
- * @return id value
- */
--(int) idValue;
-
-/**
  * Get the data column index
  *
  * @return data column index

@@ -39,7 +39,7 @@
 }
 
 -(GPKGFeatureColumns *) featureColumns{
-    return (GPKGFeatureColumns *) [super columns];
+    return (GPKGFeatureColumns *) [super userColumns];
 }
 
 -(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{

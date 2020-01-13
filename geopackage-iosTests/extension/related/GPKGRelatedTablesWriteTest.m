@@ -76,14 +76,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] getId]];
+        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedFrs = [relatedDao queryForAll];
     int relatedCount = relatedFrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedFrs moveToNext]){
-        [relatedIds addObject:[[relatedDao getFeatureRow:relatedFrs] getId]];
+        [relatedIds addObject:[[relatedDao getFeatureRow:relatedFrs] id]];
     }
     [relatedFrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -189,14 +189,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] getId]];
+        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedArs = [relatedDao queryForAll];
     int relatedCount = relatedArs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedArs moveToNext]){
-        [relatedIds addObject:[[relatedDao getAttributesRow:relatedArs] getId]];
+        [relatedIds addObject:[[relatedDao getAttributesRow:relatedArs] id]];
     }
     [relatedArs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -302,14 +302,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] getId]];
+        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedTrs = [relatedDao queryForAll];
     int relatedCount = relatedTrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedTrs moveToNext]){
-        [relatedIds addObject:[[relatedDao getTileRow:relatedTrs] getId]];
+        [relatedIds addObject:[[relatedDao getTileRow:relatedTrs] id]];
     }
     [relatedTrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];

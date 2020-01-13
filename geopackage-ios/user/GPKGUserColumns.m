@@ -212,6 +212,22 @@
     return (int)[self.columns count];
 }
 
+-(BOOL) hasIdColumn{
+    return [self hasPkColumn];
+}
+
+-(int) idIndex{
+    return [self pkIndex];
+}
+
+-(GPKGUserColumn *) idColumn{
+    return [self pkColumn];
+}
+
+-(NSString *) idColumnName{
+    return [self pkColumnName];
+}
+
 -(BOOL) hasPkColumn{
     return self.pkIndex >= 0;
 }

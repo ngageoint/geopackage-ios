@@ -66,7 +66,7 @@
 }
 
 -(GPKGFeatureRow *) featureRowFromRTreeRow: (GPKGRTreeIndexTableRow *) row{
-    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[row idNumber]];
+    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[row id]];
 }
 
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) resultSet{

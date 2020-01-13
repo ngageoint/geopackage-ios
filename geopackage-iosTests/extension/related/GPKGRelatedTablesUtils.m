@@ -141,13 +141,13 @@
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:userRow.columnCount];
     
     for(int i = 0; i < userRow.columnCount; i++){
-        GPKGUserCustomColumn *column = [[[userRow table] userCustomColumns] objectAtIndex:i];
+        GPKGUserColumn *column = [[[userRow table] userCustomColumns] columnWithIndex:i];
         enum GPKGDataType dataType = column.dataType;
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
-        [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[userRow getColumnNameWithIndex:i]];
-        [GPKGTestUtils assertEqualIntWithValue:i andValue2:[userRow getColumnIndexWithColumnName:[columns objectAtIndex:i]]];
-        int rowType = [userRow getRowColumnTypeWithIndex:i];
-        NSObject *value = [userRow getValueWithIndex:i];
+        [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[userRow columnNameWithIndex:i]];
+        [GPKGTestUtils assertEqualIntWithValue:i andValue2:[userRow columnIndexWithColumnName:[columns objectAtIndex:i]]];
+        int rowType = [userRow rowColumnTypeWithIndex:i];
+        NSObject *value = [userRow valueWithIndex:i];
         
         switch (rowType) {
                 

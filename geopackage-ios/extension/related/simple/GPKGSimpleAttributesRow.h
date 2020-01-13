@@ -41,25 +41,4 @@
  */
 -(GPKGSimpleAttributesTable *) table;
 
-/**
- * Get the id column index
- *
- * @return id column index
- */
--(int) idColumnIndex;
-
-/**
- * Get the id column
- *
- * @return id column
- */
--(GPKGUserCustomColumn *) idColumn;
-
-/**
- * Get the id
- *
- * @return id
- */
--(int) id; // TODO
-
 @end

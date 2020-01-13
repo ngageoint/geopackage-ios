@@ -138,7 +138,7 @@
     int featureCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
     while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] getId]];
+        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] id]];
     }
     [featureResultSet close];
     
@@ -147,7 +147,7 @@
     mediaCount = mediaResultSet.count;
     NSMutableArray<NSNumber *> *mediaIds = [[NSMutableArray alloc] init];
     while([mediaResultSet moveToNext]){
-        [mediaIds addObject:[NSNumber numberWithInt:[[mediaDao row:mediaResultSet] id]]];
+        [mediaIds addObject:[[mediaDao row:mediaResultSet] id]];
     }
     [mediaResultSet close];
     
@@ -205,9 +205,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[featureRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featureRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:featureRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:featureRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:featureRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] getPkColumn].name andValue2:featureRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumn].name andValue2:featureRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:featureRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featureRelation.mappingTableName];
         
@@ -236,15 +236,15 @@
         int totalMapped = 0;
         while([featureResultSet moveToNext]){
             GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[[featureRow getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[featureRow idValue]];
             NSArray<GPKGMediaRow *> *mediaRows = [mediaDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)mediaRows.count];
             
             for(GPKGMediaRow *mediaRow in mediaRows){
                 [GPKGTestUtils assertTrue:[mediaRow hasId]];
-                [GPKGTestUtils assertTrue:[[mediaRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:mediaRow.id]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[NSNumber numberWithInt:mediaRow.id]]];
+                [GPKGTestUtils assertTrue:[mediaRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[mediaIds containsObject:[mediaRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[mediaRow id]]];
                 [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:mediaData andActual:[mediaRow data]];
                 [GPKGTestUtils assertEqualWithValue:contentType andValue2:[mediaRow contentType]];
                 [GPKGRelatedTablesUtils validateUserRow:mediaRow withColumns:mediaColumns];
@@ -283,9 +283,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[mediaRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:mediaRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:mediaRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:mediaRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:mediaRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] getPkColumn].name andValue2:mediaRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumn].name andValue2:mediaRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:mediaRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:mediaRelation.mappingTableName];
         
@@ -320,16 +320,16 @@
         int totalMapped = 0;
         while([mediaResultSet moveToNext]){
             GPKGMediaRow *mediaRow = [mediaDao row:mediaResultSet];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:mediaRelation withRelatedId:[[mediaRow getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:mediaRelation withRelatedId:[mediaRow idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:mappedId];
                 [GPKGTestUtils assertNotNil:featureRow];
                 
                 [GPKGTestUtils assertTrue:[featureRow hasId]];
-                [GPKGTestUtils assertTrue:[[featureRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow getId]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow getId]]];
-                if([featureRow getValueWithIndex:[featureRow getGeometryColumnIndex]] != nil){
+                [GPKGTestUtils assertTrue:[featureRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow id]]];
+                if([featureRow valueWithIndex:[featureRow getGeometryColumnIndex]] != nil){
                     GPKGGeometryData *geometryData = [featureRow getGeometry];
                     [GPKGTestUtils assertNotNil:geometryData];
                     if(!geometryData.empty){
@@ -357,18 +357,18 @@
     [GPKGTestUtils assertEqualIntWithValue:existingColumns + 2 andValue2:(int)[mediaTable columns].count];
     for (int index = existingColumns; index < [mediaTable columns].count; index++) {
         NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
-        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable getColumnNameWithIndex:index]];
-        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable getColumnIndexWithColumnName:name]];
-        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable getColumnWithIndex:index].name];
-        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable getColumnWithIndex:index].index];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable columnNameWithIndex:index]];
+        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable columnIndexWithColumnName:name]];
+        [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable columnWithIndex:index].name];
+        [GPKGTestUtils assertEqualIntWithValue:index andValue2:[mediaTable columnWithIndex:index].index];
         [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable.columnNames objectAtIndex:index]];
         [GPKGTestUtils assertEqualWithValue:name andValue2:[mediaTable.columns objectAtIndex:index].name];
         @try {
-            [[mediaTable getColumnWithIndex:index] setIndex:index - 1];
+            [[mediaTable columnWithIndex:index] setIndex:index - 1];
             [GPKGTestUtils fail:@"Changed index on a created table column"];
         } @catch (NSException *exception) {
         }
-        [[mediaTable getColumnWithIndex:index] setIndex:index];
+        [[mediaTable columnWithIndex:index] setIndex:index];
     }
     [GPKGTestUtils assertEqualWithValue:mediaIdColumn andValue2:[mediaTable idColumn]];
     [GPKGTestUtils assertEqualWithValue:mediaDataColumn andValue2:[mediaTable dataColumn]];
@@ -386,8 +386,8 @@
     [GPKGTestUtils assertTrue:mediaRowId > 0];
     GPKGMediaRow *newMediaRow = (GPKGMediaRow *)[mediaDao queryForIdObject:[NSNumber numberWithInt:mediaRowId]];
     [GPKGTestUtils assertNotNil:newMediaRow];
-    [GPKGTestUtils assertEqualWithValue:newValue andValue2:[newMediaRow getValueWithIndex:existingColumns]];
-    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[mediaRow data] andActual:(NSData *)[newMediaRow getValueWithIndex:existingColumns + 1]];
+    [GPKGTestUtils assertEqualWithValue:newValue andValue2:[newMediaRow valueWithIndex:existingColumns]];
+    [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[mediaRow data] andActual:(NSData *)[newMediaRow valueWithIndex:existingColumns + 1]];
     
     // Delete a single mapping
     int countOfIds = [dao countByIdsFromRow:userMappingRow];

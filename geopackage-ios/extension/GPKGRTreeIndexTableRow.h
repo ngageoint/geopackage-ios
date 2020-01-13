@@ -23,20 +23,6 @@
 -(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow;
 
 /**
- * Get the ID
- *
- * @return ID
- */
--(int) id; // TODO
-
-/**
- * Get the ID number
- *
- * @return ID number
- */
--(NSNumber *) idNumber;
-
-/**
  * Get the min x
  *
  * @return min x

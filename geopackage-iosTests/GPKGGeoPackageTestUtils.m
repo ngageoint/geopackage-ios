@@ -126,19 +126,19 @@
     if(idColumn == nil){
         idColumn = @"id";
     }
-    [GPKGTestUtils assertEqualWithValue:idColumn andValue2:[featureRow getColumnNameWithIndex:0]];
-    [GPKGTestUtils assertEqualWithValue:geometryColumns.columnName andValue2:[featureRow getColumnNameWithIndex:1]];
+    [GPKGTestUtils assertEqualWithValue:idColumn andValue2:[featureRow columnNameWithIndex:0]];
+    [GPKGTestUtils assertEqualWithValue:geometryColumns.columnName andValue2:[featureRow columnNameWithIndex:1]];
     
     if(additionalColumns != nil){
-        [GPKGTestUtils assertEqualWithValue:@"test_text" andValue2:[featureRow getColumnNameWithIndex:2]];
-        [GPKGTestUtils assertEqualWithValue:@"test_real" andValue2:[featureRow getColumnNameWithIndex:3]];
-        [GPKGTestUtils assertEqualWithValue:@"test_boolean" andValue2:[featureRow getColumnNameWithIndex:4]];
-        [GPKGTestUtils assertEqualWithValue:@"test_blob" andValue2:[featureRow getColumnNameWithIndex:5]];
-        [GPKGTestUtils assertEqualWithValue:@"test_integer" andValue2:[featureRow getColumnNameWithIndex:6]];
-        [GPKGTestUtils assertEqualWithValue:@"test_text_limited" andValue2:[featureRow getColumnNameWithIndex:7]];
-        [GPKGTestUtils assertEqualWithValue:@"test_blob_limited" andValue2:[featureRow getColumnNameWithIndex:8]];
-        [GPKGTestUtils assertEqualWithValue:@"test_date" andValue2:[featureRow getColumnNameWithIndex:9]];
-        [GPKGTestUtils assertEqualWithValue:@"test_datetime" andValue2:[featureRow getColumnNameWithIndex:10]];
+        [GPKGTestUtils assertEqualWithValue:@"test_text" andValue2:[featureRow columnNameWithIndex:2]];
+        [GPKGTestUtils assertEqualWithValue:@"test_real" andValue2:[featureRow columnNameWithIndex:3]];
+        [GPKGTestUtils assertEqualWithValue:@"test_boolean" andValue2:[featureRow columnNameWithIndex:4]];
+        [GPKGTestUtils assertEqualWithValue:@"test_blob" andValue2:[featureRow columnNameWithIndex:5]];
+        [GPKGTestUtils assertEqualWithValue:@"test_integer" andValue2:[featureRow columnNameWithIndex:6]];
+        [GPKGTestUtils assertEqualWithValue:@"test_text_limited" andValue2:[featureRow columnNameWithIndex:7]];
+        [GPKGTestUtils assertEqualWithValue:@"test_blob_limited" andValue2:[featureRow columnNameWithIndex:8]];
+        [GPKGTestUtils assertEqualWithValue:@"test_date" andValue2:[featureRow columnNameWithIndex:9]];
+        [GPKGTestUtils assertEqualWithValue:@"test_datetime" andValue2:[featureRow columnNameWithIndex:10]];
     }
 }
 

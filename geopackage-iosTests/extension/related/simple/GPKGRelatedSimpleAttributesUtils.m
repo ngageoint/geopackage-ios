@@ -136,7 +136,7 @@
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] getId]];
+        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
@@ -145,7 +145,7 @@
     simpleCount = simpleResultSet.count;
     NSMutableArray<NSNumber *> *simpleIds = [[NSMutableArray alloc] init];
     while([simpleResultSet moveToNext]){
-        [simpleIds addObject:[NSNumber numberWithInt:[[simpleDao row:simpleResultSet] id]]];
+        [simpleIds addObject:[NSNumber numberWithInt:[[simpleDao row:simpleResultSet] idValue]]];
     }
     [simpleResultSet close];
     
@@ -205,9 +205,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:attributesRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:attributesRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:attributesRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:attributesRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] getPkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] pkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:attributesRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:attributesRelation.mappingTableName];
         
@@ -237,15 +237,15 @@
         int totalMapped = 0;
         while([attributesResultSet moveToNext]){
             GPKGAttributesRow *attributesRow = [attributesDao getAttributesRow:attributesResultSet];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:attributesRelation withBaseId:[[attributesRow getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:attributesRelation withBaseId:[attributesRow idValue]];
             NSArray<GPKGSimpleAttributesRow *> *simpleRows = [simpleDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)simpleRows.count];
             
             for(GPKGSimpleAttributesRow *simpleRow in simpleRows){
                 [GPKGTestUtils assertTrue:[simpleRow hasId]];
-                [GPKGTestUtils assertTrue:[[simpleRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[simpleIds containsObject:[NSNumber numberWithInt:simpleRow.id]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[NSNumber numberWithInt:simpleRow.id]]];
+                [GPKGTestUtils assertTrue:[simpleRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[simpleIds containsObject:[simpleRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[simpleRow id]]];
                 [GPKGRelatedTablesUtils validateUserRow:simpleRow withColumns:simpleColumns];
                 [GPKGRelatedTablesUtils validateSimpleDublinCoreColumnsWithRow:simpleRow];
             }
@@ -277,9 +277,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[simpleRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:simpleRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table getPkColumn].name andValue2:simpleRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:simpleRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:simpleRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] getPkColumn].name andValue2:simpleRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] pkColumn].name andValue2:simpleRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:simpleRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:simpleRelation.mappingTableName];
         
@@ -314,15 +314,15 @@
         int totalMapped = 0;
         while([simpleResultSet moveToNext]){
             GPKGSimpleAttributesRow *simpleRow = [simpleDao row:simpleResultSet];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:simpleRelation withRelatedId:[[simpleRow getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:simpleRelation withRelatedId:[simpleRow idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGAttributesRow *attributesRow = (GPKGAttributesRow *)[attributesDao queryForIdObject:mappedId];
                 [GPKGTestUtils assertNotNil:attributesRow];
                 
                 [GPKGTestUtils assertTrue:[attributesRow hasId]];
-                [GPKGTestUtils assertTrue:[[attributesRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[attributeIds containsObject:[attributesRow getId]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[attributesRow getId]]];
+                [GPKGTestUtils assertTrue:[attributesRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[attributeIds containsObject:[attributesRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[attributesRow id]]];
             }
             
             totalMapped += mappedIds.count;

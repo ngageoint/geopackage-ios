@@ -151,14 +151,14 @@
 -(NSNumber *) id{
     
     NSNumber * id = nil;
-    NSObject * objectValue = [self valueWithIndex:[self pkColumnIndex]];
+    NSObject * objectValue = [self valueWithIndex:[self pkIndex]];
     if(objectValue == nil){
-        [NSException raise:@"Null Id" format:@"Row Id was null. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkColumnIndex], [self pkColumn].name];
+        [NSException raise:@"Null Id" format:@"Row Id was null. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkIndex], [self pkColumn].name];
     }
     if([objectValue isKindOfClass:[NSNumber class]]){
         id = (NSNumber *) objectValue;
     }else{
-        [NSException raise:@"Non Number Id" format:@"Row Id was not a number. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkColumnIndex], [self pkColumn].name];
+        [NSException raise:@"Non Number Id" format:@"Row Id was not a number. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkIndex], [self pkColumn].name];
     }
     return id;
 }
@@ -168,24 +168,57 @@
 }
 
 -(BOOL) hasIdColumn{
-    return [self.table hasPkColumn];
+    return [self.table hasIdColumn];
 }
 
 -(BOOL) hasId{
     BOOL hasId = NO;
     if([self hasIdColumn]){
-        NSObject * objectValue = [self valueWithIndex:[self pkColumnIndex]];
+        NSObject * objectValue = [self valueWithIndex:[self idIndex]];
         hasId = objectValue != nil && [objectValue isKindOfClass:[NSNumber class]];
     }
     return hasId;
 }
 
--(int) pkColumnIndex{
-    return self.table.pkIndex;
+-(int) idIndex{
+    return [self.table idIndex];
+}
+
+-(GPKGUserColumn *) idColumn{
+    return [self.table idColumn];
+}
+
+-(NSString *) idColumnName{
+    return [self.table idColumnName];
+}
+
+-(NSObject *) pk{
+    return [self valueWithIndex:[self pkIndex]];
+}
+
+-(BOOL) hasPkColumn{
+    return [self.table hasPkColumn];
+}
+
+-(BOOL) hasPk{
+    BOOL hasPk = NO;
+    if([self hasPkColumn]){
+        NSObject * objectValue = [self valueWithIndex:[self pkIndex]];
+        hasPk = objectValue != nil;
+    }
+    return hasPk;
+}
+
+-(int) pkIndex{
+    return [self.table pkIndex];
 }
 
 -(GPKGUserColumn *) pkColumn{
     return [self.table pkColumn];
+}
+
+-(NSString *) pkColumnName{
+    return [self.table pkColumnName];
 }
 
 -(void) setValueWithIndex: (int) index andValue: (NSObject *) value{
@@ -213,12 +246,12 @@
 
 -(void) setId: (NSNumber *) id{
     if([self hasIdColumn]){
-        [GPKGUtils replaceObjectAtIndex:[self pkColumnIndex] withObject:id inArray:self.values];
+        [GPKGUtils replaceObjectAtIndex:[self pkIndex] withObject:id inArray:self.values];
     }
 }
 
 -(void) resetId{
-    [GPKGUtils replaceObjectAtIndex:[self pkColumnIndex] withObject:nil inArray:self.values];
+    [GPKGUtils replaceObjectAtIndex:[self pkIndex] withObject:nil inArray:self.values];
 }
 
 -(void) validateValueWithColumn: (GPKGUserColumn *) column andValue: (NSObject *) value andValueTypes: (NSArray *) valueTypes{

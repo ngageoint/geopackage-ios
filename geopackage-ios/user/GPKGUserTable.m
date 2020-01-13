@@ -44,7 +44,7 @@
     self = [super init];
     if(self != nil){
 
-        self.userColumns = [userTable.columns mutableCopy];
+        self.userColumns = [userTable.userColumns mutableCopy];
         self.constraints = [[NSMutableArray alloc] init];
         self.typedContraints = [[NSMutableDictionary alloc] init];
         for(GPKGConstraint *constraint in userTable.constraints){
@@ -120,6 +120,22 @@
 
 -(void) setTableName: (NSString *) tableName{
     [self.userColumns setTableName:tableName];
+}
+
+-(BOOL) hasIdColumn{
+    return [self.userColumns hasIdColumn];
+}
+
+-(int) idIndex{
+    return [self.userColumns idIndex];
+}
+
+-(GPKGUserColumn *) idColumn{
+    return [self.userColumns idColumn];
+}
+
+-(NSString *) idColumnName{
+    return [self.userColumns idColumnName];
 }
 
 -(BOOL) hasPkColumn{

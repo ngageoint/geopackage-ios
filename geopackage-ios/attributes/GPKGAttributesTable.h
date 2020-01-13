@@ -8,6 +8,7 @@
 
 #import "GPKGUserTable.h"
 #import "GPKGAttributesColumn.h"
+#import "GPKGAttributesColumns.h"
 
 @interface GPKGAttributesTable : GPKGUserTable
 
@@ -26,6 +27,6 @@
  *
  * @return columns
  */
--(NSArray<GPKGAttributesColumn *> *) attributesColumns;
+-(GPKGAttributesColumns *) attributesColumns;
 
 @end

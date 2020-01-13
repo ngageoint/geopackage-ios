@@ -75,7 +75,7 @@
     int featuresCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
     while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] getId]];
+        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] id]];
     }
     [featureResultSet close];
     
@@ -85,7 +85,7 @@
     int tilesCount = tileResultSet.count;
     NSMutableArray<NSNumber *> *tileIds = [[NSMutableArray alloc] init];
     while([tileResultSet moveToNext]){
-        [tileIds addObject:[[tileDao getTileRow:tileResultSet] getId]];
+        [tileIds addObject:[[tileDao getTileRow:tileResultSet] id]];
     }
     [tileResultSet close];
     
@@ -149,9 +149,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[featuresRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featuresRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:featuresRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:featuresRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:tileDao.tableName andValue2:featuresRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[tileDao.table getPkColumn].name andValue2:featuresRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumn].name andValue2:featuresRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_TILES] andValue2:featuresRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featuresRelation.mappingTableName];
         
@@ -195,9 +195,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[relation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:relation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table getPkColumn].name andValue2:relation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:relation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:tileDao.tableName andValue2:relation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[tileDao.table getPkColumn].name andValue2:relation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumn].name andValue2:relation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_TILES] andValue2:relation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:relation.mappingTableName];
         
@@ -231,15 +231,15 @@
         int totalMapped = 0;
         while([tileResultSet moveToNext]){
             GPKGTileRow *tileRow = [tileDao getTileRow:tileResultSet];
-            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[[tileRow getId] intValue]];
+            NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[tileRow idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:mappedId];
                 [GPKGTestUtils assertNotNil:featureRow];
                 
                 [GPKGTestUtils assertTrue:[featureRow hasId]];
-                [GPKGTestUtils assertTrue:[[featureRow getId] intValue] >= 0];
-                [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow getId]]];
-                [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow getId]]];
+                [GPKGTestUtils assertTrue:[featureRow idValue] >= 0];
+                [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow id]]];
+                [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow id]]];
             }
             
             totalMapped += mappedIds.count;

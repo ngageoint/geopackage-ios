@@ -163,6 +163,34 @@
 -(void) setTableName: (NSString *) tableName;
 
 /**
+ *  Check if the row has an id column
+ *
+ *  @return true if has an id column
+ */
+-(BOOL) hasIdColumn;
+
+/**
+ * Get the id column index
+ *
+ * @return id column index
+ */
+-(int) idIndex;
+
+/**
+ * Get the id column
+ *
+ * @return id column
+ */
+-(GPKGUserColumn *) idColumn;
+
+/**
+ * Get the id column name
+ *
+ * @return id column name
+ */
+-(NSString *) idColumnName;
+
+/**
  * Check if the table has a primary key column
  *
  * @return true if has a primary key

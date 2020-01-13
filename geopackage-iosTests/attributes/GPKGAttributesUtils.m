@@ -386,7 +386,7 @@
         GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
         
         @try {
-            [attributesRow setValueWithIndex:[attributesRow pkColumnIndex] andValue:[NSNumber numberWithInt:9]];
+            [attributesRow setValueWithIndex:[attributesRow pkIndex] andValue:[NSNumber numberWithInt:9]];
             [GPKGTestUtils fail:@"Updated the primary key value"];
         } @catch (NSException *exception) {
             // expected

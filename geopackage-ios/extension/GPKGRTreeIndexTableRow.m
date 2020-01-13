@@ -16,11 +16,7 @@
     return self;
 }
 
--(int) id{
-    return [[self idNumber] intValue];
-}
-
--(NSNumber *) idNumber{
+-(NSNumber *) id{
     return (NSNumber *)[self valueWithIndex:[self columnIndexWithColumnName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
 }
 

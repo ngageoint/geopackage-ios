@@ -67,28 +67,28 @@
                 GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
-                [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithIdNumber:[featureRow id]]];
 
                 [GPKGTestUtils assertNil:[featureTableStyles stylesWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles stylesWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles stylesWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles styleWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles styleWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
-                [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles  iconsWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles iconsWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconsWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles iconWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles iconWithIdNumber:[featureRow getId] andGeometryType:[featureRow getGeometryType]]];
-                [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithIdNumber:[featureRow getId]]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithIdNumber:[featureRow id]]];
             }
             [featureResultSet close];
             
@@ -124,9 +124,9 @@
             GPKGStyles *tableStyles = [featureTableStyles tableStyles];
             [GPKGTestUtils assertNotNil:tableStyles];
             [GPKGTestUtils assertNotNil:[tableStyles defaultStyle]];
-            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[tableStyles defaultStyle] getId]];
-            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[featureTableStyles tableStyleWithGeometryType:SF_NONE] getId]];
-            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault getId] andValue2:[[featureTableStyles tableStyleWithGeometryType:geometryType] getId]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault id] andValue2:[[tableStyles defaultStyle] id]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault id] andValue2:[[featureTableStyles tableStyleWithGeometryType:SF_NONE] id]];
+            [GPKGTestUtils assertEqualWithValue:[tableStyleDefault id] andValue2:[[featureTableStyles tableStyleWithGeometryType:geometryType] id]];
             [self validateTableStyles:featureTableStyles andStyle:tableStyleDefault andStyles:geometryTypeTableStyles andTypes:childGeometryTypes];
             
             // Table Icons
@@ -162,9 +162,9 @@
             [GPKGTestUtils assertNotNil:tableIcons];
             
             [GPKGTestUtils assertNotNil:[tableIcons defaultIcon]];
-            [GPKGTestUtils assertEqualWithValue:[tableIconDefault getId] andValue2:[[tableIcons defaultIcon] getId]];
-            [GPKGTestUtils assertEqualWithValue:[tableIconDefault getId] andValue2:[[featureTableStyles tableIconWithGeometryType:SF_NONE] getId]];
-            [GPKGTestUtils assertEqualWithValue:[baseGeometryTypeIcon getId] andValue2:[[featureTableStyles tableIconWithGeometryType:geometryType] getId]];
+            [GPKGTestUtils assertEqualWithValue:[tableIconDefault id] andValue2:[[tableIcons defaultIcon] id]];
+            [GPKGTestUtils assertEqualWithValue:[tableIconDefault id] andValue2:[[featureTableStyles tableIconWithGeometryType:SF_NONE] id]];
+            [GPKGTestUtils assertEqualWithValue:[baseGeometryTypeIcon id] andValue2:[[featureTableStyles tableIconWithGeometryType:geometryType] id]];
             [self validateTableIcons:featureTableStyles andIcon:baseGeometryTypeIcon andIcons:geometryTypeTableIcons andTypes:childGeometryTypes];
             
             [GPKGTestUtils assertFalse:[featureTableStyles hasStyleRelationship]];
@@ -216,7 +216,7 @@
                     // Feature Styles
                     
                     NSMutableDictionary<NSNumber *, GPKGStyleRow *> *featureRowStyles = [[NSMutableDictionary alloc] init];
-                    [featureResultsStyles setObject:featureRowStyles forKey:[featureRow getId]];
+                    [featureResultsStyles setObject:featureRowStyles forKey:[featureRow id]];
                     
                     // Add a default style
                     GPKGStyleRow *styleDefault = [self randomStyleWithRandomStyles:randomStyles];
@@ -239,7 +239,7 @@
                     // Feature Icons
                     
                     NSMutableDictionary<NSNumber *, GPKGIconRow *> *featureRowIcons = [[NSMutableDictionary alloc] init];
-                    [featureResultsIcons setObject:featureRowIcons forKey:[featureRow getId]];
+                    [featureResultsIcons setObject:featureRowIcons forKey:[featureRow id]];
                     
                     // Add a default icon
                     GPKGIconRow *iconDefault = [self randomIconWithRandomIcons:randomIcons];
@@ -337,7 +337,7 @@
             if([geometryTypeStyles objectForKey:typeNumber] != nil){
                 typeStyleRow = [geometryTypeStyles objectForKey:typeNumber];
             }
-            [GPKGTestUtils assertEqualWithValue:[typeStyleRow getId] andValue2:[[featureTableStyles tableStyleWithGeometryType:type] getId]];
+            [GPKGTestUtils assertEqualWithValue:[typeStyleRow id] andValue2:[[featureTableStyles tableStyleWithGeometryType:type] id]];
             NSDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
             [self validateTableStyles:featureTableStyles andStyle:typeStyleRow andStyles:geometryTypeStyles andTypes:childGeometryTypes];
         }
@@ -352,7 +352,7 @@
             GPKGIconRow *typeIconRow = iconRow;
             if([geometryTypeIcons objectForKey:typeNumber] != nil){
                 typeIconRow = [geometryTypeIcons objectForKey:typeNumber];
-                [GPKGTestUtils assertTrue:[[typeIconRow getId] intValue] >= 0];
+                [GPKGTestUtils assertTrue:[typeIconRow idValue] >= 0];
                 [GPKGTestUtils assertNotNil:[typeIconRow data]];
                 [GPKGTestUtils assertEqualWithValue:[[NSString alloc] initWithFormat:@"image/%@", GPKG_TEST_ICON_POINT_IMAGE_EXTENSION] andValue2:[typeIconRow contentType]];
                 UIImage *iconImage = [typeIconRow dataImage];
@@ -360,7 +360,7 @@
                 [GPKGTestUtils assertTrue:iconImage.size.width > 0];
                 [GPKGTestUtils assertTrue:iconImage.size.height > 0];
             }
-            [GPKGTestUtils assertEqualWithValue:[typeIconRow getId] andValue2:[[featureTableStyles tableIconWithGeometryType:type] getId]];
+            [GPKGTestUtils assertEqualWithValue:[typeIconRow id] andValue2:[[featureTableStyles tableIconWithGeometryType:type] id]];
             NSDictionary *childGeometryTypes = [geometryTypes objectForKey:typeNumber];
             [self validateTableIcons:featureTableStyles andIcon:typeIconRow andIcons:geometryTypeIcons andTypes:childGeometryTypes];
         }
@@ -408,7 +408,7 @@
     [geometryTypes addObject:[NSNumber numberWithInt:SF_NONE]];
     
     GPKGStyleRow *expectedStyleRow = nil;
-    NSDictionary *geometryTypeRowStyles = [featureResultsStyles objectForKey:[featureRow getId]];
+    NSDictionary *geometryTypeRowStyles = [featureResultsStyles objectForKey:[featureRow id]];
     if(geometryTypeRowStyles != nil){
         for(NSNumber *typeNumber in geometryTypes){
             expectedStyleRow = [geometryTypeRowStyles objectForKey:typeNumber];
@@ -432,9 +432,9 @@
     }
     
     if (expectedStyleRow != nil) {
-        [GPKGTestUtils assertEqualWithValue:[expectedStyleRow getId] andValue2:[styleRow getId]];
+        [GPKGTestUtils assertEqualWithValue:[expectedStyleRow id] andValue2:[styleRow id]];
         [GPKGTestUtils assertNotNil:[styleRow table]];
-        [GPKGTestUtils assertTrue:[[styleRow getId] intValue] >= 0];
+        [GPKGTestUtils assertTrue:[styleRow idValue] >= 0];
         [styleRow name];
         [styleRow description];
         [styleRow color];
@@ -491,7 +491,7 @@
     [geometryTypes addObject:[NSNumber numberWithInt:SF_NONE]];
     
     GPKGIconRow *expectedIconRow = nil;
-    NSDictionary *geometryTypeRowIcons = [featureResultsIcons objectForKey:[featureRow getId]];
+    NSDictionary *geometryTypeRowIcons = [featureResultsIcons objectForKey:[featureRow id]];
     if(geometryTypeRowIcons != nil){
         for(NSNumber *typeNumber in geometryTypes){
             expectedIconRow = [geometryTypeRowIcons objectForKey:typeNumber];
@@ -515,9 +515,9 @@
     }
     
     if (expectedIconRow != nil) {
-        [GPKGTestUtils assertEqualWithValue:[expectedIconRow getId] andValue2:[iconRow getId]];
+        [GPKGTestUtils assertEqualWithValue:[expectedIconRow id] andValue2:[iconRow id]];
         [GPKGTestUtils assertNotNil:[iconRow table]];
-        [GPKGTestUtils assertTrue:[[iconRow getId] intValue] >= 0];
+        [GPKGTestUtils assertTrue:[iconRow idValue] >= 0];
         [iconRow name];
         [iconRow description];
         [iconRow width];

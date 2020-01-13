@@ -111,7 +111,7 @@
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex getGeometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
-            if([geometryIndex.geomId intValue] == [[testFeatureRow getId] intValue]){
+            if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;
@@ -143,7 +143,7 @@
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex getGeometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
-            if([geometryIndex.geomId intValue] == [[testFeatureRow getId] intValue]){
+            if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;
@@ -173,7 +173,7 @@
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex getGeometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
-            if([geometryIndex.geomId intValue] == [[testFeatureRow getId] intValue]){
+            if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
                 featureFound = true;
             }
             resultCount++;
@@ -299,7 +299,7 @@
     GPKGFeatureRow * featureRow = [featureTableIndex getFeatureRowWithGeometryIndex:geometryIndex];
     [GPKGTestUtils assertNotNil:featureRow];
     [GPKGTestUtils assertEqualWithValue:[featureTableIndex getTableName] andValue2:geometryIndex.tableName];
-    [GPKGTestUtils assertEqualIntWithValue:[geometryIndex.geomId intValue] andValue2:[[featureRow getId] intValue]];
+    [GPKGTestUtils assertEqualIntWithValue:[geometryIndex.geomId intValue] andValue2:[featureRow idValue]];
     SFGeometryEnvelope * envelope = [featureRow getGeometryEnvelope];
     
     [GPKGTestUtils assertNotNil:envelope];

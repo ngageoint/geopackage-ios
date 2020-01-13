@@ -25,18 +25,6 @@
     return (GPKGMediaTable *) [super table];
 }
 
--(int) idColumnIndex{
-    return [super pkColumnIndex];
-}
-
--(GPKGUserCustomColumn *) idColumn{
-    return (GPKGUserCustomColumn *) [super pkColumn];
-}
-
--(int) idValue{
-    return [[super id] intValue];
-}
-
 -(int) dataColumnIndex{
     return [[self table] dataColumnIndex];
 }

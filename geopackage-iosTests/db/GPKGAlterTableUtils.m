@@ -82,8 +82,8 @@
             
             GPKGFeatureTable *table = [dao getFeatureTable];
             int existingColumns = (int)[table columns].count;
-            GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table getPkColumn];
-            GPKGFeatureColumn *geometry = [table getGeometryColumn];
+            GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table pkColumn];
+            GPKGFeatureColumn *geometry = [table geometryColumn];
             
             int newColumns = 0;
             NSString *newColumnName = @"new_column";
@@ -104,28 +104,28 @@
             
             for (int index = existingColumns; index < [table columns].count; index++) {
                 
-                [self indexColumnWithConnection:db andTable:tableName andColumn:(GPKGFeatureColumn *)[table getColumnWithIndex:index]];
+                [self indexColumnWithConnection:db andTable:tableName andColumn:(GPKGFeatureColumn *)[table columnWithIndex:index]];
                 
                 NSString *name = [NSString stringWithFormat:@"%@%d", newColumnName, index - existingColumns + 1];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columnNames] objectAtIndex:index]];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columns] objectAtIndex:index].name];
                 @try {
-                    [[table getColumnWithIndex:index] setIndex:index - 1];
+                    [[table columnWithIndex:index] setIndex:index - 1];
                     [GPKGTestUtils fail:@"Changed index on a created table column"];
                 } @catch (NSException *exception) {
                 }
-                [[table getColumnWithIndex:index] setIndex:index];
+                [[table columnWithIndex:index] setIndex:index];
             }
             
             [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns andTriggerCount:triggerCount andViewCount:viewCount];
             
             [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
-            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
             
             [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
             
@@ -146,10 +146,10 @@
             
             for (int index = existingColumns + 1; index < [table columns].count; index++) {
                 NSString *name = [NSString stringWithFormat:@"%@%d", newerColumnName, index - existingColumns + 1];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnNameWithIndex:index]];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnIndexWithColumnName:name]];
-                [GPKGTestUtils assertEqualWithValue:name andValue2:[table getColumnWithIndex:index].name];
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnNameWithIndex:index]];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnIndexWithColumnName:name]];
+                [GPKGTestUtils assertEqualWithValue:name andValue2:[table columnWithIndex:index].name];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columnNames] objectAtIndex:index]];
                 [GPKGTestUtils assertEqualWithValue:name andValue2:[[table columns] objectAtIndex:index].name];
             }
@@ -158,8 +158,8 @@
             [GPKGTestUtils assertEqualIntWithValue:rowCount andValue2:[dao count]];
             [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount + newColumns andTriggerCount:triggerCount andViewCount:viewCount];
             [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
-            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
             
             [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
             
@@ -177,12 +177,12 @@
             [self testTableCountsWithConnection:db andTable:tableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
             
             for (int index = 0; index < existingColumns; index++) {
-                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table getColumnWithIndex:index].index];
+                [GPKGTestUtils assertEqualIntWithValue:index andValue2:[table columnWithIndex:index].index];
             }
             
             [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
-            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
             
             [self testIndexWithManager:indexManager andGeoPackageCount:indexGeoPackageCount andRTreeCount:indexRTreeCount];
             
@@ -257,7 +257,7 @@
         if (i > 0) {
             [view appendString:@", "];
         }
-        [view appendString:[GPKGSqlUtils quoteWrapName:[featureTable getColumnNameWithIndex:i]]];
+        [view appendString:[GPKGSqlUtils quoteWrapName:[featureTable columnNameWithIndex:i]]];
         [view appendString:@" AS "];
         NSString *columnName = [NSString stringWithFormat:@"column%d", i+1];
         if (quoteWrap) {
@@ -346,8 +346,8 @@
             NSString *newTableName = [NSString stringWithFormat:@"%@_copy", tableName];
             
             int existingColumns = [table columnCount];
-            GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table getPkColumn];
-            GPKGFeatureColumn *geometry = [table getGeometryColumn];
+            GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table pkColumn];
+            GPKGFeatureColumn *geometry = [table geometryColumn];
             
             GPKGFeatureIndexManager *indexManager= [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:dao];
             
@@ -443,12 +443,12 @@
             [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:table.tableName];
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyGeometryColumns.tableName];
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTable.tableName];
-            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table getPkColumn]];
-            [GPKGTestUtils assertEqualWithValue:pk.name andValue2:[copyTable getPkColumn].name];
-            [GPKGTestUtils assertEqualIntWithValue:pk.index andValue2:[copyTable getPkColumn].index];
-            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table getGeometryColumn]];
-            [GPKGTestUtils assertEqualWithValue:geometry.name andValue2:[copyTable getGeometryColumn].name];
-            [GPKGTestUtils assertEqualIntWithValue:geometry.index andValue2:[copyTable getGeometryColumn].index];
+            [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
+            [GPKGTestUtils assertEqualWithValue:pk.name andValue2:[copyTable pkColumn].name];
+            [GPKGTestUtils assertEqualIntWithValue:pk.index andValue2:[copyTable pkColumn].index];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
+            [GPKGTestUtils assertEqualWithValue:geometry.name andValue2:[copyTable geometryColumn].name];
+            [GPKGTestUtils assertEqualIntWithValue:geometry.index andValue2:[copyTable geometryColumn].index];
             
             GPKGFeatureIndexManager *copyIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:copyDao];
             
@@ -1032,27 +1032,27 @@
     
     
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable getColumnWithIndex:0] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:0] constraints] objectAtIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"PRIMARY KEY AUTOINCREMENT"
-                              andValue2:[[[[copyTable getColumnWithIndex:0] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:0] constraints] objectAtIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable getColumnWithIndex:1] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:1] constraints] objectAtIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"UNIQUE"
-                              andValue2:[[[[copyTable getColumnWithIndex:1] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:1] constraints] objectAtIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable getColumnWithIndex:2] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:2] constraints] objectAtIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"DEFAULT 'default_value'"
-                              andValue2:[[[[copyTable getColumnWithIndex:2] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:2] constraints] objectAtIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:5] constraints] objectAtIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT check_constraint_2 CHECK (%@ >= 0)", column6.name]
-                              andValue2:[[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:5] constraints] objectAtIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"check_constraint_2"
-                              andValue2:[[[copyTable getColumnWithIndex:5] constraints] objectAtIndex:1].name];
+                              andValue2:[[[copyTable columnWithIndex:5] constraints] objectAtIndex:1].name];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT another_check_constraint_14 CHECK (%@ >= 0)", column7.name]
-                              andValue2:[[[[copyTable getColumnWithIndex:6] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:6] constraints] objectAtIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"another_check_constraint_14"
-                              andValue2:[[[copyTable getColumnWithIndex:6] constraints] objectAtIndex:0].name];
+                              andValue2:[[[copyTable columnWithIndex:6] constraints] objectAtIndex:0].name];
 
     [geoPackage copyTableAsEmpty:tableName toTable:copyTableName2];
     

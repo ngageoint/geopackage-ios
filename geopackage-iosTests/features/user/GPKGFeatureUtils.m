@@ -63,7 +63,7 @@
                             // Expected
                         }
                     } else {
-                        [newRow setValueWithColumnName:column.name andValue:[featureRow getValueWithColumnName:column.name]];
+                        [newRow setValueWithColumnName:column.name andValue:[featureRow valueWithColumnName:column.name]];
                     }
                 }
                 
@@ -90,15 +90,15 @@
                             [GPKGGeoPackageGeometryDataUtils compareGeometryDataWithExpected:geometry1 andActual:geometry2];
                         }
                     } else if (column.dataType == GPKG_DT_BLOB) {
-                        NSData *blob1 = (NSData *) [queryFeatureRow2 getValueWithColumnName:column.name];
-                        NSData *blob2 = (NSData *) [copyRow getValueWithColumnName:column.name];
+                        NSData *blob1 = (NSData *) [queryFeatureRow2 valueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [copyRow valueWithColumnName:column.name];
                         if (blob1 == nil) {
                             [GPKGTestUtils assertNil:blob2];
                         } else {
                             [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
                         }
                     } else {
-                        [GPKGTestUtils assertEqualWithValue:[queryFeatureRow2 getValueWithColumnName:column.name] andValue2:[copyRow getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryFeatureRow2 valueWithColumnName:column.name] andValue2:[copyRow valueWithColumnName:column.name]];
                     }
                 }
                 
@@ -116,7 +116,7 @@
                 
                 for(GPKGFeatureColumn *column in dao.table.columns){
                     if(column.primaryKey){
-                        [GPKGTestUtils assertFalse:[[queryFeatureRow2 getValueWithColumnName:column.name] isEqual:[queryFeatureRow3 getValueWithColumnName:column.name]]];
+                        [GPKGTestUtils assertFalse:[[queryFeatureRow2 valueWithColumnName:column.name] isEqual:[queryFeatureRow3 valueWithColumnName:column.name]]];
                     } else if (column.index == [queryFeatureRow2 getGeometryColumnIndex]) {
                         GPKGGeometryData *geometry1 = [queryFeatureRow2 getGeometry];
                         GPKGGeometryData *geometry2 = [queryFeatureRow3 getGeometry];
@@ -126,15 +126,15 @@
                             [GPKGGeoPackageGeometryDataUtils compareGeometryDataWithExpected:geometry1 andActual:geometry2];
                         }
                     } else if (column.dataType == GPKG_DT_BLOB) {
-                        NSData *blob1 = (NSData *) [queryFeatureRow2 getValueWithColumnName:column.name];
-                        NSData *blob2 = (NSData *) [queryFeatureRow3 getValueWithColumnName:column.name];
+                        NSData *blob1 = (NSData *) [queryFeatureRow2 valueWithColumnName:column.name];
+                        NSData *blob2 = (NSData *) [queryFeatureRow3 valueWithColumnName:column.name];
                         if (blob1 == nil) {
                             [GPKGTestUtils assertNil:blob2];
                         } else {
                             [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:blob1 andActual:blob2];
                         }
                     } else {
-                        [GPKGTestUtils assertEqualWithValue:[queryFeatureRow2 getValueWithColumnName:column.name] andValue2:[queryFeatureRow3 getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryFeatureRow2 valueWithColumnName:column.name] andValue2:[queryFeatureRow3 valueWithColumnName:column.name]];
                     }
                 }
             }else{
@@ -173,7 +173,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao delete:featureRow]];
                 
                 // Verify deleted
-                GPKGFeatureRow *queryFeatureRow = (GPKGFeatureRow *)[dao queryForIdObject:[featureRow getId]];
+                GPKGFeatureRow *queryFeatureRow = (GPKGFeatureRow *)[dao queryForIdObject:[featureRow id]];
                 [GPKGTestUtils assertNil:queryFeatureRow];
                 featureResults = [dao queryForAll];
                 [GPKGTestUtils assertEqualIntWithValue:count - 1 andValue2:featureResults.count];

@@ -44,11 +44,11 @@
                 NSNumber *highestZoomLevel = tileMatrix.zoomLevel;
                 
                 // Create new row from existing
-                NSNumber *id = [tileRow getId];
+                NSNumber *id = [tileRow id];
                 [tileRow resetId];
                 [tileRow setZoomLevel:[highestZoomLevel intValue] + 1];
                 int newRowId = (int)[dao create:tileRow];
-                [GPKGTestUtils assertEqualIntWithValue:newRowId andValue2:[[tileRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:newRowId andValue2:[tileRow idValue]];
                 
                 // Verify original still exists and new was created
                 tileRow = (GPKGTileRow *)[dao queryForIdObject:id];
@@ -71,13 +71,13 @@
                             // Expected
                         }
                     } else {
-                        [newRow setValueWithColumnName:column.name andValue:[tileRow getValueWithColumnName:column.name]];
+                        [newRow setValueWithColumnName:column.name andValue:[tileRow valueWithColumnName:column.name]];
                     }
                 }
                 
                 [newRow setZoomLevel:[queryTileRow getZoomLevel] + 1];
                 int newRowId2 = (int)[dao create:newRow];
-                [GPKGTestUtils assertEqualIntWithValue:newRowId2 andValue2:[[newRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:newRowId2 andValue2:[newRow idValue]];
                 
                 // Verify new was created
                 GPKGTileRow *queryTileRow2 = (GPKGTileRow *)[dao queryForIdObject:[NSNumber numberWithInt:newRowId2]];
@@ -94,7 +94,7 @@
                         NSData *tileData2 = [copyRow getTileData];
                         [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:tileData1 andActual:tileData2];
                     } else {
-                        [GPKGTestUtils assertEqualWithValue:[queryTileRow2 getValueWithColumnName:column.name] andValue2:[copyRow getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryTileRow2 valueWithColumnName:column.name] andValue2:[copyRow valueWithColumnName:column.name]];
                     }
                 }
                 
@@ -102,7 +102,7 @@
                 [copyRow setZoomLevel:[queryTileRow2 getZoomLevel] + 1];
                 
                 NSNumber *newRowId3 = [NSNumber numberWithLongLong:[dao create:copyRow]];
-                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[[copyRow getId] intValue]];
+                [GPKGTestUtils assertEqualIntWithValue:[newRowId3 intValue] andValue2:[copyRow idValue]];
                 
                 // Verify new was created
                 GPKGTileRow *queryTileRow3 = (GPKGTileRow *)[dao queryForIdObject:newRowId3];
@@ -113,7 +113,7 @@
                 
                 for(GPKGTileColumn *column in dao.table.columns){
                     if(column.primaryKey){
-                        [GPKGTestUtils assertFalse:[[queryTileRow2 getId] isEqual:[queryTileRow3 getId]]];
+                        [GPKGTestUtils assertFalse:[[queryTileRow2 id] isEqual:[queryTileRow3 id]]];
                     } else if (column.index == [queryTileRow3 getZoomLevelColumnIndex]) {
                         [GPKGTestUtils assertEqualIntWithValue:[queryTileRow2 getZoomLevel] andValue2:[queryTileRow3 getZoomLevel]-1];
                     } else if (column.index == [queryTileRow3 getTileDataColumnIndex]) {
@@ -121,7 +121,7 @@
                         NSData *tileData2 = [queryTileRow3 getTileData];
                         [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:tileData1 andActual:tileData2];
                     } else {
-                        [GPKGTestUtils assertEqualWithValue:[queryTileRow2 getValueWithColumnName:column.name] andValue2:[queryTileRow3 getValueWithColumnName:column.name]];
+                        [GPKGTestUtils assertEqualWithValue:[queryTileRow2 valueWithColumnName:column.name] andValue2:[queryTileRow3 valueWithColumnName:column.name]];
                     }
                 }
 
@@ -162,7 +162,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[dao delete:tileRow]];
                 
                 // Verify deleted
-                GPKGTileRow *queryTileRow = (GPKGTileRow *)[dao queryForIdObject:[tileRow getId]];
+                GPKGTileRow *queryTileRow = (GPKGTileRow *)[dao queryForIdObject:[tileRow id]];
                 [GPKGTestUtils assertNil:queryTileRow];
                 tileResults = [dao queryForAll];
                 [GPKGTestUtils assertEqualIntWithValue:count-1 andValue2:tileResults.count];

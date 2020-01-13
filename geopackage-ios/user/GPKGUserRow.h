@@ -218,11 +218,53 @@
 -(BOOL) hasId;
 
 /**
+ * Get the id column index
+ *
+ * @return id column index
+ */
+-(int) idIndex;
+
+/**
+ * Get the id column
+ *
+ * @return id column
+ */
+-(GPKGUserColumn *) idColumn;
+
+/**
+ * Get the id column name
+ *
+ * @return id column name
+ */
+-(NSString *) idColumnName;
+
+/**
+*  Get the pk value
+*
+*  @return pk value
+*/
+-(NSObject *) pk;
+
+/**
+ *  Check if the row has an pk column
+ *
+ *  @return true if has a pk column
+ */
+-(BOOL) hasPkColumn;
+
+/**
+ *  Check if the row has an pk value
+ *
+ *  @return true if has an pk
+ */
+-(BOOL) hasPk;
+
+/**
  *  Get the primary key column index
  *
  *  @return pk index
  */
--(int) pkColumnIndex;
+-(int) pkIndex;
 
 /**
  *  Get the primary key column
@@ -230,6 +272,13 @@
  *  @return pk column
  */
 -(GPKGUserColumn *) pkColumn;
+
+/**
+ * Get the primary key column name
+ *
+ * @return primary key column name
+ */
+-(NSString *) pkColumnName;
 
 /**
  *  Set the value at the index

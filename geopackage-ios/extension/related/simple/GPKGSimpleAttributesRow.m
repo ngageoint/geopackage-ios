@@ -24,18 +24,6 @@
     return (GPKGSimpleAttributesTable *) [super table];
 }
 
--(int) idColumnIndex{
-    return [[self table] idColumnIndex];
-}
-
--(GPKGUserCustomColumn *) idColumn{
-    return [[self table] idColumn];
-}
-
--(int) id{
-    return [(NSNumber *)[self valueWithIndex:[self idColumnIndex]] intValue];
-}
-
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGSimpleAttributesRow *simpleAttributesRow = [super mutableCopyWithZone:zone];
     return simpleAttributesRow;

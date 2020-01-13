@@ -1457,10 +1457,10 @@ static int dataColumnConstraintIndex = 0;
     while([featureResultSet moveToNext]){
         GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
         GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
-        [userMappingRow setBaseId:[[featureRow getId] intValue]];
+        [userMappingRow setBaseId:[featureRow idValue]];
         [userMappingRow setRelatedId:mediaRowId];
         [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao table] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
-        NSString *featureName = (NSString *)[featureRow getValueWithColumnName:TEXT_COLUMN];
+        NSString *featureName = (NSString *)[featureRow valueWithColumnName:TEXT_COLUMN];
         [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", featureName, name] asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
         [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", featureName, description] asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
         [GPKGDublinCoreMetadata setValue:source asColumn:GPKG_DCM_SOURCE inRow:userMappingRow];
@@ -1505,7 +1505,7 @@ static int dataColumnConstraintIndex = 0;
     while([featureResultSet1 moveToNext]){
         
         GPKGFeatureRow *featureRow1 = [featureDao1 getFeatureRow:featureResultSet1];
-        NSString *featureName = (NSString *)[featureRow1 getValueWithColumnName:TEXT_COLUMN];
+        NSString *featureName = (NSString *)[featureRow1 valueWithColumnName:TEXT_COLUMN];
         
         GPKGResultSet *featureResultSet2 = [featureDao2 queryForEqWithField:TEXT_COLUMN andValue:featureName];
         while([featureResultSet2 moveToNext]){
@@ -1513,8 +1513,8 @@ static int dataColumnConstraintIndex = 0;
             GPKGFeatureRow *featureRow2 = [featureDao2 getFeatureRow:featureResultSet2];
             
             GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
-            [userMappingRow setBaseId:[[featureRow1 getId] intValue]];
-            [userMappingRow setRelatedId:[[featureRow2 getId] intValue]];
+            [userMappingRow setBaseId:[featureRow1 idValue]];
+            [userMappingRow setRelatedId:[featureRow2 idValue]];
             [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao table] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
             [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
             [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
@@ -1567,10 +1567,10 @@ static int dataColumnConstraintIndex = 0;
         GPKGSimpleAttributesRow *simpleAttributesRow = (GPKGSimpleAttributesRow *)[simpleAttributesDao queryForIdObject:randomSimpleRowId];
         
         GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
-        [userMappingRow setBaseId:[[attributesRow getId] intValue]];
-        [userMappingRow setRelatedId:[[simpleAttributesRow getId] intValue]];
+        [userMappingRow setBaseId:[attributesRow idValue]];
+        [userMappingRow setRelatedId:[simpleAttributesRow idValue]];
         [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao table] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
-        NSString *attributesName = (NSString *)[attributesRow getValueWithColumnName:TEXT_COLUMN];
+        NSString *attributesName = (NSString *)[attributesRow valueWithColumnName:TEXT_COLUMN];
         [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", attributesName, [GPKGDublinCoreMetadata value:GPKG_DCM_TITLE fromRow:simpleAttributesRow]] asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
         [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", attributesName, [GPKGDublinCoreMetadata value:GPKG_DCM_DESCRIPTION fromRow:simpleAttributesRow]] asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
         [GPKGDublinCoreMetadata setValue:[NSString stringWithFormat:@"%@ - %@", attributesName, [GPKGDublinCoreMetadata value:GPKG_DCM_SOURCE fromRow:simpleAttributesRow]] asColumn:GPKG_DCM_SOURCE inRow:userMappingRow];

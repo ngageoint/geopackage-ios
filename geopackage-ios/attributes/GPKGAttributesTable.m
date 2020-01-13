@@ -29,8 +29,8 @@
     }
 }
 
--(NSArray<GPKGAttributesColumn *> *) attributesColumns{
-    return (NSArray<GPKGAttributesColumn *> *) [super columns];
+-(GPKGAttributesColumns *) attributesColumns{
+    return (NSArray<GPKGAttributesColumn *> *) [super userColumns];
 }
 
 -(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{
