@@ -19,17 +19,17 @@ NSString * const GPKG_PROP_METADATA_EXTENSION_DEFINITION = @"geopackage.extensio
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_METADATA_EXTENSION_NAME];
-        self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_METADATA_EXTENSION_DEFINITION];
+        self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_METADATA_EXTENSION_DEFINITION];
     }
     return self;
 }
 
--(NSArray<GPKGExtensions *> *) getOrCreate{
+-(NSArray<GPKGExtensions *> *) extensionCreate{
     
     NSMutableArray<GPKGExtensions *> *extensions = [[NSMutableArray alloc] init];
     
-    [extensions addObject:[self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_M_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
-    [extensions addObject:[self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_MR_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
+    [extensions addObject:[self extensionCreateWithName:self.extensionName andTableName:GPKG_M_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
+    [extensions addObject:[self extensionCreateWithName:self.extensionName andTableName:GPKG_MR_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
     
     return extensions;
 }

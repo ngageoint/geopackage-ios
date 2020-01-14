@@ -29,7 +29,7 @@
  */
 -(void) testGetTile{
     
-    GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:GPKG_TEST_TILES_DB_TABLE_NAME];
+    GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES_DB_TABLE_NAME];
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WEB_MERCATOR];
     
@@ -49,7 +49,7 @@
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
-    GPKGGeoPackageTile * tile = [tileCreator getTileWithBoundingBox:boundingBox];
+    GPKGGeoPackageTile * tile = [tileCreator tileWithBoundingBox:boundingBox];
     
     [GPKGTestUtils assertNotNil:tile];
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];
@@ -66,7 +66,7 @@
     boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMinLatitudeDouble:0.0 andMaxLongitudeDouble:0.0 andMaxLatitudeDouble:45.0];
     [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
-    tile = [tileCreator getTileWithBoundingBox:boundingBox];
+    tile = [tileCreator tileWithBoundingBox:boundingBox];
     
     [GPKGTestUtils assertNotNil:tile];
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];

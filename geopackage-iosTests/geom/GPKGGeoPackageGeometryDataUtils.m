@@ -31,24 +31,24 @@
 
 +(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareGeometryBytes: (BOOL) compareGeometryBytes{
     
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         GPKGResultSet * results = [geometryColumnsDao queryForAll];
         
         while([results moveToNext]){
             
-            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:results];
+            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
             
-            GPKGFeatureDao * dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
 
             GPKGResultSet * featureResults = [dao queryForAll];
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao getFeatureRow:featureResults];
-                GPKGGeometryData * geometryData = [featureRow getGeometry];
+                GPKGFeatureRow * featureRow = [dao featureRow:featureResults];
+                GPKGGeometryData * geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){
                     
@@ -62,7 +62,7 @@
                     GPKGGeometryData * geometryDataAfterToBytes = geometryData;
                     
                     // Re-retrieve the original geometry data
-                    geometryData = [featureRow getGeometry];
+                    geometryData = [featureRow geometry];
                     
                     // Compare the original with the toBytes geometry data
                     [self compareGeometryDataWithExpected:geometryData andActual:geometryDataAfterToBytes andCompareGeometryBytes:compareGeometryBytes];
@@ -74,23 +74,23 @@
                     
                     // Set the geometry empty flag and verify the geometry
                     // was not written / read
-                    geometryDataAfterToBytes = [featureRow getGeometry];
+                    geometryDataAfterToBytes = [featureRow geometry];
                     [geometryDataAfterToBytes setEmpty:true];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
                     geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
                     [GPKGTestUtils assertNil:geometryDataFromBytes.geometry];
-                    [self compareByteArrayWithExpected:[geometryDataAfterToBytes getHeaderData] andActual:[geometryDataFromBytes getHeaderData]];
+                    [self compareByteArrayWithExpected:[geometryDataAfterToBytes headerData] andActual:[geometryDataFromBytes headerData]];
 
                     // Flip the byte order and verify the header and bytes
                     // no longer matches the original, but the geometries
                     // still do
-                    geometryDataAfterToBytes = [featureRow getGeometry];
+                    geometryDataAfterToBytes = [featureRow geometry];
                     [geometryDataAfterToBytes setByteOrder: (geometryDataAfterToBytes.byteOrder == CFByteOrderBigEndian ? CFByteOrderLittleEndian : CFByteOrderBigEndian)];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
                     geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
                     [self compareGeometryDataWithExpected:geometryDataAfterToBytes andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
-                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes getHeaderData] isEqualToData:[geometryData getHeaderData]]];
-                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes getWkbData] isEqualToData:[geometryData getWkbData]]];
+                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes headerData] isEqualToData:[geometryData headerData]]];
+                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes wkbData] isEqualToData:[geometryData wkbData]]];
                     [GPKGTestUtils assertFalse:[geometryDataAfterToBytes.bytes isEqualToData:geometryData.bytes]];
                     [self compareGeometriesWithExpected:geometryData.geometry andActual:geometryDataAfterToBytes.geometry];
                 }
@@ -105,24 +105,24 @@
 
 +(void) testGeometryProjectionTransform: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         GPKGResultSet * results = [geometryColumnsDao queryForAll];
         
         while([results moveToNext]){
             
-            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:results];
+            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
             
-            GPKGFeatureDao * dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
             
             GPKGResultSet * featureResults = [dao queryForAll];
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao getFeatureRow:featureResults];
-                GPKGGeometryData * geometryData = [featureRow getGeometry];
+                GPKGFeatureRow * featureRow = [dao featureRow:featureResults];
+                GPKGGeometryData * geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){
                     
@@ -130,7 +130,7 @@
                     
                     if(geometry != nil){
                         
-                        GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+                        GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
                         NSNumber * srsId = geometryData.srsId;
                         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
@@ -144,13 +144,13 @@
                         SFPProjectionTransform * transformTo = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:toEpsg];
                         SFPProjectionTransform * transformFrom = [[SFPProjectionTransform alloc] initWithFromProjection:transformTo.toProjection andToProjection:projection];
 
-                        NSData * bytes = [geometryData getWkbData];
+                        NSData * bytes = [geometryData wkbData];
                         
                         SFGeometry * projectedGeometry = [transformTo transformWithGeometry:geometry];
                         GPKGGeometryData * projectedGeometryData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:-1]];
                         [projectedGeometryData setGeometry:projectedGeometry];
                         [projectedGeometryData toData];
-                        NSData * projectedBytes = [projectedGeometryData getWkbData];
+                        NSData * projectedBytes = [projectedGeometryData wkbData];
                         
                         if([srs.organizationCoordsysId intValue] > 0){
                             [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
@@ -184,15 +184,15 @@
     [GPKGTestUtils assertEqualIntWithValue:expected.SFGeometryIndex andValue2:actual.SFGeometryIndex];
     
     // Compare header bytes
-    [self compareByteArrayWithExpected:[expected getHeaderData] andActual:[actual getHeaderData]];
+    [self compareByteArrayWithExpected:[expected headerData] andActual:[actual headerData]];
     
     // Compare geometries
     [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry andDelta:.00000001];
 
     // Compare well-known binary geometries
-    [GPKGTestUtils assertEqualIntWithValue:(int)[expected getWkbData].length andValue2:(int)[actual getWkbData].length];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[expected wkbData].length andValue2:(int)[actual wkbData].length];
     if(compareGeometryBytes){
-        [self compareByteArrayWithExpected:[expected getWkbData] andActual:[actual getWkbData]];
+        [self compareByteArrayWithExpected:[expected wkbData] andActual:[actual wkbData]];
     }
     
     // Compare all bytes
@@ -209,7 +209,7 @@
     }else{
         [GPKGTestUtils assertNotNil:actual];
         
-        [GPKGTestUtils assertEqualIntWithValue:[GPKGGeometryData getIndicatorWithEnvelope:expected] andValue2:[GPKGGeometryData getIndicatorWithEnvelope:actual]];
+        [GPKGTestUtils assertEqualIntWithValue:[GPKGGeometryData indicatorWithEnvelope:expected] andValue2:[GPKGGeometryData indicatorWithEnvelope:actual]];
         [GPKGTestUtils assertEqualWithValue:expected.minX andValue2:actual.minX];
         [GPKGTestUtils assertEqualWithValue:expected.maxX andValue2:actual.maxX];
         [GPKGTestUtils assertEqualWithValue:expected.minY andValue2:actual.minY];

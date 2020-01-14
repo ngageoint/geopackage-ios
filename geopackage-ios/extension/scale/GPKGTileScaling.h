@@ -96,7 +96,7 @@ extern NSString * const GPKG_TS_COLUMN_ZOOM_OUT;
  *
  *  @return tile scaling type
  */
--(enum GPKGTileScalingType) getTileScalingType;
+-(enum GPKGTileScalingType) tileScalingType;
 
 /**
  *  Set the tile scaling type

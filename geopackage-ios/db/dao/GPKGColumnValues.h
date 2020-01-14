@@ -52,6 +52,6 @@
  *
  *  @return value
  */
--(NSObject *) getValue: (NSString *) column;
+-(NSObject *) value: (NSString *) column;
 
 @end

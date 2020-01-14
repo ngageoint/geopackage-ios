@@ -32,16 +32,16 @@
     return self;
 }
 
--(NSString *) getName{
-    return self.name;
+-(NSString *) name{
+    return _name;
 }
 
--(int) getCount{
-    return self.count;
+-(int) count{
+    return _count;
 }
 
--(NSArray<GPKGFeatureRowData *> *) getRows{
-    return self.rows;
+-(NSArray<GPKGFeatureRowData *> *) rows{
+    return _rows;
 }
 
 -(NSObject *) jsonCompatible{

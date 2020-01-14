@@ -30,7 +30,7 @@
 }
 
 -(double) valueWithGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andX: (int) x andY: (int) y{
-    UIImage * image = [tileRow getTileDataImage];
+    UIImage * image = [tileRow tileDataImage];
     NSDecimalNumber * value = [self valueWithGriddedTile: griddedTile andImage: image andX: x andY: y];
     return value.doubleValue;
 }

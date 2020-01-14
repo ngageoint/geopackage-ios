@@ -41,7 +41,7 @@ extern NSString * const GPKG_ZOOM_OTHER_EXTENSION_NAME;
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreateWithTableName: (NSString *) tableName;
+-(GPKGExtensions *) extensionCreateWithTableName: (NSString *) tableName;
 
 /**
  *  Determine if the GeoPackage has the extension

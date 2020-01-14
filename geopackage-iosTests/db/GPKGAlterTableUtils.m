@@ -28,17 +28,17 @@
 
 +(void) testColumns: (GPKGGeoPackage *) geoPackage{
 
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         
-        NSArray *featureTables = [geoPackage getFeatureTables];
+        NSArray *featureTables = [geoPackage featureTables];
         
         for(NSString *featureTable in featureTables){
             GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao queryForTableName:featureTable];
             
             GPKGConnection *db = geoPackage.database;
-            GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             
             GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:dao];
             int indexGeoPackageCount;
@@ -59,7 +59,7 @@
             }
             [GPKGTestUtils assertTrue:[indexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]];
             
-            GPKGFeatureTable *featureTable = [dao getFeatureTable];
+            GPKGFeatureTable *featureTable = [dao featureTable];
             NSString *tableName = featureTable.tableName;
             
             for (GPKGFeatureColumn *column in [featureTable columns]) {
@@ -80,7 +80,7 @@
             [GPKGTestUtils assertTrue:triggerCount >= 6];
             [GPKGTestUtils assertTrue:viewCount >= 2];
             
-            GPKGFeatureTable *table = [dao getFeatureTable];
+            GPKGFeatureTable *table = [dao featureTable];
             int existingColumns = (int)[table columns].count;
             GPKGFeatureColumn *pk = (GPKGFeatureColumn *)[table pkColumn];
             GPKGFeatureColumn *geometry = [table geometryColumn];
@@ -328,11 +328,11 @@
 
 +(void) testCopyFeatureTable: (GPKGGeoPackage *) geoPackage{
 
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         
-        NSArray *featureTables = [geoPackage getFeatureTables];
+        NSArray *featureTables = [geoPackage featureTables];
         
         int viewNameCount = 0;
         
@@ -340,8 +340,8 @@
             GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao queryForTableName:featureTable];
             
             GPKGConnection *db = geoPackage.database;
-            GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
-            GPKGFeatureTable *table = [dao getFeatureTable];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureTable *table = [dao featureTable];
             NSString *tableName = table.tableName;
             NSString *newTableName = [NSString stringWithFormat:@"%@_copy", tableName];
             
@@ -364,27 +364,27 @@
             }
             
             GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
-            NSArray<NSString *> *tileTables = [linker getTileTablesForFeatureTable:tableName];
+            NSArray<NSString *> *tileTables = [linker tileTablesForFeatureTable:tableName];
             
             GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
-            GPKGContentsId *contentsId = [contentsIdExtension getForTableName:tableName];
+            GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
             
             NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
             if([metadataReferenceDao tableExists]){
                 GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
                 while([metadataReferenceResults moveToNext]){
-                    [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao getObject:metadataReferenceResults]];
+                    [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao object:metadataReferenceResults]];
                 }
                 [metadataReferenceResults close];
             }
             
             NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-            GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
             if([dataColumnsDao tableExists]){
                 GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
                 while([dataColumnsResults moveToNext]){
-                    [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao getObject:dataColumnsResults]];
+                    [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao object:dataColumnsResults]];
                 }
                 [dataColumnsResults close];
             }
@@ -392,9 +392,9 @@
             NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
             GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
             if([relatedTablesExtension has]){
-                GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:tableName];
+                GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:tableName];
                 while([extendedRelationsResults moveToNext]){
-                    [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension getExtendedRelationsDao] getObject:extendedRelationsResults]];
+                    [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension extendedRelationsDao] object:extendedRelationsResults]];
                 }
                 [extendedRelationsResults close];
             }
@@ -426,12 +426,12 @@
             
             //[GPKGFeatureUtils testUpdate:dao];
             
-            GPKGFeatureDao *copyDao = [geoPackage getFeatureDaoWithTableName:newTableName];
+            GPKGFeatureDao *copyDao = [geoPackage featureDaoWithTableName:newTableName];
             GPKGGeometryColumns *copyGeometryColumns = copyDao.geometryColumns;
             
             //[GPKGFeatureUtils testUpdate:copyDao];
             
-            GPKGFeatureTable *copyTable = [copyDao getFeatureTable];
+            GPKGFeatureTable *copyTable = [copyDao featureTable];
             
             [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[table columnCount]];
             [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[copyTable columnCount]];
@@ -472,13 +472,13 @@
                 [GPKGTestUtils assertFalse:[copyIndexManager isIndexedWithFeatureIndexType:GPKG_FIT_RTREE]];
             }
             
-            NSArray<NSString *> *copyTileTables = [linker getTileTablesForFeatureTable:newTableName];
+            NSArray<NSString *> *copyTileTables = [linker tileTablesForFeatureTable:newTableName];
             [GPKGTestUtils assertEqualIntWithValue:(int)tileTables.count andValue2:(int)copyTileTables.count];
             for(NSString *tileTable in tileTables){
                 [GPKGTestUtils assertTrue:[copyTileTables containsObject:tileTable]];
             }
             
-            GPKGContentsId *copyContentsId = [contentsIdExtension getForTableName:newTableName];
+            GPKGContentsId *copyContentsId = [contentsIdExtension forTableName:newTableName];
             if(contentsId != nil){
                 [GPKGTestUtils assertNotNil:copyContentsId];
                 [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyContentsId.tableName];
@@ -493,7 +493,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:(int)metadataReference.count andValue2:copyMetadataReferenceResults.count];
                 int i = 0;
                 while([copyMetadataReferenceResults moveToNext]){
-                    GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao getObject:copyMetadataReferenceResults];
+                    GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao object:copyMetadataReferenceResults];
                     [GPKGTestUtils assertEqualWithValue:tableName andValue2:[metadataReference objectAtIndex:i++].tableName];
                     [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyMetadataReference.tableName];
                 }
@@ -505,7 +505,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:(int)dataColumns.count andValue2:copyDataColumnsResults.count];
                 int i = 0;
                 while([copyDataColumnsResults moveToNext]){
-                    GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao getObject:copyDataColumnsResults];
+                    GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao object:copyDataColumnsResults];
                     [GPKGTestUtils assertEqualWithValue:tableName andValue2:[dataColumns objectAtIndex:i++].tableName];
                     [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyDataColumns.tableName];
                 }
@@ -513,11 +513,11 @@
             }
             
             if (extendedRelations.count > 0) {
-                GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:newTableName];
+                GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:newTableName];
                 [GPKGTestUtils assertEqualIntWithValue:(int)extendedRelations.count andValue2:copyExtendedRelationsResults.count];
                 NSMutableDictionary<NSString *, GPKGExtendedRelation *> *mappingTableToRelations = [NSMutableDictionary dictionary];
                 while([copyExtendedRelationsResults moveToNext]){
-                    GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension getExtendedRelationsDao] getObject:copyExtendedRelationsResults];
+                    GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension extendedRelationsDao] object:copyExtendedRelationsResults];
                     [mappingTableToRelations setObject:copyExtendedRelation forKey:copyExtendedRelation.mappingTableName];
                 }
                 [copyExtendedRelationsResults close];
@@ -575,7 +575,7 @@
             
             NSString *newTableName2 = [NSString stringWithFormat:@"%@_copy2", tableName];
             [geoPackage copyTableAsEmpty:tableName toTable:newTableName2];
-            GPKGFeatureDao *copyDao2 = [geoPackage getFeatureDaoWithTableName:newTableName2];
+            GPKGFeatureDao *copyDao2 = [geoPackage featureDaoWithTableName:newTableName2];
             [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[copyDao2 count]];
             
         }
@@ -602,45 +602,45 @@
 
 +(void) testCopyTileTable: (GPKGGeoPackage *) geoPackage{
 
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     
     if ([tileMatrixSetDao tableExists]) {
         
-        NSArray *tileTables = [geoPackage getTileTables];
+        NSArray *tileTables = [geoPackage tileTables];
         
         for(NSString *tileTable in tileTables){
             GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:tileTable];
             
             GPKGConnection *db = geoPackage.database;
-            GPKGTileDao *dao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
-            GPKGTileTable *table = [dao getTileTable];
+            GPKGTileDao *dao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
+            GPKGTileTable *table = [dao tileTable];
             NSString *tableName = table.tableName;
             NSString *newTableName = [NSString stringWithFormat:@"%@_copy", tableName];
             
             int existingColumns = [table columnCount];
             
             GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
-            NSArray<NSString *> *featureTables = [linker getFeatureTablesForTileTable:tableName];
+            NSArray<NSString *> *featureTables = [linker featureTablesForTileTable:tableName];
             
             GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
-            GPKGContentsId *contentsId = [contentsIdExtension getForTableName:tableName];
+            GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
             
             NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
             if([metadataReferenceDao tableExists]){
                 GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
                 while([metadataReferenceResults moveToNext]){
-                    [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao getObject:metadataReferenceResults]];
+                    [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao object:metadataReferenceResults]];
                 }
                 [metadataReferenceResults close];
             }
             
             NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-            GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
             if([dataColumnsDao tableExists]){
                 GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
                 while([dataColumnsResults moveToNext]){
-                    [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao getObject:dataColumnsResults]];
+                    [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao object:dataColumnsResults]];
                 }
                 [dataColumnsResults close];
             }
@@ -648,9 +648,9 @@
             NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
             GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
             if([relatedTablesExtension has]){
-                GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:tableName];
+                GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:tableName];
                 while([extendedRelationsResults moveToNext]){
-                    [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension getExtendedRelationsDao] getObject:extendedRelationsResults]];
+                    [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension extendedRelationsDao] object:extendedRelationsResults]];
                 }
                 [extendedRelationsResults close];
             }
@@ -658,7 +658,7 @@
             GPKGTileScaling *tileScaling = nil;
             GPKGTileTableScaling *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTileMatrixSet:tileMatrixSet];
             if([tileTableScaling has]){
-                tileScaling = [tileTableScaling get];
+                tileScaling = [tileTableScaling tileScaling];
             }
             
             GPKGGriddedCoverage *griddedCoverage = nil;
@@ -684,12 +684,12 @@
             
             //[GPKGTileUtils testUpdate:dao];
             
-            GPKGTileDao *copyDao = [geoPackage getTileDaoWithTableName:newTableName];
+            GPKGTileDao *copyDao = [geoPackage tileDaoWithTableName:newTableName];
             GPKGTileMatrixSet *copyTileMatrixSet = copyDao.tileMatrixSet;
             
             //[GPKGTileUtils testUpdate:copyDao];
             
-            GPKGTileTable *copyTable = [copyDao getTileTable];
+            GPKGTileTable *copyTable = [copyDao tileTable];
             
             [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[table columnCount]];
             [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[copyTable columnCount]];
@@ -702,13 +702,13 @@
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTileMatrixSet.tableName];
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTable.tableName];
             
-            NSArray<NSString *> *copyFeatureTables = [linker getFeatureTablesForTileTable:newTableName];
+            NSArray<NSString *> *copyFeatureTables = [linker featureTablesForTileTable:newTableName];
             [GPKGTestUtils assertEqualIntWithValue:(int)featureTables.count andValue2:(int)copyFeatureTables.count];
             for(NSString *featureTable in featureTables){
                 [GPKGTestUtils assertTrue:[copyFeatureTables containsObject:featureTable]];
             }
             
-            GPKGContentsId *copyContentsId = [contentsIdExtension getForTableName:newTableName];
+            GPKGContentsId *copyContentsId = [contentsIdExtension forTableName:newTableName];
             if(contentsId != nil){
                 [GPKGTestUtils assertNotNil:copyContentsId];
                 [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyContentsId.tableName];
@@ -723,7 +723,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:(int)metadataReference.count andValue2:copyMetadataReferenceResults.count];
                 int i = 0;
                 while([copyMetadataReferenceResults moveToNext]){
-                    GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao getObject:copyMetadataReferenceResults];
+                    GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao object:copyMetadataReferenceResults];
                     [GPKGTestUtils assertEqualWithValue:tableName andValue2:[metadataReference objectAtIndex:i++].tableName];
                     [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyMetadataReference.tableName];
                 }
@@ -735,7 +735,7 @@
                 [GPKGTestUtils assertEqualIntWithValue:(int)dataColumns.count andValue2:copyDataColumnsResults.count];
                 int i = 0;
                 while([copyDataColumnsResults moveToNext]){
-                    GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao getObject:copyDataColumnsResults];
+                    GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao object:copyDataColumnsResults];
                     [GPKGTestUtils assertEqualWithValue:tableName andValue2:[dataColumns objectAtIndex:i++].tableName];
                     [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyDataColumns.tableName];
                 }
@@ -743,11 +743,11 @@
             }
             
             if (extendedRelations.count > 0) {
-                GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:newTableName];
+                GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:newTableName];
                 [GPKGTestUtils assertEqualIntWithValue:(int)extendedRelations.count andValue2:copyExtendedRelationsResults.count];
                 NSMutableDictionary<NSString *, GPKGExtendedRelation *> *mappingTableToRelations = [NSMutableDictionary dictionary];
                 while([copyExtendedRelationsResults moveToNext]){
-                    GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension getExtendedRelationsDao] getObject:copyExtendedRelationsResults];
+                    GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension extendedRelationsDao] object:copyExtendedRelationsResults];
                     [mappingTableToRelations setObject:copyExtendedRelation forKey:copyExtendedRelation.mappingTableName];
                 }
                 [copyExtendedRelationsResults close];
@@ -774,7 +774,7 @@
             if (tileScaling != nil) {
                 GPKGTileTableScaling *copyTileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTileMatrixSet:copyTileMatrixSet];
                 [GPKGTestUtils assertTrue:[copyTileTableScaling has]];
-                GPKGTileScaling *copyTileScaling = [copyTileTableScaling get];
+                GPKGTileScaling *copyTileScaling = [copyTileTableScaling tileScaling];
                 [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTileScaling.tableName];
                 [GPKGTestUtils assertEqualWithValue:tileScaling.scalingType andValue2:copyTileScaling.scalingType];
                 [GPKGTestUtils assertEqualIntWithValue:[tileScaling.zoomIn intValue] andValue2:[copyTileScaling.zoomIn intValue]];
@@ -799,7 +799,7 @@
             
             NSString *newTableName2 = [NSString stringWithFormat:@"%@_copy2", tableName];
             [geoPackage copyTableAsEmpty:tableName toTable:newTableName2];
-            GPKGTileDao *copyDao2 = [geoPackage getTileDaoWithTableName:newTableName2];
+            GPKGTileDao *copyDao2 = [geoPackage tileDaoWithTableName:newTableName2];
             [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[copyDao2 count]];
             
         }
@@ -808,37 +808,37 @@
 
 +(void) testCopyAttributesTable: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *attributesTables = [geoPackage getAttributesTables];
+    NSArray *attributesTables = [geoPackage attributesTables];
     
     for (NSString *attributesTable in attributesTables) {
         
         GPKGConnection *db = geoPackage.database;
-        GPKGAttributesDao *dao = [geoPackage getAttributesDaoWithTableName:attributesTable];
-        GPKGAttributesTable *table = [dao getAttributesTable];
+        GPKGAttributesDao *dao = [geoPackage attributesDaoWithTableName:attributesTable];
+        GPKGAttributesTable *table = [dao attributesTable];
         NSString *tableName = table.tableName;
         NSString *newTableName = [NSString stringWithFormat:@"%@_copy", tableName];
         
         int existingColumns = [table columnCount];
         
         GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
-        GPKGContentsId *contentsId = [contentsIdExtension getForTableName:tableName];
+        GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
         
         NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-        GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+        GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
         if([metadataReferenceDao tableExists]){
             GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
             while([metadataReferenceResults moveToNext]){
-                [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao getObject:metadataReferenceResults]];
+                [metadataReference addObject:(GPKGMetadataReference *)[metadataReferenceDao object:metadataReferenceResults]];
             }
             [metadataReferenceResults close];
         }
         
         NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-        GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+        GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
         if([dataColumnsDao tableExists]){
             GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
             while([dataColumnsResults moveToNext]){
-                [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao getObject:dataColumnsResults]];
+                [dataColumns addObject:(GPKGDataColumns *)[dataColumnsDao object:dataColumnsResults]];
             }
             [dataColumnsResults close];
         }
@@ -846,9 +846,9 @@
         NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
         GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
         if([relatedTablesExtension has]){
-            GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:tableName];
+            GPKGResultSet *extendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:tableName];
             while([extendedRelationsResults moveToNext]){
-                [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension getExtendedRelationsDao] getObject:extendedRelationsResults]];
+                [extendedRelations addObject:(GPKGExtendedRelation *)[[relatedTablesExtension extendedRelationsDao] object:extendedRelationsResults]];
             }
             [extendedRelationsResults close];
         }
@@ -863,11 +863,11 @@
         
         [GPKGAttributesUtils testUpdateWithDao:dao];
         
-        GPKGAttributesDao *copyDao = [geoPackage getAttributesDaoWithTableName:newTableName];
+        GPKGAttributesDao *copyDao = [geoPackage attributesDaoWithTableName:newTableName];
         
         [GPKGAttributesUtils testUpdateWithDao:copyDao];
         
-        GPKGAttributesTable *copyTable = [copyDao getAttributesTable];
+        GPKGAttributesTable *copyTable = [copyDao attributesTable];
         
         [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[table columnCount]];
         [GPKGTestUtils assertEqualIntWithValue:existingColumns andValue2:[copyTable columnCount]];
@@ -878,7 +878,7 @@
         
         [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTable.tableName];
         
-        GPKGContentsId *copyContentsId = [contentsIdExtension getForTableName:newTableName];
+        GPKGContentsId *copyContentsId = [contentsIdExtension forTableName:newTableName];
         if(contentsId != nil){
             [GPKGTestUtils assertNotNil:copyContentsId];
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyContentsId.tableName];
@@ -893,7 +893,7 @@
             [GPKGTestUtils assertEqualIntWithValue:(int)metadataReference.count andValue2:copyMetadataReferenceResults.count];
             int i = 0;
             while([copyMetadataReferenceResults moveToNext]){
-                GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao getObject:copyMetadataReferenceResults];
+                GPKGMetadataReference *copyMetadataReference = (GPKGMetadataReference *)[metadataReferenceDao object:copyMetadataReferenceResults];
                 [GPKGTestUtils assertEqualWithValue:tableName andValue2:[metadataReference objectAtIndex:i++].tableName];
                 [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyMetadataReference.tableName];
             }
@@ -905,7 +905,7 @@
             [GPKGTestUtils assertEqualIntWithValue:(int)dataColumns.count andValue2:copyDataColumnsResults.count];
             int i = 0;
             while([copyDataColumnsResults moveToNext]){
-                GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao getObject:copyDataColumnsResults];
+                GPKGDataColumns *copyDataColumns = (GPKGDataColumns *)[dataColumnsDao object:copyDataColumnsResults];
                 [GPKGTestUtils assertEqualWithValue:tableName andValue2:[dataColumns objectAtIndex:i++].tableName];
                 [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyDataColumns.tableName];
             }
@@ -913,11 +913,11 @@
         }
         
         if (extendedRelations.count > 0) {
-            GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension getExtendedRelationsDao] relationsToBaseTable:newTableName];
+            GPKGResultSet *copyExtendedRelationsResults = [[relatedTablesExtension extendedRelationsDao] relationsToBaseTable:newTableName];
             [GPKGTestUtils assertEqualIntWithValue:(int)extendedRelations.count andValue2:copyExtendedRelationsResults.count];
             NSMutableDictionary<NSString *, GPKGExtendedRelation *> *mappingTableToRelations = [NSMutableDictionary dictionary];
             while([copyExtendedRelationsResults moveToNext]){
-                GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension getExtendedRelationsDao] getObject:copyExtendedRelationsResults];
+                GPKGExtendedRelation *copyExtendedRelation = (GPKGExtendedRelation *) [[relatedTablesExtension extendedRelationsDao] object:copyExtendedRelationsResults];
                 [mappingTableToRelations setObject:copyExtendedRelation forKey:copyExtendedRelation.mappingTableName];
             }
             [copyExtendedRelationsResults close];
@@ -943,7 +943,7 @@
         
         NSString *newTableName2 = [NSString stringWithFormat:@"%@_copy2", tableName];
         [geoPackage copyTableAsEmpty:tableName toTable:newTableName2];
-        GPKGAttributesDao *copyDao2 = [geoPackage getAttributesDaoWithTableName:newTableName2];
+        GPKGAttributesDao *copyDao2 = [geoPackage attributesDaoWithTableName:newTableName2];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[copyDao2 count]];
         
     }
@@ -982,9 +982,9 @@
     
     [geoPackage createUserTable:table];
     
-    NSNumber *srsId = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]].srsId;
+    NSNumber *srsId = [[geoPackage spatialReferenceSystemDao] srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]].srsId;
     
-    GPKGUserCustomDao *dao = [geoPackage getUserCustomDaoWithTableName:tableName];
+    GPKGUserCustomDao *dao = [geoPackage userCustomDaoWithTableName:tableName];
     for (int i = 0; i < rowCount; i++) {
         GPKGUserCustomRow *row = [dao newRow];
         [row setValueWithColumnName:[NSString stringWithFormat:@"%@%d", columnName, 2] andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
@@ -1004,7 +1004,7 @@
     
     [geoPackage copyTable:tableName toTable:copyTableName];
     
-    GPKGUserCustomDao *copyDao = [geoPackage getUserCustomDaoWithTableName:copyTableName];
+    GPKGUserCustomDao *copyDao = [geoPackage userCustomDaoWithTableName:copyTableName];
     GPKGUserCustomTable *copyTable = [copyDao table];
     
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];
@@ -1056,7 +1056,7 @@
 
     [geoPackage copyTableAsEmpty:tableName toTable:copyTableName2];
     
-    GPKGUserCustomDao *copyDao2 = [geoPackage getUserCustomDaoWithTableName:copyTableName2];
+    GPKGUserCustomDao *copyDao2 = [geoPackage userCustomDaoWithTableName:copyTableName2];
     GPKGUserCustomTable *copyTable2 = [copyDao2 table];
     
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];

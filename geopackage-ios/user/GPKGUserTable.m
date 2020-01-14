@@ -115,7 +115,7 @@
 }
 
 -(NSString *) tableName{
-    return self.userColumns.tableName;
+    return _userColumns.tableName;
 }
 
 -(void) setTableName: (NSString *) tableName{

@@ -34,17 +34,17 @@
         
         self.featureDao = featureDao;
         
-        self.geometryType = [featureDao getGeometryType];
+        self.geometryType = [featureDao geometryType];
         
         self.ignoreGeometryTypes = [[NSMutableSet alloc] init];
         
         self.name = [NSString stringWithFormat:@"%@ - %@", featureDao.databaseName, featureDao.tableName];
         
-        self.maxPointDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO] intValue];
-        self.maxFeatureDetailedInfo = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO] intValue];
+        self.maxPointDetailedInfo = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO] intValue];
+        self.maxFeatureDetailedInfo = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO] intValue];
         
-        self.detailedInfoPrintPoints = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
-        self.detailedInfoPrintFeatures = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
+        self.detailedInfoPrintPoints = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS];
+        self.detailedInfoPrintFeatures = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES];
     }
     return self;
 }
@@ -106,7 +106,7 @@
             
             int featureNumber = 0;
             
-            GPKGDataColumnsDao * dataColumnsDao = [self getDataColumnsDao];
+            GPKGDataColumnsDao * dataColumnsDao = [self dataColumnsDao];
             
             for(GPKGFeatureRow * featureRow in filteredResults){
                 
@@ -124,19 +124,19 @@
                     [message appendFormat:@"\nFeature %d:\n", featureNumber];
                 }
                 
-                int geometryColumn = [featureRow getGeometryColumnIndex];
+                int geometryColumn = [featureRow geometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     if(i != geometryColumn){
                         NSObject * value = [featureRow valueWithIndex:i];
                         if(value != nil){
                             NSString * columnName = [featureRow columnNameWithIndex:i];
-                            columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
+                            columnName = [self columnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                             [message appendFormat:@"\n%@: %@", columnName, value];
                         }
                     }
                 }
                 
-                GPKGGeometryData * geomData = [featureRow getGeometry];
+                GPKGGeometryData * geomData = [featureRow geometry];
                 if(geomData != nil && geomData.geometry != nil){
                     
                     BOOL printFeatures = false;
@@ -207,7 +207,7 @@
         
         if(featureCount <= maxFeatureInfo){
             
-            GPKGDataColumnsDao * dataColumnsDao = [self getDataColumnsDao];
+            GPKGDataColumnsDao * dataColumnsDao = [self dataColumnsDao];
             
             NSMutableArray<GPKGFeatureRowData *> * rows = [[NSMutableArray alloc] init];
             
@@ -216,14 +216,14 @@
                 NSMutableDictionary * values = [[NSMutableDictionary alloc] init];
                 NSString * geometryColumnName = nil;
                 
-                int geometryColumn = [featureRow getGeometryColumnIndex];
+                int geometryColumn = [featureRow geometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     
                     NSObject * value = [featureRow valueWithIndex:i];
                     
                     NSString * columnName = [featureRow columnNameWithIndex:i];
                     
-                    columnName = [self getColumnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
+                    columnName = [self columnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                     
                     if(i == geometryColumn){
                         geometryColumnName = columnName;
@@ -271,14 +271,14 @@
             SFGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
             NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
-            GPKGSpatialReferenceSystem *projectionSrs = [srsDao getOrCreateWithOrganization:[projection authority] andCoordsysId:coordsysId];
+            GPKGSpatialReferenceSystem *projectionSrs = [srsDao srsWithOrganization:[projection authority] andCoordsysId:coordsysId];
             [geometryData setSrsId:projectionSrs.srsId];
         }
         
     }
 }
 
--(GPKGDataColumnsDao *) getDataColumnsDao{
+-(GPKGDataColumnsDao *) dataColumnsDao{
     
     GPKGDataColumnsDao * dataColumnsDao = [[GPKGDataColumnsDao alloc] initWithDatabase:self.featureDao.database];
     
@@ -289,12 +289,12 @@
     return dataColumnsDao;
 }
 
--(NSString *) getColumnNameWithDataColumnsDao: (GPKGDataColumnsDao *) dataColumnsDao andFeatureRow: (GPKGFeatureRow *) featureRow andColumnName: (NSString *) columnName{
+-(NSString *) columnNameWithDataColumnsDao: (GPKGDataColumnsDao *) dataColumnsDao andFeatureRow: (GPKGFeatureRow *) featureRow andColumnName: (NSString *) columnName{
     
     NSString * newColumnName = columnName;
     
     if(dataColumnsDao != nil){
-        GPKGDataColumns * dataColumn = [dataColumnsDao getDataColumnByTableName:featureRow.table.tableName andColumnName:columnName];
+        GPKGDataColumns * dataColumn = [dataColumnsDao dataColumnByTableName:featureRow.table.tableName andColumnName:columnName];
         if(dataColumn != nil){
             newColumnName = dataColumn.name;
         }
@@ -319,7 +319,7 @@
         
         for (GPKGFeatureRow *featureRow in results) {
             
-            GPKGGeometryData *geomData = [featureRow getGeometry];
+            GPKGGeometryData *geomData = [featureRow geometry];
             if (geomData != nil) {
                 SFGeometry *geometry = geomData.geometry;
                 if (geometry != nil) {

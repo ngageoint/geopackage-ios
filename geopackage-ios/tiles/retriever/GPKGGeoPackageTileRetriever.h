@@ -41,14 +41,14 @@
  *
  *  @return web mercator bounding box
  */
--(GPKGBoundingBox *) getWebMercatorBoundingBox;
+-(GPKGBoundingBox *) webMercatorBoundingBox;
 
 /**
  * Get the Tile Scaling options
  *
  * @return tile scaling options
  */
--(GPKGTileScaling *) getScaling;
+-(GPKGTileScaling *) scaling;
 
 /**
  * Set the Tile Scaling options

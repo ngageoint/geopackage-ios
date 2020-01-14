@@ -70,7 +70,7 @@
     
     // Get the linked tile daos
     GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
-    NSArray<GPKGTileDao *> *tileDaos = [linker getTileDaosForFeatureTable:[featureOverlay.featureTiles getFeatureDao].tableName];
+    NSArray<GPKGTileDao *> *tileDaos = [linker tileDaosForFeatureTable:[featureOverlay.featureTiles featureDao].tableName];
     
     if (tileDaos.count > 0) {
         // Create a composite overlay to search for existing tiles before drawing from features

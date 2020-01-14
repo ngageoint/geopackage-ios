@@ -64,36 +64,36 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGTileMatrix *getObject = (GPKGTileMatrix*) object;
+    GPKGTileMatrix *tileMatrix = (GPKGTileMatrix*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = tileMatrix.tableName;
             break;
         case 1:
-            value = getObject.zoomLevel;
+            value = tileMatrix.zoomLevel;
             break;
         case 2:
-            value = getObject.matrixWidth;
+            value = tileMatrix.matrixWidth;
             break;
         case 3:
-            value = getObject.matrixHeight;
+            value = tileMatrix.matrixHeight;
             break;
         case 4:
-            value = getObject.tileWidth;
+            value = tileMatrix.tileWidth;
             break;
         case 5:
-            value = getObject.tileHeight;
+            value = tileMatrix.tileHeight;
             break;
         case 6:
-            value = getObject.pixelXSize;
+            value = tileMatrix.pixelXSize;
             break;
         case 7:
-            value = getObject.pixelYSize;
+            value = tileMatrix.pixelYSize;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -103,31 +103,31 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGTileMatrix *projectionObject = (GPKGTileMatrix*) object;
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
-    GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:projectionObject];
-    SFPProjection * projection = [tileMatrixSetDao getProjection:tileMatrixSet];
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
+    GPKGTileMatrixSet * tileMatrixSet = [self tileMatrixSet:projectionObject];
+    SFPProjection * projection = [tileMatrixSetDao projection:tileMatrixSet];
     return projection;
 }
 
--(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGTileMatrix *) tileMatrix{
-    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+-(GPKGTileMatrixSet *) tileMatrixSet: (GPKGTileMatrix *) tileMatrix{
+    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
     GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:tileMatrix.tableName];
     return tileMatrixSet;
 }
 
--(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao{
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix{
-    GPKGContentsDao * dao = [self getContentsDao];
+-(GPKGContents *) contents: (GPKGTileMatrix *) tileMatrix{
+    GPKGContentsDao * dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrix.tableName];
     return contents;
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 

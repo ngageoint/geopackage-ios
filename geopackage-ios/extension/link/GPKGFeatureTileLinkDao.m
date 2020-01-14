@@ -43,18 +43,18 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGFeatureTileLink *getObject = (GPKGFeatureTileLink*) object;
+    GPKGFeatureTileLink *link = (GPKGFeatureTileLink*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.featureTableName;
+            value = link.featureTableName;
             break;
         case 1:
-            value = getObject.tileTableName;
+            value = link.tileTableName;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

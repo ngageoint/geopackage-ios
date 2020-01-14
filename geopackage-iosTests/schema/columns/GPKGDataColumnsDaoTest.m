@@ -12,7 +12,7 @@
 
 @implementation GPKGDataColumnsDaoTest
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
     return [GPKGTestSetupTeardown setUpCreateWithFeatures:true andTiles:true];
 }
 
@@ -29,11 +29,11 @@
 }
 
 - (void)testRetrieveDataColumns {
-    GPKGGeoPackage * geoPackage = [self getGeoPackage];
-    GPKGDataColumnsDao * dao = [geoPackage getDataColumnsDao];
-    GPKGDataColumns * column = [dao getDataColumnByTableName:@"point2d" andColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
+    GPKGGeoPackage * geoPackage = [self geoPackage];
+    GPKGDataColumnsDao * dao = [geoPackage dataColumnsDao];
+    GPKGDataColumns * column = [dao dataColumnByTableName:@"point2d" andColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
     [GPKGTestUtils assertNotNil:column];
-    GPKGDataColumns * nilColumn = [dao getDataColumnByTableName:@"nope" andColumnName:@"nope"];
+    GPKGDataColumns * nilColumn = [dao dataColumnByTableName:@"nope" andColumnName:@"nope"];
     [GPKGTestUtils assertNil:nilColumn];
 }
 

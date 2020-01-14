@@ -24,12 +24,12 @@
     return self;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
-    return [self.featureDao getFeatureRow:[self getResults]];
+-(GPKGFeatureRow *) featureRow{
+    return [self.featureDao featureRow:[self results]];
 }
 
--(NSNumber *) getFeatureId{
-    return [[self getFeatureRow] id];
+-(NSNumber *) featureId{
+    return [[self featureRow] id];
 }
 
 @end

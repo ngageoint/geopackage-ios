@@ -55,7 +55,7 @@ static NSString *COLUMN_NAME = @"geom";
     
     BOOL transactions = commitChunk > 0;
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     [manager delete:GEOPACKAGE_NAME];
     
@@ -86,14 +86,14 @@ static NSString *COLUMN_NAME = @"geom";
     
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:[SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry]];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
     [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
     
     GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:srs.srsId];
     [geometryData setGeometry:geometry];
     
-    GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     if (transactions) {
         [dao beginTransaction];
@@ -146,7 +146,7 @@ static NSString *COLUMN_NAME = @"geom";
     [geoPackage close];
     
     geoPackage = [manager open:GEOPACKAGE_NAME];
-    dao = [geoPackage getFeatureDaoWithTableName:TABLE_NAME];
+    dao = [geoPackage featureDaoWithTableName:TABLE_NAME];
     int finalCount = [dao count];
     NSLog(@"Final Count: %d", finalCount);
     [geoPackage close];

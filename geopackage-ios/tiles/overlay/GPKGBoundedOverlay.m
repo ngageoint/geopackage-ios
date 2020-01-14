@@ -23,7 +23,7 @@
     self.webMercatorBoundingBox = [boundingBox transform:projectionToWebMercator];
 }
 
--(GPKGBoundingBox *) getBoundingBoxWithProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxWithProjection: (SFPProjection *) projection{
     SFPProjectionTransform * webMercatorToProjection = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
     return [self.webMercatorBoundingBox transform:webMercatorToProjection];
 }
@@ -34,8 +34,8 @@
  * @param requestWebMercatorBoundingBox requested web mercator bounding box
  * @return web mercator bounding box
  */
--(GPKGBoundingBox *) getWebMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
-    return self.webMercatorBoundingBox;
+-(GPKGBoundingBox *) webMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
+    return _webMercatorBoundingBox;
 }
 
 -(NSURL *)URLForTilePath:(MKTileOverlayPath)path{
@@ -106,10 +106,10 @@
     if(self.webMercatorBoundingBox != nil){
         
         // Get the bounding box of the requested tile
-        GPKGBoundingBox *tileWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+        GPKGBoundingBox *tileWebMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
         
         // Adjust the bounding box if needed
-        GPKGBoundingBox *adjustedWebMercatorBoundingBox = [self getWebMercatorBoundingBoxWithRequestBoundingBox:tileWebMercatorBoundingBox];
+        GPKGBoundingBox *adjustedWebMercatorBoundingBox = [self webMercatorBoundingBoxWithRequestBoundingBox:tileWebMercatorBoundingBox];
         
         // Check if the request overlaps
         withinBounds = [adjustedWebMercatorBoundingBox intersects:tileWebMercatorBoundingBox withAllowEmpty:YES];

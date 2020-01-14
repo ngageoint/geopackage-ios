@@ -80,7 +80,7 @@
  *
  *  @return color
  */
-+(UIColor *) getColor: (NSDictionary *) color;
++(UIColor *) color: (NSDictionary *) color;
 
 /**
  *  Get a decimal number from the number

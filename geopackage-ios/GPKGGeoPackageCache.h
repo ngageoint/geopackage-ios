@@ -35,7 +35,7 @@
  *
  *  @return open GeoPackage
  */
--(GPKGGeoPackage *) getOrOpen: (NSString *) name;
+-(GPKGGeoPackage *) geoPackageOpenName: (NSString *) name;
 
 /**
  *  Get the cached GeoPackage or open the GeoPackage without caching it
@@ -44,21 +44,21 @@
  *
  *  @return open GeoPackage
  */
--(GPKGGeoPackage *) getOrNoCacheOpen: (NSString *) name;
+-(GPKGGeoPackage *) geoPackageNoCacheOpenName: (NSString *) name;
 
 /**
  *  Get the names of the cached GeoPackages
  *
  *  @return cached GeoPackage names
  */
--(NSArray<NSString*> *) getNames;
+-(NSArray<NSString*> *) names;
 
 /**
  *  Get the cached GeoPackages
  *
  *  @return cached GeoPackages
  */
--(NSArray<GPKGGeoPackage*> *) getGeoPackages;
+-(NSArray<GPKGGeoPackage*> *) geoPackages;
 
 /**
  *  Determine if the cache has the GeoPackage name
@@ -67,7 +67,7 @@
  *
  *  @return true if has cached GeoPackage
  */
--(BOOL) has: (NSString *) name;
+-(BOOL) hasName: (NSString *) name;
 
 /**
  *  Get the GeoPackage with name
@@ -76,7 +76,7 @@
  *
  *  @return cached GeoPackage
  */
--(GPKGGeoPackage *) get: (NSString *) name;
+-(GPKGGeoPackage *) geoPackageWithName: (NSString *) name;
 
 /**
  *  Checks if the GeoPackage name exists in the cache
@@ -85,7 +85,7 @@
  *
  *  @return true if exists
  */
--(BOOL) exists: (NSString *) name;
+-(BOOL) existsWithName: (NSString *) name;
 
 /**
  *  Close all GeoPackages in the cache
@@ -97,14 +97,14 @@
  *
  *  @param geoPackage GeoPackage
  */
--(void) add: (GPKGGeoPackage *) geoPackage;
+-(void) addGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Add the collection of GeoPackages
  *
  *  @param geoPackages GeoPackages
  */
--(void) addAll: (NSArray<GPKGGeoPackage *> *) geoPackages;
+-(void) addAllGeoPackages: (NSArray<GPKGGeoPackage *> *) geoPackages;
 
 /**
  *  Remove the GeoPackage with the name but does not close it,
@@ -114,7 +114,7 @@
  *
  *  @return removed GeoPackage
  */
--(GPKGGeoPackage *) remove: (NSString *) name;
+-(GPKGGeoPackage *) removeByName: (NSString *) name;
 
 /**
  *  Clears all cached GeoPackages but does not close them,
@@ -129,7 +129,7 @@
  *
  *  @return true if found and closed
  */
--(BOOL) close: (NSString *) name;
+-(BOOL) closeByName: (NSString *) name;
 
 /**
  *  Close GeoPackages not specified in the retain GeoPackage names

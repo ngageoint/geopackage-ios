@@ -11,7 +11,7 @@
 @implementation GPKGStyleDao
 
 -(instancetype) initWithDao: (GPKGAttributesDao *) dao{
-    self = [self initWithDatabase:dao.database andTable:[[GPKGStyleTable alloc] initWithTable:[dao getAttributesTable]]];
+    self = [self initWithDatabase:dao.database andTable:[[GPKGStyleTable alloc] initWithTable:[dao attributesTable]]];
     return self;
 }
 
@@ -24,7 +24,7 @@
 }
 
 -(GPKGStyleRow *) row: (GPKGResultSet *) results{
-    return (GPKGStyleRow *) [self getRow:results];
+    return (GPKGStyleRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{

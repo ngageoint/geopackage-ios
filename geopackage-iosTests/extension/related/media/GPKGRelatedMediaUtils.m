@@ -31,7 +31,7 @@
     [GPKGTestUtils assertTrue:[rte relationships].count == 0];
     
     // Choose a random feature table
-    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     if(featureTables.count == 0){
         return; // pass with no testing
     }
@@ -83,8 +83,8 @@
     
     // Create the media table, content row, and relationship between the
     // feature table and media table
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
-    [GPKGTestUtils assertFalse:[[contentsDao getTables] containsObject:mediaTable.tableName]];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
+    [GPKGTestUtils assertFalse:[[contentsDao tables] containsObject:mediaTable.tableName]];
     GPKGExtendedRelation *extendedRelation = [rte addMediaRelationshipWithBaseTable:baseTableName andMediaTable:mediaTable andUserMappingTable:userMappingTable];
     [self validateContents:mediaTable.contents withTable:mediaTable];
     [GPKGTestUtils assertTrue:[rte has]];
@@ -94,7 +94,7 @@
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)extendedRelations.count];
     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
     [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName]];
-    [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:mediaTable.tableName]];
+    [GPKGTestUtils assertTrue:[[contentsDao tables] containsObject:mediaTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:mediaTable.tableName] withTable:mediaTable];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[geoPackage typeOfTable:mediaTable.tableName]];
     [GPKGTestUtils assertTrue:[geoPackage isTable:mediaTable.tableName ofTypeName:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]]]];
@@ -133,12 +133,12 @@
     [GPKGTestUtils assertEqualIntWithValue:mediaCount andValue2:(int)mediaDao.count];
     
     // Build the Feature ids
-    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:baseTableName];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:baseTableName];
     GPKGResultSet *featureResultSet = [featureDao queryForAll];
     int featureCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
     while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] id]];
+        [featureIds addObject:[[featureDao featureRow:featureResultSet] id]];
     }
     [featureResultSet close];
     
@@ -184,7 +184,7 @@
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
     [resultSet close];
     
-    GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
+    GPKGExtendedRelationsDao *extendedRelationsDao = [rte extendedRelationsDao];
     
     GPKGResultSet *featureExtendedRelations = [extendedRelationsDao relationsToBaseTable:featureDao.tableName];
     GPKGResultSet *featureExtendedRelations2 = [extendedRelationsDao relationsToTable:featureDao.tableName];
@@ -235,7 +235,7 @@
         featureResultSet = [featureDao queryForAll];
         int totalMapped = 0;
         while([featureResultSet moveToNext]){
-            GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+            GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[featureRow idValue]];
             NSArray<GPKGMediaRow *> *mediaRows = [mediaDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)mediaRows.count];
@@ -303,14 +303,14 @@
         [mappingResultSet close];
         
         // Get and test the feature DAO
-        featureDao = [geoPackage getFeatureDaoWithTableName:featureDao.tableName];
+        featureDao = [geoPackage featureDaoWithTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil: featureDao];
-        GPKGFeatureTable *featureTable = [featureDao getFeatureTable];
+        GPKGFeatureTable *featureTable = [featureDao featureTable];
         [GPKGTestUtils assertNotNil: featureTable];
-        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
-        GPKGContents *featureContents = [geometryColumnsDao getContents:featureDao.geometryColumns];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
+        GPKGContents *featureContents = [geometryColumnsDao contents:featureDao.geometryColumns];
         [GPKGTestUtils assertNotNil: featureContents];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[featureContents getContentsDataType]];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[featureContents contentsDataType]];
         [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_FEATURES] andValue2:featureContents.dataType];
         [GPKGTestUtils assertEqualWithValue:featureTable.tableName andValue2:featureContents.tableName];
         [GPKGTestUtils assertNotNil:featureContents.lastChange];
@@ -329,8 +329,8 @@
                 [GPKGTestUtils assertTrue:[featureRow idValue] >= 0];
                 [GPKGTestUtils assertTrue:[featureIds containsObject:[featureRow id]]];
                 [GPKGTestUtils assertTrue:[mappedIds containsObject:[featureRow id]]];
-                if([featureRow valueWithIndex:[featureRow getGeometryColumnIndex]] != nil){
-                    GPKGGeometryData *geometryData = [featureRow getGeometry];
+                if([featureRow valueWithIndex:[featureRow geometryColumnIndex]] != nil){
+                    GPKGGeometryData *geometryData = [featureRow geometry];
                     [GPKGTestUtils assertNotNil:geometryData];
                     if(!geometryData.empty){
                         [GPKGTestUtils assertNotNil:geometryData.geometry];
@@ -424,8 +424,8 @@
  */
 +(void) validateContents: (GPKGContents *) contents withTable: (GPKGMediaTable *) mediaTable{
     [GPKGTestUtils assertNotNil:contents];
-    [GPKGTestUtils assertTrue:(int)[contents getContentsDataType] >= 0];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents getContentsDataType]]];
+    [GPKGTestUtils assertTrue:(int)[contents contentsDataType] >= 0];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents contentsDataType]]];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGMediaTable relationType]] andValue2:contents.dataType];
     [GPKGTestUtils assertEqualWithValue:mediaTable.tableName andValue2:contents.tableName];
     [GPKGTestUtils assertNotNil:contents.lastChange];

@@ -73,45 +73,45 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGeometryMetadata *getObject = (GPKGGeometryMetadata*) object;
+    GPKGGeometryMetadata *metadata = (GPKGGeometryMetadata*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.geoPackageId;
+            value = metadata.geoPackageId;
             break;
         case 1:
-            value = getObject.tableName;
+            value = metadata.tableName;
             break;
         case 2:
-            value = getObject.id;
+            value = metadata.id;
             break;
         case 3:
-            value = getObject.minX;
+            value = metadata.minX;
             break;
         case 4:
-            value = getObject.maxX;
+            value = metadata.maxX;
             break;
         case 5:
-            value = getObject.minY;
+            value = metadata.minY;
             break;
         case 6:
-            value = getObject.maxY;
+            value = metadata.maxY;
             break;
         case 7:
-            value = getObject.minZ;
+            value = metadata.minZ;
             break;
         case 8:
-            value = getObject.maxZ;
+            value = metadata.maxZ;
             break;
         case 9:
-            value = getObject.minM;
+            value = metadata.minM;
             break;
         case 10:
-            value = getObject.maxM;
+            value = metadata.maxM;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -122,7 +122,7 @@
 }
 
 -(GPKGGeometryMetadata *) createMetadataWithGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self createMetadataWithGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andId:geomId andEnvelope:envelope];
+    return [self createMetadataWithGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andId:geomId andEnvelope:envelope];
 }
 
 -(GPKGGeometryMetadata *) createMetadataWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
@@ -158,7 +158,7 @@
 }
 
 -(BOOL) deleteByGeoPackageName: (NSString *) name{
-    return [self deleteByGeoPackageId:[self getGeoPackageIdForGeoPackageName:name]];
+    return [self deleteByGeoPackageId:[self geoPackageIdForGeoPackageName:name]];
 }
 
 -(BOOL) deleteByGeoPackageId: (NSNumber *) geoPackageId{
@@ -171,7 +171,7 @@
 }
 
 -(BOOL) deleteByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName{
-    return [self deleteByGeoPackageId:[self getGeoPackageIdForGeoPackageName:name] andTableName:tableName];
+    return [self deleteByGeoPackageId:[self geoPackageIdForGeoPackageName:name] andTableName:tableName];
 }
 
 -(BOOL) deleteByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
@@ -188,7 +188,7 @@
 }
 
 -(BOOL) deleteByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName andId: (NSNumber *) geomId{
-    return [self deleteByGeoPackageId:[self getGeoPackageIdForGeoPackageName:name] andTableName:tableName andId:geomId];
+    return [self deleteByGeoPackageId:[self geoPackageIdForGeoPackageName:name] andTableName:tableName andId:geomId];
 }
 
 -(BOOL) deleteByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) geomId{
@@ -244,18 +244,18 @@
 }
 
 -(BOOL) existsByMetadata: (GPKGGeometryMetadata *) metadata{
-    return [self getMetadataByMetadata:metadata] != nil;
+    return [self metadataByMetadata:metadata] != nil;
 }
 
--(GPKGGeometryMetadata *) getMetadataByMetadata: (GPKGGeometryMetadata *) metadata{
-    return [self getMetadataByGeoPackageId:metadata.geoPackageId andTableName:metadata.tableName andId:metadata.id];
+-(GPKGGeometryMetadata *) metadataByMetadata: (GPKGGeometryMetadata *) metadata{
+    return [self metadataByGeoPackageId:metadata.geoPackageId andTableName:metadata.tableName andId:metadata.id];
 }
 
--(GPKGGeometryMetadata *) getMetadataByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) id{
-    return [self getMetadataByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andId:id];
+-(GPKGGeometryMetadata *) metadataByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) id{
+    return [self metadataByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andId:id];
 }
 
--(GPKGGeometryMetadata *) getMetadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) id{
+-(GPKGGeometryMetadata *) metadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) id{
     
     GPKGGeometryMetadata * metadata = nil;
     
@@ -267,7 +267,7 @@
     GPKGResultSet * results = [self queryForFieldValues:values];
     @try{
         if([results moveToNext]){
-            metadata = (GPKGGeometryMetadata *) [self getObject:results];
+            metadata = (GPKGGeometryMetadata *) [self object:results];
         }
     }@finally{
         [results close];
@@ -277,15 +277,15 @@
 }
 
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName{
-    return [self queryByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
+    return [self queryByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
 }
 
 -(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName{
-    return [self countByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
+    return [self countByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
 }
 
 -(GPKGBoundingBox *) boundingBoxByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName{
-    return [self boundingBoxByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
+    return [self boundingBoxByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName];
 }
 
 -(GPKGBoundingBox *) boundingBoxByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
@@ -324,11 +324,11 @@
 }
 
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andBoundingBox:boundingBox];
+    return [self queryByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andBoundingBox:boundingBox];
 }
 
 -(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self countByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andBoundingBox:boundingBox];
+    return [self countByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andBoundingBox:boundingBox];
 }
 
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox{
@@ -348,11 +348,11 @@
 }
 
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self queryByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
+    return [self queryByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
 }
 
 -(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self countByGeoPackageId:[self getGeoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
+    return [self countByGeoPackageId:[self geoPackageIdForGeoPackageName:geoPackageName] andTableName:tableName andEnvelope:envelope];
 }
 
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope{
@@ -436,10 +436,10 @@
     return count;
 }
 
--(NSNumber *) getGeoPackageIdForGeoPackageName: (NSString *) name{
+-(NSNumber *) geoPackageIdForGeoPackageName: (NSString *) name{
     NSNumber * id  = [NSNumber numberWithInt:-1];
     GPKGGeoPackageMetadataDao * ds = [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.database];
-    GPKGGeoPackageMetadata * metadata = [ds getOrCreateMetadataByName:name];
+    GPKGGeoPackageMetadata * metadata = [ds metadataCreateByName:name];
     if(metadata != nil){
         id = metadata.id;
     }

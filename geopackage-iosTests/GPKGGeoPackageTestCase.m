@@ -10,7 +10,7 @@
 
 @implementation GPKGGeoPackageTestCase
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -18,7 +18,7 @@
 - (void)setUp {
     [super setUp];
     
-    self.geoPackage = [self getGeoPackage];
+    self.geoPackage = [self createGeoPackage];
 }
     
 - (void)tearDown {

@@ -100,7 +100,7 @@ extern NSString * const GPKG_CDGC_COLUMN_QUANTITY_DEFINITION;
  *
  *  @return data type
  */
--(enum GPKGGriddedCoverageDataType) getGriddedCoverageDataType;
+-(enum GPKGGriddedCoverageDataType) griddedCoverageDataType;
 
 /**
  *  Set the data type
@@ -135,7 +135,7 @@ extern NSString * const GPKG_CDGC_COLUMN_QUANTITY_DEFINITION;
  *
  *  @return encoding type
  */
--(enum GPKGGriddedCoverageEncodingType) getGridCellEncodingType;
+-(enum GPKGGriddedCoverageEncodingType) gridCellEncodingType;
 
 /**
  *  Set the encoding type

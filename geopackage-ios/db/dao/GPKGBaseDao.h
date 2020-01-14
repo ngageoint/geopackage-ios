@@ -89,7 +89,7 @@
  *
  *  @return projection
  */
--(SFPProjection *) getProjection: (NSObject *) object;
+-(SFPProjection *) projection: (NSObject *) object;
 
 /**
  *  Drop the table
@@ -146,7 +146,7 @@
  *
  *  @return object
  */
--(NSObject *) getObject: (GPKGResultSet *) results;
+-(NSObject *) object: (GPKGResultSet *) results;
 
 /**
  *  Get the first object from the result set
@@ -155,7 +155,7 @@
  *
  *  @return object
  */
--(NSObject *) getFirstObject: (GPKGResultSet *)results;
+-(NSObject *) firstObject: (GPKGResultSet *)results;
 
 /**
  *  Raw query for results
@@ -581,7 +581,7 @@
  *
  *  @return id value
  */
--(NSObject *) getId: (NSObject *) object;
+-(NSObject *) id: (NSObject *) object;
 
 /**
  *  Get the multiple id values of the object
@@ -590,7 +590,7 @@
  *
  *  @return id values in an array
  */
--(NSArray *) getMultiId: (NSObject *) object;
+-(NSArray *) multiId: (NSObject *) object;
 
 /**
  *  Set the object id

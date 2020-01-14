@@ -47,21 +47,21 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGeoPackageMetadata *getObject = (GPKGGeoPackageMetadata*) object;
+    GPKGGeoPackageMetadata *metadata = (GPKGGeoPackageMetadata*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = metadata.id;
             break;
         case 1:
-            value = getObject.name;
+            value = metadata.name;
             break;
         case 2:
-            value = getObject.path;
+            value = metadata.path;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -79,7 +79,7 @@
     
     BOOL deleted = false;
     
-    GPKGGeoPackageMetadata * metadata = [self getMetadataByName:name];
+    GPKGGeoPackageMetadata * metadata = [self metadataByName:name];
     if(metadata != nil){
         GPKGTableMetadataDao * tableDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.database];
         [tableDao deleteByGeoPackageId:metadata.id];
@@ -110,14 +110,14 @@
     return count > 0;
 }
 
--(NSArray *) getAll{
+-(NSArray *) all{
     
     NSMutableArray * allMetadata = [[NSMutableArray alloc] init];
     
     GPKGResultSet * results = [self queryForAll];
     @try{
         while([results moveToNext]){
-            GPKGGeoPackageMetadata * metadata = (GPKGGeoPackageMetadata *) [self getObject:results];
+            GPKGGeoPackageMetadata * metadata = (GPKGGeoPackageMetadata *) [self object:results];
             [allMetadata addObject:metadata];
         }
     }@finally{
@@ -127,20 +127,20 @@
     return allMetadata;
 }
 
--(NSArray *) getAllNames{
-    return [self getAllNamesSortedBy:nil];
+-(NSArray *) allNames{
+    return [self allNamesSortedBy:nil];
 }
 
--(NSArray *) getAllNamesSorted{
-    return [self getAllNamesSortedBy:GPKG_GPM_COLUMN_NAME];
+-(NSArray *) allNamesSorted{
+    return [self allNamesSortedBy:GPKG_GPM_COLUMN_NAME];
 }
 
--(NSArray *) getAllNamesSortedBy: (NSString *) column{
+-(NSArray *) allNamesSortedBy: (NSString *) column{
     NSMutableArray * names = [[NSMutableArray alloc] init];
     GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){
-            [names addObject:[results getString:0]];
+            [names addObject:[results stringWithIndex:0]];
         }
     }@finally{
         [results close];
@@ -148,16 +148,16 @@
     return names;
 }
 
--(GPKGGeoPackageMetadata *) getMetadataByName: (NSString *) name{
-    return (GPKGGeoPackageMetadata *)[self getFirstObject:[self queryForEqWithField:GPKG_GPM_COLUMN_NAME andValue:name]];
+-(GPKGGeoPackageMetadata *) metadataByName: (NSString *) name{
+    return (GPKGGeoPackageMetadata *)[self firstObject:[self queryForEqWithField:GPKG_GPM_COLUMN_NAME andValue:name]];
 }
 
--(GPKGGeoPackageMetadata *) getMetadataById: (NSNumber *) id{
+-(GPKGGeoPackageMetadata *) metadataById: (NSNumber *) id{
     return (GPKGGeoPackageMetadata *)[self queryForIdObject:id];
 }
 
--(GPKGGeoPackageMetadata *) getOrCreateMetadataByName: (NSString *) name{
-    GPKGGeoPackageMetadata * metadata = [self getMetadataByName:name];
+-(GPKGGeoPackageMetadata *) metadataCreateByName: (NSString *) name{
+    GPKGGeoPackageMetadata * metadata = [self metadataByName:name];
     
     if(metadata == nil){
         metadata = [[GPKGGeoPackageMetadata alloc] init];
@@ -170,25 +170,25 @@
 }
 
 -(BOOL) existsByName: (NSString *) name{
-    return [self getMetadataByName:name] != nil;
+    return [self metadataByName:name] != nil;
 }
 
--(NSArray *) getMetadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column{
-    return [self getMetadataWhereNameLike:like sortedBy:column andNotLike:NO];
+-(NSArray *) metadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column{
+    return [self metadataWhereNameLike:like sortedBy:column andNotLike:NO];
 }
 
--(NSArray *) getMetadataWhereNameNotLike: (NSString *) notLike sortedBy: (NSString *) column{
-    return [self getMetadataWhereNameLike:notLike sortedBy:column andNotLike:YES];
+-(NSArray *) metadataWhereNameNotLike: (NSString *) notLike sortedBy: (NSString *) column{
+    return [self metadataWhereNameLike:notLike sortedBy:column andNotLike:YES];
 }
 
--(NSArray *) getMetadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column andNotLike: (BOOL) notLike{
+-(NSArray *) metadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column andNotLike: (BOOL) notLike{
     NSMutableArray * names = [[NSMutableArray alloc] init];
     NSString * where = [NSString stringWithFormat:@"%@%@ like ?", GPKG_GPM_COLUMN_NAME, notLike ? @" not" : @""];
     NSArray * whereArgs = [[NSArray alloc] initWithObjects:like, nil];
     GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){
-            [names addObject:[results getString:0]];
+            [names addObject:[results stringWithIndex:0]];
         }
     }@finally{
         [results close];

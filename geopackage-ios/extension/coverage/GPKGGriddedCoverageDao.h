@@ -66,6 +66,6 @@
  *
  * @return tile matrix set
  */
--(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGGriddedCoverage *) griddedCoverage;
+-(GPKGTileMatrixSet *) tileMatrixSet: (GPKGGriddedCoverage *) griddedCoverage;
 
 @end

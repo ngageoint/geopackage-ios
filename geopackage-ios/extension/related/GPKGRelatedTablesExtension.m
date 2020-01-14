@@ -28,39 +28,39 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR];
-        self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION];
-        self.extendedRelationsDao = [geoPackage getExtendedRelationsDao];
+        self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION];
+        self.extendedRelationsDao = [geoPackage extendedRelationsDao];
     }
     return self;
 }
 
--(GPKGExtendedRelationsDao *) getExtendedRelationsDao{
-    return self.extendedRelationsDao;
+-(GPKGExtendedRelationsDao *) extendedRelationsDao{
+    return _extendedRelationsDao;
 }
 
--(NSString *) getExtensionName{
-    return self.extensionName;
+-(NSString *) extensionName{
+    return _extensionName;
 }
 
--(NSString *) getExtensionDefinition{
-    return self.extensionDefinition;
+-(NSString *) extensionDefinition{
+    return _extensionDefinition;
 }
 
--(GPKGExtensions *) getOrCreateExtension{
+-(GPKGExtensions *) extensionCreate{
     
     // Create table
     [self.geoPackage createExtendedRelationsTable];
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
 
--(GPKGExtensions *) getOrCreateExtensionWithMappingTable: (NSString *) mappingTable{
+-(GPKGExtensions *) extensionCreateWithMappingTable: (NSString *) mappingTable{
     
-    [self getOrCreateExtension];
+    [self extensionCreate];
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:mappingTable andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:mappingTable andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
@@ -84,7 +84,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(void) setContentsInTable: (GPKGUserTable *) table{
-    GPKGContentsDao *dao = [self.geoPackage getContentsDao];
+    GPKGContentsDao *dao = [self.geoPackage contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:table.tableName];
     if(contents == nil){
         [NSException raise:@"No Contents Table" format:@"No Contents Table exists for table name: %@", table.tableName];
@@ -305,7 +305,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     BOOL created = NO;
     
     NSString *userMappingTableName = userMappingTable.tableName;
-    [self getOrCreateExtensionWithMappingTable:userMappingTableName];
+    [self extensionCreateWithMappingTable:userMappingTableName];
     
     if(![self.geoPackage isTable:userMappingTableName]){
         
@@ -331,7 +331,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
         [contents setTableName:relatedTableName];
         [contents setDataType:[relatedTable dataType]];
         [contents setIdentifier:relatedTableName];
-        GPKGContentsDao *contentsDao = [self.geoPackage getContentsDao];
+        GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];
         [contentsDao create:contents];
         contents = (GPKGContents *)[contentsDao queryForIdObject:relatedTableName];
         

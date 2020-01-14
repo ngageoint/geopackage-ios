@@ -44,18 +44,18 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGContentsId *getObject = (GPKGContentsId*) object;
+    GPKGContentsId *contentsId = (GPKGContentsId*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = contentsId.id;
             break;
         case 1:
-            value = getObject.tableName;
+            value = contentsId.tableName;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -72,7 +72,7 @@
 }
 
 -(GPKGContentsId *) contentsId: (GPKGResultSet *) results{
-    GPKGContentsId *contentsId = (GPKGContentsId *) [self getObject:results];
+    GPKGContentsId *contentsId = (GPKGContentsId *) [self object:results];
     [self setContents:contentsId];
     return contentsId;
 }
@@ -82,12 +82,12 @@
 }
 
 -(GPKGContents *) contents: (GPKGContentsId *) contentsId{
-    return (GPKGContents *)[[self getContentsDao] queryForIdObject:contentsId.tableName];
+    return (GPKGContents *)[[self contentsDao] queryForIdObject:contentsId.tableName];
 }
 
 -(GPKGContentsId *) queryForTableName: (NSString *) tableName{
     GPKGResultSet * results = [self queryForEqWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
-    GPKGContentsId *contentsId = (GPKGContentsId *)[self getFirstObject:results];
+    GPKGContentsId *contentsId = (GPKGContentsId *)[self firstObject:results];
     [self setContents:contentsId];
     return contentsId;
 }
@@ -98,7 +98,7 @@
     return [self deleteWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 

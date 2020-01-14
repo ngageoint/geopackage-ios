@@ -29,7 +29,7 @@
  *
  *  @return attributes table
  */
--(GPKGAttributesTable *) getAttributesTable;
+-(GPKGAttributesTable *) attributesTable;
 
 /**
  *  Get the attributes row for the current result in the result set
@@ -38,7 +38,7 @@
  *
  *  @return attributes row
  */
--(GPKGAttributesRow *) getAttributesRow: (GPKGResultSet *) results;
+-(GPKGAttributesRow *) attributesRow: (GPKGResultSet *) results;
 
 /**
  *  Create a new attributes row with the column types and values

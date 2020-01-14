@@ -45,14 +45,14 @@
  *
  *  @return feature row
  */
--(GPKGFeatureRow *) getFeatureRow;
+-(GPKGFeatureRow *) featureRow;
 
 /**
  *  Get the current location feature id
  *
  *  @return feature id
  */
--(NSNumber *) getFeatureId;
+-(NSNumber *) featureId;
 
 /**
  *  Close the results

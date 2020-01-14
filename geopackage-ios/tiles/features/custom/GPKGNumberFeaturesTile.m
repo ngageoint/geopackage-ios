@@ -19,34 +19,34 @@
     if(self != nil){
         
         // Set the default text paint values
-        self.textFont = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT];
-        self.textFontSize = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE] floatValue];
-        self.textColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR]];
+        self.textFont = [GPKGProperties valueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT];
+        self.textFontSize = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE] floatValue];
+        self.textColor = [GPKGUtils color:[GPKGProperties dictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR]];
         
         // Set the default circle values
-        self.drawCircle = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE];
-        self.circleColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR]];
-        self.circleStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH] floatValue];
+        self.drawCircle = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE];
+        self.circleColor = [GPKGUtils color:[GPKGProperties dictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR]];
+        self.circleStrokeWidth = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH] floatValue];
         
         // Set the default circle fill values
-        self.fillCircle = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE];
-        self.circleFillColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR]];
+        self.fillCircle = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE];
+        self.circleFillColor = [GPKGUtils color:[GPKGProperties dictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR]];
         
         // Set the default tile border values
-        self.drawTileBorder = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER];
-        self.tileBorderColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR]];
-        self.tileBorderStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH] floatValue];
+        self.drawTileBorder = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER];
+        self.tileBorderColor = [GPKGUtils color:[GPKGProperties dictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR]];
+        self.tileBorderStrokeWidth = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH] floatValue];
         
         // Set the default tile fill values
-        self.fillTile = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE];
-        self.tileFillColor = [GPKGUtils getColor:[GPKGProperties getDictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR]];
+        self.fillTile = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE];
+        self.tileFillColor = [GPKGUtils color:[GPKGProperties dictionaryValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR]];
         
         // Set the default circle padding percentage
-        self.circlePaddingPercentage = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE] floatValue];
+        self.circlePaddingPercentage = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE] floatValue];
         
         // Set the default draw unindexed tiles value
-        self.drawUnindexedTiles = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES];
-        self.unindexedText = [GPKGProperties getValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_UNINDEXED_TEXT];
+        self.drawUnindexedTiles = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES];
+        self.unindexedText = [GPKGProperties valueOfBaseProperty:GPKG_PROP_NUMBER_FEATURE_TILES andProperty:GPKG_PROP_NUMBER_FEATURE_TILES_UNINDEXED_TEXT];
     }
     return self;
 }

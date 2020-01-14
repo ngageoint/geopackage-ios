@@ -10,7 +10,7 @@
 
 @implementation GPKGGeoPackageFactory
 
-+(GPKGGeoPackageManager *) getManager{
++(GPKGGeoPackageManager *) manager{
     return [[GPKGGeoPackageManager alloc] init];
 }
 

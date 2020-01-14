@@ -28,8 +28,8 @@
 +(void) testCoverageDataQueriesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCoverageData: (GPKGCoverageData *) coverageData andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
     // Determine an alternate projection
-    GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
+    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
     NSNumber * srsId = tileMatrixSet.srsId;
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
     
@@ -127,21 +127,21 @@
 +(void) testRandomBoundingBoxWithGeoPackage: (GPKGGeoPackage *) geoPackage andValues: (GPKGCoverageDataValues *) coverageDataValues andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
     // Verify the coverage data shows up as a coverage data table and not a tile table
-    NSArray * tilesTables = [geoPackage getTileTables];
+    NSArray * tilesTables = [geoPackage tileTables];
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
     [GPKGTestUtils assertTrue:coverageDataTables.count > 0];
     for (NSString * tilesTable in tilesTables) {
         [GPKGTestUtils assertFalse:[coverageDataTables containsObject:tilesTable]];
     }
     
-    GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [geoPackage tileMatrixSetDao];
     [GPKGTestUtils assertTrue:[dao tableExists]];
     
     for(NSString * coverageDataTable in coverageDataTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         
-        GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         GPKGCoverageData * coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:tileDao];
         [coverageData setAlgorithm:algorithm];
         
@@ -150,7 +150,7 @@
         [coverageData setWidth:[NSNumber numberWithInt:specifiedWidth]];
         [coverageData setHeight:[NSNumber numberWithInt:specifiedHeight]];
         
-        GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
+        GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
         
         // Build a random bounding box
         double minLatitude = ([boundingBox.maxLatitude doubleValue] - [boundingBox.minLatitude doubleValue]) * [GPKGTestUtils randomDouble] + [boundingBox.minLatitude doubleValue];
@@ -215,12 +215,12 @@
     NSDecimalNumber * value = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
-    GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [geoPackage tileMatrixSetDao];
     
     for(NSString * coverageDataTable in coverageDataTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
-        GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
         SFPProjection * requestProjection = [SFPProjectionFactory  projectionWithEpsgInt:epsg];
         
@@ -238,12 +238,12 @@
     GPKGCoverageDataResults * values = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
-    GPKGTileMatrixSetDao * dao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [geoPackage tileMatrixSetDao];
     
     for(NSString * coverageDataTable in coverageDataTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
-        GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
         SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:epsg];
         
@@ -263,37 +263,37 @@
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
     [GPKGTestUtils assertFalse:coverageDataTables.count == 0];
     
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     [GPKGTestUtils assertTrue:[tileMatrixSetDao tableExists]];
-    GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
     [GPKGTestUtils assertTrue:[tileMatrixDao tableExists]];
     
     for (NSString *coverageTable in coverageDataTables) {
         
         GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:coverageTable];
         
-        GPKGTileDao * tileDao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         GPKGCoverageData * coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:tileDao];
         GPKGGriddedCoverage *griddedCoverage = [coverageData griddedCoverage];
-        enum GPKGGriddedCoverageEncodingType encoding = [griddedCoverage getGridCellEncodingType];
+        enum GPKGGriddedCoverageEncodingType encoding = [griddedCoverage gridCellEncodingType];
         
         GPKGResultSet *tileResultSet = [tileDao queryforTileWithZoomLevel:tileDao.maxZoom];
         [GPKGTestUtils assertNotNil:tileResultSet];
         @try{
             [GPKGTestUtils assertTrue:tileResultSet.count > 0];
             while([tileResultSet moveToNext]){
-                GPKGTileRow * tileRow = [tileDao getTileRow:tileResultSet];
+                GPKGTileRow * tileRow = [tileDao tileRow:tileResultSet];
                 
-                GPKGTileMatrix *tileMatrix = [tileDao getTileMatrixWithZoomLevel:[tileRow getZoomLevel]];
+                GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:[tileRow zoomLevel]];
                 [GPKGTestUtils assertNotNil:tileMatrix];
                 
                 GPKGGriddedTile *griddedTile = [coverageData griddedTileWithTileId:[tileRow idValue]];
                 [GPKGTestUtils assertNotNil:griddedTile];
                 
-                NSData *tileData = [tileRow getTileData];
+                NSData *tileData = [tileRow tileData];
                 [GPKGTestUtils assertNotNil:tileData];
                 
-                GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:[tileMatrixSet getBoundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+                GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:[tileMatrixSet boundingBox] andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
                 
                 int tileHeight = [tileMatrix.tileHeight intValue];
                 int tileWidth = [tileMatrix.tileWidth intValue];

@@ -184,7 +184,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *
  *  @return extensions array
  */
--(NSArray *) getOrCreate;
+-(NSArray *) extensionCreate;
 
 /**
  * Determine if the Tile Matrix Set has the extension

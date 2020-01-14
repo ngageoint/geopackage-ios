@@ -27,20 +27,20 @@
     return self;
 }
 
--(NSDictionary *) getValues{
-    return self.values;
+-(NSDictionary *) values{
+    return _values;
 }
 
--(NSString *) getGeometryColumn{
-    return self.geometryColumn;
+-(NSString *) geometryColumn{
+    return _geometryColumn;
 }
 
--(GPKGGeometryData *) getGeometryData{
+-(GPKGGeometryData *) geometryData{
     return (GPKGGeometryData *) [self.values objectForKey:self.geometryColumn];
 }
 
--(SFGeometry *) getGeometry{
-    return [self getGeometryData].geometry;
+-(SFGeometry *) geometry{
+    return [self geometryData].geometry;
 }
 
 -(NSObject *) jsonCompatible{

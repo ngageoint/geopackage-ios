@@ -55,35 +55,35 @@
  *
  *  @return feature DAO
  */
--(GPKGFeatureDao *) getFeatureDao;
+-(GPKGFeatureDao *) featureDao;
 
 /**
  *  Get the feature table index, used to index inside the GeoPackage as an extension
  *
  *  @return feature table index
  */
--(GPKGFeatureTableIndex *) getFeatureTableIndex;
+-(GPKGFeatureTableIndex *) featureTableIndex;
 
 /**
  *  Get the feature indexer, used to index in metadata tables
  *
  *  @return feature indexer
  */
--(GPKGFeatureIndexer *) getFeatureIndexer;
+-(GPKGFeatureIndexer *) featureIndexer;
 
 /**
  *  Get the RTree Index Table DAO
  *
  *  @return RTree index table DAO
  */
--(GPKGRTreeIndexTableDao *) getRTreeIndexTableDao;
+-(GPKGRTreeIndexTableDao *) rTreeIndexTableDao;
 
 /**
  * Get the ordered index query locations
  *
  * @return ordered index types
  */
--(NSArray *) getIndexLocationQueryOrder;
+-(NSArray *) indexLocationQueryOrder;
 
 /**
  *  Prioritize the query location order.  The type is placed at the front of the query order,
@@ -331,7 +331,7 @@
  *
  *  @return last indexed date or null
  */
--(NSDate *) getLastIndexed;
+-(NSDate *) lastIndexed;
 
 /**
  *  Get the date last indexed
@@ -340,7 +340,7 @@
  *
  *  @return last indexed date or null
  */
--(NSDate *) getLastIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type;
+-(NSDate *) lastIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type;
 
 /**
  *  Query for all feature index results

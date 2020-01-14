@@ -49,7 +49,7 @@
     return object;
 }
 
-+(UIColor *) getColor: (NSDictionary *) color{
++(UIColor *) color: (NSDictionary *) color{
     
     UIColor * createdColor = nil;
     

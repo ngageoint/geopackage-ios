@@ -94,7 +94,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self create];
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
     [GPKGTestUtils assertNotNil:geoPackage];
     [geoPackage close];
@@ -109,7 +109,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self create];
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
     
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
@@ -129,7 +129,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self create];
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     GPKGGeoPackage *geoPackage = [manager open:GEOPACKAGE_NAME];
     
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
@@ -147,7 +147,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 -(void) validateExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andHas: (BOOL) has{
     
-    GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
     
     [GPKGTestUtils assertEqualBoolWithValue:has && RTREE_SPATIAL_INDEX andValue2:[[[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage] has]];
     [GPKGTestUtils assertEqualBoolWithValue:has && (RELATED_TABLES_FEATURES || RELATED_TABLES_MEDIA || RELATED_TABLES_SIMPLE_ATTRIBUTES) andValue2:[[[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage] has]];
@@ -155,7 +155,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [GPKGTestUtils assertEqualBoolWithValue:has && SCHEMA andValue2:[[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] has]];
     [GPKGTestUtils assertEqualBoolWithValue:has && METADATA andValue2:[[[GPKGMetadataExtension alloc] initWithGeoPackage:geoPackage] has]];
-    [GPKGTestUtils assertEqualBoolWithValue:has && NON_LINEAR_GEOMETRY_TYPES andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGGeometryExtensions getExtensionName:SF_CIRCULARSTRING]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && NON_LINEAR_GEOMETRY_TYPES andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGGeometryExtensions extensionName:SF_CIRCULARSTRING]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && WEBP andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_WEBP_EXTENSION_NAME]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && CRS_WKT andValue2:[[[GPKGCrsWktExtension alloc] initWithGeoPackage:geoPackage] has]];
     
@@ -163,7 +163,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 -(void) validateNGAExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andHas: (BOOL) has{
     
-    GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
     
     [GPKGTestUtils assertEqualBoolWithValue:has && GEOMETRY_INDEX andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && FEATURE_TILE_LINK andValue2:[[[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage] has]];
@@ -299,7 +299,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) exportGeoPackage{
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     NSString *exportDirectory = [GPKGIOUtils documentsDirectory];
     
@@ -313,7 +313,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(GPKGGeoPackage *) createGeoPackage{
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     [manager delete:GEOPACKAGE_NAME];
     
@@ -329,9 +329,9 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
     
-    GPKGSpatialReferenceSystem *srs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem *srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
     [geoPackage createGeometryColumnsTable];
     
@@ -592,7 +592,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         }
     }
     
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
     
     GPKGContents *contents = [[GPKGContents alloc] init];
     [contents setTableName:tableName];
@@ -624,7 +624,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [contentsDao create:contents];
     
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setContents:contents];
@@ -635,7 +635,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumnsDao create:geometryColumns];
     
-    GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     for (int i = 0; i < geometries.count; i++) {
         
@@ -684,13 +684,13 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andName: (NSString *) name andBoundingBox: (GPKGBoundingBox *) boundingBox andMinZoom: (int) minZoomLevel andMaxZoom: (int) maxZoomLevel andExtension: (NSString *) extension{
 
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem *srs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystem *srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGTileGrid *totalTileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:boundingBox andZoom:minZoomLevel];
-    GPKGBoundingBox *totalBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithTileGrid:totalTileGrid andZoom:minZoomLevel];
+    GPKGTileGrid *totalTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:minZoomLevel];
+    GPKGBoundingBox *totalBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:totalTileGrid andZoom:minZoomLevel];
     
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
     
     GPKGContents *contents = [[GPKGContents alloc] init];
     [contents setTableName:name];
@@ -708,7 +708,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [contentsDao create:contents];
     
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     
     GPKGTileMatrixSet *tileMatrixSet = [[GPKGTileMatrixSet alloc] init];
     [tileMatrixSet setContents:contents];
@@ -719,7 +719,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [tileMatrixSet setMaxY:contents.maxY];
     [tileMatrixSetDao create:tileMatrixSet];
     
-    GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
     
     NSString *resourcePath  = [[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath];
     
@@ -732,7 +732,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         NSNumber *tileWidth = nil;
         NSNumber *tileHeight = nil;
         
-        GPKGTileDao *dao = [geoPackage getTileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGTileDao *dao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
         for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
             
@@ -812,7 +812,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     GPKGAttributesTable *attributesTable = [geoPackage createAttributesTableWithTableName:@"attributes" andAdditionalColumns:columns];
     
-    GPKGAttributesDao *attributesDao = [geoPackage getAttributesDaoWithTableName:attributesTable.tableName];
+    GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:attributesTable.tableName];
     
     for (int i = 0; i < 10; i++) {
         
@@ -836,10 +836,10 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createGeometryIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *featureTables = [geoPackage getFeatureTables];
+    NSArray *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [indexer setIndexLocation:GPKG_FIT_GEOPACKAGE];
         [indexer index];
@@ -850,20 +850,20 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *featureTables = [geoPackage getFeatureTables];
+    NSArray *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         
-        GPKGBoundingBox *boundingBox = [featureDao getBoundingBox];
+        GPKGBoundingBox *boundingBox = [featureDao boundingBox];
         SFPProjection *projection = featureDao.projection;
         
         SFPProjection *requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
         GPKGBoundingBox *requestBoundingBox = [boundingBox transform:transform];
         
-        int zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
+        int zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
         zoomLevel = MAX(zoomLevel, 8);
         zoomLevel = MIN(zoomLevel, 19);
         
@@ -884,7 +884,7 @@ static int dataColumnConstraintIndex = 0;
 
     [geoPackage createDataColumnConstraintsTable];
     
-    GPKGDataColumnConstraintsDao *dao = [geoPackage getDataColumnConstraintsDao];
+    GPKGDataColumnConstraintsDao *dao = [geoPackage dataColumnConstraintsDao];
     
     GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:@"sampleRange"];
@@ -940,21 +940,21 @@ static int dataColumnConstraintIndex = 0;
     
     [geoPackage createDataColumnsTable];
     
-    GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+    GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
     
-    NSArray *featureTables = [geoPackage getFeatureTables];
+    NSArray *featureTables = [geoPackage featureTables];
     for (NSString *featureTable in featureTables) {
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         
-        GPKGFeatureTable *table = [featureDao getFeatureTable];
+        GPKGFeatureTable *table = [featureDao featureTable];
         for (GPKGFeatureColumn *column in table.columns) {
             
             if(!column.primaryKey && column.dataType == GPKG_DT_INTEGER){
                 
                 GPKGDataColumns *dataColumns = [[GPKGDataColumns alloc] init];
-                GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
-                [dataColumns setContents:[geometryColumnsDao getContents:featureDao.geometryColumns]];
+                GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
+                [dataColumns setContents:[geometryColumnsDao contents:featureDao.geometryColumns]];
                 [dataColumns setColumnName:column.name];
                 [dataColumns setName:featureTable];
                 [dataColumns setTitle:@"TEST_TITLE"];
@@ -1003,9 +1003,9 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createNonLinearGeometryTypesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
     
-    GPKGSpatialReferenceSystem *srs = [srsDao getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem *srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
     GPKGGeometryExtensions *extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:geoPackage];
     
@@ -1024,7 +1024,7 @@ static int dataColumnConstraintIndex = 0;
     for(int i = (int)SF_CIRCULARSTRING; i <= (int)SF_SURFACE; i++){
         
         enum SFGeometryType geometryType = i;
-        [extensions getOrCreateWithTable:tableName andColumn:GEOMETRY_COLUMN andType:geometryType];
+        [extensions extensionCreateWithTable:tableName andColumn:GEOMETRY_COLUMN andType:geometryType];
         
         SFGeometry *geometry = nil;
         NSString *name = [SFGeometryTypes name:geometryType];
@@ -1094,7 +1094,7 @@ static int dataColumnConstraintIndex = 0;
 
     GPKGWebPExtension *webpExtension = [[GPKGWebPExtension alloc] initWithGeoPackage:geoPackage];
     NSString *tableName = @"webp_tiles";
-    [webpExtension getOrCreateWithTableName:tableName];
+    [webpExtension extensionCreateWithTableName:tableName];
 
     [geoPackage createTileMatrixSetTable];
     [geoPackage createTileMatrixTable];
@@ -1107,9 +1107,9 @@ static int dataColumnConstraintIndex = 0;
 +(void) createCrsWktExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
     GPKGCrsWktExtension *wktExtension = [[GPKGCrsWktExtension alloc] initWithGeoPackage:geoPackage];
-    [wktExtension getOrCreate];
+    [wktExtension extensionCreate];
     
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
     
     GPKGSpatialReferenceSystem *srs = [srsDao queryForOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
@@ -1137,7 +1137,7 @@ static int dataColumnConstraintIndex = 0;
 +(void) createMetadataExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
     [geoPackage createMetadataTable];
-    GPKGMetadataDao *metadataDao = [geoPackage getMetadataDao];
+    GPKGMetadataDao *metadataDao = [geoPackage metadataDao];
     
     GPKGMetadata *metadata1 = [[GPKGMetadata alloc] init];
     [metadata1 setId:[NSNumber numberWithInt:1]];
@@ -1164,14 +1164,14 @@ static int dataColumnConstraintIndex = 0;
     [metadataDao create:metadata3];
     
     [geoPackage createMetadataReferenceTable];
-    GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+    GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
     
     GPKGMetadataReference *reference1 = [[GPKGMetadataReference alloc] init];
     [reference1 setReferenceScopeType:GPKG_RST_GEOPACKAGE];
     [reference1 setMetadata:metadata1];
     [metadataReferenceDao create:reference1];
     
-    NSArray *tileTables = [geoPackage getTileTables];
+    NSArray *tileTables = [geoPackage tileTables];
     if(tileTables.count > 0){
         NSString *table = [tileTables objectAtIndex:0];
         GPKGMetadataReference *reference2 = [[GPKGMetadataReference alloc] init];
@@ -1182,7 +1182,7 @@ static int dataColumnConstraintIndex = 0;
         [metadataReferenceDao create:reference2];
     }
     
-    NSArray *featureTables = [geoPackage getFeatureTables];
+    NSArray *featureTables = [geoPackage featureTables];
     if (featureTables.count > 0) {
         NSString *table = [featureTables objectAtIndex:0];
         GPKGMetadataReference *reference3 = [[GPKGMetadataReference alloc] init];
@@ -1210,11 +1210,11 @@ static int dataColumnConstraintIndex = 0;
     int contentsEpsg = PROJ_EPSG_WEB_MERCATOR;
     int tileMatrixSetEpsg = PROJ_EPSG_WEB_MERCATOR;
     
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
+    [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
-    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
-    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
+    GPKGSpatialReferenceSystem *contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
     SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
     GPKGBoundingBox *contentsBoundingBox = nil;
@@ -1264,11 +1264,11 @@ static int dataColumnConstraintIndex = 0;
     
     NSData *imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:tilePixels];
     
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
     
     GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
-    [tileMatrix setContents:[tileMatrixSetDao getContents:tileMatrixSet]];
+    [tileMatrix setContents:[tileMatrixSetDao contents:tileMatrixSet]];
     [tileMatrix setMatrixHeight:[NSNumber numberWithInt:height]];
     [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
     [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
@@ -1287,7 +1287,7 @@ static int dataColumnConstraintIndex = 0;
     long long tileId = [tileDao create:tileRow];
     
     GPKGGriddedTile *griddedTile = [[GPKGGriddedTile alloc] init];
-    [griddedTile setContents:[tileMatrixSetDao getContents:tileMatrixSet]];
+    [griddedTile setContents:[tileMatrixSetDao contents:tileMatrixSet]];
     [griddedTile setTableId:[NSNumber numberWithLongLong:tileId]];
     
     [griddedTileDao create:griddedTile];
@@ -1301,11 +1301,11 @@ static int dataColumnConstraintIndex = 0;
     int contentsEpsg = PROJ_EPSG_WEB_MERCATOR;
     int tileMatrixSetEpsg = PROJ_EPSG_WEB_MERCATOR;
     
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
+    [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
-    GPKGSpatialReferenceSystem *contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
-    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
+    GPKGSpatialReferenceSystem *contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
     SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
     GPKGBoundingBox *contentsBoundingBox = nil;
@@ -1365,11 +1365,11 @@ static int dataColumnConstraintIndex = 0;
     
     NSData *imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:tilePixels];
     
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
     
     GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
-    [tileMatrix setContents:[tileMatrixSetDao getContents:tileMatrixSet]];
+    [tileMatrix setContents:[tileMatrixSetDao contents:tileMatrixSet]];
     [tileMatrix setMatrixHeight:[NSNumber numberWithInt:height]];
     [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
     [tileMatrix setTileHeight:[NSNumber numberWithInt:tileHeight]];
@@ -1388,7 +1388,7 @@ static int dataColumnConstraintIndex = 0;
     long long tileId = [tileDao create:tileRow];
     
     GPKGGriddedTile *griddedTile = [[GPKGGriddedTile alloc] init];
-    [griddedTile setContents:[tileMatrixSetDao getContents:tileMatrixSet]];
+    [griddedTile setContents:[tileMatrixSetDao contents:tileMatrixSet]];
     [griddedTile setTableId:[NSNumber numberWithLongLong:tileId]];
     
     [griddedTileDao create:griddedTile];
@@ -1399,11 +1399,11 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray *featureTables = [geoPackage getFeatureTables];
+    NSArray *featureTables = [geoPackage featureTables];
     for (NSString *tableName in featureTables) {
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:tableName];
-        GPKGFeatureTable *featureTable = [featureDao getFeatureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:tableName];
+        GPKGFeatureTable *featureTable = [featureDao featureTable];
         
         [extension createWithFeatureTable:featureTable];
     }
@@ -1438,7 +1438,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
-    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:relation.baseTableName];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:relation.baseTableName];
     GPKGMediaDao *mediaDao = [relatedTables mediaDaoForRelation:relation];
     GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
     
@@ -1455,7 +1455,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGResultSet *featureResultSet = [featureDao queryForLikeWithField:TEXT_COLUMN andValue:query];
     while([featureResultSet moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+        GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
         GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
         [userMappingRow setBaseId:[featureRow idValue]];
         [userMappingRow setRelatedId:mediaRowId];
@@ -1496,21 +1496,21 @@ static int dataColumnConstraintIndex = 0;
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
     
-    GPKGFeatureDao *featureDao1 = [geoPackage getFeatureDaoWithTableName:relation.baseTableName];
-    GPKGFeatureDao *featureDao2 = [geoPackage getFeatureDaoWithTableName:relation.relatedTableName];
+    GPKGFeatureDao *featureDao1 = [geoPackage featureDaoWithTableName:relation.baseTableName];
+    GPKGFeatureDao *featureDao2 = [geoPackage featureDaoWithTableName:relation.relatedTableName];
     
     NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [[NSMutableArray alloc] init];
     
     GPKGResultSet *featureResultSet1 = [featureDao1 queryForAll];
     while([featureResultSet1 moveToNext]){
         
-        GPKGFeatureRow *featureRow1 = [featureDao1 getFeatureRow:featureResultSet1];
+        GPKGFeatureRow *featureRow1 = [featureDao1 featureRow:featureResultSet1];
         NSString *featureName = (NSString *)[featureRow1 valueWithColumnName:TEXT_COLUMN];
         
         GPKGResultSet *featureResultSet2 = [featureDao2 queryForEqWithField:TEXT_COLUMN andValue:featureName];
         while([featureResultSet2 moveToNext]){
             
-            GPKGFeatureRow *featureRow2 = [featureDao2 getFeatureRow:featureResultSet2];
+            GPKGFeatureRow *featureRow2 = [featureDao2 featureRow:featureResultSet2];
             
             GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
             [userMappingRow setBaseId:[featureRow1 idValue]];
@@ -1558,11 +1558,11 @@ static int dataColumnConstraintIndex = 0;
     }
     
     GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
-    GPKGAttributesDao *attributesDao = [geoPackage getAttributesDaoWithTableName:tableName];
+    GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:tableName];
     
     GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
     while([attributesResultSet moveToNext]){
-        GPKGAttributesRow *attributesRow = [attributesDao getAttributesRow:attributesResultSet];
+        GPKGAttributesRow *attributesRow = [attributesDao attributesRow:attributesResultSet];
         NSNumber *randomSimpleRowId = [simpleAttributesIds objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)simpleAttributesIds.count]];
         GPKGSimpleAttributesRow *simpleAttributesRow = (GPKGSimpleAttributesRow *)[simpleAttributesDao queryForIdObject:randomSimpleRowId];
         
@@ -1582,13 +1582,13 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    for(NSString *tileTable in [geoPackage getTileTables]){
+    for(NSString *tileTable in [geoPackage tileTables]){
         
         GPKGTileTableScaling *tileTableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTableName:tileTable];
         GPKGTileScaling *tileScaling = [[GPKGTileScaling alloc] init];
         [tileScaling setZoomIn:[NSNumber numberWithInt:2]];
         GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
-        if([linker has] && [linker getFeatureTablesForTileTable:tileTable].count > 0){
+        if([linker has] && [linker featureTablesForTileTable:tileTable].count > 0){
             [tileScaling setTileScalingType:GPKG_TSC_IN];
         }else{
             [tileScaling setTileScalingType:GPKG_TSC_IN_OUT];
@@ -1706,8 +1706,8 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createFeatureStylesGeometry1WithGeoPackage: (GPKGGeoPackage *) geoPackage andStyles: (NSArray<GPKGStyleRow *> *) styles andIcons: (NSArray<GPKGIconRow *> *) icons{
     
-    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:@"geometry1"];
-    GPKGFeatureTableStyles *geometry1Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:@"geometry1"];
+    GPKGFeatureTableStyles *geometry1Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao featureTable]];
     
     [geometry1Styles setTableStyleDefault:[styles objectAtIndex:0]];
     [geometry1Styles setTableStyle:[styles objectAtIndex:1] withGeometryType:SF_POLYGON];
@@ -1722,8 +1722,8 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGResultSet *features = [featureDao queryForAll];
     while([features moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:features];
-        switch ([featureRow getGeometryType]) {
+        GPKGFeatureRow *featureRow = [featureDao featureRow:features];
+        switch ([featureRow geometryType]) {
             case SF_POINT:
                 pointCount++;
                 switch (pointCount) {
@@ -1770,8 +1770,8 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createFeatureStylesGeometry2WithGeoPackage: (GPKGGeoPackage *) geoPackage andStyles: (NSArray<GPKGStyleRow *> *) styles andIcons: (NSArray<GPKGIconRow *> *) icons{
     
-    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:@"geometry2"];
-    GPKGFeatureTableStyles *geometry2Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:@"geometry2"];
+    GPKGFeatureTableStyles *geometry2Styles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao featureTable]];
     
     [geometry2Styles setTableStyle:[styles objectAtIndex:0] withGeometryType:SF_POINT];
     [geometry2Styles setTableStyle:[styles objectAtIndex:1] withGeometryType:SF_LINESTRING];
@@ -1783,8 +1783,8 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGResultSet *features = [featureDao queryForAll];
     while([features moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao getFeatureRow:features];
-        switch ([featureRow getGeometryType]) {
+        GPKGFeatureRow *featureRow = [featureDao featureRow:features];
+        switch ([featureRow geometryType]) {
             case SF_POINT:
                 [geometry2Styles setIcon:[icons objectAtIndex:0] withFeature:featureRow];
                 break;

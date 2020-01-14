@@ -25,7 +25,7 @@ NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
 
 @implementation GPKGContents
 
--(enum GPKGContentsDataType) getContentsDataType{
+-(enum GPKGContentsDataType) contentsDataType{
     enum GPKGContentsDataType value = -1;
     
     if(self.dataType != nil){
@@ -47,7 +47,7 @@ NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
     }
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     GPKGBoundingBox *boundingBox = nil;
     if(self.minX != nil && self.maxX != nil && self.minY != nil && self.maxY != nil){
         boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:self.minX andMinLatitude:self.minY andMaxLongitude:self.maxX andMaxLatitude:self.maxY];

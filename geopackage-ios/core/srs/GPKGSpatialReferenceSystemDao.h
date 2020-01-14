@@ -86,7 +86,7 @@
  *
  *  @return definition or null
  */
--(NSString *) getDefinition_12_063WithSrsId: (NSNumber *) srsId;
+-(NSString *) definition_12_063WithSrsId: (NSNumber *) srsId;
 
 /**
  *  Query and set the definition 12 063 in the srs object if the extension
@@ -126,7 +126,7 @@
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) getOrCreateWithEpsg: (NSNumber*) epsg;
+-(GPKGSpatialReferenceSystem *) srsWithEpsg: (NSNumber*) epsg;
 
 /**
  * Get or Create the Spatial Reference System for the provided organization
@@ -138,7 +138,7 @@
  *            coordsys id
  * @return srs
  */
--(GPKGSpatialReferenceSystem *) getOrCreateWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
+-(GPKGSpatialReferenceSystem *) srsWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
 
 /**
  *  Query for the organization coordsys id
@@ -205,7 +205,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) getContents: (GPKGSpatialReferenceSystem *) srs;
+-(GPKGResultSet *) contents: (GPKGSpatialReferenceSystem *) srs;
 
 /**
  *  Get Geometry Columns referencing the SRS
@@ -214,7 +214,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) getGeometryColumns: (GPKGSpatialReferenceSystem *) srs;
+-(GPKGResultSet *) geometryColumns: (GPKGSpatialReferenceSystem *) srs;
 
 /**
  *  Get Tile Matrix Sets referencing the SRS
@@ -223,6 +223,6 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) getTileMatrixSet: (GPKGSpatialReferenceSystem *) srs;
+-(GPKGResultSet *) tileMatrixSet: (GPKGSpatialReferenceSystem *) srs;
 
 @end

@@ -39,7 +39,7 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
  *
  *  @return extensions
  */
--(NSArray<GPKGExtensions *> *) getOrCreate;
+-(NSArray<GPKGExtensions *> *) extensionCreate;
 
 /**
  *  Determine if the GeoPackage has the extension

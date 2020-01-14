@@ -41,7 +41,7 @@
 }
 
 -(instancetype) initWithCache: (GPKGGeoPackageCache *) cache{
-    return [self initWithGeoPackages:[cache getGeoPackages]];
+    return [self initWithGeoPackages:[cache geoPackages]];
 }
 
 -(GPKGPropertiesExtension *) propertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{

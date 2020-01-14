@@ -38,21 +38,21 @@
  *
  *  @return GeoPackage Metadata DAO
  */
--(GPKGGeoPackageMetadataDao *) getGeoPackageMetadataDao;
+-(GPKGGeoPackageMetadataDao *) geoPackageMetadataDao;
 
 /**
  *  Get a Table Metadata DAO
  *
  *  @return Table Metadata DAO
  */
--(GPKGTableMetadataDao *) getTableMetadataDao;
+-(GPKGTableMetadataDao *) tableMetadataDao;
 
 /**
  *  Get a Geometry Metadata DAO
  *
  *  @return Geometry Metadata DAO
  */
--(GPKGGeometryMetadataDao *) getGeometryMetadataDao;
+-(GPKGGeometryMetadataDao *) geometryMetadataDao;
 
 /**
  *  Delete the metadata database file

@@ -40,7 +40,7 @@
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension deleteAll]];
     [extension removeExtension];
     
-    GPKGExtensions *extensions = [extension getOrCreate];
+    GPKGExtensions *extensions = [extension extensionCreate];
     [GPKGTestUtils assertNotNil:extensions];
     [GPKGTestUtils assertTrue:[extension has]];
     [GPKGTestUtils assertTrue:[self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]];

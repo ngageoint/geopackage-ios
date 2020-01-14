@@ -36,7 +36,7 @@ static NSUInteger idCounter = 0;
     return [self initWithLocation:coord];
 }
 
--(NSNumber *) getIdAsNumber{
+-(NSNumber *) idAsNumber{
     return [NSNumber numberWithInteger:self.id];
 }
 

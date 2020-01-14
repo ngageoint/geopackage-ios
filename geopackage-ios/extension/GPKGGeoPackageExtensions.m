@@ -61,7 +61,7 @@
  */
 +(void) deleteWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([extensionsDao tableExists]){
         [extensionsDao deleteByTableName:table];
@@ -76,7 +76,7 @@
  */
 +(void) deleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([extensionsDao tableExists]){
         [geoPackage dropTable:extensionsDao.tableName];
@@ -127,7 +127,7 @@
         GPKGRTreeIndexExtension *rTreeIndexExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
         
         if([rTreeIndexExtension hasWithTableName:table]){
-            GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+            GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
             
             GPKGGeometryColumns *geometryColumns = [geometryColumnsDao queryForTableName:newTable];
             if(geometryColumns != nil){
@@ -169,8 +169,8 @@
         GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
         if([relatedTablesExtension has]){
             
-            GPKGExtendedRelationsDao *extendedRelationsDao = [relatedTablesExtension getExtendedRelationsDao];
-            GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+            GPKGExtendedRelationsDao *extendedRelationsDao = [relatedTablesExtension extendedRelationsDao];
+            GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
             
             NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
             GPKGResultSet *extendedRelationsResults = [extendedRelationsDao relationsToBaseTable:table];
@@ -188,10 +188,10 @@
                 NSString *mappingTableName = extendedRelation.mappingTableName;
                 
                 GPKGExtensions *extension = nil;
-                GPKGResultSet *extensionsResults = [extensionsDao queryByExtension:[relatedTablesExtension getExtensionName] andTable:mappingTableName];
+                GPKGResultSet *extensionsResults = [extensionsDao queryByExtension:[relatedTablesExtension extensionName] andTable:mappingTableName];
                 @try {
                     if([extensionsResults moveToNext]){
-                        extension = (GPKGExtensions *)[extensionsDao getObject:extensionsResults];
+                        extension = (GPKGExtensions *)[extensionsDao object:extensionsResults];
                     }
                 } @finally {
                     [extensionsResults close];
@@ -232,9 +232,9 @@
 
     if([geoPackage isTable:table ofType:GPKG_CDT_GRIDDED_COVERAGE]){
         
-        GPKGGriddedTileDao *griddedTileDao = [geoPackage getGriddedTileDao];
-        GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
-        GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+        GPKGGriddedTileDao *griddedTileDao = [geoPackage griddedTileDao];
+        GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage griddedCoverageDao];
+        GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
         
         if ([griddedTileDao tableExists]) {
             [griddedTileDao deleteByTableName:table];
@@ -252,14 +252,14 @@
 
 +(void) deleteGriddedCoverageExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *coverageTables = [geoPackage getTablesByType:GPKG_CDT_GRIDDED_COVERAGE];
+    NSArray *coverageTables = [geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE];
     for(NSString *table in coverageTables){
         [geoPackage deleteTable:table];
     }
     
-    GPKGGriddedTileDao *griddedTileDao = [geoPackage getGriddedTileDao];
-    GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
-    GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+    GPKGGriddedTileDao *griddedTileDao = [geoPackage griddedTileDao];
+    GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage griddedCoverageDao];
+    GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
     
     if ([griddedTileDao tableExists]) {
         [geoPackage dropTable:griddedTileDao.tableName];
@@ -279,26 +279,26 @@
         
         if([geoPackage isTable:table ofType:GPKG_CDT_GRIDDED_COVERAGE]){
             
-            GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+            GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
             
             if ([extensionsDao tableExists]) {
                 
                 GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GRIDDED_COVERAGE_EXTENSION_NAME] andTable:table];
                 @try {
                     if([extensions moveToNext]){
-                        GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+                        GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao object:extensions];
                         
                         [extension setTableName:newTable];
                         [extensionsDao create:extension];
                         
-                        GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage getGriddedCoverageDao];
+                        GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage griddedCoverageDao];
                         if([griddedCoverageDao tableExists]){
                             
                             [GPKGSqlUtils transferContentInTable:GPKG_CDGC_TABLE_NAME inColumn:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME withNewValue:newTable andCurrentValue:table andIdColumn:GPKG_CDGC_COLUMN_ID withConnection:geoPackage.database];
                             
                         }
                         
-                        GPKGGriddedTileDao *griddedTileDao = [geoPackage getGriddedTileDao];
+                        GPKGGriddedTileDao *griddedTileDao = [geoPackage griddedTileDao];
                         if([griddedTileDao tableExists]){
                             
                             [GPKGSqlUtils transferContentInTable:GPKG_CDGT_TABLE_NAME inColumn:GPKG_CDGT_COLUMN_TABLE_NAME withNewValue:newTable andCurrentValue:table andIdColumn:GPKG_CDGT_COLUMN_ID withConnection:geoPackage.database];
@@ -321,7 +321,7 @@
 
 +(void) deleteSchemaWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
-    GPKGDataColumnsDao *dataColumnsDao = [geoPackage getDataColumnsDao];
+    GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
     if([dataColumnsDao tableExists]){
         [dataColumnsDao deleteByTableName:table];
     }
@@ -368,7 +368,7 @@
 
 +(void) deleteMetadataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
 
-    GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+    GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
     if([metadataReferenceDao tableExists]){
         [metadataReferenceDao deleteByTableName:table];
     }

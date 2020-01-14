@@ -73,42 +73,42 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGContents *getObject = (GPKGContents*) object;
+    GPKGContents *contents = (GPKGContents*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = contents.tableName;
             break;
         case 1:
-            value = getObject.dataType;
+            value = contents.dataType;
             break;
         case 2:
-            value = getObject.identifier;
+            value = contents.identifier;
             break;
         case 3:
-            value = getObject.theDescription;
+            value = contents.theDescription;
             break;
         case 4:
-            value = getObject.lastChange;
+            value = contents.lastChange;
             break;
         case 5:
-            value = getObject.minX;
+            value = contents.minX;
             break;
         case 6:
-            value = getObject.minY;
+            value = contents.minY;
             break;
         case 7:
-            value = getObject.maxX;
+            value = contents.maxX;
             break;
         case 8:
-            value = getObject.maxY;
+            value = contents.maxY;
             break;
         case 9:
-            value = getObject.srsId;
+            value = contents.srsId;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -118,9 +118,9 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGContents *projectionObject = (GPKGContents*) object;
-    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
     SFPProjection *projection = [srs projection];
     return projection;
 }
@@ -128,13 +128,13 @@
 -(void) validateObject: (NSObject*) object{
     
     GPKGContents *validateObject = (GPKGContents*) object;
-    enum GPKGContentsDataType dataType = [validateObject getContentsDataType];
+    enum GPKGContentsDataType dataType = [validateObject contentsDataType];
     
     if((int)dataType >= 0){
         switch (dataType) {
             case GPKG_CDT_FEATURES:{
                     // Features require Geometry Columns table (Spec Requirement 21)
-                    GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
+                    GPKGGeometryColumnsDao * geometryColumnsDao = [self geometryColumnsDao];
                     if(![geometryColumnsDao tableExists]){
                         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_GC_TABLE_NAME];
                     }
@@ -163,47 +163,47 @@
 -(void) verifyTiles: (enum GPKGContentsDataType) dataType{
     
     // Tiles require Tile Matrix Set table (Spec Requirement 37)
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
     if(![tileMatrixSetDao tableExists]){
         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TMS_TABLE_NAME];
     }
     
     // Tiles require Tile Matrix table (Spec Requirement 41)
-    GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+    GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
     if(![tileMatrixDao tableExists]){
         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TM_TABLE_NAME];
     }
 }
 
--(NSArray *) getTablesOfType: (enum GPKGContentsDataType) dataType{
-    return [self getTablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
+-(NSArray *) tablesOfType: (enum GPKGContentsDataType) dataType{
+    return [self tablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
--(NSArray *) getTablesOfTypeName: (NSString *) dataType{
-    GPKGResultSet * contents = [self getContentsOfTypeName:dataType];
+-(NSArray *) tablesOfTypeName: (NSString *) dataType{
+    GPKGResultSet * contents = [self contentsOfTypeName:dataType];
     NSMutableArray * tableNames = [[NSMutableArray alloc] init];
     while([contents moveToNext]){
-        GPKGContents * content = (GPKGContents *)[self getObject:contents];
+        GPKGContents * content = (GPKGContents *)[self object:contents];
         [tableNames addObject:content.tableName];
     }
     [contents close];
     return tableNames;
 }
 
--(GPKGResultSet *) getContentsOfType: (enum GPKGContentsDataType) dataType{
-    return [self getContentsOfTypeName:[GPKGContentsDataTypes name:dataType]];
+-(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType{
+    return [self contentsOfTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
--(GPKGResultSet *) getContentsOfTypeName: (NSString *) dataType{
+-(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType{
     GPKGResultSet * contents = [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
     return contents;
 }
 
--(NSArray *) getTables{
+-(NSArray *) tables{
     GPKGResultSet * contents = [self queryForAll];
     NSMutableArray * tableNames = [[NSMutableArray alloc] init];
     while([contents moveToNext]){
-        GPKGContents * content = (GPKGContents *)[self getObject:contents];
+        GPKGContents * content = (GPKGContents *)[self object:contents];
         [tableNames addObject:content.tableName];
     }
     [contents close];
@@ -216,7 +216,7 @@
     
     if(contents != nil){
         
-        int dataType = [contents getContentsDataType];
+        int dataType = [contents contentsDataType];
         
         if(dataType > -1){
             
@@ -225,9 +225,9 @@
                 case GPKG_CDT_FEATURES:
                     {
                         // Delete Geometry Columns
-                        GPKGGeometryColumnsDao * geometryColumnsDao = [self getGeometryColumnsDao];
+                        GPKGGeometryColumnsDao * geometryColumnsDao = [self geometryColumnsDao];
                         if([geometryColumnsDao tableExists]){
-                            GPKGGeometryColumns * geometryColumns = [self getGeometryColumns:contents];
+                            GPKGGeometryColumns * geometryColumns = [self geometryColumns:contents];
                             if(geometryColumns != nil){
                                 [geometryColumnsDao delete:geometryColumns];
                             }
@@ -239,20 +239,20 @@
                 case GPKG_CDT_GRIDDED_COVERAGE:
                     {
                         // Delete Tile Matrix
-                        GPKGTileMatrixDao * tileMatrixDao = [self getTileMatrixDao];
+                        GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
                         if([tileMatrixDao tableExists]){
-                            GPKGResultSet * tileMatrixResults = [self getTileMatrix:contents];
+                            GPKGResultSet * tileMatrixResults = [self tileMatrix:contents];
                             while([tileMatrixResults moveToNext]){
-                                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao getObject:tileMatrixResults];
+                                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao object:tileMatrixResults];
                                 [tileMatrixDao delete:tileMatrix];
                             }
                             [tileMatrixResults close];
                         }
                         
                         // Delete Tile Matrix Set
-                        GPKGTileMatrixSetDao * tileMatrixSetDao = [self getTileMatrixSetDao];
+                        GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
                         if([tileMatrixSetDao tableExists]){
-                            GPKGTileMatrixSet * tileMatrixSet = [self getTileMatrixSet:contents];
+                            GPKGTileMatrixSet * tileMatrixSet = [self tileMatrixSet:contents];
                             if(tileMatrixSet != nil){
                                 [tileMatrixSetDao delete:tileMatrixSet];
                             }
@@ -313,7 +313,7 @@
         NSMutableArray *contentsArray = [[NSMutableArray alloc] init];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
-            GPKGContents *contents = (GPKGContents *)[self getObject:results];
+            GPKGContents *contents = (GPKGContents *)[self object:results];
             [contentsArray addObject:contents];
         }
         [results close];
@@ -359,36 +359,36 @@
     [self deleteByIdCascade:table andUserTable:true];
 }
 
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents{
-    GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
+-(GPKGSpatialReferenceSystem *) srs: (GPKGContents *) contents{
+    GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:contents.srsId];
     return srs;
 }
 
--(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents{
+-(GPKGGeometryColumns *) geometryColumns: (GPKGContents *) contents{
     GPKGGeometryColumns * geometryColumns = nil;
-    GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
+    GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
-        geometryColumns = (GPKGGeometryColumns *)[dao getObject:results];
+        geometryColumns = (GPKGGeometryColumns *)[dao object:results];
     }
     [results close];
     return geometryColumns;
 }
 
--(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGContents *) contents{
+-(GPKGTileMatrixSet *) tileMatrixSet: (GPKGContents *) contents{
     GPKGTileMatrixSet * tileMatrixSet = nil;
-    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
-        tileMatrixSet = (GPKGTileMatrixSet *)[dao getObject:results];
+        tileMatrixSet = (GPKGTileMatrixSet *)[dao object:results];
     }
     [results close];
     return tileMatrixSet;
 }
 
--(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents{
-    GPKGTileMatrixDao * dao = [self getTileMatrixDao];
+-(GPKGResultSet *) tileMatrix: (GPKGContents *) contents{
+    GPKGTileMatrixDao * dao = [self tileMatrixDao];
     GPKGResultSet * results = [dao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:contents.tableName];
     return results;
 }
@@ -397,7 +397,7 @@
     
     GPKGBoundingBox *boundingBox = nil;
     
-    NSArray<NSString *> *tables = [self getTables];
+    NSArray<NSString *> *tables = [self tables];
     
     for (NSString *table in tables) {
         GPKGBoundingBox *tableBoundingBox = [self boundingBoxOfTable:table inProjection:projection];
@@ -426,9 +426,9 @@
 }
 
 -(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (SFPProjection *) projection{
-    GPKGBoundingBox *boundingBox = [contents getBoundingBox];
+    GPKGBoundingBox *boundingBox = [contents boundingBox];
     if (boundingBox != nil && projection != nil) {
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self getProjection:contents] andToProjection:projection];
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self projection:contents] andToProjection:projection];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }
@@ -436,19 +436,19 @@
     return boundingBox;
 }
 
--(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
+-(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
     return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
+-(GPKGGeometryColumnsDao *) geometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao{
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGTileMatrixDao *) getTileMatrixDao{
+-(GPKGTileMatrixDao *) tileMatrixDao{
     return [[GPKGTileMatrixDao alloc] initWithDatabase:self.database];
 }
 

@@ -36,7 +36,7 @@
  *
  *  @return tile with dimensions and bytes
  */
--(GPKGGeoPackageTile *) getTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
+-(GPKGGeoPackageTile *) tileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom;
 
 @end
 

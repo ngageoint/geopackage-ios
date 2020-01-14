@@ -53,27 +53,27 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGMetadata *getObject = (GPKGMetadata*) object;
+    GPKGMetadata *metadata = (GPKGMetadata*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = metadata.id;
             break;
         case 1:
-            value = getObject.scope;
+            value = metadata.scope;
             break;
         case 2:
-            value = getObject.standardUri;
+            value = metadata.standardUri;
             break;
         case 3:
-            value = getObject.mimeType;
+            value = metadata.mimeType;
             break;
         case 4:
-            value = getObject.metadata;
+            value = metadata.metadata;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -89,7 +89,7 @@
     if(metadata != nil){
         
         // Delete Metadata References and remove parent references
-        GPKGMetadataReferenceDao * dao = [self getMetadataReferenceDao];
+        GPKGMetadataReferenceDao * dao = [self metadataReferenceDao];
         [dao deleteByMetadata:metadata.id];
         [dao removeMetadataParent:metadata.id];
         
@@ -116,7 +116,7 @@
         NSMutableArray *metadataArray = [[NSMutableArray alloc] init];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
-            GPKGMetadata *metadata = (GPKGMetadata *)[self getObject:results];
+            GPKGMetadata *metadata = (GPKGMetadata *)[self object:results];
             [metadataArray addObject:metadata];
         }
         [results close];
@@ -148,7 +148,7 @@
     return count;
 }
 
--(GPKGMetadataReferenceDao *) getMetadataReferenceDao{
+-(GPKGMetadataReferenceDao *) metadataReferenceDao{
     return [[GPKGMetadataReferenceDao alloc] initWithDatabase:self.database];
 }
 

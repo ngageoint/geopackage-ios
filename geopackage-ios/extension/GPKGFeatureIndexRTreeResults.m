@@ -27,18 +27,18 @@
 }
 
 -(int) count{
-    return self.results.count;
+    return _results.count;
 }
 
 -(BOOL) moveToNext{
     return [self.results moveToNext];
 }
 
--(GPKGFeatureRow *) getFeatureRow{
+-(GPKGFeatureRow *) featureRow{
     return [self.dao featureRow:self.results];
 }
 
--(NSNumber *) getFeatureId{
+-(NSNumber *) featureId{
     return [[self.dao row:self.results] id];
 }
 

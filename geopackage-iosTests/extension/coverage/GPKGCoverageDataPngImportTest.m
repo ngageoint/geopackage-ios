@@ -88,13 +88,13 @@ static BOOL allowNulls = false;
     GPKGBoundingBox * projectedBoundingBox = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageDataPng tablesForGeoPackage:self.geoPackage];
-    GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [self.geoPackage tileMatrixSetDao];
     
     for(NSString * coverageDataTable in coverageDataTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
-        GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
+        GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
         NSMutableString * log = [[NSMutableString alloc] init];
         [log appendFormat:@"\n\nMin Latitude: %f\n", [boundingBox.minLatitude doubleValue]];
         [log appendFormat:@"Max Latitude: %f\n", [boundingBox.maxLatitude doubleValue]];
@@ -102,7 +102,7 @@ static BOOL allowNulls = false;
         [log appendFormat:@"Max Longitude: %f\n\n", [boundingBox.maxLongitude doubleValue]];
         NSLog(log, nil);
         
-        GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage getSpatialReferenceSystemDao];
+        GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage spatialReferenceSystemDao];
         NSNumber * srsId = tileMatrixSet.srsId;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
         SFPProjection * projection = [srs projection];
@@ -233,20 +233,20 @@ static BOOL allowNulls = false;
     int height = 6;
     
     NSArray * coverageDataTables = [GPKGCoverageDataPng tablesForGeoPackage:self.geoPackage];
-    GPKGTileMatrixSetDao * dao = [self.geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * dao = [self.geoPackage tileMatrixSetDao];
     
     for(NSString * coverageDataTable in coverageDataTables){
         
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
-        GPKGSpatialReferenceSystem *srs = [dao getSrs:tileMatrixSet];
+        GPKGSpatialReferenceSystem *srs = [dao srs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];
         
         SFPProjection * projection = [srs projection];
         SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
         
-        GPKGBoundingBox * boundingBox = [tileMatrixSet getBoundingBox];
+        GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
         
         double minLongitude = [boundingBox.minLongitude doubleValue];
         double maxLongitude = [boundingBox.maxLongitude doubleValue];
@@ -359,7 +359,7 @@ static BOOL allowNulls = false;
             for (int row = 0; row < [tileMatrix.matrixHeight intValue]; row++) {
                 for (int column = 0; column < [tileMatrix.matrixWidth intValue]; column++) {
                     
-                    GPKGBoundingBox * boundingBox2 = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:boundingBox andTileMatrix:tileMatrix andTileColumn:column andTileRow:row];
+                    GPKGBoundingBox * boundingBox2 = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:boundingBox andTileMatrix:tileMatrix andTileColumn:column andTileRow:row];
                     
                     double minLongitude2 = [boundingBox2.minLongitude doubleValue];
                     double maxLongitude2 = [boundingBox2.maxLongitude doubleValue];

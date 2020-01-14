@@ -77,6 +77,6 @@
  *
  *  @return contents
  */
--(GPKGContents *) getContents: (GPKGGriddedTile *) griddedTile;
+-(GPKGContents *) contents: (GPKGGriddedTile *) griddedTile;
 
 @end

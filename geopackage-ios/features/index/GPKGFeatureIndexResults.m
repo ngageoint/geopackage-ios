@@ -37,12 +37,12 @@
     return false;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
+-(GPKGFeatureRow *) featureRow{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
--(NSNumber *) getFeatureId{
+-(NSNumber *) featureId{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -70,9 +70,9 @@
         
         NSObject *value = nil;
         if(self.ids){
-            value = [self getFeatureId];
+            value = [self featureId];
         }else{
-            value = [self getFeatureRow];
+            value = [self featureRow];
         }
         [self.rowsResult addObject:value];
         stackbuf[count] = value;

@@ -228,7 +228,7 @@
 }
 
 -(GPKGFeatureStyle *) featureStyleWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self featureStyleWithFeature:featureRow andGeometryType:[featureRow getGeometryType]];
+    return [self featureStyleWithFeature:featureRow andGeometryType:[featureRow geometryType]];
 }
 
 -(GPKGFeatureStyle *) featureStyleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
@@ -278,7 +278,7 @@
 }
 
 -(GPKGStyleRow *) styleWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self styleWithFeature:featureRow andGeometryType:[featureRow getGeometryType]];
+    return [self styleWithFeature:featureRow andGeometryType:[featureRow geometryType]];
 }
 
 -(GPKGStyleRow *) styleWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{
@@ -331,7 +331,7 @@
 }
 
 -(GPKGIconRow *) iconWithFeature: (GPKGFeatureRow *) featureRow{
-    return [self iconWithFeature:featureRow andGeometryType:[featureRow getGeometryType]];
+    return [self iconWithFeature:featureRow andGeometryType:[featureRow geometryType]];
 }
 
 -(GPKGIconRow *) iconWithFeature: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType{

@@ -53,27 +53,27 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGExtensions *getObject = (GPKGExtensions*) object;
+    GPKGExtensions *extensions = (GPKGExtensions*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = extensions.tableName;
             break;
         case 1:
-            value = getObject.columnName;
+            value = extensions.columnName;
             break;
         case 2:
-            value = getObject.extensionName;
+            value = extensions.extensionName;
             break;
         case 3:
-            value = getObject.definition;
+            value = extensions.definition;
             break;
         case 4:
-            value = getObject.scope;
+            value = extensions.scope;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -166,7 +166,7 @@
     if(extensions.count > 1){
         [NSException raise:@"Too Many Results" format:@"More than one Extension existed for unique combination of Extension Name: %@, Table Name: %@, Column Name: %@", extensionName, tableName, columnName];
     } else if([extensions moveToNext]){
-        extension = (GPKGExtensions *)[self getObject:extensions];
+        extension = (GPKGExtensions *)[self object:extensions];
     }
     
     [extensions close];

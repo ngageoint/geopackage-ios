@@ -110,7 +110,7 @@
  *
  *  @return table metadata
  */
--(GPKGTableMetadata *) getMetadataByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName;
+-(GPKGTableMetadata *) metadataByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName;
 
 /**
  *  Get table metadata by GeoPackage id and table name
@@ -120,7 +120,7 @@
  *
  *  @return table metadata
  */
--(GPKGTableMetadata *) getMetadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
+-(GPKGTableMetadata *) metadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
 
 /**
  *  Get or create table metadata by GeoPackage table and table name
@@ -130,7 +130,7 @@
  *
  *  @return table metadata
  */
--(GPKGTableMetadata *) getOrCreateMetadataByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName;
+-(GPKGTableMetadata *) metadataCreateByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName;
 
 /**
  *  Get GeoPackage Id for GeoPackage name
@@ -139,6 +139,6 @@
  *
  *  @return GeoPackage id
  */
--(NSNumber *) getGeoPackageIdForGeoPackageName: (NSString *) name;
+-(NSNumber *) geoPackageIdForGeoPackageName: (NSString *) name;
 
 @end

@@ -36,39 +36,39 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         self.featureDao = featureDao;
         self.featureRowSync = [[GPKGUserRowSync alloc] init];
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
-        self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
+        self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
-        self.columnName = featureDao.getGeometryColumnName;
-        self.tableIndexDao = [geoPackage getTableIndexDao];
-        self.geometryIndexDao = [geoPackage getGeometryIndexDao];
+        self.columnName = [featureDao geometryColumnName];
+        self.tableIndexDao = [geoPackage tableIndexDao];
+        self.geometryIndexDao = [geoPackage geometryIndexDao];
         self.chunkLimit = 1000;
         self.tolerance = .00000000000001;
     }
     return self;
 }
 
--(GPKGFeatureDao *) getFeatureDao{
-    return self.featureDao;
+-(GPKGFeatureDao *) featureDao{
+    return _featureDao;
 }
 
--(NSString *) getExtensionName{
-    return self.extensionName;
+-(NSString *) extensionName{
+    return _extensionName;
 }
 
--(NSString *) getExtensionDefinition{
-    return self.extensionDefinition;
+-(NSString *) extensionDefinition{
+    return _extensionDefinition;
 }
 
 -(SFPProjection *) projection{
-    return self.featureDao.projection;
+    return _featureDao.projection;
 }
 
--(NSString *) getTableName{
-    return self.tableName;
+-(NSString *) tableName{
+    return _tableName;
 }
 
--(NSString *) getColumnName{
-    return self.columnName;
+-(NSString *) columnName{
+    return _columnName;
 }
 
 -(void) close{
@@ -82,8 +82,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 -(int) indexWithForce: (BOOL) force{
     int count = 0;
     if(force || ![self isIndexed]){
-        [self getOrCreateExtension];
-        GPKGTableIndex * tableIndex = [self getOrCreateTableIndex];
+        [self extensionCreate];
+        GPKGTableIndex * tableIndex = [self tableIndexCreate];
         [self createOrClearGeometryIndices];
         [self.geoPackage unindexGeometryIndexTable];
         count = [self indexTable:tableIndex];
@@ -134,8 +134,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
                 count++;
             }
             @try {
-                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao getObject:results];
-                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row getGeometry]];
+                GPKGFeatureRow * row = (GPKGFeatureRow *)[self.featureDao object:results];
+                BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row geometry]];
                 if(indexed){
                     count++;
                 }
@@ -161,7 +161,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(geomData != nil){
         
         // Get or build the envelope
-        SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
+        SFGeometryEnvelope *envelope = [geomData buildEnvelope];
         
         // Create the new index row
         if(envelope != nil){
@@ -183,11 +183,11 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(BOOL) indexFeatureRow: (GPKGFeatureRow *) row{
-    GPKGTableIndex * tableIndex = [self getTableIndex];
+    GPKGTableIndex * tableIndex = [self tableIndex];
     if(tableIndex == nil){
         [NSException raise:@"Not Indexed" format:@"GeoPackage table is not indexed. GeoPackage: %@, Table: %@", self.geoPackage.name, self.tableName];
     }
-    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row getGeometry]];
+    BOOL indexed = [self indexTableIndex:tableIndex withGeomId:[row idValue] andGeometryData:[row geometry]];
     
     // Update the last indexed time
     [self updateLastIndexed];
@@ -216,10 +216,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(BOOL) isIndexed{
     BOOL indexed = false;
-    GPKGExtensions * extension = [self getExtension];
+    GPKGExtensions * extension = [self extension];
     if(extension != nil){
         
-        GPKGContentsDao * contentsDao = [self.geoPackage getContentsDao];
+        GPKGContentsDao * contentsDao = [self.geoPackage contentsDao];
         GPKGContents * contents = (GPKGContents *)[contentsDao queryForIdObject:self.tableName];
         if(contents != nil){
             NSDate * lastChange = contents.lastChange;
@@ -238,8 +238,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return indexed;
 }
 
--(GPKGTableIndex *) getOrCreateTableIndex{
-    GPKGTableIndex * tableIndex = [self getTableIndex];
+-(GPKGTableIndex *) tableIndexCreate{
+    GPKGTableIndex * tableIndex = [self tableIndex];
     
     if(tableIndex == nil){
         if(![self.tableIndexDao tableExists]){
@@ -255,7 +255,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return tableIndex;
 }
 
--(GPKGTableIndex *) getTableIndex{
+-(GPKGTableIndex *) tableIndex{
     
     GPKGTableIndex * tableIndex = nil;
     if([self.tableIndexDao tableExists]){
@@ -265,9 +265,9 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return tableIndex;
 }
 
--(NSDate *) getLastIndexed{
+-(NSDate *) lastIndexed{
     NSDate * lastIndexed = nil;
-    GPKGTableIndex * tableIndex = [self getTableIndex];
+    GPKGTableIndex * tableIndex = [self tableIndex];
     if(tableIndex != nil){
         lastIndexed = tableIndex.lastIndexed;
     }
@@ -304,13 +304,13 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return created;
 }
 
--(GPKGExtensions *) getOrCreateExtension{
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+-(GPKGExtensions *) extensionCreate{
+    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 
--(GPKGExtensions *) getExtension{
-    GPKGExtensions * extension = [self getWithExtensionName:self.extensionName andTableName:self.tableName  andColumnName:self.columnName];
+-(GPKGExtensions *) extension{
+    GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:self.tableName  andColumnName:self.columnName];
     return extension;
 }
 
@@ -365,7 +365,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     
-    GPKGBoundingBox *featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
+    GPKGBoundingBox *featureBoundingBox = [self featureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
     
     GPKGResultSet *geometryIndices = [self queryWithBoundingBox:featureBoundingBox];
     
@@ -381,7 +381,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     
-    GPKGBoundingBox *featureBoundingBox = [self getFeatureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
+    GPKGBoundingBox *featureBoundingBox = [self featureBoundingBoxWithBoundingBox:boundingBox inProjection:projection];
     
     int count = [self countWithBoundingBox:featureBoundingBox];
     
@@ -466,33 +466,33 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return count;
 }
 
--(GPKGBoundingBox *) getFeatureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) featureBoundingBoxWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     SFPProjectionTransform * projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[self projection]];
     GPKGBoundingBox * featureBoundingBox = [boundingBox transform:projectionTransform];
     return featureBoundingBox;
 }
 
--(GPKGFeatureRow *) getFeatureRow: (GPKGGeometryIndex *) geometryIndex{
+-(GPKGFeatureRow *) featureRow: (GPKGGeometryIndex *) geometryIndex{
     return (GPKGFeatureRow *)[self.featureDao queryForIdObject:geometryIndex.geomId];
 }
 
--(GPKGGeometryIndex *) getGeometryIndexWithResultSet: (GPKGResultSet *) resultSet{
-    GPKGGeometryIndex * geometryIndex = (GPKGGeometryIndex *) [self.geometryIndexDao getObject:resultSet];
+-(GPKGGeometryIndex *) geometryIndexWithResultSet: (GPKGResultSet *) resultSet{
+    GPKGGeometryIndex * geometryIndex = (GPKGGeometryIndex *) [self.geometryIndexDao object:resultSet];
     return geometryIndex;
 }
 
--(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet{
-    GPKGGeometryIndex * geometryIndex = [self getGeometryIndexWithResultSet:resultSet];
-    GPKGFeatureRow * featureRow = [self getFeatureRowWithGeometryIndex:geometryIndex];
+-(GPKGFeatureRow *) featureRowWithResultSet: (GPKGResultSet *) resultSet{
+    GPKGGeometryIndex * geometryIndex = [self geometryIndexWithResultSet:resultSet];
+    GPKGFeatureRow * featureRow = [self featureRowWithGeometryIndex:geometryIndex];
     return featureRow;
 }
 
--(GPKGFeatureRow *) getFeatureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex{
+-(GPKGFeatureRow *) featureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex{
     
     NSNumber *geomId = geometryIndex.geomId;
     
     // Get the row or lock for reading
-    GPKGFeatureRow *row = (GPKGFeatureRow *)[self.featureRowSync getRowOrLockNumber:geomId];
+    GPKGFeatureRow *row = (GPKGFeatureRow *)[self.featureRowSync rowOrLockNumber:geomId];
     if(row == nil){
         // Query for the row and set in the sync
         @try {

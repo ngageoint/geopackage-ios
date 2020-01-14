@@ -13,9 +13,9 @@
 
 @implementation GPKGImportCoverageDataGeoPackageTestCase
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];

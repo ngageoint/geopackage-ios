@@ -48,20 +48,20 @@
  *
  *  @return icon image
  */
--(UIImage *) getIcon;
+-(UIImage *) icon;
 
 /**
  *  Get the icon width
  *
  *  @return icon width
  */
--(int) getWidth;
+-(int) width;
 
 /**
  *  Get the icon height
  *
  *  @return icon height
  */
--(int) getHeight;
+-(int) height;
 
 @end

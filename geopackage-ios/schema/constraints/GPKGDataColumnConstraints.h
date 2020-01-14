@@ -91,7 +91,7 @@ extern NSString * const GPKG_DCCT_GLOB_NAME;
  *
  *  @return data column constraint type
  */
--(enum GPKGDataColumnConstraintType) getDataColumnConstraintType;
+-(enum GPKGDataColumnConstraintType) dataColumnConstraintType;
 
 /**
  *  Set the constraint type

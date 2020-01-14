@@ -24,7 +24,7 @@
     GPKGMetadataDb * db= [[GPKGMetadataDb alloc] init];
     @try {
         GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        [GPKGTestUtils assertNil:[tableMetadataDao getMetadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName]];
+        [GPKGTestUtils assertNil:[tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName]];
     }
     @finally {
         [db close];
@@ -44,7 +44,7 @@
     db = [[GPKGMetadataDb alloc] init];
     @try {
         GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao getMetadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         lastIndexed = metadata.lastIndexed;
         [GPKGTestUtils assertNotNil:lastIndexed];
@@ -65,7 +65,7 @@
     db= [[GPKGMetadataDb alloc] init];
     @try {
         GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao getMetadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         // Index date should not change
         [GPKGTestUtils assertTrue:([lastIndexed compare:metadata.lastIndexed] == NSOrderedSame)];
@@ -83,7 +83,7 @@
     db= [[GPKGMetadataDb alloc] init];
     @try {
         GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao getMetadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         [GPKGTestUtils assertNotNil:metadata.lastIndexed];
         [GPKGTestUtils assertTrue:([metadata.lastIndexed compare:lastIndexed] == NSOrderedDescending)];
@@ -164,13 +164,13 @@
             [GPKGTestUtils assertTrue:count >= 3];
             while([results moveToNext]){
                 
-                GPKGGeometryMetadata * metadata = (GPKGGeometryMetadata *)[geometryMetadataDao getObject:results];
+                GPKGGeometryMetadata * metadata = (GPKGGeometryMetadata *)[geometryMetadataDao object:results];
                 NSNumber * id = metadata.id;
                 
                 GPKGFeatureRow * queryRow = (GPKGFeatureRow *)[featureDao queryForIdObject:id];
                 [GPKGTestUtils assertNotNil:queryRow];
                 
-                enum SFGeometryType geometryType = [queryRow getGeometry].geometry.geometryType;
+                enum SFGeometryType geometryType = [queryRow geometry].geometry.geometryType;
                 
                 if([id intValue] == id1){
                     id1Found = true;

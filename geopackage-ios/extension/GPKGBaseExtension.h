@@ -45,7 +45,7 @@
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreateWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDefinition: (NSString *) definition andScope: (enum GPKGExtensionScopeType) scopeType;
+-(GPKGExtensions *) extensionCreateWithName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName andDefinition: (NSString *) definition andScope: (enum GPKGExtensionScopeType) scopeType;
 
 /**
  *  Get the extensions for the name, ignoring table name and column name values
@@ -54,7 +54,7 @@
  *
  *  @return extension results
  */
--(GPKGResultSet *) getWithExtensionName: (NSString *) extensionName;
+-(GPKGResultSet *) extensionsWithName: (NSString *) extensionName;
 
 /**
  *  Determine if the GeoPackage has at least one extension, ignoring table name and column name values
@@ -73,7 +73,7 @@
  *
  *  @return extension results
  */
--(GPKGResultSet *) getWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName;
+-(GPKGResultSet *) extensionsWithName: (NSString *) extensionName andTableName: (NSString *) tableName;
 
 /**
  *  Determine if the GeoPackage has at least one extension, ignoring column name values
@@ -94,7 +94,7 @@
  *
  *  @return extension
  */
--(GPKGExtensions *) getWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
+-(GPKGExtensions *) extensionWithName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
 
 /**
  *  Determine if the GeoPackage has the extension

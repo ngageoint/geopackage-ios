@@ -35,7 +35,7 @@
 }
 
 -(int) countWithGeometries{
-    return [self.featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [self.featureDao getGeometryColumnName]]];
+    return [self.featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [self.featureDao geometryColumnName]]];
 }
 
 -(GPKGBoundingBox *) boundingBox{
@@ -54,8 +54,8 @@
             while ([resultSet moveToNext]) {
                 hasResults = YES;
                 
-                GPKGFeatureRow *featureRow = [self.featureDao getFeatureRow:resultSet];
-                SFGeometryEnvelope *featureEnvelope = [featureRow getGeometryEnvelope];
+                GPKGFeatureRow *featureRow = [self.featureDao featureRow:resultSet];
+                SFGeometryEnvelope *featureEnvelope = [featureRow geometryEnvelope];
                 if (featureEnvelope != nil) {
                     
                     if (envelope == nil) {
@@ -137,8 +137,8 @@
             while ([resultSet moveToNext]) {
                 hasResults = YES;
                 
-                GPKGFeatureRow *featureRow = [self.featureDao getFeatureRow:resultSet];
-                SFGeometryEnvelope *envelope = [featureRow getGeometryEnvelope];
+                GPKGFeatureRow *featureRow = [self.featureDao featureRow:resultSet];
+                SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
                 if (envelope != nil) {
                     
                     double minXMax = MAX(minX, [envelope.minX doubleValue]);

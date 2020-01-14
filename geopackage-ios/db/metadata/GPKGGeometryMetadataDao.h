@@ -169,7 +169,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) getMetadataByMetadata: (GPKGGeometryMetadata *) metadata;
+-(GPKGGeometryMetadata *) metadataByMetadata: (GPKGGeometryMetadata *) metadata;
 
 /**
  *  Get geometry metadata by GeoPackage name, table name, and id
@@ -180,7 +180,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) getMetadataByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) id;
+-(GPKGGeometryMetadata *) metadataByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andId: (NSNumber *) id;
 
 /**
  *  Get geometry metadata by GeoPackage id, table name, and id
@@ -191,7 +191,7 @@
  *
  *  @return geometry metadata
  */
--(GPKGGeometryMetadata *) getMetadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) id;
+-(GPKGGeometryMetadata *) metadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andId: (NSNumber *) id;
 
 /**
  *  Query for geometry metadata
@@ -346,6 +346,6 @@
  *
  *  @return GeoPackage id
  */
--(NSNumber *) getGeoPackageIdForGeoPackageName: (NSString *) name;
+-(NSNumber *) geoPackageIdForGeoPackageName: (NSString *) name;
 
 @end

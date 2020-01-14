@@ -22,7 +22,7 @@
  *
  *  @return points
  */
--(NSArray *) getPoints;
+-(NSArray *) points;
 
 /**
  *  Delete the point from the shape and map view

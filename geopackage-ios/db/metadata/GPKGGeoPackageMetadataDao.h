@@ -67,21 +67,21 @@
  *
  *  @return all metadata
  */
--(NSArray *) getAll;
+-(NSArray *) all;
 
 /**
  *  Get all metadata names
  *
  *  @return metadata names
  */
--(NSArray *) getAllNames;
+-(NSArray *) allNames;
 
 /**
  *  Get all metadata names sorted
  *
  *  @return sorted metadata names
  */
--(NSArray *) getAllNamesSorted;
+-(NSArray *) allNamesSorted;
 
 /**
  *  Get metadata by name
@@ -90,7 +90,7 @@
  *
  *  @return metadata
  */
--(GPKGGeoPackageMetadata *) getMetadataByName: (NSString *) name;
+-(GPKGGeoPackageMetadata *) metadataByName: (NSString *) name;
 
 /**
  *  Get metadata by id
@@ -99,7 +99,7 @@
  *
  *  @return metadata
  */
--(GPKGGeoPackageMetadata *) getMetadataById: (NSNumber *) id;
+-(GPKGGeoPackageMetadata *) metadataById: (NSNumber *) id;
 
 /**
  *  Get or create metadata by name
@@ -108,7 +108,7 @@
  *
  *  @return existing or created metadata
  */
--(GPKGGeoPackageMetadata *) getOrCreateMetadataByName: (NSString *) name;
+-(GPKGGeoPackageMetadata *) metadataCreateByName: (NSString *) name;
 
 /**
  *  Check if the metadata exists
@@ -127,7 +127,7 @@
  *
  *  @return metadata names
  */
--(NSArray *) getMetadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column;
+-(NSArray *) metadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column;
 
 /**
  *  Get metadata where the name is not like
@@ -137,6 +137,6 @@
  *
  *  @return metadata names
  */
--(NSArray *) getMetadataWhereNameNotLike: (NSString *) notLike sortedBy: (NSString *) column;
+-(NSArray *) metadataWhereNameNotLike: (NSString *) notLike sortedBy: (NSString *) column;
 
 @end

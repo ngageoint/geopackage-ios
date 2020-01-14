@@ -30,16 +30,16 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
     if(self != nil){
         self.connection = geoPackage.database;
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_CRS_WKT_EXTENSION_NAME];
-        self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION];
-        self.columnName = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_NAME];
-        self.columnDef = [GPKGProperties getValueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF];
+        self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_DEFINITION];
+        self.columnName = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_NAME];
+        self.columnDef = [GPKGProperties valueOfProperty:GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF];
     }
     return self;
 }
 
--(GPKGExtensions *) getOrCreate{
+-(GPKGExtensions *) extensionCreate{
     
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     
     if(![self hasColumn]){
         [self createColumn];
@@ -64,7 +64,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
                            GPKG_SRS_TABLE_NAME, self.columnName, definition, GPKG_SRS_COLUMN_SRS_ID, srsId]];
 }
 
--(NSString *) getDefinitionWithSrsId:(NSNumber *) srsId{
+-(NSString *) definitionWithSrsId:(NSNumber *) srsId{
     NSString *definition = (NSString *)[self.connection querySingleResultWithSql:[NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?", self.columnName, GPKG_SRS_TABLE_NAME, GPKG_SRS_COLUMN_SRS_ID]
                                                                     andArgs:[NSArray arrayWithObjects:srsId, nil]];
     return definition;
@@ -86,14 +86,14 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
     [GPKGAlterTable addColumn:self.columnName withDefinition:self.columnDef toTable:GPKG_SRS_TABLE_NAME withConnection:self.connection];
     
     // Update the existing known SRS values
-    [self updateDefinitionWithSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_ID]
-                      andDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-    [self updateDefinitionWithSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_ID]
-                      andDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-    [self updateDefinitionWithSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_ID]
-                      andDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
-    [self updateDefinitionWithSrsId:[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_ID]
-                      andDefinition:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
+    [self updateDefinitionWithSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_ID]
+                      andDefinition:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
+    [self updateDefinitionWithSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_ID]
+                      andDefinition:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
+    [self updateDefinitionWithSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_ID]
+                      andDefinition:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
+    [self updateDefinitionWithSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_ID]
+                      andDefinition:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
 }
 
 /**

@@ -23,7 +23,7 @@
  *
  *  @return open connection per pool
  */
-+(int) getOpenConnectionsPerPool;
++(int) openConnectionsPerPool;
 
 /**
  *  Set the number of unused connections to keep open and available for use
@@ -37,7 +37,7 @@
  *
  *  @return check connections flag
  */
-+(BOOL) getCheckConnections;
++(BOOL) checkConnections;
 
 /**
  *  Set the check connections state, when true used connections are checked to see if they are left open for long periods of time or indefinitly
@@ -51,7 +51,7 @@
  *
  *  @return check frequency in seconds
  */
-+(int) getCheckConnectionsFrequency;
++(int) checkConnectionsFrequency;
 
 /**
  *  Set the check connections frequency in seconds as the minimum time to wait before checking for stale open connections
@@ -65,7 +65,7 @@
  *
  *  @return warning time in seconds
  */
-+(int) getCheckConnectionsWarningTime;
++(int) checkConnectionsWarningTime;
 
 /**
  *  Set the check connections warning time in seconds as the time an open connection causes warnings for being stale
@@ -79,7 +79,7 @@
  *
  *  @return maintain stack traces flag
  */
-+(BOOL) getMaintainStackTraces;
++(BOOL) maintainStackTraces;
 
 /**
  *  Set the maintain statck traces state, when check connections is enabled and when true, stack traces are maintained from the thread that checks out a connection
@@ -107,21 +107,21 @@
  *
  *  @return connection
  */
--(GPKGDbConnection *) getConnection;
+-(GPKGDbConnection *) connection;
 
 /**
  *  Get a connection for database reads that maintain open result sets, such as row queries. The connection must be released when done.
  *
  *  @return connection for result sets
  */
--(GPKGDbConnection *) getResultConnection;
+-(GPKGDbConnection *) resultConnection;
 
 /**
  *  Get a connection for database updates. The connection must be released when done.
  *
  *  @return connection for writing
  */
--(GPKGDbConnection *) getWriteConnection;
+-(GPKGDbConnection *) writeConnection;
 
 /**
  *  Begin an exclusive transaction on the database

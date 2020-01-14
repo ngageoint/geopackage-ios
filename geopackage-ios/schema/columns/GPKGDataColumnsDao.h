@@ -31,7 +31,7 @@
  *
  *  @return contents
  */
--(GPKGContents *) getContents: (GPKGDataColumns *) dataColumns;
+-(GPKGContents *) contents: (GPKGDataColumns *) dataColumns;
 
 /**
  *  Query by constraint name
@@ -50,7 +50,7 @@
  *
  *  @return GPKGDataColumns
  */
--(GPKGDataColumns *) getDataColumnByTableName: tableName andColumnName: columnName;
+-(GPKGDataColumns *) dataColumnByTableName: tableName andColumnName: columnName;
 
 /**
  *  Query by table name

@@ -138,7 +138,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
 }
 
 -(int) idColumnIndex{
-    return self.pkIndex;
+    return [self pkIndex];
 }
 
 -(GPKGUserCustomColumn *) idColumn{

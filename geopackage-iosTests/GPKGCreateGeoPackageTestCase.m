@@ -12,7 +12,7 @@
 
 @implementation GPKGCreateGeoPackageTestCase
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
     return [GPKGTestSetupTeardown setUpCreateWithFeatures:true andAllowEmptyFeatures:[self allowEmptyFeatures] andTiles:true];
 }
 

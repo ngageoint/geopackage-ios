@@ -43,7 +43,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
 
 +(GPKGGeoPackage *) setUpCreateWithName: (NSString *) name andFeatures: (BOOL) features andAllowEmptyFeatures: (BOOL) allowEmptyFeatures andTiles: (BOOL) tiles{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:name];
@@ -85,7 +85,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     
     // Metadata
     [geoPackage createMetadataTable];
-    GPKGMetadataDao * metadataDao = [geoPackage getMetadataDao];
+    GPKGMetadataDao * metadataDao = [geoPackage metadataDao];
     
     GPKGMetadata * metadata1 = [[GPKGMetadata alloc] init];
     [metadata1 setId:[NSNumber numberWithInt:1]];
@@ -113,7 +113,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     
     // Metadata Reference
     [geoPackage createMetadataReferenceTable];
-    GPKGMetadataReferenceDao * metadataReferenceDao = [geoPackage getMetadataReferenceDao];
+    GPKGMetadataReferenceDao * metadataReferenceDao = [geoPackage metadataReferenceDao];
     
     GPKGMetadataReference * reference1 = [[GPKGMetadataReference alloc] init];
     [reference1 setReferenceScopeType:GPKG_RST_GEOPACKAGE];
@@ -140,7 +140,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     
     // Extensions
     [geoPackage createExtensionsTable];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     GPKGExtensions * extensions1 = [[GPKGExtensions alloc] init];
     [extensions1 setTableName:@"TEST_TABLE_NAME_1"];
@@ -181,7 +181,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [GPKGTestUtils assertNotNil:attributesTable];
     GPKGContents * attributesContents = attributesTable.contents;
     [GPKGTestUtils assertNotNil:attributesContents];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents getContentsDataType]];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents contentsDataType]];
     [GPKGTestUtils assertEqualWithValue:@"test_attributes" andValue2:attributesContents.tableName];
     [GPKGTestUtils assertEqualWithValue:attributesContents.tableName andValue2:attributesTable.tableName];
     
@@ -193,7 +193,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [attributesMetadata setMetadata:@"ATTRIBUTES METADATA"];
     [metadataDao create:attributesMetadata];
     
-    GPKGAttributesDao * attributesDao = [geoPackage getAttributesDaoWithTableName:attributesTable.tableName];
+    GPKGAttributesDao * attributesDao = [geoPackage attributesDaoWithTableName:attributesTable.tableName];
     
     for (int i = 0; i < 10; i++) {
         
@@ -281,7 +281,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
 +(void) setUpCreateFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andAllowEmptyFeatures: (BOOL) allowEmptyFeatures{
     
     // Get existing SRS objects
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
     
     GPKGSpatialReferenceSystem * epsgSrs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:[NSNumber numberWithInt:4326]];
     GPKGSpatialReferenceSystem * undefinedCartesianSrs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:[NSNumber numberWithInt:-1]];
@@ -295,7 +295,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [geoPackage createGeometryColumnsTable];
     
     // Create new Contents
-    GPKGContentsDao * contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao * contentsDao = [geoPackage contentsDao];
     
     GPKGContents * point2dContents = [[GPKGContents alloc] init];
     [point2dContents setTableName:@"point2d"];
@@ -366,7 +366,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [contentsDao create:lineString3dMContents];
     
     // Create new Geometry Columns
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     GPKGGeometryColumns * point2dGeometryColumns = [[GPKGGeometryColumns alloc] init];
     [point2dGeometryColumns setContents:point2dContents];
@@ -415,7 +415,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
 +(void) setUpCreateTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
     // Get existing SRS objects
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
     
     GPKGSpatialReferenceSystem * epsgSrs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:[NSNumber numberWithInt:4326]];
     
@@ -426,7 +426,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [geoPackage createTileMatrixTable];
     
     // Create new Contents
-    GPKGContentsDao * contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao * contentsDao = [geoPackage contentsDao];
     
     
     GPKGContents * contents = [[GPKGContents alloc] init];
@@ -449,7 +449,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [contentsDao create:contents];
     
     // Create the new Tile Matrix Set
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     
     GPKGTileMatrixSet * tileMatrixSet = [[GPKGTileMatrixSet alloc] init];
     [tileMatrixSet setContents:contents];
@@ -461,7 +461,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [tileMatrixSetDao create:tileMatrixSet];
     
     // Create new Tile Matrix rows
-    GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixDao * tileMatrixDao = [geoPackage tileMatrixDao];
     
     // Read the asset tile to bytes and convert to bitmap
     NSString *tilePath  = [[[NSBundle bundleForClass:[GPKGTestSetupTeardown class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILE_FILE_NAME];
@@ -510,14 +510,14 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     }
     
     // Delete
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     [manager delete:GPKG_TEST_DB_NAME];
     [manager close];
 }
 
 +(GPKGGeoPackage *) setUpImport{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:GPKG_TEST_IMPORT_DB_NAME];
@@ -548,7 +548,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     }
     
     // Delete
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     [manager delete:GPKG_TEST_IMPORT_DB_NAME];
     [manager close];
 }

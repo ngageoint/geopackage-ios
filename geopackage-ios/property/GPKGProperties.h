@@ -30,7 +30,7 @@
  *
  *  @return string value
  */
-+(NSString *) getValueOfProperty: (NSString *) property;
++(NSString *) valueOfProperty: (NSString *) property;
 
 /**
  *  Get the string value of the property with required option
@@ -40,7 +40,7 @@
  *
  *  @return string value
  */
-+(NSString *) getValueOfProperty: (NSString *) property andRequired: (BOOL) required;
++(NSString *) valueOfProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the string value of the property combined with the base
@@ -50,7 +50,7 @@
  *
  *  @return string value
  */
-+(NSString *) getValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
++(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
 
 /**
  *  Get the string value of the property combined with the base with required option
@@ -61,7 +61,7 @@
  *
  *  @return string value
  */
-+(NSString *) getValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
++(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the number value of the property
@@ -70,7 +70,7 @@
  *
  *  @return number value
  */
-+(NSNumber *) getNumberValueOfProperty: (NSString *) property;
++(NSNumber *) numberValueOfProperty: (NSString *) property;
 
 /**
  *  Get the number value of the property with required option
@@ -80,7 +80,7 @@
  *
  *  @return number value
  */
-+(NSNumber *) getNumberValueOfProperty: (NSString *) property andRequired: (BOOL) required;
++(NSNumber *) numberValueOfProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the number value of the property combined with the base
@@ -90,7 +90,7 @@
  *
  *  @return number value
  */
-+(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
++(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
 
 /**
  *  Get the number value of the property combined with the base with required option
@@ -101,7 +101,7 @@
  *
  *  @return number value
  */
-+(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
++(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the boolean value of the property
@@ -110,7 +110,7 @@
  *
  *  @return bool value
  */
-+(BOOL) getBoolValueOfProperty: (NSString *) property;
++(BOOL) boolValueOfProperty: (NSString *) property;
 
 /**
  *  Get the boolean value of the property with required option
@@ -120,7 +120,7 @@
  *
  *  @return bool value
  */
-+(BOOL) getBoolValueOfProperty: (NSString *) property andRequired: (BOOL) required;
++(BOOL) boolValueOfProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the boolean value of the property combined with the base
@@ -130,7 +130,7 @@
  *
  *  @return bool value
  */
-+(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
++(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
 
 /**
  *  Get the boolean value of the property combined with the base with required option
@@ -141,7 +141,7 @@
  *
  *  @return bool value
  */
-+(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
++(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the array value of the property
@@ -150,7 +150,7 @@
  *
  *  @return array value
  */
-+(NSArray *) getArrayValueOfProperty: (NSString *) property;
++(NSArray *) arrayValueOfProperty: (NSString *) property;
 
 /**
  *  Get the array value of the property with required option
@@ -160,7 +160,7 @@
  *
  *  @return array value
  */
-+(NSArray *) getArrayValueOfProperty: (NSString *) property andRequired: (BOOL) required;
++(NSArray *) arrayValueOfProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the array value of the property combined with the base
@@ -170,7 +170,7 @@
  *
  *  @return array value
  */
-+(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
++(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
 
 /**
  *  Get the array value of the property combined with the base with required option
@@ -181,7 +181,7 @@
  *
  *  @return array value
  */
-+(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
++(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the dictionary value of the property
@@ -190,7 +190,7 @@
  *
  *  @return dictionary value
  */
-+(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property;
++(NSDictionary *) dictionaryValueOfProperty: (NSString *) property;
 
 /**
  *  Get the dictionary value of the property with required option
@@ -200,7 +200,7 @@
  *
  *  @return dictionary value
  */
-+(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required;
++(NSDictionary *) dictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required;
 
 /**
  *  Get the dictionary value of the property combined with the base
@@ -210,7 +210,7 @@
  *
  *  @return dictionary value
  */
-+(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
++(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property;
 
 /**
  *  Get the dictionary value of the property combined with the base with required option
@@ -221,6 +221,6 @@
  *
  *  @return dictionary value
  */
-+(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
++(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required;
 
 @end

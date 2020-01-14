@@ -79,7 +79,7 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  *
  *  @return extension scope type
  */
--(enum GPKGExtensionScopeType) getExtensionScopeType;
+-(enum GPKGExtensionScopeType) extensionScopeType;
 
 /**
  *  Set the extension scope type
@@ -108,14 +108,14 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  *
  *  @return author
  */
--(NSString *) getAuthor;
+-(NSString *) author;
 
 /**
  *  Get the extension name with the author prefix removed
  *
  *  @return extension name
  */
--(NSString *) getExtensionNameNoAuthor;
+-(NSString *) extensionNameNoAuthor;
 
 /**
  *  Build the extension name by combining the required parts
@@ -140,7 +140,7 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  *  @param extensionName extension name
  *  @return author
  */
-+(NSString *) getAuthorWithExtensionName: (NSString *) extensionName;
++(NSString *) authorWithExtensionName: (NSString *) extensionName;
 
 /**
  *  Get the extension name with the author prefix removed
@@ -148,6 +148,6 @@ extern NSString * const GPKG_EST_WRITE_ONLY_NAME;
  *  @param extensionName extension name
  *  @return extension name, no author
  */
-+(NSString *) getExtensionNameNoAuthorWithExtensionName: (NSString *) extensionName;
++(NSString *) extensionNameNoAuthorWithExtensionName: (NSString *) extensionName;
 
 @end

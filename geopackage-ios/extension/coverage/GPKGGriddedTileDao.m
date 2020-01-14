@@ -67,39 +67,39 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGriddedTile *getObject = (GPKGGriddedTile*) object;
+    GPKGGriddedTile *griddedTile = (GPKGGriddedTile*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = griddedTile.id;
             break;
         case 1:
-            value = getObject.tableName;
+            value = griddedTile.tableName;
             break;
         case 2:
-            value = getObject.tableId;
+            value = griddedTile.tableId;
             break;
         case 3:
-            value = getObject.scale;
+            value = griddedTile.scale;
             break;
         case 4:
-            value = getObject.offset;
+            value = griddedTile.offset;
             break;
         case 5:
-            value = getObject.min;
+            value = griddedTile.min;
             break;
         case 6:
-            value = getObject.max;
+            value = griddedTile.max;
             break;
         case 7:
-            value = getObject.mean;
+            value = griddedTile.mean;
             break;
         case 8:
-            value = getObject.standardDeviation;
+            value = griddedTile.standardDeviation;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -134,7 +134,7 @@
     NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
     
     GPKGResultSet * results = [self queryWhere:where andWhereArgs:whereArgs];
-    GPKGGriddedTile * griddedTile = (GPKGGriddedTile *)[self getFirstObject:results];
+    GPKGGriddedTile * griddedTile = (GPKGGriddedTile *)[self firstObject:results];
 
     return griddedTile;
 }
@@ -150,13 +150,13 @@
     return count;
 }
 
--(GPKGContents *) getContents: (GPKGGriddedTile *) griddedTile{
-    GPKGContentsDao * dao = [self getContentsDao];
+-(GPKGContents *) contents: (GPKGGriddedTile *) griddedTile{
+    GPKGContentsDao * dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:griddedTile.tableName];
     return contents;
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 

@@ -62,13 +62,13 @@ static int COLOR_BLUE_COUNT;
  */
 -(void) testPropertiesManagerWithCache{
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     GPKGGeoPackageCache *cache = [[GPKGGeoPackageCache alloc] initWithManager:manager];
     
     NSArray<NSString *> *geoPackages = [self createGeoPackageNames];
     
     for (NSString *name in geoPackages) {
-        [cache getOrOpen:name];
+        [cache geoPackageOpenName:name];
     }
     
     GPKGPropertiesManager *propertiesManager = [[GPKGPropertiesManager alloc] initWithCache:cache];
@@ -85,7 +85,7 @@ static int COLOR_BLUE_COUNT;
 
 -(NSArray<GPKGGeoPackage *> *) createGeoPackages{
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     NSMutableArray<GPKGGeoPackage *> *geoPackages = [[NSMutableArray alloc] init];
     
@@ -143,7 +143,7 @@ static int COLOR_BLUE_COUNT;
     int numProperties = 5;
     int numTagged = 7;
     
-    // getNames
+    // names
     NSSet<NSString *> *names = [manager geoPackageNames];
     [GPKGTestUtils assertEqualIntWithValue:GEOPACKAGE_COUNT andValue2:(int)names.count];
     for (int i = 1; i <= names.count; i++) {
@@ -156,7 +156,7 @@ static int COLOR_BLUE_COUNT;
     // numProperties
     [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:[manager numProperties]];
     
-    // getProperties
+    // properties
     NSSet<NSString *> *properties = [manager properties];
     [GPKGTestUtils assertEqualIntWithValue:numProperties andValue2:(int)properties.count];
     [GPKGTestUtils assertTrue:[properties containsObject:GPKG_PE_TITLE]];
@@ -195,7 +195,7 @@ static int COLOR_BLUE_COUNT;
     [GPKGTestUtils assertTrue:[manager hasValuesWithProperty:GPKG_PE_TAG]];
     [GPKGTestUtils assertFalse:[manager hasValuesWithProperty:GPKG_PE_CREATOR]];
     
-    // getValues
+    // values
     NSSet<NSString *> *titles = [manager valuesOfProperty:GPKG_PE_TITLE];
     NSSet<NSString *> *identifiers = [manager valuesOfProperty:GPKG_PE_IDENTIFIER];
     for (int i = 0; i < GEOPACKAGE_WITH_PROPERTIES_COUNT; i++) {

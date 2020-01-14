@@ -39,14 +39,14 @@
  *
  *  @return connection id
  */
--(NSNumber *) getConnectionId;
+-(NSNumber *) connectionId;
 
 /**
  *  Get the connection
  *
  *  @return connection
  */
--(sqlite3 *) getConnection;
+-(sqlite3 *) connection;
 
 /**
  *  Release the connection back to the connection pool
@@ -68,14 +68,14 @@
  *
  *  @return stack trace, nil when not checked out or not maintaining stack traces
  */
--(NSArray *) getStackTrace;
+-(NSArray *) stackTrace;
 
 /**
  *  Get the date this connection was checked out
  *
  *  @return date of checkout, nil if not checked out
  */
--(NSDate *) getDateCheckedOut;
+-(NSDate *) dateCheckedOut;
 
 /**
  *  Determine if this connection is releasable

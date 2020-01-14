@@ -26,14 +26,14 @@
     [GPKGTestUtils assertTrue:[rte relationships].count == 0];
     
     // Choose a random features table
-    NSArray<NSString *> *featuresTables = [geoPackage getFeatureTables];
+    NSArray<NSString *> *featuresTables = [geoPackage featureTables];
     if(featuresTables.count == 0){
         return; // pass with no testing
     }
     NSString *baseTableName = [featuresTables objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)featuresTables.count]];
     
     // Choose a random tiles table
-    NSArray<NSString *> *tilesTables = [geoPackage getTileTables];
+    NSArray<NSString *> *tilesTables = [geoPackage tileTables];
     if(tilesTables.count == 0){
         return; // pass with no testing
     }
@@ -70,22 +70,22 @@
     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
     
     // Build the Features ids
-    GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:baseTableName];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:baseTableName];
     GPKGResultSet *featureResultSet = [featureDao queryForAll];
     int featuresCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
     while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao getFeatureRow:featureResultSet] id]];
+        [featureIds addObject:[[featureDao featureRow:featureResultSet] id]];
     }
     [featureResultSet close];
     
     // Build the Tile related ids
-    GPKGTileDao *tileDao = [geoPackage getTileDaoWithTableName:relatedTableName];
+    GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:relatedTableName];
     GPKGResultSet *tileResultSet = [tileDao queryForAll];
     int tilesCount = tileResultSet.count;
     NSMutableArray<NSNumber *> *tileIds = [[NSMutableArray alloc] init];
     while([tileResultSet moveToNext]){
-        [tileIds addObject:[[tileDao getTileRow:tileResultSet] id]];
+        [tileIds addObject:[[tileDao tileRow:tileResultSet] id]];
     }
     [tileResultSet close];
     
@@ -122,7 +122,7 @@
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
     [resultSet close];
     
-    GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
+    GPKGExtendedRelationsDao *extendedRelationsDao = [rte extendedRelationsDao];
     
     // Get the relations starting from the features table
     GPKGResultSet *featuresExtendedRelations = [extendedRelationsDao relationsToBaseTable:featureDao.tableName];
@@ -215,13 +215,13 @@
         [mappingResultSet close];
         
         // Get and test the features DAO
-        featureDao = [geoPackage getFeatureDaoWithTableName:featureDao.tableName];
+        featureDao = [geoPackage featureDaoWithTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:featureDao];
-        GPKGFeatureTable *featureTable = [featureDao getFeatureTable];
+        GPKGFeatureTable *featureTable = [featureDao featureTable];
         [GPKGTestUtils assertNotNil:featureTable];
         GPKGContents *featuresContents = featureTable.contents;
         [GPKGTestUtils assertNotNil:featuresContents];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[featuresContents getContentsDataType]];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_FEATURES andValue2:[featuresContents contentsDataType]];
         [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_FEATURES] andValue2:featuresContents.dataType];
         [GPKGTestUtils assertEqualWithValue:featureTable.tableName andValue2:featuresContents.tableName];
         [GPKGTestUtils assertNotNil:featuresContents.lastChange];
@@ -230,7 +230,7 @@
         tileResultSet = [tileDao queryForAll];
         int totalMapped = 0;
         while([tileResultSet moveToNext]){
-            GPKGTileRow *tileRow = [tileDao getTileRow:tileResultSet];
+            GPKGTileRow *tileRow = [tileDao tileRow:tileResultSet];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[tileRow idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:mappedId];

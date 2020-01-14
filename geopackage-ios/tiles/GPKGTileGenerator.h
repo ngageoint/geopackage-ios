@@ -44,7 +44,7 @@
 /**
  *  Total tile count
  */
-@property (nonatomic, strong) NSNumber * tileCount;
+@property (nonatomic, strong) NSNumber * totalCount;
 
 /**
  *  Tile grids by zoom level
@@ -149,7 +149,7 @@
  *
  *  @return tile count
  */
--(int) getTileCount;
+-(int) tileCount;
 
 /**
  *  Generate the tiles

@@ -73,45 +73,45 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGriddedCoverage *getObject = (GPKGGriddedCoverage*) object;
+    GPKGGriddedCoverage *griddedCoverage = (GPKGGriddedCoverage*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = griddedCoverage.id;
             break;
         case 1:
-            value = getObject.tileMatrixSetName;
+            value = griddedCoverage.tileMatrixSetName;
             break;
         case 2:
-            value = getObject.datatype;
+            value = griddedCoverage.datatype;
             break;
         case 3:
-            value = getObject.scale;
+            value = griddedCoverage.scale;
             break;
         case 4:
-            value = getObject.offset;
+            value = griddedCoverage.offset;
             break;
         case 5:
-            value = getObject.precision;
+            value = griddedCoverage.precision;
             break;
         case 6:
-            value = getObject.dataNull;
+            value = griddedCoverage.dataNull;
             break;
         case 7:
-            value = getObject.gridCellEncoding;
+            value = griddedCoverage.gridCellEncoding;
             break;
         case 8:
-            value = getObject.uom;
+            value = griddedCoverage.uom;
             break;
         case 9:
-            value = getObject.fieldName;
+            value = griddedCoverage.fieldName;
             break;
         case 10:
-            value = getObject.quantityDefinition;
+            value = griddedCoverage.quantityDefinition;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -133,7 +133,7 @@
 
 -(GPKGGriddedCoverage *) queryByTileMatrixSetName: (NSString *) tileMatrixSetName{
     GPKGResultSet * results = [self queryForEqWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
-    GPKGGriddedCoverage * griddedCoverage = (GPKGGriddedCoverage *)[self getFirstObject:results];
+    GPKGGriddedCoverage * griddedCoverage = (GPKGGriddedCoverage *)[self firstObject:results];
     return griddedCoverage;
 }
 
@@ -148,13 +148,13 @@
     return count;
 }
 
--(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGGriddedCoverage *) griddedCoverage{
-    GPKGTileMatrixSetDao * dao = [self getTileMatrixSetDao];
+-(GPKGTileMatrixSet *) tileMatrixSet: (GPKGGriddedCoverage *) griddedCoverage{
+    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
     GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:griddedCoverage.tileMatrixSetName];
     return tileMatrixSet;
 }
 
--(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao{
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 

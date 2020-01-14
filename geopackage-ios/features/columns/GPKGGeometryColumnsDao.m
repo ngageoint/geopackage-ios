@@ -57,30 +57,30 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGeometryColumns *getObject = (GPKGGeometryColumns*) object;
+    GPKGGeometryColumns *columns = (GPKGGeometryColumns*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = columns.tableName;
             break;
         case 1:
-            value = getObject.columnName;
+            value = columns.columnName;
             break;
         case 2:
-            value = getObject.geometryTypeName;
+            value = columns.geometryTypeName;
             break;
         case 3:
-            value = getObject.srsId;
+            value = columns.srsId;
             break;
         case 4:
-            value = getObject.z;
+            value = columns.z;
             break;
         case 5:
-            value = getObject.m;
+            value = columns.m;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -90,9 +90,9 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGGeometryColumns *projectionObject = (GPKGGeometryColumns*) object;
-    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
     SFPProjection *projection = [srs projection];
     return projection;
 }
@@ -103,14 +103,14 @@
     
     GPKGResultSet * result = [self queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:tableName];
     if([result moveToNext]){
-        geometryColumns = (GPKGGeometryColumns *) [self getObject:result];
+        geometryColumns = (GPKGGeometryColumns *) [self object:result];
     }
     [result close];
     
     return geometryColumns;
 }
 
--(NSArray *) getFeatureTables{
+-(NSArray *) featureTables{
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_TABLE_NAME];
     
@@ -121,23 +121,23 @@
     return tables;
 }
 
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGGeometryColumns *) geometryColumns{
-    GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
+-(GPKGSpatialReferenceSystem *) srs: (GPKGGeometryColumns *) geometryColumns{
+    GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:geometryColumns.srsId];
     return srs;
 }
 
--(GPKGContents *) getContents: (GPKGGeometryColumns *) geometryColumns{
-    GPKGContentsDao * dao = [self getContentsDao];
+-(GPKGContents *) contents: (GPKGGeometryColumns *) geometryColumns{
+    GPKGContentsDao * dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:geometryColumns.tableName];
     return contents;
 }
 
--(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
+-(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
     return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 

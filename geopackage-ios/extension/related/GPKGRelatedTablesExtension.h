@@ -38,21 +38,21 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  *
  * @return extended relations DAO
  */
--(GPKGExtendedRelationsDao *) getExtendedRelationsDao;
+-(GPKGExtendedRelationsDao *) extendedRelationsDao;
 
 /**
  *  Get the extension name
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  *  Get the extension definition
  *
  *  @return extension definition
  */
--(NSString *) getExtensionDefinition;
+-(NSString *) extensionDefinition;
 
 /**
  * Determine if the GeoPackage has the extension

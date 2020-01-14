@@ -30,7 +30,7 @@
  *
  *  @return tile tables
  */
--(NSArray *) getTileTables;
+-(NSArray *) tileTables;
 
 /**
  *  Get the Spatial Reference System of the Tile Matrix Set
@@ -39,7 +39,7 @@
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGTileMatrixSet *) tileMatrixSet;
+-(GPKGSpatialReferenceSystem *) srs: (GPKGTileMatrixSet *) tileMatrixSet;
 
 /**
  *  Get the Contents of the Tile Matrix Set
@@ -48,7 +48,7 @@
  *
  *  @return contents
  */
--(GPKGContents *) getContents: (GPKGTileMatrixSet *) tileMatrixSet;
+-(GPKGContents *) contents: (GPKGTileMatrixSet *) tileMatrixSet;
 
 /**
  * Get a bounding box in the provided projection

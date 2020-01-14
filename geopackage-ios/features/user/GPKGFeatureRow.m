@@ -26,23 +26,23 @@
     return self;
 }
 
--(int) getGeometryColumnIndex{
+-(int) geometryColumnIndex{
     return [self.featureTable geometryColumnIndex];
 }
 
--(GPKGFeatureColumn *) getGeometryColumn{
+-(GPKGFeatureColumn *) geometryColumn{
     return [self.featureTable geometryColumn];
 }
 
 -(void) setValueWithIndex:(int)index andValue:(NSObject *)value{
-    if(index == [self getGeometryColumnIndex] && [value isKindOfClass:[NSData class]]){
+    if(index == [self geometryColumnIndex] && [value isKindOfClass:[NSData class]]){
         NSData * data = (NSData *) value;
         value = [[GPKGGeometryData alloc] initWithData:data];
     }
     [super setValueWithIndex:index andValue:value];
 }
 
--(GPKGGeometryData *) getGeometry{
+-(GPKGGeometryData *) geometry{
     GPKGGeometryData * geometryData = nil;
     NSObject * value = [self valueWithIndex:[self.featureTable geometryColumnIndex]];
     if(value != nil){
@@ -55,8 +55,8 @@
     [self setValueWithIndex:[self.featureTable geometryColumnIndex] andValue:geometryData];
 }
 
--(SFGeometry *) getGeometryValue{
-    GPKGGeometryData *data = [self getGeometry];
+-(SFGeometry *) geometryValue{
+    GPKGGeometryData *data = [self geometry];
     SFGeometry *geometry = nil;
     if(data != nil){
         geometry = data.geometry;
@@ -64,8 +64,8 @@
     return geometry;
 }
 
--(enum SFGeometryType) getGeometryType{
-    SFGeometry *geometry = [self getGeometryValue];
+-(enum SFGeometryType) geometryType{
+    SFGeometry *geometry = [self geometryValue];
     enum SFGeometryType geometryType = SF_NONE;
     if(geometry != nil){
         geometryType = geometry.geometryType;
@@ -73,11 +73,11 @@
     return geometryType;
 }
 
--(SFGeometryEnvelope *) getGeometryEnvelope{
-    GPKGGeometryData *data = [self getGeometry];
+-(SFGeometryEnvelope *) geometryEnvelope{
+    GPKGGeometryData *data = [self geometry];
     SFGeometryEnvelope *envelope = nil;
     if(data != nil){
-        envelope = [data getOrBuildEnvelope];
+        envelope = [data buildEnvelope];
     }
     return envelope;
 }

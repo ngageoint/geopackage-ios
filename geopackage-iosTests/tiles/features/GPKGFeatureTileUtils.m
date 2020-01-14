@@ -26,7 +26,7 @@
     
     [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     
-    GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao * featureDao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     return featureDao;
 }
@@ -174,13 +174,13 @@
 +(long long) insertLineWithFeatureDao: (GPKGFeatureDao *) featureDao andPoints: (NSArray *) points{
     GPKGFeatureRow * featureRow = [featureDao newRow];
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    SFLineString * lineString = [self getLineStringWithPoints:points];
+    SFLineString * lineString = [self lineStringWithPoints:points];
     [geomData setGeometry:lineString];
     [featureRow setGeometry:geomData];
     return [featureDao insert:featureRow];
 }
 
-+(SFLineString *) getLineStringWithPoints: (NSArray *) points{
++(SFLineString *) lineStringWithPoints: (NSArray *) points{
     SFLineString * lineString = [[SFLineString alloc] initWithHasZ:false andHasM:false];
     for(NSArray * point in points){
         NSDecimalNumber * x = [point objectAtIndex:0];
@@ -196,7 +196,7 @@
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:false andHasM:false];
     for(NSArray * ring in lines){
-        SFLineString * lineString = [self getLineStringWithPoints:ring];
+        SFLineString * lineString = [self lineStringWithPoints:ring];
         [polygon addRing:lineString];
     }
     [geomData setGeometry:polygon];
@@ -205,10 +205,10 @@
 }
 
 +(void) updateLastChangeWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage getGeometryColumnsDao];
-    GPKGContents * contents = [geometryColumnsDao getContents:featureDao.geometryColumns];
+    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
+    GPKGContents * contents = [geometryColumnsDao contents:featureDao.geometryColumns];
     [contents setLastChange:[NSDate date]];
-    GPKGContentsDao * contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao * contentsDao = [geoPackage contentsDao];
     [contentsDao update:contents];
 }
 

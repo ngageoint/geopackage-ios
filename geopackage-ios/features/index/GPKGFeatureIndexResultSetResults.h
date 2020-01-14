@@ -29,6 +29,6 @@
  *
  *  @return results
  */
--(GPKGResultSet *) getResults;
+-(GPKGResultSet *) results;
 
 @end

@@ -72,7 +72,7 @@
  *
  *  @return bounding box of zoom level, or nil if no tiles
  */
--(GPKGBoundingBox *) getBoundingBoxWithZoomLevel: (int) zoomLevel;
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel;
 
 /**
  *  Get the tile grid of the zoom level
@@ -81,14 +81,14 @@
  *
  *  @return tile grid at zoom level, nil if no tile matrix at zoom level
  */
--(GPKGTileGrid *) getTileGridWithZoomLevel: (int) zoomLevel;
+-(GPKGTileGrid *) tileGridWithZoomLevel: (int) zoomLevel;
 
 /**
  *  Get the tile table
  *
  *  @return tile table
  */
--(GPKGTileTable *) getTileTable;
+-(GPKGTileTable *) tileTable;
 
 /**
  *  Get the tile row for the current result in the result set
@@ -97,7 +97,7 @@
  *
  *  @return tile row
  */
--(GPKGTileRow *) getTileRow: (GPKGResultSet *) results;
+-(GPKGTileRow *) tileRow: (GPKGResultSet *) results;
 
 /**
  *  Create a new tile row with the column types and values
@@ -130,7 +130,7 @@
  *
  *  @return tile matrix
  */
--(GPKGTileMatrix *) getTileMatrixWithZoomLevel: (int) zoomLevel;
+-(GPKGTileMatrix *) tileMatrixWithZoomLevel: (int) zoomLevel;
 
 /**
  *  Query for a Tile
@@ -301,14 +301,14 @@
  *
  *  @return max distance length with tiles
  */
--(double) getMaxLength;
+-(double) maxLength;
 
 /**
  *  Get the min length in default units that contains tiles
  *
  *  @return min distance length with tiles
  */
--(double) getMinLength;
+-(double) minLength;
 
 /**
  *  Determine if the tiles are in the standard web mercator coordinate tile format

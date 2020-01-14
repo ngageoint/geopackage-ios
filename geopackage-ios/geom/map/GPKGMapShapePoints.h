@@ -103,7 +103,7 @@
  *
  *  @return shape points
  */
--(NSObject<GPKGShapePoints> *) getShapePointsForPoint: (GPKGMapPoint *) point;
+-(NSObject<GPKGShapePoints> *) shapePointsForPoint: (GPKGMapPoint *) point;
 
 /**
  *  Get the shape points for a map point id, only returns a value for shapes that can be edited
@@ -112,7 +112,7 @@
  *
  *  @return shape points
  */
--(NSObject<GPKGShapePoints> *) getShapePointsForPointId: (int) pointId;
+-(NSObject<GPKGShapePoints> *) shapePointsForPointId: (int) pointId;
 
 /**
  *  Delete the map point and corresponding shape from the map view

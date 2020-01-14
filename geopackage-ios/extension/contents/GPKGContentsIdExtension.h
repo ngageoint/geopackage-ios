@@ -29,21 +29,21 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *
  *  @return contents id dao
  */
--(GPKGContentsIdDao *) getDao;
+-(GPKGContentsIdDao *) dao;
 
 /**
  *  Get the extension name
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  *  Get the extension definition
  *
  *  @return extension definition
  */
--(NSString *) getExtensionDefinition;
+-(NSString *) extensionDefinition;
 
 /**
  * Determine if the GeoPackage has the extension
@@ -68,7 +68,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            contents
  * @return contents id or null
  */
--(GPKGContentsId *) getForContents: (GPKGContents *) contents;
+-(GPKGContentsId *) forContents: (GPKGContents *) contents;
 
 /**
  * Get the contents id object
@@ -77,7 +77,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            table name
  * @return contents id or null
  */
--(GPKGContentsId *) getForTableName: (NSString *) tableName;
+-(GPKGContentsId *) forTableName: (NSString *) tableName;
 
 /**
  * Get the contents id
@@ -86,7 +86,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            contents
  * @return contents id or null
  */
--(NSNumber *) getIdForContents: (GPKGContents *) contents;
+-(NSNumber *) idForContents: (GPKGContents *) contents;
 
 /**
  * Get the contents id
@@ -95,7 +95,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            table name
  * @return contents id or null
  */
--(NSNumber *) getIdForTableName: (NSString *) tableName;
+-(NSNumber *) idForTableName: (NSString *) tableName;
 
 /**
  * Create a contents id
@@ -301,14 +301,14 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *
  * @return extensions object
  */
--(GPKGExtensions *) getOrCreateExtension;
+-(GPKGExtensions *) extensionCreate;
 
 /**
  * Get the extension
  *
  * @return extensions object or null if one does not exist
  */
--(GPKGExtensions *) getExtension;
+-(GPKGExtensions *) extension;
 
 /**
  * Remove all trace of the extension

@@ -10,7 +10,7 @@
 
 @interface GPKGDbConnection()
 
-@property (nonatomic, strong) GPKGSqliteConnection * connection;
+@property (nonatomic, strong) GPKGSqliteConnection * sqliteConnection;
 @property (nonatomic) BOOL releasable;
 @property (nonatomic) BOOL writeReleasable;
 
@@ -18,14 +18,14 @@
 
 @implementation GPKGDbConnection
 
--(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable{
+-(instancetype) initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable{
     return [self initWithConnection:connection andReleasable:releasable andWriteReleasable:releasable];
 }
 
--(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
+-(instancetype) initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
     self = [super init];
     if(self){
-        self.connection = connection;
+        self.sqliteConnection = connection;
         self.releasable = releasable;
         self.writeReleasable = writeReleasable;
         self.resettable = NO;
@@ -33,34 +33,34 @@
     return self;
 }
 
--(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable{
+-(instancetype) initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable{
     return [self initWithDbConnection:connection andReleasable:releasable andWriteReleasable:releasable];
 }
 
--(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
-    return [self initWithConnection:connection.connection andReleasable:releasable andWriteReleasable:writeReleasable];
+-(instancetype) initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable{
+    return [self initWithConnection:connection.sqliteConnection andReleasable:releasable andWriteReleasable:writeReleasable];
 }
 
--(NSNumber *) getConnectionId{
-    return [self.connection getConnectionId];
+-(NSNumber *) connectionId{
+    return [self.sqliteConnection connectionId];
 }
 
--(sqlite3 *) getConnection{
-    return [self.connection getConnection];
+-(sqlite3 *) connection{
+    return [self.sqliteConnection connection];
 }
 
 -(void) releaseConnection{
     if(self.releasable){
-        [self.connection releaseConnection];
+        [self.sqliteConnection releaseConnection];
     }
 }
 
--(NSArray<NSString *> *) getStackTrace{
-    return [self.connection getStackTrace];
+-(NSArray<NSString *> *) stackTrace{
+    return [self.sqliteConnection stackTrace];
 }
 
--(NSDate *) getDateCheckedOut{
-    return [self.connection getDateCheckedOut];
+-(NSDate *) dateCheckedOut{
+    return [self.sqliteConnection dateCheckedOut];
 }
 
 -(BOOL) isReleasable{

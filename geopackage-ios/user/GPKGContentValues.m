@@ -31,7 +31,7 @@
     return (int)[self.values count];
 }
 
--(NSObject *) getValueForKey: (NSString *) key{
+-(NSObject *) valueForKey: (NSString *) key{
     return [GPKGUtils objectForKey:key inDictionary:self.values];
 }
 
@@ -39,15 +39,15 @@
     return [self.values allKeys];
 }
 
--(NSString *) getKeyAsString: (NSString *) key{
-    NSObject * value = [self getValueForKey:key];
+-(NSString *) keyAsString: (NSString *) key{
+    NSObject * value = [self valueForKey:key];
     return value != nil ? [value description] : nil;
 }
 
 - (NSString *)description {
     NSMutableString * descriptionString = [[NSMutableString alloc]init];
     for(NSString * name in [self keySet]){
-        NSString * value = [self getKeyAsString:name];
+        NSString * value = [self keyAsString:name];
         if([descriptionString length] > 0){
             [descriptionString appendString:@" "];
         }

@@ -92,13 +92,13 @@
             
             for(int z = minZoom; z <= maxZoom; z++){
                 
-                GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:[tileGenerator boundingBoxAtZoom:z] andZoom:z];
+                GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:[tileGenerator boundingBoxAtZoom:z] andZoom:z];
                 
                 for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
                     for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
                         if([featureTiles queryIndexedFeaturesCountWithX:x andY:y andZoom:z] > 0){
                             
-                            GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:z];
+                            GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:z];
                             GPKGFeatureIndexResults *results = [featureTiles queryIndexedFeaturesWithX:x andY:y andZoom:z];
                             UIImage *image = [featureTiles drawTileWithZoom:z andBoundingBox:webMercatorBoundingBox andIndexResults:results];
                             if(image != nil){

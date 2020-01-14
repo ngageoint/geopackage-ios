@@ -68,7 +68,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            feature table
  * @return extension
  */
--(GPKGExtensions *) getOrCreateWithFeatureTable: (GPKGFeatureTable *) featureTable;
+-(GPKGExtensions *) extensionCreateWithFeatureTable: (GPKGFeatureTable *) featureTable;
 
 /**
  * Get or create the extension
@@ -79,7 +79,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
  *            column name
  * @return extension
  */
--(GPKGExtensions *) getOrCreateWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
+-(GPKGExtensions *) extensionCreateWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
 
 /**
  * Determine if the GeoPackage feature table has the extension

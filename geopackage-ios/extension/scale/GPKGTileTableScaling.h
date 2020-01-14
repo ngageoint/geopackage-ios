@@ -59,28 +59,28 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  *  @return table name
  */
--(NSString *) getTableName;
+-(NSString *) tableName;
 
 /**
  *  Get the Tile Scaling DAO
  *
  *  @return tile scaling dao
  */
--(GPKGTileScalingDao *) getDao;
+-(GPKGTileScalingDao *) dao;
 
 /**
  *  Get the extension name
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  *  Get the extension definition
  *
  *  @return extension definition
  */
--(NSString *) getExtensionDefinition;
+-(NSString *) extensionDefinition;
 
 /**
  * Determine if the GeoPackage has the extension
@@ -94,7 +94,7 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @return tile scaling
  */
--(GPKGTileScaling *) get;
+-(GPKGTileScaling *) tileScaling;
 
 /**
  * Create the tile scaling (same as calling
@@ -134,6 +134,6 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  *
  * @return extensions object or null if one does not exist
  */
--(GPKGExtensions *) getExtension;
+-(GPKGExtensions *) extension;
 
 @end

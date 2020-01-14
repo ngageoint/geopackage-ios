@@ -27,43 +27,43 @@
     return self;
 }
 
--(GPKGGeoPackage *) getOrOpen: (NSString *) name{
-    return [self getOrOpen:name andCache:YES];
+-(GPKGGeoPackage *) geoPackageOpenName: (NSString *) name{
+    return [self geoPackageOpenName:name andCache:YES];
 }
 
--(GPKGGeoPackage *) getOrNoCacheOpen: (NSString *) name{
-    return [self getOrOpen:name andCache:NO];
+-(GPKGGeoPackage *) geoPackageNoCacheOpenName: (NSString *) name{
+    return [self geoPackageOpenName:name andCache:NO];
 }
 
--(GPKGGeoPackage *) getOrOpen: (NSString *) name andCache: (BOOL) cache{
-    GPKGGeoPackage * geoPackage = [self get:name];
+-(GPKGGeoPackage *) geoPackageOpenName: (NSString *) name andCache: (BOOL) cache{
+    GPKGGeoPackage * geoPackage = [self geoPackageWithName:name];
     if(geoPackage == nil){
         geoPackage = [self.manager open:name];
         if(cache){
-            [self add:geoPackage];
+            [self addGeoPackage:geoPackage];
         }
     }
     return geoPackage;
 }
 
--(NSArray<NSString*> *) getNames{
+-(NSArray<NSString*> *) names{
     return [self.cache allKeys];
 }
 
--(NSArray<GPKGGeoPackage*> *) getGeoPackages{
+-(NSArray<GPKGGeoPackage*> *) geoPackages{
     return [self.cache allValues];
 }
 
--(BOOL) has: (NSString *) name{
-    return [self get:name] != nil;
+-(BOOL) hasName: (NSString *) name{
+    return [self geoPackageWithName:name] != nil;
 }
 
--(GPKGGeoPackage *) get: (NSString *) name{
+-(GPKGGeoPackage *) geoPackageWithName: (NSString *) name{
     return [self.cache objectForKey:name];
 }
 
--(BOOL) exists: (NSString *) name{
-    return [self get:name] != nil;
+-(BOOL) existsWithName: (NSString *) name{
+    return [self geoPackageWithName:name] != nil;
 }
 
 -(void) closeAll{
@@ -73,18 +73,18 @@
     [self clear];
 }
 
--(void) add: (GPKGGeoPackage *) geoPackage{
+-(void) addGeoPackage: (GPKGGeoPackage *) geoPackage{
     [self.cache setObject:geoPackage forKey:geoPackage.name];
 }
 
--(void) addAll: (NSArray<GPKGGeoPackage *> *) geoPackages{
+-(void) addAllGeoPackages: (NSArray<GPKGGeoPackage *> *) geoPackages{
     for(GPKGGeoPackage *geoPackage in geoPackages){
-        [self add:geoPackage];
+        [self addGeoPackage:geoPackage];
     }
 }
 
--(GPKGGeoPackage *) remove: (NSString *) name{
-    GPKGGeoPackage * geoPackage = [self get:name];
+-(GPKGGeoPackage *) removeByName: (NSString *) name{
+    GPKGGeoPackage * geoPackage = [self geoPackageWithName:name];
     if(geoPackage != nil){
         [self.cache removeObjectForKey:name];
     }
@@ -95,8 +95,8 @@
     [self.cache removeAllObjects];
 }
 
--(BOOL) close: (NSString *) name{
-    GPKGGeoPackage * geoPackage = [self remove:name];
+-(BOOL) closeByName: (NSString *) name{
+    GPKGGeoPackage * geoPackage = [self removeByName:name];
     if(geoPackage != nil){
         [self closeGeoPackage:geoPackage];
     }
@@ -107,13 +107,13 @@
     NSMutableArray * close = [[NSMutableArray alloc] initWithArray:[self.cache allKeys]];
     [close removeObjectsInArray:retain];
     for(NSString * name in close){
-        [self close:name];
+        [self closeByName:name];
     }
 }
 
 -(void) closeNames: (NSArray *) names{
     for(NSString * name in names){
-        [self close:name];
+        [self closeByName:name];
     }
 }
 
@@ -131,9 +131,9 @@
 -(BOOL) closeGeoPackageIfCached: (GPKGGeoPackage *) geoPackage{
     BOOL closed = NO;
     if (geoPackage != nil) {
-        GPKGGeoPackage *cached = [self get:geoPackage.name];
+        GPKGGeoPackage *cached = [self geoPackageWithName:geoPackage.name];
         if(cached != nil && cached == geoPackage){
-            closed = [self close:geoPackage.name];
+            closed = [self closeByName:geoPackage.name];
         }
     }
     return closed;
@@ -142,7 +142,7 @@
 -(BOOL) closeGeoPackageIfNotCached: (GPKGGeoPackage *) geoPackage{
     BOOL closed = NO;
     if (geoPackage != nil) {
-        GPKGGeoPackage *cached = [self get:geoPackage.name];
+        GPKGGeoPackage *cached = [self geoPackageWithName:geoPackage.name];
         if(cached == nil || cached != geoPackage){
             [self closeGeoPackage:geoPackage];
             closed = YES;

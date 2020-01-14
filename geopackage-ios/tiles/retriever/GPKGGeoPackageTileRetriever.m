@@ -50,29 +50,29 @@
 -(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Get the bounding box of the requested tile
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
     BOOL hasTile = [self.tileCreator hasTileWithBoundingBox:webMercatorBoundingBox];
     
     return hasTile;
 }
 
--(GPKGGeoPackageTile *) getTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+-(GPKGGeoPackageTile *) tileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Get the bounding box of the requested tile
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
-    GPKGGeoPackageTile * tile = [self.tileCreator getTileWithBoundingBox:webMercatorBoundingBox];
+    GPKGGeoPackageTile * tile = [self.tileCreator tileWithBoundingBox:webMercatorBoundingBox];
     
     return tile;
 }
 
--(GPKGBoundingBox *) getWebMercatorBoundingBox{
-    return self.setWebMercatorBoundingBox;
+-(GPKGBoundingBox *) webMercatorBoundingBox{
+    return _setWebMercatorBoundingBox;
 }
 
--(GPKGTileScaling *) getScaling{
-    return self.tileCreator.scaling;
+-(GPKGTileScaling *) scaling{
+    return _tileCreator.scaling;
 }
 
 -(void) setScaling: (GPKGTileScaling *) scaling{

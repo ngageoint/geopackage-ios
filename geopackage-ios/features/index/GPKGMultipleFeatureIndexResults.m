@@ -43,7 +43,7 @@
 }
 
 -(int) count{
-    return self.count;
+    return _count;
 }
 
 -(BOOL) moveToNext{
@@ -67,18 +67,18 @@
     return hasNext;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
+-(GPKGFeatureRow *) featureRow{
     GPKGFeatureRow *row = nil;
     if(self.currentResults != nil){
-        row = [self.currentResults getFeatureRow];
+        row = [self.currentResults featureRow];
     }
     return row;
 }
 
--(NSNumber *) getFeatureId{
+-(NSNumber *) featureId{
     NSNumber *id = nil;
     if(self.currentResults != nil){
-        id = [self.currentResults getFeatureId];
+        id = [self.currentResults featureId];
     }
     return id;
 }

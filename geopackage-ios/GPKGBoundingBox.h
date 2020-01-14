@@ -121,28 +121,28 @@ struct GPKGBoundingBoxSize{
  *
  *  @return map rectangle
  */
--(MKMapRect) getMapRect;
+-(MKMapRect) mapRect;
 
 /**
  *  Get a Coordinate Region of the bounding box
  *
  *  @return Coordinate Region
  */
--(MKCoordinateRegion) getCoordinateRegion;
+-(MKCoordinateRegion) coordinateRegion;
 
 /**
  *  Get the Span of the bounding box
  *
  *  @return Span
  */
--(MKCoordinateSpan) getSpan;
+-(MKCoordinateSpan) span;
 
 /**
  *  Get the center of the bounding box
  *
  *  @return center location
  */
--(CLLocationCoordinate2D) getCenter;
+-(CLLocationCoordinate2D) center;
 
 /**
  *  Get with width and height of the bounding box in meters

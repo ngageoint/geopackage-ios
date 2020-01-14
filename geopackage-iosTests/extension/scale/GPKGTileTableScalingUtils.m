@@ -18,19 +18,19 @@
 
     [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
     
-    NSArray *tileTables = [geoPackage getTileTables];
+    NSArray *tileTables = [geoPackage tileTables];
     
     if(tileTables.count > 0){
         
         for(NSString *tableName in tileTables){
             
             GPKGTileTableScaling *tableScaling = [[GPKGTileTableScaling alloc] initWithGeoPackage:geoPackage andTableName:tableName];
-            [GPKGTestUtils assertNil:[tableScaling getExtension]];
-            [GPKGTestUtils assertEqualWithValue:tableName andValue2:[tableScaling getTableName]];
-            GPKGTileScalingDao *dao = [tableScaling getDao];
+            [GPKGTestUtils assertNil:[tableScaling extension]];
+            [GPKGTestUtils assertEqualWithValue:tableName andValue2:[tableScaling tableName]];
+            GPKGTileScalingDao *dao = [tableScaling dao];
             
             [GPKGTestUtils assertFalse:[tableScaling has]];
-            [GPKGTestUtils assertNil:[tableScaling get]];
+            [GPKGTestUtils assertNil:[tableScaling tileScaling]];
             
             int count = 0;
             if ([dao tableExists]) {
@@ -43,21 +43,21 @@
             [newTileScaling setZoomOut:[NSNumber numberWithInt:2]];
             [tableScaling createOrUpdate:newTileScaling];
             
-            GPKGExtensions *extension = [tableScaling getExtension];
+            GPKGExtensions *extension = [tableScaling extension];
             NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
             [GPKGTestUtils assertEqualWithValue:extensionName andValue2:extension.extensionName];
-            [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_TILE_SCALING_AUTHOR andValue2:[extension getAuthor]];
-            [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR andValue2:[extension getExtensionNameNoAuthor]];
-            [GPKGTestUtils assertEqualWithValue:[GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION] andValue2:extension.definition];
+            [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_TILE_SCALING_AUTHOR andValue2:[extension author]];
+            [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR andValue2:[extension extensionNameNoAuthor]];
+            [GPKGTestUtils assertEqualWithValue:[GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION] andValue2:extension.definition];
             [GPKGTestUtils assertEqualWithValue:tableName andValue2:extension.tableName];
             [GPKGTestUtils assertNil:extension.columnName];
             
             [GPKGTestUtils assertTrue:[tableScaling has]];
-            GPKGTileScaling *createdTileScaling = [tableScaling get];
+            GPKGTileScaling *createdTileScaling = [tableScaling tileScaling];
             [GPKGTestUtils assertNotNil:createdTileScaling];
             [GPKGTestUtils assertEqualIntWithValue:count + 1 andValue2:[dao count]];
             
-            [GPKGTestUtils assertEqualIntWithValue:[newTileScaling getTileScalingType] andValue2:[createdTileScaling getTileScalingType]];
+            [GPKGTestUtils assertEqualIntWithValue:[newTileScaling tileScalingType] andValue2:[createdTileScaling tileScalingType]];
             [GPKGTestUtils assertEqualWithValue:newTileScaling.scalingType andValue2:createdTileScaling.scalingType];
             [GPKGTestUtils assertEqualWithValue:newTileScaling.zoomIn andValue2:createdTileScaling.zoomIn];
             [GPKGTestUtils assertEqualWithValue:newTileScaling.zoomOut andValue2:createdTileScaling.zoomOut];
@@ -68,20 +68,20 @@
             [tableScaling createOrUpdate:createdTileScaling];
             
             [GPKGTestUtils assertTrue:[tableScaling has]];
-            GPKGTileScaling *updatedTileScaling = [tableScaling get];
+            GPKGTileScaling *updatedTileScaling = [tableScaling tileScaling];
             [GPKGTestUtils assertNotNil:updatedTileScaling];
             [GPKGTestUtils assertEqualIntWithValue:count + 1 andValue2:[dao count]];
             
-            [GPKGTestUtils assertEqualIntWithValue:[createdTileScaling getTileScalingType] andValue2:[updatedTileScaling getTileScalingType]];
+            [GPKGTestUtils assertEqualIntWithValue:[createdTileScaling tileScalingType] andValue2:[updatedTileScaling tileScalingType]];
             [GPKGTestUtils assertEqualWithValue:createdTileScaling.scalingType andValue2:updatedTileScaling.scalingType];
             [GPKGTestUtils assertEqualWithValue:createdTileScaling.zoomIn andValue2:updatedTileScaling.zoomIn];
             [GPKGTestUtils assertEqualWithValue:createdTileScaling.zoomOut andValue2:updatedTileScaling.zoomOut];
             
             [GPKGTestUtils assertTrue:[tableScaling delete]];
             
-            [GPKGTestUtils assertNil:[tableScaling getExtension]];
+            [GPKGTestUtils assertNil:[tableScaling extension]];
             [GPKGTestUtils assertFalse:[tableScaling has]];
-            [GPKGTestUtils assertNil:[tableScaling get]];
+            [GPKGTestUtils assertNil:[tableScaling tileScaling]];
             [GPKGTestUtils assertEqualIntWithValue:count andValue2:[dao count]];
             [GPKGTestUtils assertTrue:[dao tableExists]];
             
@@ -89,9 +89,9 @@
             [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage: geoPackage];
             
             [GPKGTestUtils assertFalse:[dao tableExists]];
-            [GPKGTestUtils assertNil:[tableScaling getExtension]];
+            [GPKGTestUtils assertNil:[tableScaling extension]];
             [GPKGTestUtils assertFalse:[tableScaling has]];
-            [GPKGTestUtils assertNil:[tableScaling get]];
+            [GPKGTestUtils assertNil:[tableScaling tileScaling]];
             
         }
         

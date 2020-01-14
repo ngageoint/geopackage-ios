@@ -14,7 +14,7 @@
 
 +(void) testReadWithGeoPackage: (GPKGGeoPackage *) geoPackage andExpectedResults: (NSNumber *) expectedResults{
     
-    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGContentsDao *dao = [geoPackage contentsDao];
     GPKGResultSet *results = [dao queryForAll];
     if (expectedResults != nil) {
         [GPKGTestUtils assertEqualIntWithValue:[expectedResults intValue] andValue2:results.count];
@@ -26,12 +26,12 @@
         
         // Verify non nulls
         while([results moveToNext]){
-            GPKGContents *result = (GPKGContents *)[dao getObject:results];
+            GPKGContents *result = (GPKGContents *)[dao object:results];
             [GPKGTestUtils assertNotNil:result.tableName];
             [GPKGTestUtils assertNotNil:result.dataType];
-            [GPKGTestUtils assertEqualWithValue:result.dataType andValue2:[GPKGContentsDataTypes name:[result getContentsDataType]]];
+            [GPKGTestUtils assertEqualWithValue:result.dataType andValue2:[GPKGContentsDataTypes name:[result contentsDataType]]];
             [GPKGTestUtils assertNotNil:result.lastChange];
-            GPKGSpatialReferenceSystem *srs = [dao getSrs:result];
+            GPKGSpatialReferenceSystem *srs = [dao srs:result];
             if (srs != nil) {
                 [GPKGTestUtils assertNotNil:srs.srsName];
                 [GPKGTestUtils assertNotNil:srs.srsId];
@@ -45,7 +45,7 @@
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToFirst];
         [results moveToPosition:random];
-        GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+        GPKGContents *contents = (GPKGContents *)[dao object:results];
         [results close];
         
         // Query by id
@@ -58,7 +58,7 @@
         
         [GPKGTestUtils assertNotNil:queryContentsResults];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:queryContentsResults.count];
-        contents = (GPKGContents *)[dao getFirstObject:queryContentsResults];
+        contents = (GPKGContents *)[dao firstObject:queryContentsResults];
         [GPKGTestUtils assertEqualWithValue:contents.identifier andValue2:contents.identifier];
         [queryContentsResults close];
         
@@ -73,7 +73,7 @@
         [GPKGTestUtils assertTrue:queryContentsResults.count > 0];
         BOOL found = false;
         while ([queryContentsResults moveToNext]) {
-            GPKGContents *queryContentsValue = (GPKGContents *)[dao getObject:queryContentsResults];
+            GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             [GPKGTestUtils assertEqualWithValue:contents.dataType andValue2:queryContentsValue.dataType];
             if(contents.srsId != nil){
                 [GPKGTestUtils assertEqualWithValue:contents.srsId andValue2:queryContentsValue.srsId];
@@ -96,7 +96,7 @@
         
         found = false;
         while ([queryContentsResults moveToNext]) {
-            GPKGContents *queryContentsValue = (GPKGContents *)[dao getObject:queryContentsResults];
+            GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             if([contents.tableName isEqualToString:queryContentsValue.tableName]){
                 found = true;
                 break;
@@ -114,7 +114,7 @@
         
         found = false;
         while ([queryContentsResults moveToNext]) {
-            GPKGContents *queryContentsValue = (GPKGContents *)[dao getObject:queryContentsResults];
+            GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             if([contents.tableName isEqualToString:queryContentsValue.tableName]){
                 found = true;
                 break;
@@ -133,7 +133,7 @@
 
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGContentsDao *dao = [geoPackage contentsDao];
     GPKGResultSet *results = [dao queryForAll];
     
     if (results.count > 0) {
@@ -141,7 +141,7 @@
         // Choose random contents
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToPosition:random];
-        GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+        GPKGContents *contents = (GPKGContents *)[dao object:results];
         [results close];
         
         // Update
@@ -151,8 +151,8 @@
         [dao update:contents];
         
         // Verify update
-        dao = [geoPackage getContentsDao];
-        GPKGContents *updatedContents = (GPKGContents *)[dao queryForIdObject:[dao getId:contents]];
+        dao = [geoPackage contentsDao];
+        GPKGContents *updatedContents = (GPKGContents *)[dao queryForIdObject:[dao id:contents]];
         [GPKGTestUtils assertTrue:[updatedLastChange compare:updatedContents.lastChange] == NSOrderedSame];
         
         // Find expected results for prepared update
@@ -174,7 +174,7 @@
         [GPKGTestUtils assertEqualIntWithValue:queryResults.count andValue2:updated];
         
         while([queryResults moveToNext]){
-            GPKGContents *updatedContent = (GPKGContents *)[dao getObject:queryResults];
+            GPKGContents *updatedContent = (GPKGContents *)[dao object:queryResults];
             GPKGContents *reloadedContents = (GPKGContents *)[dao queryForSameId:updatedContent];
             [GPKGTestUtils assertEqualDoubleWithValue:[updatedMinimum doubleValue] andValue2:[reloadedContents.minX doubleValue]];
             [GPKGTestUtils assertEqualDoubleWithValue:[updatedMinimum doubleValue] andValue2:[reloadedContents.minY doubleValue]];
@@ -189,8 +189,8 @@
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
+    GPKGContentsDao *dao = [geoPackage contentsDao];
     
     // Get current count
     int count = [dao count];
@@ -201,7 +201,7 @@
     if(results.count > 0){
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToPosition:random];
-        srs = (GPKGSpatialReferenceSystem *)[srsDao getObject:results];
+        srs = (GPKGSpatialReferenceSystem *)[srsDao object:results];
     }
     [results close];
     
@@ -242,7 +242,7 @@
     
     // Verify saved contents
     GPKGContents *queryContents = (GPKGContents *)[dao queryForIdObject:tableName];
-    NSString *queryContentsId = (NSString *)[dao getId:queryContents];
+    NSString *queryContentsId = (NSString *)[dao id:queryContents];
     [GPKGTestUtils assertEqualWithValue:tableName andValue2:queryContents.tableName];
     [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:dataType] andValue2:queryContents.dataType];
     [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
@@ -260,7 +260,7 @@
     
     // Test copied contents
     GPKGContents *copyContents = [queryContents mutableCopy];
-    [GPKGTestUtils assertEqualWithValue:[dao getId:queryContents] andValue2:[dao getId:copyContents]];
+    [GPKGTestUtils assertEqualWithValue:[dao id:queryContents] andValue2:[dao id:copyContents]];
     [GPKGTestUtils assertEqualWithValue:queryContents.tableName andValue2:copyContents.tableName];
     [GPKGTestUtils assertEqualWithValue:queryContents.dataType andValue2:copyContents.dataType];
     [GPKGTestUtils assertEqualWithValue:queryContents.identifier andValue2:copyContents.identifier];
@@ -278,11 +278,11 @@
     [dao setId:copyContents withIdValue:copyTableName];
     [copyContents setIdentifier:copyIdentifier];
     
-    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao getId:queryContents]];
+    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao id:queryContents]];
     [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
-    [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:[dao getId:copyContents]];
+    [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:[dao id:copyContents]];
     [GPKGTestUtils assertEqualWithValue:copyIdentifier andValue2:copyContents.identifier];
-    [GPKGTestUtils assertFalse:[[dao getId:queryContents] isEqual:[dao getId:copyContents]]];
+    [GPKGTestUtils assertFalse:[[dao id:queryContents] isEqual:[dao id:copyContents]]];
     [GPKGTestUtils assertFalse:[queryContents.identifier isEqual:copyContents.identifier]];
     
     [geoPackage createFeatureTable:[GPKGTestUtils buildFeatureTableWithTableName:copyContents.tableName andGeometryColumn:@"geom" andGeometryType:SF_GEOMETRY]];
@@ -312,7 +312,7 @@
     
     // Verify initial saved contents again
     queryContents = (GPKGContents *)[dao queryForIdObject:tableName];
-    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao getId:queryContents]];
+    [GPKGTestUtils assertEqualWithValue:queryContentsId andValue2:[dao id:queryContents]];
     [GPKGTestUtils assertEqualWithValue:tableName andValue2:queryContents.tableName];
     [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:dataType] andValue2:queryContents.dataType];
     [GPKGTestUtils assertEqualWithValue:identifier andValue2:queryContents.identifier];
@@ -344,7 +344,7 @@
 
 +(void) testDeleteHelperWithGeoPackage: (GPKGGeoPackage *) geoPackage andCascade: (BOOL) cascade{
     
-    GPKGContentsDao *dao = [geoPackage getContentsDao];
+    GPKGContentsDao *dao = [geoPackage contentsDao];
     GPKGResultSet *results = [dao queryForAll];
     
     if (results.count > 0) {
@@ -352,16 +352,16 @@
         // Choose random contents
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToPosition:random];
-        GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+        GPKGContents *contents = (GPKGContents *)[dao object:results];
         [results close];
         
         // Save the ids of geometry columns
         NSMutableArray *geometryColumnsIds = [[NSMutableArray alloc] init];
-        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
         if([geometryColumnsDao tableExists]){
-            GPKGGeometryColumns *geometryColumns = [dao getGeometryColumns:contents];
+            GPKGGeometryColumns *geometryColumns = [dao geometryColumns:contents];
             if (geometryColumns != nil) {
-                [geometryColumnsIds addObject:[dao getId:geometryColumns]];
+                [geometryColumnsIds addObject:[dao id:geometryColumns]];
             }
         }
         
@@ -374,7 +374,7 @@
         }
         
         // Verify deleted
-        GPKGContents *queryContents = (GPKGContents *)[dao queryForIdObject:[dao getId:contents]];
+        GPKGContents *queryContents = (GPKGContents *)[dao queryForIdObject:[dao id:contents]];
         [GPKGTestUtils assertNil:queryContents];
         
         // Verify that geometry columns or foreign keys were deleted
@@ -383,7 +383,7 @@
             if (cascade) {
                 [GPKGTestUtils assertNil:queryGeometryColumns];
             } else {
-                [GPKGTestUtils assertNil:[geometryColumnsDao getContents:queryGeometryColumns]];
+                [GPKGTestUtils assertNil:[geometryColumnsDao contents:queryGeometryColumns]];
             }
         }
         
@@ -395,7 +395,7 @@
             // Choose random contents
             int random = (int) ([GPKGTestUtils randomDouble] * results.count);
             [results moveToPosition:random];
-            GPKGContents *contents = (GPKGContents *)[dao getObject:results];
+            GPKGContents *contents = (GPKGContents *)[dao object:results];
             [results close];
             
             // Find which contents to delete and the geometry columns
@@ -403,11 +403,11 @@
             int count = queryResults.count;
             geometryColumnsIds = [[NSMutableArray alloc] init];
             while([queryResults moveToNext]){
-                GPKGContents *queryResultsContenst = (GPKGContents *)[dao getObject:queryResults];
+                GPKGContents *queryResultsContenst = (GPKGContents *)[dao object:queryResults];
                 if([geometryColumnsDao tableExists]){
-                    GPKGGeometryColumns *geometryColumns = [dao getGeometryColumns:queryResultsContenst];
+                    GPKGGeometryColumns *geometryColumns = [dao geometryColumns:queryResultsContenst];
                     if (geometryColumns != nil) {
-                        [geometryColumnsIds addObject:[dao getId:geometryColumns]];
+                        [geometryColumnsIds addObject:[dao id:geometryColumns]];
                     }
                 }
             }
@@ -432,7 +432,7 @@
                 if (cascade) {
                     [GPKGTestUtils assertNil:queryGeometryColumns];
                 } else {
-                    [GPKGTestUtils assertNil:[geometryColumnsDao getContents:queryGeometryColumns]];
+                    [GPKGTestUtils assertNil:[geometryColumnsDao contents:queryGeometryColumns]];
                 }
             }
 

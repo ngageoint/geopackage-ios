@@ -113,7 +113,7 @@
  */
 -(void) testServer: (NSString *) server withCollection: (NSString *) collection andName: (NSString *) name andLimit: (NSNumber *) limit andTotalLimit: (NSNumber *) totalLimit andBoundingBox: (GPKGBoundingBox *) boundingBox andTime: (NSString *) time andPeriod: (NSString *) period{
     
-    GPKGGeoPackageManager *geoPackageManager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *geoPackageManager = [GPKGGeoPackageFactory manager];
     
     [geoPackageManager delete:collection];
     
@@ -147,7 +147,7 @@
     GPKGBoundingBox *dataBounds = [geoPackage boundingBoxOfTable:featureDao.tableName];
     GPKGContents *contents = [featureDao contents];
     [contents setBoundingBox:dataBounds];
-    [[geoPackage getContentsDao] update:contents];
+    [[geoPackage contentsDao] update:contents];
     
     [geoPackage close];
     

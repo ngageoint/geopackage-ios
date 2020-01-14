@@ -59,12 +59,12 @@
     return self.rowIndex < self.rows.count;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
+-(GPKGFeatureRow *) featureRow{
     return [self.rows objectAtIndex:self.rowIndex];
 }
 
--(NSNumber *) getFeatureId{
-    return [[self getFeatureRow] id];
+-(NSNumber *) featureId{
+    return [[self featureRow] id];
 }
 
 @end

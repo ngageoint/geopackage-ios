@@ -35,12 +35,12 @@
         self.featureTiles = featureTiles;
         
         // Get the screen percentage to determine when a feature is clicked
-        self.screenClickPercentage = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_SCREEN_CLICK_PERCENTAGE] floatValue];
+        self.screenClickPercentage = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_SCREEN_CLICK_PERCENTAGE] floatValue];
         
-        self.maxFeaturesInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO];
-        self.featuresInfo = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
+        self.maxFeaturesInfo = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO];
+        self.featuresInfo = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
         
-        GPKGFeatureDao * featureDao = [self.featureTiles getFeatureDao];
+        GPKGFeatureDao * featureDao = [self.featureTiles featureDao];
         self.featureInfoBuilder = [[GPKGFeatureInfoBuilder alloc] initWithFeatureDao:featureDao];
     }
     return self;
@@ -76,7 +76,7 @@
     NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
     NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
     SFPoint * point = [[SFPoint alloc] initWithX:x andY:y];
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridFromWGS84Point:point andZoom:zoom];
+    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
     
     BOOL on = [self.boundedOverlay hasTileWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
     return on;
@@ -121,7 +121,7 @@
 }
 
 -(int) tileFeatureCountWithPoint: (SFPoint *) point andZoom: (int) zoom{
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridFromWGS84Point:point andZoom:zoom];
+    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
     return [self.featureTiles queryIndexedFeaturesCountWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
 }
 
@@ -290,7 +290,7 @@
                     
                     // Build the max features message
                     if(self.maxFeaturesInfo){
-                        tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles getFeatureDao].tableName andCount:tileFeatureCount];
+                        tableData = [[GPKGFeatureTableData alloc] initWithName:[self.featureTiles featureDao].tableName andCount:tileFeatureCount];
                     }
                     
                 }

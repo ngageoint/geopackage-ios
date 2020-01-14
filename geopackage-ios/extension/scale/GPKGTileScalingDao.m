@@ -49,24 +49,24 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGTileScaling *getObject = (GPKGTileScaling*) object;
+    GPKGTileScaling *scaling = (GPKGTileScaling*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = scaling.tableName;
             break;
         case 1:
-            value = getObject.scalingType;
+            value = scaling.scalingType;
             break;
         case 2:
-            value = getObject.zoomIn;
+            value = scaling.zoomIn;
             break;
         case 3:
-            value = getObject.zoomOut;
+            value = scaling.zoomOut;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

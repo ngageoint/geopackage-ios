@@ -375,7 +375,7 @@
 }
 
 -(float) alphaArithmetic{
-    return self.opacity;
+    return _opacity;
 }
 
 -(float *) hsl{

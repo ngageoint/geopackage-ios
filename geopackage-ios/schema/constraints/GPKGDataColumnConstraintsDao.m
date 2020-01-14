@@ -63,36 +63,36 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGDataColumnConstraints *getObject = (GPKGDataColumnConstraints*) object;
+    GPKGDataColumnConstraints *constraints = (GPKGDataColumnConstraints*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.constraintName;
+            value = constraints.constraintName;
             break;
         case 1:
-            value = getObject.constraintType;
+            value = constraints.constraintType;
             break;
         case 2:
-            value = getObject.value;
+            value = constraints.value;
             break;
         case 3:
-            value = getObject.min;
+            value = constraints.min;
             break;
         case 4:
-            value = getObject.minIsInclusive;
+            value = constraints.minIsInclusive;
             break;
         case 5:
-            value = getObject.max;
+            value = constraints.max;
             break;
         case 6:
-            value = getObject.maxIsInclusive;
+            value = constraints.maxIsInclusive;
             break;
         case 7:
-            value = getObject.theDescription;
+            value = constraints.theDescription;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -102,14 +102,14 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGDataColumnConstraints *projectionObject = (GPKGDataColumnConstraints*) object;
-    GPKGResultSet *dataColumnResults = [self getDataColumns:projectionObject];
-    GPKGDataColumnsDao *dataColumnsDao = [self getDataColumnsDao];
+    GPKGResultSet *dataColumnResults = [self dataColumns:projectionObject];
+    GPKGDataColumnsDao *dataColumnsDao = [self dataColumnsDao];
     SFPProjection * projection = nil;
     if([dataColumnResults moveToNext]){
-        GPKGDataColumns *dataColumns = (GPKGDataColumns *)[dataColumnsDao getObject:dataColumnResults];
-        projection = [dataColumnsDao getProjection:dataColumns];
+        GPKGDataColumns *dataColumns = (GPKGDataColumns *)[dataColumnsDao object:dataColumnResults];
+        projection = [dataColumnsDao projection:dataColumns];
     }
     [dataColumnResults close];
     return projection;
@@ -125,7 +125,7 @@
         if(remainingConstraints.count == 1){
             
             if([remainingConstraints moveToNext]){
-                GPKGDataColumnConstraints * remainingConstraint = (GPKGDataColumnConstraints *) [self getObject:remainingConstraints];
+                GPKGDataColumnConstraints * remainingConstraint = (GPKGDataColumnConstraints *) [self object:remainingConstraints];
                 
                 // Compare the name, type, and value
                 if([remainingConstraint.constraintName isEqualToString: constraints.constraintName]
@@ -134,10 +134,10 @@
                        constraints.value == nil : [remainingConstraint.value isEqualToString:constraints.value])){
                     
                        // Delete Date Columns
-                       GPKGDataColumnsDao * dao = [self getDataColumnsDao];
+                       GPKGDataColumnsDao * dao = [self dataColumnsDao];
                        GPKGResultSet * dataColumnResults = [dao queryByConstraintName:constraints.constraintName];
                        while([dataColumnResults moveToNext]){
-                           GPKGDataColumns * dataColumns = (GPKGDataColumns *) [dao getObject:dataColumnResults];
+                           GPKGDataColumns * dataColumns = (GPKGDataColumns *) [dao object:dataColumnResults];
                            [dao delete: dataColumns];
                        }
                        [dataColumnResults close];
@@ -169,7 +169,7 @@
         NSMutableArray *dataColumnConstraintsArray = [[NSMutableArray alloc] init];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
-            GPKGDataColumnConstraints *dataColumnConstraints = (GPKGDataColumnConstraints *)[self getObject:results];
+            GPKGDataColumnConstraints *dataColumnConstraints = (GPKGDataColumnConstraints *)[self object:results];
             [dataColumnConstraintsArray addObject:dataColumnConstraints];
         }
         [results close];
@@ -204,13 +204,13 @@
     
 }
 
--(GPKGResultSet *) getDataColumns: (GPKGDataColumnConstraints *) dataColumnConstraints{
-    GPKGDataColumnsDao * dao = [self getDataColumnsDao];
+-(GPKGResultSet *) dataColumns: (GPKGDataColumnConstraints *) dataColumnConstraints{
+    GPKGDataColumnsDao * dao = [self dataColumnsDao];
     GPKGResultSet *results = [dao queryByConstraintName:dataColumnConstraints.constraintName];
     return results;
 }
 
--(GPKGDataColumnsDao *) getDataColumnsDao{
+-(GPKGDataColumnsDao *) dataColumnsDao{
     return [[GPKGDataColumnsDao alloc] initWithDatabase:self.database];
 }
 

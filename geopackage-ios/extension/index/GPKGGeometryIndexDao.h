@@ -32,7 +32,7 @@
  *
  *  @return table index
  */
--(GPKGTableIndex *) getTableIndex: (GPKGGeometryIndex *) geometryIndex;
+-(GPKGTableIndex *) tableIndex: (GPKGGeometryIndex *) geometryIndex;
 
 /**
  *  Query by table name

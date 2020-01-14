@@ -20,9 +20,9 @@
     int rows = 500;
     int chunkSize = 150;
     
-    for (NSString *featureTable in [self.geoPackage getFeatureTables]) {
+    for (NSString *featureTable in [self.geoPackage featureTables]) {
         
-        GPKGFeatureDao *featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         [self testUserDao:featureDao andRows:rows asSuccessful:NO];
         [self testUserDao:featureDao andRows:rows asSuccessful:YES];

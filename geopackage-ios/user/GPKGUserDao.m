@@ -44,7 +44,7 @@
     GPKGResultSet *results = [self queryForId:idValue];
     @try{
         if([results moveToNext]){
-            objectResult = [self getRow:results];
+            objectResult = [self row:results];
         }
     }@finally{
         [results close];
@@ -58,19 +58,19 @@
     [setObject setValueNoValidationWithIndex:columnIndex andValue:value];
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    GPKGUserRow *getObject = (GPKGUserRow*) object;
-    NSObject * value = [getObject databaseValueWithIndex:columnIndex];
+    GPKGUserRow *row = (GPKGUserRow*) object;
+    NSObject * value = [row databaseValueWithIndex:columnIndex];
 
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
-    return self.projection;
+-(SFPProjection *) projection: (NSObject *) object{
+    return _projection;
 }
 
--(GPKGUserRow *) getRow: (GPKGResultSet *) results{
+-(GPKGUserRow *) row: (GPKGResultSet *) results{
     
     GPKGUserRow * row = nil;
     
@@ -81,7 +81,7 @@
         NSMutableArray *columnTypes = [[NSMutableArray alloc] initWithCapacity:columns];
         NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:columns];
         
-        [results getRowPopulateValues:values andColumnTypes:columnTypes];
+        [results rowPopulateValues:values andColumnTypes:columnTypes];
         
         row = [self newRowWithColumnTypes:columnTypes andValues:values];
     }
@@ -101,7 +101,7 @@
     return [[GPKGUserRow alloc] init];
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -118,15 +118,15 @@
 }
 
 -(GPKGContents *) contents{
-    return self.table.contents;
+    return _table.contents;
 }
 
--(int) getZoomLevel{
+-(int) zoomLevel{
     if(self.projection == nil){
         [NSException raise:@"No Projection" format:@"No projection was set which is required to determine the zoom level"];
     }
     int zoomLevel = 0;
-    GPKGBoundingBox * boundingBox = [self getBoundingBox];
+    GPKGBoundingBox * boundingBox = [self boundingBox];
     if(boundingBox != nil){
         
         if([self.projection isUnit:SFP_UNIT_DEGREES]){
@@ -134,7 +134,7 @@
         }
         SFPProjectionTransform * webMercatorTransform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         GPKGBoundingBox * webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
-        zoomLevel = [GPKGTileBoundingBoxUtils getZoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
+        zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;
 }

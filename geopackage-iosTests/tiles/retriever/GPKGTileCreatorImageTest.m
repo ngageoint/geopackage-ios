@@ -29,7 +29,7 @@
 
 -(void) testTileImage{
     
-    GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
+    GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
@@ -41,14 +41,14 @@
     GPKGTileCreator * webMeractorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
     GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
     GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84]];
     
     [GPKGTestUtils assertTrue:[webMeractorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];
     
-    GPKGGeoPackageTile * webMercatorTile = [webMeractorTileCreator getTileWithBoundingBox:webMercatorBoundingBox];
-    GPKGGeoPackageTile * wgs84Tile = [wgs84TileCreator getTileWithBoundingBox:wgs84BoundingBox];
+    GPKGGeoPackageTile * webMercatorTile = [webMeractorTileCreator tileWithBoundingBox:webMercatorBoundingBox];
+    GPKGGeoPackageTile * wgs84Tile = [wgs84TileCreator tileWithBoundingBox:wgs84BoundingBox];
     
     [GPKGTestUtils assertNotNil:webMercatorTile];
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:webMercatorTile.width];
@@ -88,10 +88,10 @@
     int widthValue = [width intValue];
     int heightValue = [height intValue];
     
-    unsigned char * webMercatorPixels = [self getPixels:webMercatorImage];
-    unsigned char * webMercatorTestPixels = [self getPixels:webMercatorTestImage];
-    unsigned char * wgs84Pixels = [self getPixels:wgs84Image];
-    unsigned char * wgs84TestPixels = [self getPixels:wgs84TestImage];
+    unsigned char * webMercatorPixels = [self pixels:webMercatorImage];
+    unsigned char * webMercatorTestPixels = [self pixels:webMercatorTestImage];
+    unsigned char * wgs84Pixels = [self pixels:wgs84Image];
+    unsigned char * wgs84TestPixels = [self pixels:wgs84TestImage];
     
     // Compare the image pixels with the expected test image pixels
     for (int x = 0; x < widthValue; x++) {
@@ -155,7 +155,7 @@
     
 }
 
--(unsigned char *) getPixels: (UIImage *) image{
+-(unsigned char *) pixels: (UIImage *) image{
     
     int width = image.size.width;
     int height = image.size.height;

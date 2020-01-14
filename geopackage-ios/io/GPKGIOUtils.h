@@ -18,7 +18,7 @@
  *
  *  @return property list file path
  */
-+(NSString *) getPropertyListPathWithName: (NSString *) name;
++(NSString *) propertyListPathWithName: (NSString *) name;
 
 /**
  *  Get the path of the resource file with name and file type
@@ -28,7 +28,7 @@
  *
  *  @return file resource path
  */
-+(NSString *) getResourcePathWithName: (NSString *) name andType: (NSString *) type;
++(NSString *) resourcePathWithName: (NSString *) name andType: (NSString *) type;
 
 /**
  *  Get the documents directory path

@@ -27,7 +27,7 @@
     [GPKGTestUtils assertTrue:[rte relationships].count == 0];
 
     // Choose a random attributes table
-    NSArray<NSString *> *attributesTables = [geoPackage getAttributesTables];
+    NSArray<NSString *> *attributesTables = [geoPackage attributesTables];
     if(attributesTables.count == 0){
         return; // pass with no testing
     }
@@ -89,8 +89,8 @@
     
     // Create the simple attributes table, content row, and relationship
     // between the attributes table and simple attributes table
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
-    [GPKGTestUtils assertFalse:[[contentsDao getTables] containsObject:simpleTable.tableName]];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
+    [GPKGTestUtils assertFalse:[[contentsDao tables] containsObject:simpleTable.tableName]];
     GPKGExtendedRelation *extendedRelation = [rte addSimpleAttributesRelationshipWithBaseTable:baseTableName andSimpleAttributesTable:simpleTable andUserMappingTable:userMappingTable];
     [self validateContents:simpleTable.contents withTable:simpleTable];
     [GPKGTestUtils assertTrue:[rte has]];
@@ -100,7 +100,7 @@
     [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)extendedRelations.count];
     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
     [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName]];
-    [GPKGTestUtils assertTrue:[[contentsDao getTables] containsObject:simpleTable.tableName]];
+    [GPKGTestUtils assertTrue:[[contentsDao tables] containsObject:simpleTable.tableName]];
     [self validateContents:(GPKGContents *)[contentsDao queryForIdObject:simpleTable.tableName] withTable:simpleTable];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[geoPackage typeOfTable:simpleTable.tableName]];
     [GPKGTestUtils assertTrue:[geoPackage isTable:simpleTable.tableName ofTypeName:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]]]];
@@ -131,12 +131,12 @@
     [GPKGTestUtils assertEqualIntWithValue:simpleCount andValue2:(int)simpleDao.count];
     
     // Build the Attributes ids
-    GPKGAttributesDao *attributesDao = [geoPackage getAttributesDaoWithTableName:baseTableName];
+    GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:baseTableName];
     GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] id]];
+        [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
@@ -183,7 +183,7 @@
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
     [resultSet close];
     
-    GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
+    GPKGExtendedRelationsDao *extendedRelationsDao = [rte extendedRelationsDao];
     
     // Get the relations starting from the attributes table
     GPKGResultSet *attributesExtendedRelations = [extendedRelationsDao relationsToBaseTable:attributesDao.tableName];
@@ -236,7 +236,7 @@
         attributesResultSet = [attributesDao queryForAll];
         int totalMapped = 0;
         while([attributesResultSet moveToNext]){
-            GPKGAttributesRow *attributesRow = [attributesDao getAttributesRow:attributesResultSet];
+            GPKGAttributesRow *attributesRow = [attributesDao attributesRow:attributesResultSet];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:attributesRelation withBaseId:[attributesRow idValue]];
             NSArray<GPKGSimpleAttributesRow *> *simpleRows = [simpleDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)simpleRows.count];
@@ -297,13 +297,13 @@
         [mappingResultSet close];
         
         // Get and test the attributes DAO
-        attributesDao = [geoPackage getAttributesDaoWithTableName:attributesDao.tableName];
+        attributesDao = [geoPackage attributesDaoWithTableName:attributesDao.tableName];
         [GPKGTestUtils assertNotNil: attributesDao];
-        GPKGAttributesTable *attributesTable = [attributesDao getAttributesTable];
+        GPKGAttributesTable *attributesTable = [attributesDao attributesTable];
         [GPKGTestUtils assertNotNil: attributesTable];
         GPKGContents *attributesContents = attributesTable.contents;
         [GPKGTestUtils assertNotNil: attributesContents];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents getContentsDataType]];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents contentsDataType]];
         [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES] andValue2:attributesContents.dataType];
         [GPKGTestUtils assertEqualWithValue:attributesTable.tableName andValue2:attributesContents.tableName];
         [GPKGTestUtils assertNotNil:attributesContents.lastChange];
@@ -367,8 +367,8 @@
  */
 +(void) validateContents: (GPKGContents *) contents withTable: (GPKGSimpleAttributesTable *) simpleAttributesTable{
     [GPKGTestUtils assertNotNil:contents];
-    [GPKGTestUtils assertTrue:(int)[contents getContentsDataType] >= 0];
-    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents getContentsDataType]]];
+    [GPKGTestUtils assertTrue:(int)[contents contentsDataType] >= 0];
+    [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:[GPKGContentsDataTypes name:[contents contentsDataType]]];
     [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes dataType:[GPKGSimpleAttributesTable relationType]] andValue2:contents.dataType];
     [GPKGTestUtils assertEqualWithValue:simpleAttributesTable.tableName andValue2:contents.tableName];
     [GPKGTestUtils assertNotNil:contents.lastChange];

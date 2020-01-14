@@ -54,15 +54,15 @@
 }
 
 -(void) addColumnConstraint: (GPKGConstraint *) constraint forColumn: (NSString *) columnName{
-    [[self getOrCreateColumnConstraints:columnName] addConstraint:constraint];
+    [[self columnConstraintsCreateForColumn:columnName] addConstraint:constraint];
 }
 
 -(void) addColumnConstraintsInArray: (NSArray<GPKGConstraint *> *) constraints forColumn: (NSString *) columnName{
-    [[self getOrCreateColumnConstraints:columnName] addConstraints:constraints];
+    [[self columnConstraintsCreateForColumn:columnName] addConstraints:constraints];
 }
 
 -(void) addColumnConstraints: (GPKGColumnConstraints *) constraints{
-    [[self getOrCreateColumnConstraints:constraints.name] addColumnConstraints:constraints];
+    [[self columnConstraintsCreateForColumn:constraints.name] addColumnConstraints:constraints];
 }
 
 /**
@@ -72,7 +72,7 @@
  *            column name
  * @return column constraints
  */
--(GPKGColumnConstraints *) getOrCreateColumnConstraints: (NSString *) columnName{
+-(GPKGColumnConstraints *) columnConstraintsCreateForColumn: (NSString *) columnName{
     GPKGColumnConstraints *constraints = [self.columnConstraints objectForKey:columnName];
     if(constraints == nil){
         constraints = [[GPKGColumnConstraints alloc] initWithName:columnName];

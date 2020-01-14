@@ -44,11 +44,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(void) execWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement{
-    [self execWithSQLite3Connection:[connection getConnection] andStatement:statement];
+    [self execWithSQLite3Connection:[connection connection] andStatement:statement];
 }
 
 +(void) execWithSQLiteConnection: (GPKGSqliteConnection *) connection andStatement: (NSString *) statement{
-    [self execWithSQLite3Connection:[connection getConnection] andStatement:statement];
+    [self execWithSQLite3Connection:[connection connection] andStatement:statement];
 }
 
 +(void) execWithSQLite3Connection: (sqlite3 *) connection andStatement: (NSString *) statement{
@@ -81,12 +81,12 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     }
     
     sqlite3_stmt *compiledStatement;
-    int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+    int prepareStatementResult = sqlite3_prepare_v2([connection connection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
         resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count andConnection:connection];
     } else{
-        [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+        [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
     }
     
     return resultSet;
@@ -252,7 +252,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     NSObject *value = nil;
     
-    int type = [result getType:index];
+    int type = [result type:index];
     
     switch (type) {
             
@@ -266,7 +266,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             
         case SQLITE_TEXT:
             {
-                NSString *stringValue = [result getString:index];
+                NSString *stringValue = [result stringWithIndex:index];
                 
                 if (((int)dataType >= 0)
                     && (dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME)) {
@@ -285,7 +285,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             break;
             
         case SQLITE_BLOB:
-            value = [result getBlob:index];
+            value = [result blobWithIndex:index];
             break;
             
         case SQLITE_NULL:
@@ -318,7 +318,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     switch (dataType) {
         case GPKG_DT_BOOLEAN:
             {
-                NSNumber *booleanNumberValue = [result getInt:index];
+                NSNumber *booleanNumberValue = [result intWithIndex:index];
                 if(booleanNumberValue != nil){
                     BOOL booleanValue = [GPKGSqlUtils boolValueOfNumber:booleanNumberValue];
                     value = [NSNumber numberWithBool:booleanValue];
@@ -328,11 +328,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         case GPKG_DT_TINYINT:
         case GPKG_DT_SMALLINT:
         case GPKG_DT_MEDIUMINT:
-            value = [result getInt:index];
+            value = [result intWithIndex:index];
             break;
         case GPKG_DT_INT:
         case GPKG_DT_INTEGER:
-            value = [result getLong:index];
+            value = [result longWithIndex:index];
             break;
         default:
             [NSException raise:@"Integer Value" format:@"Data Type %@ is not an integer type", [GPKGDataTypes name:dataType]];
@@ -366,7 +366,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         case GPKG_DT_REAL:
         case GPKG_DT_INTEGER:
         case GPKG_DT_INT:
-            value = [result getDouble:index];
+            value = [result doubleWithIndex:index];
             break;
         default:
             [NSException raise:@"Float Value" format:@"Data Type %@ is not a float type", [GPKGDataTypes name:dataType]];
@@ -439,7 +439,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             [insertStatement appendString:@","];
         }
         [insertStatement appendString:[self quoteWrapName:colName]];
-        NSObject * value = [values getValueForKey:colName];
+        NSObject * value = [values valueForKey:colName];
         if(value == nil){
             value = [NSNull null];
         }
@@ -467,17 +467,17 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     sqlite3_stmt *compiledStatement;
     @try {
         
-        int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+        int prepareStatementResult = sqlite3_prepare_v2([connection connection], [statement UTF8String], -1, &compiledStatement, NULL);
         if(prepareStatementResult == SQLITE_OK) {
             [self setArguments:args inStatement:compiledStatement];
             int executeQueryResults = sqlite3_step(compiledStatement);
             if (executeQueryResults == SQLITE_DONE) {
-                lastInsertRowId = sqlite3_last_insert_rowid([connection getConnection]);
+                lastInsertRowId = sqlite3_last_insert_rowid([connection connection]);
             }else{
-                [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+                [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
             }
         } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+            [NSException raise:@"SQL Failed" format:@"Failed to execute insert SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
         }
         
     } @finally {
@@ -516,7 +516,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
             [updateStatement appendString:@","];
         }
         [updateStatement appendString:[self quoteWrapName:colName]];
-        NSObject * value = [values getValueForKey:colName];
+        NSObject * value = [values valueForKey:colName];
         if(value == nil){
             value = [NSNull null];
         }
@@ -573,17 +573,17 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     sqlite3_stmt *compiledStatement;
     @try {
     
-        int prepareStatementResult = sqlite3_prepare_v2([connection getConnection], [statement UTF8String], -1, &compiledStatement, NULL);
+        int prepareStatementResult = sqlite3_prepare_v2([connection connection], [statement UTF8String], -1, &compiledStatement, NULL);
         if(prepareStatementResult == SQLITE_OK) {
             [self setArguments:args inStatement:compiledStatement];
             int executeQueryResults = sqlite3_step(compiledStatement);
             if (executeQueryResults == SQLITE_DONE) {
-                rowsModified = sqlite3_changes([connection getConnection]);
+                rowsModified = sqlite3_changes([connection connection]);
             }else{
-                [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+                [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
             }
         } else{
-            [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection getConnection])];
+            [NSException raise:@"SQL Failed" format:@"Failed to execute update or delete SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
         }
     
     } @finally {
@@ -677,10 +677,10 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(void) closeDatabase: (GPKGSqliteConnection *) connection{
-    sqlite3_close([connection getConnection]);
+    sqlite3_close([connection connection]);
 }
 
-+(NSString *) getSqlValueString: (NSObject *) value{
++(NSString *) sqlValueString: (NSObject *) value{
     NSMutableString *sqlString = [NSMutableString string];
     BOOL isString = [value isKindOfClass:[NSString class]];
     if(isString){

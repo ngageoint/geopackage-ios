@@ -29,7 +29,7 @@
 }
 
 -(GPKGSimpleAttributesRow *) row: (GPKGResultSet *) results{
-    return (GPKGSimpleAttributesRow *) [self getRow:results];
+    return (GPKGSimpleAttributesRow *) [super row:results];
 }
 
 -(GPKGSimpleAttributesRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{

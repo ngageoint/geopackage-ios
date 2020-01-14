@@ -14,30 +14,30 @@
 
 - (void)testNestedQuery {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         GPKGResultSet * featureResults = [featureDao queryForAll];
-        NSNumber * connectionId1 = [featureResults.connection getConnectionId];
+        NSNumber * connectionId1 = [featureResults.connection connectionId];
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
-            NSArray * tileTables = [self.geoPackage getTileTables];
+            NSArray * tileTables = [self.geoPackage tileTables];
             for(NSString * tileTable in tileTables){
                 
-                GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
+                GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
                 GPKGResultSet * tileResults = [tileDao queryForAll];
-                NSNumber * connectionId2 = [tileResults.connection getConnectionId];
+                NSNumber * connectionId2 = [tileResults.connection connectionId];
                 
                 [GPKGTestUtils assertFalse:[connectionId1 intValue] == [connectionId2 intValue]];
                 
                 while([tileResults moveToNext]){
                     
-                    GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+                    GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
                     [GPKGTestUtils assertNotNil:tileRow];
                     
                 }
@@ -57,15 +57,15 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        NSArray * tileTables = [self.geoPackage getTileTables];
+        NSArray * tileTables = [self.geoPackage tileTables];
         for(NSString * tileTable in tileTables){
             
-            GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
+            GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
             GPKGResultSet * tileResults = [tileDao queryForAll];
             
             while([tileResults moveToNext]){
                 
-                GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+                GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
                 [GPKGTestUtils assertNotNil:tileRow];
                 
                 [NSThread sleepForTimeInterval:.1];
@@ -76,15 +76,15 @@
         
     });
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         GPKGResultSet * featureResults = [featureDao queryForAll];
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             [NSThread sleepForTimeInterval:.1];
@@ -97,17 +97,17 @@
 
 - (void)testNestedUpdate {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         GPKGResultSet * featureResults = [featureDao queryForAll];
-        NSNumber * connectionId1 = [featureResults.connection getConnectionId];
+        NSNumber * connectionId1 = [featureResults.connection connectionId];
         [GPKGTestUtils assertNotNil:connectionId1];
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
@@ -129,30 +129,30 @@
  */
 - (void)testNestedQueryAndUpdateFailure {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         GPKGResultSet * featureResults = [featureDao queryForAll];
-        NSNumber * connectionId1 = [featureResults.connection getConnectionId];
+        NSNumber * connectionId1 = [featureResults.connection connectionId];
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
-            NSArray * tileTables = [self.geoPackage getTileTables];
+            NSArray * tileTables = [self.geoPackage tileTables];
             for(NSString * tileTable in tileTables){
                 
-                GPKGTileDao * tileDao = [self.geoPackage getTileDaoWithTableName:tileTable];
+                GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
                 GPKGResultSet * tileResults = [tileDao queryForAll];
-                NSNumber * connectionId2 = [tileResults.connection getConnectionId];
+                NSNumber * connectionId2 = [tileResults.connection connectionId];
                 
                 [GPKGTestUtils assertFalse:[connectionId1 intValue] == [connectionId2 intValue]];
                 
                 while([tileResults moveToNext]){
                     
-                    GPKGTileRow * tileRow = [tileDao getTileRow:tileResults];
+                    GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
                     [GPKGTestUtils assertNotNil:tileRow];
                     
                     NSString* string = @"garbage";
@@ -181,10 +181,10 @@
 
 - (void)testTransactionUpdateCommit {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         [featureDao beginTransaction];
         
@@ -201,10 +201,10 @@
 
 - (void)testTransactionUpdateRollback {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         [featureDao beginTransaction];
         
@@ -221,10 +221,10 @@
 
 - (void)testQueryTransactionUpdateCommit {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         GPKGResultSet * featureResults = [featureDao queryForAll];
         
@@ -248,10 +248,10 @@
 
 - (void)testQueryTransactionUpdateRollback {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         GPKGResultSet * featureResults = [featureDao queryForAll];
         
@@ -275,10 +275,10 @@
 
 - (void)testTransactionChunkUpdateCommit {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:true];
         
@@ -291,10 +291,10 @@
 
 - (void)testTransactionChunkUpdateRollback {
     
-    NSArray * featureTables = [self.geoPackage getFeatureTables];
+    NSArray * featureTables = [self.geoPackage featureTables];
     for(NSString * featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
         int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:false];
         
@@ -312,7 +312,7 @@
     GPKGResultSet * featureResults = [featureDao queryForAll];
     
     while([featureResults moveToNext]){
-        GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
         totalUpdated += [self transactionUpdateHelperWithFeatureDao:featureDao andFeatureRow:featureRow];
     }
     
@@ -338,7 +338,7 @@
         if(count == 0){
             [featureDao beginTransaction];
         }
-        GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
         count = [self transactionUpdateHelperWithFeatureDao:featureDao andFeatureRow:featureRow];
         totalUpdated += count;
         if(count >= 2){
@@ -387,7 +387,7 @@
     
     while([featureResults moveToNext]){
         
-        GPKGFeatureRow * featureRow = [featureDao getFeatureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
         [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:updated andFeatureRow:featureRow];
         totalChecked++;
     }
@@ -405,7 +405,7 @@
     if(updated){
         [GPKGTestUtils assertNotNil:featureRow];
         
-        GPKGGeometryData * geomData = [featureRow getGeometry];
+        GPKGGeometryData * geomData = [featureRow geometry];
         [GPKGTestUtils assertNotNil:geomData];
         
         SFGeometry * geometry = geomData.geometry;
@@ -422,7 +422,7 @@
         
     } else {
         if(featureRow != nil){
-            GPKGGeometryData * geomData = [featureRow getGeometry];
+            GPKGGeometryData * geomData = [featureRow geometry];
             if(geomData != nil){
                 SFGeometry * geometry = geomData.geometry;
                 if(geometry != nil){

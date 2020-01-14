@@ -66,7 +66,7 @@ extern NSString * const GPKG_GC_COLUMN_M;
  *
  *  @return geometry type
  */
--(enum SFGeometryType) getGeometryType;
+-(enum SFGeometryType) geometryType;
 
 /**
  *  Set the geometry type

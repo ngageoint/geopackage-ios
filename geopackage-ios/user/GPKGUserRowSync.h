@@ -35,7 +35,7 @@
  * @return row if retrieved from a previous request, null if calling thread
  *         should read row and set using "setRow: (GPKGUserRow *) row withId: (int) id"
  */
--(GPKGUserRow *) getRowOrLockId: (int) id;
+-(GPKGUserRow *) rowOrLockId: (int) id;
 
 /**
  * Get the row if another same id number request has been made by waiting until the
@@ -48,7 +48,7 @@
  * @return row if retrieved from a previous request, null if calling thread
  *         should read row and set using "setRow: (GPKGUserRow *) row withNumber: (NSNumber *) id"
  */
--(GPKGUserRow *) getRowOrLockNumber: (NSNumber *) id;
+-(GPKGUserRow *) rowOrLockNumber: (NSNumber *) id;
 
 /**
  * Set the row, row id, and notify all waiting threads to retrieve the row.

@@ -28,7 +28,7 @@
 }
 
 -(void) addShapePoints: (NSObject<GPKGShapePoints> *) shapePoints{
-    for(GPKGMapPoint * point in [shapePoints getPoints]){
+    for(GPKGMapPoint * point in [shapePoints points]){
         [self addPoint:point withShape:shapePoints];
     }
 }
@@ -55,11 +55,11 @@
     return [self.shapePoints objectForKey:[NSNumber numberWithInt:pointId]] != nil;
 }
 
--(NSObject<GPKGShapePoints> *) getShapePointsForPoint: (GPKGMapPoint *) point{
-    return [self getShapePointsForPointId:(int)point.id];
+-(NSObject<GPKGShapePoints> *) shapePointsForPoint: (GPKGMapPoint *) point{
+    return [self shapePointsForPointId:(int)point.id];
 }
 
--(NSObject<GPKGShapePoints> *) getShapePointsForPointId: (int) pointId{
+-(NSObject<GPKGShapePoints> *) shapePointsForPointId: (int) pointId{
     return [GPKGUtils objectForKey:[NSNumber numberWithInt:pointId] inDictionary:self.shapePoints];
 }
 
@@ -67,7 +67,7 @@
     BOOL deleted = false;
     if([self containsPoint:point]){
         deleted = true;
-        NSObject<GPKGShapePoints> * shapePoints = [self getShapePointsForPoint:point];
+        NSObject<GPKGShapePoints> * shapePoints = [self shapePointsForPoint:point];
         [self.shapePoints removeObjectForKey:[NSNumber numberWithInteger:point.id]];
         if(shapePoints != nil){
             [shapePoints deletePoint:point fromMapView:mapView];

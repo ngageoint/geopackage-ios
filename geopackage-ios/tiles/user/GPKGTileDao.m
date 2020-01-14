@@ -31,8 +31,8 @@
         NSMutableArray * tempWidths = [[NSMutableArray alloc] initWithCapacity:count];
         NSMutableArray * tempHeights = [[NSMutableArray alloc] initWithCapacity:count];
         
-        GPKGTileMatrixSetDao * dao =  [self getTileMatrixSetDao];
-        self.projection = [dao getProjection:tileMatrixSet];
+        GPKGTileMatrixSetDao * dao =  [self tileMatrixSetDao];
+        self.projection = [dao projection:tileMatrixSet];
         
         // Set the min and max zoom levels
         if([tileMatrices count] == 0){
@@ -54,11 +54,11 @@
             [GPKGUtils addObject:[[NSDecimalNumber alloc] initWithDouble:height] toArray:tempHeights];
         }
         
-        if([dao getContents:tileMatrixSet] == nil){
+        if([dao contents:tileMatrixSet] == nil){
             [NSException raise:@"No Contents" format:@"Tile Matrix Set %@ has null Contents", tileMatrixSet.tableName];
         }
         
-        if([dao getSrs:tileMatrixSet] == nil){
+        if([dao srs:tileMatrixSet] == nil){
             [NSException raise:@"No SRS" format:@"Tile Matrix Set %@ has null Spatial Reference System", tileMatrixSet.tableName];
         }
         
@@ -73,38 +73,38 @@
     return [self newRow];
 }
 
--(GPKGBoundingBox *) getBoundingBoxWithZoomLevel: (int) zoomLevel{
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel{
     GPKGBoundingBox * boundingBox = nil;
-    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithZoomLevel:zoomLevel];
+    GPKGTileMatrix * tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
     if(tileMatrix != nil){
         GPKGTileGrid * tileGrid = [self queryForTileGridWithZoomLevel:zoomLevel];
         if(tileGrid != nil){
-            GPKGBoundingBox * matrixSetBoundingBox = [self getBoundingBox];
-            boundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
+            GPKGBoundingBox * matrixSetBoundingBox = [self boundingBox];
+            boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
         }
     }
     return boundingBox;
 }
 
--(GPKGTileGrid *) getTileGridWithZoomLevel: (int) zoomLevel{
+-(GPKGTileGrid *) tileGridWithZoomLevel: (int) zoomLevel{
     GPKGTileGrid * tileGrid = nil;
-    GPKGTileMatrix * tileMatrix = [self getTileMatrixWithZoomLevel:zoomLevel];
+    GPKGTileMatrix * tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
     if(tileMatrix != nil){
         tileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMinY:0 andMaxX:[tileMatrix.matrixWidth intValue] - 1 andMaxY:[tileMatrix.matrixHeight intValue] - 1];
     }
     return tileGrid;
 }
 
--(GPKGTileTable *) getTileTable{
+-(GPKGTileTable *) tileTable{
     return (GPKGTileTable *) self.table;
 }
 
--(GPKGTileRow *) getTileRow: (GPKGResultSet *) results{
-    return (GPKGTileRow *) [self getRow:results];
+-(GPKGTileRow *) tileRow: (GPKGResultSet *) results{
+    return (GPKGTileRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGTileRow alloc] initWithTileTable:[self getTileTable] andColumnTypes:columnTypes andValues:values];
+    return [[GPKGTileRow alloc] initWithTileTable:[self tileTable] andColumnTypes:columnTypes andValues:values];
 }
 
 -(GPKGTileRow *) newRow{
@@ -115,7 +115,7 @@
     [GPKGTileDaoUtils adjustTileMatrixLengthsWithTileMatrixSet:self.tileMatrixSet andTileMatrices:self.tileMatrices];
 }
 
--(GPKGTileMatrix *) getTileMatrixWithZoomLevel: (int) zoomLevel{
+-(GPKGTileMatrix *) tileMatrixWithZoomLevel: (int) zoomLevel{
     return (GPKGTileMatrix *)[GPKGUtils objectForKey:[NSNumber numberWithInt:zoomLevel] inDictionary:self.zoomLevelToTileMatrix];
 }
 
@@ -130,7 +130,7 @@
     GPKGTileRow * tileRow = nil;
     @try{
         if([results moveToNext]){
-            tileRow = [self getTileRow:results];
+            tileRow = [self tileRow:results];
         }
     }@finally{
         [results close];
@@ -280,18 +280,18 @@
     return [self countWhere:where andWhereArgs:whereArgs];
 }
 
--(double) getMaxLength{
+-(double) maxLength{
     return [GPKGTileDaoUtils maxLengthWithWidths:self.widths andHeights:self.heights];
 }
 
--(double) getMinLength{
+-(double) minLength{
     return [GPKGTileDaoUtils minLengthWithWidths:self.widths andHeights:self.heights];
 }
 
 -(BOOL) isStandardWebMercatorFormat{
     
     // Convert the bounding box to wgs84
-    GPKGBoundingBox * boundingBox = [self.tileMatrixSet getBoundingBox];
+    GPKGBoundingBox * boundingBox = [self.tileMatrixSet boundingBox];
     SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:transform];
 
@@ -319,16 +319,16 @@
     return isFormat;
 }
 
--(GPKGTileMatrixSetDao *) getTileMatrixSetDao{
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao{
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGBoundingBox *) getBoundingBox{
-    return [self.tileMatrixSet getBoundingBox];
+-(GPKGBoundingBox *) boundingBox{
+    return [self.tileMatrixSet boundingBox];
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
-    return [[self getTileMatrixSetDao] boundingBoxOfTileMatrixSet:self.tileMatrixSet inProjection:projection];
+    return [[self tileMatrixSetDao] boundingBoxOfTileMatrixSet:self.tileMatrixSet inProjection:projection];
 }
 
 @end

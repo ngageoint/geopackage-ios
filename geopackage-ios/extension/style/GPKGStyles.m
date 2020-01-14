@@ -50,11 +50,11 @@
 }
 
 -(GPKGStyleRow *) defaultStyle{
-    return self.defaultStyleRow;
+    return _defaultStyleRow;
 }
 
 -(NSDictionary<NSNumber *, GPKGStyleRow *> *) allStyles{
-    return self.styles;
+    return _styles;
 }
 
 -(GPKGStyleRow *) style{

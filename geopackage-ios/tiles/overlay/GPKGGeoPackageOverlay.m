@@ -51,9 +51,9 @@
 -(void) initHelperWithRetriever: (GPKGGeoPackageTileRetriever *) retriever{
     self.retriever = retriever;
     SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGBoundingBox * boundingBox = [[retriever getWebMercatorBoundingBox] transform:transform];
-    self.mapRect = [boundingBox getMapRect];
-    self.center = [boundingBox getCenter];
+    GPKGBoundingBox * boundingBox = [[retriever webMercatorBoundingBox] transform:transform];
+    self.mapRect = [boundingBox mapRect];
+    self.center = [boundingBox center];
     
     //[self setMinimumZ:tileDao.minZoom];
     //[self setMaximumZ:tileDao.maxZoom];
@@ -67,7 +67,7 @@
     
     NSData * tileData = nil;
     
-    GPKGGeoPackageTile * geoPackageTile = [self.retriever getTileWithX:x andY:y andZoom:zoom];
+    GPKGGeoPackageTile * geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){
         tileData = geoPackageTile.data;
     }
@@ -77,12 +77,12 @@
 
 - (CLLocationCoordinate2D)coordinate
 {
-    return self.center;
+    return _center;
 }
 
 - (MKMapRect)boundingMapRect
 {
-    return self.mapRect;
+    return _mapRect;
 }
 
 @end

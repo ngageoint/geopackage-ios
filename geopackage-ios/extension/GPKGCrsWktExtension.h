@@ -50,7 +50,7 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreate;
+-(GPKGExtensions *) extensionCreate;
 
 /**
  *  Determine if the GeoPackage has the extension
@@ -74,7 +74,7 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
  *
  *  @return definition
  */
--(NSString *) getDefinitionWithSrsId:(NSNumber *) srsId;
+-(NSString *) definitionWithSrsId:(NSNumber *) srsId;
 
 /**
  * Remove the extension. Leaves the column and values.

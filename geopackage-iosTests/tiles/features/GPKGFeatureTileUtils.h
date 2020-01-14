@@ -34,7 +34,7 @@
 
 +(long long) insertLineWithFeatureDao: (GPKGFeatureDao *) featureDao andPoints: (NSArray *) points;
 
-+(SFLineString *) getLineStringWithPoints: (NSArray *) points;
++(SFLineString *) lineStringWithPoints: (NSArray *) points;
 
 +(long long) insertPolygonWithFeatureDao: (GPKGFeatureDao *) featureDao andLines: (NSArray *) lines;
 

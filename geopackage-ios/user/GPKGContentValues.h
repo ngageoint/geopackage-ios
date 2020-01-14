@@ -54,7 +54,7 @@
  *
  *  @return value
  */
--(NSObject *) getValueForKey: (NSString *) key;
+-(NSObject *) valueForKey: (NSString *) key;
 
 /**
  *  Get a field key set
@@ -70,6 +70,6 @@
  *
  *  @return key string
  */
--(NSString *) getKeyAsString: (NSString *) key;
+-(NSString *) keyAsString: (NSString *) key;
 
 @end

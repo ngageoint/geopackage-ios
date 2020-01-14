@@ -11,7 +11,7 @@
 
 @implementation GPKGImportGeoPackageTestCase
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
     return [GPKGTestSetupTeardown setUpImport];
 }
 

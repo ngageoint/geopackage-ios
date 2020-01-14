@@ -88,7 +88,7 @@
  *
  *  @return row value array
  */
--(NSArray *) getRow;
+-(NSArray *) row;
 
 /**
  *  Get a row and populate with values and types
@@ -96,7 +96,7 @@
  *  @param values values
  *  @param types  column types
  */
--(void) getRowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types;
+-(void) rowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types;
 
 /**
  *  Get value with column index
@@ -105,7 +105,7 @@
  *
  *  @return value
  */
--(NSObject *) getValueWithIndex: (int) index;
+-(NSObject *) valueWithIndex: (int) index;
 
 /**
  *  Get column index for column name
@@ -114,7 +114,7 @@
  *
  *  @return index
  */
--(int) getColumnIndexWithName: (NSString *) columnName;
+-(int) columnIndexWithName: (NSString *) columnName;
 
 /**
  *  Get the column type of the column index
@@ -123,7 +123,7 @@
  *
  *  @return column type
  */
--(int) getType: (int) columnIndex;
+-(int) type: (int) columnIndex;
 
 /**
  *  Get the string value at the column index
@@ -132,7 +132,7 @@
  *
  *  @return string value
  */
--(NSString *) getString: (int) columnIndex;
+-(NSString *) stringWithIndex: (int) columnIndex;
 
 /**
  *  Get the int value at the column index
@@ -141,7 +141,7 @@
  *
  *  @return int number
  */
--(NSNumber *) getInt: (int) columnIndex;
+-(NSNumber *) intWithIndex: (int) columnIndex;
 
 /**
  *  Get the blob value at the column index
@@ -150,7 +150,7 @@
  *
  *  @return blob data
  */
--(NSData *) getBlob: (int) columnIndex;
+-(NSData *) blobWithIndex: (int) columnIndex;
 
 /**
  *  Get the long value at the column index
@@ -159,7 +159,7 @@
  *
  *  @return long number
  */
--(NSNumber *) getLong: (int) columnIndex;
+-(NSNumber *) longWithIndex: (int) columnIndex;
 
 /**
  *  Get the double value at the column index
@@ -168,7 +168,7 @@
  *
  *  @return double number
  */
--(NSNumber *) getDouble: (int) columnIndex;
+-(NSNumber *) doubleWithIndex: (int) columnIndex;
 
 /**
  *  Get the result count and close the result set

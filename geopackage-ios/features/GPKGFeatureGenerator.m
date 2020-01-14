@@ -130,10 +130,10 @@ static SFPProjection *EPSG_WGS84 = nil;
 
 -(void) createSrs{
     
-    GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
     SFPProjection *srsProjection = [self srsProjection];
     NSNumber *coordsysId = [NSNumber numberWithInteger:[[srsProjection code] integerValue]];
-    self.srs = [srsDao getOrCreateWithOrganization:[srsProjection authority] andCoordsysId:coordsysId];
+    self.srs = [srsDao srsWithOrganization:[srsProjection authority] andCoordsysId:coordsysId];
     
 }
 
@@ -156,7 +156,7 @@ static SFPProjection *EPSG_WGS84 = nil;
 -(void) createTableWithProperties: (NSDictionary<NSString *, NSObject *> *) properties{
 
     // Create a new geometry columns or update an existing
-    GPKGGeometryColumnsDao *geometryColumnsDao = [self.geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [self.geoPackage geometryColumnsDao];
     if([geometryColumnsDao tableExists]){
         self.geometryColumns = [geometryColumnsDao queryForTableName:self.tableName];
     }
@@ -194,7 +194,7 @@ static SFPProjection *EPSG_WGS84 = nil;
             }
         }
         
-        self.featureDao = [self.geoPackage getFeatureDaoWithGeometryColumns:self.geometryColumns];
+        self.featureDao = [self.geoPackage featureDaoWithGeometryColumns:self.geometryColumns];
     
     } @finally {
         if(inTransaction){

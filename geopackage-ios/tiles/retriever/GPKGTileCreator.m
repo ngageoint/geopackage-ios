@@ -41,8 +41,8 @@
         
         self.tileMatrixSet = tileDao.tileMatrixSet;
         GPKGTileMatrixSetDao * tileMatrixSetDao = [[GPKGTileMatrixSetDao alloc] initWithDatabase: tileDao.database];
-        self.tilesProjection = [tileMatrixSetDao getProjection:tileDao.tileMatrixSet];
-        self.tileSetBoundingBox = [tileDao.tileMatrixSet getBoundingBox];
+        self.tilesProjection = [tileMatrixSetDao projection:tileDao.tileMatrixSet];
+        self.tileSetBoundingBox = [tileDao.tileMatrixSet boundingBox];
         
         // Check if the projections have the same units
         self.sameProjection = [self.requestProjection getUnit] == [self.tilesProjection getUnit];
@@ -102,7 +102,7 @@
     SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
-    NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
+    NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
 
     for(int i = 0; !hasTile && i < tileMatrices.count; i++){
     
@@ -122,7 +122,7 @@
     return hasTile;
 }
 
--(GPKGGeoPackageTile *) getTileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
+-(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
     
     GPKGGeoPackageTile * tile = nil;
     
@@ -130,7 +130,7 @@
     SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
-    NSArray<GPKGTileMatrix *> *tileMatrices = [self getTileMatrices:tilesBoundingBox];
+    NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
     
     for(int i = 0; tile == nil && i < tileMatrices.count; i++){
     
@@ -198,11 +198,11 @@
     while([tileResults moveToNext]){
         
         // Get the next tile
-        GPKGTileRow * tileRow = [self.tileDao getTileRow:tileResults];
-        UIImage * tileDataImage = [tileRow getTileDataImage];
+        GPKGTileRow * tileRow = [self.tileDao tileRow:tileResults];
+        UIImage * tileDataImage = [tileRow tileDataImage];
         
         // Get the bounding box of the tile
-        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils getBoundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow getTileColumn] andTileRow:[tileRow getTileRow]];
+        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
         
         // Get the bounding box where the requested image and tile overlap
         GPKGBoundingBox * overlap = [requestProjectedBoundingBox overlap:tileBoundingBox];
@@ -211,7 +211,7 @@
         if(overlap != nil){
             
             // Get the rectangle of the tile image to draw
-            CGRect src = [GPKGTileBoundingBoxUtils getRoundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:tileBoundingBox andSection:overlap];
+            CGRect src = [GPKGTileBoundingBoxUtils roundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:tileBoundingBox andSection:overlap];
             
             if(src.size.width > 0 && src.size.height > 0){
             
@@ -222,7 +222,7 @@
             
                 // Get the rectangle of where to draw the tile in
                 // the resulting image
-                CGRect dest = [GPKGTileBoundingBoxUtils getRoundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestProjectedBoundingBox andSection:overlap];
+                CGRect dest = [GPKGTileBoundingBoxUtils roundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestProjectedBoundingBox andSection:overlap];
 
                 // Draw to the image
                 [srcImage drawInRect:dest];
@@ -313,7 +313,7 @@
     return projectedTileImage;
 }
 
--(NSArray<GPKGTileMatrix *> *) getTileMatrices: (GPKGBoundingBox *) projectedRequestBoundingBox{
+-(NSArray<GPKGTileMatrix *> *) tileMatrices: (GPKGBoundingBox *) projectedRequestBoundingBox{
 
     NSMutableArray<GPKGTileMatrix *> *tileMatrices = [[NSMutableArray alloc] init];
     
@@ -370,7 +370,7 @@
                     zoomLevels = zoomInLevels;
                 } else {
                     // Determine how to order the zoom in and zoom out levels
-                    enum GPKGTileScalingType type = [self.scaling getTileScalingType];
+                    enum GPKGTileScalingType type = [self.scaling tileScalingType];
                     switch (type) {
                         case GPKG_TSC_IN:
                         case GPKG_TSC_IN_OUT:
@@ -426,7 +426,7 @@
             
             // Build a list of tile matrices that exist for the zoom levels
             for (NSNumber *zoomLevel in zoomLevels) {
-                GPKGTileMatrix *tileMatrix = [self.tileDao getTileMatrixWithZoomLevel:[zoomLevel intValue]];
+                GPKGTileMatrix *tileMatrix = [self.tileDao tileMatrixWithZoomLevel:[zoomLevel intValue]];
                 if (tileMatrix != nil) {
                     [tileMatrices addObject:tileMatrix];
                 }
@@ -445,7 +445,7 @@
     if (tileMatrix != nil) {
         
         // Get the tile grid
-        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithTotalBoundingBox:self.tileSetBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:projectedRequestBoundingBox];
+        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:self.tileSetBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:projectedRequestBoundingBox];
         
         // Query for matching tiles in the tile grid
         tileResults = [self.tileDao queryByTileGrid:tileGrid andZoomLevel:[tileMatrix.zoomLevel intValue]];

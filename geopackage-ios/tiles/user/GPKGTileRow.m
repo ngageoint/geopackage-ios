@@ -35,76 +35,76 @@
     return value;
 }
 
--(int) getZoomLevelColumnIndex{
-    return self.tileTable.zoomLevelIndex;
+-(int) zoomLevelColumnIndex{
+    return _tileTable.zoomLevelIndex;
 }
 
--(GPKGTileColumn *) getZoomLevelColumn{
+-(GPKGTileColumn *) zoomLevelColumn{
     return [self.tileTable zoomLevelColumn];
 }
 
--(int) getZoomLevel{
-    return [(NSNumber *)[self valueWithIndex:[self getZoomLevelColumnIndex]] intValue];
+-(int) zoomLevel{
+    return [(NSNumber *)[self valueWithIndex:[self zoomLevelColumnIndex]] intValue];
 }
 
 -(void) setZoomLevel: (int) zoomLevel{
-    [self setValueWithIndex:[self getZoomLevelColumnIndex] andValue:[NSNumber numberWithInt:zoomLevel]];
+    [self setValueWithIndex:[self zoomLevelColumnIndex] andValue:[NSNumber numberWithInt:zoomLevel]];
 }
 
--(int) getTileColumnColumnIndex{
-    return self.tileTable.tileColumnIndex;
+-(int) tileColumnColumnIndex{
+    return _tileTable.tileColumnIndex;
 }
 
--(GPKGTileColumn *) getTileColumnColumn{
+-(GPKGTileColumn *) tileColumnColumn{
     return [self.tileTable tileColumnColumn];
 }
 
--(int) getTileColumn{
-    return [(NSNumber *)[self valueWithIndex:[self getTileColumnColumnIndex]] intValue];
+-(int) tileColumn{
+    return [(NSNumber *)[self valueWithIndex:[self tileColumnColumnIndex]] intValue];
 }
 
 -(void) setTileColumn: (int) tileColumn{
-    [self setValueWithIndex:[self getTileColumnColumnIndex] andValue:[NSNumber numberWithInt:tileColumn]];
+    [self setValueWithIndex:[self tileColumnColumnIndex] andValue:[NSNumber numberWithInt:tileColumn]];
 }
 
--(int) getTileRowColumnIndex{
-    return self.tileTable.tileRowIndex;
+-(int) tileRowColumnIndex{
+    return _tileTable.tileRowIndex;
 }
 
--(GPKGTileColumn *) getTileRowColumn{
+-(GPKGTileColumn *) tileRowColumn{
     return [self.tileTable tileRowColumn];
 }
 
--(int) getTileRow{
-    return [(NSNumber *)[self valueWithIndex:[self getTileRowColumnIndex]] intValue];
+-(int) tileRow{
+    return [(NSNumber *)[self valueWithIndex:[self tileRowColumnIndex]] intValue];
 }
 
 -(void) setTileRow: (int) tileRow{
-    [self setValueWithIndex:[self getTileRowColumnIndex] andValue:[NSNumber numberWithInt:tileRow]];
+    [self setValueWithIndex:[self tileRowColumnIndex] andValue:[NSNumber numberWithInt:tileRow]];
 }
 
--(int) getTileDataColumnIndex{
-    return self.tileTable.tileDataIndex;
+-(int) tileDataColumnIndex{
+    return _tileTable.tileDataIndex;
 }
 
--(GPKGTileColumn *) getTileDataColumn{
+-(GPKGTileColumn *) tileDataColumn{
     return [self.tileTable tileDataColumn];
 }
 
--(NSData *) getTileData{
-    return (NSData *)[self valueWithIndex:[self getTileDataColumnIndex]];
+-(NSData *) tileData{
+    return (NSData *)[self valueWithIndex:[self tileDataColumnIndex]];
 }
 
 -(void) setTileData: (NSData *) tileData{
-    [self setValueWithIndex:[self getTileDataColumnIndex] andValue:tileData];
+    [self setValueWithIndex:[self tileDataColumnIndex] andValue:tileData];
 }
 
--(UIImage *) getTileDataImage{
-    return [GPKGImageConverter toImage:[self getTileData]];
+-(UIImage *) tileDataImage{
+    return [GPKGImageConverter toImage:[self tileData]];
 }
 
--(UIImage *) getTileDataImageWithScale: (CGFloat) scale{
-    return [GPKGImageConverter toImage:[self getTileData] withScale:scale];
+-(UIImage *) tileDataImageWithScale: (CGFloat) scale{
+    return [GPKGImageConverter toImage:[self tileData] withScale:scale];
 }
 
 -(void) setTileDataWithImage: (UIImage *) image andFormat: (enum GPKGCompressFormat) format{

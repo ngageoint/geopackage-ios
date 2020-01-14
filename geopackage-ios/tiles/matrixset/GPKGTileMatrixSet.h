@@ -79,7 +79,7 @@ extern NSString * const GPKG_TMS_COLUMN_MAX_Y;
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) getBoundingBox;
+-(GPKGBoundingBox *) boundingBox;
 
 /**
  *  Set a bounding box

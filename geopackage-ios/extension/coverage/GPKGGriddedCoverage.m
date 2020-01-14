@@ -32,7 +32,7 @@ NSString * const GPKG_CDGC_COLUMN_QUANTITY_DEFINITION = @"quantity_definition";
     }
 }
 
--(enum GPKGGriddedCoverageDataType) getGriddedCoverageDataType{
+-(enum GPKGGriddedCoverageDataType) griddedCoverageDataType{
     enum GPKGGriddedCoverageDataType value = -1;
     
     if(self.datatype != nil){
@@ -58,7 +58,7 @@ NSString * const GPKG_CDGC_COLUMN_QUANTITY_DEFINITION = @"quantity_definition";
     return self.precision != nil ? [self.precision doubleValue] : 1.0;
 }
 
--(enum GPKGGriddedCoverageEncodingType) getGridCellEncodingType{
+-(enum GPKGGriddedCoverageEncodingType) gridCellEncodingType{
     enum GPKGGriddedCoverageEncodingType value = -1;
     
     if(self.gridCellEncoding != nil){

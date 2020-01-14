@@ -52,7 +52,7 @@
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) getBoundingBoxWithProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxWithProjection: (SFPProjection *) projection;
 
 /**
  *  Determine if there is a tile for the x, y, and zoom

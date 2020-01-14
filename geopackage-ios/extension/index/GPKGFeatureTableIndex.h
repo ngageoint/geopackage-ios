@@ -55,21 +55,21 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *
  *  @return feature dao
  */
--(GPKGFeatureDao *) getFeatureDao;
+-(GPKGFeatureDao *) featureDao;
 
 /**
  *  Get the extension name
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  *  Get the extension definition
  *
  *  @return extension definition
  */
--(NSString *) getExtensionDefinition;
+-(NSString *) extensionDefinition;
 
 /**
  *  Get the feature projection
@@ -83,14 +83,14 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *
  *  @return table name
  */
--(NSString *) getTableName;
+-(NSString *) tableName;
 
 /**
  *  Get the column name
  *
  *  @return column name
  */
--(NSString *) getColumnName;
+-(NSString *) columnName;
 
 /**
  * Close the table index
@@ -158,21 +158,21 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *
  *  @return table index
  */
--(GPKGTableIndex *) getTableIndex;
+-(GPKGTableIndex *) tableIndex;
 
 /**
  *  Get the date last indexed
  *
  *  @return last indexed date or null
  */
--(NSDate *) getLastIndexed;
+-(NSDate *) lastIndexed;
 
 /**
  *  Get the extension
  *
  *  @return extensions object or null if one does not exist
  */
--(GPKGExtensions *) getExtension;
+-(GPKGExtensions *) extension;
 
 /**
  *  Query for all Geometry Index objects
@@ -272,7 +272,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param resultSet result set
  * @return geometry index
  */
--(GPKGGeometryIndex *) getGeometryIndexWithResultSet: (GPKGResultSet *) resultSet;
+-(GPKGGeometryIndex *) geometryIndexWithResultSet: (GPKGResultSet *) resultSet;
 
 /**
  * Get the feature row for the current place in the cursor
@@ -280,7 +280,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param resultSet result set
  * @return feature row
  */
--(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet;
+-(GPKGFeatureRow *) featureRowWithResultSet: (GPKGResultSet *) resultSet;
 
 /**
  * Get the feature row for the Geometry Index
@@ -288,7 +288,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param geometryIndex geometry index
  * @return feature row
  */
--(GPKGFeatureRow *) getFeatureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex;
+-(GPKGFeatureRow *) featureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex;
 
 
 @end

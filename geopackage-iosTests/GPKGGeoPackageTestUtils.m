@@ -27,7 +27,7 @@
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
     
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:nil andAdditionalColumns:nil];
@@ -44,7 +44,7 @@
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     NSString * idColumn = @"my_id";
     geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andIdColumnName:idColumn andBoundingBox:boundingBox andSrsId:srs.srsId];
     
@@ -62,9 +62,9 @@
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    NSArray * additionalColumns = [self getFeatureColumns];
+    NSArray * additionalColumns = [self featureColumns];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andAdditionalColumns:additionalColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
     
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:nil andAdditionalColumns:additionalColumns];
@@ -81,16 +81,16 @@
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    NSArray * additionalColumns = [self getFeatureColumns];
+    NSArray * additionalColumns = [self featureColumns];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] getOrCreateWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     NSString * idColumn = @"my_other_id";
     geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andIdColumnName:idColumn andAdditionalColumns:additionalColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
     
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:additionalColumns];
 }
 
-+(NSArray *) getFeatureColumns{
++(NSArray *) featureColumns{
     NSMutableArray * columns = [[NSMutableArray alloc] init];
     
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:false andDefaultValue:nil] toArray:columns];
@@ -108,9 +108,9 @@
 
 +(void) validateFeatureTableWithMetadata: (GPKGGeoPackage *) geoPackage andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andIdColumn: (NSString *) idColumn andAdditionalColumns: (NSArray *) additionalColumns{
     
-    GPKGGeometryColumnsDao * dao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao * dao = [geoPackage geometryColumnsDao];
     
-    GPKGGeometryColumns * queryGeometryColumns = (GPKGGeometryColumns *)[dao queryForMultiIdObject:[dao getMultiId:geometryColumns]];
+    GPKGGeometryColumns * queryGeometryColumns = (GPKGGeometryColumns *)[dao queryForMultiIdObject:[dao multiId:geometryColumns]];
     [GPKGTestUtils assertNotNil:queryGeometryColumns];
     
     [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:queryGeometryColumns.tableName];
@@ -119,7 +119,7 @@
     [GPKGTestUtils assertEqualWithValue:geometryColumns.z andValue2:queryGeometryColumns.z];
     [GPKGTestUtils assertEqualWithValue:geometryColumns.m andValue2:queryGeometryColumns.m];
     
-    GPKGFeatureDao * featureDao = [geoPackage getFeatureDaoWithTableName:geometryColumns.tableName];
+    GPKGFeatureDao * featureDao = [geoPackage featureDaoWithTableName:geometryColumns.tableName];
     GPKGFeatureRow * featureRow = [featureDao newRow];
     
     [GPKGTestUtils assertEqualIntWithValue:(2 + (additionalColumns != nil ? (int)[additionalColumns count] : 0)) andValue2:[featureRow columnCount]];
@@ -144,9 +144,9 @@
 
 +(void)testDeleteTables: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
-    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
     
     [GPKGTestUtils assertTrue:[geometryColumnsDao tableExists] || [tileMatrixSetDao tableExists]];
     
@@ -154,8 +154,8 @@
     
     if([geometryColumnsDao tableExists]){
         
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getFeatureTables].count andValue2:[geometryColumnsDao count]];
-        for(NSString *featureTable in [geoPackage getFeatureTables]){
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage featureTables].count andValue2:[geometryColumnsDao count]];
+        for(NSString *featureTable in [geoPackage featureTables]){
             [GPKGTestUtils assertTrue:[geoPackage isTable:featureTable]];
             [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:featureTable]];
             [geoPackage deleteTable:featureTable];
@@ -170,20 +170,20 @@
     }
     
     if([tileMatrixSetDao tableExists]){
-        GPKGTileMatrixDao *tileMatrixDao = [geoPackage getTileMatrixDao];
+        GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
         
         [GPKGTestUtils assertTrue:[tileMatrixSetDao tableExists]];
         [GPKGTestUtils assertTrue:[tileMatrixDao tableExists]];
         
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTablesByType:GPKG_CDT_TILES].count + (int)[geoPackage getTablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
-        for(NSString *tileTable in [geoPackage getTileTables]){
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CDT_TILES].count + (int)[geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
+        for(NSString *tileTable in [geoPackage tileTables]){
             [GPKGTestUtils assertTrue:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:tileTable]];
             [geoPackage deleteTable:tileTable];
             [GPKGTestUtils assertFalse:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNil:[contentsDao queryForIdObject:tileTable]];
         }
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
         
         [geoPackage dropTable:GPKG_TM_TABLE_NAME];
         [geoPackage dropTable:GPKG_TMS_TABLE_NAME];
@@ -192,7 +192,7 @@
         [GPKGTestUtils assertFalse:[tileMatrixDao tableExists]];
     }
     
-    for(NSString *attributeTable in [geoPackage getAttributesTables]){
+    for(NSString *attributeTable in [geoPackage attributesTables]){
         [GPKGTestUtils assertTrue:[geoPackage isTable:attributeTable]];
         [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:attributeTable]];
         [geoPackage deleteTable:attributeTable];
@@ -213,18 +213,18 @@
     [geometryColumns setGeometryType:SF_POINT];
     [geometryColumns setZ:[NSNumber numberWithInt:0]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
-    GPKGSpatialReferenceSystem *srs = [[geoPackage getSpatialReferenceSystemDao] queryForOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] queryForOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:nil andSrsId:srs.srsId];
     
     GPKGBoundingBox *geoPackageContentsBoundingBox = [geoPackage contentsBoundingBoxInProjection:projection];
     
     GPKGBoundingBox *expectedContentsBoundingBox = nil;
     
-    GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+    GPKGContentsDao *contentsDao = [geoPackage contentsDao];
     GPKGResultSet *contentsResults = [contentsDao queryForAll];
     @try {
         while([contentsResults moveToNext]){
-            GPKGContents *contents = (GPKGContents *)[contentsDao getObject:contentsResults];
+            GPKGContents *contents = (GPKGContents *)[contentsDao object:contentsResults];
             
             GPKGBoundingBox *contentsBoundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
             if(contentsBoundingBox != nil){
@@ -237,7 +237,7 @@
                 }
                 
                 [GPKGTestUtils assertEqualWithValue:contentsBoundingBox andValue2:[geoPackage contentsBoundingBoxOfTable:contents.tableName inProjection:projection]];
-                [GPKGTestUtils assertEqualWithValue:[contents getBoundingBox] andValue2:[geoPackage contentsBoundingBoxOfTable:contents.tableName]];
+                [GPKGTestUtils assertEqualWithValue:[contents boundingBox] andValue2:[geoPackage contentsBoundingBoxOfTable:contents.tableName]];
             }
         }
     } @finally {
@@ -255,9 +255,9 @@
     contentsResults = [contentsDao queryForAll];
     @try {
         while([contentsResults moveToNext]){
-            GPKGContents *contents = (GPKGContents *)[contentsDao getObject:contentsResults];
+            GPKGContents *contents = (GPKGContents *)[contentsDao object:contentsResults];
             
-            enum GPKGContentsDataType dataType = [contents getContentsDataType];
+            enum GPKGContentsDataType dataType = [contents contentsDataType];
             if((int)dataType != -1){
                 
                 switch (dataType) {
@@ -306,7 +306,7 @@
                             
                             featureBoundingBox = [manager boundingBox];
                             
-                            GPKGBoundingBox *expectedFeatureBoundingBox = [contents getBoundingBox];
+                            GPKGBoundingBox *expectedFeatureBoundingBox = [contents boundingBox];
                             if(featureBoundingBox != nil && [manager isIndexed]){
                                 if (expectedFeatureBoundingBox == nil) {
                                     expectedFeatureBoundingBox = featureBoundingBox;
@@ -321,7 +321,7 @@
                                 [GPKGTestUtils assertEqualWithValue:expectedFeatureBoundingBox andValue2:featureBox];
                             }
                             
-                            GPKGBoundingBox *expectedFeatureManualBoundingBox = [contents getBoundingBox];
+                            GPKGBoundingBox *expectedFeatureManualBoundingBox = [contents boundingBox];
                             if (featureBoundingBox != nil) {
                                 if (expectedFeatureManualBoundingBox == nil) {
                                     expectedFeatureManualBoundingBox = featureBoundingBox;
@@ -343,7 +343,7 @@
                     case GPKG_CDT_TILES:
                     case GPKG_CDT_GRIDDED_COVERAGE:
                         {
-                            GPKGTileDao *tileDao = [geoPackage getTileDaoWithTableName:contents.tableName];
+                            GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:contents.tableName];
                             GPKGBoundingBox *tileBoundingBox = [tileDao boundingBoxInProjection:projection];
                             expectedBoundingBox = [expectedBoundingBox union:tileBoundingBox];
                             expectedManualBoundingBox = [expectedManualBoundingBox union: tileBoundingBox];
@@ -352,7 +352,7 @@
                             [GPKGTestUtils assertEqualWithValue:expectedProjectionTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName inProjection:projection]];
                             [GPKGTestUtils assertEqualWithValue:expectedProjectionTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName inProjection:projection andManual:YES]];
                             
-                            GPKGBoundingBox *expectedTileBoundingBox = [[tileDao getBoundingBox] union:[contents getBoundingBox]];
+                            GPKGBoundingBox *expectedTileBoundingBox = [[tileDao boundingBox] union:[contents boundingBox]];
                             [GPKGTestUtils assertEqualWithValue:expectedTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName]];
                             [GPKGTestUtils assertEqualWithValue:expectedTileBoundingBox andValue2:[geoPackage boundingBoxOfTable:contents.tableName andManual:YES]];
                         }
@@ -375,10 +375,10 @@
 
 +(void)testVacuum: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     int size = [manager size:geoPackage.name];
     
-    for(NSString *table in [geoPackage getTables]){
+    for(NSString *table in [geoPackage tables]){
         
         [geoPackage deleteTable:table];
         

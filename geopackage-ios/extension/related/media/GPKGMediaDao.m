@@ -29,7 +29,7 @@
 }
 
 -(GPKGMediaRow *) row: (GPKGResultSet *) results{
-    return (GPKGMediaRow *) [self getRow:results];
+    return (GPKGMediaRow *) [super row:results];
 }
 
 -(GPKGMediaRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{

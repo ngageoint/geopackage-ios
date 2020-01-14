@@ -102,7 +102,7 @@
  *
  *  @return x pixel
  */
-+(double) getXPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andLongitude: (double) longitude;
++(double) xPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andLongitude: (double) longitude;
 
 /**
  *  Get the longitude from the pixel location, bounding box, and image width
@@ -113,7 +113,7 @@
  *
  *  @return longitude
  */
-+(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
++(double) longitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
 
 /**
  *  Get the longitude from the pixel location, bounding box, tile bounding
@@ -126,7 +126,7 @@
  *
  *  @return longitude
  */
-+(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
++(double) longitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
 
 /**
  *  Get the Y pixel for where the latitude fits into the bounding box
@@ -137,7 +137,7 @@
  *
  *  @return y pixel
  */
-+(double) getYPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andLatitude: (double) latitude;
++(double) yPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andLatitude: (double) latitude;
 
 /**
  *  Get the latitude from the pixel location, bounding box, and image height
@@ -148,7 +148,7 @@
  *
  *  @return latitude
  */
-+(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
++(double) latitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel;
 
 /**
  *  Get the latitude from the pixel location, bounding box, tile bounding
@@ -161,7 +161,7 @@
  *
  *  @return latitude
  */
-+(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
++(double) latitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel;
 
 /**
  * Get the tile bounding box from the Standard Maps API tile coordinates and
@@ -173,7 +173,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) boundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
  * Get the Web Mercator tile bounding box from the Standard Maps API tile
@@ -185,7 +185,7 @@
  *
  *  @return web mercator bounding box
  */
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) webMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
  * Get the Web Mercator tile bounding box from the Standard Maps API tile grid
@@ -196,7 +196,7 @@
  *
  *  @return web mercator bounding box
  */
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) webMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  * Get the Projected tile bounding box from the Standard Maps API tile
@@ -283,7 +283,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom;
++(GPKGTileGrid *) tileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  *  Get the tile grid for the location specified as the projection
@@ -294,7 +294,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection;
++(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection;
 
 /**
  *  Get the tile grid that includes the entire tile bounding box
@@ -304,7 +304,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andZoom: (int) zoom;
++(GPKGTileGrid *) tileGridWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andZoom: (int) zoom;
 
 /**
  *  Convert the bounding box coordinates to a new web mercator bounding box
@@ -398,7 +398,7 @@
  *
  *  @return opposite y format
  */
-+(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y;
++(int) yAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y;
 
 /**
  *  Get the zoom level from the tiles per side
@@ -419,7 +419,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andBoundingBox: (GPKGBoundingBox *) boundingBox;
++(GPKGTileGrid *) tileGridWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Get the tile column of the longitude in constant units
@@ -430,7 +430,7 @@
  *
  *  @return tile column
  */
-+(int) getTileColumnWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude;
++(int) tileColumnWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude;
 
 /**
  *  Get the tile row of the latitude in constant units
@@ -441,7 +441,7 @@
  *
  *  @return tile row
  */
-+(int) getTileRowWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude;
++(int) tileRowWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude;
 
 /**
  *  Get the bounding box of the tile column and row in the tile
@@ -454,7 +454,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
 
 /**
  *  Get the bounding box of the tile column and row in the tile
@@ -468,7 +468,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow;
 
 /**
  *  Get the bounding box of the tile grid in the tile matrix
@@ -480,7 +480,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid;
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid;
 
 /**
  *  Get the bounding box of the tile grid in the tile width and
@@ -493,7 +493,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid;
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid;
 
 /**
  * Get the zoom level of where the web mercator bounding box fits into the
@@ -503,7 +503,7 @@
  *
  *  @return zoom level
  */
-+(int) getZoomLevelWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox;
++(int) zoomLevelWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox;
 
 /**
  *  Get the location bearing a distance from a current location
@@ -575,7 +575,7 @@
  *
  *  @return rectangle
  */
-+(CGRect) getRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
++(CGRect) rectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
 
 /**
  *  Get a rectangle with rounded point boundaries using the tile
@@ -589,7 +589,7 @@
  *
  *  @return rectangle
  */
-+(CGRect) getRoundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
++(CGRect) roundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
 
 /**
  *  Get the tile grid that includes the entire tile bounding box
@@ -599,7 +599,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) getTileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom;
++(GPKGTileGrid *) tileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom;
 
 /**
  * Get the WGS84 tile bounding box from the tile grid and zoom level
@@ -609,7 +609,7 @@
  *
  *  @return wgs84 bounding box
  */
-+(GPKGBoundingBox *) getWgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) wgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  *  Get the tiles per latitude side at the zoom level

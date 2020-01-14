@@ -58,30 +58,30 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGTileMatrixSet *getObject = (GPKGTileMatrixSet*) object;
+    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = tileMatrixSet.tableName;
             break;
         case 1:
-            value = getObject.srsId;
+            value = tileMatrixSet.srsId;
             break;
         case 2:
-            value = getObject.minX;
+            value = tileMatrixSet.minX;
             break;
         case 3:
-            value = getObject.minY;
+            value = tileMatrixSet.minY;
             break;
         case 4:
-            value = getObject.maxX;
+            value = tileMatrixSet.maxX;
             break;
         case 5:
-            value = getObject.maxY;
+            value = tileMatrixSet.maxY;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -91,14 +91,14 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGTileMatrixSet *projectionObject = (GPKGTileMatrixSet*) object;
-    GPKGSpatialReferenceSystem * srs = [self getSrs:projectionObject];
+    GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
     SFPProjection *projection = [srs projection];
     return projection;
 }
 
--(NSArray *) getTileTables{
+-(NSArray *) tileTables{
     
     NSString *queryString = [NSString stringWithFormat:@"select %@ from %@", GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_TABLE_NAME];
     
@@ -109,22 +109,22 @@
     return tables;
 }
 
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGTileMatrixSet *) tileMatrixSet{
-    GPKGSpatialReferenceSystemDao * dao = [self getSpatialReferenceSystemDao];
+-(GPKGSpatialReferenceSystem *) srs: (GPKGTileMatrixSet *) tileMatrixSet{
+    GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:tileMatrixSet.srsId];
     return srs;
 }
 
--(GPKGContents *) getContents: (GPKGTileMatrixSet *) tileMatrixSet{
-    GPKGContentsDao * dao = [self getContentsDao];
+-(GPKGContents *) contents: (GPKGTileMatrixSet *) tileMatrixSet{
+    GPKGContentsDao * dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrixSet.tableName];
     return contents;
 }
 
 -(GPKGBoundingBox *) boundingBoxOfTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet inProjection: (SFPProjection *) projection{
-    GPKGBoundingBox *boundingBox = [tileMatrixSet getBoundingBox];
+    GPKGBoundingBox *boundingBox = [tileMatrixSet boundingBox];
     if (projection != nil) {
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self getProjection:tileMatrixSet] andToProjection:projection];
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self projection:tileMatrixSet] andToProjection:projection];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }
@@ -132,11 +132,11 @@
     return boundingBox;
 }
 
--(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao{
+-(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
     return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 

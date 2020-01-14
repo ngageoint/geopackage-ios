@@ -40,13 +40,13 @@
             
             GPKGPolygonOptions *options = self.polygon.options;
             
-            CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D * points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
             
             NSMutableArray * holePolygons = [[NSMutableArray alloc] init];
             for(GPKGPolygonHolePoints * hole in self.holes){
                 if(![hole isDeleted]){
-                    CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: [hole getPoints]];
-                    GPKGPolygon * holePolygon = [GPKGPolygon polygonWithCoordinates:holePoints count:[[hole getPoints] count]];
+                    CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter locationCoordinatesFromPoints: [hole points]];
+                    GPKGPolygon * holePolygon = [GPKGPolygon polygonWithCoordinates:holePoints count:[[hole points] count]];
                     free(holePoints);
                     [GPKGUtils addObject:holePolygon toArray:holePolygons];
                 }
@@ -92,8 +92,8 @@
     return [self.points count] == 0;
 }
 
--(NSArray *) getPoints{
-    return self.points;
+-(NSArray *) points{
+    return _points;
 }
 
 -(void) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView * ) mapView{

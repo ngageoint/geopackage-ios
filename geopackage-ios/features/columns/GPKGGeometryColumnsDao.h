@@ -41,7 +41,7 @@
  *
  *  @return feature tables
  */
--(NSArray *) getFeatureTables;
+-(NSArray *) featureTables;
 
 /**
  *  Get the Spatial Reference System of the Geometry Columns
@@ -50,7 +50,7 @@
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGGeometryColumns *) geometryColumns;
+-(GPKGSpatialReferenceSystem *) srs: (GPKGGeometryColumns *) geometryColumns;
 
 /**
  *  Get the Contents of the Geometry Columns
@@ -59,6 +59,6 @@
  *
  *  @return contents
  */
--(GPKGContents *) getContents: (GPKGGeometryColumns *) geometryColumns;
+-(GPKGContents *) contents: (GPKGGeometryColumns *) geometryColumns;
 
 @end

@@ -105,7 +105,7 @@
  *
  * @return last indexed date or null
  */
--(NSDate *) getLastIndexed;
+-(NSDate *) lastIndexed;
 
 /**
  * Query for all Geometry Metadata
@@ -196,7 +196,7 @@
  * @param resultSet result set
  * @return geometry metadata
  */
--(GPKGGeometryMetadata *) getGeometryMetadataWithResultSet: (GPKGResultSet *) resultSet;
+-(GPKGGeometryMetadata *) geometryMetadataWithResultSet: (GPKGResultSet *) resultSet;
 
 /**
  * Get the feature row for the current place in the cursor
@@ -204,7 +204,7 @@
  * @param resultSet result set
  * @return feature row
  */
--(GPKGFeatureRow *) getFeatureRowWithResultSet: (GPKGResultSet *) resultSet;
+-(GPKGFeatureRow *) featureRowWithResultSet: (GPKGResultSet *) resultSet;
 
 /**
  * Get the feature row for the Geometry Metadata
@@ -212,7 +212,7 @@
  * @param geometryMetadata geometry metadata
  * @return feature row
  */
--(GPKGFeatureRow *) getFeatureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;
+-(GPKGFeatureRow *) featureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;
 
 /**
  * Get the query range tolerance

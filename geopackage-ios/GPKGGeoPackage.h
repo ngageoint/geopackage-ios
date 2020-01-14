@@ -123,21 +123,21 @@
  *
  *  @return feature table names
  */
--(NSArray *)getFeatureTables;
+-(NSArray *) featureTables;
 
 /**
  *  Get the tile tables
  *
  *  @return tile table names
  */
--(NSArray *)getTileTables;
+-(NSArray *) tileTables;
 
 /**
  *  Get the attributes tables
  *
  *  @return attributes table names
  */
--(NSArray *)getAttributesTables;
+-(NSArray *) attributesTables;
 
 /**
  * Get the tables for the contents data type
@@ -146,7 +146,7 @@
  *            data type
  * @return table names
  */
--(NSArray *)getTablesByType: (enum GPKGContentsDataType) type;
+-(NSArray *) tablesByType: (enum GPKGContentsDataType) type;
 
 /**
  * Get the tables for the contents data type
@@ -155,21 +155,21 @@
  *            data type
  * @return table names
  */
--(NSArray *)getTablesByTypeName: (NSString *) type;
+-(NSArray *) tablesByTypeName: (NSString *) type;
 
 /**
  *  Get the feature and tile tables
  *
  *  @return table names
  */
--(NSArray *)getFeatureAndTileTables;
+-(NSArray *) featureAndTileTables;
 
 /**
  *  Get the feature and tile tables
  *
  *  @return feature and tile table names
  */
--(NSArray *)getTables;
+-(NSArray *) tables;
 
 /**
  *  Check if the table is a feature table
@@ -277,21 +277,21 @@
  *
  *  @return number of feature tables
  */
--(int)getFeatureTableCount;
+-(int) featureTableCount;
 
 /**
  *  Get the tile table count
  *
  *  @return number of tile tables
  */
--(int)getTileTableCount;
+-(int) tileTableCount;
 
 /**
  *  Get the feature and tile table count
  *
  *  @return number of feature and tile tables
  */
--(int)getTableCount;
+-(int) tableCount;
 
 /**
  * Get the bounding box for all table contents in the provided projection
@@ -408,21 +408,21 @@
  *
  *  @return Spatial Reference System DAO
  */
--(GPKGSpatialReferenceSystemDao *) getSpatialReferenceSystemDao;
+-(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao;
 
 /**
  *  Get a Contents DAO
  *
  *  @return Contents DAO
  */
--(GPKGContentsDao *) getContentsDao;
+-(GPKGContentsDao *) contentsDao;
 
 /**
  *  Get a Geometry Columns DAO
  *
  *  @return Geometry Columns DAO
  */
--(GPKGGeometryColumnsDao *) getGeometryColumnsDao;
+-(GPKGGeometryColumnsDao *) geometryColumnsDao;
 
 /**
  *  Create the Geometry Columns table if it does not already exist
@@ -549,7 +549,7 @@
  *
  *  @return Tile Matrix Set DAO
  */
--(GPKGTileMatrixSetDao *) getTileMatrixSetDao;
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao;
 
 /**
  *  Create the Tile Matrix Set table if it does not already exist
@@ -563,7 +563,7 @@
  *
  *  @return Tile Matrix DAO
  */
--(GPKGTileMatrixDao *) getTileMatrixDao;
+-(GPKGTileMatrixDao *) tileMatrixDao;
 
 /**
  *  Create the Tile Matrix table if it does not already exist
@@ -620,7 +620,7 @@
  *
  *  @return Data Columns DAO
  */
--(GPKGDataColumnsDao *) getDataColumnsDao;
+-(GPKGDataColumnsDao *) dataColumnsDao;
 
 /**
  *  Create the Data Columns table if it does not already exist
@@ -634,7 +634,7 @@
  *
  *  @return Data Column Constraints DAO
  */
--(GPKGDataColumnConstraintsDao *) getDataColumnConstraintsDao;
+-(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDao;
 
 /**
  *  Create the Data Column Constraints table if it does not already exist
@@ -648,7 +648,7 @@
  *
  *  @return Metadata DAO
  */
--(GPKGMetadataDao *) getMetadataDao;
+-(GPKGMetadataDao *) metadataDao;
 
 /**
  *  Create the Metadata table if it does not already exist
@@ -662,7 +662,7 @@
  *
  *  @return Metadata Reference DAO
  */
--(GPKGMetadataReferenceDao *) getMetadataReferenceDao;
+-(GPKGMetadataReferenceDao *) metadataReferenceDao;
 
 /**
  *  Create the Metadata Reference table if it does not already exist
@@ -676,7 +676,7 @@
  *
  *  @return Extensions DAO
  */
--(GPKGExtensionsDao *) getExtensionsDao;
+-(GPKGExtensionsDao *) extensionsDao;
 
 /**
  *  Create the Extensions table if it does not already exist
@@ -704,7 +704,7 @@
  *
  * @return table index dao
  */
--(GPKGTableIndexDao *) getTableIndexDao;
+-(GPKGTableIndexDao *) tableIndexDao;
 
 /**
  * Create the Table Index Table if it does not exist
@@ -718,7 +718,7 @@
  *
  * @return geometry index dao
  */
--(GPKGGeometryIndexDao *) getGeometryIndexDao;
+-(GPKGGeometryIndexDao *) geometryIndexDao;
 
 /**
  * Create Geometry Index Table if it does not exist
@@ -746,7 +746,7 @@
  *
  * @return feature tile link dao
  */
--(GPKGFeatureTileLinkDao *) getFeatureTileLinkDao;
+-(GPKGFeatureTileLinkDao *) featureTileLinkDao;
 
 /**
  * Create the Feature Tile Link Table if it does not exist
@@ -767,7 +767,7 @@
  *
  *  @return Feature DAO
  */
--(GPKGFeatureDao *) getFeatureDaoWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
+-(GPKGFeatureDao *) featureDaoWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
 
 /**
  *  Get a Feature DAO from Contents
@@ -776,7 +776,7 @@
  *
  *  @return Feature DAO
  */
--(GPKGFeatureDao *) getFeatureDaoWithContents: (GPKGContents *) contents;
+-(GPKGFeatureDao *) featureDaoWithContents: (GPKGContents *) contents;
 
 /**
  *  Get a Feature DAO from a table name
@@ -785,7 +785,7 @@
  *
  *  @return Feature DAO
  */
--(GPKGFeatureDao *) getFeatureDaoWithTableName: (NSString *) tableName;
+-(GPKGFeatureDao *) featureDaoWithTableName: (NSString *) tableName;
 
 /**
  *  Get a Tile DAO from Tile Matrix Set
@@ -794,7 +794,7 @@
  *
  *  @return Tile DAO
  */
--(GPKGTileDao *) getTileDaoWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
+-(GPKGTileDao *) tileDaoWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet;
 
 /**
  *  Get a Tile DAO from Contents
@@ -803,7 +803,7 @@
  *
  *  @return Tile DAO
  */
--(GPKGTileDao *) getTileDaoWithContents: (GPKGContents *) contents;
+-(GPKGTileDao *) tileDaoWithContents: (GPKGContents *) contents;
 
 /**
  *  Get a Tile DAO from a table name
@@ -812,7 +812,7 @@
  *
  *  @return Tile DAO
  */
--(GPKGTileDao *) getTileDaoWithTableName: (NSString *) tableName;
+-(GPKGTileDao *) tileDaoWithTableName: (NSString *) tableName;
 
 /**
  * Get an Attributes DAO from Contents
@@ -821,7 +821,7 @@
  *            contents
  * @return attributes dao
  */
--(GPKGAttributesDao *) getAttributesDaoWithContents: (GPKGContents *) contents;
+-(GPKGAttributesDao *) attributesDaoWithContents: (GPKGContents *) contents;
 
 /**
  * Get an Attributes DAO from a table name
@@ -830,7 +830,7 @@
  *            table name
  * @return attributes dao
  */
--(GPKGAttributesDao *) getAttributesDaoWithTableName: (NSString *) tableName;
+-(GPKGAttributesDao *) attributesDaoWithTableName: (NSString *) tableName;
 
 /**
  * Get a User Custom DAO from a table name
@@ -839,7 +839,7 @@
  *            table name
  * @return user custom dao
  */
--(GPKGUserCustomDao *) getUserCustomDaoWithTableName: (NSString *) tableName;
+-(GPKGUserCustomDao *) userCustomDaoWithTableName: (NSString *) tableName;
 
 /**
  *  Execute the sql on the GeoPackage database
@@ -993,7 +993,7 @@
  *
  * @return 2d gridded coverage dao
  */
--(GPKGGriddedCoverageDao *) getGriddedCoverageDao;
+-(GPKGGriddedCoverageDao *) griddedCoverageDao;
 
 /**
  * Create the 2D Gridded Coverage Table if it does not exist
@@ -1007,7 +1007,7 @@
  *
  * @return 2d gridded tile dao
  */
--(GPKGGriddedTileDao *) getGriddedTileDao;
+-(GPKGGriddedTileDao *) griddedTileDao;
 
 /**
  * Create the 2D Gridded Tile Table if it does not exist
@@ -1140,7 +1140,7 @@
  *
  * @return tile scaling dao
  */
--(GPKGTileScalingDao *) getTileScalingDao;
+-(GPKGTileScalingDao *) tileScalingDao;
 
 /**
  * Create the Tile Scaling Table if it does not exist
@@ -1154,7 +1154,7 @@
  *
  * @return tile scaling dao
  */
--(GPKGExtendedRelationsDao *) getExtendedRelationsDao;
+-(GPKGExtendedRelationsDao *) extendedRelationsDao;
 
 /**
  * Create the Extended Relations Table if it does not exist
@@ -1168,7 +1168,7 @@
  *
  * @return contents id dao
  */
--(GPKGContentsIdDao *) getContentsIdDao;
+-(GPKGContentsIdDao *) contentsIdDao;
 
 /**
  * Create the Contents Id Table if it does not exist

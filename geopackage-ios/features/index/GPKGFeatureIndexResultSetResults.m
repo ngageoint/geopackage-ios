@@ -25,12 +25,12 @@
     return self;
 }
 
--(GPKGResultSet *) getResults{
-    return self.results;
+-(GPKGResultSet *) results{
+    return _results;
 }
 
 -(int) count{
-    return self.results.count;
+    return _results.count;
 }
 
 -(BOOL) moveToNext{

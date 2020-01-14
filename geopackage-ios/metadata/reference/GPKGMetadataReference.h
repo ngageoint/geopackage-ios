@@ -97,7 +97,7 @@ extern NSString * const GPKG_RST_ROW_COL_NAME;
  *
  *  @return reference scope type
  */
--(enum GPKGReferenceScopeType) getReferenceScopeType;
+-(enum GPKGReferenceScopeType) referenceScopeType;
 
 /**
  *  Set the reference scope type

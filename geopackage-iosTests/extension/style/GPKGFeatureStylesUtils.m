@@ -23,7 +23,7 @@
     
     [GPKGTestUtils assertFalse:[featureStyleExtension has]];
     
-    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     
     if(featureTables.count > 0){
         
@@ -35,12 +35,12 @@
             
             [GPKGTestUtils assertFalse:[featureStyleExtension hasWithTable:tableName]];
             
-            GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:tableName];
+            GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:tableName];
             
-            GPKGFeatureTableStyles *featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+            GPKGFeatureTableStyles *featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao featureTable]];
             [GPKGTestUtils assertFalse:[featureTableStyles has]];
             
-            enum SFGeometryType geometryType = [featureDao getGeometryType];
+            enum SFGeometryType geometryType = [featureDao geometryType];
             NSDictionary<NSNumber *, NSDictionary *> *childGeometryTypes = [SFGeometryUtils childHierarchyOfType:geometryType];
             
             [GPKGTestUtils assertFalse:[featureTableStyles hasTableStyleRelationship]];
@@ -64,14 +64,14 @@
             
             GPKGResultSet *featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
-                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles featureStyleWithIdNumber:[featureRow id] andGeometryType:[featureRow geometryType]]];
                 [GPKGTestUtils assertNil:[featureTableStyles featureStyleDefaultWithIdNumber:[featureRow id]]];
 
                 [GPKGTestUtils assertNil:[featureTableStyles stylesWithFeature:featureRow]];
@@ -79,7 +79,7 @@
                 
                 [GPKGTestUtils assertNil:[featureTableStyles styleWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles styleWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles styleWithIdNumber:[featureRow id] andGeometryType:[featureRow geometryType]]];
                 [GPKGTestUtils assertNil:[featureTableStyles styleDefaultWithIdNumber:[featureRow id]]];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles  iconsWithFeature:featureRow]];
@@ -87,7 +87,7 @@
                 
                 [GPKGTestUtils assertNil:[featureTableStyles iconWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithFeature:featureRow]];
-                [GPKGTestUtils assertNil:[featureTableStyles iconWithIdNumber:[featureRow id] andGeometryType:[featureRow getGeometryType]]];
+                [GPKGTestUtils assertNil:[featureTableStyles iconWithIdNumber:[featureRow id] andGeometryType:[featureRow geometryType]]];
                 [GPKGTestUtils assertNil:[featureTableStyles iconDefaultWithIdNumber:[featureRow id]]];
             }
             [featureResultSet close];
@@ -209,7 +209,7 @@
                     continue;
                 }
                 
-                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
                 
                 if (randomFeatureOption < .75) {
                     
@@ -263,7 +263,7 @@
             featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
                 
-                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
                 
                 [self validateRowStyles:featureTableStyles andFeature:featureRow andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
                 
@@ -289,11 +289,11 @@
             [GPKGTestUtils assertNil:[featureStyleExtension tableStylesWithTableName:tableName]];
             [GPKGTestUtils assertNil:[featureStyleExtension tableIconsWithTableName:tableName]];
             
-            GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:tableName];
+            GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:tableName];
             GPKGResultSet *featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
                 
-                GPKGFeatureRow *featureRow = [featureDao getFeatureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
                 
                 [GPKGTestUtils assertNil:[featureStyleExtension stylesWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureStyleExtension iconsWithFeature:featureRow]];
@@ -369,7 +369,7 @@
 
 +(void) validateRowStyles: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andTableStyleDefault: (GPKGStyleRow *) tableStyleDefault andTableStyles: (NSDictionary *) geometryTypeTableStyles andFeatureStyles: (NSDictionary *) featureResultsStyles{
     
-    enum SFGeometryType geometryType = [featureRow getGeometryType];
+    enum SFGeometryType geometryType = [featureRow geometryType];
     
     [self validateRowStyles:featureTableStyles andFeature:featureRow andGeometryType:SF_NONE andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
     
@@ -395,7 +395,7 @@
     GPKGStyleRow *styleRow = nil;
     if (geometryType == SF_NONE || geometryType < 0) {
         styleRow = [featureTableStyles styleWithFeature:featureRow];
-        geometryType = [featureRow getGeometryType];
+        geometryType = [featureRow geometryType];
     } else {
         styleRow = [featureTableStyles styleWithFeature:featureRow andGeometryType:geometryType];
     }
@@ -452,7 +452,7 @@
 
 +(void) validateRowIcons: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
     
-    enum SFGeometryType geometryType = [featureRow getGeometryType];
+    enum SFGeometryType geometryType = [featureRow geometryType];
     
     [self validateRowIcons:featureTableStyles andFeature:featureRow andGeometryType:SF_NONE andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
     
@@ -478,7 +478,7 @@
     GPKGIconRow *iconRow = nil;
     if (geometryType == SF_NONE || geometryType < 0) {
         iconRow = [featureTableStyles iconWithFeature:featureRow];
-        geometryType = [featureRow getGeometryType];
+        geometryType = [featureRow geometryType];
     } else {
         iconRow = [featureTableStyles iconWithFeature:featureRow andGeometryType:geometryType];
     }

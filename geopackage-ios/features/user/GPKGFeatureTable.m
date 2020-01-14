@@ -32,7 +32,7 @@
 
 -(void) validateContents:(GPKGContents *)contents{
     // Verify the Contents have a features data type
-    enum GPKGContentsDataType dataType = [contents getContentsDataType];
+    enum GPKGContentsDataType dataType = [contents contentsDataType];
     if (dataType != GPKG_CDT_FEATURES) {
         [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Feature Table must have a data type of %@", GPKG_CDT_FEATURES_NAME];
     }

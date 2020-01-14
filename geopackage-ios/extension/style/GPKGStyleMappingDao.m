@@ -24,7 +24,7 @@
 }
 
 -(GPKGStyleMappingRow *) row: (GPKGResultSet *) results{
-    return (GPKGStyleMappingRow *) [self getRow:results];
+    return (GPKGStyleMappingRow *) [super row:results];
 }
 
 -(GPKGStyleMappingRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
@@ -40,7 +40,7 @@
     GPKGResultSet *resultSet = [self queryByBaseId:id];
     @try{
         while([resultSet moveToNext]){
-            [rows addObject:[self row:resultSet]];
+            [rows addObject:[super row:resultSet]];
         }
     }@finally{
         [resultSet close];

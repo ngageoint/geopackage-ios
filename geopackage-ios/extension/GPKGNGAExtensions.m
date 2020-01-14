@@ -64,8 +64,8 @@
 
 +(void) deleteGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
-    GPKGTableIndexDao * tableIndexDao = [geoPackage getTableIndexDao];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGTableIndexDao * tableIndexDao = [geoPackage tableIndexDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([tableIndexDao tableExists]){
         [tableIndexDao deleteByIdCascade:table];
@@ -79,9 +79,9 @@
 
 +(void) deleteGeometryIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryIndexDao * geometryIndexDao = [geoPackage getGeometryIndexDao];
-    GPKGTableIndexDao * tableIndexDao = [geoPackage getTableIndexDao];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGGeometryIndexDao * geometryIndexDao = [geoPackage geometryIndexDao];
+    GPKGTableIndexDao * tableIndexDao = [geoPackage tableIndexDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([geometryIndexDao tableExists]){
         [geometryIndexDao dropTable];
@@ -100,19 +100,19 @@
 
     @try {
         
-        GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+        GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
         
         if ([extensionsDao tableExists]) {
             
             GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR] andTable:table];
             @try {
                 if([extensions moveToNext]){
-                    GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+                    GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao object:extensions];
                     
                     [extension setTableName:newTable];
                     [extensionsDao create:extension];
                     
-                    GPKGTableIndexDao *tableIndexDao = [geoPackage getTableIndexDao];
+                    GPKGTableIndexDao *tableIndexDao = [geoPackage tableIndexDao];
                     if([tableIndexDao tableExists]){
                         
                         GPKGTableIndex *tableIndex = (GPKGTableIndex *)[tableIndexDao queryForIdObject:table];
@@ -143,7 +143,7 @@
 
 +(void) deleteFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
-    GPKGFeatureTileLinkDao * featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
+    GPKGFeatureTileLinkDao * featureTileLinkDao = [geoPackage featureTileLinkDao];
     
     if([featureTileLinkDao tableExists]){
         [featureTileLinkDao deleteByTableName:table];
@@ -152,8 +152,8 @@
 
 +(void) deleteFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGFeatureTileLinkDao * featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGFeatureTileLinkDao * featureTileLinkDao = [geoPackage featureTileLinkDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([featureTileLinkDao tableExists]){
         [featureTileLinkDao dropTable];
@@ -168,7 +168,7 @@
 
     @try {
         
-        GPKGExtensionsDao *extensionsDao = [geoPackage getExtensionsDao];
+        GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
         
         if ([extensionsDao tableExists]) {
             
@@ -176,7 +176,7 @@
             @try {
                 if(extensions.count > 0){
 
-                    GPKGFeatureTileLinkDao *featureTileLinkDao = [geoPackage getFeatureTileLinkDao];
+                    GPKGFeatureTileLinkDao *featureTileLinkDao = [geoPackage featureTileLinkDao];
                     if([featureTileLinkDao tableExists]){
                         
                         NSMutableArray<GPKGFeatureTileLink *> *newLinks = [NSMutableArray array];
@@ -184,7 +184,7 @@
                         GPKGResultSet *featureTileLinks = [featureTileLinkDao queryForFeatureTableName:table];
                         @try {
                             while([featureTileLinks moveToNext]){
-                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao object:featureTileLinks];
                                 [featureTileLink setFeatureTableName:newTable];
                                 [newLinks addObject:featureTileLink];
                             }
@@ -195,7 +195,7 @@
                         featureTileLinks = [featureTileLinkDao queryForTileTableName:table];
                         @try {
                             while([featureTileLinks moveToNext]){
-                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao getObject:featureTileLinks];
+                                GPKGFeatureTileLink *featureTileLink = (GPKGFeatureTileLink *)[featureTileLinkDao object:featureTileLinks];
                                 [featureTileLink setTileTableName:newTable];
                                 [newLinks addObject:featureTileLink];
                             }
@@ -224,8 +224,8 @@
 
 +(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     
-    GPKGTileScalingDao *tileScalingDao = [geoPackage getTileScalingDao];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGTileScalingDao *tileScalingDao = [geoPackage tileScalingDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([tileScalingDao tableExists]){
         [tileScalingDao deleteById:table];
@@ -239,8 +239,8 @@
 
 +(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGTileScalingDao *tileScalingDao = [geoPackage getTileScalingDao];
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGTileScalingDao *tileScalingDao = [geoPackage tileScalingDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([tileScalingDao tableExists]){
         [tileScalingDao dropTable];
@@ -260,7 +260,7 @@
         
         if ([tileTableScaling has]) {
             
-            GPKGExtensions *extension = [tileTableScaling getExtension];
+            GPKGExtensions *extension = [tileTableScaling extension];
             
             if(extension != nil){
                 [extension setTableName:newTable];
@@ -290,10 +290,10 @@
 
 +(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGExtensionsDao * extensionsDao = [geoPackage getExtensionsDao];
+    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
     
     if([geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
-        GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+        GPKGContentsDao *contentsDao = [geoPackage contentsDao];
         [contentsDao deleteTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
     }
     
@@ -324,15 +324,15 @@
         GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
         if([featureStyleExtension hasRelationshipWithTable:table]){
             
-            GPKGExtensions *extension = [featureStyleExtension getWithExtensionName:[featureStyleExtension getExtensionName] andTableName:table andColumnName:nil];
+            GPKGExtensions *extension = [featureStyleExtension extensionWithName:[featureStyleExtension extensionName] andTableName:table andColumnName:nil];
             
             if (extension != nil) {
                 [extension setTableName:newTable];
                 [featureStyleExtension.extensionsDao create:extension];
                 
                 GPKGContentsIdExtension *contentsIdExtension = [featureStyleExtension contentsId];
-                NSNumber *contentsId = [contentsIdExtension getIdForTableName:table];
-                NSNumber *newContentsId = [contentsIdExtension getIdForTableName:newTable];
+                NSNumber *contentsId = [contentsIdExtension idForTableName:table];
+                NSNumber *newContentsId = [contentsIdExtension idForTableName:newTable];
                 
                 if (contentsId != nil && newContentsId != nil) {
                     
@@ -383,11 +383,11 @@
     NSString *mappingTableName = [featureStyleExtension mappingTableNameWithPrefix:mappingTablePrefix andTable:table];
     
     GPKGExtensionsDao *extensionsDao = featureStyleExtension.extensionsDao;
-    GPKGResultSet *extensions = [extensionsDao queryByExtension:[[featureStyleExtension relatedTables] getExtensionName] andTable:mappingTableName];
+    GPKGResultSet *extensions = [extensionsDao queryByExtension:[[featureStyleExtension relatedTables] extensionName] andTable:mappingTableName];
     
     @try {
         if([extensions moveToNext]){
-            GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao getObject:extensions];
+            GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao object:extensions];
             
             NSString *newMappingTableName = [featureStyleExtension mappingTableNameWithPrefix:mappingTablePrefix andTable:newTable];
             
@@ -444,7 +444,7 @@
         GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
         
         if ([contentsIdExtension has]) {
-            if([contentsIdExtension getForTableName:table] != nil){
+            if([contentsIdExtension forTableName:table] != nil){
                 [contentsIdExtension createForTableName:newTable];
             }
         }

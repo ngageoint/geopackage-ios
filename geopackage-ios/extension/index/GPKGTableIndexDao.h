@@ -84,7 +84,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) getGeometryIndices: (GPKGTableIndex *) tableIndex;
+-(GPKGResultSet *) geometryIndices: (GPKGTableIndex *) tableIndex;
 
 /**
  *  Get the count of Geometry Index results
@@ -93,7 +93,7 @@
  *
  *  @return count
  */
--(int) getGeometryIndexCount: (GPKGTableIndex *) tableIndex;
+-(int) geometryIndexCount: (GPKGTableIndex *) tableIndex;
 
 /**
  *  Delete all table indices, cascading to geometry indices

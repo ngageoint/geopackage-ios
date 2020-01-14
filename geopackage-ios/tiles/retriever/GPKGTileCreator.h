@@ -132,6 +132,6 @@
  *
  *  @return tile
  */
--(GPKGGeoPackageTile *) getTileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
+-(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
 
 @end

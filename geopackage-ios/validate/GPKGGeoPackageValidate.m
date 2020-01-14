@@ -26,7 +26,7 @@
 }
 
 +(BOOL) hasMinimumTables: (GPKGGeoPackage *) geoPackage{
-    BOOL hasMinimum = [[geoPackage getSpatialReferenceSystemDao] tableExists] && [[geoPackage getContentsDao] tableExists];
+    BOOL hasMinimum = [[geoPackage spatialReferenceSystemDao] tableExists] && [[geoPackage contentsDao] tableExists];
     return hasMinimum;
 }
 

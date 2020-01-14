@@ -45,7 +45,7 @@
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType;
+-(GPKGExtensions *) extensionCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType;
 
 /**
  *  Determine if the GeoPackage has the extension, non-linear geometry type
@@ -92,7 +92,7 @@
  *
  *  @return extension name
  */
-+(NSString *) getExtensionName: (enum SFGeometryType) geometryType;
++(NSString *) extensionName: (enum SFGeometryType) geometryType;
 
 /**
  *  Get or create the extension, user defined geometry type
@@ -107,7 +107,7 @@
  *             remove this extension from the standard due to
  *             interoperability concerns. (GeoPackage version 1.2)
  */
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
+-(GPKGExtensions *) extensionCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
 
 /**
  *  Determine if the GeoPackage has the extension, user defined geometry type
@@ -136,6 +136,6 @@
  *             remove this extension from the standard due to
  *             interoperability concerns. (GeoPackage version 1.2)
  */
-+(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
++(NSString *) extensionNameWithAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType __attribute__((deprecated));
 
 @end

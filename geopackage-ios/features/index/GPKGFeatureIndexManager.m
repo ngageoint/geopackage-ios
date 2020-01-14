@@ -27,7 +27,7 @@
 @implementation GPKGFeatureIndexManager
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTable: (NSString *) featureTable{
-    return [self initWithGeoPackage:geoPackage andFeatureDao:[geoPackage getFeatureDaoWithTableName:featureTable]];
+    return [self initWithGeoPackage:geoPackage andFeatureDao:[geoPackage featureDaoWithTableName:featureTable]];
 }
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao{
@@ -56,24 +56,24 @@
     //[self.rTreeIndexTableDao close];
 }
 
--(GPKGFeatureDao *) getFeatureDao{
-    return self.featureDao;
+-(GPKGFeatureDao *) featureDao{
+    return _featureDao;
 }
 
--(GPKGFeatureTableIndex *) getFeatureTableIndex{
-    return self.featureTableIndex;
+-(GPKGFeatureTableIndex *) featureTableIndex{
+    return _featureTableIndex;
 }
 
--(GPKGFeatureIndexer *) getFeatureIndexer{
-    return self.featureIndexer;
+-(GPKGFeatureIndexer *) featureIndexer{
+    return _featureIndexer;
 }
 
--(GPKGRTreeIndexTableDao *) getRTreeIndexTableDao{
-    return self.rTreeIndexTableDao;
+-(GPKGRTreeIndexTableDao *) rTreeIndexTableDao{
+    return _rTreeIndexTableDao;
 }
 
--(NSArray *) getIndexLocationQueryOrder{
-    return self.indexLocationQueryOrder;
+-(NSArray *) indexLocationQueryOrder{
+    return _indexLocationQueryOrder;
 }
 
 -(void) prioritizeQueryLocationWithType: (enum GPKGFeatureIndexType) featureIndexType{
@@ -88,8 +88,8 @@
         NSString *featureIndexTypeString = featureIndexTypes[i];
         enum GPKGFeatureIndexType featureIndexType = [GPKGFeatureIndexTypes fromName:featureIndexTypeString];
         if((int)featureIndexType >= 0 && featureIndexType != GPKG_FIT_NONE){
-            [self.indexLocationQueryOrder removeObject:featureIndexTypeString];
-            [self.indexLocationQueryOrder insertObject:featureIndexTypeString atIndex:0];
+            [_indexLocationQueryOrder removeObject:featureIndexTypeString];
+            [_indexLocationQueryOrder insertObject:featureIndexTypeString atIndex:0];
         }
     }
 }
@@ -105,7 +105,7 @@
         }
     }
     // Update the query order set
-    self.indexLocationQueryOrder = queryOrder;
+    _indexLocationQueryOrder = queryOrder;
 }
 
 -(void) setProgress: (NSObject<GPKGProgress> *) progress{
@@ -372,11 +372,11 @@
     return indexed;
 }
 
--(NSDate *) getLastIndexed{
+-(NSDate *) lastIndexed{
     NSDate * lastIndexed = nil;
     for(NSString * typeName in self.indexLocationQueryOrder){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
-        lastIndexed = [self getLastIndexedWithFeatureIndexType:type];
+        lastIndexed = [self lastIndexedWithFeatureIndexType:type];
         if(lastIndexed != nil){
             break;
         }
@@ -384,17 +384,17 @@
     return lastIndexed;
 }
 
--(NSDate *) getLastIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
+-(NSDate *) lastIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
     NSDate * lastIndexed = nil;
     if(type == GPKG_FIT_NONE){
-        lastIndexed = [self getLastIndexed];
+        lastIndexed = [self lastIndexed];
     }else{
         switch(type){
             case GPKG_FIT_GEOPACKAGE:
-                lastIndexed = [self.featureTableIndex getLastIndexed];
+                lastIndexed = [self.featureTableIndex lastIndexed];
                 break;
             case GPKG_FIT_METADATA:
-                lastIndexed = [self.featureIndexer getLastIndexed];
+                lastIndexed = [self.featureIndexer lastIndexed];
                 break;
             case GPKG_FIT_RTREE:
                 if([self.rTreeIndexTableDao has]){
@@ -411,7 +411,7 @@
 
 -(GPKGFeatureIndexResults *) query{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             {
@@ -442,7 +442,7 @@
 
 -(int) count{
     int count = 0;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             count = [self.featureTableIndex count];
@@ -461,7 +461,7 @@
 
 -(GPKGBoundingBox *) boundingBox{
     GPKGBoundingBox *bounds = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             bounds = [self.featureTableIndex boundingBox];
@@ -470,7 +470,7 @@
             bounds = [self.featureIndexer boundingBox];
             break;
         case GPKG_FIT_RTREE:
-            bounds = [self.rTreeIndexTableDao getBoundingBox];
+            bounds = [self.rTreeIndexTableDao boundingBox];
             break;
         default:
             bounds = [self.manualFeatureQuery boundingBox];
@@ -480,7 +480,7 @@
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
     GPKGBoundingBox *bounds = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             bounds = [self.featureTableIndex boundingBoxInProjection:projection];
@@ -499,7 +499,7 @@
 
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             {
@@ -527,7 +527,7 @@
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     int count = 0;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             count = [self.featureTableIndex countWithBoundingBox:boundingBox];
@@ -546,7 +546,7 @@
 
 -(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             {
@@ -574,7 +574,7 @@
 
 -(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     int count = 0;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             count = [self.featureTableIndex countWithGeometryEnvelope:envelope];
@@ -593,7 +593,7 @@
 
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             {
@@ -621,7 +621,7 @@
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     int count = 0;
-    enum GPKGFeatureIndexType type = [self getIndexedType];
+    enum GPKGFeatureIndexType type = [self indexedType];
     switch (type) {
         case GPKG_FIT_GEOPACKAGE:
             count = [self.featureTableIndex countWithBoundingBox:boundingBox inProjection:projection];
@@ -639,13 +639,13 @@
 }
 
 -(enum GPKGFeatureIndexType) verifyIndexLocation{
-    if(self.indexLocation == GPKG_FIT_NONE){
+    if(_indexLocation == GPKG_FIT_NONE){
         [NSException raise:@"No Index Location" format:@"Index Location is not set, set the location or call an index method specifying the location"];
     }
-    return self.indexLocation;
+    return _indexLocation;
 }
 
--(enum GPKGFeatureIndexType) getIndexedType{
+-(enum GPKGFeatureIndexType) indexedType{
     
     enum GPKGFeatureIndexType indexType = GPKG_FIT_NONE;
     

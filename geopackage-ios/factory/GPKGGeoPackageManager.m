@@ -31,10 +31,10 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     if(self != nil){
         self.metadataDb = [[GPKGMetadataDb alloc] init];
         
-        self.importHeaderValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_HEADER];
-        self.importIntegrityValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_INTEGRITY];
-        self.openHeaderValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_HEADER];
-        self.openIntegrityValidation = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_INTEGRITY];
+        self.importHeaderValidation = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_HEADER];
+        self.importIntegrityValidation = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_IMPORT_INTEGRITY];
+        self.openHeaderValidation = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_HEADER];
+        self.openIntegrityValidation = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_MANAGER_VALIDATION andProperty:GPKG_PROP_MANAGER_VALIDATION_OPEN_INTEGRITY];
     }
     return self;
 }
@@ -45,8 +45,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databases{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao getAllNamesSorted];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray * databases = [geoPackageMetadataDao allNamesSorted];
 
     databases = [self deleteMissingDatabases:databases];
     
@@ -55,8 +55,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databasesLike: (NSString *) like{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao getMetadataWhereNameLike:like sortedBy:GPKG_GPM_COLUMN_NAME];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray * databases = [geoPackageMetadataDao metadataWhereNameLike:like sortedBy:GPKG_GPM_COLUMN_NAME];
     
     databases = [self deleteMissingDatabases:databases];
     
@@ -65,8 +65,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databasesNotLike: (NSString *) notLike{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao getMetadataWhereNameNotLike:notLike sortedBy:GPKG_GPM_COLUMN_NAME];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray * databases = [geoPackageMetadataDao metadataWhereNameNotLike:notLike sortedBy:GPKG_GPM_COLUMN_NAME];
     
     databases = [self deleteMissingDatabases:databases];
     
@@ -85,7 +85,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(int) count{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     int count = [geoPackageMetadataDao count];
     return count;
 }
@@ -94,8 +94,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     
     NSString * path = nil;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
 
     if(metadata != nil){
         path = metadata.path;
@@ -128,8 +128,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(BOOL) exists: (NSString *) database{
     BOOL exists = NO;
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata != nil){
         NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
         NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -168,8 +168,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     BOOL deleted = false;
     
     // Get the metadata record
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata != nil){
         
         // Delete the file
@@ -191,8 +191,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(BOOL) deleteAllAndFiles: (BOOL) deleteFiles{
 
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    NSArray * allMetadata = [geoPackageMetadataDao getAll];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray * allMetadata = [geoPackageMetadataDao all];
     
     if(allMetadata != nil){
         for(GPKGGeoPackageMetadata * metadata in allMetadata){
@@ -539,7 +539,7 @@ didCompleteWithError:(nullable NSError *)error{
     GPKGGeoPackage * geoPackage = [self open:name];
     if(geoPackage != nil){
         @try {
-            if(![[geoPackage getSpatialReferenceSystemDao] tableExists] || ! [[geoPackage getContentsDao] tableExists]){
+            if(![[geoPackage spatialReferenceSystemDao] tableExists] || ! [[geoPackage contentsDao] tableExists]){
                 [NSException raise:@"Invalid GeoPackage" format:@"Invalid GeoPackage database file. Does not contain required tables: %@ & %@, Database: %@", GPKG_SRS_TABLE_NAME, GPKG_CON_TABLE_NAME, name];
             }
         }
@@ -657,8 +657,8 @@ didCompleteWithError:(nullable NSError *)error{
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy andSameDirectory: (BOOL) sameDirectory{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -695,8 +695,8 @@ didCompleteWithError:(nullable NSError *)error{
     
     BOOL renamed = false;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -730,8 +730,8 @@ didCompleteWithError:(nullable NSError *)error{
     
     BOOL moved = false;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao getMetadataByName:database];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -961,7 +961,7 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(void) createMetadataWithName: (NSString *) name andPath: (NSString *) path{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     [self createMetadataWithDao:geoPackageMetadataDao andName:name andPath:path];
 }
 

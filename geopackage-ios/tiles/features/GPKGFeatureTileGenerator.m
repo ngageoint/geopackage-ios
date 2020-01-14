@@ -45,7 +45,7 @@
 
 -(GPKGBoundingBox *) boundingBoxWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureTiles: (GPKGFeatureTiles *) featureTiles andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
     
-    NSString *tableName = [featureTiles getFeatureDao].tableName;
+    NSString *tableName = [featureTiles featureDao].tableName;
     BOOL manualQuery = boundingBox == nil;
     GPKGBoundingBox *featureBoundingBox = [geoPackage boundingBoxOfTable:tableName inProjection:projection andManual:manualQuery];
     if(featureBoundingBox != nil){
@@ -68,8 +68,8 @@
     SFPProjectionTransform *projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     GPKGBoundingBox *webMercatorBoundingBox = [self.boundingBox transform:projectionToWebMercator];
 
-    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:webMercatorBoundingBox andZoom:zoom];
-    GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:webMercatorBoundingBox andZoom:zoom];
+    GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
     
     GPKGBoundingBox *expandedBoundingBox = [self.featureTiles expandBoundingBox:webMercatorBoundingBox withTileBoundingBox:tileBoundingBox];
     
@@ -86,7 +86,7 @@
 -(void) preTileGeneration{
     
     // Link the feature and tile table if they are in the same GeoPackage
-    NSString * featureTable = [self.featureTiles getFeatureDao].tableName;
+    NSString * featureTable = [self.featureTiles featureDao].tableName;
     NSString * tileTable = self.tableName;
     if (self.linkTables && [self.geoPackage isFeatureTable:featureTable] && [self.geoPackage isTileTable:tileTable]) {
         GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:self.geoPackage];

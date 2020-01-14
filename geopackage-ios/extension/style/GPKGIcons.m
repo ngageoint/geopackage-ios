@@ -50,11 +50,11 @@
 }
 
 -(GPKGIconRow *) defaultIcon{
-    return self.defaultIconRow;
+    return _defaultIconRow;
 }
 
 -(NSDictionary<NSNumber *, GPKGIconRow *> *) allIcons{
-    return self.icons;
+    return _icons;
 }
 
 -(GPKGIconRow *) icon{

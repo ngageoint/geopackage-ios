@@ -907,7 +907,7 @@
  *
  *  @return location coordinates
  */
-+(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points;
++(CLLocationCoordinate2D *) locationCoordinatesFromPoints: (NSArray *) points;
 
 /**
  *  Get the location coordinates from the locations
@@ -916,7 +916,7 @@
  *
  *  @return location coordinates
  */
-+(CLLocationCoordinate2D *) getLocationCoordinatesFromLocations: (NSArray *) locations;
++(CLLocationCoordinate2D *) locationCoordinatesFromLocations: (NSArray *) locations;
 
 /**
  *  Convert a Map Shape to a WKB Geometry

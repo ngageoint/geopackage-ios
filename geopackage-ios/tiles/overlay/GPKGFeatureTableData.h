@@ -40,21 +40,21 @@
  *
  *  @return table name
  */
--(NSString *) getName;
+-(NSString *) name;
 
 /**
  *  Get the feature row count
  *
  *  @return count of rows
  */
--(int) getCount;
+-(int) count;
 
 /**
  *  Get the feature row data
  *
  *  @return feature rows
  */
--(NSArray<GPKGFeatureRowData *> *) getRows;
+-(NSArray<GPKGFeatureRowData *> *) rows;
 
 /**
  *  Build a JSON compatible object

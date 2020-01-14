@@ -34,16 +34,16 @@
 }
 
 
--(NSNumber *) getConnectionId{
-    return self.connectionId;
+-(NSNumber *) connectionId{
+    return _connectionId;
 }
 
--(sqlite3 *) getConnection{
-    return self.connection;
+-(sqlite3 *) connection{
+    return _connection;
 }
 
 -(void) releaseConnection{
-    [self.connectionPool releaseConnectionWithId:[self getConnectionId]];
+    [self.connectionPool releaseConnectionWithId:[self connectionId]];
 }
 
 -(void) checkOut{
@@ -54,16 +54,16 @@
 }
 
 -(void) checkIn{
-    self.stackTrace = nil;
-    self.dateCheckedOut = nil;
+    _stackTrace = nil;
+    _dateCheckedOut = nil;
 }
 
--(NSArray<NSString *> *) getStackTrace{
-    return self.stackTrace;
+-(NSArray<NSString *> *) stackTrace{
+    return _stackTrace;
 }
 
--(NSDate *) getDateCheckedOut{
-    return self.dateCheckedOut;
+-(NSDate *) dateCheckedOut{
+    return _dateCheckedOut;
 }
 
 -(BOOL) isReleasable{

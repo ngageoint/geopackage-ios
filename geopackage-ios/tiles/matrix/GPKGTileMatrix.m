@@ -26,7 +26,7 @@ NSString * const GPKG_TM_COLUMN_PIXEL_Y_SIZE = @"pixel_y_size";
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
         // Verify the Contents have a tiles data type (Spec Requirement 42)
-        enum GPKGContentsDataType dataType = contents.getContentsDataType;
+        enum GPKGContentsDataType dataType = contents.contentsDataType;
         if(dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_GRIDDED_COVERAGE){
             [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CDT_GRIDDED_COVERAGE_NAME];
         }

@@ -38,16 +38,16 @@
     self.yOffset = self.height / 2.0;
 }
 
--(UIImage *) getIcon{
-    return self.icon;
+-(UIImage *) icon{
+    return _icon;
 }
 
--(int) getWidth{
-    return self.width;
+-(int) width{
+    return _width;
 }
 
--(int) getHeight{
-    return self.height;
+-(int) height{
+    return _height;
 }
 
 @end

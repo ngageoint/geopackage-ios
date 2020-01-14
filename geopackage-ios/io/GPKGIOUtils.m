@@ -18,11 +18,11 @@ static int COPY_BUFFER_SIZE = 8192;
 
 @implementation GPKGIOUtils
 
-+(NSString *) getPropertyListPathWithName: (NSString *) name{
-    return [self getResourcePathWithName:name andType:GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE];
++(NSString *) propertyListPathWithName: (NSString *) name{
+    return [self resourcePathWithName:name andType:GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE];
 }
 
-+(NSString *) getResourcePathWithName: (NSString *) name andType: (NSString *) type{
++(NSString *) resourcePathWithName: (NSString *) name andType: (NSString *) type{
     
     NSString * resource = [NSString stringWithFormat:@"%@/%@", GPKG_GEO_PACKAGE_BUNDLE_NAME, name];
     NSString * resourcePath = [[NSBundle mainBundle] pathForResource:resource ofType:type];
@@ -55,28 +55,28 @@ static int COPY_BUFFER_SIZE = 8192;
 }
 
 +(NSString *) geoPackageDirectory{
-    NSString * geopackage = [GPKGProperties getValueOfProperty:GPKG_PROP_DIR_GEOPACKAGE];
+    NSString * geopackage = [GPKGProperties valueOfProperty:GPKG_PROP_DIR_GEOPACKAGE];
     [self createDirectoryIfNotExists:geopackage];
     return geopackage;
 }
 
 +(NSString *) databaseDirectory{
     NSString * geopackage = [self geoPackageDirectory];
-    NSString * database = [geopackage stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_DATABASE]];
+    NSString * database = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_DATABASE]];
     [self createDirectoryIfNotExists:database];
     return database;
 }
 
 +(NSString *) metadataDirectory{
     NSString * geopackage = [self geoPackageDirectory];
-    NSString * metadata = [geopackage stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_METADATA]];
+    NSString * metadata = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA]];
     [self createDirectoryIfNotExists:metadata];
     return metadata;
 }
 
 +(NSString *) metadataDatabaseFile{
     NSString * metadataDirectory = [self metadataDirectory];
-    NSString * metadataFile = [metadataDirectory stringByAppendingPathComponent:[GPKGProperties getValueOfProperty:GPKG_PROP_DIR_METADATA_FILE_DB]];
+    NSString * metadataFile = [metadataDirectory stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA_FILE_DB]];
     return metadataFile;
 }
 

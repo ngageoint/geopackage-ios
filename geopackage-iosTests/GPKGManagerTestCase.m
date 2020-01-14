@@ -17,7 +17,7 @@
 - (void)setUp {
     [super setUp];
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     [manager delete:GPKG_TEST_DB_NAME];
     [manager delete:GPKG_TEST_IMPORT_DB_NAME];
     [manager delete:GPKG_TEST_IMPORT_CORRUPT_DB_NAME];
@@ -31,7 +31,7 @@
 
 -(void) testCreateOpenDelete{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Verify does not exist
     [GPKGTestUtils assertFalse:[manager exists:GPKG_TEST_DB_NAME]];
@@ -62,7 +62,7 @@
 
 -(void) testImport{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Verify does not exist
     [GPKGTestUtils assertFalse:[manager exists:GPKG_TEST_DB_NAME]];

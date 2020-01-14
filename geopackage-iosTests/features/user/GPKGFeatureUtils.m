@@ -14,15 +14,15 @@
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         GPKGResultSet *geometryColumnsResults = [geometryColumnsDao queryForAll];
         
         while([geometryColumnsResults moveToNext]){
-            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:geometryColumnsResults];
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:geometryColumnsResults];
             
-            GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
             
             GPKGResultSet *featureResults = [dao queryForAll];
@@ -33,7 +33,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [featureResults moveToPosition:random];
                 
-                GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[dao getObject:featureResults];
+                GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[dao object:featureResults];
                 [featureResults close];
                 
                 // Create new row from existing
@@ -80,9 +80,9 @@
                 // Test copied row
                 GPKGFeatureRow *copyRow = [queryFeatureRow2 mutableCopy];
                 for(GPKGFeatureColumn *column in dao.table.columns){
-                    if(column.index == [queryFeatureRow2 getGeometryColumnIndex]){
-                        GPKGGeometryData *geometry1 = [queryFeatureRow2 getGeometry];
-                        GPKGGeometryData *geometry2 = [copyRow getGeometry];
+                    if(column.index == [queryFeatureRow2 geometryColumnIndex]){
+                        GPKGGeometryData *geometry1 = [queryFeatureRow2 geometry];
+                        GPKGGeometryData *geometry2 = [copyRow geometry];
                         if (geometry1 == nil) {
                             [GPKGTestUtils assertNil:geometry2];
                         } else {
@@ -117,9 +117,9 @@
                 for(GPKGFeatureColumn *column in dao.table.columns){
                     if(column.primaryKey){
                         [GPKGTestUtils assertFalse:[[queryFeatureRow2 valueWithColumnName:column.name] isEqual:[queryFeatureRow3 valueWithColumnName:column.name]]];
-                    } else if (column.index == [queryFeatureRow2 getGeometryColumnIndex]) {
-                        GPKGGeometryData *geometry1 = [queryFeatureRow2 getGeometry];
-                        GPKGGeometryData *geometry2 = [queryFeatureRow3 getGeometry];
+                    } else if (column.index == [queryFeatureRow2 geometryColumnIndex]) {
+                        GPKGGeometryData *geometry1 = [queryFeatureRow2 geometry];
+                        GPKGGeometryData *geometry2 = [queryFeatureRow3 geometry];
                         if (geometry1 == nil) {
                             [GPKGTestUtils assertNil:geometry2];
                         } else {
@@ -147,15 +147,15 @@
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
         GPKGResultSet *geometryColumnsResults = [geometryColumnsDao queryForAll];
         
         while([geometryColumnsResults moveToNext]){
-            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:geometryColumnsResults];
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:geometryColumnsResults];
             
-            GPKGFeatureDao *dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
             
             GPKGResultSet *featureResults = [dao queryForAll];
@@ -166,7 +166,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [featureResults moveToPosition:random];
                 
-                GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[dao getObject:featureResults];
+                GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[dao object:featureResults];
                 [featureResults close];
                 
                 // Delete row

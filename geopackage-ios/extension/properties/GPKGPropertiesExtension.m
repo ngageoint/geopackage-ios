@@ -32,12 +32,12 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_PROPERTIES_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
-        self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION];
+        self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION];
     }
     return self;
 }
 
--(GPKGExtensions *) getOrCreate{
+-(GPKGExtensions *) extensionCreate{
     
     // Create the attributes table
     if(![self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
@@ -54,7 +54,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
         [self.geoPackage createAttributesTableWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andAdditionalColumns:additionalColumns andConstraints:constraints];
     }
     
-    GPKGExtensions *extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
@@ -64,19 +64,19 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(GPKGAttributesDao *) dao{
-    return [self.geoPackage getAttributesDaoWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    return [self.geoPackage attributesDaoWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
 }
 
 -(GPKGAttributesRow *) newRow{
     return [[self dao] newRow];
 }
 
--(NSString *) getExtensionName{
-    return self.extensionName;
+-(NSString *) extensionName{
+    return _extensionName;
 }
 
--(NSString *) getExtensionDefinition{
-    return self.extensionDefinition;
+-(NSString *) extensionDefinition{
+    return _extensionDefinition;
 }
 
 -(int) numProperties{
@@ -155,7 +155,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 
 -(BOOL) addValue: (NSString *) value withProperty: (NSString *) property{
     if(![self has]){
-        [self getOrCreate];
+        [self extensionCreate];
     }
     BOOL added = NO;
     if (![self hasValue:value withProperty:property]) {
@@ -244,7 +244,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
     if(results != nil){
         @try {
             if (results.count > 0) {
-                int columnIndex = [results getColumnIndexWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
+                int columnIndex = [results columnIndexWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
                 values = [self columnResultsAtIndex:columnIndex withResults:results];
             } else {
                 values = [[NSArray alloc] init];
@@ -272,7 +272,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 
     NSMutableArray<NSString *> *values = [[NSMutableArray alloc] init];
     while ([results moveToNext]) {
-        [values addObject:[results getString:columnIndex]];
+        [values addObject:[results stringWithIndex:columnIndex]];
     }
     
     return values;

@@ -27,10 +27,10 @@
     int cacheSize = 1 + [GPKGTestUtils randomIntLessThan:10];
     GPKGFeatureCacheTables *featureCache = [[GPKGFeatureCacheTables alloc] initWithMaxCacheSize:cacheSize];
     
-    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
@@ -56,7 +56,7 @@
     
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
@@ -86,7 +86,7 @@
     
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
@@ -106,7 +106,7 @@
     [GPKGTestUtils assertEqualUnsignedLongWithValue:featureTables.count andValue2:[featureCache2 tables].count];
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         

@@ -35,7 +35,7 @@
             
             GPKGPolylineOptions *options = self.polyline.options;
             
-            CLLocationCoordinate2D * points = [GPKGMapShapeConverter getLocationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D * points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
             self.polyline = [GPKGPolyline polylineWithCoordinates:points count:[self.points count]];
             
             [self.polyline setOptions:options];
@@ -64,8 +64,8 @@
     return [self.points count] == 0;
 }
 
--(NSArray *) getPoints{
-    return self.points;
+-(NSArray *) points{
+    return _points;
 }
 
 -(void) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView * ) mapView{

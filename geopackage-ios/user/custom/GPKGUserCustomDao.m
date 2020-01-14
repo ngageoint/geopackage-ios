@@ -33,7 +33,7 @@
 }
 
 -(GPKGUserCustomRow *) row: (GPKGResultSet *) results{
-    return (GPKGUserCustomRow *) [self getRow:results];
+    return (GPKGUserCustomRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
@@ -60,7 +60,7 @@
     return dao;
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     [NSException raise:@"Not Supported" format:@"Bounding Box not supported for User Custom"];
     return nil;
 }

@@ -39,7 +39,7 @@
 
 -(void) validateContents:(GPKGContents *)contents{
     // Verify the Contents have a tiles data type
-    enum GPKGContentsDataType dataType = [contents getContentsDataType];
+    enum GPKGContentsDataType dataType = [contents contentsDataType];
     if (dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_GRIDDED_COVERAGE) {
         [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Tile Table must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CDT_GRIDDED_COVERAGE_NAME];
     }

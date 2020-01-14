@@ -29,7 +29,7 @@
     [GPKGUtils setObject:value forKey:column inDictionary:self.values];
 }
 
--(NSObject *) getValue: (NSString *) column{
+-(NSObject *) value: (NSString *) column{
     return [GPKGUtils objectForKey:column inDictionary:self.values];
 }
 

@@ -53,7 +53,7 @@
     
     NSData * tileData = nil;
     
-    GPKGGeoPackageTile * geoPackageTile = [self.retriever getTileWithX:x andY:y andZoom:zoom];
+    GPKGGeoPackageTile * geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){
         tileData = geoPackageTile.data;
     }

@@ -75,7 +75,7 @@
 }
 
 -(NSArray *) columnNames{
-    return self.table.columnNames;
+    return _table.columnNames;
 }
 
 -(NSString *) columnNameWithIndex: (int) index{

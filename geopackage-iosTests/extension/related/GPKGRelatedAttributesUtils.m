@@ -26,7 +26,7 @@
     [GPKGTestUtils assertTrue:[rte relationships].count == 0];
     
     // Choose a random attributes table
-    NSArray<NSString *> *attributesTables = [geoPackage getAttributesTables];
+    NSArray<NSString *> *attributesTables = [geoPackage attributesTables];
     if(attributesTables.count == 0){
         return; // pass with no testing
     }
@@ -64,22 +64,22 @@
     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
     
     // Build the Attributes ids
-    GPKGAttributesDao *attributesDao = [geoPackage getAttributesDaoWithTableName:baseTableName];
+    GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:baseTableName];
     GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao getAttributesRow:attributesResultSet] id]];
+        [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
     // Build the Attribute related ids
-    GPKGAttributesDao *attributesDao2 = [geoPackage getAttributesDaoWithTableName:relatedTableName];
+    GPKGAttributesDao *attributesDao2 = [geoPackage attributesDaoWithTableName:relatedTableName];
     GPKGResultSet *attributesResultSet2 = [attributesDao2 queryForAll];
     int attributesCount2 = attributesResultSet2.count;
     NSMutableArray<NSNumber *> *attributeIds2 = [[NSMutableArray alloc] init];
     while([attributesResultSet2 moveToNext]){
-        [attributeIds2 addObject:[[attributesDao2 getAttributesRow:attributesResultSet2] id]];
+        [attributeIds2 addObject:[[attributesDao2 attributesRow:attributesResultSet2] id]];
     }
     [attributesResultSet2 close];
 
@@ -116,7 +116,7 @@
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
     [resultSet close];
     
-    GPKGExtendedRelationsDao *extendedRelationsDao = [rte getExtendedRelationsDao];
+    GPKGExtendedRelationsDao *extendedRelationsDao = [rte extendedRelationsDao];
     
     // Get the relations starting from the attributes table
     GPKGResultSet *attributesExtendedRelations = [extendedRelationsDao relationsToBaseTable:attributesDao.tableName];
@@ -209,13 +209,13 @@
         [mappingResultSet close];
         
         // Get and test the attributes DAO
-        attributesDao = [geoPackage getAttributesDaoWithTableName:attributesDao.tableName];
+        attributesDao = [geoPackage attributesDaoWithTableName:attributesDao.tableName];
         [GPKGTestUtils assertNotNil:attributesDao];
-        GPKGAttributesTable *attributesTable = [attributesDao getAttributesTable];
+        GPKGAttributesTable *attributesTable = [attributesDao attributesTable];
         [GPKGTestUtils assertNotNil:attributesTable];
         GPKGContents *attributesContents = attributesTable.contents;
         [GPKGTestUtils assertNotNil:attributesContents];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents getContentsDataType]];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_ATTRIBUTES andValue2:[attributesContents contentsDataType]];
         [GPKGTestUtils assertEqualWithValue:[GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES] andValue2:attributesContents.dataType];
         [GPKGTestUtils assertEqualWithValue:attributesTable.tableName andValue2:attributesContents.tableName];
         [GPKGTestUtils assertNotNil:attributesContents.lastChange];
@@ -224,7 +224,7 @@
         attributesResultSet2 = [attributesDao2 queryForAll];
         int totalMapped = 0;
         while([attributesResultSet2 moveToNext]){
-            GPKGAttributesRow *attributes2Row = [attributesDao2 getAttributesRow:attributesResultSet2];
+            GPKGAttributesRow *attributes2Row = [attributesDao2 attributesRow:attributesResultSet2];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[attributes2Row idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGAttributesRow *attributesRow = (GPKGAttributesRow *)[attributesDao queryForIdObject:mappedId];

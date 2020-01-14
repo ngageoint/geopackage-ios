@@ -27,7 +27,7 @@
     return self;
 }
 
--(GPKGBoundingBox *) getWebMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
+-(GPKGBoundingBox *) webMercatorBoundingBoxWithRequestBoundingBox: (GPKGBoundingBox *) requestWebMercatorBoundingBox{
     return [self.featureTiles expandBoundingBox:self.webMercatorBoundingBox withTileBoundingBox:requestWebMercatorBoundingBox];
 }
 

@@ -22,9 +22,9 @@
     return true;
 }
 
--(GPKGGeoPackage *) getGeoPackage{
+-(GPKGGeoPackage *) createGeoPackage{
 
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
@@ -46,9 +46,9 @@
     
     GPKGBoundingBox * bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage getSpatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem * contentsSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
-    GPKGSpatialReferenceSystem * tileMatrixSetSrs = [srsDao getOrCreateWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystem * contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystem * tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
     GPKGCoverageDataPng * coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
     GPKGTileDao * tileDao = coverageData.tileDao;
@@ -107,14 +107,14 @@
     }else{
         [GPKGTestUtils assertTrue:[griddedCoverage.precision doubleValue] >= 0.0 && [griddedCoverage.precision doubleValue] <= 10.0];
     }
-    [GPKGTestUtils assertEqualIntWithValue:encoding andValue2:[griddedCoverage getGridCellEncodingType]];
+    [GPKGTestUtils assertEqualIntWithValue:encoding andValue2:[griddedCoverage gridCellEncodingType]];
     [GPKGTestUtils assertEqualWithValue:[GPKGGriddedCoverageEncodingTypes name:encoding] andValue2:griddedCoverage.gridCellEncoding];
     [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.fieldName];
     [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.quantityDefinition];
     
     GPKGGriddedTile * commonGriddedTile = [[GPKGGriddedTile alloc] init];
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage getTileMatrixSetDao];
-    GPKGContents * contents = [tileMatrixSetDao getContents:tileMatrixSet];
+    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
     [commonGriddedTile setContents:contents];
     BOOL defaultGTScale = true;
     if([GPKGTestUtils randomDouble] <.5){
@@ -166,7 +166,7 @@
     coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
     NSData * imageData = [self drawTileWithCoverageData:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
     
-    GPKGTileMatrixDao * tileMatrixDao = [geoPackage getTileMatrixDao];
+    GPKGTileMatrixDao * tileMatrixDao = [geoPackage tileMatrixDao];
     
     for (int zoomLevel = minZoomLevel; zoomLevel <= maxZoomLevel; zoomLevel++) {
         

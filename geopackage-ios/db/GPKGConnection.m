@@ -51,7 +51,7 @@
 }
 
 -(GPKGResultSet *) rawQuery:(NSString *) statement andArgs: (NSArray *) args{
-    GPKGDbConnection * connection = [self.connectionPool getResultConnection];
+    GPKGDbConnection * connection = [self.connectionPool resultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection andStatement:statement andArgs:args];
     return resultSet;
 }
@@ -81,7 +81,7 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    GPKGDbConnection * connection = [self.connectionPool getResultConnection];
+    GPKGDbConnection * connection = [self.connectionPool resultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection
                                         andDistinct:false andTable:table
                                          andColumns:columns
@@ -99,35 +99,35 @@
 }
 
 -(int) count:(NSString *) statement andArgs: (NSArray *) args{
-    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool connection];
     int count = [GPKGSqlUtils countWithDatabase:connection andStatement:statement andArgs:args];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
-    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool connection];
     int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool connection];
     int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool connection];
     NSNumber * min = [GPKGSqlUtils minWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return min;
 }
 
 -(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool getConnection];
+    GPKGDbConnection * connection = [self.connectionPool connection];
     NSNumber * max = [GPKGSqlUtils maxWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return max;
@@ -190,56 +190,56 @@
 }
 
 -(long long) insert:(NSString *) statement{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return id;
 }
 
 -(int) update:(NSString *) statement{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andTable:table andValues:values andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) updateWithTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils updateWithDatabase:connection andTable:table andValues:values andWhere:where andWhereArgs:whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(long long) insertWithTable: (NSString *) table andValues: (GPKGContentValues *) values{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     long long id = [GPKGSqlUtils insertWithDatabase:connection andTable:table andValues:values];
     [self.connectionPool releaseConnection:connection];
     return id;
 }
 
 -(int) delete:(NSString *) statement{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andTable:table andWhere:where];
     [self.connectionPool releaseConnection:connection];
     return count;
 }
 
 -(int) deleteWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     int count = [GPKGSqlUtils deleteWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs];
     [self.connectionPool releaseConnection:connection];
     return count;
@@ -254,7 +254,7 @@
 }
 
 -(void) exec:(NSString *) statement asResettable: (BOOL) resettable{
-    GPKGDbConnection * connection = [self.connectionPool getWriteConnection];
+    GPKGDbConnection * connection = [self.connectionPool writeConnection];
     [connection setResettable:resettable];
     [GPKGSqlUtils execWithDatabase:connection andStatement:statement];
     [self.connectionPool releaseConnection:connection];
@@ -305,7 +305,7 @@
 }
 
 -(NSObject *) querySingleResultWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType{
-    GPKGDbConnection *connection = [self.connectionPool getConnection];
+    GPKGDbConnection *connection = [self.connectionPool connection];
     NSObject *result = [GPKGSqlUtils querySingleResultWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType];
     [self.connectionPool releaseConnection:connection];
     return result;
@@ -332,7 +332,7 @@
 }
 
 -(NSArray<NSObject *> *) querySingleColumnResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andColumn: (int) column andDataType: (enum GPKGDataType) dataType andLimit: (NSNumber *) limit{
-    GPKGDbConnection *connection = [self.connectionPool getConnection];
+    GPKGDbConnection *connection = [self.connectionPool connection];
     NSArray<NSObject *> *result = [GPKGSqlUtils querySingleColumnResultsWithDatabase:connection andSql:sql andArgs:args andColumn:column andDataType:dataType andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
@@ -364,7 +364,7 @@
 }
 
 -(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
-    GPKGDbConnection *connection = [self.connectionPool getConnection];
+    GPKGDbConnection *connection = [self.connectionPool connection];
     NSArray<NSArray<NSObject *> *> *result = [GPKGSqlUtils queryResultsWithDatabase:connection andSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
@@ -387,7 +387,7 @@
     GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA application_id"]];
     @try{
         if([result moveToNext]){
-            NSNumber * resultNumber = [result getInt:0];
+            NSNumber * resultNumber = [result intWithIndex:0];
             int applicationIdInt = CFSwapInt32HostToBig([resultNumber intValue]);
             NSData * applicationIdData = [NSData dataWithBytes:&applicationIdInt length:4];
             applicationId = [[NSString alloc] initWithData:applicationIdData encoding:NSUTF8StringEncoding];
@@ -414,7 +414,7 @@
     GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA user_version"]];
     @try{
         if([result moveToNext]){
-            userVersion = [[result getInt:0] intValue];
+            userVersion = [[result intWithIndex:0] intValue];
         }
     }@finally{
         [result close];

@@ -44,11 +44,11 @@
     return self;
 }
 
--(GPKGUserRow *) getRowOrLockId: (int) id{
-    return [self getRowOrLockNumber:[[NSNumber alloc] initWithInt:id]];
+-(GPKGUserRow *) rowOrLockId: (int) id{
+    return [self rowOrLockNumber:[[NSNumber alloc] initWithInt:id]];
 }
 
--(GPKGUserRow *) getRowOrLockNumber: (NSNumber *) id{
+-(GPKGUserRow *) rowOrLockNumber: (NSNumber *) id{
     
     GPKGUserRow *row = nil;
     

@@ -23,7 +23,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 
 @implementation GPKGExtensions
 
--(enum GPKGExtensionScopeType) getExtensionScopeType{
+-(enum GPKGExtensionScopeType) extensionScopeType{
     enum GPKGExtensionScopeType value = -1;
     
     if(self.scope != nil){
@@ -65,12 +65,12 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
     [self setExtensionName:[GPKGExtensions buildExtensionNameWithAuthor:author andExtensionName:extensionName]];
 }
 
--(NSString *) getAuthor{
-    return [GPKGExtensions getAuthorWithExtensionName:self.extensionName];
+-(NSString *) author{
+    return [GPKGExtensions authorWithExtensionName:self.extensionName];
 }
 
--(NSString *) getExtensionNameNoAuthor{
-    return [GPKGExtensions getExtensionNameNoAuthorWithExtensionName:self.extensionName];
+-(NSString *) extensionNameNoAuthor{
+    return [GPKGExtensions extensionNameNoAuthorWithExtensionName:self.extensionName];
 }
 
 +(NSString *) buildExtensionNameWithAuthor: (NSString *) author andExtensionName: (NSString *) extensionName{
@@ -81,7 +81,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
     return [self buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:extensionName];
 }
 
-+(NSString *) getAuthorWithExtensionName: (NSString *) extensionName{
++(NSString *) authorWithExtensionName: (NSString *) extensionName{
     NSString * author = nil;
     if(extensionName != nil){
         author = [GPKGUtils objectAtIndex:0 inArray:[extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
@@ -89,7 +89,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
     return author;
 }
 
-+(NSString *) getExtensionNameNoAuthorWithExtensionName: (NSString *) extensionName{
++(NSString *) extensionNameNoAuthorWithExtensionName: (NSString *) extensionName{
     NSString * value = nil;
     if(extensionName != nil){
         NSRange range = [extensionName rangeOfString:GPKG_EX_EXTENSION_NAME_DIVIDER];

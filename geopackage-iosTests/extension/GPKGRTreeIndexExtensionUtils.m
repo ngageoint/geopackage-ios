@@ -18,11 +18,11 @@
     
     GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray<NSString *> *featureTables = [geoPackage getFeatureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao *featureDao = [geoPackage getFeatureDaoWithTableName:featureTable];
-        GPKGFeatureTable *table = [featureDao getFeatureTable];
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
+        GPKGFeatureTable *table = [featureDao featureTable];
         
         if(![extension hasWithFeatureTable:table]){
             GPKGExtensions *createdExtension = [extension createWithFeatureTable:table];
@@ -54,7 +54,7 @@
             double minY = row.minY;
             double maxY = row.maxY;
             
-            SFGeometryEnvelope *envelope = [featureRow getGeometryEnvelope];
+            SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
             
             if (envelope != nil) {
                 [GPKGTestUtils assertTrue:[envelope.minX doubleValue] >= minX];

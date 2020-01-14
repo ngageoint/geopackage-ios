@@ -69,42 +69,42 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGGeometryIndex *getObject = (GPKGGeometryIndex*) object;
+    GPKGGeometryIndex *index = (GPKGGeometryIndex*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = index.tableName;
             break;
         case 1:
-            value = getObject.geomId;
+            value = index.geomId;
             break;
         case 2:
-            value = getObject.minX;
+            value = index.minX;
             break;
         case 3:
-            value = getObject.maxX;
+            value = index.maxX;
             break;
         case 4:
-            value = getObject.minY;
+            value = index.minY;
             break;
         case 5:
-            value = getObject.maxY;
+            value = index.maxY;
             break;
         case 6:
-            value = getObject.minZ;
+            value = index.minZ;
             break;
         case 7:
-            value = getObject.maxZ;
+            value = index.maxZ;
             break;
         case 8:
-            value = getObject.minM;
+            value = index.minM;
             break;
         case 9:
-            value = getObject.maxM;
+            value = index.maxM;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -114,13 +114,13 @@
     return value;
 }
 
--(GPKGTableIndex *) getTableIndex: (GPKGGeometryIndex *) geometryIndex{
-    GPKGTableIndexDao * dao = [self getTableIndexDao];
+-(GPKGTableIndex *) tableIndex: (GPKGGeometryIndex *) geometryIndex{
+    GPKGTableIndexDao * dao = [self tableIndexDao];
     GPKGTableIndex *tableIndex = (GPKGTableIndex *)[dao queryForIdObject:geometryIndex.tableName];
     return tableIndex;
 }
 
--(GPKGTableIndexDao *) getTableIndexDao{
+-(GPKGTableIndexDao *) tableIndexDao{
     return [[GPKGTableIndexDao alloc] initWithDatabase:self.database];
 }
 

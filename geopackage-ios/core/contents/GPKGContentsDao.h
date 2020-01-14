@@ -34,7 +34,7 @@
  *            data type
  * @return table names
  */
--(NSArray *) getTablesOfType: (enum GPKGContentsDataType) dataType;
+-(NSArray *) tablesOfType: (enum GPKGContentsDataType) dataType;
 
 /**
  * Get table names by data type
@@ -43,7 +43,7 @@
  *            data type
  * @return table names
  */
--(NSArray *) getTablesOfTypeName: (NSString *) dataType;
+-(NSArray *) tablesOfTypeName: (NSString *) dataType;
 
 /**
  * Get contents by data type
@@ -52,7 +52,7 @@
  *            data type
  * @return contents result set
  */
--(GPKGResultSet *) getContentsOfType: (enum GPKGContentsDataType) dataType;
+-(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType;
 
 /**
  * Get contents by data type
@@ -61,14 +61,14 @@
  *            data type
  * @return contents result set
  */
--(GPKGResultSet *) getContentsOfTypeName: (NSString *) dataType;
+-(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType;
 
 /**
  * Get table names
  *
  * @return table names
  */
--(NSArray *) getTables;
+-(NSArray *) tables;
 
 /**
  *  Delete the Contents, cascading
@@ -181,7 +181,7 @@
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) getSrs: (GPKGContents *) contents;
+-(GPKGSpatialReferenceSystem *) srs: (GPKGContents *) contents;
 
 /**
  *  Get the Geometry Columns
@@ -190,7 +190,7 @@
  *
  *  @return geometry columns
  */
--(GPKGGeometryColumns *) getGeometryColumns: (GPKGContents *) contents;
+-(GPKGGeometryColumns *) geometryColumns: (GPKGContents *) contents;
 
 /**
  *  Get the Tile Matrix Set
@@ -199,7 +199,7 @@
  *
  *  @return tile matrix set
  */
--(GPKGTileMatrixSet *) getTileMatrixSet: (GPKGContents *) contents;
+-(GPKGTileMatrixSet *) tileMatrixSet: (GPKGContents *) contents;
 
 /**
  *  Get the Tile Matrix results
@@ -208,7 +208,7 @@
  *
  *  @return result set
  */
--(GPKGResultSet *) getTileMatrix: (GPKGContents *) contents;
+-(GPKGResultSet *) tileMatrix: (GPKGContents *) contents;
 
 /**
  * Get the bounding box for all tables in the provided projection

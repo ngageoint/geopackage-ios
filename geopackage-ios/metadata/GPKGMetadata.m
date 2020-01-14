@@ -39,7 +39,7 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
 
 @implementation GPKGMetadata
 
--(enum GPKGMetadataScopeType) getMetadataScopeType{
+-(enum GPKGMetadataScopeType) metadataScopeType{
     enum GPKGMetadataScopeType value = -1;
     
     if(self.scope != nil){

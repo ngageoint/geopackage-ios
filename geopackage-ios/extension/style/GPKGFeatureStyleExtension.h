@@ -65,7 +65,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  * Determine if the GeoPackage has the extension

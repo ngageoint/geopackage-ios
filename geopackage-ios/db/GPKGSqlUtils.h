@@ -399,7 +399,7 @@
  *
  *  @return sql string
  */
-+(NSString *) getSqlValueString: (NSObject *) value;
++(NSString *) sqlValueString: (NSObject *) value;
 
 /**
  * Wrap the name in double quotes

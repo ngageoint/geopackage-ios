@@ -35,7 +35,7 @@ extern NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE;
  *
  *  @return extension
  */
--(GPKGExtensions *) getOrCreate;
+-(GPKGExtensions *) extensionCreate;
 
 /**
  * Determine if the GeoPackage has the extension
@@ -49,14 +49,14 @@ extern NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE;
  *
  *  @return extension name
  */
--(NSString *) getExtensionName;
+-(NSString *) extensionName;
 
 /**
  *  Get the extension definition
  *
  *  @return extension definition
  */
--(NSString *) getExtensionDefinition;
+-(NSString *) extensionDefinition;
 
 /**
  * Get the number of properties

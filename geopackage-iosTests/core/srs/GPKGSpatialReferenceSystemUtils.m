@@ -13,7 +13,7 @@
 
 +(void) testReadWithGeoPackage: (GPKGGeoPackage *) geoPackage andExpectedResults: (NSNumber *) expectedResults{
     
-    GPKGSpatialReferenceSystemDao *dao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [geoPackage spatialReferenceSystemDao];
     GPKGResultSet *results = [dao queryForAll];
     if (expectedResults != nil) {
         [GPKGTestUtils assertEqualIntWithValue:[expectedResults intValue] andValue2:results.count];
@@ -23,7 +23,7 @@
         
         // Verify non nulls
         while([results moveToNext]){
-            GPKGSpatialReferenceSystem *result = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+            GPKGSpatialReferenceSystem *result = (GPKGSpatialReferenceSystem *)[dao object:results];
             [GPKGTestUtils assertNotNil:result.srsName];
             [GPKGTestUtils assertNotNil:result.srsId];
             [GPKGTestUtils assertNotNil:result.organization];
@@ -35,7 +35,7 @@
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToFirst];
         [results moveToPosition:random];
-        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao object:results];
         [results close];
 
         // Query by id
@@ -50,7 +50,7 @@
         [GPKGTestUtils assertTrue:querySrsResults.count >= 1];
         BOOL found = false;
         while([querySrsResults moveToNext]){
-            GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao getObject:querySrsResults];
+            GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao object:querySrsResults];
             [GPKGTestUtils assertEqualWithValue:srs.organizationCoordsysId andValue2:querySrsValue.organizationCoordsysId];
             if(!found){
                 found = [srs.srsId intValue] == [querySrsValue.srsId intValue];
@@ -70,7 +70,7 @@
         [GPKGTestUtils assertTrue:querySrsResults.count > 0];
         found = false;
         while ([querySrsResults moveToNext]) {
-            GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao getObject:querySrsResults];
+            GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao object:querySrsResults];
             [GPKGTestUtils assertEqualWithValue:srs.definition andValue2:querySrsValue.definition];
             if(srs.theDescription != nil){
                 [GPKGTestUtils assertEqualWithValue:srs.theDescription andValue2:querySrsValue.theDescription];
@@ -88,7 +88,7 @@
 
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGSpatialReferenceSystemDao *dao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [geoPackage spatialReferenceSystemDao];
     GPKGResultSet *results = [dao queryForAll];
     
     if (results.count > 0) {
@@ -97,7 +97,7 @@
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToFirst];
         [results moveToPosition:random];
-        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao object:results];
         [results close];
         
         // Update
@@ -106,8 +106,8 @@
         [dao update:srs];
         
         // Verify update
-        dao = [geoPackage getSpatialReferenceSystemDao];
-        GPKGSpatialReferenceSystem *updatedSrs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:[dao getId:srs]];
+        dao = [geoPackage spatialReferenceSystemDao];
+        GPKGSpatialReferenceSystem *updatedSrs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:[dao id:srs]];
         [GPKGTestUtils assertEqualWithValue:updatedOrganization andValue2:updatedSrs.organization];
         
         // Prepared update
@@ -124,7 +124,7 @@
         results = [dao queryForAll];
         int count = 0;
         while([results moveToNext]){
-            GPKGSpatialReferenceSystem *preparedUpdateSrs = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+            GPKGSpatialReferenceSystem *preparedUpdateSrs = (GPKGSpatialReferenceSystem *)[dao object:results];
             if ([preparedUpdateSrs.srsId intValue] >= 0) {
                 [GPKGTestUtils assertEqualWithValue:updatedDescription andValue2:preparedUpdateSrs.theDescription];
                 count++;
@@ -140,7 +140,7 @@
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGSpatialReferenceSystemDao *dao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [geoPackage spatialReferenceSystemDao];
     
     // Get current count
     int count = [dao count];
@@ -178,7 +178,7 @@
     // Test copied srs
     GPKGSpatialReferenceSystem *copySrs = [querySrs mutableCopy];
     [GPKGTestUtils assertEqualWithValue:querySrs.srsName andValue2:copySrs.srsName];
-    [GPKGTestUtils assertEqualWithValue:[dao getId:querySrs] andValue2:[dao getId:copySrs]];
+    [GPKGTestUtils assertEqualWithValue:[dao id:querySrs] andValue2:[dao id:copySrs]];
     [GPKGTestUtils assertEqualWithValue:querySrs.organization andValue2:copySrs.organization];
     [GPKGTestUtils assertEqualIntWithValue:[querySrs.organizationCoordsysId intValue] andValue2:[copySrs.organizationCoordsysId intValue]];
     [GPKGTestUtils assertEqualWithValue:querySrs.definition andValue2:copySrs.definition];
@@ -198,7 +198,7 @@
     // Verify saved contents
     GPKGSpatialReferenceSystem *queryCopiedSrs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:copySrsId];
     [GPKGTestUtils assertEqualWithValue:querySrs.srsName andValue2:queryCopiedSrs.srsName];
-    [GPKGTestUtils assertEqualWithValue:copySrsId andValue2:[dao getId:queryCopiedSrs]];
+    [GPKGTestUtils assertEqualWithValue:copySrsId andValue2:[dao id:queryCopiedSrs]];
     [GPKGTestUtils assertEqualWithValue:querySrs.organization andValue2:queryCopiedSrs.organization];
     [GPKGTestUtils assertEqualIntWithValue:[querySrs.organizationCoordsysId intValue] andValue2:[queryCopiedSrs.organizationCoordsysId intValue]];
     [GPKGTestUtils assertEqualWithValue:querySrs.definition andValue2:queryCopiedSrs.definition];
@@ -221,7 +221,7 @@
 
 +(void) testDeleteHelperWithGeoPackage: (GPKGGeoPackage *) geoPackage andCascade: (BOOL) cascade{
     
-    GPKGSpatialReferenceSystemDao *dao = [geoPackage getSpatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [geoPackage spatialReferenceSystemDao];
     GPKGResultSet *results = [dao queryForAll];
     
     if (results.count > 0) {
@@ -230,27 +230,27 @@
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToFirst];
         [results moveToPosition:random];
-        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao object:results];
         [results close];
         
         // Save the ids of contents
-        GPKGResultSet *contentsResults = [dao getContents:srs];
-        GPKGContentsDao *contentsDao = [geoPackage getContentsDao];
+        GPKGResultSet *contentsResults = [dao contents:srs];
+        GPKGContentsDao *contentsDao = [geoPackage contentsDao];
         NSMutableArray *contentsIds = [[NSMutableArray alloc] init];
         while([contentsResults moveToNext]){
-            GPKGContents *contents = (GPKGContents *) [contentsDao getObject:contentsResults];
-            [contentsIds addObject:[contentsDao getId:contents]];
+            GPKGContents *contents = (GPKGContents *) [contentsDao object:contentsResults];
+            [contentsIds addObject:[contentsDao id:contents]];
         }
         [contentsResults close];
         
         // Save the ids of geometry columns
         NSMutableArray *geometryColumnsIds = [[NSMutableArray alloc] init];
-        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage getGeometryColumnsDao];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
         if([geometryColumnsDao tableExists]){
-            GPKGResultSet *geometryColumnsResults = [dao getGeometryColumns:srs];
+            GPKGResultSet *geometryColumnsResults = [dao geometryColumns:srs];
             while([geometryColumnsResults moveToNext]){
-                GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *) [geometryColumnsDao getObject:geometryColumnsResults];
-                [geometryColumnsIds addObject:[geometryColumnsDao getMultiId:geometryColumns]];
+                GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *) [geometryColumnsDao object:geometryColumnsResults];
+                [geometryColumnsIds addObject:[geometryColumnsDao multiId:geometryColumns]];
             }
             [geometryColumnsResults close];
         }
@@ -273,7 +273,7 @@
             if(cascade){
                 [GPKGTestUtils assertNil:queryContents];
             }else{
-                [GPKGTestUtils assertNil:[contentsDao getSrs:queryContents]];
+                [GPKGTestUtils assertNil:[contentsDao srs:queryContents]];
             }
         }
         
@@ -283,7 +283,7 @@
             if (cascade) {
                 [GPKGTestUtils assertNil:queryGeometryColumns];
             } else {
-                [GPKGTestUtils assertNil:[geometryColumnsDao getSrs:queryGeometryColumns]];
+                [GPKGTestUtils assertNil:[geometryColumnsDao srs:queryGeometryColumns]];
             }
         }
         
@@ -295,7 +295,7 @@
             int random = (int) ([GPKGTestUtils randomDouble] * results.count);
             [results moveToFirst];
             [results moveToPosition:random];
-            GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao getObject:results];
+            GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao object:results];
             [results close];
             
             // Find which srs to delete and the contents
@@ -304,18 +304,18 @@
             contentsIds = [[NSMutableArray alloc] init];
             geometryColumnsIds = [[NSMutableArray alloc] init];
             while([queryResults moveToNext]){
-                GPKGSpatialReferenceSystem *queryResultsSrs = (GPKGSpatialReferenceSystem *)[dao getObject:queryResults];
-                GPKGResultSet *contentsResults = [dao getContents:queryResultsSrs];
+                GPKGSpatialReferenceSystem *queryResultsSrs = (GPKGSpatialReferenceSystem *)[dao object:queryResults];
+                GPKGResultSet *contentsResults = [dao contents:queryResultsSrs];
                 while([contentsResults moveToNext]){
-                    GPKGContents *contents = (GPKGContents *)[contentsDao getObject:contentsResults];
-                    [contentsIds addObject:[contentsDao getId:contents]];
+                    GPKGContents *contents = (GPKGContents *)[contentsDao object:contentsResults];
+                    [contentsIds addObject:[contentsDao id:contents]];
                 }
                 [contentsResults close];
                 if ([geometryColumnsDao tableExists]) {
-                    GPKGResultSet *geometryColumnsResults = [dao getGeometryColumns:queryResultsSrs];
+                    GPKGResultSet *geometryColumnsResults = [dao geometryColumns:queryResultsSrs];
                     while([geometryColumnsResults moveToNext]){
-                        GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao getObject:geometryColumnsResults];
-                        [geometryColumnsIds addObject:[geometryColumnsDao getMultiId:geometryColumns]];
+                        GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:geometryColumnsResults];
+                        [geometryColumnsIds addObject:[geometryColumnsDao multiId:geometryColumns]];
                     }
                     [geometryColumnsResults close];
                 }
@@ -341,7 +341,7 @@
                 if(cascade){
                     [GPKGTestUtils assertNil:queryContents];
                 }else{
-                    [GPKGTestUtils assertNil:[contentsDao getSrs:queryContents]];
+                    [GPKGTestUtils assertNil:[contentsDao srs:queryContents]];
                 }
             }
             
@@ -351,7 +351,7 @@
                 if (cascade) {
                     [GPKGTestUtils assertNil:queryGeometryColumns];
                 } else {
-                    [GPKGTestUtils assertNil:[geometryColumnsDao getSrs:queryGeometryColumns]];
+                    [GPKGTestUtils assertNil:[geometryColumnsDao srs:queryGeometryColumns]];
                 }
             }
 

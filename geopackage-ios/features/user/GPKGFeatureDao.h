@@ -44,7 +44,7 @@
  *
  *  @return feature table
  */
--(GPKGFeatureTable *) getFeatureTable;
+-(GPKGFeatureTable *) featureTable;
 
 /**
  *  Get the feature row for the current result in the result set
@@ -53,7 +53,7 @@
  *
  *  @return feature row
  */
--(GPKGFeatureRow *) getFeatureRow: (GPKGResultSet *) results;
+-(GPKGFeatureRow *) featureRow: (GPKGResultSet *) results;
 
 /**
  *  Create a new feature row with the column types and values
@@ -77,13 +77,13 @@
  *
  *  @return geometry column name
  */
--(NSString *) getGeometryColumnName;
+-(NSString *) geometryColumnName;
 
 /**
  *  Get the geometry type
  *
  *  @return geometry type
  */
--(enum SFGeometryType) getGeometryType;
+-(enum SFGeometryType) geometryType;
 
 @end

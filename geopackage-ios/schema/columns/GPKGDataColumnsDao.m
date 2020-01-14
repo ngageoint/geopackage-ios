@@ -60,33 +60,33 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGDataColumns *getObject = (GPKGDataColumns*) object;
+    GPKGDataColumns *columns = (GPKGDataColumns*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.tableName;
+            value = columns.tableName;
             break;
         case 1:
-            value = getObject.columnName;
+            value = columns.columnName;
             break;
         case 2:
-            value = getObject.name;
+            value = columns.name;
             break;
         case 3:
-            value = getObject.title;
+            value = columns.title;
             break;
         case 4:
-            value = getObject.theDescription;
+            value = columns.theDescription;
             break;
         case 5:
-            value = getObject.mimeType;
+            value = columns.mimeType;
             break;
         case 6:
-            value = getObject.constraintName;
+            value = columns.constraintName;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -96,16 +96,16 @@
     return value;
 }
 
--(SFPProjection *) getProjection: (NSObject *) object{
+-(SFPProjection *) projection: (NSObject *) object{
     GPKGDataColumns *projectionObject = (GPKGDataColumns*) object;
-    GPKGContents *contents = [self getContents:projectionObject];
-    GPKGContentsDao *contentsDao = [self getContentsDao];
-    SFPProjection * projection = [contentsDao getProjection:contents];
+    GPKGContents *contents = [self contents:projectionObject];
+    GPKGContentsDao *contentsDao = [self contentsDao];
+    SFPProjection * projection = [contentsDao projection:contents];
     return projection;
 }
 
--(GPKGContents *) getContents: (GPKGDataColumns *) dataColumns{
-    GPKGContentsDao * dao = [self getContentsDao];
+-(GPKGContents *) contents: (GPKGDataColumns *) dataColumns{
+    GPKGContentsDao * dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:dataColumns.tableName];
     return contents;
 }
@@ -115,18 +115,18 @@
     return results;
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGDataColumns *) getDataColumnByTableName: tableName andColumnName: columnName {
+-(GPKGDataColumns *) dataColumnByTableName: tableName andColumnName: columnName {
     if (![self tableExists]) return nil;
     NSString * whereClause = [NSString stringWithFormat:@"%@ and %@",
                               [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName],
                               [self buildWhereWithField:GPKG_DC_COLUMN_COLUMN_NAME andValue:columnName]];
     NSArray * values = [NSArray arrayWithObjects:tableName, columnName, nil];
                         
-    return (GPKGDataColumns *)[self getFirstObject:[self queryWhere: whereClause andWhereArgs: values]];
+    return (GPKGDataColumns *)[self firstObject:[self queryWhere: whereClause andWhereArgs: values]];
 }
 
 -(GPKGResultSet *) queryByTable: (NSString *) tableName{

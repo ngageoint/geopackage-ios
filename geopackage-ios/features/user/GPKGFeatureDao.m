@@ -18,15 +18,15 @@
     if(self != nil){
         self.geometryColumns = geometryColumns;
         self.metadataDb = metadataDb;
-        GPKGGeometryColumnsDao * dao = [self getGeometryColumnsDao];
-        if([dao getContents:geometryColumns] == nil){
-            [NSException raise:@"Missing Contents" format:@"Geometry Columns %@ has null Contents", [dao getId:geometryColumns]];
+        GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
+        if([dao contents:geometryColumns] == nil){
+            [NSException raise:@"Missing Contents" format:@"Geometry Columns %@ has null Contents", [dao id:geometryColumns]];
         }
-        if([dao getSrs:geometryColumns] == nil){
-            [NSException raise:@"Missing SRS" format:@"Geometry Columns %@ has null Spatial Reference System", [dao getId:geometryColumns]];
+        if([dao srs:geometryColumns] == nil){
+            [NSException raise:@"Missing SRS" format:@"Geometry Columns %@ has null Spatial Reference System", [dao id:geometryColumns]];
         }
         
-        self.projection = [dao getProjection:geometryColumns];
+        self.projection = [dao projection:geometryColumns];
     }
     return self;
 }
@@ -35,46 +35,46 @@
     return [self newRow];
 }
 
--(GPKGFeatureTable *) getFeatureTable{
+-(GPKGFeatureTable *) featureTable{
     return (GPKGFeatureTable *) self.table;
 }
 
--(GPKGFeatureRow *) getFeatureRow: (GPKGResultSet *) results{
-    return (GPKGFeatureRow *) [self getRow:results];
+-(GPKGFeatureRow *) featureRow: (GPKGResultSet *) results{
+    return (GPKGFeatureRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGFeatureRow alloc] initWithFeatureTable:[self getFeatureTable] andColumnTypes:columnTypes andValues:values];
+    return [[GPKGFeatureRow alloc] initWithFeatureTable:[self featureTable] andColumnTypes:columnTypes andValues:values];
 }
 
 -(GPKGFeatureRow *) newRow{
     return [[GPKGFeatureRow alloc] initWithFeatureTable:(GPKGFeatureTable *)self.table];
 }
 
--(NSString *) getGeometryColumnName{
-    return self.geometryColumns.columnName;
+-(NSString *) geometryColumnName{
+    return _geometryColumns.columnName;
 }
 
--(enum SFGeometryType) getGeometryType{
-    return [self.geometryColumns getGeometryType];
+-(enum SFGeometryType) geometryType{
+    return [self.geometryColumns geometryType];
 }
 
--(GPKGGeometryColumnsDao *) getGeometryColumnsDao{
+-(GPKGGeometryColumnsDao *) geometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGContentsDao *) getContentsDao{
+-(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     return [ self boundingBoxInProjection:self.projection];
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
-    GPKGGeometryColumnsDao *geometryColumnsDao = [self getGeometryColumnsDao];
-    GPKGContents *contents = [geometryColumnsDao getContents:self.geometryColumns];
-    GPKGContentsDao * contentsDao = [self getContentsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
+    GPKGContents *contents = [geometryColumnsDao contents:self.geometryColumns];
+    GPKGContentsDao * contentsDao = [self contentsDao];
     GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
     return boundingBox;
 }

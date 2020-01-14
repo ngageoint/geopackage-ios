@@ -21,7 +21,7 @@ NSString * const GPKG_GC_COLUMN_M = @"m";
 
 @implementation GPKGGeometryColumns
 
--(enum SFGeometryType) getGeometryType{
+-(enum SFGeometryType) geometryType{
     return [SFGeometryTypes fromName:self.geometryTypeName];
 }
 
@@ -41,7 +41,7 @@ NSString * const GPKG_GC_COLUMN_M = @"m";
 
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
-        enum GPKGContentsDataType dataType = contents.getContentsDataType;
+        enum GPKGContentsDataType dataType = contents.contentsDataType;
         if(dataType != GPKG_CDT_FEATURES){
             [NSException raise:@"Contents Type" format:@"The Contents of Geometry Columns must have a data type of features"];
         }

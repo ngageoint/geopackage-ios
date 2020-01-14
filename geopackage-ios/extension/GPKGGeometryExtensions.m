@@ -21,23 +21,23 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.geometryTypesDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_GEOMETRY_TYPES_EXTENSION_DEFINITION];
-        self.userGeometryTypesDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION];
+        self.geometryTypesDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_GEOMETRY_TYPES_EXTENSION_DEFINITION];
+        self.userGeometryTypesDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION];
     }
     return self;
 }
 
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType{
+-(GPKGExtensions *) extensionCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType{
     
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionName:geometryType];
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDefinition:self.geometryTypesDefinition andScope:GPKG_EST_READ_WRITE];
+    NSString * extensionName = [GPKGGeometryExtensions extensionName:geometryType];
+    GPKGExtensions * extension = [self extensionCreateWithName:extensionName andTableName:tableName andColumnName:columnName andDefinition:self.geometryTypesDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
 
 -(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andType: (enum SFGeometryType) geometryType{
     
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionName:geometryType];
+    NSString * extensionName = [GPKGGeometryExtensions extensionName:geometryType];
     BOOL exists = [self hasWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
     
     return exists;
@@ -56,7 +56,7 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
     return geometryCode >= [SFWGeometryCodes codeFromGeometryType:SF_CIRCULARSTRING] && geometryCode <= [SFWGeometryCodes codeFromGeometryType:SF_SURFACE];
 }
 
-+(NSString *) getExtensionName: (enum SFGeometryType) geometryType{
++(NSString *) extensionName: (enum SFGeometryType) geometryType{
     
     if(![self isExtension:geometryType]){
         [NSException raise:@"Not Extension" format:@"Geometry Type is not an extension: %@", [SFGeometryTypes name:geometryType]];
@@ -73,24 +73,24 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
     return extensionName;
 }
 
--(GPKGExtensions *) getOrCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType{
+-(GPKGExtensions *) extensionCreateWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType{
     
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
+    NSString * extensionName = [GPKGGeometryExtensions extensionNameWithAuthor:author andType:geometryType];
     NSString * description = [GPKGGeometryExtensions isGeoPackageExtension:geometryType] ? self.geometryTypesDefinition : self.userGeometryTypesDefinition;
-    GPKGExtensions * extension = [self getOrCreateWithExtensionName:extensionName andTableName:tableName andColumnName:columnName andDefinition:description andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions * extension = [self extensionCreateWithName:extensionName andTableName:tableName andColumnName:columnName andDefinition:description andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
 
 -(BOOL) hasWithTable: (NSString *) tableName andColumn: (NSString *) columnName andAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType{
     
-    NSString * extensionName = [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:geometryType];
+    NSString * extensionName = [GPKGGeometryExtensions extensionNameWithAuthor:author andType:geometryType];
     BOOL exists = [self hasWithExtensionName:extensionName andTableName:tableName andColumnName:columnName];
     
     return exists;
 }
 
-+(NSString *) getExtensionNameWithAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType{
++(NSString *) extensionNameWithAuthor: (NSString *) author andType: (enum SFGeometryType) geometryType{
     
     if(![self isExtension:geometryType]){
         [NSException raise:@"Not Extension" format:@"Geometry Type is not an extension: %@", [SFGeometryTypes name:geometryType]];

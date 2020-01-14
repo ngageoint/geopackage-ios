@@ -128,7 +128,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     
     [geoPackage createDataColumnConstraintsTable];
     
-    GPKGDataColumnConstraintsDao * dao = [geoPackage getDataColumnConstraintsDao];
+    GPKGDataColumnConstraintsDao * dao = [geoPackage dataColumnConstraintsDao];
     
     GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT];
@@ -184,7 +184,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     srandom((unsigned int)time(NULL));
     int random = [self randomIntLessThan:3];
     
-    GPKGDataColumnsDao * dataColumnsDao = [geoPackage getDataColumnsDao];
+    GPKGDataColumnsDao * dataColumnsDao = [geoPackage dataColumnsDao];
     
     GPKGDataColumns * dataColumns = [[GPKGDataColumns alloc] init];
     [dataColumns setContents:contents];
@@ -242,7 +242,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void) addRowsToFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andFeatureTable: (GPKGFeatureTable *) table andNumRows: (int) numRows andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andAllowEmptyFeatures: (BOOL) allowEmptyFeatures{
     
-    GPKGFeatureDao * dao = [geoPackage getFeatureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     srandom((unsigned int)time(NULL));
     
@@ -349,7 +349,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void) addRowsToTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrix: (GPKGTileMatrix *) tileMatrix andData: (NSData *) tileData{
     
-    GPKGTileDao * dao = [geoPackage getTileDaoWithTableName:tileMatrix.tableName];
+    GPKGTileDao * dao = [geoPackage tileDaoWithTableName:tileMatrix.tableName];
     
     for(int column = 0; column < [tileMatrix.matrixWidth intValue]; column++){
         

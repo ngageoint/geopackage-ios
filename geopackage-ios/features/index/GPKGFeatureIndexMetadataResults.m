@@ -24,12 +24,12 @@
     return self;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
-    return [self.featureIndexer getFeatureRowWithResultSet:[self getResults]];
+-(GPKGFeatureRow *) featureRow{
+    return [self.featureIndexer featureRowWithResultSet:[self results]];
 }
 
--(NSNumber *) getFeatureId{
-    return [self.featureIndexer getGeometryMetadataWithResultSet:[self getResults]].id;
+-(NSNumber *) featureId{
+    return [self.featureIndexer geometryMetadataWithResultSet:[self results]].id;
 }
 
 @end

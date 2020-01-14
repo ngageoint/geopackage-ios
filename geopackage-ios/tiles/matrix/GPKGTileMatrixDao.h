@@ -31,6 +31,6 @@
  *
  *  @return contents
  */
--(GPKGContents *) getContents: (GPKGTileMatrix *) tileMatrix;
+-(GPKGContents *) contents: (GPKGTileMatrix *) tileMatrix;
 
 @end

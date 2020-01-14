@@ -58,7 +58,7 @@ NSString * const GPKG_TS_COLUMN_ZOOM_OUT = @"zoom_out";
     [self setTableName:tileMatrixSet != nil ? tileMatrixSet.tableName : nil];
 }
 
--(enum GPKGTileScalingType) getTileScalingType{
+-(enum GPKGTileScalingType) tileScalingType{
     enum GPKGTileScalingType value = -1;
     
     if(self.scalingType != nil){
@@ -73,11 +73,11 @@ NSString * const GPKG_TS_COLUMN_ZOOM_OUT = @"zoom_out";
 }
 
 -(BOOL) isZoomIn{
-    return (self.zoomIn == nil || [self.zoomIn intValue] > 0) && self.scalingType != nil && [self getTileScalingType] != GPKG_TSC_OUT;
+    return (self.zoomIn == nil || [self.zoomIn intValue] > 0) && self.scalingType != nil && [self tileScalingType] != GPKG_TSC_OUT;
 }
 
 -(BOOL) isZoomOut{
-    return (self.zoomOut == nil || [self.zoomOut intValue] > 0) && self.scalingType != nil && [self getTileScalingType] != GPKG_TSC_IN;
+    return (self.zoomOut == nil || [self.zoomOut intValue] > 0) && self.scalingType != nil && [self tileScalingType] != GPKG_TSC_IN;
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

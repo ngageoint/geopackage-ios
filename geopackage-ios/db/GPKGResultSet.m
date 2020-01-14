@@ -77,52 +77,52 @@
     self.statement = nil;
 }
 
--(NSArray *) getRow{
+-(NSArray *) row{
      NSMutableArray *rowValues = [[NSMutableArray alloc] init];
-    [self getRowPopulateValues:rowValues andColumnTypes:nil];
+    [self rowPopulateValues:rowValues andColumnTypes:nil];
     return rowValues;
 }
 
--(void) getRowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types{
+-(void) rowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types{
     
     NSUInteger totalColumns = [self.columns count];
     
     for (int i=0; i<totalColumns; i++){
 
         if(types != nil){
-            [GPKGUtils addObject:[NSNumber numberWithInt:[self getType:i]] toArray:types];
+            [GPKGUtils addObject:[NSNumber numberWithInt:[self type:i]] toArray:types];
         }
         
-        NSObject * value = [self getValueWithIndex:i];
+        NSObject * value = [self valueWithIndex:i];
         [GPKGUtils addObject:value toArray:values];
     }
 
 }
 
--(NSObject *) getValueWithIndex: (int) index{
+-(NSObject *) valueWithIndex: (int) index{
     
     NSObject * value = nil;
     
-    int type = [self getType:index];
+    int type = [self type:index];
     
     switch (type) {
         case SQLITE_TEXT:;
-            value = [self getString:index];
+            value = [self stringWithIndex:index];
             break;
             
         case SQLITE_INTEGER:;
-            value = [self getLong:index];
+            value = [self longWithIndex:index];
             break;
             
         case SQLITE_FLOAT:;
-            value = [self getDouble:index];
+            value = [self doubleWithIndex:index];
             break;
             
         case SQLITE_NULL:
             break;
             
         case SQLITE_BLOB:
-            value = [self getBlob:index];
+            value = [self blobWithIndex:index];
             break;
             
         default:
@@ -132,7 +132,7 @@
     return value;
 }
 
--(int) getColumnIndexWithName: (NSString *) columnName{
+-(int) columnIndexWithName: (NSString *) columnName{
     NSNumber * index = [self.columnIndex valueForKey: columnName];
     if(index == nil){
         [NSException raise:@"No Column" format:@"Failed to find column index for column name: %@", columnName];
@@ -140,11 +140,11 @@
     return [index intValue];
 }
 
--(int) getType: (int) columnIndex{
+-(int) type: (int) columnIndex{
     return sqlite3_column_type(self.statement, columnIndex);
 }
 
--(NSString *) getString: (int) columnIndex{
+-(NSString *) stringWithIndex: (int) columnIndex{
     NSString * value = nil;
     char *dbDataAsChars = (char *)sqlite3_column_text(self.statement, columnIndex);
     if (dbDataAsChars != NULL) {
@@ -153,29 +153,29 @@
     return value;
 }
 
--(NSNumber *) getInt: (int) columnIndex{
+-(NSNumber *) intWithIndex: (int) columnIndex{
     int intValue = sqlite3_column_int(self.statement, columnIndex);
     return [NSNumber numberWithInt: intValue];
 }
 
--(NSData *) getBlob: (int) columnIndex{
+-(NSData *) blobWithIndex: (int) columnIndex{
     NSData *blobValue = [[NSData alloc] initWithBytes:sqlite3_column_blob(self.statement, columnIndex) length:sqlite3_column_bytes(self.statement,  columnIndex)];
     return blobValue;
 }
 
--(NSNumber *) getLong: (int) columnIndex{
+-(NSNumber *) longWithIndex: (int) columnIndex{
     sqlite3_int64 intValue = sqlite3_column_int64(self.statement, columnIndex);
     return [NSNumber numberWithLongLong:intValue];
 }
 
--(NSNumber *) getDouble: (int) columnIndex{
+-(NSNumber *) doubleWithIndex: (int) columnIndex{
     double doubleValue = sqlite3_column_double(self.statement, columnIndex);
     return [NSNumber numberWithDouble: doubleValue];
 }
 
 -(int) countAndClose{
     [self close];
-    return self.count;
+    return _count;
 }
 
 @end

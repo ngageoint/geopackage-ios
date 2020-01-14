@@ -47,21 +47,21 @@
  *
  *  @return zoom level column index
  */
--(int) getZoomLevelColumnIndex;
+-(int) zoomLevelColumnIndex;
 
 /**
  *  Get the zoom level column
  *
  *  @return zoom level column
  */
--(GPKGTileColumn *) getZoomLevelColumn;
+-(GPKGTileColumn *) zoomLevelColumn;
 
 /**
  *  Get the zoom level
  *
  *  @return zoom level
  */
--(int) getZoomLevel;
+-(int) zoomLevel;
 
 /**
  *  Set the zoom level
@@ -75,21 +75,21 @@
  *
  *  @return tile column column index
  */
--(int) getTileColumnColumnIndex;
+-(int) tileColumnColumnIndex;
 
 /**
  *  Get the tile column column
  *
  *  @return tile column column
  */
--(GPKGTileColumn *) getTileColumnColumn;
+-(GPKGTileColumn *) tileColumnColumn;
 
 /**
  *  Get the tile column
  *
  *  @return tile column
  */
--(int) getTileColumn;
+-(int) tileColumn;
 
 /**
  *  Set the tile column
@@ -103,21 +103,21 @@
  *
  *  @return tile row column index
  */
--(int) getTileRowColumnIndex;
+-(int) tileRowColumnIndex;
 
 /**
  *  Get the tile row column
  *
  *  @return tile row column
  */
--(GPKGTileColumn *) getTileRowColumn;
+-(GPKGTileColumn *) tileRowColumn;
 
 /**
  *  Get the tile row
  *
  *  @return tile row
  */
--(int) getTileRow;
+-(int) tileRow;
 
 /**
  *  Set the tile row
@@ -131,21 +131,21 @@
  *
  *  @return tile data column index
  */
--(int) getTileDataColumnIndex;
+-(int) tileDataColumnIndex;
 
 /**
  *  Get the tile data column
  *
  *  @return tile data column
  */
--(GPKGTileColumn *) getTileDataColumn;
+-(GPKGTileColumn *) tileDataColumn;
 
 /**
  *  Get the tile data
  *
  *  @return tile data
  */
--(NSData *) getTileData;
+-(NSData *) tileData;
 
 /**
  *  Set the tile data
@@ -159,7 +159,7 @@
  *
  *  @return tile image
  */
--(UIImage *) getTileDataImage;
+-(UIImage *) tileDataImage;
 
 /**
  *  Get the tile data as a scaled image
@@ -168,7 +168,7 @@
  *
  *  @return tile image
  */
--(UIImage *) getTileDataImageWithScale: (CGFloat) scale;
+-(UIImage *) tileDataImageWithScale: (CGFloat) scale;
 
 /**
  *  Set the tile data with an image

@@ -166,7 +166,7 @@
     
     // Add the envelope contents indicator code (3-bit unsigned integer to
     // bits 3, 2, and 1)
-    int envelopeIndicator = self.envelope == nil ? 0 : [GPKGGeometryData getIndicatorWithEnvelope:self.envelope];
+    int envelopeIndicator = self.envelope == nil ? 0 : [GPKGGeometryData indicatorWithEnvelope:self.envelope];
     flag += (envelopeIndicator << 1);
     
     // Add the byte order to bit 0, 0 for Big Endian and 1 for Little
@@ -265,18 +265,18 @@
     }
 }
 
--(NSData *) getHeaderData
+-(NSData *) headerData
 {
     return [self.bytes subdataWithRange:NSMakeRange(0, self.SFGeometryIndex)];
 }
 
--(NSData *) getWkbData
+-(NSData *) wkbData
 {
     int wkbByteCount = (int)[self.bytes length] - self.SFGeometryIndex;
     return [self.bytes subdataWithRange:NSMakeRange(self.SFGeometryIndex, wkbByteCount)];
 }
 
--(SFGeometryEnvelope *) getOrBuildEnvelope{
+-(SFGeometryEnvelope *) buildEnvelope{
     SFGeometryEnvelope *envelope = self.envelope;
     if(envelope == nil){
         SFGeometry *geometry = self.geometry;
@@ -287,7 +287,7 @@
     return envelope;
 }
 
-+(int) getIndicatorWithEnvelope: (SFGeometryEnvelope *) envelope{
++(int) indicatorWithEnvelope: (SFGeometryEnvelope *) envelope{
     int indicator = 1;
     if(envelope.hasZ){
         indicator++;

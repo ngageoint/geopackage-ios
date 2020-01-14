@@ -25,7 +25,7 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 
 @implementation GPKGDataColumnConstraints
 
--(enum GPKGDataColumnConstraintType) getDataColumnConstraintType{
+-(enum GPKGDataColumnConstraintType) dataColumnConstraintType{
     enum GPKGDataColumnConstraintType value = -1;
     
     if(self.constraintType != nil){
@@ -46,7 +46,7 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 
 -(void) setConstraintType:(NSString *)constraintType{
     _constraintType = constraintType;
-    enum GPKGDataColumnConstraintType type = [self getDataColumnConstraintType];
+    enum GPKGDataColumnConstraintType type = [self dataColumnConstraintType];
     [self setDataColumnConstraintType:type];
 }
 
@@ -77,7 +77,7 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 }
 
 -(void) setValue:(NSString *)value{
-    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] == GPKG_DCCT_RANGE){
+    if(self.constraintType != nil && value != nil && [self dataColumnConstraintType] == GPKG_DCCT_RANGE){
         [NSException raise:@"Illegal State" format:@"The value must be null for range constraints"];
     }
     _value = value;
@@ -120,7 +120,7 @@ NSString * const GPKG_DCCT_GLOB_NAME =@"glob";
 }
 
 -(void) validateRangeValueWithColumn: (NSString *) column andValue: (NSObject *) value{
-    if(self.constraintType != nil && value != nil && [self getDataColumnConstraintType] != GPKG_DCCT_RANGE){
+    if(self.constraintType != nil && value != nil && [self dataColumnConstraintType] != GPKG_DCCT_RANGE){
         [NSException raise:@"Illegal State" format:@"The %@ must be null for enum and glob constraints", column];
     }
 }

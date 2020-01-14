@@ -70,7 +70,7 @@
     return [boundingBox union:boundingBox2];
 }
 
-+(double) getXPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andLongitude: (double) longitude{
++(double) xPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andLongitude: (double) longitude{
     
     double boxWidth = [boundingBox.maxLongitude doubleValue] - [boundingBox.minLongitude doubleValue];
     double offset = longitude - [boundingBox.minLongitude doubleValue];
@@ -80,11 +80,11 @@
     return pixel;
 }
 
-+(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
-    return [self getLongitudeFromPixelWithWidth:width andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
++(double) longitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
+    return [self longitudeFromPixelWithWidth:width andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
 }
 
-+(double) getLongitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
++(double) longitudeFromPixelWithWidth: (int) width andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
     
     double boxWidth = [tileBoundingBox.maxLongitude doubleValue] - [tileBoundingBox.minLongitude doubleValue];
     double percentage = pixel / width;
@@ -94,7 +94,7 @@
     return longitude;
 }
 
-+(double) getYPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andLatitude: (double) latitude{
++(double) yPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andLatitude: (double) latitude{
     
     double boxHeight = [boundingBox.maxLatitude doubleValue] - [boundingBox.minLatitude doubleValue];
     double offset = [boundingBox.maxLatitude doubleValue] - latitude;
@@ -104,11 +104,11 @@
     return pixel;
 }
 
-+(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
-    return [self getLatitudeFromPixelWithHeight:height andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
++(double) latitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andPixel: (double) pixel{
+    return [self latitudeFromPixelWithHeight:height andBoundingBox:boundingBox andTileBoundingBox:boundingBox andPixel:pixel];
 }
 
-+(double) getLatitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
++(double) latitudeFromPixelWithHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andTileBoundingBox: (GPKGBoundingBox *) tileBoundingBox andPixel: (double) pixel{
     
     double boxHeight = [tileBoundingBox.maxLatitude doubleValue] - [tileBoundingBox.minLatitude doubleValue];
     double percentage = pixel / height;
@@ -118,7 +118,7 @@
     return latitude;
 }
 
-+(GPKGBoundingBox *) getBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
++(GPKGBoundingBox *) boundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     int tilesPerSide = [self tilesPerSideWithZoom:zoom];
     double tileWidthDegrees = [self tileWidthDegreesWithTilesPerSide:tilesPerSide];
@@ -135,7 +135,7 @@
     return box;
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
++(GPKGBoundingBox *) webMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     double tileSize = [self tileSizeWithZoom:zoom];
     
@@ -153,7 +153,7 @@
     return box;
 }
 
-+(GPKGBoundingBox *) getWebMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
++(GPKGBoundingBox *) webMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
     double tileSize = [self tileSizeWithZoom:zoom];
     
@@ -177,7 +177,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom{
     
-    GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(code != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
@@ -189,7 +189,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(projection != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
@@ -205,7 +205,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(code != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
@@ -217,7 +217,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self getWebMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(projection != nil){
         SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
@@ -227,19 +227,19 @@
     return boundingBox;
 }
 
-+(GPKGTileGrid *) getTileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom{
++(GPKGTileGrid *) tileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom{
     SFPProjection * projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    return [GPKGTileBoundingBoxUtils getTileGridFromPoint:point andZoom:zoom andProjection:projection];
+    return [GPKGTileBoundingBoxUtils tileGridFromPoint:point andZoom:zoom andProjection:projection];
 }
 
-+(GPKGTileGrid *) getTileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection{
++(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection{
     SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     SFPoint * webMercatorPoint = [toWebMercator transformWithPoint:point];
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:webMercatorPoint.x andMinLatitude:webMercatorPoint.y andMaxLongitude:webMercatorPoint.x andMaxLatitude:webMercatorPoint.y];
-    return [GPKGTileBoundingBoxUtils getTileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
+    return [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
 }
 
-+(GPKGTileGrid *) getTileGridWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andZoom: (int) zoom{
++(GPKGTileGrid *) tileGridWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andZoom: (int) zoom{
     
     int tilesPerSide = [self tilesPerSideWithZoom:zoom];
     double tileSize = [self tileSizeWithTilesPerSide:tilesPerSide];
@@ -321,7 +321,7 @@
     return [self toleranceDistanceWithZoom:zoom andPixels:MAX(pixelWidth, pixelHeight)];
 }
 
-+(int) getYAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{
++(int) yAsOppositeTileFormatWithZoom: (int) zoom andY: (int) y{
     int tilesPerSide = [self tilesPerSideWithZoom:zoom];
     int oppositeY = tilesPerSide - y - 1;
     return oppositeY;
@@ -331,10 +331,10 @@
     return (int) (log(tilesPerSide) / log(2));
 }
 
-+(GPKGTileGrid *) getTileGridWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andBoundingBox: (GPKGBoundingBox *) boundingBox{
++(GPKGTileGrid *) tileGridWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andMatrixHeight: (int) matrixHeight andBoundingBox: (GPKGBoundingBox *) boundingBox{
     
-    int minColumn = [self getTileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.minLongitude doubleValue]];
-    int maxColumn = [self getTileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.maxLongitude doubleValue]];
+    int minColumn = [self tileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.minLongitude doubleValue]];
+    int maxColumn = [self tileColumnWithTotalBoundingBox:totalBox andMatrixWidth:matrixWidth andLongitude:[boundingBox.maxLongitude doubleValue]];
     
     if(minColumn < matrixWidth && maxColumn >= 0){
         if(minColumn < 0){
@@ -345,8 +345,8 @@
         }
     }
     
-    int maxRow = [self getTileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.minLatitude doubleValue]];
-    int minRow = [self getTileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.maxLatitude doubleValue]];
+    int maxRow = [self tileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.minLatitude doubleValue]];
+    int minRow = [self tileRowWithTotalBoundingBox:totalBox andMatrixHeight:matrixHeight andLatitude:[boundingBox.maxLatitude doubleValue]];
     
     if(minRow < matrixHeight && maxRow >= 0){
         if(minRow < 0){
@@ -362,7 +362,7 @@
     return tileGrid;
 }
 
-+(int) getTileColumnWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude{
++(int) tileColumnWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixWidth: (int) matrixWidth andLongitude: (double) longitude{
     
     double minX = [totalBox.minLongitude doubleValue];
     double maxX = [totalBox.maxLongitude doubleValue];
@@ -381,7 +381,7 @@
     return tileId;
 }
 
-+(int) getTileRowWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude{
++(int) tileRowWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andMatrixHeight: (int) matrixHeight andLatitude: (double) latitude{
     
     double minY = [totalBox.minLatitude doubleValue];
     double maxY = [totalBox.maxLatitude doubleValue];
@@ -400,20 +400,20 @@
     return tileId;
 }
 
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
-    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileColumn:tileColumn andTileRow:tileRow];
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
+    return [self boundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileColumn:tileColumn andTileRow:tileRow];
 }
 
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
     GPKGTileGrid * tileGrid = [[GPKGTileGrid alloc] initWithMinX:tileColumn andMinY:tileRow andMaxX:tileColumn andMaxY:tileRow];
-    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:tileMatrixWidth andTileMatrixHeight:tileMatrixHeight andTileGrid:tileGrid];
+    return [self boundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:tileMatrixWidth andTileMatrixHeight:tileMatrixHeight andTileGrid:tileGrid];
 }
 
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid{
-    return [self getBoundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileGrid:tileGrid];
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrix: (GPKGTileMatrix *) tileMatrix andTileGrid: (GPKGTileGrid *) tileGrid{
+    return [self boundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:[tileMatrix.matrixWidth intValue] andTileMatrixHeight:[tileMatrix.matrixHeight intValue] andTileGrid:tileGrid];
 }
 
-+(GPKGBoundingBox *) getBoundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid{
++(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileGrid: (GPKGTileGrid *) tileGrid{
     
     // Get the tile width
     double matrixMinX = [totalBox.minLongitude doubleValue];
@@ -440,14 +440,14 @@
     return boundingBox;
 }
 
-+(int) getZoomLevelWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
++(int) zoomLevelWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox{
     
     double worldLength = PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH * 2;
     
     double longitudeDistance = [webMercatorBoundingBox.maxLongitude doubleValue] - [webMercatorBoundingBox.minLongitude doubleValue];
     double latitudeDistance = [webMercatorBoundingBox.maxLatitude doubleValue] - [webMercatorBoundingBox.minLatitude doubleValue];
     
-    int maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
+    int maxZoom = [[GPKGProperties numberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     
     int zoom;
     if(longitudeDistance > 0 && latitudeDistance > 0){
@@ -542,24 +542,24 @@
     return bounded;
 }
 
-+(CGRect) getRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
++(CGRect) rectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
     
-    double left = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
-    double right = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
-    double top = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
-    double bottom = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
+    double left = [GPKGTileBoundingBoxUtils xPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
+    double right = [GPKGTileBoundingBoxUtils xPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
+    double top = [GPKGTileBoundingBoxUtils yPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
+    double bottom = [GPKGTileBoundingBoxUtils yPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
     
     CGRect rect = CGRectMake(left, top, right - left, bottom - top);
     
     return rect;
 }
 
-+(CGRect) getRoundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
++(CGRect) roundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection{
     
-    double left = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
-    double right = [GPKGTileBoundingBoxUtils getXPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
-    double top = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
-    double bottom = [GPKGTileBoundingBoxUtils getYPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
+    double left = [GPKGTileBoundingBoxUtils xPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.minLongitude doubleValue]];
+    double right = [GPKGTileBoundingBoxUtils xPixelWithWidth:width andBoundingBox:boundingBox andLongitude:[boundingBoxSection.maxLongitude doubleValue]];
+    double top = [GPKGTileBoundingBoxUtils yPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.maxLatitude doubleValue]];
+    double bottom = [GPKGTileBoundingBoxUtils yPixelWithHeight:height andBoundingBox:boundingBox andLatitude:[boundingBoxSection.minLatitude doubleValue]];
     
     double leftRounded = round(left);
     double rightRounded = round(right);
@@ -571,7 +571,7 @@
     return rect;
 }
 
-+(GPKGTileGrid *) getTileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom{
++(GPKGTileGrid *) tileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom{
     
     int tilesPerLat = [self tilesPerWgs84LatSideWithZoom:zoom];
     int tilesPerLon = [self tilesPerWgs84LonSideWithZoom:zoom];
@@ -600,7 +600,7 @@
     return grid;
 }
 
-+(GPKGBoundingBox *) getWgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
++(GPKGBoundingBox *) wgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
     int tilesPerLat = [self tilesPerWgs84LatSideWithZoom:zoom];
     int tilesPerLon = [self tilesPerWgs84LonSideWithZoom:zoom];

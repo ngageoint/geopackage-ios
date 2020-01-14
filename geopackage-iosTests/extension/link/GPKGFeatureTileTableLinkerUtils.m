@@ -19,15 +19,15 @@
     [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
     
     GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
-    [GPKGTestUtils assertNil:[linker getExtension]];
+    [GPKGTestUtils assertNil:[linker extension]];
     
     // Test linking feature and tile tables
-    NSArray * featureTables = [geoPackage getFeatureTables];
-    NSArray * tileTables = [geoPackage getTileTables];
+    NSArray * featureTables = [geoPackage featureTables];
+    NSArray * tileTables = [geoPackage tileTables];
     
     if([featureTables count] != 0 && [tileTables count] != 0){
         
-        GPKGFeatureTileLinkDao * dao = [linker getDao];
+        GPKGFeatureTileLinkDao * dao = [linker dao];
         
         NSMutableSet * linkedFeatureTables = [[NSMutableSet alloc] init];
         
@@ -52,19 +52,19 @@
                 [linker linkWithFeatureTable:featureTable andTileTable:tileTable];
                 [GPKGTestUtils assertTrue:[linker isLinkedWithFeatureTable:featureTable andTileTable:tileTable]];
                 [GPKGTestUtils assertEqualIntWithValue:count + 1 andValue2:[dao count]];
-                [GPKGTestUtils assertNotNil:[linker getExtension]];
+                [GPKGTestUtils assertNotNil:[linker extension]];
                 
                 // Shouldn't hurt to link it twice
                 [linker linkWithFeatureTable:featureTable andTileTable:tileTable];
                 [GPKGTestUtils assertTrue:[linker isLinkedWithFeatureTable:featureTable andTileTable:tileTable]];
                 [GPKGTestUtils assertEqualIntWithValue:count + 1 andValue2:[dao count]];
-                [GPKGTestUtils assertNotNil:[linker getExtension]];
+                [GPKGTestUtils assertNotNil:[linker extension]];
                 
                 // Verify linked feature tables
                 GPKGResultSet * links = [linker queryForTileTable:tileTable];
                 [GPKGTestUtils assertEqualIntWithValue:(int)[linkedFeatureTables count] andValue2:[links count]];
                 while([links moveToNext]){
-                    GPKGFeatureTileLink * link = [linker getLinkFromResultSet:links];
+                    GPKGFeatureTileLink * link = [linker linkFromResultSet:links];
                     [GPKGTestUtils assertTrue:[linkedFeatureTables containsObject:link.featureTableName]];
                 }
                 [links close];
@@ -73,18 +73,18 @@
                 links = [linker queryForFeatureTable:featureTable];
                 [GPKGTestUtils assertEqualIntWithValue:(int)[linkedTileTables count] andValue2:[links count]];
                 while([links moveToNext]){
-                    GPKGFeatureTileLink * link = [linker getLinkFromResultSet:links];
+                    GPKGFeatureTileLink * link = [linker linkFromResultSet:links];
                     [GPKGTestUtils assertTrue:[linkedTileTables containsObject:link.tileTableName]];
                 }
                 [links close];
             }
         }
         
-        GPKGExtensions * extension  = [linker getExtension];
+        GPKGExtensions * extension  = [linker extension];
         [GPKGTestUtils assertEqualWithValue:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR] andValue2:extension.extensionName];
-        [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andValue2:[extension getAuthor]];
-        [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR andValue2:[extension getExtensionNameNoAuthor]];
-        [GPKGTestUtils assertEqualWithValue:[GPKGProperties getValueOfProperty:@"geopackage.extensions.feature_tile_link"] andValue2:extension.definition];
+        [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andValue2:[extension author]];
+        [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR andValue2:[extension extensionNameNoAuthor]];
+        [GPKGTestUtils assertEqualWithValue:[GPKGProperties valueOfProperty:@"geopackage.extensions.feature_tile_link"] andValue2:extension.definition];
         [GPKGTestUtils assertNil:extension.tableName];
         [GPKGTestUtils assertNil:extension.columnName];
         
@@ -124,13 +124,13 @@
         }
         
         [GPKGTestUtils assertTrue:[dao tableExists]];
-        [GPKGTestUtils assertNotNil:[linker getExtension]];
+        [GPKGTestUtils assertNotNil:[linker extension]];
         
         // Test deleting all extensions
         [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage: geoPackage];
         
         [GPKGTestUtils assertFalse:[dao tableExists]];
-        [GPKGTestUtils assertNil:[linker getExtension]];
+        [GPKGTestUtils assertNil:[linker extension]];
         
         for(NSString * ft in featureTables){
             for(NSString * tt in tileTables){
@@ -138,7 +138,7 @@
             }
         }
         [GPKGTestUtils assertFalse:[dao tableExists]];
-        [GPKGTestUtils assertNil:[linker getExtension]];
+        [GPKGTestUtils assertNil:[linker extension]];
         
     }
 }

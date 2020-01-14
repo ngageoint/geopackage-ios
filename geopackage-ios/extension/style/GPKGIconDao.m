@@ -24,7 +24,7 @@
 }
 
 -(GPKGIconRow *) row: (GPKGResultSet *) results{
-    return (GPKGIconRow *) [self getRow:results];
+    return (GPKGIconRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{

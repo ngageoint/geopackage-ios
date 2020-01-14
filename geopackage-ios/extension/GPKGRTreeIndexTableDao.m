@@ -31,13 +31,13 @@
 }
 
 -(BOOL) has{
-    return [self.rTree hasWithFeatureTable:[self.featureDao getFeatureTable]];
+    return [self.rTree hasWithFeatureTable:[self.featureDao featureTable]];
 }
 
 -(GPKGExtensions *) create{
     GPKGExtensions *extension = nil;
     if(![self has]){
-        extension = [self.rTree createWithFeatureTable:[self.featureDao getFeatureTable]];
+        extension = [self.rTree createWithFeatureTable:[self.featureDao featureTable]];
         if(self.progress != nil){
             [self.progress addProgress:[self count]];
         }
@@ -46,7 +46,7 @@
 }
 
 -(void) delete{
-    [self.rTree deleteWithFeatureTable:[self.featureDao getFeatureTable]];
+    [self.rTree deleteWithFeatureTable:[self.featureDao featureTable]];
 }
 
 -(GPKGRTreeIndexExtension *) rTreeIndexExtension{
@@ -58,7 +58,7 @@
 }
 
 -(GPKGRTreeIndexTableRow *) row: (GPKGResultSet *) resultSet{
-    return [self rowFromUserCustomRow:(GPKGUserCustomRow *)[self getRow:resultSet]];
+    return [self rowFromUserCustomRow:(GPKGUserCustomRow *)[super row:resultSet]];
 }
 
 -(GPKGRTreeIndexTableRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row{
@@ -106,7 +106,7 @@
     return [super countWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     
     GPKGBoundingBox *boundingBox = nil;
     
@@ -129,7 +129,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
-    GPKGBoundingBox *boundingBox = [self getBoundingBox];
+    GPKGBoundingBox *boundingBox = [self boundingBox];
     if (boundingBox != nil && projection != nil) {
         SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:projection];
         if(![transform isSameProjection]){

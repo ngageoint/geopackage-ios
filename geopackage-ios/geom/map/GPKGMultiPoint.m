@@ -27,8 +27,8 @@
     [mapView removeAnnotations:self.points];
 }
 
--(NSArray *) getPoints{
-    return self.points;
+-(NSArray *) points{
+    return _points;
 }
 
 -(void) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView * ) mapView{

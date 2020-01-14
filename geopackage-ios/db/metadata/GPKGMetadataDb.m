@@ -23,7 +23,7 @@
         
         // For future upgrades, read the application id here and if populated and different, perform metadata database upgrades as needed
         
-        GPKGGeoPackageMetadataDao * dao = [self getGeoPackageMetadataDao];
+        GPKGGeoPackageMetadataDao * dao = [self geoPackageMetadataDao];
         if(![dao tableExists]){
         
             // Set the application id
@@ -44,15 +44,15 @@
     }
 }
 
--(GPKGGeoPackageMetadataDao *) getGeoPackageMetadataDao{
+-(GPKGGeoPackageMetadataDao *) geoPackageMetadataDao{
     return [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.connection];
 }
 
--(GPKGTableMetadataDao *) getTableMetadataDao{
+-(GPKGTableMetadataDao *) tableMetadataDao{
     return [[GPKGTableMetadataDao alloc] initWithDatabase:self.connection];
 }
 
--(GPKGGeometryMetadataDao *) getGeometryMetadataDao{
+-(GPKGGeometryMetadataDao *) geometryMetadataDao{
     return [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.connection];
 }
 
@@ -70,7 +70,7 @@
 
 -(BOOL) createGeoPackageMetadataTable{
     BOOL created = false;
-    GPKGGeoPackageMetadataDao * dao = [self getGeoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao * dao = [self geoPackageMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createGeoPackageMetadata] > 0;
@@ -80,7 +80,7 @@
 
 -(BOOL) createTableMetadataTable{
     BOOL created = false;
-    GPKGTableMetadataDao * dao = [self getTableMetadataDao];
+    GPKGTableMetadataDao * dao = [self tableMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createTableMetadata] > 0;
@@ -90,7 +90,7 @@
 
 -(BOOL) createGeometryMetadataTable{
     BOOL created = false;
-    GPKGGeometryMetadataDao * dao = [self getGeometryMetadataDao];
+    GPKGGeometryMetadataDao * dao = [self geometryMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createGeometryMetadata] > 0;

@@ -1160,7 +1160,7 @@
     return multiPolygonPoints;
 }
 
-+(CLLocationCoordinate2D *) getLocationCoordinatesFromPoints: (NSArray *) points{
++(CLLocationCoordinate2D *) locationCoordinatesFromPoints: (NSArray *) points{
     CLLocationCoordinate2D *coordinates = calloc([points count], sizeof(CLLocationCoordinate2D));
     int index = 0;
     for(GPKGMapPoint * point in points){
@@ -1169,7 +1169,7 @@
     return coordinates;
 }
 
-+(CLLocationCoordinate2D *) getLocationCoordinatesFromLocations: (NSArray *) locations{
++(CLLocationCoordinate2D *) locationCoordinatesFromLocations: (NSArray *) locations{
     CLLocationCoordinate2D *coordinates = calloc([locations count], sizeof(CLLocationCoordinate2D));
     int index = 0;
     for(CLLocation * location in locations){

@@ -29,16 +29,16 @@
     return [self retrieveTileRowWithX:x andY:y andZoom:zoom] != nil;
 }
 
--(GPKGGeoPackageTile *) getTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
+-(GPKGGeoPackageTile *) tileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     GPKGGeoPackageTile * tile = nil;
     
     GPKGTileRow * tileRow = [self retrieveTileRowWithX:x andY:y andZoom:zoom];
     if(tileRow != nil){
-        GPKGTileMatrix * tileMatrix = [self.tileDao getTileMatrixWithZoomLevel:(int)zoom];
+        GPKGTileMatrix * tileMatrix = [self.tileDao tileMatrixWithZoomLevel:(int)zoom];
         int tileWidth = [tileMatrix.tileWidth intValue];
         int tileHeight = [tileMatrix.tileHeight intValue];
-        tile = [[GPKGGeoPackageTile alloc] initWithWidth:tileWidth andHeight:tileHeight andData:[tileRow getTileData]];
+        tile = [[GPKGGeoPackageTile alloc] initWithWidth:tileWidth andHeight:tileHeight andData:[tileRow tileData]];
     }
     
     return tile;

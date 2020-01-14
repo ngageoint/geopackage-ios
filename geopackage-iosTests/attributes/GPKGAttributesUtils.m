@@ -17,18 +17,18 @@
 
 +(void) testReadWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    NSArray * tables = [geoPackage getAttributesTables];
+    NSArray * tables = [geoPackage attributesTables];
     
     if(tables.count > 0){
         
         for (NSString * tableName in tables) {
             
             // Test the get attributes DAO methods
-            GPKGContentsDao * contentsDao = [geoPackage getContentsDao];
+            GPKGContentsDao * contentsDao = [geoPackage contentsDao];
             GPKGContents * contents = (GPKGContents *)[contentsDao queryForIdObject:tableName];
-            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithContents:contents];
+            GPKGAttributesDao * dao = [geoPackage attributesDaoWithContents:contents];
             [GPKGTestUtils assertNotNil:dao];
-            dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            dao = [geoPackage attributesDaoWithTableName:tableName];
             [GPKGTestUtils assertNotNil:dao];
             
             [GPKGTestUtils assertNotNil:dao.database];
@@ -43,7 +43,7 @@
             int manualCount = 0;
             while ([results moveToNext]) {
                 
-                GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao getRow:results];
+                GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao row:results];
                 [self validateAttributesRowWithColumns:columns andRow:attributesRow];
                 
                 manualCount++;
@@ -67,7 +67,7 @@
             int random = (int) ([GPKGTestUtils randomDouble] * count);
             [results moveToFirst];
             [results moveToPosition:random];
-            GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao getRow:results];
+            GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao row:results];
             
             [results close];
             
@@ -107,7 +107,7 @@
                 [GPKGTestUtils assertTrue:results.count > 0];
                 BOOL found = false;
                 while([results moveToNext]){
-                    queryAttributesRow = (GPKGAttributesRow *)[dao getRow:results];
+                    queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if(!found){
                         found = [attributesRow idValue] == [queryAttributesRow idValue];
@@ -137,7 +137,7 @@
                 [GPKGTestUtils assertTrue:results.count > 0];
                 found = false;
                 while ([results moveToNext]) {
-                    queryAttributesRow = (GPKGAttributesRow *)[dao getRow:results];
+                    queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if (column2 != nil) {
                         [GPKGTestUtils assertEqualWithValue:column2Value andValue2:[queryAttributesRow valueWithColumnName:column2.name]];
@@ -150,22 +150,22 @@
                 [results close];
             }
             
-            GPKGMetadataReferenceDao * referenceDao = [geoPackage getMetadataReferenceDao];
+            GPKGMetadataReferenceDao * referenceDao = [geoPackage metadataReferenceDao];
             GPKGResultSet * references = [referenceDao queryForEqWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:attributesTable.tableName];
             if (references != nil && references.count > 0) {
                 GPKGMetadata * metadata = nil;
                 while([references moveToNext]){
                     
-                    GPKGMetadataReference * reference = (GPKGMetadataReference *) [referenceDao getObject:references];
+                    GPKGMetadataReference * reference = (GPKGMetadataReference *) [referenceDao object:references];
                     
                     if(metadata == nil){
-                        GPKGMetadataDao * metadataDao = [geoPackage getMetadataDao];
+                        GPKGMetadataDao * metadataDao = [geoPackage metadataDao];
                         metadata = (GPKGMetadata *)[metadataDao queryForIdObject:reference.fileId];
-                        [GPKGTestUtils assertEqualIntWithValue:GPKG_MST_ATTRIBUTE_TYPE andValue2:[metadata getMetadataScopeType]];
+                        [GPKGTestUtils assertEqualIntWithValue:GPKG_MST_ATTRIBUTE_TYPE andValue2:[metadata metadataScopeType]];
                     }
                     
-                    [GPKGTestUtils assertTrue:[reference getReferenceScopeType] == GPKG_RST_ROW
-                     || [reference getReferenceScopeType] == GPKG_RST_ROW_COL];
+                    [GPKGTestUtils assertTrue:[reference referenceScopeType] == GPKG_RST_ROW
+                     || [reference referenceScopeType] == GPKG_RST_ROW_COL];
                     NSNumber * rowId = reference.rowIdValue;
                     [GPKGTestUtils assertNotNil:rowId];
                     
@@ -239,7 +239,7 @@
 
 +(void) testUpdateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    NSArray * tables = [geoPackage getAttributesTables];
+    NSArray * tables = [geoPackage attributesTables];
     
     if (tables.count > 0) {
         
@@ -249,7 +249,7 @@
                 continue;
             }
             
-            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            GPKGAttributesDao * dao = [geoPackage attributesDaoWithTableName:tableName];
             [self testUpdateWithDao:dao];
             
         }
@@ -259,7 +259,7 @@
 
 +(void) testUpdateAddColumnsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    NSArray * tables = [geoPackage getAttributesTables];
+    NSArray * tables = [geoPackage attributesTables];
     
     if (tables.count > 0) {
         
@@ -269,11 +269,11 @@
                 continue;
             }
             
-            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            GPKGAttributesDao * dao = [geoPackage attributesDaoWithTableName:tableName];
 
             int rowCount = [dao count];
             
-            GPKGAttributesTable *table = [dao getAttributesTable];
+            GPKGAttributesTable *table = [dao attributesTable];
             int existingColumns = [table columnCount];
             GPKGAttributesColumn *pk = (GPKGAttributesColumn *)[table pkColumn];
             
@@ -382,8 +382,8 @@
         NSData * updatedBytes = nil;
         NSData * updatedLimitedBytes = nil;
         
-        GPKGAttributesRow * originalRow = [dao getAttributesRow:results];
-        GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+        GPKGAttributesRow * originalRow = [dao attributesRow:results];
+        GPKGAttributesRow * attributesRow = [dao attributesRow:results];
         
         @try {
             [attributesRow setValueWithIndex:[attributesRow pkIndex] andValue:[NSNumber numberWithInt:9]];
@@ -554,7 +554,7 @@
         NSNumber * id = [attributesRow id];
         GPKGResultSet * readRowResults = [dao queryForId:id];
         [readRowResults moveToNext];
-        GPKGAttributesRow * readRow = [dao getAttributesRow:readRowResults];
+        GPKGAttributesRow * readRow = [dao attributesRow:readRowResults];
         [readRowResults close];
         [GPKGTestUtils assertNotNil:readRow];
         [GPKGTestUtils assertEqualWithValue:[originalRow id] andValue2:[readRow id]];
@@ -673,7 +673,7 @@
 
 +(void) testCreateWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray * tables = [geoPackage getAttributesTables];
+    NSArray * tables = [geoPackage attributesTables];
     
     if (tables.count > 0) {
         
@@ -683,7 +683,7 @@
                 continue;
             }
             
-            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            GPKGAttributesDao * dao = [geoPackage attributesDaoWithTableName:tableName];
             [GPKGTestUtils assertNotNil:dao];
             
             GPKGResultSet * results = [dao queryForAll];
@@ -694,7 +694,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [results moveToPosition:random];
                 
-                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+                GPKGAttributesRow * attributesRow = [dao attributesRow:results];
                 [results close];
                 
                 // Create new row from existing
@@ -707,13 +707,13 @@
                 // Verify original still exists and new was created
                 GPKGResultSet * attributesRowResults = [dao queryForId:id];
                 [attributesRowResults moveToNext];
-                attributesRow = [dao getAttributesRow:attributesRowResults];
+                attributesRow = [dao attributesRow:attributesRowResults];
                 [attributesRowResults close];
                 [GPKGTestUtils assertNotNil:attributesRow];
                 
                 GPKGResultSet * queryAttributesRowResults = [dao queryForId:[NSNumber numberWithInt:newRowId]];
                 [queryAttributesRowResults moveToNext];
-                GPKGAttributesRow * queryAttributesRow = [dao getAttributesRow:queryAttributesRowResults];
+                GPKGAttributesRow * queryAttributesRow = [dao attributesRow:queryAttributesRowResults];
                 [queryAttributesRowResults close];
                 [GPKGTestUtils assertNotNil:queryAttributesRow];
                 
@@ -744,7 +744,7 @@
                 // Verify new was created
                 GPKGResultSet * queryAttributesRow2Results = [dao queryForId:[NSNumber numberWithInt:newRowId2]];
                 [queryAttributesRow2Results moveToNext];
-                GPKGAttributesRow * queryAttributesRow2 = [dao getAttributesRow:queryAttributesRow2Results];
+                GPKGAttributesRow * queryAttributesRow2 = [dao attributesRow:queryAttributesRow2Results];
                 [queryAttributesRow2Results close];
                 [GPKGTestUtils assertNotNil:queryAttributesRow2];
                 
@@ -806,13 +806,13 @@
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    NSArray * tables = [geoPackage getAttributesTables];
+    NSArray * tables = [geoPackage attributesTables];
     
     if (tables.count > 0) {
         
         for (NSString * tableName in tables) {
             
-            GPKGAttributesDao * dao = [geoPackage getAttributesDaoWithTableName:tableName];
+            GPKGAttributesDao * dao = [geoPackage attributesDaoWithTableName:tableName];
             [GPKGTestUtils assertNotNil:dao];
             
             GPKGResultSet * results = [dao queryForAll];
@@ -823,7 +823,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [results moveToPosition:random];
                 
-                GPKGAttributesRow * attributesRow = [dao getAttributesRow:results];
+                GPKGAttributesRow * attributesRow = [dao attributesRow:results];
                 [results close];
                 
                 // Delete row

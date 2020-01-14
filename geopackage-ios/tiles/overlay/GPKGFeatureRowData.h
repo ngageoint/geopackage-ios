@@ -29,28 +29,28 @@
  *
  *  @return values
  */
--(NSDictionary *) getValues;
+-(NSDictionary *) values;
 
 /**
  *  Get the geometry column name
  *
  *  @return geometry column name
  */
--(NSString *) getGeometryColumn;
+-(NSString *) geometryColumn;
 
 /**
  *  Get the geometry data
  *
  *  @return geometry data
  */
--(GPKGGeometryData *) getGeometryData;
+-(GPKGGeometryData *) geometryData;
 
 /**
  *  Get the geometry
  *
  *  @return geometry
  */
--(SFGeometry *) getGeometry;
+-(SFGeometry *) geometry;
 
 /**
  *  Build a JSON compatible object

@@ -50,13 +50,13 @@
 -(NSString *) replaceXYZWithUrl: (NSString *) url andZ: (int) z andX: (int) x andY: (int) y{
     
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Z]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Z]
                                          withString:[NSString stringWithFormat:@"%d",z]];
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_X]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_X]
                                          withString:[NSString stringWithFormat:@"%d",x]];
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Y]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_Y]
                                          withString:[NSString stringWithFormat:@"%d",y]];
     return url;
 }
@@ -81,16 +81,16 @@
 -(NSString *) replaceBoundingBoxWithUrl: (NSString *) url andBoundingBox: (GPKGBoundingBox *) boundingBox{
     
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LAT]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LAT]
                                          withString:[boundingBox.minLatitude stringValue]];
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LAT]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LAT]
                                          withString:[boundingBox.maxLatitude stringValue]];
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LON]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MIN_LON]
                                          withString:[boundingBox.minLongitude stringValue]];
     url = [url stringByReplacingOccurrencesOfString:
-           [GPKGProperties getValueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LON]
+           [GPKGProperties valueOfBaseProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE andProperty:GPKG_PROP_TILE_GENERATOR_VARIABLE_MAX_LON]
                                          withString:[boundingBox.maxLongitude stringValue]];
     
     return url;
@@ -110,7 +110,7 @@
         
         // If TMS, flip the y value
         if(self.tms){
-            yRequest = [GPKGTileBoundingBoxUtils getYAsOppositeTileFormatWithZoom:z andY:y];
+            yRequest = [GPKGTileBoundingBoxUtils yAsOppositeTileFormatWithZoom:z andY:y];
         }
         
         zoomUrl = [self replaceXYZWithUrl:zoomUrl andZ:z andX:x andY:yRequest];

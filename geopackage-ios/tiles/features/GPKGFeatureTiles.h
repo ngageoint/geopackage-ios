@@ -223,7 +223,7 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  *
  *  @return feature dao
  */
--(GPKGFeatureDao *) getFeatureDao;
+-(GPKGFeatureDao *) featureDao;
 
 /**
  * Close the feature tiles connection

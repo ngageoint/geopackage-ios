@@ -61,33 +61,33 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGMetadataReference *getObject = (GPKGMetadataReference*) object;
+    GPKGMetadataReference *reference = (GPKGMetadataReference*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.referenceScope;
+            value = reference.referenceScope;
             break;
         case 1:
-            value = getObject.tableName;
+            value = reference.tableName;
             break;
         case 2:
-            value = getObject.columnName;
+            value = reference.columnName;
             break;
         case 3:
-            value = getObject.rowIdValue;
+            value = reference.rowIdValue;
             break;
         case 4:
-            value = getObject.timestamp;
+            value = reference.timestamp;
             break;
         case 5:
-            value = getObject.fileId;
+            value = reference.fileId;
             break;
         case 6:
-            value = getObject.parentId;
+            value = reference.parentId;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];

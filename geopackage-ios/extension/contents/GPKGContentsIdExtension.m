@@ -27,22 +27,22 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_CONTENTS_ID_AUTHOR andExtensionName:GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR];
-        self.extensionDefinition = [GPKGProperties getValueOfProperty:GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION];
-        self.contentsIdDao = [geoPackage getContentsIdDao];
+        self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION];
+        self.contentsIdDao = [geoPackage contentsIdDao];
     }
     return self;
 }
 
--(GPKGContentsIdDao *) getDao{
-    return self.contentsIdDao;
+-(GPKGContentsIdDao *) dao{
+    return _contentsIdDao;
 }
 
--(NSString *) getExtensionName{
-    return self.extensionName;
+-(NSString *) extensionName{
+    return _extensionName;
 }
 
--(NSString *) getExtensionDefinition{
-    return self.extensionDefinition;
+-(NSString *) extensionDefinition{
+    return _extensionDefinition;
 }
 
 -(BOOL) has{
@@ -55,11 +55,11 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return [self.contentsIdDao contentsId:results];
 }
 
--(GPKGContentsId *) getForContents: (GPKGContents *) contents{
-    return [self getForTableName:contents.tableName];
+-(GPKGContentsId *) forContents: (GPKGContents *) contents{
+    return [self forTableName:contents.tableName];
 }
 
--(GPKGContentsId *) getForTableName: (NSString *) tableName{
+-(GPKGContentsId *) forTableName: (NSString *) tableName{
     GPKGContentsId *contentsId = nil;
     if ([self.contentsIdDao tableExists]) {
         contentsId = [self.contentsIdDao queryForTableName:tableName];
@@ -67,13 +67,13 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return contentsId;
 }
 
--(NSNumber *) getIdForContents: (GPKGContents *) contents{
-    return [self getIdForTableName:contents.tableName];
+-(NSNumber *) idForContents: (GPKGContents *) contents{
+    return [self idForTableName:contents.tableName];
 }
 
--(NSNumber *) getIdForTableName: (NSString *) tableName{
+-(NSNumber *) idForTableName: (NSString *) tableName{
     NSNumber *id = nil;
-    GPKGContentsId *contentsId = [self getForTableName:tableName];
+    GPKGContentsId *contentsId = [self forTableName:tableName];
     if (contentsId != nil) {
         id = contentsId.id;
     }
@@ -87,7 +87,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 -(GPKGContentsId *) createForTableName: (NSString *) tableName{
 
     if (![self has]) {
-        [self getOrCreateExtension];
+        [self extensionCreate];
     }
     
     GPKGContentsId *contentsId = [[GPKGContentsId alloc] init];
@@ -111,7 +111,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 }
 
 -(GPKGContentsId *) getOrCreateForTableName: (NSString *) tableName{
-    GPKGContentsId *contentsId = [self getForTableName:tableName];
+    GPKGContentsId *contentsId = [self forTableName:tableName];
     if (contentsId == nil) {
         contentsId = [self createForTableName:tableName];
     }
@@ -177,7 +177,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
         if(contentsIds != nil){
             @try {
                 while([contentsIds moveToNext]){
-                    GPKGContentsId *contentsId = (GPKGContentsId *) [self.contentsIdDao getObject:contentsIds];
+                    GPKGContentsId *contentsId = (GPKGContentsId *) [self.contentsIdDao object:contentsIds];
                     deleted += [self.contentsIdDao delete:contentsId];
                 }
             } @finally {
@@ -234,7 +234,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     
     NSMutableArray<NSString *> *missing = [[NSMutableArray alloc] init];
     
-    GPKGContentsDao *contentDao = [self.geoPackage getContentsDao];
+    GPKGContentsDao *contentDao = [self.geoPackage contentsDao];
     
     NSMutableString *query = [[NSMutableString alloc] initWithFormat:@"SELECT %@ FROM %@", GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME];
     
@@ -262,7 +262,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     GPKGResultSet *results = [contentDao rawQuery:query andArgs:queryArgs];
     @try {
         while([results moveToNext]){
-            [missing addObject:[results getString:0]];
+            [missing addObject:[results stringWithIndex:0]];
         }
     } @finally {
         [results close];
@@ -271,18 +271,18 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return missing;
 }
 
--(GPKGExtensions *) getOrCreateExtension{
+-(GPKGExtensions *) extensionCreate{
     
     // Create table
     [self.geoPackage createContentsIdTable];
     
-    GPKGExtensions *extension = [self getOrCreateWithExtensionName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
 
--(GPKGExtensions *) getExtension{
-    GPKGExtensions *extension = [self getWithExtensionName:self.extensionName andTableName:nil andColumnName:nil];
+-(GPKGExtensions *) extension{
+    GPKGExtensions *extension = [self extensionWithName:self.extensionName andTableName:nil andColumnName:nil];
     return extension;
 }
 

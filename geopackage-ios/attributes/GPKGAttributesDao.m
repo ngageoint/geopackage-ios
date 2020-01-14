@@ -24,23 +24,23 @@
     return [self newRow];
 }
 
--(GPKGAttributesTable *) getAttributesTable{
+-(GPKGAttributesTable *) attributesTable{
     return (GPKGAttributesTable *) self.table;
 }
 
--(GPKGAttributesRow *) getAttributesRow: (GPKGResultSet *) results{
-    return (GPKGAttributesRow *) [self getRow:results];
+-(GPKGAttributesRow *) attributesRow: (GPKGResultSet *) results{
+    return (GPKGAttributesRow *) [super row:results];
 }
 
 -(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGAttributesRow alloc] initWithAttributesTable:[self getAttributesTable] andColumnTypes:columnTypes andValues:values];
+    return [[GPKGAttributesRow alloc] initWithAttributesTable:[self attributesTable] andColumnTypes:columnTypes andValues:values];
 }
 
 -(GPKGAttributesRow *) newRow{
     return [[GPKGAttributesRow alloc] initWithAttributesTable:(GPKGAttributesTable *)self.table];
 }
 
--(GPKGBoundingBox *) getBoundingBox{
+-(GPKGBoundingBox *) boundingBox{
     [NSException raise:@"Not Supported" format:@"Bounding Box not supported for Attributes"];
     return nil;
 }

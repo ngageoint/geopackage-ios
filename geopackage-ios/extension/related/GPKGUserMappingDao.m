@@ -33,7 +33,7 @@
 }
 
 -(GPKGUserMappingRow *) row: (GPKGResultSet *) results{
-    return (GPKGUserMappingRow *) [self getRow:results];
+    return (GPKGUserMappingRow *) [super row:results];
 }
 
 -(GPKGUserMappingRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{

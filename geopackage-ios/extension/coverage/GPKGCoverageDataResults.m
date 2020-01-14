@@ -69,7 +69,7 @@
 }
 
 -(NSNumber *) zoomLevel{
-    return self.tileMatrix.zoomLevel;
+    return _tileMatrix.zoomLevel;
 }
 
 @end

@@ -24,17 +24,17 @@
     
     NSString * tableName = @"table";
     
-    GPKGExtensions * extension = [zoomOtherExtension getOrCreateWithTableName:tableName];
+    GPKGExtensions * extension = [zoomOtherExtension extensionCreateWithTableName:tableName];
     [GPKGTestUtils assertNotNil:extension];
     [GPKGTestUtils assertTrue:[zoomOtherExtension hasWithTableName:tableName]];
     
     [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_ZOOM_OTHER_EXTENSION_NAME]];
-    [GPKGTestUtils assertEqualWithValue:[extension getAuthor] andValue2:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR];
-    [GPKGTestUtils assertEqualWithValue:[extension getExtensionNameNoAuthor] andValue2:GPKG_ZOOM_OTHER_EXTENSION_NAME];
+    [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR];
+    [GPKGTestUtils assertEqualWithValue:[extension extensionNameNoAuthor] andValue2:GPKG_ZOOM_OTHER_EXTENSION_NAME];
     [GPKGTestUtils assertEqualWithValue:extension.tableName andValue2:tableName];
     [GPKGTestUtils assertEqualWithValue:extension.columnName andValue2:GPKG_TC_COLUMN_TILE_DATA];
-    [GPKGTestUtils assertEqualIntWithValue:[extension getExtensionScopeType] andValue2:GPKG_EST_READ_WRITE];
-    [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:[GPKGProperties getValueOfProperty:@"geopackage.extensions.zoom_other"]];
+    [GPKGTestUtils assertEqualIntWithValue:[extension extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
+    [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:[GPKGProperties valueOfProperty:@"geopackage.extensions.zoom_other"]];
     
     [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:self.geoPackage andTable:tableName];
     [GPKGTestUtils assertFalse:[zoomOtherExtension hasWithTableName:tableName]];

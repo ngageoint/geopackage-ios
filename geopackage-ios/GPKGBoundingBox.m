@@ -99,7 +99,7 @@
     return [self equals:(GPKGBoundingBox *)object];
 }
 
--(MKMapRect) getMapRect{
+-(MKMapRect) mapRect{
     MKMapPoint lowerLeft = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.minLatitude doubleValue], [self.minLongitude doubleValue]));
     MKMapPoint upperRight = MKMapPointForCoordinate (CLLocationCoordinate2DMake([self.maxLatitude doubleValue], [self.maxLongitude doubleValue]));
     MKMapRect mapRect = MKMapRectNull;
@@ -108,19 +108,19 @@
     return mapRect;
 }
 
--(MKCoordinateRegion) getCoordinateRegion{
-    MKCoordinateSpan span = [self getSpan];
-    CLLocationCoordinate2D center = [self getCenter];
+-(MKCoordinateRegion) coordinateRegion{
+    MKCoordinateSpan span = [self span];
+    CLLocationCoordinate2D center = [self center];
     MKCoordinateRegion coordRegion = MKCoordinateRegionMake(center, span);
     return coordRegion;
 }
 
--(MKCoordinateSpan) getSpan{
+-(MKCoordinateSpan) span{
     MKCoordinateSpan span = MKCoordinateSpanMake([self.maxLatitude doubleValue] - [self.minLatitude doubleValue], [self.maxLongitude doubleValue] - [self.minLongitude doubleValue]);
     return span;
 }
 
--(CLLocationCoordinate2D) getCenter{
+-(CLLocationCoordinate2D) center{
     double minLongitude = [self.minLongitude doubleValue];
     double maxLongitude = [self.maxLongitude doubleValue];
     CLLocationCoordinate2D lowerLeft = CLLocationCoordinate2DMake([self.minLatitude doubleValue], minLongitude);
@@ -139,7 +139,7 @@
 
 -(struct GPKGBoundingBoxSize) sizeInMeters{
     
-    CLLocationCoordinate2D center = [self getCenter];
+    CLLocationCoordinate2D center = [self center];
     
     CLLocationCoordinate2D left = CLLocationCoordinate2DMake(center.latitude, [self.minLongitude doubleValue]);
     CLLocationCoordinate2D right = CLLocationCoordinate2DMake(center.latitude, [self.maxLongitude doubleValue]);

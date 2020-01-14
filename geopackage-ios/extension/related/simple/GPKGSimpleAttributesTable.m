@@ -126,7 +126,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
 }
 
 -(int) idColumnIndex{
-    return self.pkIndex;
+    return [self pkIndex];
 }
 
 -(GPKGUserCustomColumn *) idColumn{

@@ -16,7 +16,7 @@
 
 +(double) currentZoomWithMapView: (MKMapView *) mapView{
 
-    int maxZoom = [[GPKGProperties getNumberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
+    int maxZoom = [[GPKGProperties numberValueOfProperty:GPKG_PROP_MAX_ZOOM_LEVEL] intValue];
     CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
     CGFloat width = mapView.bounds.size.width;
     double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);

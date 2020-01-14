@@ -45,11 +45,11 @@
     return self.index < self.featureIds.count;
 }
 
--(GPKGFeatureRow *) getFeatureRow{
-    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[self getFeatureId]];
+-(GPKGFeatureRow *) featureRow{
+    return (GPKGFeatureRow *)[self.featureDao queryForIdObject:[self featureId]];
 }
 
--(NSNumber *) getFeatureId{
+-(NSNumber *) featureId{
     return [self.featureIds objectAtIndex:self.index];
 }
 

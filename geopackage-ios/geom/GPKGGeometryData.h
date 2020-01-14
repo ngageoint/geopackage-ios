@@ -100,21 +100,21 @@
  *
  *  @return header byte data
  */
--(NSData *) getHeaderData;
+-(NSData *) headerData;
 
 /**
  *  Get the Well-Known Binary Geometry byte data
  *
  *  @return wkb byte data
  */
--(NSData *) getWkbData;
+-(NSData *) wkbData;
 
 /**
  * Get the envelope if it exists or build it from the geometry if not null
  *
  * @return geometry envelope
  */
--(SFGeometryEnvelope *) getOrBuildEnvelope;
+-(SFGeometryEnvelope *) buildEnvelope;
 
 /**
  * Get the envelope flag indicator
@@ -125,6 +125,6 @@
  *
  *  @return flag indicator
  */
-+(int) getIndicatorWithEnvelope: (SFGeometryEnvelope *) envelope;
++(int) indicatorWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 @end

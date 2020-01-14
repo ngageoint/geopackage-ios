@@ -105,7 +105,7 @@ extern NSString * const GPKG_MST_DIMENSION_GROUP_NAME;
  *
  *  @return metadata scope type
  */
--(enum GPKGMetadataScopeType) getMetadataScopeType;
+-(enum GPKGMetadataScopeType) metadataScopeType;
 
 /**
  *  Set the metadata scope type

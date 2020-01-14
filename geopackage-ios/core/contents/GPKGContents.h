@@ -91,7 +91,7 @@ extern NSString * const GPKG_CON_COLUMN_SRS_ID;
  *
  *  @return Contents Data Type
  */
--(enum GPKGContentsDataType) getContentsDataType;
+-(enum GPKGContentsDataType) contentsDataType;
 
 /**
  *  Set the Contents Data Type
@@ -112,7 +112,7 @@ extern NSString * const GPKG_CON_COLUMN_SRS_ID;
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) getBoundingBox;
+-(GPKGBoundingBox *) boundingBox;
 
 /**
  *  Set a bounding box

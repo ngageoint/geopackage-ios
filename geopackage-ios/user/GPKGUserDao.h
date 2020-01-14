@@ -43,7 +43,7 @@
  *
  *  @return user row
  */
--(GPKGUserRow *) getRow: (GPKGResultSet *) results;
+-(GPKGUserRow *) row: (GPKGResultSet *) results;
 
 /**
  *  Create a user row
@@ -60,7 +60,7 @@
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) getBoundingBox;
+-(GPKGBoundingBox *) boundingBox;
 
 /**
  * Get the bounding box of the user table data
@@ -96,7 +96,7 @@
  *
  *  @return zoom level
  */
--(int) getZoomLevel;
+-(int) zoomLevel;
 
 /**
  * Add a new column

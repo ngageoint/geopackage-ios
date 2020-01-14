@@ -29,7 +29,7 @@
  *
  *  @return db connection
  */
--(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable;
+-(instancetype) initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable;
 
 /**
  *  Initialize
@@ -40,7 +40,7 @@
  *
  *  @return db connection
  */
--(instancetype)initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
+-(instancetype) initWithConnection:(GPKGSqliteConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
 
 /**
  *  Initialize
@@ -50,7 +50,7 @@
  *
  *  @return db connection
  */
--(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable;
+-(instancetype) initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable;
 
 /**
  *  Initialize
@@ -61,21 +61,21 @@
  *
  *  @return db connection
  */
--(instancetype)initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
+-(instancetype) initWithDbConnection:(GPKGDbConnection *) connection andReleasable: (BOOL) releasable andWriteReleasable: (BOOL) writeReleasable;
 
 /**
  *  Get the connection id
  *
  *  @return connection id
  */
--(NSNumber *) getConnectionId;
+-(NSNumber *) connectionId;
 
 /**
  *  Get the connection
  *
  *  @return connection
  */
--(sqlite3 *) getConnection;
+-(sqlite3 *) connection;
 
 /**
  *  Release the connection back to the connection pool. If not releasable, does nothing.
@@ -87,14 +87,14 @@
  *
  *  @return stack trace, nil when not checked out or not maintaining stack traces
  */
--(NSArray *) getStackTrace;
+-(NSArray *) stackTrace;
 
 /**
  *  Get the date this connection was checked out
  *
  *  @return date of checkout, nil if not checked out
  */
--(NSDate *) getDateCheckedOut;
+-(NSDate *) dateCheckedOut;
 
 /**
  *  Determine if this connection is releasable. An instance of a connection is releasable when it is the instance 

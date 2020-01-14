@@ -90,7 +90,7 @@ static SFPProjections *defaultProjections;
     if(self != nil){
         self.server = server;
         self.id = id;
-        self.downloadAttempts = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_GENERATOR andProperty:GPKG_PROP_FEATURE_GENERATOR_DOWNLOAD_ATTEMPTS] intValue];
+        self.downloadAttempts = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_GENERATOR andProperty:GPKG_PROP_FEATURE_GENERATOR_DOWNLOAD_ATTEMPTS] intValue];
     }
     return self;
 }

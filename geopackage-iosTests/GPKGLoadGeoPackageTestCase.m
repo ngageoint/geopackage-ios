@@ -22,8 +22,8 @@
     return self;
 }
 
--(GPKGGeoPackage *) getGeoPackage{
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+-(GPKGGeoPackage *) createGeoPackage{
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:self.dbName];
@@ -55,7 +55,7 @@
     }
     
     // Delete
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory getManager];
+    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
     [manager delete:self.dbName];
     [manager close];
     

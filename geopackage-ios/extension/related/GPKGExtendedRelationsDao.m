@@ -59,33 +59,33 @@
     
 }
 
--(NSObject *) getValueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
+-(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     NSObject * value = nil;
     
-    GPKGExtendedRelation *getObject = (GPKGExtendedRelation*) object;
+    GPKGExtendedRelation *relation = (GPKGExtendedRelation*) object;
     
     switch(columnIndex){
         case 0:
-            value = getObject.id;
+            value = relation.id;
             break;
         case 1:
-            value = getObject.baseTableName;
+            value = relation.baseTableName;
             break;
         case 2:
-            value = getObject.basePrimaryColumn;
+            value = relation.basePrimaryColumn;
             break;
         case 3:
-            value = getObject.relatedTableName;
+            value = relation.relatedTableName;
             break;
         case 4:
-            value = getObject.relatedPrimaryColumn;
+            value = relation.relatedPrimaryColumn;
             break;
         case 5:
-            value = getObject.relationName;
+            value = relation.relationName;
             break;
         case 6:
-            value = getObject.mappingTableName;
+            value = relation.mappingTableName;
             break;
         default:
             [NSException raise:@"Illegal Column Index" format:@"Unsupported column index: %d", columnIndex];
@@ -96,11 +96,11 @@
 }
 
 -(GPKGExtendedRelation *) relation: (GPKGResultSet *) results{
-    return (GPKGExtendedRelation *) [self getObject:results];
+    return (GPKGExtendedRelation *) [self object:results];
 }
 
 -(GPKGExtendedRelation *) firstRelation: (GPKGResultSet *) results{
-    return (GPKGExtendedRelation *) [self getFirstObject:results];
+    return (GPKGExtendedRelation *) [self firstObject:results];
 }
 
 -(NSArray<NSString *> *) baseTables{

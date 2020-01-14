@@ -87,15 +87,15 @@
         self.tileWidth = width;
         self.tileHeight = height;
         
-        self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties getValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
+        self.compressFormat = [GPKGCompressFormats fromName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_TILES_COMPRESS_FORMAT]];
         
-        self.pointRadius = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
+        self.pointRadius = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POINT_RADIUS] doubleValue];
         
-        self.lineStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];
+        self.lineStrokeWidth = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_LINE_STROKE_WIDTH] doubleValue];
         
-        self.polygonStrokeWidth = [[GPKGProperties getNumberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];
+        self.polygonStrokeWidth = [[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_STROKE_WIDTH] doubleValue];
         
-        self.fillPolygon = [GPKGProperties getBoolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
+        self.fillPolygon = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
         self.wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         
@@ -107,7 +107,7 @@
                 self.indexManager = nil;
             }
             
-            self.featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao getFeatureTable]];
+            self.featureTableStyles = [[GPKGFeatureTableStyles alloc] initWithGeoPackage:geoPackage andTable:[featureDao featureTable]];
             if (![self.featureTableStyles has]) {
                 self.featureTableStyles = nil;
             }
@@ -124,8 +124,8 @@
     self.iconCache.scale = scale;
 }
 
--(GPKGFeatureDao *) getFeatureDao{
-    return self.featureDao;
+-(GPKGFeatureDao *) featureDao{
+    return _featureDao;
 }
 
 -(void) close{
@@ -137,8 +137,8 @@
 -(void) calculateDrawOverlap{
     
     if(self.pointIcon != nil){
-        self.heightOverlap = self.scale * [self.pointIcon getHeight];
-        self.widthOverlap = self.scale * [self.pointIcon getWidth];
+        self.heightOverlap = self.scale * [self.pointIcon height];
+        self.widthOverlap = self.scale * [self.pointIcon width];
     }else{
         self.heightOverlap = self.scale * self.pointRadius;
         self.widthOverlap = self.scale * self.pointRadius;
@@ -276,7 +276,7 @@
 -(UIImage *) drawTileQueryIndexWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     // Get the web mercator bounding box
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     UIImage *image = nil;
     
@@ -315,7 +315,7 @@
 -(int) queryIndexedFeaturesCountWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     // Get the web mercator bounding box
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     // Query for the count of geometries matching the bounds in the index
     int count = [self queryIndexedFeaturesCountWithWebMercatorBoundingBox:webMercatorBoundingBox];
@@ -342,7 +342,7 @@
 -(GPKGFeatureIndexResults *) queryIndexedFeaturesWithX: (int) x andY: (int) y andZoom: (int) zoom{
 
     // Get the web mercator bounding box
-    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     // Query for the geometries matching the bounds in the index
     return [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
@@ -385,10 +385,10 @@
 -(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox withTileBoundingBox: (GPKGBoundingBox *) tileWebMercatorBoundingBox{
     
     // Create an expanded bounding box to handle features outside the tile that overlap
-    double minLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.widthOverlap)];
-    double maxLongitude = [GPKGTileBoundingBoxUtils getLongitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
-    double maxLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
-    double minLatitude = [GPKGTileBoundingBoxUtils getLatitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
+    double minLongitude = [GPKGTileBoundingBoxUtils longitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.widthOverlap)];
+    double maxLongitude = [GPKGTileBoundingBoxUtils longitudeFromPixelWithWidth:self.tileWidth andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileWidth + self.widthOverlap)];
+    double maxLatitude = [GPKGTileBoundingBoxUtils latitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(0 - self.heightOverlap)];
+    double minLatitude = [GPKGTileBoundingBoxUtils latitudeFromPixelWithHeight:self.tileHeight andBoundingBox:webMercatorBoundingBox andTileBoundingBox:tileWebMercatorBoundingBox andPixel:(self.tileHeight + self.heightOverlap)];
     
     // Choose the most expanded longitudes and latitudes
     minLongitude = MIN(minLongitude, [webMercatorBoundingBox.minLongitude doubleValue]);
@@ -409,7 +409,7 @@
 
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils getWebMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     UIImage * image = nil;
     
@@ -490,7 +490,7 @@
         
         BOOL drawn = NO;
         while([results moveToNext]){
-            GPKGFeatureRow *row = [self.featureDao getFeatureRow:results];
+            GPKGFeatureRow *row = [self.featureDao featureRow:results];
             if([self drawFeatureWithZoom:zoom andBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
                 drawn = YES;
             }
@@ -570,7 +570,7 @@
     if(boundingBox == nil){
         
         // Build the transformed feature bounding box
-        geomData = [row getGeometry];
+        geomData = [row geometry];
         boundingBox = [self boundingBoxOfFeature:row withGeometryData:geomData andShapeConverter:converter];
         
         // Cache the transformed feature bounding box
@@ -622,7 +622,7 @@
         SFGeometry * geometry = geomData.geometry;
         if(geometry != nil){
             
-            SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
+            SFGeometryEnvelope *envelope = [geomData buildEnvelope];
             GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
             boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
             
@@ -637,7 +637,7 @@
     GPKGMapShape *shape = nil;
     
     if(geomData == nil){
-        geomData = [row getGeometry];
+        geomData = [row geometry];
     }
     
     SFGeometry * geometry = geomData.geometry;
@@ -823,8 +823,8 @@
         MKMapPoint mkMapPoint = multiPoint.points[i];
         GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
         SFPoint *sfPoint = [self transformPointWithMapPoint:mapPoint];
-        double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
-        double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
+        double x = [GPKGTileBoundingBoxUtils xPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
+        double y = [GPKGTileBoundingBoxUtils yPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
         if(i == 0){
             CGPathMoveToPoint(path, NULL, x, y);
         }else{
@@ -838,8 +838,8 @@
     BOOL drawn = NO;
     
     SFPoint * sfPoint = [self transformPointWithMapPoint:point];
-    double x = [GPKGTileBoundingBoxUtils getXPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
-    double y = [GPKGTileBoundingBoxUtils getYPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
+    double x = [GPKGTileBoundingBoxUtils xPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
+    double y = [GPKGTileBoundingBoxUtils yPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
     
     if(featureStyle != nil && [featureStyle hasIcon]){
     
@@ -863,12 +863,12 @@
         
     }else if(self.pointIcon != nil){
         
-        int width = roundf(self.scale * [self.pointIcon getWidth]);
-        int height = roundf(self.scale * [self.pointIcon getHeight]);
+        int width = roundf(self.scale * [self.pointIcon width]);
+        int height = roundf(self.scale * [self.pointIcon height]);
         if(x >= 0 - width && x <= self.tileWidth + width && y >= 0 - height && y <= self.tileHeight + height){
             CGRect rect = CGRectMake(x - self.scale * self.pointIcon.xOffset, y - self.scale * self.pointIcon.yOffset, width, height);
             CGContextRef iconContext = [context iconContext];
-            [self drawImage:[self.pointIcon getIcon] inRect:rect onContext:iconContext];
+            [self drawImage:[self.pointIcon icon] inRect:rect onContext:iconContext];
             drawn = YES;
         }
     

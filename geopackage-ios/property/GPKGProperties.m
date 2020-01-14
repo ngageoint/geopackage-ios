@@ -19,11 +19,11 @@ static NSDictionary * properties;
     return [NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property];
 }
 
-+(NSString *) getValueOfProperty: (NSString *) property{
-    return [self getValueOfProperty:property andRequired:true];
++(NSString *) valueOfProperty: (NSString *) property{
+    return [self valueOfProperty:property andRequired:true];
 }
 
-+(NSString *) getValueOfProperty: (NSString *) property andRequired: (BOOL) required{
++(NSString *) valueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
     [self initializeProperties];
     
@@ -36,21 +36,21 @@ static NSDictionary * properties;
     return value;
 }
 
-+(NSString *) getValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self getValueOfBaseProperty:base andProperty:property andRequired:true];
++(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self valueOfBaseProperty:base andProperty:property andRequired:true];
 }
 
-+(NSString *) getValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
++(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self valueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
-+(NSNumber *) getNumberValueOfProperty: (NSString *) property{
-    return [self getNumberValueOfProperty:property andRequired:true];
++(NSNumber *) numberValueOfProperty: (NSString *) property{
+    return [self numberValueOfProperty:property andRequired:true];
 }
 
-+(NSNumber *) getNumberValueOfProperty: (NSString *) property andRequired: (BOOL) required{
++(NSNumber *) numberValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     NSNumber * value = nil;
-    NSString * stringValue = [self getValueOfProperty:property andRequired:required];
+    NSString * stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
         NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -59,40 +59,40 @@ static NSDictionary * properties;
     return value;
 }
 
-+(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self getNumberValueOfBaseProperty:base andProperty:property andRequired:true];
++(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self numberValueOfBaseProperty:base andProperty:property andRequired:true];
 }
 
-+(NSNumber *) getNumberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getNumberValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
++(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self numberValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
-+(BOOL) getBoolValueOfProperty: (NSString *) property{
-    return [self getBoolValueOfProperty:property andRequired:true];
++(BOOL) boolValueOfProperty: (NSString *) property{
+    return [self boolValueOfProperty:property andRequired:true];
 }
 
-+(BOOL) getBoolValueOfProperty: (NSString *) property andRequired: (BOOL) required{
++(BOOL) boolValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     BOOL value = false;
-    NSString * stringValue = [self getValueOfProperty:property andRequired:required];
+    NSString * stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
         value = [stringValue boolValue];
     }
     return value;
 }
 
-+(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self getBoolValueOfBaseProperty:base andProperty:property andRequired:true];
++(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self boolValueOfBaseProperty:base andProperty:property andRequired:true];
 }
 
-+(BOOL) getBoolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getBoolValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
++(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self boolValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
-+(NSArray *) getArrayValueOfProperty: (NSString *) property{
-    return [self getArrayValueOfProperty:property andRequired:true];
++(NSArray *) arrayValueOfProperty: (NSString *) property{
+    return [self arrayValueOfProperty:property andRequired:true];
 }
 
-+(NSArray *) getArrayValueOfProperty: (NSString *) property andRequired: (BOOL) required{
++(NSArray *) arrayValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
     [self initializeProperties];
     
@@ -105,19 +105,19 @@ static NSDictionary * properties;
     return value;
 }
 
-+(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self getArrayValueOfBaseProperty:base andProperty:property andRequired:true];
++(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self arrayValueOfBaseProperty:base andProperty:property andRequired:true];
 }
 
-+(NSArray *) getArrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getArrayValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
++(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self arrayValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
-+(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property{
-    return [self getDictionaryValueOfProperty:property andRequired:true];
++(NSDictionary *) dictionaryValueOfProperty: (NSString *) property{
+    return [self dictionaryValueOfProperty:property andRequired:true];
 }
 
-+(NSDictionary *) getDictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
++(NSDictionary *) dictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
     [self initializeProperties];
     
@@ -130,17 +130,17 @@ static NSDictionary * properties;
     return value;
 }
 
-+(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self getDictionaryValueOfBaseProperty:base andProperty:property andRequired:true];
++(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
+    return [self dictionaryValueOfBaseProperty:base andProperty:property andRequired:true];
 }
 
-+(NSDictionary *) getDictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
-    return [self getDictionaryValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
++(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
+    return [self dictionaryValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
 }
 
 +(void) initializeProperties{
     if(properties == nil){
-        NSString * propertiesPath = [GPKGIOUtils getPropertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES];
+        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES];
         properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
     }
 }

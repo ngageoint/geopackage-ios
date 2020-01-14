@@ -25,8 +25,8 @@
 -(instancetype) initWithTileRow: (GPKGTileRow *) tileRow{
     self = [super init];
     if(self != nil){
-        self.imageData = [tileRow getTileData];
-        self.image = [tileRow getTileDataImage];
+        self.imageData = [tileRow tileData];
+        self.image = [tileRow tileDataImage];
         [GPKGCoverageDataPng validateImageType:self.image];
         self.pixelsRead = false;
         self.width = self.image.size.width;

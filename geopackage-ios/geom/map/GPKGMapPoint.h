@@ -88,7 +88,7 @@
  *
  *  @return number id
  */
--(NSNumber *) getIdAsNumber;
+-(NSNumber *) idAsNumber;
 
 /**
  *  If the view has been set, change the hidden state

@@ -19,6 +19,6 @@
  *
  *  @return GeoPackage Manager
  */
-+(GPKGGeoPackageManager *) getManager;
++(GPKGGeoPackageManager *) manager;
 
 @end

@@ -68,9 +68,9 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     if(self != nil){
         self.connection = geoPackage.database;
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_RTREE_INDEX_EXTENSION_NAME];
-        self.definition = [GPKGProperties getValueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
+        self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
         
-        NSString * sqlProperties = [GPKGIOUtils getPropertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
+        NSString * sqlProperties = [GPKGIOUtils propertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
         self.sqlStatements = [NSDictionary dictionaryWithContentsOfFile:sqlProperties];
         
         self.tableSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_TABLE_SUBSTITUTE];
@@ -82,24 +82,24 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 }
 
 -(GPKGRTreeIndexTableDao *) tableDaoWithFeatureTable: (NSString *) featureTable{
-    return [self tableDaoWithFeatureDao:[self.geoPackage getFeatureDaoWithTableName:featureTable]];
+    return [self tableDaoWithFeatureDao:[self.geoPackage featureDaoWithTableName:featureTable]];
 }
 
 -(GPKGRTreeIndexTableDao *) tableDaoWithFeatureDao: (GPKGFeatureDao *) featureDao{
     
     GPKGConnection *connection = self.geoPackage.database;
-    GPKGUserCustomTable *userCustomTable =  [self rTreeTableWithFeatureTable:[featureDao getFeatureTable]];
+    GPKGUserCustomTable *userCustomTable =  [self rTreeTableWithFeatureTable:[featureDao featureTable]];
     GPKGUserCustomDao *userCustomDao = [[GPKGUserCustomDao alloc] initWithDatabase:connection andTable:userCustomTable];
     
     return [[GPKGRTreeIndexTableDao alloc] initWithExtension:self andDao:userCustomDao andFeatureDao:featureDao];
 }
 
--(GPKGExtensions *) getOrCreateWithFeatureTable: (GPKGFeatureTable *) featureTable{
-    return [self getOrCreateWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
+-(GPKGExtensions *) extensionCreateWithFeatureTable: (GPKGFeatureTable *) featureTable{
+    return [self extensionCreateWithTableName:featureTable.tableName andColumnName:[featureTable geometryColumn].name];
 }
 
--(GPKGExtensions *) getOrCreateWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
-    return [self getOrCreateWithExtensionName:self.extensionName andTableName:tableName andColumnName:columnName andDefinition:self.definition andScope:GPKG_EST_WRITE_ONLY];
+-(GPKGExtensions *) extensionCreateWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
+    return [self extensionCreateWithName:self.extensionName andTableName:tableName andColumnName:columnName andDefinition:self.definition andScope:GPKG_EST_WRITE_ONLY];
 }
 
 -(BOOL) hasWithFeatureTable: (GPKGFeatureTable *) featureTable{
@@ -147,7 +147,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 
 -(GPKGExtensions *) createWithTableName: (NSString *) tableName andGeometryColumnName: (NSString *) geometryColumnName andIdColumnName: (NSString *) idColumnName{
     
-    GPKGExtensions *extension = [self getOrCreateWithTableName:tableName andColumnName:geometryColumnName];
+    GPKGExtensions *extension = [self extensionCreateWithTableName:tableName andColumnName:geometryColumnName];
     
     [self createAllFunctions];
     [self createRTreeIndexWithTableName:tableName andGeometryColumnName:geometryColumnName];
@@ -214,7 +214,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 +(SFGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
     SFGeometryEnvelope *envelope = nil;
     if(data != nil){
-        envelope = [data getOrBuildEnvelope];
+        envelope = [data buildEnvelope];
     }
     if(envelope == nil){
         envelope = [[SFGeometryEnvelope alloc] init];
@@ -431,7 +431,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
         GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName andTable:tableName];
         @try {
             while([extensions moveToNext]){
-                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao getObject:extensions];
+                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao object:extensions];
                 [extensionsToDelete addObject:extension];
             }
         } @finally {
@@ -451,7 +451,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
         GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName];
         @try {
             while([extensions moveToNext]){
-                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao getObject:extensions];
+                GPKGExtensions *extension = (GPKGExtensions *)[self.extensionsDao object:extensions];
                 [extensionsToDelete addObject:extension];
             }
         } @finally {

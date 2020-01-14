@@ -70,20 +70,20 @@
     [GPKGTestUtils assertTrue:[self.geoPackage isTable:mappingTableName]];
     
     // 7. Add mappings
-    GPKGFeatureDao *baseDao = [self.geoPackage getFeatureDaoWithTableName:baseTableName];
-    GPKGFeatureDao *relatedDao = [self.geoPackage getFeatureDaoWithTableName:relatedTableName];
+    GPKGFeatureDao *baseDao = [self.geoPackage featureDaoWithTableName:baseTableName];
+    GPKGFeatureDao *relatedDao = [self.geoPackage featureDaoWithTableName:relatedTableName];
     GPKGResultSet *baseFrs = [baseDao queryForAll];
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedFrs = [relatedDao queryForAll];
     int relatedCount = relatedFrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedFrs moveToNext]){
-        [relatedIds addObject:[[relatedDao getFeatureRow:relatedFrs] id]];
+        [relatedIds addObject:[[relatedDao featureRow:relatedFrs] id]];
     }
     [relatedFrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -183,20 +183,20 @@
     [GPKGTestUtils assertTrue:[self.geoPackage isTable:mappingTableName]];
     
     // 7. Add mappings
-    GPKGFeatureDao *baseDao = [self.geoPackage getFeatureDaoWithTableName:baseTableName];
-    GPKGAttributesDao *relatedDao = [self.geoPackage getAttributesDaoWithTableName:relatedTableName];
+    GPKGFeatureDao *baseDao = [self.geoPackage featureDaoWithTableName:baseTableName];
+    GPKGAttributesDao *relatedDao = [self.geoPackage attributesDaoWithTableName:relatedTableName];
     GPKGResultSet *baseFrs = [baseDao queryForAll];
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedArs = [relatedDao queryForAll];
     int relatedCount = relatedArs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedArs moveToNext]){
-        [relatedIds addObject:[[relatedDao getAttributesRow:relatedArs] id]];
+        [relatedIds addObject:[[relatedDao attributesRow:relatedArs] id]];
     }
     [relatedArs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -296,20 +296,20 @@
     [GPKGTestUtils assertTrue:[self.geoPackage isTable:mappingTableName]];
     
     // 7. Add mappings
-    GPKGFeatureDao *baseDao = [self.geoPackage getFeatureDaoWithTableName:baseTableName];
-    GPKGTileDao *relatedDao = [self.geoPackage getTileDaoWithTableName:relatedTableName];
+    GPKGFeatureDao *baseDao = [self.geoPackage featureDaoWithTableName:baseTableName];
+    GPKGTileDao *relatedDao = [self.geoPackage tileDaoWithTableName:relatedTableName];
     GPKGResultSet *baseFrs = [baseDao queryForAll];
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao getFeatureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedTrs = [relatedDao queryForAll];
     int relatedCount = relatedTrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
     while([relatedTrs moveToNext]){
-        [relatedIds addObject:[[relatedDao getTileRow:relatedTrs] id]];
+        [relatedIds addObject:[[relatedDao tileRow:relatedTrs] id]];
     }
     [relatedTrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];

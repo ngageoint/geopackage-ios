@@ -20,32 +20,32 @@
     GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNotNil:contentsIdExtension.extensionsDao];
     [GPKGTestUtils assertFalse:[contentsIdExtension has]];
-    [GPKGTestUtils assertNil:[contentsIdExtension getExtension]];
+    [GPKGTestUtils assertNil:[contentsIdExtension extension]];
     
-    [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage getTables].count andValue2:[contentsIdExtension missing].count];
+    [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage tables].count andValue2:[contentsIdExtension missing].count];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension ids] countAndClose]];
     
     for(int i = 0; i <= GPKG_CDT_GRIDDED_COVERAGE; i++){
         enum GPKGContentsDataType type = i;
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension idsForType:type] countAndClose]];
-        [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage getTablesByType:type].count andValue2:[contentsIdExtension missingForType:type].count];
+        [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage tablesByType:type].count andValue2:[contentsIdExtension missingForType:type].count];
     }
     
-    for(NSString *tableName in [geoPackage getTables]){
+    for(NSString *tableName in [geoPackage tables]){
         GPKGContents *contents = [geoPackage contentsOfTable:tableName];
-        [GPKGTestUtils assertNil:[contentsIdExtension getForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getForContents:contents]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForContents:contents]];
     }
     
     // Create all content ids
-    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTables].count andValue2:[contentsIdExtension createIds]];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count andValue2:[contentsIdExtension createIds]];
     [GPKGTestUtils assertTrue:[contentsIdExtension has]];
-    [GPKGTestUtils assertNotNil:[contentsIdExtension getExtension]];
+    [GPKGTestUtils assertNotNil:[contentsIdExtension extension]];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[contentsIdExtension missing].count];
     GPKGResultSet *contentsIds = [contentsIdExtension ids];
-    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTables].count andValue2:contentsIds.count];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count andValue2:contentsIds.count];
     
     NSMutableSet *uniqueIds = [[NSMutableSet alloc] init];
     while([contentsIds moveToNext]){
@@ -60,7 +60,7 @@
     [contentsIds close];
     
     // Delete all content ids
-    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTables].count andValue2:[contentsIdExtension deleteIds]];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count andValue2:[contentsIdExtension deleteIds]];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension ids] countAndClose]];
     [GPKGTestUtils assertTrue:[contentsIdExtension has]];
     
@@ -70,9 +70,9 @@
         enum GPKGContentsDataType type = i;
         int created = [contentsIdExtension createIdsForType:type];
         currentCount += created;
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTablesByType:type].count andValue2:created];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:type].count andValue2:created];
         [GPKGTestUtils assertEqualIntWithValue:created andValue2:[[contentsIdExtension idsForType:type] countAndClose]];
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTables].count - currentCount andValue2:(int)[contentsIdExtension missing].count];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count - currentCount andValue2:(int)[contentsIdExtension missing].count];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)[contentsIdExtension missingForType:type].count];
         [GPKGTestUtils assertEqualIntWithValue:currentCount andValue2:[[contentsIdExtension ids] countAndClose]];
     }
@@ -82,10 +82,10 @@
         enum GPKGContentsDataType type = i;
         int deleted = [contentsIdExtension deleteIdsForType:type];
         currentCount -= deleted;
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTablesByType:type].count andValue2:deleted];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:type].count andValue2:deleted];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension idsForType:type] countAndClose]];
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage getTables].count - currentCount andValue2:(int)[contentsIdExtension missing].count];
-        [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage getTablesByType:type].count andValue2:[contentsIdExtension missingForType:type].count];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count - currentCount andValue2:(int)[contentsIdExtension missing].count];
+        [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage tablesByType:type].count andValue2:[contentsIdExtension missingForType:type].count];
         [GPKGTestUtils assertEqualIntWithValue:currentCount andValue2:[[contentsIdExtension ids] countAndClose]];
     }
     
@@ -95,18 +95,18 @@
     // Delete the extension
     [contentsIdExtension removeExtension];
     [GPKGTestUtils assertFalse:[contentsIdExtension has]];
-    [GPKGTestUtils assertNil:[contentsIdExtension getExtension]];
+    [GPKGTestUtils assertNil:[contentsIdExtension extension]];
     
     // Create contents id's for each table one by one
     [uniqueIds removeAllObjects];
-    for(NSString *tableName in [geoPackage getTables]){
+    for(NSString *tableName in [geoPackage tables]){
         
         GPKGContents *contents = [geoPackage contentsOfTable:tableName];
         
-        [GPKGTestUtils assertNil:[contentsIdExtension getForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getForContents:contents]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForContents:contents]];
         
         [GPKGTestUtils assertTrue:[[contentsIdExtension missing] containsObject:tableName]];
         [GPKGTestUtils assertFalse:[self resultSet:[contentsIdExtension ids] containsTable:tableName withExtension:contentsIdExtension]];
@@ -162,24 +162,24 @@
         [GPKGTestUtils assertFalse:[[contentsIdExtension missingForTypeName:contents.dataType] containsObject:tableName]];
         [GPKGTestUtils assertTrue:[self resultSet:[contentsIdExtension idsForTypeName:contents.dataType] containsTable:tableName withExtension:contentsIdExtension]];
         
-        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension getIdForTableName:tableName]];
-        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension getIdForContents:contents]];
-        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension getForTableName:tableName].id];
-        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension getForContents:contents].id];
+        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension idForTableName:tableName]];
+        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension idForContents:contents]];
+        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension forTableName:tableName].id];
+        [GPKGTestUtils assertEqualWithValue:contentsIdNumber andValue2:[contentsIdExtension forContents:contents].id];
     }
     
     // Delete contents id's one by one
     [uniqueIds removeAllObjects];
-    for(NSString *tableName in [geoPackage getTables]){
+    for(NSString *tableName in [geoPackage tables]){
         
         GPKGContents *contents = [geoPackage contentsOfTable:tableName];
         
         [GPKGTestUtils assertTrue:[contentsIdExtension deleteForContents:contents]];
         
-        [GPKGTestUtils assertNil:[contentsIdExtension getForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getForContents:contents]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForTableName:tableName]];
-        [GPKGTestUtils assertNil:[contentsIdExtension getIdForContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension forContents:contents]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForTableName:tableName]];
+        [GPKGTestUtils assertNil:[contentsIdExtension idForContents:contents]];
         
         [GPKGTestUtils assertTrue:[[contentsIdExtension missing] containsObject:tableName]];
         [GPKGTestUtils assertFalse:[self resultSet:[contentsIdExtension ids] containsTable:tableName withExtension:contentsIdExtension]];
@@ -193,7 +193,7 @@
     // Delete the extension
     [contentsIdExtension removeExtension];
     [GPKGTestUtils assertFalse:[contentsIdExtension has]];
-    [GPKGTestUtils assertNil:[contentsIdExtension getExtension]];
+    [GPKGTestUtils assertNil:[contentsIdExtension extension]];
 
 }
 

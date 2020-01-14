@@ -45,21 +45,21 @@
  *
  *  @return geometry column index
  */
--(int) getGeometryColumnIndex;
+-(int) geometryColumnIndex;
 
 /**
  *  Get the geometry column
  *
  *  @return geometry feature column
  */
--(GPKGFeatureColumn *) getGeometryColumn;
+-(GPKGFeatureColumn *) geometryColumn;
 
 /**
  *  Get the geometry
  *
  *  @return geometry data
  */
--(GPKGGeometryData *) getGeometry;
+-(GPKGGeometryData *) geometry;
 
 /**
  *  Set the geometry
@@ -73,20 +73,20 @@
  *
  *  @return geometry
  */
--(SFGeometry *) getGeometryValue;
+-(SFGeometry *) geometryValue;
 
 /**
  * Get the simple features geometry type
  *
  * @return geometry type
  */
--(enum SFGeometryType) getGeometryType;
+-(enum SFGeometryType) geometryType;
 
 /**
  *  Get the geometry envelope
  *
  *  @return geometry envelope
  */
--(SFGeometryEnvelope *) getGeometryEnvelope;
+-(SFGeometryEnvelope *) geometryEnvelope;
 
 @end

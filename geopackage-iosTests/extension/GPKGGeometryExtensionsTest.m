@@ -73,66 +73,66 @@
 -(void) testGeoPackageExtensionName{
     
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_GEOMETRY];
+        [GPKGGeometryExtensions extensionName:SF_GEOMETRY];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_POINT];
+        [GPKGGeometryExtensions extensionName:SF_POINT];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_LINESTRING];
+        [GPKGGeometryExtensions extensionName:SF_LINESTRING];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_POLYGON];
+        [GPKGGeometryExtensions extensionName:SF_POLYGON];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_MULTIPOINT];
+        [GPKGGeometryExtensions extensionName:SF_MULTIPOINT];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_MULTILINESTRING];
+        [GPKGGeometryExtensions extensionName:SF_MULTILINESTRING];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_MULTIPOLYGON];
+        [GPKGGeometryExtensions extensionName:SF_MULTIPOLYGON];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_GEOMETRYCOLLECTION];
+        [GPKGGeometryExtensions extensionName:SF_GEOMETRYCOLLECTION];
     }@catch(NSException *exception){
         // Expected
     }
     
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CIRCULARSTRING] andValue2:[GPKGGeometryExtensions getExtensionName:SF_CIRCULARSTRING]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_COMPOUNDCURVE] andValue2:[GPKGGeometryExtensions getExtensionName:SF_COMPOUNDCURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVEPOLYGON] andValue2:[GPKGGeometryExtensions getExtensionName:SF_CURVEPOLYGON]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTICURVE] andValue2:[GPKGGeometryExtensions getExtensionName:SF_MULTICURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTISURFACE] andValue2:[GPKGGeometryExtensions getExtensionName:SF_MULTISURFACE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVE] andValue2:[GPKGGeometryExtensions getExtensionName:SF_CURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_SURFACE] andValue2:[GPKGGeometryExtensions getExtensionName:SF_SURFACE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CIRCULARSTRING] andValue2:[GPKGGeometryExtensions extensionName:SF_CIRCULARSTRING]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_COMPOUNDCURVE] andValue2:[GPKGGeometryExtensions extensionName:SF_COMPOUNDCURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVEPOLYGON] andValue2:[GPKGGeometryExtensions extensionName:SF_CURVEPOLYGON]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTICURVE] andValue2:[GPKGGeometryExtensions extensionName:SF_MULTICURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTISURFACE] andValue2:[GPKGGeometryExtensions extensionName:SF_MULTISURFACE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVE] andValue2:[GPKGGeometryExtensions extensionName:SF_CURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_SURFACE] andValue2:[GPKGGeometryExtensions extensionName:SF_SURFACE]];
     
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_POLYHEDRALSURFACE];
+        [GPKGGeometryExtensions extensionName:SF_POLYHEDRALSURFACE];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_TIN];
+        [GPKGGeometryExtensions extensionName:SF_TIN];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionName:SF_TRIANGLE];
+        [GPKGGeometryExtensions extensionName:SF_TRIANGLE];
     }@catch(NSException *exception){
         // Expected
     }
@@ -146,57 +146,57 @@
     NSString * author = @"nga";
     
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_GEOMETRY];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_GEOMETRY];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_POINT];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_POINT];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_LINESTRING];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_LINESTRING];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_POLYGON];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_POLYGON];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_MULTIPOINT];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_MULTIPOINT];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_MULTILINESTRING];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_MULTILINESTRING];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_MULTIPOLYGON];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_MULTIPOLYGON];
     }@catch(NSException *exception){
         // Expected
     }
     @try{
-        [GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_GEOMETRYCOLLECTION];
+        [GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_GEOMETRYCOLLECTION];
     }@catch(NSException *exception){
         // Expected
     }
     
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CIRCULARSTRING] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_CIRCULARSTRING]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_COMPOUNDCURVE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_COMPOUNDCURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVEPOLYGON] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_CURVEPOLYGON]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTICURVE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_MULTICURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTISURFACE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_MULTISURFACE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_CURVE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_SURFACE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_SURFACE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CIRCULARSTRING] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_CIRCULARSTRING]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_COMPOUNDCURVE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_COMPOUNDCURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVEPOLYGON] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_CURVEPOLYGON]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTICURVE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_MULTICURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_MULTISURFACE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_MULTISURFACE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_CURVE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_CURVE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedGeoPackageExtensionNameWithType:SF_SURFACE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_SURFACE]];
     
-    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_POLYHEDRALSURFACE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_POLYHEDRALSURFACE]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_TIN] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_TIN]];
-    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_TRIANGLE] andValue2:[GPKGGeometryExtensions getExtensionNameWithAuthor:author andType:SF_TRIANGLE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_POLYHEDRALSURFACE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_POLYHEDRALSURFACE]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_TIN] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_TIN]];
+    [GPKGTestUtils assertEqualWithValue:[self expectedUserDefinedExtensionNameWithAuthor:author andType:SF_TRIANGLE] andValue2:[GPKGGeometryExtensions extensionNameWithAuthor:author andType:SF_TRIANGLE]];
     
 }
 
@@ -213,7 +213,7 @@
         
         enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
         @try{
-            [extensions getOrCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
+            [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
         }@catch(NSException *exception){
             // Expected
@@ -225,7 +225,7 @@
         
         enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
         @try{
-            [extensions getOrCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
+            [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
         }@catch(NSException *exception){
             // Expected
@@ -239,17 +239,17 @@
         enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
         NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
         NSString * columnName = @"geom";
-        GPKGExtensions * extension = [extensions getOrCreateWithTable:tableName andColumn:columnName andType:geometryType];
+        GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andType:geometryType];
         [GPKGTestUtils assertNotNil:extension];
         [GPKGTestUtils assertTrue:[extensions hasWithTable:tableName andColumn:columnName andType:geometryType]];
         [GPKGTestUtils assertEqualIntWithValue:++count andValue2:[extensionsDao count]];
         
         [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[self expectedGeoPackageExtensionNameWithType:geometryType]];
-        [GPKGTestUtils assertEqualWithValue:[extension getAuthor] andValue2:[self expectedGeoPackageExtensionAuthor]];
-        [GPKGTestUtils assertEqualWithValue:[extension getExtensionNameNoAuthor] andValue2:[self expectedGeoPackageExtensionNameNoAuthorWithType:geometryType]];
+        [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:[self expectedGeoPackageExtensionAuthor]];
+        [GPKGTestUtils assertEqualWithValue:[extension extensionNameNoAuthor] andValue2:[self expectedGeoPackageExtensionNameNoAuthorWithType:geometryType]];
         [GPKGTestUtils assertEqualWithValue:extension.tableName andValue2:tableName];
         [GPKGTestUtils assertEqualWithValue:extension.columnName andValue2:columnName];
-        [GPKGTestUtils assertEqualIntWithValue:[extension getExtensionScopeType] andValue2:GPKG_EST_READ_WRITE];
+        [GPKGTestUtils assertEqualIntWithValue:[extension extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
         [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:extensions.geometryTypesDefinition];
     }
     
@@ -270,7 +270,7 @@
         
         enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
         @try{
-            [extensions getOrCreateWithTable:@"table_name" andColumn:@"column_name" andAuthor:author andType:geometryType];
+            [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andAuthor:author andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
         }@catch(NSException *exception){
             // Expected
@@ -284,23 +284,23 @@
         enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
         NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
         NSString * columnName = @"geom";
-        GPKGExtensions * extension = [extensions getOrCreateWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType];
+        GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType];
         [GPKGTestUtils assertNotNil:extension];
         [GPKGTestUtils assertTrue:[extensions hasWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType]];
         [GPKGTestUtils assertEqualIntWithValue:++count andValue2:[extensionsDao count]];
         
-        [GPKGTestUtils assertEqualWithValue:[extension getExtensionNameNoAuthor] andValue2:[self expectedGeoPackageExtensionNameNoAuthorWithType:geometryType]];
+        [GPKGTestUtils assertEqualWithValue:[extension extensionNameNoAuthor] andValue2:[self expectedGeoPackageExtensionNameNoAuthorWithType:geometryType]];
         [GPKGTestUtils assertEqualWithValue:extension.tableName andValue2:tableName];
         [GPKGTestUtils assertEqualWithValue:extension.columnName andValue2:columnName];
-        [GPKGTestUtils assertEqualIntWithValue:[extension getExtensionScopeType] andValue2:GPKG_EST_READ_WRITE];
+        [GPKGTestUtils assertEqualIntWithValue:[extension extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
         
         if(i <= SF_SURFACE){
             [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[self expectedGeoPackageExtensionNameWithType:geometryType]];
-            [GPKGTestUtils assertEqualWithValue:[extension getAuthor] andValue2:[self expectedGeoPackageExtensionAuthor]];
+            [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:[self expectedGeoPackageExtensionAuthor]];
             [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:extensions.geometryTypesDefinition];
         }else{
             [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[self expectedUserDefinedExtensionNameWithAuthor:author andType:geometryType]];
-            [GPKGTestUtils assertEqualWithValue:[extension getAuthor] andValue2:author];
+            [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:author];
             [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:extensions.userGeometryTypesDefinition];
         }
     }
