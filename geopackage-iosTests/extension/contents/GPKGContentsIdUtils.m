@@ -40,6 +40,7 @@
     }
     
     // Create all content ids
+    [contentsIdExtension extensionCreate];
     [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count andValue2:[contentsIdExtension createIds]];
     [GPKGTestUtils assertTrue:[contentsIdExtension has]];
     [GPKGTestUtils assertNotNil:[contentsIdExtension extension]];
@@ -99,6 +100,7 @@
     
     // Create contents id's for each table one by one
     [uniqueIds removeAllObjects];
+    [contentsIdExtension extensionCreate];
     for(NSString *tableName in [geoPackage tables]){
         
         GPKGContents *contents = [geoPackage contentsOfTable:tableName];

@@ -149,6 +149,8 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 
 -(int) createIdsForTypeName: (NSString *) type{
 
+    [self extensionCreate];
+    
     NSArray<NSString *> *tables = [self missingForTypeName:type];
     
     for(NSString *tableName in tables){
@@ -278,6 +280,18 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     
     GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
+    GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];
+    if([contentsDao queryForIdObject:GPKG_CI_TABLE_NAME] == nil){
+        
+        GPKGContents *contents = [[GPKGContents alloc] init];
+        [contents setTableName:GPKG_CI_TABLE_NAME];
+        [contents setDataType:GPKG_EX_TABLE_NAME];
+        [contents setIdentifier:GPKG_CI_TABLE_NAME];
+
+        [contentsDao create:contents];
+        
+    }
+    
     return extension;
 }
 
@@ -294,6 +308,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     if([self.extensionsDao tableExists]){
         [self.extensionsDao deleteByExtension:self.extensionName];
     }
+    [[self.geoPackage contentsDao] deleteById:GPKG_CI_TABLE_NAME];
     
 }
 
