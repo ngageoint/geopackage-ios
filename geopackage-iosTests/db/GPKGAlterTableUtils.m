@@ -447,7 +447,7 @@
             [GPKGTestUtils assertEqualWithValue:pk.name andValue2:[copyTable pkColumn].name];
             [GPKGTestUtils assertEqualIntWithValue:pk.index andValue2:[copyTable pkColumn].index];
             [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
-            [GPKGTestUtils assertEqualWithValue:geometry.name andValue2:[copyTable geometryColumn].name];
+            [GPKGTestUtils assertEqualWithValue:geometry.name andValue2:[copyTable geometryColumnName]];
             [GPKGTestUtils assertEqualIntWithValue:geometry.index andValue2:[copyTable geometryColumn].index];
             
             GPKGFeatureIndexManager *copyIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:copyDao];
