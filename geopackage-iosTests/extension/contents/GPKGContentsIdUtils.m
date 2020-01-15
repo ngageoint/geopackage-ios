@@ -125,10 +125,10 @@
                 contentsId = [contentsIdExtension createForTableName:tableName];
                 break;
             case 2:
-                contentsId = [contentsIdExtension getOrCreateForContents:contents];
+                contentsId = [contentsIdExtension createGetForContents:contents];
                 break;
             case 3:
-                contentsId = [contentsIdExtension getOrCreateForTableName:tableName];
+                contentsId = [contentsIdExtension createGetForTableName:tableName];
                 break;
             case 4:
                 contentsIdNumber = [contentsIdExtension createIdForContents:contents];
@@ -137,10 +137,10 @@
                 contentsIdNumber = [contentsIdExtension createIdForTableName:tableName];
                 break;
             case 6:
-                contentsIdNumber = [contentsIdExtension getOrCreateIdForContents:contents];
+                contentsIdNumber = [contentsIdExtension createGetIdForContents:contents];
                 break;
             default:
-                contentsIdNumber = [contentsIdExtension getOrCreateIdForTableName:tableName];
+                contentsIdNumber = [contentsIdExtension createGetIdForTableName:tableName];
                 break;
         }
         

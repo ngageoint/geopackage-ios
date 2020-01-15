@@ -743,7 +743,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         [self createTableStyleRelationshipWithTable:featureTable];
         
-        int featureContentsId = [[self.contentsId getOrCreateIdForTableName:featureTable] intValue];
+        int featureContentsId = [[self.contentsId createGetIdForTableName:featureTable] intValue];
         
         int styleId = [self insertStyle:style];
         
@@ -797,7 +797,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         [self createTableIconRelationshipWithTable:featureTable];
         
-        int featureContentsId = [[self.contentsId getOrCreateIdForTableName:featureTable] intValue];
+        int featureContentsId = [[self.contentsId createGetIdForTableName:featureTable] intValue];
         
         int iconId = [self insertIcon:icon];
         

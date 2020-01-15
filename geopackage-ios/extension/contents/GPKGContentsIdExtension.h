@@ -140,7 +140,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            contents
  * @return new or existing contents id
  */
--(GPKGContentsId *) getOrCreateForContents: (GPKGContents *) contents;
+-(GPKGContentsId *) createGetForContents: (GPKGContents *) contents;
 
 /**
  * Get or create a contents id
@@ -149,7 +149,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            table name
  * @return new or existing contents id
  */
--(GPKGContentsId *) getOrCreateForTableName: (NSString *) tableName;
+-(GPKGContentsId *) createGetForTableName: (NSString *) tableName;
 
 /**
  * Get or create a contents id
@@ -158,7 +158,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            contents
  * @return new or existing contents id
  */
--(NSNumber *) getOrCreateIdForContents: (GPKGContents *) contents;
+-(NSNumber *) createGetIdForContents: (GPKGContents *) contents;
 
 /**
  * Get or create a contents id
@@ -167,7 +167,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  *            table name
  * @return new or existing contents id
  */
--(NSNumber *) getOrCreateIdForTableName: (NSString *) tableName;
+-(NSNumber *) createGetIdForTableName: (NSString *) tableName;
 
 /**
  * Delete the contents id for the contents

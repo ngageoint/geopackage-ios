@@ -106,11 +106,11 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return contentsId.id;
 }
 
--(GPKGContentsId *) getOrCreateForContents: (GPKGContents *) contents{
-    return [self getOrCreateForTableName:contents.tableName];
+-(GPKGContentsId *) createGetForContents: (GPKGContents *) contents{
+    return [self createGetForTableName:contents.tableName];
 }
 
--(GPKGContentsId *) getOrCreateForTableName: (NSString *) tableName{
+-(GPKGContentsId *) createGetForTableName: (NSString *) tableName{
     GPKGContentsId *contentsId = [self forTableName:tableName];
     if (contentsId == nil) {
         contentsId = [self createForTableName:tableName];
@@ -118,12 +118,12 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     return contentsId;
 }
 
--(NSNumber *) getOrCreateIdForContents: (GPKGContents *) contents{
-    return [self getOrCreateIdForTableName:contents.tableName];
+-(NSNumber *) createGetIdForContents: (GPKGContents *) contents{
+    return [self createGetIdForTableName:contents.tableName];
 }
 
--(NSNumber *) getOrCreateIdForTableName: (NSString *) tableName{
-    GPKGContentsId *contentsId = [self getOrCreateForTableName:tableName];
+-(NSNumber *) createGetIdForTableName: (NSString *) tableName{
+    GPKGContentsId *contentsId = [self createGetForTableName:tableName];
     return contentsId.id;
 }
 
@@ -152,7 +152,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     NSArray<NSString *> *tables = [self missingForTypeName:type];
     
     for(NSString *tableName in tables){
-        [self getOrCreateForTableName:tableName];
+        [self createGetForTableName:tableName];
     }
     
     return (int) tables.count;
