@@ -209,6 +209,34 @@
 +(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType;
 
 /**
+ * Get the value from the result set from the provided column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param type
+ *            sqlite3 column type: SQLITE_INTEGER, SQLITE_FLOAT, SQLITE_STRING, SQLITE_BLOB, or SQLITE_NULL
+ * @return value
+ */
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withType: (int) type;
+
+/**
+ * Get the value from the result set from the provided column
+ *
+ * @param result
+ *            result
+ * @param index
+ *            index
+ * @param type
+ *            sqlite3 column type: SQLITE_INTEGER, SQLITE_FLOAT, SQLITE_STRING, SQLITE_BLOB, or SQLITE_NULL
+ * @param dataType
+ *            data type
+ * @return value
+ */
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withType: (int) type andDataType: (enum GPKGDataType) dataType;
+
+/**
  * Get the integer value from the result set of the column
  *
  * @param result
@@ -233,6 +261,17 @@
  * @return float value
  */
 +(NSObject *) floatValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType;
+
+/**
+ * Get the converted value from the value and data type
+ *
+ * @param value
+ *            object value
+ * @param dataType
+ *            data type
+ * @return object
+ */
++(NSObject *) value: (NSObject *) value asDataType: (enum GPKGDataType) dataType;
 
 /**
  *  Min on the database table column where

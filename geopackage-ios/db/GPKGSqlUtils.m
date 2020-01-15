@@ -249,10 +249,17 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
+    int type = [result type:index];
+    return [self valueInResult:result atIndex:index withType:type andDataType:dataType];
+}
+
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withType: (int) type{
+    return [self valueInResult:result atIndex:index withType:type andDataType:-1];
+}
+
++(NSObject *) valueInResult: (GPKGResultSet *) result atIndex: (int) index withType: (int) type andDataType: (enum GPKGDataType) dataType{
     
     NSObject *value = nil;
-    
-    int type = [result type:index];
     
     switch (type) {
             
@@ -296,17 +303,6 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return value;
 }
 
-/**
- * Get the integer value from the result set of the column
- *
- * @param result
- *            result
- * @param index
- *            index
- * @param dataType
- *            data type
- * @return integer value
- */
 +(NSObject *) integerValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
     
     NSObject *value = nil;
@@ -341,17 +337,6 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return value;
 }
 
-/**
- * Get the float value from the result set of the column
- *
- * @param result
- *            result
- * @param index
- *            index
- * @param dataType
- *            data type
- * @return float value
- */
 +(NSObject *) floatValueInResult: (GPKGResultSet *) result atIndex: (int) index withDataType: (enum GPKGDataType) dataType{
     
     NSObject *value = nil;
@@ -375,6 +360,34 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return value;
 }
  
++(NSObject *) value: (NSObject *) value asDataType: (enum GPKGDataType) dataType{
+
+    if(value != nil && dataType >= 0){
+
+        @try {
+
+            switch (dataType) {
+            case GPKG_DT_DATE:
+            case GPKG_DT_DATETIME:
+                {
+                    if (![value isKindOfClass:[NSDate class]] && [value isKindOfClass:[NSString class]]) {
+                        value = [GPKGDateTimeUtils convertToDateWithString:(NSString *)value];
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+
+        } @catch (NSException *exception) {
+            NSLog(@"Invalid %@ format: %@, %@ value used, error: %@", [GPKGDataTypes name:dataType], value, NSStringFromClass([value class]), exception);
+        }
+
+    }
+
+    return value;
+}
+
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * min = nil;
