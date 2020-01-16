@@ -1,21 +1,21 @@
 //
-//  GPKGStandardFormatTileRetriever.m
+//  GPKGXYZTileRetriever.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 3/9/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGStandardFormatTileRetriever.h"
+#import "GPKGXYZTileRetriever.h"
 #import "GPKGGeoPackageTile.h"
 
-@interface GPKGStandardFormatTileRetriever ()
+@interface GPKGXYZTileRetriever ()
 
 @property (nonatomic, strong) GPKGTileDao *tileDao;
 
 @end
 
-@implementation GPKGStandardFormatTileRetriever
+@implementation GPKGXYZTileRetriever
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
     self = [super init];

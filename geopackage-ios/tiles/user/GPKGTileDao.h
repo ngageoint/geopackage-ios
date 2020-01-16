@@ -311,10 +311,10 @@
 -(double) minLength;
 
 /**
- *  Determine if the tiles are in the standard web mercator coordinate tile format
+ *  Determine if the tiles are in the XYZ tile coordinate format
  *
- *  @return true if standard web mercator format
+ *  @return true if XYZ tile format
  */
--(BOOL) isStandardWebMercatorFormat;
+-(BOOL) isXYZTiles;
 
 @end

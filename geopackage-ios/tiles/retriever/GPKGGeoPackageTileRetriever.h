@@ -12,7 +12,7 @@
 #import "GPKGTileScaling.h"
 
 /**
- *  GeoPackage Tile Retriever, assumes the Standard Maps API zoom level and z,x,y grid
+ *  GeoPackage Tile Retriever, retrieves a tile from a GeoPackage from XYZ coordinates
  */
 @interface GPKGGeoPackageTileRetriever : NSObject<GPKGTileRetriever>
 

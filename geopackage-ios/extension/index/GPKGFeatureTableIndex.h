@@ -182,6 +182,13 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 -(GPKGResultSet *) query;
 
 /**
+ * Query SQL for all row ids
+ *
+ * @return SQL
+ */
+-(NSString *) queryIdsSQL;
+
+/**
  *  Query for all Geometry Index count
  *
  *  @return count
@@ -258,6 +265,33 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 -(GPKGResultSet *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
+ *  Build where clause for the Geometry Envelope
+ *
+ *  @param envelope geometry envelope
+ *
+ *  @return where clause
+ */
+-(NSString *) whereWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ *  Build where clause arguments for the Geometry Envelope
+ *
+ *  @param envelope geometry envelope
+ *
+ *  @return where clause arguments
+ */
+-(NSArray *) whereArgsWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query SQL for all row ids
+ *
+ * @param envelope
+ *            geometry envelope
+ * @return SQL
+ */
+-(NSString *) queryIdsSQLWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
  *  Query for Geometry Index count within the Geometry Envelope
  *
  *  @param envelope geometry envelope
@@ -290,5 +324,13 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  */
 -(GPKGFeatureRow *) featureRowWithGeometryIndex: (GPKGGeometryIndex *) geometryIndex;
 
+/**
+ * Build SQL for selecting ids from the query builder
+ *
+ * @param where where clause
+ * @param args   where args
+ * @return SQL
+ */
+-(NSString *) queryIdsSQLWhere: (NSString *) where;
 
 @end

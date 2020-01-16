@@ -31,7 +31,7 @@
         self.compressFormat = GPKG_CF_NONE;
         self.compressQuality = 1.0;
         self.compressScale = 1.0;
-        self.standardWebMercatorFormat = false;
+        self.xyzTiles = false;
         self.matrixHeight = 0;
         self.matrixWidth = 0;
     }
@@ -154,7 +154,7 @@
             GPKGTileGrid * localTileGrid = nil;
             
             // Determine the matrix width and height for standard web mercator format
-            if(self.standardWebMercatorFormat){
+            if(self.xyzTiles){
                 self.matrixWidth = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:zoom];
                 self.matrixHeight = self.matrixWidth;
             }
@@ -168,7 +168,7 @@
             GPKGTileGrid * tileGrid = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileGrids];
             count += [self generateTilesWithTileMatrixDao:tileMatrixDao andTileDao:tileDao andContents:contents andZoomLevel:zoom andTileGrid:tileGrid andLocalTileGrid:localTileGrid andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andUpdate:update];
             
-            if(!self.standardWebMercatorFormat){
+            if(!self.xyzTiles){
                 // Double the matrix width and height for the next level
                 self.matrixWidth *= 2;
                 self.matrixHeight *= 2;
@@ -203,8 +203,8 @@
 
 -(void) adjustBoundsWithBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     
-    if(self.standardWebMercatorFormat){
-        [self adjustStandardWebMercatorFormatBounds];
+    if(self.xyzTiles){
+        [self adjustXYZBounds];
     } else if([self.projection isUnit:SFP_UNIT_DEGREES]){
         [self adjustGeoPackageBoundsWithWgs84BoundingBox:boundingBox andZoom:zoom];
     } else{
@@ -212,7 +212,7 @@
     }
 }
 
--(void) adjustStandardWebMercatorFormatBounds{
+-(void) adjustXYZBounds{
     // Set the tile matrix set bounding box to be the world
     GPKGBoundingBox * standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
     SFPProjectionTransform * wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
@@ -239,13 +239,13 @@
     
     GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
     
-    if([tileDao isStandardWebMercatorFormat]){
-        if(!self.standardWebMercatorFormat){
+    if([tileDao isXYZTiles]){
+        if(!self.xyzTiles){
             // If adding GeoPackage tiles to a Standard Tile format, add them as standard web mercator format tiles
-            self.standardWebMercatorFormat = true;
-            [self adjustStandardWebMercatorFormatBounds];
+            self.xyzTiles = true;
+            [self adjustXYZBounds];
         }
-    } else if(self.standardWebMercatorFormat){
+    } else if(self.xyzTiles){
         // Can't add Standard formatted tiles to GeoPackage tiles
         [NSException raise:@"Not Supported" format:@"Can not add Standard Web Mercator Formatted tiles to %@ which already contains GeoPackage formatted tiles", self.tableName];
     }
@@ -278,7 +278,7 @@
     
     // If updating GeoPackage format tiles, all existing metadata and tile
     // rows needs to be adjusted
-    if(!self.standardWebMercatorFormat){
+    if(!self.xyzTiles){
         
         GPKGBoundingBox * previousTileMatrixSetBoundingBox = [tileMatrixSet boundingBox];
         

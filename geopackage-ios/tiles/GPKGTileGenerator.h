@@ -81,7 +81,7 @@
  * GeoPackage format where rows and columns do not match the standard row &
  * column coordinates
  */
-@property (nonatomic) BOOL standardWebMercatorFormat;
+@property (nonatomic) BOOL xyzTiles;
 
 /**
  *  Compress scale

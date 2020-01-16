@@ -7,7 +7,7 @@
 //
 
 #import "GPKGOverlayFactory.h"
-#import "GPKGStandardFormatOverlay.h"
+#import "GPKGXYZOverlay.h"
 #import "GPKGGeoPackageOverlay.h"
 #import "GPKGFeatureTileTableLinker.h"
 
@@ -25,8 +25,8 @@
     
     GPKGBoundedOverlay * overlay = nil;
     
-    if([tileDao isStandardWebMercatorFormat]){
-        overlay = [[GPKGStandardFormatOverlay alloc] initWithTileDao:tileDao];
+    if([tileDao isXYZTiles]){
+        overlay = [[GPKGXYZOverlay alloc] initWithTileDao:tileDao];
     }else{
         overlay = [[GPKGGeoPackageOverlay alloc] initWithTileDao:tileDao];
     }

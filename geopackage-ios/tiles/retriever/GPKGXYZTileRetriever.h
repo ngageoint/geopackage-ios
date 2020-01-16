@@ -1,5 +1,5 @@
 //
-//  GPKGStandardFormatTileRetriever.h
+//  GPKGXYZTileRetriever.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 3/9/16.
@@ -11,9 +11,9 @@
 #import "GPKGTileDao.h"
 
 /**
- *  GeoPackage Tile Retriever, assumes the Standard Maps API zoom level and z,x,y grid
+ *  XYZ Tile Retriever, assumes XYZ tiles
  */
-@interface GPKGStandardFormatTileRetriever : NSObject<GPKGTileRetriever>
+@interface GPKGXYZTileRetriever : NSObject<GPKGTileRetriever>
 
 /**
  *  Initializer

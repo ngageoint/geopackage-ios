@@ -10,6 +10,7 @@
 #import "GPKGProperties.h"
 #import "SFPProjectionTransform.h"
 #import "GPKGUserRowSync.h"
+#import "GPKGSqlLiteQueryBuilder.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
@@ -324,6 +325,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return results;
 }
 
+-(NSString *) queryIdsSQL{
+    return [self queryIdsSQLWhere:nil];
+}
+
 -(int) count{
     GPKGResultSet * results = [self query];
     int count = results.count;
@@ -390,6 +395,16 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(GPKGResultSet *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     
+    NSString *where = [self whereWithGeometryEnvelope:envelope];
+    NSArray *whereArgs = [self whereArgsWithGeometryEnvelope:envelope];
+    
+    GPKGResultSet * results = [self.geometryIndexDao queryWhere:where andWhereArgs:whereArgs];
+    
+    return results;
+}
+
+-(NSString *) whereWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
     [where appendString:@" and "];
@@ -420,8 +435,38 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Y andValue:maxY andOperation:@"<="]];
     [where appendString:@" and "];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Y andValue:minY andOperation:@">="]];
+    
+    if(envelope.hasZ){
+        NSDecimalNumber *minZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.minZ doubleValue] - self.tolerance];
+        NSDecimalNumber *maxZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxZ doubleValue] + self.tolerance];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Z andValue:minZ andOperation:@"<="]];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Z andValue:maxZ andOperation:@">="]];
+    }
+    
+    if(envelope.hasM){
+        NSDecimalNumber *minM = [[NSDecimalNumber alloc] initWithDouble:[envelope.minM doubleValue] - self.tolerance];
+        NSDecimalNumber *maxM = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxM doubleValue] + self.tolerance];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_M andValue:minM andOperation:@"<="]];
+        [where appendString:@" and "];
+        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_M andValue:maxM andOperation:@">="]];
+    }
+    
+    return where;
+}
 
-    NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+-(NSArray *) whereArgsWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    
+    BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
+    
+    NSDecimalNumber *minX = [[NSDecimalNumber alloc] initWithDouble:[envelope.minX doubleValue] - self.tolerance];
+    NSDecimalNumber *maxX = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxX doubleValue] + self.tolerance];
+    NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:[envelope.minY doubleValue] - self.tolerance];
+    NSDecimalNumber *maxY = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxY doubleValue] + self.tolerance];
+
+    NSMutableArray *whereArgs = [[NSMutableArray alloc] init];
     [whereArgs addObject:self.tableName];
     [whereArgs addObject:maxX];
     [whereArgs addObject:minX];
@@ -435,10 +480,6 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(envelope.hasZ){
         NSDecimalNumber *minZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.minZ doubleValue] - self.tolerance];
         NSDecimalNumber *maxZ = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxZ doubleValue] + self.tolerance];
-        [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_Z andValue:minZ andOperation:@"<="]];
-        [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_Z andValue:maxZ andOperation:@">="]];
         [whereArgs addObject:maxZ];
         [whereArgs addObject:minZ];
     }
@@ -446,17 +487,16 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(envelope.hasM){
         NSDecimalNumber *minM = [[NSDecimalNumber alloc] initWithDouble:[envelope.minM doubleValue] - self.tolerance];
         NSDecimalNumber *maxM = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxM doubleValue] + self.tolerance];
-        [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MIN_M andValue:minM andOperation:@"<="]];
-        [where appendString:@" and "];
-        [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_MAX_M andValue:maxM andOperation:@">="]];
         [whereArgs addObject:maxM];
         [whereArgs addObject:minM];
     }
     
-    GPKGResultSet * results = [self.geometryIndexDao queryWhere:where andWhereArgs:whereArgs];
-    
-    return results;
+    return whereArgs;
+}
+
+-(NSString *) queryIdsSQLWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    NSString *where = [self whereWithGeometryEnvelope:envelope];
+    return [self queryIdsSQLWhere:where];
 }
 
 -(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
@@ -503,6 +543,17 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     }
     
     return row;
+}
+
+-(NSString *) queryIdsSQLWhere: (NSString *) where{
+    return [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:NO
+         andTable:GPKG_GI_TABLE_NAME
+        andColumns:[NSArray arrayWithObject:GPKG_GI_COLUMN_GEOM_ID]
+          andWhere:where
+        andGroupBy:nil
+         andHaving:nil
+        andOrderBy:nil
+          andLimit:nil];
 }
 
 @end

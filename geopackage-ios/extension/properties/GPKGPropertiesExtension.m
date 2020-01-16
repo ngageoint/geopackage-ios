@@ -142,6 +142,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 -(BOOL) hasValue: (NSString *) value withProperty: (NSString *) property{
     BOOL hasValue = NO;
     if([self has]){
+        // TODO hasValue = [[self dao] countForFieldValues:fieldValues];
         GPKGColumnValues *fieldValues = [self buildFieldValuesWithProperty:property andValue:value];
         GPKGResultSet *result = [[self dao] queryForFieldValues:fieldValues];
         @try{

@@ -1,27 +1,27 @@
 //
-//  GPKGStandardFormatOverlay.m
+//  GPKGXYZOverlay.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 7/1/15.
 //  Copyright (c) 2015 NGA. All rights reserved.
 //
 
-#import "GPKGStandardFormatOverlay.h"
-#import "GPKGStandardFormatTileRetriever.h"
+#import "GPKGXYZOverlay.h"
+#import "GPKGXYZTileRetriever.h"
 #import "GPKGGeoPackageTile.h"
 
-@interface GPKGStandardFormatOverlay ()
+@interface GPKGXYZOverlay ()
 
 @property (nonatomic, strong) NSObject<GPKGTileRetriever> *retriever;
 
 @end
 
-@implementation GPKGStandardFormatOverlay
+@implementation GPKGXYZOverlay
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao{
     self = [super init];
     if(self != nil){
-        self.retriever = [[GPKGStandardFormatTileRetriever alloc] initWithTileDao:tileDao];
+        self.retriever = [[GPKGXYZTileRetriever alloc] initWithTileDao:tileDao];
         
         [self setMinimumZ:tileDao.minZoom];
         [self setMaximumZ:tileDao.maxZoom];

@@ -288,7 +288,7 @@
     return [GPKGTileDaoUtils minLengthWithWidths:self.widths andHeights:self.heights];
 }
 
--(BOOL) isStandardWebMercatorFormat{
+-(BOOL) isXYZTiles{
     
     // Convert the bounding box to wgs84
     GPKGBoundingBox * boundingBox = [self.tileMatrixSet boundingBox];

@@ -1,5 +1,5 @@
 //
-//  GPKGStandardFormatOverlay.h
+//  GPKXYZOverlay.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 7/1/15.
@@ -11,16 +11,16 @@
 #import "GPKGBoundedOverlay.h"
 
 /**
- * Standard Map Tile Overlay, assumes the Standard Maps API zoom level and z,x,y grid
+ * XYZ Overlay, assumes XYZ tiles
  */
-@interface GPKGStandardFormatOverlay : GPKGBoundedOverlay
+@interface GPKGXYZOverlay : GPKGBoundedOverlay
 
 /**
  *  Initialize
  *
  *  @param tileDao tile dao
  *
- *  @return new standard format overlay
+ *  @return new xyz overlay
  */
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao;
 
