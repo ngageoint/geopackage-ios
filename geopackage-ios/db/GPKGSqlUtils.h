@@ -68,9 +68,32 @@
 +(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection
                             andDistinct: (BOOL) distinct
                             andTable: (NSString *) table
-                            andColumns: (NSArray *) columns
+                            andColumns: (NSArray<NSString *> *) columns
                             andWhere: (NSString *) where
                             andWhereArgs: (NSArray *) whereArgs
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
+/**
+ *  Build Query SQL
+ *
+ *  @param distinct  distinct flag
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *  @param limit     limit clause
+ *
+ *  @return result set
+ */
++(NSString *) querySQLWithDistinct: (BOOL) distinct
+                            andTable: (NSString *) table
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
                             andGroupBy: (NSString *) groupBy
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy

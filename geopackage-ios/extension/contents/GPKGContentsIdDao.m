@@ -16,7 +16,7 @@
     if(self != nil){
         self.tableName = GPKG_CI_TABLE_NAME;
         self.idColumns = @[GPKG_CI_COLUMN_PK];
-        self.columns = @[GPKG_CI_COLUMN_ID, GPKG_CI_COLUMN_TABLE_NAME];
+        self.columnNames = @[GPKG_CI_COLUMN_ID, GPKG_CI_COLUMN_TABLE_NAME];
         [self initializeColumnIndex];
     }
     return self;

@@ -60,14 +60,18 @@
 
 -(void) initializeColumnIndex{
     self.columnIndex = [[NSMutableDictionary alloc] init];
-    NSInteger count = [self.columns count];
+    int count = [self columnCount];
     for(int i = 0; i < count; i++){
-        [GPKGUtils setObject:[NSNumber numberWithInt:i] forKey:[GPKGUtils objectAtIndex:i inArray:self.columns] inDictionary:self.columnIndex];
+        [GPKGUtils setObject:[NSNumber numberWithInt:i] forKey:[GPKGUtils objectAtIndex:i inArray:self.columnNames] inDictionary:self.columnIndex];
     }
 }
 
+-(int) columnCount{
+    return (int)[_columnNames count];
+}
+
 -(NSString *) columnNameWithIndex: (int) index{
-    return [self.columns objectAtIndex:index];
+    return [self.columnNames objectAtIndex:index];
 }
 
 -(BOOL) tableExists{
@@ -114,7 +118,15 @@
 }
 
 -(GPKGResultSet *) queryForAll{
-    return [self.database queryWithTable:self.tableName andColumns:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self query];
+}
+
+-(GPKGResultSet *) query{
+    return [self queryWithColumns:self.columnNames];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns{
+    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(NSObject *) object: (GPKGResultSet *) results{
@@ -310,7 +322,7 @@
     [self validateObject:object];
     
     GPKGContentValues *values = [[GPKGContentValues alloc] init];
-    for(NSString * column in self.columns){
+    for(NSString * column in self.columnNames){
         if(![self.idColumns containsObject:column]){
             NSObject * value = [self valueFromObject:object withColumnName:column];
             [values putKey:column withValue:value];
@@ -377,7 +389,7 @@
     [self validateObject:object];
     
     GPKGContentValues *values = [[GPKGContentValues alloc]init];
-    for(NSString * column in self.columns){
+    for(NSString * column in self.columnNames){
         if(!self.autoIncrementId || ![self.idColumns containsObject:column]){
             NSObject * value = [self valueFromObject:object withColumnName:column];
             if(value != nil){
@@ -386,7 +398,7 @@
         }
     }
     if([values size] == 0){
-        for(NSString * column in self.columns){
+        for(NSString * column in self.columnNames){
             [values putKey:column withValue:[NSNull null]];
         }
     }
@@ -451,7 +463,7 @@
 
 -(GPKGColumnValues *) values: (NSObject *) object{
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
-    for(NSString * column in self.columns){
+    for(NSString * column in self.columnNames){
         NSObject * value = [self valueFromObject:object withColumnName:column];
         [values addColumn:column withValue:value];
     }

@@ -37,6 +37,13 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table;
 
 /**
+ * Get the table columns
+ *
+ * @return columns
+ */
+-(NSArray<GPKGUserColumn *> *) columns;
+
+/**
  *  Get a user row from the current result
  *
  *  @param results result set

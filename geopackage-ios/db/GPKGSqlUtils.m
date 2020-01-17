@@ -93,25 +93,43 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(GPKGResultSet *) queryWithDatabase: (GPKGDbConnection *) connection
-                            andDistinct: (BOOL) distinct
-                            andTable: (NSString *) table
-                            andColumns: (NSArray *) columns
-                            andWhere: (NSString *) where
-                            andWhereArgs: (NSArray *) whereArgs
-                            andGroupBy: (NSString *) groupBy
-                            andHaving: (NSString *) having
-                            andOrderBy: (NSString *) orderBy
-                            andLimit: (NSString *) limit{
-    NSString * query = [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:distinct
-                                                             andTable:table
-                                                            andColumns:columns
-                                                              andWhere:where
-                                                            andGroupBy:groupBy
-                                                             andHaving:having
-                                                            andOrderBy:orderBy
-                                                              andLimit:limit];
-    GPKGResultSet *resultSet = [self queryWithDatabase: connection andStatement: query andArgs:whereArgs];
+                        andDistinct: (BOOL) distinct
+                        andTable: (NSString *) table
+                        andColumns: (NSArray<NSString *> *) columns
+                        andWhere: (NSString *) where
+                        andWhereArgs: (NSArray *) whereArgs
+                        andGroupBy: (NSString *) groupBy
+                        andHaving: (NSString *) having
+                        andOrderBy: (NSString *) orderBy
+                        andLimit: (NSString *) limit{
+    NSString * query = [self querySQLWithDistinct:distinct
+                                     andTable:table
+                                    andColumns:columns
+                                      andWhere:where
+                                      andGroupBy:groupBy
+                                    andHaving:having
+                                      andOrderBy:orderBy
+                                    andLimit:limit];
+    GPKGResultSet *resultSet = [self queryWithDatabase:connection andStatement:query andArgs:whereArgs];
     return resultSet;
+}
+
++(NSString *) querySQLWithDistinct: (BOOL) distinct
+                        andTable: (NSString *) table
+                        andColumns: (NSArray<NSString *> *) columns
+                        andWhere: (NSString *) where
+                        andGroupBy: (NSString *) groupBy
+                        andHaving: (NSString *) having
+                        andOrderBy: (NSString *) orderBy
+                        andLimit: (NSString *) limit{
+    return [GPKGSqlLiteQueryBuilder buildQueryWithDistinct:distinct
+                                     andTable:table
+                                    andColumns:columns
+                                      andWhere:where
+                                    andGroupBy:groupBy
+                                     andHaving:having
+                                    andOrderBy:orderBy
+                                      andLimit:limit];
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
@@ -718,7 +736,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return quoteName;
 }
 
-+(NSArray *) quoteWrapNames: (NSArray *) names{
++(NSArray<NSString *> *) quoteWrapNames: (NSArray<NSString *> *) names{
     NSMutableArray * quoteNames = nil;
     if(names != nil){
         quoteNames = [[NSMutableArray alloc] init];

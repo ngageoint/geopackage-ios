@@ -83,7 +83,7 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryWithTable: (NSString *) table
-                       andColumns: (NSArray *) columns
+                       andColumns: (NSArray<NSString *> *) columns
                        andWhere: (NSString *) where
                        andWhereArgs: (NSArray *) whereArgs
                        andGroupBy: (NSString *) groupBy
@@ -105,12 +105,52 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryWithTable: (NSString *) table
-                       andColumns: (NSArray *) columns
+                       andColumns: (NSArray<NSString *> *) columns
                        andWhere: (NSString *) where
                        andWhereArgs: (NSArray *) whereArgs
                        andGroupBy: (NSString *) groupBy
                        andHaving: (NSString *) having
                        andOrderBy: (NSString *) orderBy
+                       andLimit: (NSString *) limit;
+
+/**
+ *  Build query SQL
+ *
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *
+ *  @return SQL
+ */
+-(NSString *) querySQLWithTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                     andOrderBy: (NSString *) orderBy;
+
+/**
+ *  Build query SQL
+ *
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *  @param limit     limit clause
+ *
+ *  @return SQL
+ */
+-(NSString *) querySQLWithTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
                        andLimit: (NSString *) limit;
 
 /**

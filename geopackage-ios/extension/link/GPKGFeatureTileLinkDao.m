@@ -15,7 +15,7 @@
     if(self != nil){
         self.tableName = GPKG_FTL_TABLE_NAME;
         self.idColumns = @[GPKG_FTL_COLUMN_PK1, GPKG_FTL_COLUMN_PK2];
-        self.columns = @[GPKG_FTL_COLUMN_FEATURE_TABLE_NAME, GPKG_FTL_COLUMN_TILE_TABLE_NAME];
+        self.columnNames = @[GPKG_FTL_COLUMN_FEATURE_TABLE_NAME, GPKG_FTL_COLUMN_TILE_TABLE_NAME];
         [self initializeColumnIndex];
     }
     return self;

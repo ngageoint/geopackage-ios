@@ -30,7 +30,7 @@
 /**
  *  id columns
  */
-@property (nonatomic, strong) NSArray *idColumns;
+@property (nonatomic, strong) NSArray<NSString *> *idColumns;
 
 /**
  *  auto increment id flag
@@ -40,7 +40,7 @@
 /**
  *  Columns
  */
-@property (nonatomic, strong) NSArray *columns;
+@property (nonatomic, strong) NSArray<NSString *> *columnNames;
 
 /**
  *  Table name
@@ -65,6 +65,13 @@
  *  Initialize the column index
  */
 -(void) initializeColumnIndex;
+
+/**
+ *  Get the column count
+ *
+ *  @return column count
+ */
+-(int) columnCount;
 
 /**
  *  Get the column name at the index
@@ -138,6 +145,23 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryForAll;
+
+/**
+ *  Query for all results
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) query;
+
+/**
+ * Query for all rows
+ *
+ * @param columns
+ *            columns
+ *
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns;
 
 /**
  *  Get the current object from the result set

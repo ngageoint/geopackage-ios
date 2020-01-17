@@ -17,7 +17,7 @@
     if(self != nil){
         self.tableName = GPKG_GC_TABLE_NAME;
         self.idColumns = @[GPKG_GC_COLUMN_PK1, GPKG_GC_COLUMN_PK2];
-        self.columns = @[GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_COLUMN_COLUMN_NAME, GPKG_GC_COLUMN_GEOMETRY_TYPE_NAME, GPKG_GC_COLUMN_SRS_ID, GPKG_GC_COLUMN_Z, GPKG_GC_COLUMN_M];
+        self.columnNames = @[GPKG_GC_COLUMN_TABLE_NAME, GPKG_GC_COLUMN_COLUMN_NAME, GPKG_GC_COLUMN_GEOMETRY_TYPE_NAME, GPKG_GC_COLUMN_SRS_ID, GPKG_GC_COLUMN_Z, GPKG_GC_COLUMN_M];
         [self initializeColumnIndex];
     }
     return self;

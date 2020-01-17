@@ -18,7 +18,7 @@
     if(self != nil){
         self.tableName = GPKG_GPTM_TABLE_NAME;
         self.idColumns = @[GPKG_GPTM_COLUMN_PK1, GPKG_GPTM_COLUMN_PK2];
-        self.columns = @[GPKG_GPTM_COLUMN_GEOPACKAGE_ID, GPKG_GPTM_COLUMN_TABLE_NAME, GPKG_GPTM_COLUMN_LAST_INDEXED];
+        self.columnNames = @[GPKG_GPTM_COLUMN_GEOPACKAGE_ID, GPKG_GPTM_COLUMN_TABLE_NAME, GPKG_GPTM_COLUMN_LAST_INDEXED];
         [self initializeColumnIndex];
     }
     return self;

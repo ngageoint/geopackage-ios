@@ -20,7 +20,7 @@
     self = [super initWithDatabase:database];
     if(self != nil){
         self.table = table;
-        self.tableName = table.tableName;
+        self.tableName = [table tableName];
         GPKGUserColumn * pkColumn = [table pkColumn];
         if(pkColumn != nil){
             self.idColumns = @[pkColumn.name];
@@ -28,7 +28,7 @@
             self.idColumns = @[];
         }
         self.autoIncrementId = YES;
-        self.columns = table.columnNames;
+        self.columnNames = [table columnNames];
         [self initializeColumnIndex];
     }
     return self;
@@ -68,6 +68,14 @@
 
 -(SFPProjection *) projection: (NSObject *) object{
     return _projection;
+}
+
+-(NSArray<GPKGUserColumn *> *) columns{
+    return [_table columns];
+}
+
+-(int) columnCount{
+    return [_table columnCount];
 }
 
 -(GPKGUserRow *) row: (GPKGResultSet *) results{
@@ -224,7 +232,7 @@
 }
 
 -(void) updateColumns{
-    self.columns = [self.table columnNames];
+    self.columnNames = [self.table columnNames];
     [self initializeColumnIndex];
 }
 

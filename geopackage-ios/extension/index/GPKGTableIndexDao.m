@@ -19,7 +19,7 @@
     if(self != nil){
         self.tableName = GPKG_TI_TABLE_NAME;
         self.idColumns = @[GPKG_TI_COLUMN_PK];
-        self.columns = @[GPKG_TI_COLUMN_TABLE_NAME, GPKG_TI_COLUMN_LAST_INDEXED];
+        self.columnNames = @[GPKG_TI_COLUMN_TABLE_NAME, GPKG_TI_COLUMN_LAST_INDEXED];
         [self initializeColumnIndex];
     }
     return self;

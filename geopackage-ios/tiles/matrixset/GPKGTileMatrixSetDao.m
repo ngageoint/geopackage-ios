@@ -18,7 +18,7 @@
     if(self != nil){
         self.tableName = GPKG_TMS_TABLE_NAME;
         self.idColumns = @[GPKG_TMS_COLUMN_PK];
-        self.columns = @[GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_COLUMN_SRS_ID, GPKG_TMS_COLUMN_MIN_X, GPKG_TMS_COLUMN_MIN_Y, GPKG_TMS_COLUMN_MAX_X, GPKG_TMS_COLUMN_MAX_Y];
+        self.columnNames = @[GPKG_TMS_COLUMN_TABLE_NAME, GPKG_TMS_COLUMN_SRS_ID, GPKG_TMS_COLUMN_MIN_X, GPKG_TMS_COLUMN_MIN_Y, GPKG_TMS_COLUMN_MAX_X, GPKG_TMS_COLUMN_MAX_Y];
         [self initializeColumnIndex];
     }
     return self;

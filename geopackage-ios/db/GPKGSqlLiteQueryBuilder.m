@@ -13,7 +13,7 @@
 
 +(NSString *) buildQueryWithDistinct: (BOOL) distinct
                            andTable: (NSString *) table
-                          andColumns: (NSArray *) columns
+                          andColumns: (NSArray<NSString *> *) columns
                             andWhere: (NSString *) where
                           andGroupBy: (NSString *) groupBy
                            andHaving: (NSString *) having
@@ -24,8 +24,8 @@
 
 
 +(NSString *) buildQueryWithDistinct: (BOOL) distinct
-                           andTables: (NSArray *) tables
-                          andColumns: (NSArray *) columns
+                           andTables: (NSArray<NSString *> *) tables
+                          andColumns: (NSArray<NSString *> *) columns
                             andWhere: (NSString *) where
                           andGroupBy: (NSString *) groupBy
                            andHaving: (NSString *) having
@@ -72,7 +72,7 @@
     }
 }
 
-+(void) appendColumnsToString: (NSArray *) columns toString: (NSMutableString *) string{
++(void) appendColumnsToString: (NSArray<NSString *> *) columns toString: (NSMutableString *) string{
     
     BOOL first = true;
     for(NSString * column in columns){

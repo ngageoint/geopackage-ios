@@ -57,7 +57,7 @@
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
-                  andColumns: (NSArray *) columns
+                  andColumns: (NSArray<NSString *> *) columns
                     andWhere: (NSString *) where
                   andWhereArgs: (NSArray *) whereArgs
                   andGroupBy: (NSString *) groupBy
@@ -74,7 +74,7 @@
 }
 
 -(GPKGResultSet *) queryWithTable: (NSString *) table
-                          andColumns: (NSArray *) columns
+                          andColumns: (NSArray<NSString *> *) columns
                             andWhere: (NSString *) where
                           andWhereArgs: (NSArray *) whereArgs
                           andGroupBy: (NSString *) groupBy
@@ -92,6 +92,37 @@
                                          andOrderBy:orderBy
                                            andLimit:limit];
     return resultSet;
+}
+
+-(NSString *) querySQLWithTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                  andOrderBy: (NSString *) orderBy{
+    return [self querySQLWithTable:table
+                     andColumns:columns
+                     andWhere:where
+                     andGroupBy:groupBy
+                     andHaving:having
+                     andOrderBy:orderBy
+                     andLimit:nil];
+}
+
+-(NSString *) querySQLWithTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [GPKGSqlUtils querySQLWithDistinct:false andTable:table
+                                         andColumns:columns
+                                           andWhere:where
+                                         andGroupBy:groupBy
+                                          andHaving:having
+                                         andOrderBy:orderBy
+                                           andLimit:limit];
 }
 
 -(int) count:(NSString *) statement{

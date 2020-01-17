@@ -15,7 +15,7 @@
     if(self != nil){
         self.tableName = GPKG_TS_TABLE_NAME;
         self.idColumns = @[GPKG_TS_COLUMN_PK];
-        self.columns = @[GPKG_TS_COLUMN_TABLE_NAME, GPKG_TS_COLUMN_SCALING_TYPE, GPKG_TS_COLUMN_ZOOM_IN, GPKG_TS_COLUMN_ZOOM_OUT];
+        self.columnNames = @[GPKG_TS_COLUMN_TABLE_NAME, GPKG_TS_COLUMN_SCALING_TYPE, GPKG_TS_COLUMN_ZOOM_IN, GPKG_TS_COLUMN_ZOOM_OUT];
         [self initializeColumnIndex];
     }
     return self;
