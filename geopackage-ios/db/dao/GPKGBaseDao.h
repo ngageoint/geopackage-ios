@@ -164,6 +164,29 @@
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns;
 
 /**
+ * Query SQL for all rows
+ *
+ * @return SQL
+ */
+-(NSString *) querySQL;
+
+/**
+ * Query SQL for all row ids
+ *
+ * @return SQL
+ */
+-(NSString *) queryIdsSQL;
+
+/**
+ * Query SQL for all rows
+ *
+ * @param columns
+ *            columns
+ * @return SQL
+ */
+-(NSString *) querySQLWithColumns: (NSArray<NSString *> *) columns;
+
+/**
  *  Get the current object from the result set
  *
  *  @param results result set
@@ -220,6 +243,30 @@
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andValue: (NSObject *) value;
 
 /**
+ * Query for the row where the field equals the value
+ *
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Count where the field equals the value
+ *
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return count
+ */
+-(int) countForEqWithField: (NSString *) field andValue: (NSObject *) value;
+
+/**
  *  Query for field equality
  *
  *  @param field   field
@@ -235,6 +282,51 @@
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns
+                            andField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
+ * Count where the field equals the value
+ *
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return count
+ */
+-(int) countForEqWithField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
 
 /**
  *  Query for field equality
@@ -801,6 +893,28 @@
  *  @return where args
  */
 -(NSArray *) buildWhereArgsWithColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Build where statement for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @return where clause
+ */
+-(NSString *) buildWhereInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
+
+/**
+ * Build where args for ids in the nested SQL query
+ *
+ * @param nestedArgs
+ *            nested SQL args
+ * @param whereArgs
+ *            where arguments
+ * @return where args
+ */
+-(NSArray<NSString *> *) buildWhereInArgsWithNestedArgs: (NSArray<NSString *> *) nestedArgs andWhereArgs: (NSArray<NSString *> *) whereArgs;
 
 /**
  *  Get the total result count

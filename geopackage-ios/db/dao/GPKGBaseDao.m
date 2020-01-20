@@ -129,6 +129,18 @@
     return [self.database queryWithTable:self.tableName andColumns:columns andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
+-(NSString *) querySQL{
+    return [self querySQLWithColumns:self.columnNames];
+}
+
+-(NSString *) queryIdsSQL{
+    return [self querySQLWithColumns:self.idColumns];
+}
+
+-(NSString *) querySQLWithColumns: (NSArray<NSString *> *) columns{
+    return [self.database querySQLWithTable:self.tableName andColumns:columns andWhere:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
+}
+
 -(NSObject *) object: (GPKGResultSet *) results{
     
     NSArray *result = [results row];
@@ -175,7 +187,15 @@
 }
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andValue: (NSObject *) value{
-    return [self queryForEqWithField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self queryForEqWithColumns:self.columnNames andField:field andValue:value];
+}
+
+-(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value{
+    return [self queryForEqWithColumns:columns andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+}
+
+-(int) countForEqWithField: (NSString *) field andValue: (NSObject *) value{
+    return [self countForEqWithField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field
@@ -183,11 +203,32 @@
                             andGroupBy: (NSString *) groupBy
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
+    return [self queryForEqWithColumns:self.columnNames andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns
+                            andField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
     NSString *whereString = [self buildWhereWithField:field andValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithValue:value];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:nil andWhere:whereString andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs: whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
     return results;
 }
+
+-(int) countForEqWithField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
+    NSString *whereString = [self buildWhereWithField:field andValue:value];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:value];
+    return [self countWhere:whereString andWhereArgs:whereArgs];
+}
+
+// TODO
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereWithField:field andColumnValue:value];
@@ -634,6 +675,37 @@
             args = [self buildWhereArgsWithValue:value.value];
         }
     }
+    return args;
+}
+
+-(NSString *) buildWhereInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
+    
+    NSString *nestedWhere = [NSString stringWithFormat:@"%@ IN (%@)", [GPKGSqlUtils quoteWrapName:[self.idColumns objectAtIndex:0]], nestedSQL];
+    
+    NSString *whereClause = nil;
+    if(where == nil){
+        whereClause = nestedWhere;
+    }else{
+        whereClause = [NSString stringWithFormat:@"(%@) AND (%@)", where, nestedWhere];
+    }
+
+    return whereClause;
+}
+
+-(NSArray<NSString *> *) buildWhereInArgsWithNestedArgs: (NSArray<NSString *> *) nestedArgs andWhereArgs: (NSArray<NSString *> *) whereArgs{
+    
+    NSArray *args = nil;
+
+    if(whereArgs != nil || nestedArgs != nil){
+        if(whereArgs == nil){
+            args = [NSArray arrayWithArray:nestedArgs];
+        }else if(nestedArgs == nil){
+            args = [NSArray arrayWithArray:whereArgs];
+        }else{
+            args = [whereArgs arrayByAddingObjectsFromArray:nestedArgs];
+        }
+    }
+
     return args;
 }
 

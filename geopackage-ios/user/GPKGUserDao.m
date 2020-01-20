@@ -74,8 +74,16 @@
     return [_table columns];
 }
 
+-(NSArray<NSString *> *) columnNames{
+    return [_table columnNames];
+}
+
 -(int) columnCount{
     return [_table columnCount];
+}
+
+-(NSArray<NSString *> *) idColumns{
+    return [NSArray arrayWithObject:[_table pkColumnName]];
 }
 
 -(GPKGUserRow *) row: (GPKGResultSet *) results{

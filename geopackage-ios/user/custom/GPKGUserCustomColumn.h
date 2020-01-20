@@ -56,7 +56,6 @@
  * @param type
  *            data type
  * @return user custom column
- * @since 3.3.0
  */
 +(GPKGUserCustomColumn *) createColumnWithIndex: (int) index
                                                   andName: (NSString *) name
