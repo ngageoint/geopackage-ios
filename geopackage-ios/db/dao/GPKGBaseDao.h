@@ -90,6 +90,13 @@
 -(BOOL) tableExists;
 
 /**
+ *  Get a single or first id column
+ *
+ *  @return id column
+ */
+-(NSString *) idColumn;
+
+/**
  *  Get the projection of the object
  *
  *  @param object object
@@ -113,6 +120,16 @@
 -(GPKGResultSet *) queryForId: (NSObject *) idValue;
 
 /**
+ *  Query for id
+ *
+ *  @param columns columns
+ *  @param idValue id value
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forId: (NSObject *) idValue;
+
+/**
  *  Query for id object, first object in the result set
  *
  *  @param idValue id value
@@ -131,6 +148,16 @@
 -(GPKGResultSet *) queryForMultiId: (NSArray *) idValues;
 
 /**
+ *  Query for a multiple id where more than one primary key exists
+ *
+ *  @param columns columns
+ *  @param idValues id values
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forMultiId: (NSArray *) idValues;
+
+/**
  *  Query for a multiple id object where more than one primary key exists, first object in the result set
  *
  *  @param idValues id values
@@ -138,6 +165,26 @@
  *  @return object
  */
 -(NSObject *) queryForMultiIdObject: (NSArray *) idValues;
+
+/**
+ * Query for the row with the provided id
+ *
+ * @param id
+ *            id
+ * @return result
+ */
+-(GPKGResultSet *) queryForIdInt: (int) id;
+
+/**
+ * Query for the row with the provided id
+ *
+ * @param columns
+ *            columns
+ * @param id
+ *            id
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forIdInt: (int) id;
 
 /**
  *  Query for all results
@@ -339,25 +386,78 @@
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
- *  Query for field like
+ * Query for the row where the field equals the value
  *
- *  @param field field
- *  @param value value
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Count where the field equals the value
  *
- *  @return result set
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return count
+ */
+-(int) countForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Query for the row where the field is like the value
+ *
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return result
  */
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field andValue: (NSObject *) value;
 
 /**
- *  Query for field like
+ * Query for the row where the field is like the value
  *
- *  @param field   field
- *  @param value   value
- *  @param groupBy group by clause
- *  @param having  having clause
- *  @param orderBy order by clause
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return result
+ */
+-(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Count where the field is like the value
  *
- *  @return result set
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return count
+ */
+-(int) countForLikeWithField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by statement
+ * @param having
+ *            having statement
+ * @param orderBy
+ *            order by statement
+ * @return result
  */
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field
                               andValue: (NSObject *) value
@@ -366,23 +466,113 @@
                             andOrderBy: (NSString *) orderBy;
 
 /**
- *  Query for field like
+ * Query for the row where the field equals the value
  *
- *  @param field field
- *  @param value column value
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by statement
+ * @param having
+ *            having statement
+ * @param orderBy
+ *            order by statement
+ * @return result
+ */
+-(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns
+                            andField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
+ * Count where the field equals the value
  *
- *  @return result set
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by statement
+ * @param having
+ *            having statement
+ * @param orderBy
+ *            order by statement
+ * @return count
+ */
+ -(int) countForLikeWithField: (NSString *) field
+                               andValue: (NSObject *) value
+                             andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                             andOrderBy: (NSString *) orderBy;
+
+/**
+ * Query for the row where the field is like the value
+ *
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return result
  */
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
- *  Query for field values
+ * Query for the row where the field is like the value
  *
- *  @param fieldValues field values
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return result
+ */
+-(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Count where the field is like the value
  *
- *  @return result set
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return count
+ */
+-(int) countForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Query for the row where all fields match their values
+ *
+ * @param fieldValues
+ *            field values
+ * @return result
  */
 -(GPKGResultSet *) queryForFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for the row where all fields match their values
+ *
+ * @param columns
+ *            columns
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count where all fields match their values
+ *
+ * @param fieldValues
+ *            field values
+ * @return count
+ */
+-(int) countForFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  *  Query for column value field values
@@ -394,31 +584,455 @@
 -(GPKGResultSet *) queryForColumnValueFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- *  Query where
+ * Query for the row where all fields match their values
  *
- *  @param where     where clause
- *  @param whereArgs where args
+ * @param columns
+ *            columns
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forColumnValueFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count where all fields match their values
  *
- *  @return result set
+ * @param fieldValues
+ *            field values
+ * @return count
+ */
+-(int) countForColumnValueFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for ids in the nested SQL query
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
+ */
+-(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Get the count in the nested SQL query
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return count
+ */
+-(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for rows
+ *
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryWhere: (NSString *) where;
+
+/**
+ * Query for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Query for rows
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
  */
 -(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- *  Query where
+ * Query for rows
  *
- *  @param where     where clause
- *  @param whereArgs where args
- *  @param groupBy   group by clause
- *  @param having    having clause
- *  @param orderBy   order by clause
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query SQL for rows
  *
- *  @return result set
+ * @param where
+ *            where clause
+ * @return SQL
+ */
+-(NSString *) querySQLWhere: (NSString *) where;
+
+/**
+ * Query SQL for row ids
+ *
+ * @param where
+ *            where clause
+ * @return SQL
+ */
+-(NSString *) queryIdsSQLWhere: (NSString *) where;
+
+/**
+ * Query SQL for row multi ids
+ *
+ * @param where
+ *            where clause
+ * @return SQL
+ */
+-(NSString *) queryMultiIdsSQLWhere: (NSString *) where;
+
+/**
+ * Query SQL for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @return SQL
+ */
+-(NSString *) querySQLWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Query for rows
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return result
  */
 -(GPKGResultSet *) queryWhere: (NSString *) where
                               andWhereArgs: (NSArray *) whereArgs
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy;
+
+/**
+ * Query for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
 
 /**
  *  Query where
@@ -440,6 +1054,33 @@
                               andLimit: (NSString *) limit;
 
 /**
+ * Query for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            limit
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
+/**
  * Query for id ordered rows starting at the offset and returning no more
  * than the limit.
  *
@@ -450,6 +1091,54 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -464,6 +1153,106 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Build a limit String with the limit and offset

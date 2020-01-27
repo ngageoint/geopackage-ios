@@ -106,6 +106,26 @@
 -(int) zoomLevel;
 
 /**
+ * Query for the row with the provided id
+ *
+ * @param id
+ *            id
+ * @return row
+ */
+-(GPKGUserRow *) queryForIdRow: (int) id;
+
+/**
+ * Query for the row with the provided id
+ *
+ * @param columns
+ *            columns
+ * @param id
+ *            id
+ * @return row
+ */
+-(GPKGUserRow *) queryWithColumns: (NSArray<NSString *> *) columns forIdRow: (int) id;
+
+/**
  * Add a new column
  *
  * @param column

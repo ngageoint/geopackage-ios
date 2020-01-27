@@ -38,6 +38,10 @@
     return [[GPKGUserRow alloc] init];
 }
 
+-(NSString *) idColumn{
+    return [self.table pkColumnName];
+}
+
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
     
     NSObject * objectResult = nil;
@@ -153,6 +157,20 @@
         zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;
+}
+
+-(GPKGUserRow *) queryForIdRow: (int) id{
+    return [self queryWithColumns:self.columnNames forIdRow:id];
+}
+
+-(GPKGUserRow *) queryWithColumns: (NSArray<NSString *> *) columns forIdRow: (int) id{
+    GPKGUserRow *row = nil;
+    GPKGResultSet *resultSet = [self queryWithColumns:columns forIdInt:id];
+    if([resultSet moveToNext]){
+        row = [self row:resultSet];
+    }
+    [resultSet close];
+    return row;
 }
 
 -(void) addColumn: (GPKGUserColumn *) column{
