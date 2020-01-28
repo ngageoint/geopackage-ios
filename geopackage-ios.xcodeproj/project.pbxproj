@@ -483,6 +483,8 @@
 		045BCA081BFB6E220080B967 /* GPKGTileCreateTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BCA071BFB6E220080B967 /* GPKGTileCreateTestCase.m */; };
 		045BCA0B1BFB6E4A0080B967 /* GPKGTileImportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BCA0A1BFB6E4A0080B967 /* GPKGTileImportTestCase.m */; };
 		045BCA0E1BFB6E850080B967 /* GPKGTileTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BCA0D1BFB6E850080B967 /* GPKGTileTestUtils.m */; };
+		0461A23E23E0BE74004379F5 /* GPKGUserResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0461A23C23E0BE74004379F5 /* GPKGUserResultSet.h */; };
+		0461A23F23E0BE74004379F5 /* GPKGUserResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0461A23D23E0BE74004379F5 /* GPKGUserResultSet.m */; };
 		046417C01BCBF282007624D4 /* GPKGNGAExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 046417BE1BCBF282007624D4 /* GPKGNGAExtensions.h */; };
 		046417C11BCBF282007624D4 /* GPKGNGAExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 046417BF1BCBF282007624D4 /* GPKGNGAExtensions.m */; };
 		046417C51BCBF355007624D4 /* GPKGFeatureTableIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 046417C31BCBF355007624D4 /* GPKGFeatureTableIndex.h */; };
@@ -1231,6 +1233,8 @@
 		045BCA0A1BFB6E4A0080B967 /* GPKGTileImportTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGTileImportTestCase.m; sourceTree = "<group>"; };
 		045BCA0C1BFB6E850080B967 /* GPKGTileTestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTileTestUtils.h; sourceTree = "<group>"; };
 		045BCA0D1BFB6E850080B967 /* GPKGTileTestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGTileTestUtils.m; sourceTree = "<group>"; };
+		0461A23C23E0BE74004379F5 /* GPKGUserResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGUserResultSet.h; sourceTree = "<group>"; };
+		0461A23D23E0BE74004379F5 /* GPKGUserResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGUserResultSet.m; sourceTree = "<group>"; };
 		046417BE1BCBF282007624D4 /* GPKGNGAExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGNGAExtensions.h; sourceTree = "<group>"; };
 		046417BF1BCBF282007624D4 /* GPKGNGAExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGNGAExtensions.m; sourceTree = "<group>"; };
 		046417C31BCBF355007624D4 /* GPKGFeatureTableIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureTableIndex.h; sourceTree = "<group>"; };
@@ -2584,6 +2588,8 @@
 				042FC7E91B964D8C00549A4B /* GPKGUserTableReader.m */,
 				0413B1191F72D99A0075916A /* GPKGUserRowSync.h */,
 				0413B11A1F72D99A0075916A /* GPKGUserRowSync.m */,
+				0461A23C23E0BE74004379F5 /* GPKGUserResultSet.h */,
+				0461A23D23E0BE74004379F5 /* GPKGUserResultSet.m */,
 			);
 			path = user;
 			sourceTree = "<group>";
@@ -3119,6 +3125,7 @@
 				0407C4A421F14721008ABBF6 /* GPKGStyleDao.h in Headers */,
 				042FC8991B964D8C00549A4B /* GPKGTileMatrix.h in Headers */,
 				0407C46121E55A8A008ABBF6 /* GPKGContentsIdExtension.h in Headers */,
+				0461A23E23E0BE74004379F5 /* GPKGUserResultSet.h in Headers */,
 				048EC16C1BCFDEF1008426A7 /* GPKGFeatureIndexResults.h in Headers */,
 				0400955B23C3C93900ECC3D2 /* GPKGFeatureColumns.h in Headers */,
 				048A7B991C90774E007BCA5D /* GPKGGeoPackageTileRetriever.h in Headers */,
@@ -3703,6 +3710,7 @@
 				042FC80E1B964D8C00549A4B /* GPKGGeometryMetadata.m in Sources */,
 				042FC84F1B964D8C00549A4B /* GPKGPolygonHolePoints.m in Sources */,
 				0400955C23C3C93900ECC3D2 /* GPKGFeatureColumns.m in Sources */,
+				0461A23F23E0BE74004379F5 /* GPKGUserResultSet.m in Sources */,
 				0409CCB920D2B3DB0069B797 /* GPKGDublinCoreTypes.m in Sources */,
 				0407C46821ED3BF9008ABBF6 /* GPKGColor.m in Sources */,
 				040FC09821485023001EAA8E /* GPKGManualFeatureQuery.m in Sources */,

@@ -14,9 +14,15 @@
 @implementation GPKGUserRow
 
 -(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
+    // TODO
+    return [self initWithTable:table andColumns:[table userColumns] andColumnTypes:columnTypes andValues:values];
+}
+
+-(instancetype) initWithTable: (GPKGUserTable *) table andColumns: (GPKGUserColumns *) columns andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
     self = [super init];
     if(self != nil){
         self.table = table;
+        self.columns = columns;
         self.columnTypes = columnTypes;
         self.values = values;
     }
@@ -27,8 +33,9 @@
     self = [super init];
     if(self != nil){
         self.table = table;
+        self.columns = [table userColumns];
         
-        int columnCount = [self.table columnCount];
+        int columnCount = [_columns columnCount];
         NSMutableArray * tempColumnTypes = [[NSMutableArray alloc] initWithCapacity:columnCount];
         NSMutableArray * tempValues = [[NSMutableArray alloc] initWithCapacity:columnCount];
         for(int i = 0; i < columnCount; i++){
@@ -46,6 +53,7 @@
     self = [super init];
     if(self != nil){
         self.table = row.table;
+        self.columns = row.columns;
         self.columnTypes = row.columnTypes;
         self.values = [[NSMutableArray alloc] init];
         for(int i = 0; i < row.values.count; i++){
@@ -71,19 +79,19 @@
 }
 
 -(int) columnCount{
-    return [self.table columnCount];
+    return [_columns columnCount];
 }
 
 -(NSArray *) columnNames{
-    return _table.columnNames;
+    return [_columns columnNames];
 }
 
 -(NSString *) columnNameWithIndex: (int) index{
-    return [self.table columnNameWithIndex:index];
+    return [_columns columnNameWithIndex:index];
 }
 
 -(int) columnIndexWithColumnName: (NSString *) columnName{
-    return [self.table columnIndexWithColumnName:columnName];
+    return [_columns columnIndexWithColumnName:columnName];
 }
 
 -(NSObject *) valueWithIndex: (int) index{
@@ -100,7 +108,7 @@
 }
 
 -(NSObject *) valueWithColumnName: (NSString *) columnName{
-    return [self valueWithIndex:[self.table columnIndexWithColumnName:columnName]];
+    return [self valueWithIndex:[_columns columnIndexWithColumnName:columnName]];
 }
 
 -(NSString *) valueStringWithIndex: (int) index{
@@ -113,7 +121,7 @@
 }
 
 -(NSString *) valueStringWithColumnName: (NSString *) columnName{
-    return [self valueStringWithIndex:[self.table columnIndexWithColumnName:columnName]];
+    return [self valueStringWithIndex:[_columns columnIndexWithColumnName:columnName]];
 }
 
 -(NSObject *) databaseValueWithIndex: (int) index{
@@ -125,7 +133,7 @@
 }
 
 -(NSObject *) databaseValueWithColumnName: (NSString *) columnName{
-    return [self databaseValueWithIndex:[self.table columnIndexWithColumnName:columnName]];
+    return [self databaseValueWithIndex:[_columns columnIndexWithColumnName:columnName]];
 }
 
 -(int) rowColumnTypeWithIndex: (int) index{
@@ -133,33 +141,45 @@
 }
 
 -(int) rowColumnTypeWithColumnName: (NSString *) columnName{
-    return [((NSNumber *)[GPKGUtils objectAtIndex:[self.table columnIndexWithColumnName:columnName] inArray:self.columnTypes]) intValue];
+    return [((NSNumber *)[GPKGUtils objectAtIndex:[_columns columnIndexWithColumnName:columnName] inArray:self.columnTypes]) intValue];
 }
 
 -(GPKGUserColumn *) columnWithIndex: (int) index{
-    return [self.table columnWithIndex:index];
+    return [_columns columnWithIndex:index];
 }
 
 -(GPKGUserColumn *) columnWithColumnName: (NSString *) columnName{
-    return [self.table columnWithColumnName:columnName];
+    return [_columns columnWithColumnName:columnName];
 }
 
 -(BOOL) hasColumnWithColumnName: (NSString *) columnName{
-    return [self.table hasColumnWithColumnName:columnName];
+    return [_columns hasColumnWithColumnName:columnName];
 }
 
 -(NSNumber *) id{
-    
-    NSNumber * id = nil;
-    NSObject * objectValue = [self valueWithIndex:[self pkIndex]];
+    NSNumber *id = nil;
+    int index = [self pkIndex];
+    if(index < 0){
+        NSMutableString *error = [NSMutableString stringWithString:@"Id column does not exist in "];
+        if(_columns.custom){
+            [error appendString:@"custom specified table columns. "];
+        }
+        [error appendFormat:@"table: %@", _columns.tableName];
+        if(_columns.custom){
+            [error appendFormat:@", columns: [%@]", [[_columns columnNames] componentsJoinedByString:@", "]];
+        }
+        [NSException raise:@"No Id Column" format:error, nil];
+    }
+    NSObject *objectValue = [self valueWithIndex:index];
     if(objectValue == nil){
-        [NSException raise:@"Null Id" format:@"Row Id was null. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkIndex], [self pkColumn].name];
+        [NSException raise:@"Null Id" format:@"Row Id was null. table: %@, index: %d, name: %@", _columns.tableName, index, [self pkColumnName]];
     }
     if([objectValue isKindOfClass:[NSNumber class]]){
         id = (NSNumber *) objectValue;
     }else{
-        [NSException raise:@"Non Number Id" format:@"Row Id was not a number. Table: %@, Column Index: %d, Column Name: %@", self.table.tableName, [self pkIndex], [self pkColumn].name];
+        [NSException raise:@"Non Number Id" format:@"Row Id was not a number. table: %@, index: %d, name: %@, value: %@", _columns.tableName, index, [self pkColumnName], objectValue];
     }
+    
     return id;
 }
 
@@ -168,7 +188,7 @@
 }
 
 -(BOOL) hasIdColumn{
-    return [self.table hasIdColumn];
+    return [_columns hasIdColumn];
 }
 
 -(BOOL) hasId{
@@ -181,15 +201,15 @@
 }
 
 -(int) idIndex{
-    return [self.table idIndex];
+    return [_columns idIndex];
 }
 
 -(GPKGUserColumn *) idColumn{
-    return [self.table idColumn];
+    return [_columns idColumn];
 }
 
 -(NSString *) idColumnName{
-    return [self.table idColumnName];
+    return [_columns idColumnName];
 }
 
 -(NSObject *) pk{
@@ -197,7 +217,7 @@
 }
 
 -(BOOL) hasPkColumn{
-    return [self.table hasPkColumn];
+    return [_columns hasPkColumn];
 }
 
 -(BOOL) hasPk{
@@ -210,20 +230,20 @@
 }
 
 -(int) pkIndex{
-    return [self.table pkIndex];
+    return [_columns pkIndex];
 }
 
 -(GPKGUserColumn *) pkColumn{
-    return [self.table pkColumn];
+    return [_columns pkColumn];
 }
 
 -(NSString *) pkColumnName{
-    return [self.table pkColumnName];
+    return [_columns pkColumnName];
 }
 
 -(void) setValueWithIndex: (int) index andValue: (NSObject *) value{
-    if(index == self.table.pkIndex){
-        [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", self.table.tableName, index, [self.table pkColumn].name];
+    if(index == [_columns pkIndex]){
+        [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", [_table tableName], index, [_table pkColumn].name];
     }
     [self setValueNoValidationWithIndex:index andValue:value];
 }
@@ -275,6 +295,7 @@
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUserRow *userRow = [[[self class] allocWithZone:zone] init];
     userRow.table = _table;
+    userRow.columns = _columns;
     userRow.columnTypes = _columnTypes;
     userRow.values = [[NSMutableArray alloc] initWithCapacity:_values.count];
     for(int i = 0; i < _values.count; i++){

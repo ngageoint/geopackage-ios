@@ -37,7 +37,7 @@
             [statementColumnIndex setValue:[NSNumber numberWithInt:i] forKey:column];
         }
         
-        self.columns = statementColumns;
+        self.columnNames = statementColumns;
         self.columnIndex = statementColumnIndex;
         self.hasNext = YES;
     }
@@ -85,7 +85,7 @@
 
 -(void) rowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types{
     
-    NSUInteger totalColumns = [self.columns count];
+    NSUInteger totalColumns = [self.columnNames count];
     
     for (int i=0; i<totalColumns; i++){
 
@@ -130,6 +130,10 @@
     }
     
     return value;
+}
+
+-(NSObject *) valueWithColumnName: (NSString *) columnName{
+    return [self valueWithIndex:[self columnIndexWithName:columnName]];
 }
 
 -(int) columnIndexWithName: (NSString *) columnName{

@@ -240,7 +240,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     NSMutableArray<NSArray<NSObject *> *> *results = [[NSMutableArray alloc] init];
     @try {
-        int columns = (int)result.columns.count;
+        int columns = (int)result.columnNames.count;
         while([result moveToNext]) {
             NSMutableArray<NSObject *> *row = [[NSMutableArray alloc] init];
             for(int i = 0; i < columns; i++){

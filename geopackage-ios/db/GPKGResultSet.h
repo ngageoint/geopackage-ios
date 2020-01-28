@@ -31,9 +31,9 @@
 @property (nonatomic, strong) GPKGDbConnection *connection;
 
 /**
- *  Columns
+ *  Column Names
  */
-@property (nonatomic, strong) NSArray *columns;
+@property (nonatomic, strong) NSArray *columnNames;
 
 /**
  *  Column name to index mapping
@@ -106,6 +106,15 @@
  *  @return value
  */
 -(NSObject *) valueWithIndex: (int) index;
+
+/**
+ * Get the value for the column name
+ *
+ * @param columnName
+ *            column name
+ * @return value
+ */
+-(NSObject *) valueWithColumnName: (NSString *) columnName;
 
 /**
  *  Get column index for column name

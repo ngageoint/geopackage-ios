@@ -20,6 +20,11 @@
 @property (nonatomic, strong) GPKGUserTable *table;
 
 /**
+ * User columns
+ */
+@property (nonatomic, strong) GPKGUserColumns *columns;
+
+/**
  *  Column types of this row, based upon the data values
  */
 @property (nonatomic, strong) NSArray *columnTypes;
@@ -29,16 +34,20 @@
  */
 @property (nonatomic, strong) NSMutableArray *values;
 
+// TODO remove?
+-(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+
 /**
  *  Initialize
  *
  *  @param table       user table
+ *  @param columns   columns
  *  @param columnTypes column types
  *  @param values      values
  *
  *  @return new user row
  */
--(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithTable: (GPKGUserTable *) table andColumns: (GPKGUserColumns *) columns andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

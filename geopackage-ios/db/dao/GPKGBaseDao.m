@@ -164,9 +164,9 @@
     
     NSObject *objectResult = [self createObject];
     
-    NSInteger count = [results.columns count];
+    NSInteger count = [results.columnNames count];
     for(int i = 0; i < count; i++){
-        [self setValueInObject:objectResult withColumnName:[GPKGUtils objectAtIndex:i inArray:results.columns] withValue:[GPKGUtils objectAtIndex:i inArray:result]];
+        [self setValueInObject:objectResult withColumnName:[GPKGUtils objectAtIndex:i inArray:results.columnNames] withValue:[GPKGUtils objectAtIndex:i inArray:result]];
     }
     
     return objectResult;
