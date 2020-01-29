@@ -10,8 +10,8 @@
 
 @implementation GPKGFeatureRow
 
--(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithTable:table andColumns:columns andValues:values];
     if(self != nil){
         self.featureTable = table;
     }

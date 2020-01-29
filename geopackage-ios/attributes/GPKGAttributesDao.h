@@ -41,16 +41,6 @@
 -(GPKGAttributesRow *) attributesRow: (GPKGResultSet *) results;
 
 /**
- *  Create a new attributes row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return attributes row as user row
- */
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new attributes row
  *
  *  @return attributes row

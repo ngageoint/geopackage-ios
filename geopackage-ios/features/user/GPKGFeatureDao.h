@@ -56,16 +56,6 @@
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) results;
 
 /**
- *  Create a new feature row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return feature row as user row
- */
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new feature row
  *
  *  @return feature row

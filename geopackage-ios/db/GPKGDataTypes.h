@@ -73,4 +73,13 @@ extern NSString * const GPKG_DT_DATETIME_NAME;
  */
 +(Class) classType: (enum GPKGDataType) dataType;
 
+/**
+ *  Get the SQLite type of the data type
+ *
+ *  @param dataType data type
+ *
+ *  @return SQLite type
+ */
++(int) sqliteType: (enum GPKGDataType) dataType;
+
 @end

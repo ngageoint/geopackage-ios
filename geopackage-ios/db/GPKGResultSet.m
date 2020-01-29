@@ -27,8 +27,8 @@
     
         int totalColumns = sqlite3_column_count(statement);
 
-        NSMutableArray *statementColumns = [[NSMutableArray alloc] init];
-        NSMutableDictionary *statementColumnIndex = [[NSMutableDictionary alloc] init];
+        NSMutableArray<NSString *> *statementColumns = [[NSMutableArray alloc] init];
+        NSMutableDictionary<NSString *, NSNumber *> *statementColumnIndex = [[NSMutableDictionary alloc] init];
         
         for (int i=0; i<totalColumns; i++){
             char *columnName = (char *)sqlite3_column_name(statement, i);
@@ -77,22 +77,17 @@
     self.statement = nil;
 }
 
--(NSArray *) row{
+-(NSArray<NSObject *> *) row{
      NSMutableArray *rowValues = [[NSMutableArray alloc] init];
-    [self rowPopulateValues:rowValues andColumnTypes:nil];
+    [self rowPopulateValues:rowValues];
     return rowValues;
 }
 
--(void) rowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types{
+-(void) rowPopulateValues: (NSMutableArray *) values{
     
     NSUInteger totalColumns = [self.columnNames count];
     
     for (int i=0; i<totalColumns; i++){
-
-        if(types != nil){
-            [GPKGUtils addObject:[NSNumber numberWithInt:[self type:i]] toArray:types];
-        }
-        
         NSObject * value = [self valueWithIndex:i];
         [GPKGUtils addObject:value toArray:values];
     }
@@ -180,6 +175,14 @@
 -(int) countAndClose{
     [self close];
     return _count;
+}
+
+-(void) setColumnsFromTable: (GPKGUserTable *) table{
+    if([[table columnNames] isEqualToArray:_columnNames]){
+        _columns = [table userColumns];
+    }else{
+        _columns = [table createUserColumnsWithNames:_columnNames];
+    }
 }
 
 @end

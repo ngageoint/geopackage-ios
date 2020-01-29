@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 #import "GPKGDbConnection.h"
+#import "GPKGUserColumns.h"
+#import "GPKGUserTable.h"
 
 /**
  *  Result set from a database query
@@ -33,12 +35,17 @@
 /**
  *  Column Names
  */
-@property (nonatomic, strong) NSArray *columnNames;
+@property (nonatomic, strong) NSArray<NSString *> *columnNames;
 
 /**
  *  Column name to index mapping
  */
-@property (nonatomic, strong) NSDictionary * columnIndex;
+@property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *columnIndex;
+
+/**
+ *  User columns
+ */
+@property (nonatomic, strong) GPKGUserColumns *columns;
 
 /**
  *  Initialize
@@ -88,15 +95,14 @@
  *
  *  @return row value array
  */
--(NSArray *) row;
+-(NSArray<NSObject *> *) row;
 
 /**
- *  Get a row and populate with values and types
+ *  Get a row and populate with values
  *
  *  @param values values
- *  @param types  column types
  */
--(void) rowPopulateValues: (NSMutableArray *) values andColumnTypes: (NSMutableArray *) types;
+-(void) rowPopulateValues: (NSMutableArray *) values;
 
 /**
  *  Get value with column index
@@ -185,5 +191,12 @@
  *  @return result count
  */
 -(int) countAndClose;
+
+/**
+ *  Set the columns from the user table
+ *
+ *  @param userTable user table
+*/
+-(void) setColumnsFromTable: (GPKGUserTable *) table;
 
 @end

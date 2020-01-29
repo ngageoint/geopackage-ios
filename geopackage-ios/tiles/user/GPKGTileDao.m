@@ -103,8 +103,8 @@
     return (GPKGTileRow *) [super row:results];
 }
 
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGTileRow alloc] initWithTileTable:[self tileTable] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGTileRow alloc] initWithTileTable:[self tileTable] andColumns:columns andValues:values];
 }
 
 -(GPKGTileRow *) newRow{

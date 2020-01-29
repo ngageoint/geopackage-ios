@@ -12,7 +12,7 @@
 @implementation GPKGRTreeIndexTableRow
 
 -(instancetype) initWithUserCustomRow: (GPKGUserCustomRow *) userCustomRow{
-    self = [super initWithTable:[userCustomRow table] andColumnTypes:userCustomRow.columnTypes andValues:userCustomRow.values];
+    self = [super initWithTable:[userCustomRow table] andColumns:userCustomRow.columns andValues:userCustomRow.values];
     return self;
 }
 

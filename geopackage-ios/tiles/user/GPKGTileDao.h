@@ -100,16 +100,6 @@
 -(GPKGTileRow *) tileRow: (GPKGResultSet *) results;
 
 /**
- *  Create a new tile row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return tile row as user row
- */
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new tile row
  *
  *  @return tile row

@@ -8,6 +8,7 @@
 
 #import "GPKGDataTypes.h"
 #import "GPKGUtils.h"
+#import <sqlite3.h>
 
 NSString * const GPKG_DT_BOOLEAN_NAME = @"BOOLEAN";
 NSString * const GPKG_DT_TINYINT_NAME = @"TINYINT";
@@ -133,6 +134,37 @@ NSString * const GPKG_DT_DATETIME_NAME = @"DATETIME";
     }
     
     return class;
+}
+
++(int) sqliteType: (enum GPKGDataType) dataType{
+    int type;
+    switch(dataType){
+        case GPKG_DT_BOOLEAN:
+        case GPKG_DT_TINYINT:
+        case GPKG_DT_SMALLINT:
+        case GPKG_DT_MEDIUMINT:
+        case GPKG_DT_INT:
+        case GPKG_DT_INTEGER:
+            type = SQLITE_INTEGER;
+            break;
+        case GPKG_DT_FLOAT:
+        case GPKG_DT_DOUBLE:
+        case GPKG_DT_REAL:
+            type = SQLITE_FLOAT;
+            break;
+        case GPKG_DT_TEXT:
+        case GPKG_DT_DATE:
+        case GPKG_DT_DATETIME:
+            type = SQLITE_TEXT;
+            break;
+        case GPKG_DT_BLOB:
+            type = SQLITE_BLOB;
+            break;
+        default:
+            type = SQLITE_NULL;
+            break;
+    }
+    return type;
 }
 
 @end

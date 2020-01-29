@@ -55,12 +55,12 @@
 /**
  *  Create a user row
  *
- *  @param columnTypes column types
+ *  @param columns      columns
  *  @param values      values
  *
  *  @return user row
  */
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Get the bounding box of the user table data

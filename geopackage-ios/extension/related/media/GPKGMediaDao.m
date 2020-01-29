@@ -32,8 +32,8 @@
     return (GPKGMediaRow *) [super row:results];
 }
 
--(GPKGMediaRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGMediaRow alloc] initWithMediaTable:[self table] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGMediaRow alloc] initWithMediaTable:[self table] andColumns:columns andValues:values];
 }
 
 -(GPKGMediaRow *) newRow{

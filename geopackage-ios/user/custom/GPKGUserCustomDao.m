@@ -36,8 +36,8 @@
     return (GPKGUserCustomRow *) [super row:results];
 }
 
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGUserRow alloc] initWithTable:[self table] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGUserRow alloc] initWithTable:[self table] andColumns:columns andValues:values];
 }
 
 -(GPKGUserCustomRow *) newRow{

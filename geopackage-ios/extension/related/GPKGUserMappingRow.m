@@ -10,8 +10,8 @@
 
 @implementation GPKGUserMappingRow
 
--(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithTable:table andColumns:columns andValues:values];
     return self;
 }
 

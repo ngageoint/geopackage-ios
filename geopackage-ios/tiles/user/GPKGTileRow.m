@@ -11,8 +11,8 @@
 
 @implementation GPKGTileRow
 
--(instancetype) initWithTileTable: (GPKGTileTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithTable:table andColumns:columns andValues:values];
     if(self != nil){
         self.tileTable = table;
     }

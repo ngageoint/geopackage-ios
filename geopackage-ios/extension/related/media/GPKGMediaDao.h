@@ -51,16 +51,6 @@
 -(GPKGMediaRow *) row: (GPKGResultSet *) results;
 
 /**
- *  Create a new media row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return media row as user row
- */
--(GPKGMediaRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new media row
  *
  *  @return media row

@@ -18,7 +18,7 @@
 /**
  * Columns
  */
-@property (nonatomic, strong) GPKGUserColumns *columns;
+@property (nonatomic, strong) GPKGUserColumns *columnsTemp;
 
 @end
 
@@ -57,21 +57,21 @@
 }
 
 -(int) columnIndexWithName: (NSString *) columnName{
-    return [_columns columnIndexWithColumnName:columnName];
+    return [_columnsTemp columnIndexWithColumnName:columnName];
 }
 
 -(NSNumber *) id{
     NSNumber *id = nil;
     
-    GPKGUserColumn *pkColumn = [_columns pkColumn];
+    GPKGUserColumn *pkColumn = [_columnsTemp pkColumn];
     if(pkColumn == nil){
         NSMutableString *error = [NSMutableString stringWithString:@"No primary key column in "];
-        if(_columns.custom){
+        if(_columnsTemp.custom){
             [error appendString:@"custom specified table columns. "];
         }
-        [error appendFormat:@"table: %@", _columns.tableName];
-        if(_columns.custom){
-            [error appendFormat:@", columns: [%@]", [[_columns columnNames] componentsJoinedByString:@", "]];
+        [error appendFormat:@"table: %@", _columnsTemp.tableName];
+        if(_columnsTemp.custom){
+            [error appendFormat:@", columns: [%@]", [[_columnsTemp columnNames] componentsJoinedByString:@", "]];
         }
         [NSException raise:@"No PK Column" format:error, nil];
     }
@@ -80,7 +80,7 @@
     if([objectValue isKindOfClass:[NSNumber class]]){
         id = (NSNumber *) objectValue;
     }else{
-        [NSException raise:@"Non Number PK" format:@"Primary Key value was not a number. table: %@, index: %d, name: %@, value: %@", _columns.tableName, pkColumn.index, pkColumn.name, objectValue];
+        [NSException raise:@"Non Number PK" format:@"Primary Key value was not a number. table: %@, index: %d, name: %@, value: %@", _columnsTemp.tableName, pkColumn.index, pkColumn.name, objectValue];
     }
     
     return id;
@@ -91,7 +91,7 @@
 }
 
 -(GPKGUserColumns *) columns{
-    return _columns;
+    return _columnsTemp;
 }
 
 @end

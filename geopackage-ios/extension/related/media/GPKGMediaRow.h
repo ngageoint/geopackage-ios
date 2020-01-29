@@ -19,12 +19,12 @@
  *  Initialize
  *
  *  @param table       media table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new media row
  */
--(instancetype) initWithMediaTable: (GPKGMediaTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithMediaTable: (GPKGMediaTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

@@ -23,12 +23,12 @@
  *  Initialize
  *
  *  @param table       icon table
- *  @param columnTypes column types
+ *  @param columns  columns
  *  @param values      values
  *
  *  @return new icon row
  */
--(instancetype) initWithIconTable: (GPKGIconTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithIconTable: (GPKGIconTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

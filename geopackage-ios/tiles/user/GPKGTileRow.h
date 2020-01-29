@@ -26,12 +26,12 @@
  *  Initialize
  *
  *  @param table       tile table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new tile row
  */
--(instancetype) initWithTileTable: (GPKGTileTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

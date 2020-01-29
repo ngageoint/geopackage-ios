@@ -192,7 +192,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     if(value != nil){
         result = [((NSNumber *) value) intValue];
     }else if(!allowEmptyResults){
-        [NSException raise:@"Singe Integer Query" format:@"Failed to query for single result. SQL: %@", sql];
+        [NSException raise:@"Single Integer Query" format:@"Failed to query for single result. SQL: %@", sql];
     }
     
     return result;

@@ -10,8 +10,8 @@
 
 @implementation GPKGStyleMappingRow
 
--(instancetype) initWithStyleMappingTable: (GPKGStyleMappingTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithUserMappingTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithStyleMappingTable: (GPKGStyleMappingTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithUserMappingTable:table andColumns:columns andValues:values];
     return self;
 }
 

@@ -18,12 +18,12 @@
  *  Initialize
  *
  *  @param table       user mapping table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new user mapping row
  */
--(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithUserMappingTable: (GPKGUserMappingTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

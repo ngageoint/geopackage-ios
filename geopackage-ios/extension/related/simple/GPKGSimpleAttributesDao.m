@@ -32,8 +32,8 @@
     return (GPKGSimpleAttributesRow *) [super row:results];
 }
 
--(GPKGSimpleAttributesRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self table] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self table] andColumns:columns andValues:values];
 }
 
 -(GPKGSimpleAttributesRow *) newRow{

@@ -51,16 +51,6 @@
 -(GPKGSimpleAttributesRow *) row: (GPKGResultSet *) results;
 
 /**
- *  Create a new simple attributes row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return simple attributes row as user row
- */
--(GPKGSimpleAttributesRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new simple attributes row
  *
  *  @return simple attributes row

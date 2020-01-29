@@ -18,12 +18,12 @@
  *  Initialize
  *
  *  @param table       user custom table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new user custom row
  */
--(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

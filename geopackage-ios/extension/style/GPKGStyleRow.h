@@ -21,12 +21,12 @@
  *  Initialize
  *
  *  @param table       style table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new style row
  */
--(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

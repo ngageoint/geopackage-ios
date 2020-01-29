@@ -146,40 +146,38 @@
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
         [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[userRow columnNameWithIndex:i]];
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:[userRow columnIndexWithColumnName:[columns objectAtIndex:i]]];
-        int rowType = [userRow rowColumnTypeWithIndex:i];
+        int sqliteType = [userRow sqliteTypeWithIndex:i];
         NSObject *value = [userRow valueWithIndex:i];
         
-        switch (rowType) {
-                
-            case SQLITE_INTEGER:
-                [GPKGTestUtils validateIntegerValue:value andDataType:column.dataType];
-                break;
-                
-            case SQLITE_FLOAT:
-                [GPKGTestUtils validateFloatValue:value andDataType:column.dataType];
-                break;
-                
-            case SQLITE_TEXT:
-            {
-                if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
-                    [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
-                    NSDate *date = (NSDate *) value;
-                    NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
-                    [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
-                }else{
-                    [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+        if(value != nil){
+            switch (sqliteType) {
+                    
+                case SQLITE_INTEGER:
+                    [GPKGTestUtils validateIntegerValue:value andDataType:column.dataType];
+                    break;
+                    
+                case SQLITE_FLOAT:
+                    [GPKGTestUtils validateFloatValue:value andDataType:column.dataType];
+                    break;
+                    
+                case SQLITE_TEXT:
+                {
+                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
+                        NSDate *date = (NSDate *) value;
+                        NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
+                        [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
+                    }else{
+                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+                    }
                 }
+                    break;
+                    
+                case SQLITE_BLOB:
+                    [GPKGTestUtils assertTrue:[value isKindOfClass:[NSData class]]];
+                    break;
+                    
             }
-                break;
-                
-            case SQLITE_BLOB:
-                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSData class]]];
-                break;
-                
-            case SQLITE_NULL:
-                [GPKGTestUtils assertNil:value];
-                break;
-                
         }
         
     }

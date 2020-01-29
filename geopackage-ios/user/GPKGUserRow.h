@@ -25,29 +25,20 @@
 @property (nonatomic, strong) GPKGUserColumns *columns;
 
 /**
- *  Column types of this row, based upon the data values
- */
-@property (nonatomic, strong) NSArray *columnTypes;
-
-/**
  *  Array of row values
  */
 @property (nonatomic, strong) NSMutableArray *values;
-
-// TODO remove?
--(instancetype) initWithTable: (GPKGUserTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize
  *
  *  @param table       user table
  *  @param columns   columns
- *  @param columnTypes column types
  *  @param values      values
  *
  *  @return new user row
  */
--(instancetype) initWithTable: (GPKGUserTable *) table andColumns: (GPKGUserColumns *) columns andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithTable: (GPKGUserTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize
@@ -118,6 +109,15 @@
 -(NSObject *) valueWithColumnName: (NSString *) columnName;
 
 /**
+ *  Get the value of the column
+ *
+ *  @param column column
+ *
+ *  @return value
+ */
+-(NSObject *) valueWithColumn: (GPKGUserColumn *) column;
+
+/**
  * Get the value at the index as a string
  *
  * @param index
@@ -154,22 +154,40 @@
 -(NSObject *) databaseValueWithColumnName: (NSString *) columnName;
 
 /**
- *  Get the row column type at the index
+ *  Get the data type at the index
  *
  *  @param index index
  *
  *  @return row column type
  */
--(int) rowColumnTypeWithIndex: (int) index;
+-(enum GPKGDataType) dataTypeWithIndex: (int) index;
 
 /**
- *  Get the row column type of the column name
+ *  Get the data type of the column name
  *
  *  @param columnName column name
  *
  *  @return row column type
  */
--(int) rowColumnTypeWithColumnName: (NSString *) columnName;
+-(enum GPKGDataType) dataTypeWithColumnName: (NSString *) columnName;
+
+/**
+ *  Get the SQLite type at the index
+ *
+ *  @param index index
+ *
+ *  @return row column type
+ */
+-(int) sqliteTypeWithIndex: (int) index;
+
+/**
+ *  Get the SQLite type of the column name
+ *
+ *  @param columnName column name
+ *
+ *  @return row column type
+ */
+-(int) sqliteTypeWithColumnName: (NSString *) columnName;
 
 /**
  *  Get the column at the index

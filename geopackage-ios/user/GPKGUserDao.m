@@ -96,14 +96,17 @@
     
     if(self.table != nil){
         
-        int columns = [self.table columnCount];
+        if(results.columns == nil){
+            [results setColumnsFromTable:self.table];
+        }
         
-        NSMutableArray *columnTypes = [[NSMutableArray alloc] initWithCapacity:columns];
+        NSUInteger columns = [results.columnNames count];
+        
         NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:columns];
         
-        [results rowPopulateValues:values andColumnTypes:columnTypes];
+        [results rowPopulateValues:values];
         
-        row = [self newRowWithColumnTypes:columnTypes andValues:values];
+        row = [self newRowWithColumns:results.columns andValues:values];
     }
     
     return row;
@@ -117,8 +120,8 @@
     return id;
 }
 
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGUserRow alloc] init];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGUserRow alloc] initWithTable:self.table andColumns:columns andValues:values];
 }
 
 -(GPKGBoundingBox *) boundingBox{

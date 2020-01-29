@@ -27,8 +27,8 @@
     return (GPKGIconRow *) [super row:results];
 }
 
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGIconRow alloc] initWithIconTable:[self table] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGIconRow alloc] initWithIconTable:[self table] andColumns:columns andValues:values];
 }
 
 -(GPKGIconRow *) newRow{

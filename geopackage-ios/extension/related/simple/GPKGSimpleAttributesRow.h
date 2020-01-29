@@ -18,12 +18,12 @@
  *  Initialize
  *
  *  @param table       simple attributes table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new simple attributes row
  */
--(instancetype) initWithSimpleAttributesTable: (GPKGSimpleAttributesTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithSimpleAttributesTable: (GPKGSimpleAttributesTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

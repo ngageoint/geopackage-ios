@@ -23,12 +23,12 @@
  *  Initialize
  *
  *  @param table       attributes table
- *  @param columnTypes column types
+ *  @param columns   columns
  *  @param values      values
  *
  *  @return new attributes row
  */
--(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
+-(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

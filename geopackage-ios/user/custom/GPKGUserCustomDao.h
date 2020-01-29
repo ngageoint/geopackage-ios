@@ -58,16 +58,6 @@
 -(GPKGUserCustomRow *) row: (GPKGResultSet *) results;
 
 /**
- *  Create a new user custom row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return user custom row as user row
- */
--(GPKGUserRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new user custom row
  *
  *  @return user custom row

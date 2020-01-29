@@ -196,40 +196,38 @@
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
         [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[attributesRow columnNameWithIndex:i]];
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:[attributesRow columnIndexWithColumnName:[columns objectAtIndex:i]]];
-        int rowType = [attributesRow rowColumnTypeWithIndex:i];
+        int sqliteType = [attributesRow sqliteTypeWithIndex:i];
         NSObject * value = [attributesRow valueWithIndex:i];
         
-        switch (rowType) {
-                
-            case SQLITE_INTEGER:
-                [GPKGTestUtils validateIntegerValue:value andDataType:column.dataType];
-                break;
-                
-            case SQLITE_FLOAT:
-                [GPKGTestUtils validateFloatValue:value andDataType:column.dataType];
-                break;
-                
-            case SQLITE_TEXT:
-                {
-                    if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
-                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
-                        NSDate *date = (NSDate *) value;
-                        NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
-                        [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
-                    }else{
-                        [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+        if(value != nil){
+            switch (sqliteType) {
+                    
+                case SQLITE_INTEGER:
+                    [GPKGTestUtils validateIntegerValue:value andDataType:column.dataType];
+                    break;
+                    
+                case SQLITE_FLOAT:
+                    [GPKGTestUtils validateFloatValue:value andDataType:column.dataType];
+                    break;
+                    
+                case SQLITE_TEXT:
+                    {
+                        if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
+                            [GPKGTestUtils assertTrue:[value isKindOfClass:[NSDate class]]];
+                            NSDate *date = (NSDate *) value;
+                            NSString *dateString = [GPKGDateTimeUtils convertToStringWithDate:date andType:dataType];
+                            [GPKGTestUtils assertTrue:[date compare:[GPKGDateTimeUtils convertToDateWithString:dateString]] == NSOrderedSame];
+                        }else{
+                            [GPKGTestUtils assertTrue:[value isKindOfClass:[NSString class]]];
+                        }
                     }
-                }
-                break;
-                
-            case SQLITE_BLOB:
-                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSData class]]];
-                break;
-                
-            case SQLITE_NULL:
-                [GPKGTestUtils assertNil:value];
-                break;
-                
+                    break;
+                    
+                case SQLITE_BLOB:
+                    [GPKGTestUtils assertTrue:[value isKindOfClass:[NSData class]]];
+                    break;
+
+            }
         }
     }
     
@@ -396,13 +394,13 @@
             if (!attributesColumn.primaryKey) {
                 
                 enum GPKGDataType dataType = attributesColumn.dataType;
-                int rowColumnType  = [attributesRow rowColumnTypeWithIndex:attributesColumn.index];
+                int sqliteColumnType  = [attributesRow sqliteTypeWithIndex:attributesColumn.index];
                 
                 switch(dataType){
                         
                     case GPKG_DT_TEXT:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_TEXT]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_TEXT]){
                             break;
                         }
                         if (updatedString == nil) {
@@ -425,7 +423,7 @@
                     case GPKG_DT_DATE:
                     case GPKG_DT_DATETIME:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_TEXT]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_TEXT]){
                             break;
                         }
                         if (updatedDate == nil) {
@@ -441,7 +439,7 @@
                         break;
                     case GPKG_DT_BOOLEAN:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_INTEGER]){
                             break;
                         }
                         if (updatedBoolean == nil) {
@@ -452,7 +450,7 @@
                         break;
                     case GPKG_DT_TINYINT:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_INTEGER]){
                             break;
                         }
                         if (updatedByte == nil) {
@@ -463,7 +461,7 @@
                         break;
                     case GPKG_DT_SMALLINT:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_INTEGER]){
                             break;
                         }
                         if (updatedShort == nil) {
@@ -474,7 +472,7 @@
                         break;
                     case GPKG_DT_MEDIUMINT:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_INTEGER]){
                             break;
                         }
                         if (updatedInteger == nil) {
@@ -486,7 +484,7 @@
                     case GPKG_DT_INT:
                     case GPKG_DT_INTEGER:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_INTEGER]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_INTEGER]){
                             break;
                         }
                         if (updatedLong == nil) {
@@ -497,7 +495,7 @@
                         break;
                     case GPKG_DT_FLOAT:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_FLOAT]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_FLOAT]){
                             break;
                         }
                         if(updatedFloat == nil){
@@ -509,7 +507,7 @@
                     case GPKG_DT_DOUBLE:
                     case GPKG_DT_REAL:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_FLOAT]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_FLOAT]){
                             break;
                         }
                         if(updatedDouble == nil){
@@ -520,7 +518,7 @@
                         break;
                     case GPKG_DT_BLOB:
                     {
-                        if([self validateRowColumnType:rowColumnType withExpected:SQLITE_BLOB]){
+                        if([self validateSQLiteColumnType:sqliteColumnType withExpected:SQLITE_BLOB]){
                             break;
                         }
                         if (updatedBytes == nil) {
@@ -566,7 +564,7 @@
                 
                 enum GPKGDataType dataType = readAttributesColumn.dataType;
                 
-                switch ([readRow rowColumnTypeWithColumnName:readColumnName]) {
+                switch ([readRow sqliteTypeWithColumnName:readColumnName]) {
                     case SQLITE_TEXT:
                     {
                         if(dataType == GPKG_DT_DATE || dataType == GPKG_DT_DATETIME){
@@ -652,21 +650,21 @@
 }
 
 /**
- * Validate the row type. If a null value, randomly decide if the value
+ * Validate the SQLite type. If a null value, randomly decide if the value
  * should be updated.
  *
- * @param rowColumnType      row column type
+ * @param sqliteColumnType      sqlite column type
  * @param expectedColumnType expected column type
  * @return true to skip setting value
  */
-+(BOOL) validateRowColumnType: (int) rowColumnType withExpected: (int) expectedColumnType{
++(BOOL) validateSQLiteColumnType: (int) sqliteColumnType withExpected: (int) expectedColumnType{
     BOOL skip = NO;
-    if (rowColumnType == SQLITE_NULL) {
+    if (sqliteColumnType == SQLITE_NULL) {
         if ([GPKGTestUtils randomDouble] < .5) {
             skip = YES;
         }
     } else {
-        [GPKGTestUtils assertEqualIntWithValue:expectedColumnType andValue2:rowColumnType];
+        [GPKGTestUtils assertEqualIntWithValue:expectedColumnType andValue2:sqliteColumnType];
     }
     return skip;
 }

@@ -36,8 +36,8 @@
     return (GPKGUserMappingRow *) [super row:results];
 }
 
--(GPKGUserMappingRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self table] andColumnTypes:columnTypes andValues:values];
+-(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self table] andColumns:columns andValues:values];
 }
 
 -(GPKGUserMappingRow *) newRow{

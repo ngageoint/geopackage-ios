@@ -19,8 +19,8 @@ static NSRegularExpression *colorExpression = nil;
     return self;
 }
 
--(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithAttributesTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithAttributesTable:table andColumns:columns andValues:values];
     return self;
 }
 

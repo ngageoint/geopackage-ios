@@ -51,16 +51,6 @@
 -(GPKGUserMappingRow *) row: (GPKGResultSet *) results;
 
 /**
- *  Create a new user mapping row with the column types and values
- *
- *  @param columnTypes column types
- *  @param values      values
- *
- *  @return user mapping row as user row
- */
--(GPKGUserMappingRow *) newRowWithColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values;
-
-/**
  *  Create a new user mapping row
  *
  *  @return user mapping row

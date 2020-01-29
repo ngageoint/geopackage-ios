@@ -11,8 +11,8 @@
 
 @implementation GPKGMediaRow
 
--(instancetype) initWithMediaTable: (GPKGMediaTable *) table andColumnTypes: (NSArray *) columnTypes andValues: (NSMutableArray *) values{
-    self = [super initWithTable:table andColumnTypes:columnTypes andValues:values];
+-(instancetype) initWithMediaTable: (GPKGMediaTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+    self = [super initWithTable:table andColumns:columns andValues:values];
     return self;
 }
 
