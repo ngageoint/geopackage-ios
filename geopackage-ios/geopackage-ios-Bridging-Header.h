@@ -279,6 +279,5 @@
 #import "GPKGFeatureColumns.h"
 #import "GPKGTileColumns.h"
 #import "GPKGUserCustomColumns.h"
-#import "GPKGUserResultSet.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

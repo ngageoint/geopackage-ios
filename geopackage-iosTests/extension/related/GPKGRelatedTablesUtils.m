@@ -141,7 +141,7 @@
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:userRow.columnCount];
     
     for(int i = 0; i < userRow.columnCount; i++){
-        GPKGUserColumn *column = [[[userRow table] userCustomColumns] columnWithIndex:i];
+        GPKGUserColumn *column = [[[userRow userCustomTable] userCustomColumns] columnWithIndex:i];
         enum GPKGDataType dataType = column.dataType;
         [GPKGTestUtils assertEqualIntWithValue:i andValue2:column.index];
         [GPKGTestUtils assertEqualWithValue:[columns objectAtIndex:i] andValue2:[userRow columnNameWithIndex:i]];
@@ -201,7 +201,7 @@
 
 +(void) validateDublinCoreColumnsWithRow: (GPKGUserCustomRow *) userRow andType: (enum GPKGDublinCoreType) type{
     
-    GPKGUserCustomTable *customTable = [userRow table];
+    GPKGUserCustomTable *customTable = [userRow userCustomTable];
     
     [GPKGTestUtils assertTrue:[GPKGDublinCoreMetadata hasColumn:type inTable:[userRow table]]];
     [GPKGTestUtils assertTrue:[GPKGDublinCoreMetadata hasColumn:type inRow:userRow]];

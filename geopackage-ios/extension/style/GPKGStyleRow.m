@@ -19,7 +19,7 @@ static NSRegularExpression *colorExpression = nil;
     return self;
 }
 
--(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+-(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGAttributesColumns *) columns andValues: (NSMutableArray *) values{
     self = [super initWithAttributesTable:table andColumns:columns andValues:values];
     return self;
 }
@@ -29,16 +29,16 @@ static NSRegularExpression *colorExpression = nil;
     return self;
 }
 
--(GPKGStyleTable *) table{
-    return (GPKGStyleTable *) [super table];
+-(GPKGStyleTable *) styleTable{
+    return (GPKGStyleTable *) [super attributesTable];
 }
 
 -(int) nameColumnIndex{
-    return [[self table] nameColumnIndex];
+    return [[self styleTable] nameColumnIndex];
 }
 
 -(GPKGAttributesColumn *) nameColumn{
-    return [[self table] nameColumn];
+    return [[self styleTable] nameColumn];
 }
 
 -(NSString *) name{
@@ -50,11 +50,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) descriptionColumnIndex{
-    return [[self table] descriptionColumnIndex];
+    return [[self styleTable] descriptionColumnIndex];
 }
 
 -(GPKGAttributesColumn *) descriptionColumn{
-    return [[self table] descriptionColumn];
+    return [[self styleTable] descriptionColumn];
 }
 
 -(NSString *) description{
@@ -66,11 +66,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) colorColumnIndex{
-    return [[self table] colorColumnIndex];
+    return [[self styleTable] colorColumnIndex];
 }
 
 -(GPKGAttributesColumn *) colorColumn{
-    return [[self table] colorColumn];
+    return [[self styleTable] colorColumn];
 }
 
 -(GPKGColor *) color{
@@ -118,11 +118,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) opacityColumnIndex{
-    return [[self table] opacityColumnIndex];
+    return [[self styleTable] opacityColumnIndex];
 }
 
 -(GPKGAttributesColumn *) opacityColumn{
-    return [[self table] opacityColumn];
+    return [[self styleTable] opacityColumn];
 }
 
 -(NSDecimalNumber *) opacity{
@@ -148,11 +148,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) widthColumnIndex{
-    return [[self table] widthColumnIndex];
+    return [[self styleTable] widthColumnIndex];
 }
 
 -(GPKGAttributesColumn *) widthColumn{
-    return [[self table] widthColumn];
+    return [[self styleTable] widthColumn];
 }
 
 -(NSDecimalNumber *) width{
@@ -180,11 +180,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) fillColorColumnIndex{
-    return [[self table] fillColorColumnIndex];
+    return [[self styleTable] fillColorColumnIndex];
 }
 
 -(GPKGAttributesColumn *) fillColorColumn{
-    return [[self table] fillColorColumn];
+    return [[self styleTable] fillColorColumn];
 }
 
 -(GPKGColor *) fillColor{
@@ -216,11 +216,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) fillOpacityColumnIndex{
-    return [[self table] fillOpacityColumnIndex];
+    return [[self styleTable] fillOpacityColumnIndex];
 }
 
 -(GPKGAttributesColumn *) fillOpacityColumn{
-    return [[self table] fillOpacityColumn];
+    return [[self styleTable] fillOpacityColumn];
 }
 
 -(NSDecimalNumber *) fillOpacity{

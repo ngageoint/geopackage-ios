@@ -98,7 +98,7 @@
     
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:dao.count];
     
-    userMappingTable = [dao table];
+    userMappingTable = [dao userMappingTable];
     NSArray *columns = userMappingTable.columnNames;
     GPKGResultSet *resultSet = [dao queryForAll];
     int count = resultSet.count;
@@ -211,7 +211,7 @@
     
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:dao.count];
     
-    userMappingTable = [dao table];
+    userMappingTable = [dao userMappingTable];
     NSArray *columns = userMappingTable.columnNames;
     GPKGResultSet *resultSet = [dao queryForAll];
     int count = resultSet.count;
@@ -324,7 +324,7 @@
     
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:dao.count];
     
-    userMappingTable = [dao table];
+    userMappingTable = [dao userMappingTable];
     NSArray *columns = userMappingTable.columnNames;
     GPKGResultSet *resultSet = [dao queryForAll];
     int count = resultSet.count;

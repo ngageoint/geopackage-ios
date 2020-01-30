@@ -838,8 +838,11 @@
 
 -(GPKGUserCustomDao *) userCustomDaoWithTableName: (NSString *) tableName{
     GPKGUserCustomTable *table = [GPKGUserCustomTableReader readTableWithConnection:self.database andTableName:tableName];
-    GPKGUserCustomDao *dao = [[GPKGUserCustomDao alloc] initWithDatabase:self.database andTable:table];
-    return dao;
+    return [self userCustomDaoWithTable:table];
+}
+
+-(GPKGUserCustomDao *) userCustomDaoWithTable: (GPKGUserCustomTable *) table{
+    return [[GPKGUserCustomDao alloc] initWithDatabase:self.database andTable:table];
 }
 
 -(void) execSQL: (NSString *) sql{

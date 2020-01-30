@@ -10,10 +10,11 @@
 
 @implementation GPKGAttributesRow
 
--(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+-(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumns: (GPKGAttributesColumns *) columns andValues: (NSMutableArray *) values{
     self = [super initWithTable:table andColumns:columns andValues:values];
     if(self != nil){
         self.attributesTable = table;
+        self.attributesColumns = columns;
     }
     return self;
 }
@@ -22,6 +23,7 @@
     self = [super initWithTable:table];
     if(self != nil){
         self.attributesTable = table;
+        self.attributesColumns = [table attributesColumns];
     }
     return self;
 }
@@ -37,6 +39,7 @@
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGAttributesRow *attributesRow = [super mutableCopyWithZone:zone];
     attributesRow.attributesTable = _attributesTable;
+    attributesRow.attributesColumns = _attributesColumns;
     return attributesRow;
 }
 

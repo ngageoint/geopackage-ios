@@ -29,7 +29,7 @@
  *
  *  @return style mapping table
  */
--(GPKGStyleMappingTable *) table;
+-(GPKGStyleMappingTable *) styleMappingTable;
 
 /**
  *  Get the style mapping row for the current result in the result set

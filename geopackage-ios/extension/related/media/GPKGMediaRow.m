@@ -21,16 +21,16 @@
     return self;
 }
 
--(GPKGMediaTable *) table{
-    return (GPKGMediaTable *) [super table];
+-(GPKGMediaTable *) mediaTable{
+    return (GPKGMediaTable *) [super userCustomTable];
 }
 
 -(int) dataColumnIndex{
-    return [[self table] dataColumnIndex];
+    return [[self mediaTable] dataColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) dataColumn{
-    return [[self table] dataColumn];
+    return [[self mediaTable] dataColumn];
 }
 
 -(NSData *) data{
@@ -65,11 +65,11 @@
 }
 
 -(int) contentTypeColumnIndex{
-    return [[self table] contentTypeColumnIndex];
+    return [[self mediaTable] contentTypeColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) contentTypeColumn{
-    return [[self table] contentTypeColumn];
+    return [[self mediaTable] contentTypeColumn];
 }
 
 -(NSString *) contentType{

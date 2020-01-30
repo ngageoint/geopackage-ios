@@ -1005,7 +1005,7 @@
     [geoPackage copyTable:tableName toTable:copyTableName];
     
     GPKGUserCustomDao *copyDao = [geoPackage userCustomDaoWithTableName:copyTableName];
-    GPKGUserCustomTable *copyTable = [copyDao table];
+    GPKGUserCustomTable *copyTable = [copyDao userCustomTable];
     
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[copyTable columnCount]];
@@ -1057,7 +1057,7 @@
     [geoPackage copyTableAsEmpty:tableName toTable:copyTableName2];
     
     GPKGUserCustomDao *copyDao2 = [geoPackage userCustomDaoWithTableName:copyTableName2];
-    GPKGUserCustomTable *copyTable2 = [copyDao2 table];
+    GPKGUserCustomTable *copyTable2 = [copyDao2 userCustomTable];
     
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[table columnCount]];
     [GPKGTestUtils assertEqualIntWithValue:(int)columns.count andValue2:[copyTable2 columnCount]];

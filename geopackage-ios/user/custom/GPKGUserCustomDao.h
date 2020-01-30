@@ -46,7 +46,7 @@
  *
  *  @return user custom table
  */
--(GPKGUserCustomTable *) table;
+-(GPKGUserCustomTable *) userCustomTable;
 
 /**
  *  Get the user custom row for the current result in the result set

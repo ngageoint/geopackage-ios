@@ -33,7 +33,7 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGAttributesRow alloc] initWithAttributesTable:[self attributesTable] andColumns:columns andValues:values];
+    return [[GPKGAttributesRow alloc] initWithAttributesTable:[self attributesTable] andColumns:(GPKGAttributesColumns *) columns andValues:values];
 }
 
 -(GPKGAttributesRow *) newRow{

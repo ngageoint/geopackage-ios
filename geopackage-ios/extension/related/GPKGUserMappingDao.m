@@ -12,7 +12,7 @@
 @implementation GPKGUserMappingDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [self initWithDao:dao andTable:[[GPKGUserMappingTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGUserMappingTable alloc] initWithTable:[dao userCustomTable]]];
     return self;
 }
 
@@ -28,8 +28,8 @@
     return [self newRow];
 }
 
--(GPKGUserMappingTable *) table{
-    return (GPKGUserMappingTable *)[super table];
+-(GPKGUserMappingTable *) userMappingTable{
+    return (GPKGUserMappingTable *)[super userCustomTable];
 }
 
 -(GPKGUserMappingRow *) row: (GPKGResultSet *) results{
@@ -37,11 +37,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self userMappingTable] andColumns:columns andValues:values];
 }
 
 -(GPKGUserMappingRow *) newRow{
-    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self table]];
+    return [[GPKGUserMappingRow alloc] initWithUserMappingTable:[self userMappingTable]];
 }
 
 -(GPKGResultSet *) queryByBaseIdFromRow: (GPKGUserMappingRow *) userMappingRow{

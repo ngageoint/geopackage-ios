@@ -39,6 +39,6 @@
  *
  *  @return simple attributes table
  */
--(GPKGSimpleAttributesTable *) table;
+-(GPKGSimpleAttributesTable *) simpleAttributesTable;
 
 @end

@@ -19,8 +19,8 @@
     return [self newRow];
 }
 
--(GPKGStyleTable *) table{
-    return (GPKGStyleTable *)[super table];
+-(GPKGStyleTable *) styleTable{
+    return (GPKGStyleTable *)[super attributesTable];
 }
 
 -(GPKGStyleRow *) row: (GPKGResultSet *) results{
@@ -28,11 +28,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGStyleRow alloc] initWithStyleTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGStyleRow alloc] initWithStyleTable:[self styleTable] andColumns:(GPKGAttributesColumns *) columns andValues:values];
 }
 
 -(GPKGStyleRow *) newRow{
-    return [[GPKGStyleRow alloc] initWithStyleTable:[self table]];
+    return [[GPKGStyleRow alloc] initWithStyleTable:[self styleTable]];
 }
 
 -(GPKGStyleRow *) queryForRow: (GPKGStyleMappingRow *) styleMappingRow{

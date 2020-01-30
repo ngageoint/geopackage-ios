@@ -30,7 +30,7 @@
  *
  *  @return style table
  */
--(GPKGStyleTable *) table;
+-(GPKGStyleTable *) styleTable;
 
 /**
  *  Get the style row for the current result in the result set

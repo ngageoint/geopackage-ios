@@ -20,16 +20,16 @@
     return self;
 }
 
--(GPKGUserMappingTable *) table{
-    return (GPKGUserMappingTable *) [super table];
+-(GPKGUserMappingTable *) userMappingTable{
+    return (GPKGUserMappingTable *) [super userCustomTable];
 }
 
 -(int) baseIdColumnIndex{
-    return [[self table] baseIdColumnIndex];
+    return [[self userMappingTable] baseIdColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) baseIdColumn{
-    return [[self table] baseIdColumn];
+    return [[self userMappingTable] baseIdColumn];
 }
 
 -(int) baseId{
@@ -41,11 +41,11 @@
 }
 
 -(int) relatedIdColumnIndex{
-    return [[self table] relatedIdColumnIndex];
+    return [[self userMappingTable] relatedIdColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) relatedIdColumn{
-    return [[self table] relatedIdColumn];
+    return [[self userMappingTable] relatedIdColumn];
 }
 
 -(int) relatedId{

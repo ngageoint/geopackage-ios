@@ -11,7 +11,7 @@
 @implementation GPKGMediaDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [self initWithDao:dao andTable:[[GPKGMediaTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGMediaTable alloc] initWithTable:[dao userCustomTable]]];
     return self;
 }
 
@@ -24,8 +24,8 @@
     return [self newRow];
 }
 
--(GPKGMediaTable *) table{
-    return (GPKGMediaTable *)[super table];
+-(GPKGMediaTable *) mediaTable{
+    return (GPKGMediaTable *)[super userCustomTable];
 }
 
 -(GPKGMediaRow *) row: (GPKGResultSet *) results{
@@ -33,11 +33,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGMediaRow alloc] initWithMediaTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGMediaRow alloc] initWithMediaTable:[self mediaTable] andColumns:columns andValues:values];
 }
 
 -(GPKGMediaRow *) newRow{
-    return [[GPKGMediaRow alloc] initWithMediaTable:[self table]];
+    return [[GPKGMediaRow alloc] initWithMediaTable:[self mediaTable]];
 }
 
 -(NSArray<GPKGMediaRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{

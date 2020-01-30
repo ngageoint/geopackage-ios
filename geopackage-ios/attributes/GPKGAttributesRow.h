@@ -20,6 +20,11 @@
 @property (nonatomic, strong) GPKGAttributesTable *attributesTable;
 
 /**
+ *  Attributes Columns
+ */
+@property (nonatomic, strong) GPKGAttributesColumns *attributesColumns;
+
+/**
  *  Initialize
  *
  *  @param table       attributes table
@@ -28,7 +33,7 @@
  *
  *  @return new attributes row
  */
--(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
+-(instancetype) initWithAttributesTable: (GPKGAttributesTable *) table andColumns: (GPKGAttributesColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

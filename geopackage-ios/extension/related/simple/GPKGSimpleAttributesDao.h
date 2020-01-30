@@ -39,7 +39,7 @@
  *
  *  @return simple attributes table
  */
--(GPKGSimpleAttributesTable *) table;
+-(GPKGSimpleAttributesTable *) simpleAttributesTable;
 
 /**
  *  Get the simple attributes row for the current result in the result set

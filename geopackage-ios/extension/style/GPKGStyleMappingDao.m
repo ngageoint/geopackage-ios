@@ -11,7 +11,7 @@
 @implementation GPKGStyleMappingDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [self initWithDao:dao andTable:[[GPKGStyleMappingTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGStyleMappingTable alloc] initWithTable:[dao userCustomTable]]];
     return self;
 }
 
@@ -19,8 +19,8 @@
     return [self newRow];
 }
 
--(GPKGStyleMappingTable *) table{
-    return (GPKGStyleMappingTable *)[super table];
+-(GPKGStyleMappingTable *) styleMappingTable{
+    return (GPKGStyleMappingTable *)[super userMappingTable];
 }
 
 -(GPKGStyleMappingRow *) row: (GPKGResultSet *) results{
@@ -28,11 +28,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self styleMappingTable] andColumns:columns andValues:values];
 }
 
 -(GPKGStyleMappingRow *) newRow{
-    return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self table]];
+    return [[GPKGStyleMappingRow alloc] initWithStyleMappingTable:[self styleMappingTable]];
 }
 
 -(NSArray<GPKGStyleMappingRow *> *) queryByBaseFeatureId: (int) id{

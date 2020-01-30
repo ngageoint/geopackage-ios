@@ -102,7 +102,7 @@
     // Validate the media DAO
     GPKGMediaDao *mediaDao = [rte mediaDaoForTable:mediaTable];
     [GPKGTestUtils assertNotNil:mediaDao];
-    mediaTable = [mediaDao table];
+    mediaTable = [mediaDao mediaTable];
     [GPKGTestUtils assertNotNil:mediaTable];
     [self validateContents:mediaTable.contents withTable:mediaTable];
 
@@ -164,7 +164,7 @@
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:[dao count]];
     
     // Validate the user mapping rows
-    userMappingTable = [dao table];
+    userMappingTable = [dao userMappingTable];
     NSArray<NSString *> *mappingColumns = userMappingTable.columnNames;
     GPKGResultSet *resultSet = [dao queryForAll];
     int count = resultSet.count;
@@ -227,7 +227,7 @@
         // Get and test the media DAO
         mediaDao = [rte mediaDaoForRelation:featureRelation];
         [GPKGTestUtils assertNotNil:mediaDao];
-        mediaTable = [mediaDao table];
+        mediaTable = [mediaDao mediaTable];
         [GPKGTestUtils assertNotNil:mediaTable];
         [self validateContents:mediaTable.contents withTable:mediaTable];
         

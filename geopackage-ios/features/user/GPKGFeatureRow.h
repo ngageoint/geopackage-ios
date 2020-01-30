@@ -21,6 +21,11 @@
 @property (nonatomic, strong) GPKGFeatureTable *featureTable;
 
 /**
+ *  Feature Columns
+ */
+@property (nonatomic, strong) GPKGFeatureColumns *featureColumns;
+
+/**
  *  Initialize
  *
  *  @param table       feature table
@@ -29,7 +34,7 @@
  *
  *  @return new feature row
  */
--(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumns: (GPKGFeatureColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize
@@ -53,6 +58,13 @@
  *  @return geometry feature column
  */
 -(GPKGFeatureColumn *) geometryColumn;
+
+/**
+ * Get the geometry column name
+ *
+ * @return geometry column name
+ */
+-(NSString *) geometryColumnName;
 
 /**
  *  Get the geometry

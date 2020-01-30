@@ -25,16 +25,16 @@
     return self;
 }
 
--(GPKGIconTable *) table{
-    return (GPKGIconTable *) [super table];
+-(GPKGIconTable *) iconTable{
+    return (GPKGIconTable *) [super mediaTable];
 }
 
 -(int) nameColumnIndex{
-    return [[self table] nameColumnIndex];
+    return [[self iconTable] nameColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) nameColumn{
-    return [[self table] nameColumn];
+    return [[self iconTable] nameColumn];
 }
 
 -(NSString *) name{
@@ -46,11 +46,11 @@
 }
 
 -(int) descriptionColumnIndex{
-    return [[self table] descriptionColumnIndex];
+    return [[self iconTable] descriptionColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) descriptionColumn{
-    return [[self table] descriptionColumn];
+    return [[self iconTable] descriptionColumn];
 }
 
 -(NSString *) description{
@@ -62,11 +62,11 @@
 }
 
 -(int) widthColumnIndex{
-    return [[self table] widthColumnIndex];
+    return [[self iconTable] widthColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) widthColumn{
-    return [[self table] widthColumn];
+    return [[self iconTable] widthColumn];
 }
 
 -(NSDecimalNumber *) width{
@@ -99,11 +99,11 @@
 }
 
 -(int) heightColumnIndex{
-    return [[self table] heightColumnIndex];
+    return [[self iconTable] heightColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) heightColumn{
-    return [[self table] heightColumn];
+    return [[self iconTable] heightColumn];
 }
 
 -(NSDecimalNumber *) height{
@@ -182,11 +182,11 @@
 }
 
 -(int) anchorUColumnIndex{
-    return [[self table] anchorUColumnIndex];
+    return [[self iconTable] anchorUColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) anchorUColumn{
-    return [[self table] anchorUColumn];
+    return [[self iconTable] anchorUColumn];
 }
 
 -(NSDecimalNumber *) anchorU{
@@ -212,11 +212,11 @@
 }
 
 -(int) anchorVColumnIndex{
-    return [[self table] anchorVColumnIndex];
+    return [[self iconTable] anchorVColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) anchorVColumn{
-    return [[self table] anchorVColumn];
+    return [[self iconTable] anchorVColumn];
 }
 
 -(NSDecimalNumber *) anchorV{

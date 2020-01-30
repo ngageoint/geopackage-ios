@@ -23,6 +23,11 @@
 @property (nonatomic, strong) GPKGTileTable *tileTable;
 
 /**
+ *  Tile Columns
+ */
+@property (nonatomic, strong) GPKGTileColumns *tileColumns;
+
+/**
  *  Initialize
  *
  *  @param table       tile table
@@ -31,7 +36,7 @@
  *
  *  @return new tile row
  */
--(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
+-(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGTileColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize

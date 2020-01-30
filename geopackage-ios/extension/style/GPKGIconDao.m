@@ -11,7 +11,7 @@
 @implementation GPKGIconDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [self initWithDao:dao andTable:[[GPKGIconTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGIconTable alloc] initWithTable:[dao userCustomTable]]];
     return self;
 }
 
@@ -19,8 +19,8 @@
     return [self newRow];
 }
 
--(GPKGIconTable *) table{
-    return (GPKGIconTable *)[super table];
+-(GPKGIconTable *) iconTable{
+    return (GPKGIconTable *)[super mediaTable];
 }
 
 -(GPKGIconRow *) row: (GPKGResultSet *) results{
@@ -28,11 +28,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGIconRow alloc] initWithIconTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGIconRow alloc] initWithIconTable:[self iconTable] andColumns:columns andValues:values];
 }
 
 -(GPKGIconRow *) newRow{
-    return [[GPKGIconRow alloc] initWithIconTable:[self table]];
+    return [[GPKGIconRow alloc] initWithIconTable:[self iconTable]];
 }
 
 -(NSArray<GPKGIconRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{

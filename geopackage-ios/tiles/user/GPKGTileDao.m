@@ -104,7 +104,7 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGTileRow alloc] initWithTileTable:[self tileTable] andColumns:columns andValues:values];
+    return [[GPKGTileRow alloc] initWithTileTable:[self tileTable] andColumns:(GPKGTileColumns *) columns andValues:values];
 }
 
 -(GPKGTileRow *) newRow{

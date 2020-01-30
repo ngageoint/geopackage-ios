@@ -23,7 +23,7 @@
  *
  *  @return new user custom row
  */
--(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
+-(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumns: (GPKGUserCustomColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize
@@ -49,6 +49,13 @@
  *
  *  @return user custom table
  */
--(GPKGUserCustomTable *) table;
+-(GPKGUserCustomTable *) userCustomTable;
+
+/**
+ *  Get the user custom columns
+ *
+ *  @return user custom columns
+ */
+-(GPKGUserCustomColumns *) userCustomColumns;
 
 @end

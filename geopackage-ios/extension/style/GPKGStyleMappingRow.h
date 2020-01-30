@@ -39,7 +39,7 @@
  *
  *  @return style mapping table
  */
--(GPKGStyleMappingTable *) table;
+-(GPKGStyleMappingTable *) styleMappingTable;
 
 /**
  * Get the geometry type name column index

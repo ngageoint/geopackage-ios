@@ -17,7 +17,7 @@
 }
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    return [self initWithDatabase:dao.database andTable:[dao table]];
+    return [self initWithDatabase:dao.database andTable:[dao userCustomTable]];
 }
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao andTable: (GPKGUserCustomTable *) table{
@@ -28,7 +28,7 @@
     return [self newRow];
 }
 
--(GPKGUserCustomTable *) table{
+-(GPKGUserCustomTable *) userCustomTable{
     return (GPKGUserCustomTable *) super.table;
 }
 
@@ -41,7 +41,7 @@
 }
 
 -(GPKGUserCustomRow *) newRow{
-    return [[GPKGUserCustomRow alloc] initWithUserCustomTable:[self table]];
+    return [[GPKGUserCustomRow alloc] initWithUserCustomTable:[self userCustomTable]];
 }
 
 -(int) countOfResultSet: (GPKGResultSet *) resultSet{

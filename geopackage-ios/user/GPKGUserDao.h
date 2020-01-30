@@ -19,12 +19,12 @@
 /**
  *  User table
  */
-@property (nonatomic, strong) GPKGUserTable * table;
+@property (nonatomic, strong) GPKGUserTable *table;
 
 /**
  *  Projection
  */
-@property (nonatomic, strong) SFPProjection * projection;
+@property (nonatomic, strong) SFPProjection *projection;
 
 /**
  *  Initialize

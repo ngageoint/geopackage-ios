@@ -40,7 +40,7 @@
  *
  *  @return media table
  */
--(GPKGMediaTable *) table;
+-(GPKGMediaTable *) mediaTable;
 
 /**
  * Get the data column index

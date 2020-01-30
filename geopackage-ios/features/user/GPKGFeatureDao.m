@@ -44,7 +44,7 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGFeatureRow alloc] initWithFeatureTable:[self featureTable] andColumns:columns andValues:values];
+    return [[GPKGFeatureRow alloc] initWithFeatureTable:[self featureTable] andColumns:(GPKGFeatureColumns *) columns andValues:values];
 }
 
 -(GPKGFeatureRow *) newRow{

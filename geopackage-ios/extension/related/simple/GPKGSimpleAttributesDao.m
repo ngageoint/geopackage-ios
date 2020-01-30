@@ -11,7 +11,7 @@
 @implementation GPKGSimpleAttributesDao
 
 -(instancetype) initWithDao: (GPKGUserCustomDao *) dao{
-    self = [self initWithDao:dao andTable:[[GPKGSimpleAttributesTable alloc] initWithTable:[dao table]]];
+    self = [self initWithDao:dao andTable:[[GPKGSimpleAttributesTable alloc] initWithTable:[dao userCustomTable]]];
     return self;
 }
 
@@ -24,8 +24,8 @@
     return [self newRow];
 }
 
--(GPKGSimpleAttributesTable *) table{
-    return (GPKGSimpleAttributesTable *)[super table];
+-(GPKGSimpleAttributesTable *) simpleAttributesTable{
+    return (GPKGSimpleAttributesTable *)[super userCustomTable];
 }
 
 -(GPKGSimpleAttributesRow *) row: (GPKGResultSet *) results{
@@ -33,11 +33,11 @@
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self table] andColumns:columns andValues:values];
+    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self simpleAttributesTable] andColumns:columns andValues:values];
 }
 
 -(GPKGSimpleAttributesRow *) newRow{
-    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self table]];
+    return [[GPKGSimpleAttributesRow alloc] initWithSimpleAttributesTable:[self simpleAttributesTable]];
 }
 
 -(NSArray<GPKGSimpleAttributesRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{

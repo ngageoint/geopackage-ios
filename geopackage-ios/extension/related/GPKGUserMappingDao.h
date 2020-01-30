@@ -39,7 +39,7 @@
  *
  *  @return user mapping table
  */
--(GPKGUserMappingTable *) table;
+-(GPKGUserMappingTable *) userMappingTable;
 
 /**
  *  Get the user mapping row for the current result in the result set

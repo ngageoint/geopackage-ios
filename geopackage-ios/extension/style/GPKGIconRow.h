@@ -44,7 +44,7 @@
  *
  *  @return icon table
  */
--(GPKGIconTable *) table;
+-(GPKGIconTable *) iconTable;
 
 /**
  * Get the name column index

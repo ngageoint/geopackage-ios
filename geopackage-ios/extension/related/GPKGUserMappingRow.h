@@ -39,7 +39,7 @@
  *
  *  @return user mapping table
  */
--(GPKGUserMappingTable *) table;
+-(GPKGUserMappingTable *) userMappingTable;
 
 /**
  *  Get the base ID column index

@@ -10,10 +10,11 @@
 
 @implementation GPKGFeatureRow
 
--(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+-(instancetype) initWithFeatureTable: (GPKGFeatureTable *) table andColumns: (GPKGFeatureColumns *) columns andValues: (NSMutableArray *) values{
     self = [super initWithTable:table andColumns:columns andValues:values];
     if(self != nil){
         self.featureTable = table;
+        self.featureColumns = columns;
     }
     return self;
 }
@@ -22,16 +23,21 @@
     self = [super initWithTable:table];
     if(self != nil){
         self.featureTable = table;
+        self.featureColumns = [table featureColumns];
     }
     return self;
 }
 
 -(int) geometryColumnIndex{
-    return [self.featureTable geometryColumnIndex];
+    return [self.featureColumns geometryIndex];
 }
 
 -(GPKGFeatureColumn *) geometryColumn{
-    return [self.featureTable geometryColumn];
+    return [self.featureColumns geometryColumn];
+}
+
+-(NSString *) geometryColumnName{
+    return [self.featureColumns geometryColumnName];
 }
 
 -(void) setValueWithIndex:(int)index andValue:(NSObject *)value{
@@ -44,7 +50,7 @@
 
 -(GPKGGeometryData *) geometry{
     GPKGGeometryData * geometryData = nil;
-    NSObject * value = [self valueWithIndex:[self.featureTable geometryColumnIndex]];
+    NSObject * value = [self valueWithIndex:[self.featureColumns geometryIndex]];
     if(value != nil){
         geometryData = (GPKGGeometryData *) value;
     }
@@ -52,7 +58,7 @@
 }
 
 -(void) setGeometry: (GPKGGeometryData *) geometryData{
-    [self setValueWithIndex:[self.featureTable geometryColumnIndex] andValue:geometryData];
+    [self setValueWithIndex:[self geometryColumnIndex] andValue:geometryData];
 }
 
 -(SFGeometry *) geometryValue{
@@ -147,6 +153,7 @@
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGFeatureRow *featureRow = [super mutableCopyWithZone:zone];
     featureRow.featureTable = _featureTable;
+    featureRow.featureColumns = _featureColumns;
     return featureRow;
 }
 

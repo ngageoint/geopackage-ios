@@ -30,7 +30,7 @@
  *
  *  @return icon table
  */
--(GPKGIconTable *) table;
+-(GPKGIconTable *) iconTable;
 
 /**
  *  Get the icon row for the current result in the result set

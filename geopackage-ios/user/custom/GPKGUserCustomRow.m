@@ -10,7 +10,7 @@
 
 @implementation GPKGUserCustomRow
 
--(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+-(instancetype) initWithUserCustomTable: (GPKGUserCustomTable *) table andColumns: (GPKGUserCustomColumns *) columns andValues: (NSMutableArray *) values{
     self = [super initWithTable:table andColumns:columns andValues:values];
     return self;
 }
@@ -25,8 +25,12 @@
     return self;
 }
 
--(GPKGUserCustomTable *) table{
+-(GPKGUserCustomTable *) userCustomTable{
     return (GPKGUserCustomTable *) super.table;
+}
+
+-(GPKGUserCustomColumns *) userCustomColumns{
+    return (GPKGUserCustomColumns *) super.columns;
 }
 
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{

@@ -20,8 +20,8 @@
     return self;
 }
 
--(GPKGSimpleAttributesTable *) table{
-    return (GPKGSimpleAttributesTable *) [super table];
+-(GPKGSimpleAttributesTable *) simpleAttributesTable{
+    return (GPKGSimpleAttributesTable *) [super userCustomTable];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

@@ -20,7 +20,7 @@
 @implementation GPKGRTreeIndexTableDao
 
 -(instancetype) initWithExtension: (GPKGRTreeIndexExtension *) rTree andDao: (GPKGUserCustomDao *) dao andFeatureDao: (GPKGFeatureDao *) featureDao{
-    self = [super initWithDao:dao andTable:[dao table]];
+    self = [super initWithDao:dao andTable:[dao userCustomTable]];
     if(self != nil){
         self.rTree = rTree;
         self.featureDao = featureDao;

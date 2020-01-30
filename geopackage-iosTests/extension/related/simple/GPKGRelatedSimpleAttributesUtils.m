@@ -108,7 +108,7 @@
     // Validate the simple attributes DAO
     GPKGSimpleAttributesDao *simpleDao = [rte simpleAttributesDaoForTable:simpleTable];
     [GPKGTestUtils assertNotNil:simpleDao];
-    simpleTable = [simpleDao table];
+    simpleTable = [simpleDao simpleAttributesTable];
     [GPKGTestUtils assertNotNil:simpleTable];
     [self validateContents:simpleTable.contents withTable:simpleTable];
     
@@ -163,7 +163,7 @@
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:[dao count]];
     
     // Validate the user mapping rows
-    userMappingTable = [dao table];
+    userMappingTable = [dao userMappingTable];
     NSArray<NSString *> *mappingColumns = userMappingTable.columnNames;
     GPKGResultSet *resultSet = [dao queryForAll];
     int count = resultSet.count;
@@ -227,7 +227,7 @@
         // Get and test the simple attributes DAO
         simpleDao = [rte simpleAttributesDaoForRelation:attributesRelation];
         [GPKGTestUtils assertNotNil:simpleDao];
-        simpleTable = [simpleDao table];
+        simpleTable = [simpleDao simpleAttributesTable];
         [GPKGTestUtils assertNotNil:simpleTable];
         [self validateContents:simpleTable.contents withTable:simpleTable];
         

@@ -20,16 +20,16 @@
     return self;
 }
 
--(GPKGStyleMappingTable *) table{
-    return (GPKGStyleMappingTable *) [super table];
+-(GPKGStyleMappingTable *) styleMappingTable{
+    return (GPKGStyleMappingTable *) [super userMappingTable];
 }
 
 -(int) geometryTypeNameColumnIndex{
-    return [[self table] geometryTypeNameColumnIndex];
+    return [[self styleMappingTable] geometryTypeNameColumnIndex];
 }
 
 -(GPKGUserCustomColumn *) geometryTypeNameColumn{
-    return [[self table] geometryTypeNameColumn];
+    return [[self styleMappingTable] geometryTypeNameColumn];
 }
 
 -(NSString *) geometryTypeName{

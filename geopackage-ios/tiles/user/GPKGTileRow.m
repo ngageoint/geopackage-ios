@@ -11,10 +11,11 @@
 
 @implementation GPKGTileRow
 
--(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
+-(instancetype) initWithTileTable: (GPKGTileTable *) table andColumns: (GPKGTileColumns *) columns andValues: (NSMutableArray *) values{
     self = [super initWithTable:table andColumns:columns andValues:values];
     if(self != nil){
         self.tileTable = table;
+        self.tileColumns = columns;
     }
     return self;
 }
@@ -23,6 +24,7 @@
     self = [super initWithTable:table];
     if(self != nil){
         self.tileTable = table;
+        self.tileColumns = [table tileColumns];
     }
     return self;
 }
@@ -36,11 +38,11 @@
 }
 
 -(int) zoomLevelColumnIndex{
-    return _tileTable.zoomLevelIndex;
+    return _tileColumns.zoomLevelIndex;
 }
 
 -(GPKGTileColumn *) zoomLevelColumn{
-    return [self.tileTable zoomLevelColumn];
+    return [self.tileColumns zoomLevelColumn];
 }
 
 -(int) zoomLevel{
@@ -52,11 +54,11 @@
 }
 
 -(int) tileColumnColumnIndex{
-    return _tileTable.tileColumnIndex;
+    return _tileColumns.tileColumnIndex;
 }
 
 -(GPKGTileColumn *) tileColumnColumn{
-    return [self.tileTable tileColumnColumn];
+    return [self.tileColumns tileColumnColumn];
 }
 
 -(int) tileColumn{
@@ -68,11 +70,11 @@
 }
 
 -(int) tileRowColumnIndex{
-    return _tileTable.tileRowIndex;
+    return _tileColumns.tileRowIndex;
 }
 
 -(GPKGTileColumn *) tileRowColumn{
-    return [self.tileTable tileRowColumn];
+    return [self.tileColumns tileRowColumn];
 }
 
 -(int) tileRow{
@@ -84,11 +86,11 @@
 }
 
 -(int) tileDataColumnIndex{
-    return _tileTable.tileDataIndex;
+    return _tileColumns.tileDataIndex;
 }
 
 -(GPKGTileColumn *) tileDataColumn{
-    return [self.tileTable tileDataColumn];
+    return [self.tileColumns tileDataColumn];
 }
 
 -(NSData *) tileData{
@@ -118,6 +120,7 @@
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGTileRow *tileRow = [super mutableCopyWithZone:zone];
     tileRow.tileTable = _tileTable;
+    tileRow.tileColumns = _tileColumns;
     return tileRow;
 }
 

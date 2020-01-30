@@ -26,7 +26,7 @@
  *
  *  @return new style row
  */
--(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values;
+-(instancetype) initWithStyleTable: (GPKGStyleTable *) table andColumns: (GPKGAttributesColumns *) columns andValues: (NSMutableArray *) values;
 
 /**
  *  Initialize
@@ -42,7 +42,7 @@
  *
  *  @return style table
  */
--(GPKGStyleTable *) table;
+-(GPKGStyleTable *) styleTable;
 
 /**
  * Get the name column index

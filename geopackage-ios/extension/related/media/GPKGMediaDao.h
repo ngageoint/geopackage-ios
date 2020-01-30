@@ -39,7 +39,7 @@
  *
  *  @return media table
  */
--(GPKGMediaTable *) table;
+-(GPKGMediaTable *) mediaTable;
 
 /**
  *  Get the media row for the current result in the result set
