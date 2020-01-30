@@ -25,11 +25,11 @@
 }
 
 -(int) baseIdColumnIndex{
-    return [[self userMappingTable] baseIdColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
 }
 
 -(GPKGUserCustomColumn *) baseIdColumn{
-    return [[self userMappingTable] baseIdColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_UMT_COLUMN_BASE_ID];
 }
 
 -(int) baseId{
@@ -41,11 +41,11 @@
 }
 
 -(int) relatedIdColumnIndex{
-    return [[self userMappingTable] relatedIdColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
 }
 
 -(GPKGUserCustomColumn *) relatedIdColumn{
-    return [[self userMappingTable] relatedIdColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_UMT_COLUMN_RELATED_ID];
 }
 
 -(int) relatedId{
