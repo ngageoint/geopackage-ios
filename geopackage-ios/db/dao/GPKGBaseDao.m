@@ -78,7 +78,7 @@
     return [self.database tableExists:self.tableName];
 }
 
--(NSString *) idColumn{
+-(NSString *) idColumnName{
     return [GPKGUtils objectAtIndex:0 inArray:self.idColumns];
 }
 
@@ -480,7 +480,7 @@
 }
 
 -(NSString *) queryIdsSQLWhere: (NSString *) where{
-    return [self querySQLWithColumns:[NSArray arrayWithObject:[self idColumn]] andWhere:where];
+    return [self querySQLWithColumns:[NSArray arrayWithObject:[self idColumnName]] andWhere:where];
 }
 
 -(NSString *) queryMultiIdsSQLWhere: (NSString *) where{
@@ -540,7 +540,7 @@
 }
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
@@ -745,7 +745,7 @@
 }
 
 -(NSObject *) id: (NSObject *) object{
-    return [self valueFromObject:object withColumnName:[self idColumn]];
+    return [self valueFromObject:object withColumnName:[self idColumnName]];
 }
 
 -(NSArray *) multiId: (NSObject *) object{
@@ -758,7 +758,7 @@
 }
 
 -(void) setId: (NSObject *) object withIdValue: (NSObject *) id{
-    [self setValueInObject:object withColumnName:[self idColumn] withValue:id];
+    [self setValueInObject:object withColumnName:[self idColumnName] withValue:id];
 }
 
 -(void) setMultiId: (NSObject *) object withIdValues: (NSArray *) idValues{
@@ -777,7 +777,7 @@
 }
 
 -(NSString *) buildPkWhereWithValue: (NSObject *) idValue{
-    return [self buildWhereWithField:[self idColumn] andValue:idValue];
+    return [self buildWhereWithField:[self idColumnName] andValue:idValue];
 }
 
 -(NSArray *) buildPkWhereArgsWithValue: (NSObject *) idValue{
@@ -945,7 +945,7 @@
 
 -(NSString *) buildWhereInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
     
-    NSString *nestedWhere = [NSString stringWithFormat:@"%@ IN (%@)", [GPKGSqlUtils quoteWrapName:[self idColumn]], nestedSQL];
+    NSString *nestedWhere = [NSString stringWithFormat:@"%@ IN (%@)", [GPKGSqlUtils quoteWrapName:[self idColumnName]], nestedSQL];
     
     NSString *whereClause = nil;
     if(where == nil){

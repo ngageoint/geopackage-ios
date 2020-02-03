@@ -59,6 +59,18 @@
     return [self.geometryColumns geometryType];
 }
 
+-(GPKGFeatureColumn *) idColumn{
+    return (GPKGFeatureColumn *) [[self featureTable] pkColumn];
+}
+
+-(NSString *) idColumnName{
+    return [[self featureTable] pkColumnName];
+}
+
+-(NSArray<NSString *> *) idAndGeometryColumnNames{
+    return [[self featureTable] idAndGeometryColumnNames];
+}
+
 -(GPKGGeometryColumnsDao *) geometryColumnsDao{
     return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
 }

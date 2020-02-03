@@ -76,4 +76,25 @@
  */
 -(enum SFGeometryType) geometryType;
 
+/**
+ * Get the Id Column
+ *
+ * @return id column
+ */
+-(GPKGFeatureColumn *) idColumn;
+
+/**
+ * Get the Id Column name
+ *
+ * @return id column name
+ */
+-(NSString *) idColumnName;
+
+/**
+ * Get the Id and Geometry Column names
+ *
+ * @return column names
+ */
+-(NSArray<NSString *> *) idAndGeometryColumnNames;
+
 @end

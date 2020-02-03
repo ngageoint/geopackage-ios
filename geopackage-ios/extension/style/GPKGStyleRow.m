@@ -34,11 +34,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) nameColumnIndex{
-    return [[self styleTable] nameColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_NAME];
 }
 
 -(GPKGAttributesColumn *) nameColumn{
-    return [[self styleTable] nameColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_NAME];
 }
 
 -(NSString *) name{
@@ -50,11 +50,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) descriptionColumnIndex{
-    return [[self styleTable] descriptionColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
 }
 
 -(GPKGAttributesColumn *) descriptionColumn{
-    return [[self styleTable] descriptionColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_DESCRIPTION];
 }
 
 -(NSString *) description{
@@ -66,11 +66,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) colorColumnIndex{
-    return [[self styleTable] colorColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_COLOR];
 }
 
 -(GPKGAttributesColumn *) colorColumn{
-    return [[self styleTable] colorColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_COLOR];
 }
 
 -(GPKGColor *) color{
@@ -118,11 +118,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) opacityColumnIndex{
-    return [[self styleTable] opacityColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_OPACITY];
 }
 
 -(GPKGAttributesColumn *) opacityColumn{
-    return [[self styleTable] opacityColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_OPACITY];
 }
 
 -(NSDecimalNumber *) opacity{
@@ -148,11 +148,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) widthColumnIndex{
-    return [[self styleTable] widthColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_WIDTH];
 }
 
 -(GPKGAttributesColumn *) widthColumn{
-    return [[self styleTable] widthColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_WIDTH];
 }
 
 -(NSDecimalNumber *) width{
@@ -180,11 +180,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) fillColorColumnIndex{
-    return [[self styleTable] fillColorColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
 }
 
 -(GPKGAttributesColumn *) fillColorColumn{
-    return [[self styleTable] fillColorColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
 }
 
 -(GPKGColor *) fillColor{
@@ -216,11 +216,11 @@ static NSRegularExpression *colorExpression = nil;
 }
 
 -(int) fillOpacityColumnIndex{
-    return [[self styleTable] fillOpacityColumnIndex];
+    return [[self attributesColumns] columnIndexWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
 }
 
 -(GPKGAttributesColumn *) fillOpacityColumn{
-    return [[self styleTable] fillOpacityColumn];
+    return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_FILL_OPACITY];
 }
 
 -(NSDecimalNumber *) fillOpacity{

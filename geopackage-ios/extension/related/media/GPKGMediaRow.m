@@ -26,11 +26,11 @@
 }
 
 -(int) dataColumnIndex{
-    return [[self mediaTable] dataColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_RMT_COLUMN_DATA];
 }
 
 -(GPKGUserCustomColumn *) dataColumn{
-    return [[self mediaTable] dataColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_RMT_COLUMN_DATA];
 }
 
 -(NSData *) data{
@@ -65,11 +65,11 @@
 }
 
 -(int) contentTypeColumnIndex{
-    return [[self mediaTable] contentTypeColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
 }
 
 -(GPKGUserCustomColumn *) contentTypeColumn{
-    return [[self mediaTable] contentTypeColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_RMT_COLUMN_CONTENT_TYPE];
 }
 
 -(NSString *) contentType{

@@ -90,11 +90,11 @@
 -(BOOL) tableExists;
 
 /**
- *  Get a single or first id column
+ *  Get a single or first id column name
  *
- *  @return id column
+ *  @return id column name
  */
--(NSString *) idColumn;
+-(NSString *) idColumnName;
 
 /**
  *  Get the projection of the object

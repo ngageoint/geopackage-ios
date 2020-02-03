@@ -30,11 +30,11 @@
 }
 
 -(int) nameColumnIndex{
-    return [[self iconTable] nameColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_NAME];
 }
 
 -(GPKGUserCustomColumn *) nameColumn{
-    return [[self iconTable] nameColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_NAME];
 }
 
 -(NSString *) name{
@@ -46,11 +46,11 @@
 }
 
 -(int) descriptionColumnIndex{
-    return [[self iconTable] descriptionColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
 }
 
 -(GPKGUserCustomColumn *) descriptionColumn{
-    return [[self iconTable] descriptionColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_DESCRIPTION];
 }
 
 -(NSString *) description{
@@ -62,11 +62,11 @@
 }
 
 -(int) widthColumnIndex{
-    return [[self iconTable] widthColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_WIDTH];
 }
 
 -(GPKGUserCustomColumn *) widthColumn{
-    return [[self iconTable] widthColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_WIDTH];
 }
 
 -(NSDecimalNumber *) width{
@@ -99,11 +99,11 @@
 }
 
 -(int) heightColumnIndex{
-    return [[self iconTable] heightColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_HEIGHT];
 }
 
 -(GPKGUserCustomColumn *) heightColumn{
-    return [[self iconTable] heightColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_HEIGHT];
 }
 
 -(NSDecimalNumber *) height{
@@ -182,11 +182,11 @@
 }
 
 -(int) anchorUColumnIndex{
-    return [[self iconTable] anchorUColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
 }
 
 -(GPKGUserCustomColumn *) anchorUColumn{
-    return [[self iconTable] anchorUColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_ANCHOR_U];
 }
 
 -(NSDecimalNumber *) anchorU{
@@ -212,11 +212,11 @@
 }
 
 -(int) anchorVColumnIndex{
-    return [[self iconTable] anchorVColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
 }
 
 -(GPKGUserCustomColumn *) anchorVColumn{
-    return [[self iconTable] anchorVColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_IT_COLUMN_ANCHOR_V];
 }
 
 -(NSDecimalNumber *) anchorV{

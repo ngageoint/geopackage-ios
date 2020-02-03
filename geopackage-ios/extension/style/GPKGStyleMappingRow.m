@@ -25,11 +25,11 @@
 }
 
 -(int) geometryTypeNameColumnIndex{
-    return [[self styleMappingTable] geometryTypeNameColumnIndex];
+    return [[self userCustomColumns] columnIndexWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
 }
 
 -(GPKGUserCustomColumn *) geometryTypeNameColumn{
-    return [[self styleMappingTable] geometryTypeNameColumn];
+    return (GPKGUserCustomColumn *)[[self userCustomColumns] columnWithColumnName:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME];
 }
 
 -(NSString *) geometryTypeName{
