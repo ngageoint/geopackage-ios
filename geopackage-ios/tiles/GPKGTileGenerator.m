@@ -31,9 +31,10 @@
         self.compressFormat = GPKG_CF_NONE;
         self.compressQuality = 1.0;
         self.compressScale = 1.0;
-        self.xyzTiles = false;
+        self.xyzTiles = NO;
         self.matrixHeight = 0;
         self.matrixWidth = 0;
+        self.skipExisting = NO;
     }
     return self;
 }
@@ -396,96 +397,132 @@
     NSNumber * tileWidth = nil;
     NSNumber * tileHeight = nil;
     
+    NSMutableDictionary<NSNumber *, NSMutableSet<NSNumber *> *> *existingTiles = nil;
+    if(update && self.skipExisting){
+        existingTiles = [NSMutableDictionary dictionary];
+        GPKGResultSet *tileResultSet = [tileDao queryforTileWithZoomLevel:zoomLevel];
+        @try {
+            while([tileResultSet moveToNext]){
+                NSNumber *column = (NSNumber *)[tileResultSet valueWithColumnName:GPKG_TC_COLUMN_TILE_COLUMN];
+                NSNumber *row = (NSNumber *)[tileResultSet valueWithColumnName:GPKG_TC_COLUMN_TILE_ROW];
+                NSMutableSet<NSNumber *> *columnRows = [existingTiles objectForKey:column];
+                if(columnRows == nil){
+                    columnRows = [NSMutableSet set];
+                    [existingTiles setObject:columnRows forKey:column];
+                }
+                [columnRows addObject:row];
+            }
+        } @finally {
+            [tileResultSet close];
+        }
+        if(existingTiles.count == 0){
+            existingTiles = nil;
+        }
+    }
+    
     // Create the tile and each coordinate
     for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
-        
+
         // Check if the progress has been cancelled
         if (self.progress != nil && ![self.progress isActive]) {
             break;
         }
-        
-         for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
-             
-             // Check if the progress has been cancelled
-             if (self.progress != nil && ![self.progress isActive]) {
-                 break;
-             }
-             
-             // Autorelease to reduce memory footprint
-             @autoreleasepool {
-             
-                 @try {
-                     
-                     // Create the tile
-                     NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
-                     
-                     if(tileData != nil){
-                     
-                         UIImage * image = nil;
-                         
-                         // Compress the image
-                         if(self.compressFormat != GPKG_CF_NONE){
-                             image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
-                             if(image != nil){
-                                 tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat andQuality:self.compressQuality];
-                             }
-                         }
-                         
-                         // Create a new tile row
-                         GPKGTileRow * newRow = [tileDao newRow];
-                         [newRow setZoomLevel:zoomLevel];
-                         
-                         int tileColumn = x;
-                         int tileRow = y;
-                         
-                         // Update the column and row to the local tile grid location
-                         if (localTileGrid != nil) {
-                             tileColumn = (x - tileGrid.minX) + localTileGrid.minX;
-                             tileRow = (y - tileGrid.minY) + localTileGrid.minY;
-                         }
-                         
-                         // If an update, delete an existing row
-                         if(update){
-                             [tileDao deleteTileWithColumn:tileColumn andRow:tileRow andZoomLevel:zoomLevel];
-                         }
-                         
-                         [newRow setTileColumn:tileColumn];
-                         [newRow setTileRow:tileRow];
-                         [newRow setTileData:tileData];
-                         [tileDao create:newRow];
-                         
-                         count++;
-                         
-                         // Determine the tile width and height
-                         if (tileWidth == nil) {
-                             if (image == nil) {
-                                 image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
-                             }
-                             if (image != nil) {
-                                 tileWidth = [NSNumber numberWithInt:image.size.width];
-                                 tileHeight = [NSNumber numberWithInt:image.size.height];
-                             }
-                         }
-                     }
-                 }
-                 @catch (NSException *exception) {
-                     // Skip this tile, don't increase count
-                 }
-                 
-             }
-             
-             // Update the progress count, even on failures
-             if (self.progress != nil) {
-                 [self.progress addProgress:1];
-             }
-         }
+
+        int tileColumn = x;
+        // Update the column to the local tile grid location
+        if (localTileGrid != nil) {
+            tileColumn = (x - tileGrid.minX) + localTileGrid.minX;
+        }
+
+        NSMutableSet<NSNumber *> *existingColumnRows = nil;
+        if (existingTiles != nil) {
+            existingColumnRows = [existingTiles objectForKey:[NSNumber numberWithInt:tileColumn]];
+        }
+
+        for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
+
+            // Check if the progress has been cancelled
+            if (self.progress != nil && ![self.progress isActive]) {
+                break;
+            }
+
+            int tileRow = y;
+            // Update the row to the local tile grid location
+            if (localTileGrid != nil) {
+                tileRow = (y - tileGrid.minY) + localTileGrid.minY;
+            }
+
+            BOOL createTile = YES;
+            if (existingColumnRows != nil) {
+                createTile = ![existingColumnRows containsObject:[NSNumber numberWithInt:tileRow]];
+            }
+
+            if (createTile) {
+                @try {
+
+                    // Create the tile
+                    NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
+                    
+                    if(tileData != nil){
+
+                        UIImage * image = nil;
+                        
+                        // Compress the image
+                        if(self.compressFormat != GPKG_CF_NONE){
+                            image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
+                            if(image != nil){
+                                tileData = [GPKGImageConverter toData:image andFormat:self.compressFormat andQuality:self.compressQuality];
+                            }
+                        }
+
+                        // Create a new tile row
+                        GPKGTileRow * newRow = [tileDao newRow];
+                        [newRow setZoomLevel:zoomLevel];
+                        
+                        // If an update, delete an existing row
+                        if(update){
+                            [tileDao deleteTileWithColumn:tileColumn andRow:tileRow andZoomLevel:zoomLevel];
+                        }
+                        
+                        [newRow setTileColumn:tileColumn];
+                        [newRow setTileRow:tileRow];
+                        [newRow setTileData:tileData];
+                        [tileDao create:newRow];
+                        
+                        count++;
+
+                        // Determine the tile width and height
+                        if (tileWidth == nil) {
+                            if (image == nil) {
+                                image = [GPKGImageConverter toImage:tileData withScale:self.compressScale];
+                            }
+                            if (image != nil) {
+                                tileWidth = [NSNumber numberWithInt:image.size.width];
+                                tileHeight = [NSNumber numberWithInt:image.size.height];
+                            }
+                        }
+                    }
+                } @catch (NSException *exception) {
+                    NSLog(@"Failed to create tile. Zoom: %d, x: %d, y: %d, error: %@", zoomLevel, x, y, exception);
+                    // Skip this tile, don't increase count
+                }
+            }
+
+            // Update the progress count, even on failures
+            if (self.progress != nil) {
+                [self.progress addProgress:1];
+            }
+
+        }
+
     }
     
-    NSNumber * zoomLevelArg  = [NSNumber numberWithInt:zoomLevel];
+    NSNumber *zoomLevelArg  = [NSNumber numberWithInt:zoomLevel];
     
     // If none of the tiles were translated into a bitmap with dimensions,
     // delete them
-    if(tileWidth == nil || tileHeight == nil){
+    if((tileWidth == nil || tileHeight == nil)
+            && existingTiles == nil) {
         count = 0;
         
         NSNumber * minXArg  = [NSNumber numberWithInt:tileGrid.minX];

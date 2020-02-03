@@ -109,6 +109,11 @@
 @property (nonatomic, strong) GPKGTileScaling *scaling;
 
 /**
+ * Skip existing tiles
+ */
+@property (nonatomic) BOOL skipExisting;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage
