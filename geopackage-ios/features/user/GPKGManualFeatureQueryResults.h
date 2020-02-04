@@ -25,11 +25,29 @@
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andIds: (NSArray<NSNumber *> *) featureIds;
 
 /**
+ *  Initialize
+ *
+ *  @param featureDao feature dao
+ *  @param columns        columns
+ *  @param featureIds feature ids
+ *
+ *  @return feature index results
+ */
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andColumns: (NSArray<NSString *> *) columns andIds: (NSArray<NSNumber *> *) featureIds;
+
+/**
  * Get the feature DAO
  *
  * @return feature DAO
  */
 -(GPKGFeatureDao *) featureDao;
+
+/**
+ * Get the feature columns
+ *
+ * @return columns
+ */
+-(NSArray<NSString *> *) columns;
 
 /**
  * Get the feature ids

@@ -103,7 +103,11 @@
 }
 
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
-    GPKGResultSet *results = [self queryForId:idValue];
+    return [self queryWithColumns:self.columnNames forIdObject:idValue];
+}
+
+-(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forIdObject: (NSObject *) idValue{
+    GPKGResultSet *results = [self queryWithColumns:columns forId:idValue];
     NSObject * objectResult = [self firstObject:results];
     return objectResult;
 }
@@ -120,8 +124,11 @@
 }
 
 -(NSObject *) queryForMultiIdObject: (NSArray *) idValues{
-    
-    GPKGResultSet *results = [self queryForMultiId:idValues];
+    return [self queryWithColumns:self.columnNames forMultiIdObject:idValues];
+}
+
+-(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forMultiIdObject: (NSArray *) idValues{
+    GPKGResultSet *results = [self queryWithColumns:columns forMultiId:idValues];
     NSObject * objectResult = [self firstObject:results];
     return objectResult;
 }

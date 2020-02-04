@@ -38,14 +38,17 @@
     return [[GPKGUserRow alloc] init];
 }
 
--(NSString *) idColumn{
+-(NSString *) idColumnName{
     return [self.table pkColumnName];
 }
 
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
-    
+    return [self queryWithColumns:self.columnNames forIdObject:idValue];
+}
+
+-(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forIdObject: (NSObject *) idValue{
     NSObject * objectResult = nil;
-    GPKGResultSet *results = [self queryForId:idValue];
+    GPKGResultSet *results = [self queryWithColumns:columns forId:idValue];
     @try{
         if([results moveToNext]){
             objectResult = [self row:results];

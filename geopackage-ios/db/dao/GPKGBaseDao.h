@@ -139,6 +139,16 @@
 -(NSObject *) queryForIdObject: (NSObject *) idValue;
 
 /**
+ *  Query for id object, first object in the result set
+ *
+ *  @param columns columns
+ *  @param idValue id value
+ *
+ *  @return object
+ */
+-(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forIdObject: (NSObject *) idValue;
+
+/**
  *  Query for a multiple id where more than one primary key exists
  *
  *  @param idValues id values
@@ -165,6 +175,16 @@
  *  @return object
  */
 -(NSObject *) queryForMultiIdObject: (NSArray *) idValues;
+
+/**
+ *  Query for a multiple id object where more than one primary key exists, first object in the result set
+ *
+ *  @param columns columns
+ *  @param idValues id values
+ *
+ *  @return object
+ */
+-(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forMultiIdObject: (NSArray *) idValues;
 
 /**
  * Query for the row with the provided id
