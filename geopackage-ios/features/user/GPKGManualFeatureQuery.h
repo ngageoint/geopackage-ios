@@ -43,6 +43,21 @@
 -(GPKGFeatureDao *) featureDao;
 
 /**
+ * Query for features
+ *
+ * @return feature results
+ */
+-(GPKGResultSet *) query;
+
+/**
+ * Query for features
+ *
+ * @param columns columns
+ * @return feature results
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns;
+
+/**
  * Get the count of features
  *
  * @return count
@@ -55,6 +70,84 @@
  * @return count
  */
 -(int) countWithGeometries;
+
+/**
+ * Query for features
+ *
+ * @param fieldValues field values
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count features
+ *
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param where where clause
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Count features
+ *
+ * @param where where clause
+ * @return count
+ */
+-(int) countWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for features
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Manually build the bounds of the feature table
@@ -82,6 +175,110 @@
 -(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
+ * Manually query for rows within the bounding box
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Manually count the rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually count the rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Manually count the rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually query for rows within the bounding box
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually count the rows within the bounding box
+ *
+ * @param boundingBox bounding box
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  * Manually query for rows within the bounding box in the provided
  * projection
  *
@@ -94,13 +291,15 @@
 -(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
- * Manually count the rows within the bounding box
+ * Manually query for rows within the bounding box in the provided
+ * projection
  *
- * @param boundingBox
- *            bounding box
- * @return count
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @return results
  */
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  * Manually count the rows within the bounding box in the provided
@@ -115,6 +314,111 @@
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually count the rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Manually count the rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually query for rows within the bounding box in the provided
+ * projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually count the rows within the bounding box in the provided
+ * projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       were clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  * Manually query for rows within the geometry envelope
  *
  * @param envelope
@@ -124,6 +428,15 @@
 -(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
  * Manually count the rows within the geometry envelope
  *
  * @param envelope
@@ -131,6 +444,93 @@
  * @return count
  */
 -(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param columns     columns
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually count the rows within the geometry envelope
+ *
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Manually count the rows within the geometry envelope
+ *
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return count
+ */
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually query for rows within the geometry envelope
+ *
+ * @param columns   columns
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually count the rows within the geometry envelope
+ *
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Manually query for rows within the bounds
@@ -148,6 +548,18 @@
 -(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
 
 /**
+ * Manually query for rows within the bounds
+ *
+ * @param columns columns
+ * @param minX    min x
+ * @param minY    min y
+ * @param maxX    max x
+ * @param maxY    max y
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
+
+/**
  * Manually count the rows within the bounds
  *
  * @param minX
@@ -161,5 +573,119 @@
  * @return count
  */
 -(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param minX        min x
+ * @param minY        min y
+ * @param maxX        max x
+ * @param maxY        max y
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param columns     columns
+ * @param minX        min x
+ * @param minY        min y
+ * @param maxX        max x
+ * @param maxY        max y
+ * @param fieldValues field values
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually count the rows within the bounds
+ *
+ * @param minX        min x
+ * @param minY        min y
+ * @param maxX        max x
+ * @param maxY        max y
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param minX  min x
+ * @param minY  min y
+ * @param maxX  max x
+ * @param maxY  max y
+ * @param where where clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param columns columns
+ * @param minX    min x
+ * @param minY    min y
+ * @param maxX    max x
+ * @param maxY    max y
+ * @param where   where clause
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where;
+
+/**
+ * Manually count the rows within the bounds
+ *
+ * @param minX  min x
+ * @param minY  min y
+ * @param maxX  max x
+ * @param maxY  max y
+ * @param where where clause
+ * @return count
+ */
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param minX      min x
+ * @param minY      min y
+ * @param maxX      max x
+ * @param maxY      max y
+ * @param where     where clause
+ * @param whereArgs where args
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually query for rows within the bounds
+ *
+ * @param columns   columns
+ * @param minX      min x
+ * @param minY      min y
+ * @param maxX      max x
+ * @param maxY      max y
+ * @param where     where clause
+ * @param whereArgs where args
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Manually count the rows within the bounds
+ *
+ * @param minX      min x
+ * @param minY      min y
+ * @param maxX      max x
+ * @param maxY      max y
+ * @param where     where clause
+ * @param whereArgs where args
+ * @return count
+ */
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 @end

@@ -30,12 +30,62 @@
     return _featureDao;
 }
 
+-(GPKGResultSet *) query{
+    return [self.featureDao query];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns{
+    return [self.featureDao queryWithColumns:columns];
+}
+
 -(int) count{
     return [self.featureDao count];
 }
 
 -(int) countWithGeometries{
     return [self.featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [self.featureDao geometryColumnName]]];
+}
+
+-(GPKGResultSet *) queryWithFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao countWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryWhere: (NSString *) where{
+    return [self.featureDao queryWhere:where];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self.featureDao queryWithColumns:columns andWhere:where];
+}
+
+-(int) countWhere: (NSString *) where{
+    return [self.featureDao countWhere:where];
+}
+
+-(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao queryWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao countWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGBoundingBox *) boundingBox{
@@ -45,11 +95,13 @@
     int offset = 0;
     BOOL hasResults = YES;
     
+    NSArray<NSString *> *columns = [NSArray arrayWithObject:[self.featureDao geometryColumnName]];
+    
     while (hasResults) {
         
         hasResults = NO;
         
-        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithColumns:columns andLimit:self.chunkLimit andOffset:offset];
         @try {
             while ([resultSet moveToNext]) {
                 hasResults = YES;
@@ -94,13 +146,58 @@
     return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope]];
 }
 
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope]];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope]];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self countWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countWithBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
 -(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
     return [self queryWithBoundingBox:featureBoundingBox];
 }
 
--(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope]];
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
@@ -108,16 +205,144 @@
     return [self countWithBoundingBox:featureBoundingBox];
 }
 
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self queryWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self countWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
 -(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     return [self queryWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue]];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self queryWithColumns:columns andMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue]];
 }
 
 -(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
     return [self countWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue]];
 }
 
--(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andFieldValues:fieldValues];
+}
 
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithColumns:columns andMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andFieldValues:fieldValues];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andFieldValues:fieldValues];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self countWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:columns andMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countWithMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+    return [self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:nil andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+    return [self queryWithColumns:columns andMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:nil andWhereArgs:nil];
+}
+
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
+    return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY] count];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryWithMinX:minX andMinY:minY andMaxX:maxY andMaxY:maxY andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryWithColumns:columns andMinX:minX andMinY:minY andMaxX:maxY andMaxY:maxY andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self countWithMinX:minX andMinY:minY andMaxX:maxY andMaxY:maxY andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where{
+    return [self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where{
+    return [self countWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:[self.featureDao columnNames] andMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    
     NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
     
     int offset = 0;
@@ -128,11 +353,13 @@
     minY -= self.tolerance;
     maxY += self.tolerance;
     
+    NSArray<NSString *> *queryColumns = [self.featureDao idAndGeometryColumnNames];
+    
     while (hasResults) {
         
         hasResults = NO;
         
-        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithLimit:self.chunkLimit andOffset:offset];
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithColumns:queryColumns andWhere:where andWhereArgs:whereArgs andLimit:self.chunkLimit andOffset:offset];
         @try {
             while ([resultSet moveToNext]) {
                 hasResults = YES;
@@ -159,13 +386,13 @@
         offset += self.chunkLimit;
     }
     
-    GPKGManualFeatureQueryResults *results = [[GPKGManualFeatureQueryResults alloc] initWithFeatureDao:self.featureDao andIds:featureIds];
+    GPKGManualFeatureQueryResults *results = [[GPKGManualFeatureQueryResults alloc] initWithFeatureDao:self.featureDao andColumns:columns andIds:featureIds];
     
     return results;
 }
 
--(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY{
-    return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY] count];
+-(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:whereArgs] count];
 }
 
 @end
