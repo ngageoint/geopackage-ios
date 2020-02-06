@@ -191,7 +191,7 @@
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
- * Get the Geometry Metadata for the current place in the cursor
+ * Get the Geometry Metadata for the current place in the result set
  *
  * @param resultSet result set
  * @return geometry metadata
@@ -199,7 +199,15 @@
 -(GPKGGeometryMetadata *) geometryMetadataWithResultSet: (GPKGResultSet *) resultSet;
 
 /**
- * Get the feature row for the current place in the cursor
+* Get the Geometry Id for the current place in the result set
+*
+* @param resultSet result set
+* @return geometry id
+*/
+-(NSNumber *) geometryIdWithResultSet: (GPKGResultSet *) resultSet;
+
+/**
+ * Get the feature row for the current place in the result set
  *
  * @param resultSet result set
  * @return feature row

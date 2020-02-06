@@ -197,8 +197,7 @@
 }
 
 -(GPKGResultSet *) rawQuery: (NSString *) query andArgs: (NSArray *) args{
-    GPKGResultSet *results = [self.database rawQuery:query andArgs:args];
-    return results;
+    return [self.database rawQuery:query andArgs:args];
 }
 
 -(NSArray *) singleColumnResults: (GPKGResultSet *) results{

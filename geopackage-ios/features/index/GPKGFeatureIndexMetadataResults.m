@@ -11,6 +11,7 @@
 @interface GPKGFeatureIndexMetadataResults ()
 
 @property (nonatomic, strong) GPKGFeatureIndexer *featureIndexer;
+@property (nonatomic) BOOL idOnly;
 
 @end
 
@@ -20,6 +21,7 @@
     self = [super initWithResults:results];
     if(self != nil){
         self.featureIndexer = featureIndexer;
+        self.idOnly = [results columnCount] == 1;
     }
     return self;
 }
@@ -29,7 +31,13 @@
 }
 
 -(NSNumber *) featureId{
-    return [self.featureIndexer geometryMetadataWithResultSet:[self results]].id;
+    NSNumber *id = nil;
+    if(self.idOnly){
+        id = [[self results] intWithIndex:0];
+    }else{
+        id = [self.featureIndexer geometryIdWithResultSet:[self results]];
+    }
+    return id;
 }
 
 @end

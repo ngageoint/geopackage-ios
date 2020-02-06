@@ -333,4 +333,445 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  */
 -(NSString *) queryIdsSQLWhere: (NSString *) where;
 
+/**
+ * Query for all Features
+ *
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeatures;
+
+/**
+ * Query for all Features
+ *
+ * @param columns columns
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query for features
+ *
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count features
+ *
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param where where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Count features
+ *
+ * @param where where clause
+ * @return count
+ */
+-(int) countFeaturesWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for features
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Count the Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count the Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Count the Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the bounding box, projected correctly
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature results
+ */
+ -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count the Features within the bounding box, projected correctly
+ *
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @return feature results
+ */
+ -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Count the Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count the Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Count the Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the bounding box in the provided projection
+ *
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count the Features within the bounding box in the provided projection
+ *
+ * @param boundingBox bounding box
+ * @param projection  projection of the provided bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param envelope geometry envelope
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @return feature results
+ */
+ -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Count the Features within the Geometry Envelope
+ *
+ * @param envelope geometry envelope
+ * @return count
+ */
+-(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param columns     columns
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return feature results
+ */
+ -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count the Features within the Geometry Envelope
+ *
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return feature results
+ */
+ -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Count the Features within the Geometry Envelope
+ *
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return count
+ */
+ -(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for Features within the Geometry Envelope
+ *
+ * @param columns   columns
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count the Features within the Geometry Envelope
+ *
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
 @end

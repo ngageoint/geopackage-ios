@@ -78,32 +78,76 @@
     return [self featureRowFromRTreeRow:[self rowFromUserCustomRow:row]];
 }
 
--(GPKGResultSet *) rawQuery:(NSString *)sql andArgs:(NSArray *)selectionArgs{
+-(GPKGResultSet *) rawQuery: (NSString *) query andArgs: (NSArray *) args{
     [self validateRTree];
-    
-    GPKGResultSet *resultSet = [self.database rawQuery:sql andArgs:selectionArgs];
-    
-    return resultSet;
+    return [super rawQuery:query andArgs:args];
 }
 
--(GPKGResultSet *) queryForAll{
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns{
     [self validateRTree];
-    return [super queryForAll];
+    return [super queryWithColumns:columns];
 }
 
--(GPKGResultSet *) queryWhere:(NSString *)where andWhereArgs:(NSArray *)whereArgs{
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     [self validateRTree];
-    return [super queryWhere:where andWhereArgs:whereArgs];
+    return [super queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
 }
 
--(int) count{
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args{
     [self validateRTree];
-    return [super count];
+    return [super countWhere:where andWhereArgs:args];
 }
 
--(int) countWhere:(NSString *)where andWhereArgs:(NSArray *)whereArgs{
+-(GPKGResultSet *) queryFeatures{
     [self validateRTree];
-    return [super countWhere:where andWhereArgs:whereArgs];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL]];
+}
+
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns{
+    [self validateRTree];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL]];
+}
+
+-(GPKGResultSet *) queryFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
+-(int) countFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where{
+    return [self queryFeaturesWhere:where andWhereArgs:nil];
+}
+
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self queryFeaturesWithColumns:columns andWhere:where andWhereArgs:nil];
+}
+
+-(int) countFeaturesWhere: (NSString *) where{
+    return [self countFeaturesWhere:where andWhereArgs:nil];
+}
+
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGBoundingBox *) boundingBox{

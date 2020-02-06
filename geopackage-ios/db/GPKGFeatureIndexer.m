@@ -289,6 +289,10 @@
     return geometryMetadata;
 }
 
+-(NSNumber *) geometryIdWithResultSet: (GPKGResultSet *) resultSet{
+    return [GPKGGeometryMetadataDao idWithResultSet:resultSet];
+}
+
 -(GPKGFeatureRow *) featureRowWithResultSet: (GPKGResultSet *) resultSet{
     GPKGGeometryMetadata * geometryMetadata = [self geometryMetadataWithResultSet:resultSet];
     GPKGFeatureRow * featureRow = [self featureRowWithGeometryMetadata:geometryMetadata];

@@ -446,4 +446,8 @@
     return id;
 }
 
++(NSNumber *) idWithResultSet: (GPKGResultSet *) resultSet{
+    return [resultSet intWithIndex:2];
+}
+
 @end

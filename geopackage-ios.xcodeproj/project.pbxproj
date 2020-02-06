@@ -444,6 +444,8 @@
 		04329BA32056ADEB00F3EBBE /* GPKGTileScalingTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 04329BA12056ADEB00F3EBBE /* GPKGTileScalingTypes.m */; };
 		04329BA62056AE2E00F3EBBE /* GPKGTileTableScaling.h in Headers */ = {isa = PBXBuildFile; fileRef = 04329BA42056AE2E00F3EBBE /* GPKGTileTableScaling.h */; };
 		04329BA72056AE2E00F3EBBE /* GPKGTileTableScaling.m in Sources */ = {isa = PBXBuildFile; fileRef = 04329BA52056AE2E00F3EBBE /* GPKGTileTableScaling.m */; };
+		043CB86423EB6522007EC2C2 /* GPKGFeatureIndexLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 043CB86223EB6522007EC2C2 /* GPKGFeatureIndexLocation.h */; };
+		043CB86523EB6522007EC2C2 /* GPKGFeatureIndexLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 043CB86323EB6522007EC2C2 /* GPKGFeatureIndexLocation.m */; };
 		043FB6421CD8EA37001EEB7A /* GPKGBaseExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 043FB6401CD8EA37001EEB7A /* GPKGBaseExtension.h */; };
 		043FB6431CD8EA37001EEB7A /* GPKGBaseExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 043FB6411CD8EA37001EEB7A /* GPKGBaseExtension.m */; };
 		0445CB391EA6945A008DC0D7 /* GPKGPolygonOrientations.h in Headers */ = {isa = PBXBuildFile; fileRef = 0445CB371EA6945A008DC0D7 /* GPKGPolygonOrientations.h */; };
@@ -1174,6 +1176,8 @@
 		04329BA12056ADEB00F3EBBE /* GPKGTileScalingTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileScalingTypes.m; sourceTree = "<group>"; };
 		04329BA42056AE2E00F3EBBE /* GPKGTileTableScaling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileTableScaling.h; sourceTree = "<group>"; };
 		04329BA52056AE2E00F3EBBE /* GPKGTileTableScaling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileTableScaling.m; sourceTree = "<group>"; };
+		043CB86223EB6522007EC2C2 /* GPKGFeatureIndexLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexLocation.h; sourceTree = "<group>"; };
+		043CB86323EB6522007EC2C2 /* GPKGFeatureIndexLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexLocation.m; sourceTree = "<group>"; };
 		043FB6401CD8EA37001EEB7A /* GPKGBaseExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGBaseExtension.h; sourceTree = "<group>"; };
 		043FB6411CD8EA37001EEB7A /* GPKGBaseExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGBaseExtension.m; sourceTree = "<group>"; };
 		0445CB371EA6945A008DC0D7 /* GPKGPolygonOrientations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGPolygonOrientations.h; sourceTree = "<group>"; };
@@ -2739,6 +2743,8 @@
 				0488A0301FA11FD5006B5C75 /* GPKGMultipleFeatureIndexResults.m */,
 				0458212A214BF1AF0047EA54 /* GPKGFeatureIndexFeatureResults.h */,
 				0458212B214BF1AF0047EA54 /* GPKGFeatureIndexFeatureResults.m */,
+				043CB86223EB6522007EC2C2 /* GPKGFeatureIndexLocation.h */,
+				043CB86323EB6522007EC2C2 /* GPKGFeatureIndexLocation.m */,
 			);
 			path = index;
 			sourceTree = "<group>";
@@ -3181,6 +3187,7 @@
 				042FC8A51B964D8C00549A4B /* GPKGOverlayFactory.h in Headers */,
 				0422BB011DD6311C002709B6 /* GPKGGriddedTile.h in Headers */,
 				042FC8801B964D8C00549A4B /* GPKGPropertyConstants.h in Headers */,
+				043CB86423EB6522007EC2C2 /* GPKGFeatureIndexLocation.h in Headers */,
 				042FC8931B964D8C00549A4B /* GPKGTileGenerator.h in Headers */,
 				048A7BA31C988661007BCA5D /* GPKGFeatureRowData.h in Headers */,
 				04B285C0231F11A200CBF9DD /* GPKGRawConstraint.h in Headers */,
@@ -3631,6 +3638,7 @@
 				042FC7F01B964D8C00549A4B /* GPKGContents.m in Sources */,
 				042FC8BA1B964D8C00549A4B /* GPKGUserDao.m in Sources */,
 				04915607230739EB00B92B3F /* GPKGConstraint.m in Sources */,
+				043CB86523EB6522007EC2C2 /* GPKGFeatureIndexLocation.m in Sources */,
 				046417E91BCC1424007624D4 /* GPKGFeatureIndexTypes.m in Sources */,
 				04DD10AA1BDEBFDC00CC59A0 /* GPKGDbConnection.m in Sources */,
 				042FC8BC1B964D8C00549A4B /* GPKGUserRow.m in Sources */,

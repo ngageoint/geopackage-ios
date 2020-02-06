@@ -348,4 +348,12 @@
  */
 -(NSNumber *) geoPackageIdForGeoPackageName: (NSString *) name;
 
+/**
+ * Get the geometry metadata geometry id
+ *
+ * @param resultSet  result set
+ * @return id
+ */
++(NSNumber *) idWithResultSet: (GPKGResultSet *) resultSet;
+
 @end

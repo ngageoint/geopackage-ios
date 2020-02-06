@@ -77,6 +77,10 @@
     self.statement = nil;
 }
 
+-(int) columnCount{
+    return (int) _columnNames.count;
+}
+
 -(NSArray<NSObject *> *) row{
      NSMutableArray *rowValues = [[NSMutableArray alloc] init];
     [self rowPopulateValues:rowValues];
@@ -183,6 +187,38 @@
     }else{
         _columns = [table createUserColumnsWithNames:_columnNames];
     }
+}
+
+-(NSNumber *) id{
+    NSNumber *id = nil;
+
+    if(_columns == nil){
+        [NSException raise:@"No User Columns" format:@"No user columns set in the result set. columns: [%@]", [_columnNames componentsJoinedByString:@", "]];
+    }
+    
+    GPKGUserColumn *pkColumn = [_columns pkColumn];
+    if(pkColumn == nil){
+        NSMutableString *error = [NSMutableString stringWithString:@"No id column in "];
+        if(_columns.custom){
+            [error appendString:@"custom specified table columns. "];
+        }
+        [error appendFormat:@"table: %@", _columns.tableName];
+        if(_columns.custom){
+            [error appendFormat:@", columns: [%@]", [[_columns columnNames] componentsJoinedByString:@", "]];
+        }
+        [NSException raise:@"No Id Column" format:error, nil];
+    }
+    
+    NSObject *objectValue = [self valueWithColumnName:pkColumn.name];
+    if(objectValue != nil){
+        if([objectValue isKindOfClass:[NSNumber class]]){
+            id = (NSNumber *) objectValue;
+        }else{
+            [NSException raise:@"Non Number Id" format:@"Id value was not a number. table: %@, index: %d, name: %@, value: %@", _columns.tableName, pkColumn.index, pkColumn.name, objectValue];
+        }
+    }
+    
+    return id;
 }
 
 @end

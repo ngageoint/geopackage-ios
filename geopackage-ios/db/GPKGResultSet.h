@@ -91,6 +91,13 @@
 -(void) closeStatement;
 
 /**
+ *  Get the column count
+ *
+ *  @return count
+ */
+-(int) columnCount;
+
+/**
  *  Get the row value
  *
  *  @return row value array
@@ -198,5 +205,12 @@
  *  @param userTable user table
 */
 -(void) setColumnsFromTable: (GPKGUserTable *) table;
+
+/**
+ *  Get the id value
+ *
+ *  @return id value
+ */
+-(NSNumber *) id;
 
 @end

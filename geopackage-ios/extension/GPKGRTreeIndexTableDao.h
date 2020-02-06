@@ -106,13 +106,97 @@
 -(GPKGFeatureRow *) featureRowFromUserCustomRow: (GPKGUserCustomRow *) row;
 
 /**
- * Perform a raw query
+ * Query for all features
  *
- * @param sql           sql statement
- * @param selectionArgs selection arguments
- * @return result set
+ * @return feature results
  */
--(GPKGResultSet *) rawQuery:(NSString *)sql andArgs:(NSArray *)selectionArgs;
+-(GPKGResultSet *) queryFeatures;
+
+/**
+ * Query for all features
+ *
+ * @param columns columns
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query for features
+ *
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Count features
+ *
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for features
+ *
+ * @param where where clause
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Count features
+ *
+ * @param where where clause
+ * @return count
+ */
+-(int) countFeaturesWhere: (NSString *) where;
+
+/**
+ * Query for features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for features
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Count features
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for rows within the bounding box
