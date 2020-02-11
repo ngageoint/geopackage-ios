@@ -87,9 +87,8 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 
 -(GPKGRTreeIndexTableDao *) tableDaoWithFeatureDao: (GPKGFeatureDao *) featureDao{
     
-    GPKGConnection *connection = self.geoPackage.database;
     GPKGUserCustomTable *userCustomTable =  [self rTreeTableWithFeatureTable:[featureDao featureTable]];
-    GPKGUserCustomDao *userCustomDao = [[GPKGUserCustomDao alloc] initWithDatabase:connection andTable:userCustomTable];
+    GPKGUserCustomDao *userCustomDao = [self.geoPackage userCustomDaoWithTable:userCustomTable];
     
     return [[GPKGRTreeIndexTableDao alloc] initWithExtension:self andDao:userCustomDao andFeatureDao:featureDao];
 }
