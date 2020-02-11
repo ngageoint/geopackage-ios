@@ -280,5 +280,6 @@
 #import "GPKGTileColumns.h"
 #import "GPKGUserCustomColumns.h"
 #import "GPKGFeatureIndexLocation.h"
+#import "GPKGFeatureIndexerIdQuery.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
