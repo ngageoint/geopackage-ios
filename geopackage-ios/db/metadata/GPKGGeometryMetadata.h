@@ -91,4 +91,11 @@ extern NSString * const GPKG_GPGM_COLUMN_MAX_M;
  */
 @property (nonatomic, strong) NSDecimalNumber *maxM;
 
+/**
+ *  Get the columns
+ *
+ *  @return columns
+ */
++(NSArray<NSString *> *) columns;
+
 @end

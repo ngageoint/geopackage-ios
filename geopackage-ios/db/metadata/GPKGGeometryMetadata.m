@@ -26,4 +26,20 @@ NSString * const GPKG_GPGM_COLUMN_MAX_M = @"max_m";
 
 @implementation GPKGGeometryMetadata
 
++(NSArray<NSString *> *) columns{
+    return [NSArray arrayWithObjects:
+            GPKG_GPGM_COLUMN_GEOPACKAGE_ID,
+            GPKG_GPGM_COLUMN_TABLE_NAME,
+            GPKG_GPGM_COLUMN_ID,
+            GPKG_GPGM_COLUMN_MIN_X,
+            GPKG_GPGM_COLUMN_MAX_X,
+            GPKG_GPGM_COLUMN_MIN_Y,
+            GPKG_GPGM_COLUMN_MAX_Y,
+            GPKG_GPGM_COLUMN_MIN_Z,
+            GPKG_GPGM_COLUMN_MAX_Z,
+            GPKG_GPGM_COLUMN_MIN_M,
+            GPKG_GPGM_COLUMN_MAX_M,
+            nil];
+}
+
 @end

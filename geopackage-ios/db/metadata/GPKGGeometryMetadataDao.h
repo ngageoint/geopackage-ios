@@ -204,6 +204,25 @@
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName;
 
 /**
+ * Query for all table geometry metadata geometry ids
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName;
+
+/**
+ * Query for all table geometry metadata
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @param columns    queried columns
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns;
+
+/**
  *  Query for geometry metadata count
  *
  *  @param geoPackageName GeoPackage name
@@ -242,6 +261,25 @@
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
 
 /**
+ * Query for all table geometry metadata geometry ids
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
+
+/**
+ * Query for all table geometry metadata
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param columns      queried columns
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns;
+
+/**
  *  Query for geometry metadata count
  *
  *  @param geoPackageId GeoPackage id
@@ -250,6 +288,22 @@
  *  @return count
  */
 -(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
+
+/**
+ * Get the query SQL for a GeoPackage id and table name
+ *
+ * @return SQL
+ */
+-(NSString *) querySQL;
+
+/**
+ * Get the query SQL args for a GeoPackage id and table name
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @return SQL args
+ */
+-(NSArray *) querySQLArgsWithGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
 
 /**
  *  Query for all geometry metadata matching the bounding box in the same projection
@@ -261,6 +315,27 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for all table geometry metadata ids matching the bounding box in the same projection
+ *
+ * @param geoPackage  GeoPackage name
+ * @param tableName   table name
+ * @param boundingBox bounding box
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for all table geometry metadata matching the bounding box in the same projection
+ *
+ * @param geoPackage  GeoPackage name
+ * @param tableName   table name
+ * @param columns     queried columns
+ * @param boundingBox bounding box
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Query for all geometry metadata count matching the bounding box in the same projection
@@ -285,6 +360,27 @@
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
+ * Query for all table geometry metadata ids matching the bounding box in the same projection
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param boundingBox  bounding box
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for all table geometry metadata matching the bounding box in the same projection
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param columns      queried columns
+ * @param boundingBox  bounding box
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
  *  Query for all geometry metadata count matching the bounding box in the same projection
  *
  *  @param geoPackageId GeoPackage id
@@ -305,6 +401,27 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for all table geometry metadata ids matching the envelope
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @param envelope   geometry envelope
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for all table geometry metadata matching the envelope
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @param columns    queried columns
+ * @param envelope   geometry envelope
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for all geometry metadata count matching the envelope
@@ -329,15 +446,53 @@
 -(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
- *  Query for all geometry metadata count matching the envelope
+ * Query for all table geometry metadata ids matching the envelope
  *
- *  @param geoPackageId GeoPackage id
- *  @param tableName    table name
- *  @param envelope     geometry envelope
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param envelope     geometry envelope
+ * @return result set
+ */
+-(GPKGResultSet *) queryIdsByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for all table geometry metadata matching the envelope
  *
- *  @return count
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param columns      queried columns
+ * @param envelope     geometry envelope
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for all table geometry metadata count matching the envelope
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param envelope     geometry envelope
+ * @return count
  */
 -(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Get the query SQL for an envelope, GeoPackage id, and table name
+ *
+ * @param envelope geometry envelope
+ * @return SQL
+ */
+-(NSString *) querySQLWithEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Get the query SQL args for an envelope, GeoPackage id, and table name
+ *
+ * @param envelope     geometry envelope
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @return SQL args
+ */
+-(NSArray *) querySQLArgsWithEnvelope: (SFGeometryEnvelope *) envelope andGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName;
 
 /**
  *  Get GeoPackage id for the GeoPackage name
