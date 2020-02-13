@@ -13,6 +13,9 @@
 #import "GPKGFeatureIndexer.h"
 #import "GPKGFeatureIndexResults.h"
 #import "GPKGRTreeIndexTableDao.h"
+#import "GPKGFeatureIndexLocation.h"
+
+@class GPKGFeatureIndexLocation;
 
 /**
  * Feature Index Manager to manage indexing of feature geometries in both Android metadata and
@@ -24,6 +27,12 @@
  *  Index location
  */
 @property (nonatomic) enum GPKGFeatureIndexType indexLocation;
+
+/**
+ * When an exception occurs on a certain index, continue to other index
+ * types to attempt to retrieve the value
+ */
+@property (nonatomic) BOOL continueOnError;
 
 /**
  *  Initialize
@@ -350,6 +359,14 @@
 -(GPKGFeatureIndexResults *) query;
 
 /**
+ * Query for all feature index results
+ *
+ * @param columns columns
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns;
+
+/**
  *  Query for all feature index count
  *
  *  @return count
@@ -431,5 +448,19 @@
  *  @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Get a feature index location to iterate over indexed types
+ *
+ * @return feature index location
+ */
+-(GPKGFeatureIndexLocation *) location;
+
+/**
+ * Get the first ordered indexed type
+ *
+ * @return feature index type
+ */
+-(enum GPKGFeatureIndexType) indexedType;
 
 @end

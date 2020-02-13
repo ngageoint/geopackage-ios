@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GPKGFeatureIndexManager.h"
 
+@class GPKGFeatureIndexManager;
+
 /**
  * Feature Index Location to iterate over indexed feature index types
  */

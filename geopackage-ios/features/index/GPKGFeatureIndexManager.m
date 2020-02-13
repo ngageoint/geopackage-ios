@@ -46,6 +46,7 @@
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_GEOPACKAGE],
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_METADATA],
                                         nil];
+        self.continueOnError = YES;
     }
     return self;
 }
@@ -410,32 +411,50 @@
 }
 
 -(GPKGFeatureIndexResults *) query{
+    return [self queryWithColumns:[self.featureDao columnNames]];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch(type){
-        case GPKG_FIT_GEOPACKAGE:
-            {
-                GPKGResultSet * geometryIndexResults = [self.featureTableIndex query];
-                results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesWithColumns:columns];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesWithColumns:columns];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesWithColumns:columns];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
             }
             break;
-        case GPKG_FIT_METADATA:
-            {
-                GPKGResultSet * geometryMetadataResults = [self.featureIndexer query];
-                results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
             }
-            break;
-        case GPKG_FIT_RTREE:
-            {
-                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryForAll];
-                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
-            }
-            break;
-        default:
-            {
-                GPKGResultSet *resultSet = [self.featureDao queryForAll];
-                results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
-            }
+        }
+    }
+    if (results == nil) {
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryWithColumns:columns];
+        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
     }
     return results;
 }
@@ -638,11 +657,8 @@
     return count;
 }
 
--(enum GPKGFeatureIndexType) verifyIndexLocation{
-    if(_indexLocation == GPKG_FIT_NONE){
-        [NSException raise:@"No Index Location" format:@"Index Location is not set, set the location or call an index method specifying the location"];
-    }
-    return _indexLocation;
+-(GPKGFeatureIndexLocation *) location{
+    return [[GPKGFeatureIndexLocation alloc] initWithFeatureIndexManager:self];
 }
 
 -(enum GPKGFeatureIndexType) indexedType{
@@ -659,6 +675,18 @@
     }
     
     return indexType;
+}
+
+/**
+ * Verify the index location is set
+ *
+ * @return feature index type
+ */
+-(enum GPKGFeatureIndexType) verifyIndexLocation{
+    if(_indexLocation == GPKG_FIT_NONE){
+        [NSException raise:@"No Index Location" format:@"Index Location is not set, set the location or call an index method specifying the location"];
+    }
+    return _indexLocation;
 }
 
 @end
