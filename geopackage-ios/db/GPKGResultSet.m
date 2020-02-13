@@ -45,6 +45,20 @@
     return self;
 }
 
+-(instancetype) initWithResultSet: (GPKGResultSet *) resultSet{
+    self = [super init];
+    if(self){
+        self.statement = resultSet.statement;
+        self.count = resultSet.count;
+        self.connection = resultSet.connection;
+        self.columnNames = resultSet.columnNames;
+        self.columnIndex = resultSet.columnIndex;
+        self.columns = resultSet.columns;
+        self.hasNext = resultSet.hasNext;
+    }
+    return self;
+}
+
 -(BOOL) moveToNext{
     if(self.hasNext){
         self.hasNext = sqlite3_step(self.statement) == SQLITE_ROW;

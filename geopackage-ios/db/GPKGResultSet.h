@@ -58,6 +58,15 @@
 -(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection;
 
 /**
+ *  Initialize reusing existing result set statement and connection
+ *
+ *  @param resultSet  result set
+ *
+ *  @return new result set
+ */
+-(instancetype) initWithResultSet: (GPKGResultSet *) resultSet;
+
+/**
  *  Move to the next result if one exists
  *
  *  @return true a result found, false if no more results
