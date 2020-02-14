@@ -41,6 +41,7 @@
             GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             
             GPKGFeatureIndexManager *indexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:dao];
+            [indexManager setContinueOnError:NO];
             int indexGeoPackageCount;
             if([indexManager isIndexedWithFeatureIndexType:GPKG_FIT_GEOPACKAGE]){
                 [indexManager prioritizeQueryLocationWithType:GPKG_FIT_GEOPACKAGE];
@@ -350,6 +351,7 @@
             GPKGFeatureColumn *geometry = [table geometryColumn];
             
             GPKGFeatureIndexManager *indexManager= [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:dao];
+            [indexManager setContinueOnError:NO];
             
             int indexGeoPackageCount = 0;
             if ([indexManager isIndexedWithFeatureIndexType:GPKG_FIT_GEOPACKAGE]) {
@@ -451,6 +453,7 @@
             [GPKGTestUtils assertEqualIntWithValue:geometry.index andValue2:[copyTable geometryColumn].index];
             
             GPKGFeatureIndexManager *copyIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:copyDao];
+            [copyIndexManager setContinueOnError:NO];
             
             if([indexManager isIndexedWithFeatureIndexType:GPKG_FIT_GEOPACKAGE]){
                 [indexManager prioritizeQueryLocationWithType:GPKG_FIT_GEOPACKAGE];

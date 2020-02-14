@@ -32,6 +32,7 @@
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setContinueOnError:NO];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
@@ -58,6 +59,7 @@
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setContinueOnError:NO];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
@@ -88,6 +90,7 @@
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setContinueOnError:NO];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
@@ -108,6 +111,7 @@
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureIndexManager *featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setContinueOnError:NO];
         [featureIndexManager prioritizeQueryLocationWithType:type];
         
         GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
