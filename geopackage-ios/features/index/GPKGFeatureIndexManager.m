@@ -460,201 +460,523 @@
 }
 
 -(int) count{
-    int count = 0;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            count = [self.featureTableIndex count];
+    int count = -1;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        count = [self.featureTableIndex count];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        count = [self.featureIndexer count];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        count = [self.rTreeIndexTableDao count];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
             break;
-        case GPKG_FIT_METADATA:
-            count = [self.featureIndexer count];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to count from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (count == -1) {
+        count = [self.manualFeatureQuery countWithGeometries];
+    }
+    return count;
+}
+
+-(GPKGFeatureIndexResults *) queryWithFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    return [self queryWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    return [self queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    return [self countWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWhere: (NSString *) where{
+    return [self queryWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWhere: (NSString *) where{
+    return [self countWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:[self.featureDao columnNames] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGFeatureIndexResults * results = nil;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
             break;
-        case GPKG_FIT_RTREE:
-            count = [self.rTreeIndexTableDao count];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (results == nil) {
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
+    }
+    return results;
+}
+
+-(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = -1;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        count = [self.featureTableIndex countFeaturesWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        count = [self.featureIndexer countFeaturesWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        count = [self.rTreeIndexTableDao countFeaturesWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
             break;
-        default:
-            count = [self.manualFeatureQuery countWithGeometries];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to count from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (count == -1) {
+        count = [self.manualFeatureQuery countWhere:where andWhereArgs:whereArgs];
     }
     return count;
 }
 
 -(GPKGBoundingBox *) boundingBox{
     GPKGBoundingBox *bounds = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            bounds = [self.featureTableIndex boundingBox];
+    BOOL success = NO;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        bounds = [self.featureTableIndex boundingBox];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        bounds = [self.featureIndexer boundingBox];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        bounds = [self.rTreeIndexTableDao boundingBox];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            success = YES;
             break;
-        case GPKG_FIT_METADATA:
-            bounds = [self.featureIndexer boundingBox];
-            break;
-        case GPKG_FIT_RTREE:
-            bounds = [self.rTreeIndexTableDao boundingBox];
-            break;
-        default:
-            bounds = [self.manualFeatureQuery boundingBox];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to get bounding box from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (!success) {
+        bounds = [self.manualFeatureQuery boundingBox];
     }
     return bounds;
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
     GPKGBoundingBox *bounds = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            bounds = [self.featureTableIndex boundingBoxInProjection:projection];
+    BOOL success = NO;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        bounds = [self.featureTableIndex boundingBoxInProjection:projection];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        bounds = [self.featureIndexer boundingBoxInProjection:projection];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        bounds = [self.rTreeIndexTableDao boundingBoxInProjection:projection];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            success = YES;
             break;
-        case GPKG_FIT_METADATA:
-            bounds = [self.featureIndexer boundingBoxInProjection:projection];
-            break;
-        case GPKG_FIT_RTREE:
-            bounds = [self.rTreeIndexTableDao boundingBoxInProjection:projection];
-            break;
-        default:
-            bounds = [self.manualFeatureQuery boundingBoxInProjection:projection];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to get bounding box from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (!success) {
+        bounds = [self.manualFeatureQuery boundingBoxInProjection:projection];
     }
     return bounds;
 }
 
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch(type){
-        case GPKG_FIT_GEOPACKAGE:
-            {
-                GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox];
-                results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
-            }
-            break;
-        case GPKG_FIT_METADATA:
-            {
-                GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox];
-                results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
-            }
-            break;
-        case GPKG_FIT_RTREE:
-            {
-                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithBoundingBox:boundingBox];
-                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
-            }
-            break;
-        default:
-            results = [self.manualFeatureQuery queryWithBoundingBox:boundingBox];
-    }
-    return results;
+    return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope]];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    int count = 0;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            count = [self.featureTableIndex countWithBoundingBox:boundingBox];
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope]];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self countWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countWithGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self queryWithGeometryEnvelope:envelope andWhere:nil andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self queryWithColumns:columns andGeometryEnvelope:envelope andWhere:nil andWhereArgs:nil];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+    int count = -1;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        count = [self.featureTableIndex countWithGeometryEnvelope:envelope];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        count = [self.featureIndexer countWithEnvelope:envelope];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        count = [self.rTreeIndexTableDao countWithEnvelope:envelope];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
             break;
-        case GPKG_FIT_METADATA:
-            count = [self.featureIndexer countWithBoundingBox:boundingBox];
-            break;
-        case GPKG_FIT_RTREE:
-            count = [self.rTreeIndexTableDao countWithBoundingBox:boundingBox];
-            break;
-        default:
-            count = [self.manualFeatureQuery countWithBoundingBox:boundingBox];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to count from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (count == -1) {
+        count = [self.manualFeatureQuery countWithGeometryEnvelope:envelope];
     }
     return count;
 }
 
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryWithGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self countWithGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self countWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithColumns:[self.featureDao columnNames] andGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch(type){
-        case GPKG_FIT_GEOPACKAGE:
-            {
-                GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithGeometryEnvelope:envelope];
-                results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesWithColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesWithColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
             }
             break;
-        case GPKG_FIT_METADATA:
-            {
-                GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithEnvelope:envelope];
-                results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
             }
-            break;
-        case GPKG_FIT_RTREE:
-            {
-                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithEnvelope:envelope];
-                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
-            }
-            break;
-        default:
-            results = [self.manualFeatureQuery queryWithGeometryEnvelope:envelope];
+        }
+    }
+    if (results == nil) {
+        results = [self.manualFeatureQuery queryWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
     }
     return results;
 }
 
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    int count = 0;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            count = [self.featureTableIndex countWithGeometryEnvelope:envelope];
+-(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = -1;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        count = [self.featureTableIndex countFeaturesWithGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        count = [self.featureIndexer countFeaturesWithEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        count = [self.rTreeIndexTableDao countFeaturesWithEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
             break;
-        case GPKG_FIT_METADATA:
-            count = [self.featureIndexer countWithEnvelope:envelope];
-            break;
-        case GPKG_FIT_RTREE:
-            count = [self.rTreeIndexTableDao countWithEnvelope:envelope];
-            break;
-        default:
-            count = [self.manualFeatureQuery countWithGeometryEnvelope:envelope];
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to count from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (count == -1) {
+        count = [self.manualFeatureQuery countWithGeometryEnvelope:envelope andWhere:where andWhereArgs:whereArgs];
     }
     return count;
 }
 
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
-    GPKGFeatureIndexResults * results = nil;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch(type){
-        case GPKG_FIT_GEOPACKAGE:
-            {
-                GPKGResultSet * geometryIndexResults = [self.featureTableIndex queryWithBoundingBox:boundingBox inProjection:projection];
-                results = [[GPKGFeatureIndexGeoPackageResults alloc] initWithFeatureTableIndex:self.featureTableIndex andResults:geometryIndexResults];
-            }
-            break;
-        case GPKG_FIT_METADATA:
-            {
-                GPKGResultSet * geometryMetadataResults = [self.featureIndexer queryWithBoundingBox:boundingBox inProjection:projection];
-                results = [[GPKGFeatureIndexMetadataResults alloc] initWithFeatureTableIndex:self.featureIndexer andResults:geometryMetadataResults];
-            }
-            break;
-        case GPKG_FIT_RTREE:
-            {
-                GPKGResultSet *resultSet = [self.rTreeIndexTableDao queryWithBoundingBox:boundingBox inProjection:projection];
-                results = [[GPKGFeatureIndexRTreeResults alloc] initWithDao:self.rTreeIndexTableDao andResults:resultSet];
-            }
-            break;
-        default:
-            results = [self.manualFeatureQuery queryWithBoundingBox:boundingBox inProjection:projection];
-    }
-    return results;
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
-    int count = 0;
-    enum GPKGFeatureIndexType type = [self indexedType];
-    switch (type) {
-        case GPKG_FIT_GEOPACKAGE:
-            count = [self.featureTableIndex countWithBoundingBox:boundingBox inProjection:projection];
-            break;
-        case GPKG_FIT_METADATA:
-            count = [self.featureIndexer countWithBoundingBox:boundingBox inProjection:projection];
-            break;
-        case GPKG_FIT_RTREE:
-            count = [self.rTreeIndexTableDao countWithBoundingBox:boundingBox inProjection:projection];
-            break;
-        default:
-            count = [self.manualFeatureQuery countWithBoundingBox:boundingBox inProjection:projection];
-    }
-    return count;
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self queryWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self queryWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where{
+    return [self countWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryWithColumns:columns andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self countWithBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGFeatureIndexLocation *) location{
