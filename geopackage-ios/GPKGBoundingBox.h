@@ -89,7 +89,7 @@ struct GPKGBoundingBoxSize{
  *
  *  @return new bounding box
  */
--(instancetype) initWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(instancetype) initWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Build a Geometry Envelope from the bounding box

@@ -623,7 +623,7 @@
         if(geometry != nil){
             
             SFGeometryEnvelope *envelope = [geomData buildEnvelope];
-            GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
+            GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
             boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
             
         }

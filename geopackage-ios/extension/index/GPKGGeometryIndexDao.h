@@ -61,6 +61,6 @@
  *
  *  @return geometry index
  */
--(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andEnvelope: (SFGeometryEnvelope *) envelope;
 
 @end

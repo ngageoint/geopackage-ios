@@ -106,8 +106,8 @@
         }
         resultCount = 0;
         BOOL featureFound = false;
-        [GPKGTestUtils assertTrue:[featureTableIndex countWithGeometryEnvelope:envelope] >= 1];
-        featureTableResults = [featureTableIndex queryWithGeometryEnvelope:envelope];
+        [GPKGTestUtils assertTrue:[featureTableIndex countWithEnvelope:envelope] >= 1];
+        featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
@@ -168,8 +168,8 @@
         envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
         resultCount = 0;
         featureFound = false;
-        [GPKGTestUtils assertTrue:[featureTableIndex countWithGeometryEnvelope:envelope] >= 1];
-        featureTableResults = [featureTableIndex queryWithGeometryEnvelope:envelope];
+        [GPKGTestUtils assertTrue:[featureTableIndex countWithEnvelope:envelope] >= 1];
+        featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];

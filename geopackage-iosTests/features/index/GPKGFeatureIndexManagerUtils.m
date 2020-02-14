@@ -124,8 +124,8 @@
         }
         resultCount = 0;
         BOOL featureFound = false;
-        [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
-        featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
             if([featureRow idValue] == [testFeatureRow idValue]){
@@ -140,8 +140,8 @@
         // Test the query by envelope with id iteration
         resultCount = 0;
         featureFound = NO;
-        [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
-        featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
         featureIndexResults.ids = YES;
         for(NSNumber *featureRowId in featureIndexResults){
             GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
@@ -202,8 +202,8 @@
         envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
         resultCount = 0;
         featureFound = false;
-        [GPKGTestUtils assertTrue:[featureIndexManager countWithGeometryEnvelope:envelope] >= 1];
-        featureIndexResults = [featureIndexManager queryWithGeometryEnvelope:envelope];
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
         for(GPKGFeatureRow * featureRow in featureIndexResults){
             [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
             if([featureRow idValue] == [testFeatureRow idValue]){
@@ -336,9 +336,9 @@
         GPKGFeatureRow *featureRow = [featureDao featureRow:resultSet];
         SFGeometryEnvelope *rowEnvelope = [featureRow geometryEnvelope];
         if(rowEnvelope != nil){
-            GPKGBoundingBox *rowBoundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:rowEnvelope];
+            GPKGBoundingBox *rowBoundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:rowEnvelope];
             for(GPKGFeatureIndexTestEnvelope *testEnvelope in envelopes){
-                if([rowBoundingBox intersects:[[GPKGBoundingBox alloc] initWithGeometryEnvelope:testEnvelope.envelope] withAllowEmpty:YES]){
+                if([rowBoundingBox intersects:[[GPKGBoundingBox alloc] initWithEnvelope:testEnvelope.envelope] withAllowEmpty:YES]){
                     testEnvelope.count++;
                 }
             }
@@ -448,7 +448,7 @@
         [timerCount endWithOutput:@"Bounds Query"];
         [GPKGTestUtils assertNotNil:bounds];
         GPKGFeatureIndexTestEnvelope *firstEnvelope = [envelopes objectAtIndex:0];
-        GPKGBoundingBox *firstBounds = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:firstEnvelope.envelope];
+        GPKGBoundingBox *firstBounds = [[GPKGBoundingBox alloc] initWithEnvelope:firstEnvelope.envelope];
 
         [self assertRangeWithExpected:firstBounds.minLongitude andActual:bounds.minLongitude andLowPrecision:outerPrecision andHighPrecision:innerPrecision];
         [self assertRangeWithExpected:firstBounds.minLatitude andActual:bounds.minLatitude andLowPrecision:outerPrecision andHighPrecision:innerPrecision];
@@ -482,17 +482,17 @@
             }
             
             [timerCount start];
-            int fullCount = [featureIndexManager countWithGeometryEnvelope:envelope];
+            int fullCount = [featureIndexManager countWithEnvelope:envelope];
             [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Count Query", percentage]];
             [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:fullCount];
             
             [timerQuery start];
-            GPKGFeatureIndexResults *results = [featureIndexManager queryWithGeometryEnvelope:envelope];
+            GPKGFeatureIndexResults *results = [featureIndexManager queryWithEnvelope:envelope];
             [timerQuery endWithOutput:[NSString stringWithFormat:@"%@%% Envelope Query", percentage]];
             [self assertCountsWithManager:featureIndexManager andEnvelope:testEnvelope andType:type andPrecision:outerPrecision andExpected:expectedCount andFull:[results count]];
             [results close];
             
-            GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:envelope];
+            GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
             [timerCount start];
             fullCount = [featureIndexManager countWithBoundingBox:boundingBox];
             [timerCount endWithOutput:[NSString stringWithFormat:@"%@%% Bounding Box Count Query", percentage]];
@@ -536,7 +536,7 @@
             
             if (expectedCount != fullCount) {
                 int count = 0;
-                GPKGFeatureIndexResults *results = [featureIndexManager queryWithGeometryEnvelope:testEnvelope.envelope];
+                GPKGFeatureIndexResults *results = [featureIndexManager queryWithEnvelope:testEnvelope.envelope];
                 for (GPKGFeatureRow *featureRow in results) {
                     SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
                     if([envelope intersectsWithEnvelope:testEnvelope.envelope withAllowEmpty:YES]){

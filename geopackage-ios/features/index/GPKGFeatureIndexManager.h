@@ -600,7 +600,7 @@
  *
  *  @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(GPKGFeatureIndexResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -609,7 +609,7 @@
  * @param envelope geometry envelope
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for feature index count within the Geometry Envelope
@@ -618,7 +618,7 @@
  *
  *  @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -627,7 +627,7 @@
  * @param fieldValues field values
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(GPKGFeatureIndexResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -637,7 +637,7 @@
  * @param fieldValues field values
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -646,7 +646,7 @@
  * @param fieldValues field values
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -655,7 +655,7 @@
  * @param where    where clause
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(GPKGFeatureIndexResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -665,7 +665,7 @@
  * @param where    where clause
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -674,7 +674,7 @@
  * @param where    where clause
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -684,7 +684,7 @@
  * @param whereArgs where arguments
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGFeatureIndexResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -695,7 +695,7 @@
  * @param whereArgs where arguments
  * @return feature index results, close when done
  */
--(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -705,7 +705,7 @@
  * @param whereArgs where arguments
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Query for feature index results within the bounding box in

@@ -48,7 +48,7 @@
     return [self initWithMinLongitude:boundingBox.minLongitude andMinLatitude:boundingBox.minLatitude andMaxLongitude:boundingBox.maxLongitude andMaxLatitude:boundingBox.maxLatitude];
 }
 
--(instancetype) initWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(instancetype) initWithEnvelope: (SFGeometryEnvelope *) envelope{
     return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
@@ -247,7 +247,7 @@
         }
         SFGeometryEnvelope *envelope = [GPKGBoundingBox buildEnvelopeFromBoundingBox:transformed];
         SFGeometryEnvelope *transformedEnvelope = [transform transformWithGeometryEnvelope:envelope];
-        transformed = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:transformedEnvelope];
+        transformed = [[GPKGBoundingBox alloc] initWithEnvelope:transformedEnvelope];
     }
     return transformed;
 }

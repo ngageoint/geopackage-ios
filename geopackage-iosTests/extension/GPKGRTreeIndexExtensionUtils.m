@@ -91,7 +91,7 @@
         [GPKGTestUtils assertEqualIntWithValue:envelopeCount andValue2:results.count];
         [results close];
         
-        GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:totalEnvelope];
+        GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:totalEnvelope];
         int bboxCount = [tableDao countWithBoundingBox:boundingBox];
         [GPKGTestUtils assertTrue:bboxCount >= expectedCount];
         results = [tableDao queryWithBoundingBox:boundingBox];

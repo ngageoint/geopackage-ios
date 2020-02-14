@@ -136,7 +136,7 @@
     return count;
 }
 
--(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
     
     GPKGGeometryIndex * geometryIndex = [[GPKGGeometryIndex alloc] init];
     [geometryIndex setTableIndex:tableIndex];

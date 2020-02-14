@@ -168,7 +168,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         
         // Create the new index row
         if(envelope != nil){
-            GPKGGeometryIndex * geometryIndex = [self.geometryIndexDao populateWithTableIndex:tableIndex andGeomId:geomId andGeometryEnvelope:envelope];
+            GPKGGeometryIndex * geometryIndex = [self.geometryIndexDao populateWithTableIndex:tableIndex andGeomId:geomId andEnvelope:envelope];
             [self.geometryIndexDao createOrUpdate:geometryIndex];
             indexed = true;
         }
@@ -366,7 +366,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     SFGeometryEnvelope * envelope = [boundingBox buildEnvelope];
-    GPKGResultSet * geometryResults = [self queryWithGeometryEnvelope:envelope];
+    GPKGResultSet * geometryResults = [self queryWithEnvelope:envelope];
     return geometryResults;
 }
 
@@ -395,17 +395,17 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return count;
 }
 
--(GPKGResultSet *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(GPKGResultSet *) queryWithEnvelope: (SFGeometryEnvelope *) envelope{
     
-    NSString *where = [self whereWithGeometryEnvelope:envelope];
-    NSArray *whereArgs = [self whereArgsWithGeometryEnvelope:envelope];
+    NSString *where = [self whereWithEnvelope:envelope];
+    NSArray *whereArgs = [self whereArgsWithEnvelope:envelope];
     
     GPKGResultSet * results = [self.geometryIndexDao queryWhere:where andWhereArgs:whereArgs];
     
     return results;
 }
 
--(NSString *) whereWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(NSString *) whereWithEnvelope: (SFGeometryEnvelope *) envelope{
     
     NSMutableString * where = [[NSMutableString alloc] init];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
@@ -459,7 +459,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return where;
 }
 
--(NSArray *) whereArgsWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
+-(NSArray *) whereArgsWithEnvelope: (SFGeometryEnvelope *) envelope{
     
     BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
     
@@ -496,13 +496,13 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return whereArgs;
 }
 
--(NSString *) queryIdsSQLWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    NSString *where = [self whereWithGeometryEnvelope:envelope];
+-(NSString *) queryIdsSQLWithEnvelope: (SFGeometryEnvelope *) envelope{
+    NSString *where = [self whereWithEnvelope:envelope];
     return [self queryIdsSQLWhere:where];
 }
 
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    GPKGResultSet * results = [self queryWithGeometryEnvelope:envelope];
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope{
+    GPKGResultSet * results = [self queryWithEnvelope:envelope];
     int count = results.count;
     [results close];
     return count;
@@ -603,27 +603,27 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope]];
+    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope]];
+    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self countFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope]];
+    return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryFeaturesWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self countFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
@@ -639,15 +639,15 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryFeaturesWithColumns:columns andGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self countFeaturesWithGeometryEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+    return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
@@ -707,52 +707,52 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return [self countFeaturesWithBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope]];
+-(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
 }
 
--(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope]];
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
 }
 
--(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope]];
+-(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope{
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
 }
 
--(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andFieldValues:fieldValues];
+-(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
--(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andFieldValues:fieldValues];
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
--(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andFieldValues:fieldValues];
+-(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
--(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
-    return [self queryFeaturesWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+-(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryFeaturesWithEnvelope:envelope andWhere:where andWhereArgs:nil];
 }
 
--(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
-    return [self queryFeaturesWithColumns:columns andGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self queryFeaturesWithColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:nil];
 }
 
--(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
-    return [self countFeaturesWithGeometryEnvelope:envelope andWhere:where andWhereArgs:nil];
+-(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
+    return [self countFeaturesWithEnvelope:envelope andWhere:where andWhereArgs:nil];
 }
 
--(GPKGResultSet *) queryFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+-(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+-(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
--(int) countFeaturesWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithGeometryEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+-(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 @end

@@ -84,7 +84,7 @@ static NSString *COLUMN_NAME = @"geom";
     [geometryColumns setZ:[NSNumber numberWithInt:0]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometryEnvelope:[SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry]];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:[SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry]];
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     

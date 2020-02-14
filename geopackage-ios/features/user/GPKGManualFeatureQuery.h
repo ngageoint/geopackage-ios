@@ -425,7 +425,7 @@
  *            geometry envelope
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(GPKGManualFeatureQueryResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -434,7 +434,7 @@
  * @param envelope geometry envelope
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Manually count the rows within the geometry envelope
@@ -443,7 +443,7 @@
  *            geometry envelope
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -452,7 +452,7 @@
  * @param fieldValues field values
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(GPKGManualFeatureQueryResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -462,7 +462,7 @@
  * @param fieldValues field values
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Manually count the rows within the geometry envelope
@@ -471,7 +471,7 @@
  * @param fieldValues field values
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -480,7 +480,7 @@
  * @param where    where clause
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(GPKGManualFeatureQueryResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -490,7 +490,7 @@
  * @param where    where clause
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Manually count the rows within the geometry envelope
@@ -499,7 +499,7 @@
  * @param where    where clause
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -509,7 +509,7 @@
  * @param whereArgs where arguments
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGManualFeatureQueryResults *) queryWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Manually query for rows within the geometry envelope
@@ -520,7 +520,7 @@
  * @param whereArgs where arguments
  * @return results
  */
--(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGManualFeatureQueryResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Manually count the rows within the geometry envelope
@@ -530,7 +530,7 @@
  * @param whereArgs where arguments
  * @return count
  */
--(int) countWithGeometryEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Manually query for rows within the bounds
