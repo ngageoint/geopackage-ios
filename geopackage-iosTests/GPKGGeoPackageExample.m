@@ -68,6 +68,7 @@ static BOOL COVERAGE_DATA = YES;
 static BOOL RELATED_TABLES_MEDIA = YES;
 static BOOL RELATED_TABLES_FEATURES = YES;
 static BOOL RELATED_TABLES_SIMPLE_ATTRIBUTES = YES;
+static BOOL RELATED_TABLES_TILES = YES;
 static BOOL GEOMETRY_INDEX = YES;
 static BOOL FEATURE_TILE_LINK = YES;
 static BOOL TILE_SCALING = YES;
@@ -255,9 +256,15 @@ static NSString *DATETIME_COLUMN = @"datetime";
             [GPKGGeoPackageExample createTileScalingExtensionWithGeoPackage:geoPackage];
         }
         
+        NSLog(@"Related Tables Tiles Extension: %s", RELATED_TABLES_TILES ? "Yes" : "No");
+        if (RELATED_TABLES_TILES) {
+            [GPKGGeoPackageExample createRelatedTablesTilesExtensionWithGeoPackage:geoPackage];
+        }
+        
     } else {
         NSLog(@"WebP Extension: %s", TILES ? "Yes" : "No");
         NSLog(@"Tile Scaling Extension: %s", TILES ? "Yes" : "No");
+        NSLog(@"Related Tables Tiles Extension: %s", TILES ? "Yes" : "No");
     }
     
     NSLog(@"Attributes: %s", ATTRIBUTES ? "Yes" : "No");
@@ -1578,6 +1585,56 @@ static int dataColumnConstraintIndex = 0;
     }
     [attributesResultSet close];
     
+}
+
++(void) createRelatedTablesTilesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    NSString *featureTable = @"point2";
+    NSString *tileTable = @"nga";
+
+    GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
+    
+    NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
+
+    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"%@_%@", featureTable, tileTable] andAdditionalColumns:additionalMappingColumns];
+    GPKGExtendedRelation *relation = [relatedTables addTilesRelationshipWithBaseTable:featureTable andRelatedTable:tileTable andUserMappingTable:userMappingTable];
+
+    GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
+
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:relation.baseTableName];
+    GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:relation.relatedTableName];
+
+    GPKGResultSet *featureResultSet = [featureDao query];
+    while([featureResultSet moveToNext]){
+        
+        GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+        NSString *featureName = [featureRow valueStringWithColumnName:TEXT_COLUMN];
+
+        NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [NSMutableArray array];
+        
+        GPKGResultSet *tileResultSet = [tileDao queryforTileWithZoomLevel:tileDao.minZoom];
+        while([tileResultSet moveToNext]){
+
+            GPKGTileRow *tileRow = [tileDao tileRow:tileResultSet];
+
+            GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
+            [userMappingRow setBaseId:[featureRow idValue]];
+            [userMappingRow setRelatedId:[tileRow idValue]];
+            [GPKGRelatedTablesUtils populateUserRowWithTable:[userMappingDao userMappingTable] andRow:userMappingRow andSkipColumns:[GPKGUserMappingTable requiredColumns]];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_TITLE inRow:userMappingRow];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_DESCRIPTION inRow:userMappingRow];
+            [GPKGDublinCoreMetadata setValue:featureName asColumn:GPKG_DCM_SOURCE inRow:userMappingRow];
+            [userMappingRows addObject:userMappingRow];
+        }
+        [tileResultSet close];
+
+        for(GPKGUserMappingRow *userMappingRow in userMappingRows){
+            [userMappingDao create:userMappingRow];
+        }
+        
+    }
+    [featureResultSet close];
+
 }
 
 +(void) createTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
