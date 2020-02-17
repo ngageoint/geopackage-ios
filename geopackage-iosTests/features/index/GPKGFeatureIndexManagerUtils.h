@@ -23,8 +23,9 @@
  *
  * @param geoPackage  GeoPackage
  * @param numFeatures num features
+ * @param verbose          verbose printing
  */
-+(void) testLargeIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andNumFeatures: (int) numFeatures;
++(void) testLargeIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andNumFeatures: (int) numFeatures andVerbose: (BOOL) verbose;
 
 /**
  * Test large index

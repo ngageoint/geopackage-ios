@@ -20,7 +20,7 @@
 }
 
 - (void) testLargeIndex{
-    [GPKGFeatureIndexManagerUtils testLargeIndexWithGeoPackage:self.geoPackage andNumFeatures:20000];
+    [GPKGFeatureIndexManagerUtils testLargeIndexWithGeoPackage:self.geoPackage andNumFeatures:20000 andVerbose:NO];
 }
 
 - (void) testTimedIndex{
