@@ -130,11 +130,18 @@
 }
 
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:nil];
-    return results;
+    return [self queryFeaturesWithBoundingBox:boundingBox withProjection:nil];
+}
+
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryFeaturesWithColumns:columns andBoundingBox:boundingBox withProjection:nil];
 }
 
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+    return [self queryFeaturesWithColumns:[[self.featureTiles featureDao] columnNames] andBoundingBox:boundingBox withProjection:projection];
+}
+
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
     
     if(projection == nil){
         projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
@@ -145,7 +152,7 @@
     if(indexManager == nil){
         [NSException raise:@"Index Manager" format:@"Index Manager is not set on the Feature Tiles and is required to query indexed features"];
     }
-    GPKGFeatureIndexResults * results = [indexManager queryWithBoundingBox:boundingBox inProjection:projection];
+    GPKGFeatureIndexResults * results = [indexManager queryWithColumns:columns andBoundingBox:boundingBox inProjection:projection];
     return results;
 }
 

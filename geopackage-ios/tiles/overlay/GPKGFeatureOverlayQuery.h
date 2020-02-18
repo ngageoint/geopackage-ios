@@ -191,6 +191,16 @@
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
+ *  Query for features in the WGS84 projected bounding box
+ *
+ *  @param columns          columns
+ *  @param boundingBox query bounding box in WGS84 projection
+ *
+ *  @return feature index results, must be closed
+ */
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
  *  Query for features in the bounding box
  *
  *  @param boundingBox query bounding box
@@ -199,6 +209,17 @@
  *  @return feature index results, must be closed
  */
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
+
+/**
+ *  Query for features in the bounding box
+ *
+ *  @param columns          columns
+ *  @param boundingBox query bounding box
+ *  @param projection  bounding box projection
+ *
+ *  @return feature index results, must be closed
+ */
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
 
 /**
  *  Check if the features are indexed
