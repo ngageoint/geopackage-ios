@@ -208,7 +208,7 @@
  *
  *  @return feature index results, must be closed
  */
--(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
+-(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  *  Query for features in the bounding box
@@ -219,7 +219,7 @@
  *
  *  @return feature index results, must be closed
  */
--(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  *  Check if the features are indexed

@@ -57,7 +57,7 @@
     }
     
     if(boundingBox != nil){
-        boundingBox = [featureTiles expandBoundingBox:boundingBox withProjection:projection];
+        boundingBox = [featureTiles expandBoundingBox:boundingBox inProjection:projection];
     }
     
     return boundingBox;

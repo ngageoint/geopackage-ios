@@ -359,7 +359,7 @@
     return results;
 }
 
--(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     
     GPKGBoundingBox *expandedBoundingBox = boundingBox;
     

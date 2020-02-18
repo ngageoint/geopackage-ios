@@ -148,7 +148,7 @@
                     
                     if(printFeatures){
                         if(projection != nil){
-                            [self projectGeometry:geomData withProjection:projection];
+                            [self projectGeometry:geomData inProjection:projection];
                         }
                         [message appendFormat:@"\n\n%@", [SFGeometryPrinter getGeometryString:geomData.geometry]];
                     }
@@ -230,7 +230,7 @@
                         if(projection != nil){
                             GPKGGeometryData * geomData = (GPKGGeometryData *) value;
                             if(geomData != nil){
-                                [self projectGeometry:geomData withProjection:projection];
+                                [self projectGeometry:geomData inProjection:projection];
                             }
                         }
                     }
@@ -255,7 +255,7 @@
     return tableData;
 }
 
--(void) projectGeometry: (GPKGGeometryData *) geometryData withProjection: (SFPProjection *) projection{
+-(void) projectGeometry: (GPKGGeometryData *) geometryData inProjection: (SFPProjection *) projection{
     
     if(geometryData.geometry != nil){
         

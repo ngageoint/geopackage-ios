@@ -43,7 +43,7 @@
  *  @param boundingBox bounding box
  *  @param projection projection of bounding box
  */
--(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection;
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  *  Get the bounding box as the provided projection
@@ -52,7 +52,7 @@
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxWithProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
 
 /**
  *  Determine if there is a tile for the x, y, and zoom

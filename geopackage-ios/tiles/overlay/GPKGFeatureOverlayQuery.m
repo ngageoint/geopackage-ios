@@ -130,18 +130,18 @@
 }
 
 -(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithBoundingBox:boundingBox withProjection:nil];
+    return [self queryFeaturesWithBoundingBox:boundingBox inProjection:nil];
 }
 
 -(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithColumns:columns andBoundingBox:boundingBox withProjection:nil];
+    return [self queryFeaturesWithColumns:columns andBoundingBox:boundingBox inProjection:nil];
 }
 
--(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
-    return [self queryFeaturesWithColumns:[[self.featureTiles featureDao] columnNames] andBoundingBox:boundingBox withProjection:projection];
+-(GPKGFeatureIndexResults *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+    return [self queryFeaturesWithColumns:[[self.featureTiles featureDao] columnNames] andBoundingBox:boundingBox inProjection:projection];
 }
 
--(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+-(GPKGFeatureIndexResults *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     
     if(projection == nil){
         projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
@@ -230,7 +230,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
                     message = [self.featureInfoBuilder buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }
@@ -305,7 +305,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox withProjection:projection];
+                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
                     tableData = [self.featureInfoBuilder buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }

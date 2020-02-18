@@ -18,12 +18,12 @@
     return self;
 }
 
--(void) setBoundingBox: (GPKGBoundingBox *) boundingBox withProjection: (SFPProjection *) projection{
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     SFPProjectionTransform * projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.webMercatorBoundingBox = [boundingBox transform:projectionToWebMercator];
 }
 
--(GPKGBoundingBox *) boundingBoxWithProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
     SFPProjectionTransform * webMercatorToProjection = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
     return [self.webMercatorBoundingBox transform:webMercatorToProjection];
 }
