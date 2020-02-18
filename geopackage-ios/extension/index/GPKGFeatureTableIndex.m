@@ -708,27 +708,27 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope]];
 }
 
 -(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope]];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
 -(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andFieldValues:fieldValues];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where{
@@ -744,15 +744,15 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGResultSet *) queryFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+    return [self.featureDao queryInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+    return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countFeaturesWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQLWithEnvelope:envelope] andNestedArgs:[self whereArgsWithEnvelope:envelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 @end

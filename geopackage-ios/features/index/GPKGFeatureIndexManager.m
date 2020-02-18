@@ -502,19 +502,19 @@
 
 -(GPKGFeatureIndexResults *) queryWithFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
-    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
     return [self queryWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
-    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
     return [self queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countWithFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
-    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValue:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
     return [self countWhere:where andWhereArgs:whereArgs];
 }
 

@@ -20,6 +20,7 @@
     self = [super initWithResults:results];
     if(self != nil){
         self.featureDao = featureDao;
+        [self.results setColumnsFromTable:featureDao.table];
     }
     return self;
 }
@@ -29,7 +30,7 @@
 }
 
 -(NSNumber *) featureId{
-    return [[self featureRow] id];
+    return [[self results] id];
 }
 
 @end
