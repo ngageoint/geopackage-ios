@@ -6,7 +6,18 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 4.0.0 (TBD)
 
-* TBD
+* Major renaming of methods throughout, including dropping the prefix word "get"
+* XYZ tile rebranding, previously referred to as Standard
+* Separation of columns from user tables
+* Queries and counts by specified columns
+* Tile Generator option to skip pre-existing tiles when updating a GeoPackage
+* Feature Index Manager catches and logs index type errors, attempts next index type
+* RTree, Feature Table Index, Metadata, and Manual Feature Query: feature query and count methods with additional arguments, nested single SQL queries
+* Feature Index Manager, single nested SQL queries for features with additional query argument options
+* Feature Index Results and Metadata Results id iteration shortcut to retrieve id without creating full features
+* Result Set methods for column count, value by column name, and id
+* Removed default values on user tile table columns
+* Add Contents Id Extension table to Contents table for use in related tables
 
 ## [3.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.3.0) (10-14-2019)
 
