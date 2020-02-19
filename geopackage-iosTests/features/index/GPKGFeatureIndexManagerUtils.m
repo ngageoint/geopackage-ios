@@ -35,8 +35,6 @@
 
 @implementation GPKGFeatureIndexManagerUtils
 
-// TODO
-
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_GEOPACKAGE andIncludeEmpty:NO];
     [self testIndexWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_METADATA andIncludeEmpty:NO];
