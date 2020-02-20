@@ -579,9 +579,9 @@
 }
 
 /**
- * Build a feature indexer nested id query from the cursor
+ * Build a feature indexer nested id query from the results
  *
- * @param cursor cursor
+ * @param results results
  * @return id query
  */
 -(GPKGFeatureIndexerIdQuery *) buildIdQueryWithResults: (GPKGResultSet *) results{

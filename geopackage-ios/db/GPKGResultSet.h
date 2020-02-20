@@ -211,7 +211,7 @@
 /**
  *  Set the columns from the user table
  *
- *  @param userTable user table
+ *  @param table user table
 */
 -(void) setColumnsFromTable: (GPKGUserTable *) table;
 

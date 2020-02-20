@@ -206,7 +206,7 @@
 /**
  * Query for all table geometry metadata geometry ids
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @return result set
  */
@@ -215,7 +215,7 @@
 /**
  * Query for all table geometry metadata
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @param columns    queried columns
  * @return result set
@@ -319,7 +319,7 @@
 /**
  * Query for all table geometry metadata ids matching the bounding box in the same projection
  *
- * @param geoPackage  GeoPackage name
+ * @param geoPackageName  GeoPackage name
  * @param tableName   table name
  * @param boundingBox bounding box
  * @return result set
@@ -329,7 +329,7 @@
 /**
  * Query for all table geometry metadata matching the bounding box in the same projection
  *
- * @param geoPackage  GeoPackage name
+ * @param geoPackageName  GeoPackage name
  * @param tableName   table name
  * @param columns     queried columns
  * @param boundingBox bounding box
@@ -405,7 +405,7 @@
 /**
  * Query for all table geometry metadata ids matching the envelope
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @param envelope   geometry envelope
  * @return result set
@@ -415,7 +415,7 @@
 /**
  * Query for all table geometry metadata matching the envelope
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @param columns    queried columns
  * @param envelope   geometry envelope

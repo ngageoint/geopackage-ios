@@ -579,7 +579,7 @@
  * Query for Geometry Metadata idswithin the Geometry Envelope
  *
  * @param envelope geometry envelope
- * @return geometry metadata cursor
+ * @return geometry metadata results
  */
 -(GPKGResultSet *) queryIdsWithEnvelope: (SFGeometryEnvelope *) envelope;
 

@@ -328,7 +328,6 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * Build SQL for selecting ids from the query builder
  *
  * @param where where clause
- * @param args   where args
  * @return SQL
  */
 -(NSString *) queryIdsSQLWhere: (NSString *) where;
