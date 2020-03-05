@@ -469,7 +469,7 @@
 
 +(CLLocationCoordinate2D) locationWithBearing: (double) bearing andDistance: (double) meters fromLocation: (CLLocationCoordinate2D) location{
     
-    const double distRadians = meters / GPKG_GEO_PACKAGE_EARTH_RADIUS;
+    const double distRadians = meters / GPKG_EARTH_RADIUS;
     
     double rbearing = degreesToRadians(bearing);
     
@@ -519,6 +519,23 @@
         point = [self locationWithBearing:heading andDistance:(distance/2.0) fromLocation:from];
     }
     return point;
+}
+
++(GPKGBoundingBox *) boundWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox{
+    GPKGBoundingBox *bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox];
+    if([bounded.minLongitude doubleValue] < -PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH){
+        [bounded setMinLongitude:[[NSDecimalNumber alloc] initWithDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH]];
+    }
+    if([bounded.maxLongitude doubleValue] > PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH){
+        [bounded setMaxLongitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH]];
+    }
+    if([bounded.minLatitude doubleValue] < -PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH){
+        [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH]];
+    }
+    if([bounded.maxLatitude doubleValue] > PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH){
+        [bounded setMaxLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH]];
+    }
+    return bounded;
 }
 
 +(GPKGBoundingBox *) boundWgs84BoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox{

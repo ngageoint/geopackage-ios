@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const GPKG_TEST_GEO_PACKAGE_EXTENSION;
+extern NSString * const GPKG_TEST_EXTENSION;
 extern NSString * const GPKG_TEST_DB_NAME;
 extern NSString * const GPKG_TEST_IMPORT_DB_NAME;
 extern NSString * const GPKG_TEST_TILES_DB_NAME;

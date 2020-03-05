@@ -404,6 +404,19 @@
 -(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
 
 /**
+ * Get the feature table bounding box
+ *
+ * @param table
+ *            table name
+ * @param projection
+ *            desired projection
+ * @param manual
+ *            true to manually query if not indexed
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+
+/**
  *  Get a Spatial Reference System DAO
  *
  *  @return Spatial Reference System DAO

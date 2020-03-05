@@ -97,7 +97,7 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
     }
     
     NSString * extensionName = [NSString stringWithFormat:@"%@%@%@",
-                                [GPKGExtensions buildExtensionNameWithAuthor:([self isGeoPackageExtension:geometryType] ? GPKG_GEO_PACKAGE_EXTENSION_AUTHOR : author) andExtensionName:GPKG_GEOMETRY_EXTENSION_PREFIX],
+                                [GPKGExtensions buildExtensionNameWithAuthor:([self isGeoPackageExtension:geometryType] ? GPKG_EXTENSION_AUTHOR : author) andExtensionName:GPKG_GEOMETRY_EXTENSION_PREFIX],
                                 GPKG_EX_EXTENSION_NAME_DIVIDER,
                                 [SFGeometryTypes name:geometryType]];
     return extensionName;

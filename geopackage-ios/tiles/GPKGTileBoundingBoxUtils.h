@@ -538,6 +538,15 @@
 +(CLLocationCoordinate2D) pointBetweenFromLocation: (CLLocationCoordinate2D) from andToLocation: (CLLocationCoordinate2D) to;
 
 /**
+ * Bound the web mercator bounding box within the limits
+ *
+ * @param boundingBox
+ *            web mercator bounding box
+ * @return bounding box
+ */
++(GPKGBoundingBox *) boundWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
  *  Bound the upper and lower bounds of the WGS84 bounding box with web mercator limits
  *
  *  @param boundingBox wgs84 bounding box

@@ -19,12 +19,12 @@ static int COPY_BUFFER_SIZE = 8192;
 @implementation GPKGIOUtils
 
 +(NSString *) propertyListPathWithName: (NSString *) name{
-    return [self resourcePathWithName:name andType:GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE];
+    return [self resourcePathWithName:name andType:GPKG_PROPERTY_LIST_TYPE];
 }
 
 +(NSString *) resourcePathWithName: (NSString *) name andType: (NSString *) type{
     
-    NSString * resource = [NSString stringWithFormat:@"%@/%@", GPKG_GEO_PACKAGE_BUNDLE_NAME, name];
+    NSString * resource = [NSString stringWithFormat:@"%@/%@", GPKG_BUNDLE_NAME, name];
     NSString * resourcePath = [[NSBundle mainBundle] pathForResource:resource ofType:type];
     if(resourcePath == nil){
         resourcePath = [[NSBundle bundleForClass:[self class]] pathForResource:resource ofType:type];

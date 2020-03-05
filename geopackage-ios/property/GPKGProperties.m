@@ -140,7 +140,7 @@ static NSDictionary * properties;
 
 +(void) initializeProperties{
     if(properties == nil){
-        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES];
+        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_PROPERTIES];
         properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
     }
 }

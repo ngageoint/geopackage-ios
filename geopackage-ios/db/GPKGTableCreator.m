@@ -41,12 +41,12 @@
 
 +(NSArray<NSString *> *) readSQLScript: (NSString *) name{
     
-    NSString * propertiesFile = [GPKGIOUtils propertyListPathWithName:GPKG_GEO_PACKAGE_RESOURCES_TABLES];
+    NSString * propertiesFile = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_TABLES];
     
     NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:propertiesFile];
     NSArray<NSString *> *statements = [properties objectForKey:name];
     if(statements == nil){
-        [NSException raise:@"SQL Script" format:@"Failed to find SQL statements for name: %@, in resource: %@", name, GPKG_GEO_PACKAGE_RESOURCES_TABLES];
+        [NSException raise:@"SQL Script" format:@"Failed to find SQL statements for name: %@, in resource: %@", name, GPKG_RESOURCES_TABLES];
     }
     
     return statements;

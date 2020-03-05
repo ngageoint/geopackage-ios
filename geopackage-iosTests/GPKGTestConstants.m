@@ -8,7 +8,7 @@
 
 #import "GPKGTestConstants.h"
 
-NSString * const GPKG_TEST_GEO_PACKAGE_EXTENSION = @"gpkg";
+NSString * const GPKG_TEST_EXTENSION = @"gpkg";
 NSString * const GPKG_TEST_DB_NAME = @"test_db";
 NSString * const GPKG_TEST_IMPORT_DB_NAME = @"import_db";
 NSString * const GPKG_TEST_TILES_DB_NAME = @"tiles";

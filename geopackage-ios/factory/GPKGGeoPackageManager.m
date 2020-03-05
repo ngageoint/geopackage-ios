@@ -568,7 +568,7 @@ didCompleteWithError:(nullable NSError *)error{
     
     // Add the extension if not on the name
     if(![GPKGGeoPackageValidate hasGeoPackageExtension:file]){
-        file = [file stringByAppendingPathExtension:GPKG_GEOPACKAGE_EXTENSION];
+        file = [file stringByAppendingPathExtension:GPKG_EXTENSION];
     }
     
     // Copy the geopackage database to the new file location
@@ -966,7 +966,7 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(NSString *) buildDatabasePathWithDatabase: (NSString *) database{
-    return [self buildDatabasePathWithDatabase:database andExtension:GPKG_GEOPACKAGE_EXTENSION];
+    return [self buildDatabasePathWithDatabase:database andExtension:GPKG_EXTENSION];
 }
 
 -(NSString *) buildDatabasePathWithDatabase: (NSString *) database andExtension: (NSString *) extension{
@@ -974,7 +974,7 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(NSString *) buildDatabasePathWithDbDirectory: (NSString *) dbDirectory andDatabase: (NSString *) database{
-    return [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database andExtension:GPKG_GEOPACKAGE_EXTENSION];
+    return [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database andExtension:GPKG_EXTENSION];
 }
 
 -(NSString *) buildDatabasePathWithDbDirectory: (NSString *) dbDirectory andDatabase: (NSString *) database andExtension: (NSString *) extension{

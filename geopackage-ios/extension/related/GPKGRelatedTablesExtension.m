@@ -27,7 +27,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION];
         self.extendedRelationsDao = [geoPackage extendedRelationsDao];
     }

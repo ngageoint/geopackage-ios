@@ -92,6 +92,34 @@ struct GPKGBoundingBoxSize{
 -(instancetype) initWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
+ * Get the longitude range
+ *
+ * @return longitude range
+ */
+-(NSDecimalNumber *) longitudeRange;
+
+/**
+ * Get the longitude range
+ *
+ * @return longitude range
+ */
+-(double) longitudeRangeValue;
+
+/**
+ * Get the latitude range
+ *
+ * @return latitude range
+ */
+ -(NSDecimalNumber *) latitudeRange;
+
+/**
+* Get the latitude range
+*
+* @return latitude range
+*/
+-(double) latitudeRangeValue;
+
+/**
  * Build a Geometry Envelope from the bounding box
  *
  * @return geometry envelope
@@ -296,5 +324,30 @@ struct GPKGBoundingBoxSize{
  * @return true if contains
  */
 -(BOOL) contains: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Expand the bounding box to an equally sized width and height bounding box
+ *
+ * @return new square expanded bounding box
+ */
+-(GPKGBoundingBox *) squareExpand;
+
+/**
+ * Expand the bounding box to an equally sized width and height bounding box
+ * with optional empty edge buffer
+ *
+ * @param bufferPercentage
+ *            bounding box edge buffer percentage. A value of 0.1 adds a 10%
+ *            buffer on each side of the squared bounding box.
+ * @return new square expanded bounding box
+ */
+-(GPKGBoundingBox *) squareExpandWithBuffer: (double) bufferPercentage;
+
+/**
+ * Determine if the bounding box is of a single point
+ *
+ * @return true if a single point bounds
+ */
+-(BOOL) isPoint;
 
 @end

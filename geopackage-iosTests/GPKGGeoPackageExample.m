@@ -310,7 +310,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     NSString *exportDirectory = [GPKGIOUtils documentsDirectory];
     
-    NSString * exportedFile = [[exportDirectory stringByAppendingPathComponent:GEOPACKAGE_NAME] stringByAppendingPathExtension:GPKG_GEOPACKAGE_EXTENSION];
+    NSString * exportedFile = [[exportDirectory stringByAppendingPathComponent:GEOPACKAGE_NAME] stringByAppendingPathExtension:GPKG_EXTENSION];
     [GPKGIOUtils deleteFile:exportedFile];
     
     [manager exportGeoPackage:GEOPACKAGE_NAME toDirectory:exportDirectory];

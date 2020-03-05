@@ -28,8 +28,8 @@
     [GPKGTestUtils assertNotNil:extension];
     [GPKGTestUtils assertTrue:[zoomOtherExtension hasWithTableName:tableName]];
     
-    [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[NSString stringWithFormat:@"%@%@%@", GPKG_GEO_PACKAGE_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_ZOOM_OTHER_EXTENSION_NAME]];
-    [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR];
+    [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:[NSString stringWithFormat:@"%@%@%@", GPKG_EXTENSION_AUTHOR, GPKG_EX_EXTENSION_NAME_DIVIDER, GPKG_ZOOM_OTHER_EXTENSION_NAME]];
+    [GPKGTestUtils assertEqualWithValue:[extension author] andValue2:GPKG_EXTENSION_AUTHOR];
     [GPKGTestUtils assertEqualWithValue:[extension extensionNameNoAuthor] andValue2:GPKG_ZOOM_OTHER_EXTENSION_NAME];
     [GPKGTestUtils assertEqualWithValue:extension.tableName andValue2:tableName];
     [GPKGTestUtils assertEqualWithValue:extension.columnName andValue2:GPKG_TC_COLUMN_TILE_DATA];

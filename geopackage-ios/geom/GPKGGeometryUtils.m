@@ -33,7 +33,7 @@
         prevTanLat = tanLat;
         prevLng = lng;
     }
-    return total * (GPKG_GEO_PACKAGE_EARTH_RADIUS * GPKG_GEO_PACKAGE_EARTH_RADIUS);
+    return total * (GPKG_EARTH_RADIUS * GPKG_EARTH_RADIUS);
 }
 
 +(double) polarTriangleAreaWithTan1: (double) tan1 andLng1: (double) lng1 andTan2: (double) tan2 andLng2: (double) lng2{

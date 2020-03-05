@@ -47,13 +47,13 @@
     
     // Get 2 bytes as the magic number and validate
     NSString * magic = [reader readString:2];
-    if(![magic isEqualToString:GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER]){
-        [NSException raise:@"Invalid Magic Number" format:@"Unexpected GeoPackage Geometry magic number: %@, Expected: %@", magic, GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER];
+    if(![magic isEqualToString:GPKG_GEOMETRY_MAGIC_NUMBER]){
+        [NSException raise:@"Invalid Magic Number" format:@"Unexpected GeoPackage Geometry magic number: %@, Expected: %@", magic, GPKG_GEOMETRY_MAGIC_NUMBER];
     }
     
     NSNumber * version = [reader readByte];
-    if([version intValue] != GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1){
-        [NSException raise:@"Invalid Version" format:@"Unexpected GeoPackage Geometry version: %@, Expected: %ld", version, (long)GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1];
+    if([version intValue] != GPKG_GEOMETRY_VERSION_1){
+        [NSException raise:@"Invalid Version" format:@"Unexpected GeoPackage Geometry version: %@, Expected: %ld", version, (long)GPKG_GEOMETRY_VERSION_1];
     }
     
     // Get a flags byte and then read the flag values
@@ -82,10 +82,10 @@
     SFByteWriter * writer = [[SFByteWriter alloc] init];
     
     // Write GP as the 2 byte magic number
-    [writer writeString:GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER];
+    [writer writeString:GPKG_GEOMETRY_MAGIC_NUMBER];
     
     // Write a byte as the version, value of 0 = version 1
-    [writer writeByte:[NSNumber numberWithInteger:GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1]];
+    [writer writeByte:[NSNumber numberWithInteger:GPKG_GEOMETRY_VERSION_1]];
     
     // Build and write a flags byte
     NSNumber * flags = [self buildFlagsByte];

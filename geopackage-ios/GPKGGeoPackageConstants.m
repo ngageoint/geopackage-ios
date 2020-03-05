@@ -8,21 +8,22 @@
 
 #import "GPKGGeoPackageConstants.h"
 
-NSString * const GPKG_GEOPACKAGE_EXTENSION = @"gpkg";
-NSString * const GPKG_GEOPACKAGE_EXTENDED_EXTENSION = @"gpkx";
+NSString * const GPKG_EXTENSION = @"gpkg";
+NSString * const GPKG_EXTENDED_EXTENSION = @"gpkx";
+NSString * const GPKG_MEDIA_TYPE = @"application/geopackage+sqlite3";
 NSString * const GPKG_APPLICATION_ID = @"GPKG";
 NSInteger const GPKG_USER_VERSION = 10201;
 NSString * const GPKG_METADATA_APPLICATION_ID = @"GM10";
-NSString * const GPKG_GEO_PACKAGE_GEOMETRY_MAGIC_NUMBER = @"GP";
-NSInteger const GPKG_GEO_PACKAGE_GEOMETRY_VERSION_1 = 0;
+NSString * const GPKG_GEOMETRY_MAGIC_NUMBER = @"GP";
+NSInteger const GPKG_GEOMETRY_VERSION_1 = 0;
 NSString * const GPKG_SQLITE_HEADER_PREFIX = @"SQLite format 3";
-NSString * const GPKG_GEO_PACKAGE_EXTENSION_AUTHOR = @"gpkg";
+NSString * const GPKG_EXTENSION_AUTHOR = @"gpkg";
 NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX = @"geom";
-NSString * const GPKG_GEO_PACKAGE_BUNDLE_NAME = @"geopackage-ios.bundle";
-NSString * const GPKG_GEO_PACKAGE_PROPERTY_LIST_TYPE = @"plist";
-NSString * const GPKG_GEO_PACKAGE_RESOURCES_PROPERTIES = @"geopackage";
-NSString * const GPKG_GEO_PACKAGE_RESOURCES_TABLES = @"geopackage.tables";
-CGFloat const GPKG_GEO_PACKAGE_EARTH_RADIUS = 6372797.6;
+NSString * const GPKG_BUNDLE_NAME = @"geopackage-ios.bundle";
+NSString * const GPKG_PROPERTY_LIST_TYPE = @"plist";
+NSString * const GPKG_RESOURCES_PROPERTIES = @"geopackage";
+NSString * const GPKG_RESOURCES_TABLES = @"geopackage.tables";
+CGFloat const GPKG_EARTH_RADIUS = 6372797.6;
 
 @implementation GPKGGeoPackageConstants
 

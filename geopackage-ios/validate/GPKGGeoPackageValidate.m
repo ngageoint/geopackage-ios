@@ -12,17 +12,24 @@
 @implementation GPKGGeoPackageValidate
 
 +(BOOL) hasGeoPackageExtension: (NSString *) file{
-    NSString * extension = [file pathExtension];
-    BOOL isGeoPackage = extension != nil
-        && ([extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENSION] == NSOrderedSame
-            || [extension caseInsensitiveCompare:GPKG_GEOPACKAGE_EXTENDED_EXTENSION] == NSOrderedSame);
-    return isGeoPackage;
+    NSString *extension = [file pathExtension];
+    return [self isGeoPackageExtension:extension];
+}
+
++(BOOL) isGeoPackageExtension: (NSString *) extension{
+    return extension != nil
+        && ([extension caseInsensitiveCompare:GPKG_EXTENSION] == NSOrderedSame
+        || [extension caseInsensitiveCompare:GPKG_EXTENDED_EXTENSION] == NSOrderedSame);
 }
 
 +(void) validateGeoPackageExtension: (NSString *) file{
     if(![self hasGeoPackageExtension:file]){
-        [NSException raise:@"Invalid Extension" format:@"GeoPackage database file '%@' does not have a valid extension of '%@' or '%@'", file, GPKG_GEOPACKAGE_EXTENSION, GPKG_GEOPACKAGE_EXTENDED_EXTENSION];
+        [NSException raise:@"Invalid Extension" format:@"GeoPackage database file '%@' does not have a valid extension of '%@' or '%@'", file, GPKG_EXTENSION, GPKG_EXTENDED_EXTENSION];
     }
+}
+
++(NSString *) addGeoPackageExtension: (NSString *) name{
+    return [NSString stringWithFormat:@"%@.%@", name, GPKG_EXTENSION];
 }
 
 +(BOOL) hasMinimumTables: (GPKGGeoPackage *) geoPackage{

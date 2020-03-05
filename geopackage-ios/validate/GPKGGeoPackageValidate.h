@@ -24,11 +24,29 @@
 +(BOOL) hasGeoPackageExtension: (NSString *) file;
 
 /**
+ * Check if a GeoPackage extension
+ *
+ * @param extension
+ *            file extension
+ * @return true if GeoPackage extension
+ */
++(BOOL) isGeoPackageExtension: (NSString *) extension;
+
+/**
  *  Validate the extension file as a GeoPackage
  *
  *  @param file file path
  */
 +(void) validateGeoPackageExtension: (NSString *) file;
+
+/**
+ * Add a GeoPackage extension if one does not exist
+ *
+ * @param name
+ *            GeoPackage file name
+ * @return GeoPackage name with extension
+ */
++(NSString *) addGeoPackageExtension: (NSString *) name;
 
 /**
  *  Check the GeoPackage for the minimum required tables

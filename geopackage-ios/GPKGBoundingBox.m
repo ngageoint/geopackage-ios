@@ -52,6 +52,22 @@
     return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
+-(NSDecimalNumber *) longitudeRange{
+    return [self.maxLongitude decimalNumberBySubtracting:self.minLongitude];
+}
+
+-(double) longitudeRangeValue{
+    return [[self longitudeRange] doubleValue];
+}
+
+-(NSDecimalNumber *) latitudeRange{
+    return [self.maxLatitude decimalNumberBySubtracting:self.minLatitude];
+}
+
+-(double) latitudeRangeValue{
+    return [[self latitudeRange] doubleValue];
+}
+
 -(SFGeometryEnvelope *) buildEnvelope{
     return [GPKGBoundingBox buildEnvelopeFromBoundingBox:self];
 }
@@ -301,6 +317,61 @@
     && [self.maxLongitude doubleValue] >= [boundingBox.maxLongitude doubleValue]
     && [self.minLatitude doubleValue] <= [boundingBox.minLatitude doubleValue]
     && [self.maxLatitude doubleValue] >= [boundingBox.maxLatitude doubleValue];
+}
+
+-(GPKGBoundingBox *) squareExpand{
+    return [self squareExpandWithBuffer:0.0];
+}
+
+-(GPKGBoundingBox *) squareExpandWithBuffer: (double) bufferPercentage{
+    
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+
+    if([boundingBox isPoint] && bufferPercentage > 0.0){
+
+        NSDecimalNumber *expand = [[NSDecimalNumber alloc] initWithDouble:DBL_EPSILON];
+        
+        [boundingBox setMinLongitude:[boundingBox.minLongitude decimalNumberBySubtracting:expand]];
+        [boundingBox setMaxLongitude:[boundingBox.maxLongitude decimalNumberByAdding:expand]];
+        
+        [boundingBox setMinLatitude:[boundingBox.minLatitude decimalNumberBySubtracting:expand]];
+        [boundingBox setMaxLatitude:[boundingBox.maxLatitude decimalNumberByAdding:expand]];
+
+    }
+
+    NSDecimalNumber *lonRange = [boundingBox longitudeRange];
+    NSDecimalNumber *latRange = [boundingBox latitudeRange];
+    
+    NSDecimalNumber *range = lonRange;
+    
+    NSComparisonResult rangeCompare = [lonRange compare:latRange];
+    if(rangeCompare == NSOrderedAscending){
+        range = latRange;
+        NSDecimalNumber *halfDiff = [[latRange decimalNumberBySubtracting:lonRange] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithDouble:2.0]];
+        [boundingBox setMinLongitude:[boundingBox.minLongitude decimalNumberBySubtracting:halfDiff]];
+        [boundingBox setMaxLongitude:[boundingBox.maxLongitude decimalNumberByAdding:halfDiff]];
+    }else if(rangeCompare == NSOrderedDescending){
+        NSDecimalNumber *halfDiff = [[lonRange decimalNumberBySubtracting:latRange] decimalNumberByDividingBy:[[NSDecimalNumber alloc] initWithDouble:2.0]];
+        [boundingBox setMinLatitude:[boundingBox.minLatitude decimalNumberBySubtracting:halfDiff]];
+        [boundingBox setMaxLatitude:[boundingBox.maxLatitude decimalNumberByAdding:halfDiff]];
+    }
+
+    double rangeValue = MAX([range doubleValue], DBL_MIN);
+    double bufferValue = ((rangeValue / (1.0 - (2.0 * bufferPercentage))) - rangeValue) / 2.0;
+    
+    NSDecimalNumber *buffer = [[NSDecimalNumber alloc] initWithDouble:bufferValue];
+
+    [boundingBox setMinLongitude:[boundingBox.minLongitude decimalNumberBySubtracting:buffer]];
+    [boundingBox setMinLatitude:[boundingBox.minLatitude decimalNumberBySubtracting:buffer]];
+    [boundingBox setMaxLongitude:[boundingBox.maxLongitude decimalNumberByAdding:buffer]];
+    [boundingBox setMaxLatitude:[boundingBox.maxLatitude decimalNumberByAdding:buffer]];
+
+    return boundingBox;
+}
+
+-(BOOL) isPoint{
+    return [self.minLongitude compare:self.maxLongitude] == NSOrderedSame
+        && [self.minLatitude compare:self.maxLatitude] == NSOrderedSame;
 }
 
 @end

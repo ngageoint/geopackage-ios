@@ -78,7 +78,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 }
 
 +(NSString *) buildDefaultAuthorExtensionName: (NSString *) extensionName{
-    return [self buildExtensionNameWithAuthor:GPKG_GEO_PACKAGE_EXTENSION_AUTHOR andExtensionName:extensionName];
+    return [self buildExtensionNameWithAuthor:GPKG_EXTENSION_AUTHOR andExtensionName:extensionName];
 }
 
 +(NSString *) authorWithExtensionName: (NSString *) extensionName{
