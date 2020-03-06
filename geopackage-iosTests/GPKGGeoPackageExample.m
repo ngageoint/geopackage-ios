@@ -50,6 +50,8 @@
 #import "GPKGPropertyNames.h"
 #import "GPKGColorConstants.h"
 #import "GPKGFeatureTableStyles.h"
+#import "GPKGFeaturePreview.h"
+#import "GPKGImageConverter.h"
 
 @implementation GPKGGeoPackageExample
 
@@ -185,6 +187,11 @@ static NSString *DATETIME_COLUMN = @"datetime";
         [GPKGGeoPackageExample createCrsWktExtensionWithGeoPackage:geoPackage];
     }
     
+    NSLog(@"Contents Id: %s", CONTENTS_ID ? "Yes" : "No");
+    if (CONTENTS_ID) {
+        [GPKGGeoPackageExample createContentsIdExtensionWithGeoPackage:geoPackage];
+    }
+    
     NSLog(@"Features: %s", FEATURES ? "Yes" : "No");
     if (FEATURES) {
         
@@ -293,11 +300,6 @@ static NSString *DATETIME_COLUMN = @"datetime";
     NSLog(@"Properties: %s", PROPERTIES ? "Yes" : "No");
     if (PROPERTIES) {
         [GPKGGeoPackageExample createPropertiesExtensionWithGeoPackage:geoPackage];
-    }
-    
-    NSLog(@"Contents Id: %s", CONTENTS_ID ? "Yes" : "No");
-    if (CONTENTS_ID) {
-        [GPKGGeoPackageExample createContentsIdExtensionWithGeoPackage:geoPackage];
     }
     
     [geoPackage close];
@@ -1439,6 +1441,10 @@ static int dataColumnConstraintIndex = 0;
     [self insertRelatedTablesMediaExtensionRowsWithGeoPackage:geoPackage andRelation:relation2 andQuery:@"NGA%" andName:@"NGA" andFile:@"NGA_Logo.png" andContentType:@"image/png" andDescription:@"NGA Logo" andSource:@"http://www.nga.mil"];
     [self insertRelatedTablesMediaExtensionRowsWithGeoPackage:geoPackage andRelation:relation2 andQuery:@"NGA" andName:@"NGA" andFile:@"NGA.jpg" andContentType:@"image/jpeg" andDescription:@"Aerial View of NGA East" andSource:@"http://www.nga.mil"];
     
+    if (CONTENTS_ID) {
+        [self insertRelatedTablesMediaPreviewExtensionRowsWithGeoPackage:geoPackage andRelatedTables:relatedTables];
+    }
+    
 }
 
 +(void) insertRelatedTablesMediaExtensionRowsWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelation: (GPKGExtendedRelation *) relation andQuery: (NSString *) query andName: (NSString *) name andFile: (NSString *) file andContentType: (NSString *) contentType andDescription: (NSString *) description andSource: (NSString *) source{
@@ -1474,6 +1480,45 @@ static int dataColumnConstraintIndex = 0;
         [userMappingDao create:userMappingRow];
     }
     [featureResultSet close];
+    
+}
+
++(void) insertRelatedTablesMediaPreviewExtensionRowsWithGeoPackage: (GPKGGeoPackage *) geoPackage andRelatedTables: (GPKGRelatedTablesExtension *) relatedTables{
+    
+    GPKGContentsIdExtension *contentsId = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    
+    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"preview"];
+    GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"features_%@", [mediaTable tableName]]];
+    
+    GPKGExtendedRelation *relation = [relatedTables addMediaRelationshipWithBaseTable:GPKG_CI_TABLE_NAME andMediaTable:mediaTable andUserMappingTable:userMappingTable];
+
+    GPKGMediaDao *mediaDao = [relatedTables mediaDaoForRelation:relation];
+    GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
+
+    for (NSString *featureTable in [geoPackage featureTables]) {
+
+        int featureContentsId = [[contentsId createGetIdForTableName:featureTable] intValue];
+        
+        GPKGFeaturePreview *preview = [[GPKGFeaturePreview alloc] initWithGeoPackage:geoPackage andTableName:featureTable];
+        @try {
+            [preview setManual:YES];
+            [preview setBufferPercentage:0.1];
+            UIImage *previewImage = [preview draw];
+            NSData *previewData = [GPKGImageConverter toData:previewImage andFormat:GPKG_CF_PNG];
+            
+            GPKGMediaRow *mediaRow = [mediaDao newRow];
+            [mediaRow setData:previewData];
+            [mediaRow setContentType:@"image/png"];
+            int mediaRowId = (int)[mediaDao create:mediaRow];
+            
+            GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
+            [userMappingRow setBaseId:featureContentsId];
+            [userMappingRow setRelatedId:mediaRowId];
+            [userMappingDao create:userMappingRow];
+        } @finally {
+            [preview close];
+        }
+    }
     
 }
 

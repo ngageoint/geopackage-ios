@@ -19,7 +19,7 @@
  *  Initialize
  *
  *  @param tileWidth  tile width
- *  @parma tileHeight tile height
+ *  @param tileHeight tile height
  *
  *  @return new feature tile context
  */

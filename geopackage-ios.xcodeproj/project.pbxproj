@@ -2076,6 +2076,8 @@
 				0422BB321DF0E417002709B6 /* GPKGImportCoverageDataTiffGeoPackageTestCase.m */,
 				04B285C62333D2BB00CBF9DD /* GPKGPerformanceTestCase.h */,
 				04B285C72333D2BB00CBF9DD /* GPKGPerformanceTestCase.m */,
+				040D0C3A201FA110000ACD6C /* GPKGGeoPackageExample.h */,
+				040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */,
 				042FC8E01B964DA200549A4B /* import_db_corrupt.gpkg */,
 				042FC8E11B964DA200549A4B /* import_db.gpkg */,
 				042B88AA1DFF4AC3006C2A4F /* coverage_data.gpkg */,
@@ -2094,8 +2096,6 @@
 				04711AD3220A37F6007DC3A4 /* point.png */,
 				04711AD5220A37F7007DC3A4 /* tractor.png */,
 				042FC6F01B964BC800549A4B /* Supporting Files */,
-				040D0C3A201FA110000ACD6C /* GPKGGeoPackageExample.h */,
-				040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */,
 				04C941D72024A05E0059222E /* example */,
 			);
 			path = "geopackage-iosTests";
