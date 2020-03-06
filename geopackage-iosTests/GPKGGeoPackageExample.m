@@ -1501,6 +1501,7 @@ static int dataColumnConstraintIndex = 0;
         
         GPKGFeaturePreview *preview = [[GPKGFeaturePreview alloc] initWithGeoPackage:geoPackage andTableName:featureTable];
         @try {
+            [[preview featureTiles] setScale:1.0];
             [preview setManual:YES];
             [preview setBufferPercentage:0.1];
             UIImage *previewImage = [preview draw];
