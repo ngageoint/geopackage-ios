@@ -315,10 +315,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [polygon2dContents setIdentifier:@"polygon2d"];
     // [polygon2dContents setTheDescription:@""];
     // [polygon2dContents setLastChange:[NSDate date]];
-    [polygon2dContents setMinX:[[NSDecimalNumber alloc] initWithDouble:0.0]];
-    [polygon2dContents setMinY:[[NSDecimalNumber alloc] initWithDouble:0.0]];
-    [polygon2dContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:10.0]];
-    [polygon2dContents setMaxY:[[NSDecimalNumber alloc] initWithDouble:10.0]];
+    [polygon2dContents setMinX:[[NSDecimalNumber alloc] initWithDouble:-180.0]];
+    [polygon2dContents setMinY:[[NSDecimalNumber alloc] initWithDouble:-90.0]];
+    [polygon2dContents setMaxX:[[NSDecimalNumber alloc] initWithDouble:180.0]];
+    [polygon2dContents setMaxY:[[NSDecimalNumber alloc] initWithDouble:90.0]];
     [polygon2dContents setSrs:undefinedGeographicSrs];
     
     GPKGContents * point3dContents = [[GPKGContents alloc] init];

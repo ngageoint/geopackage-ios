@@ -59,6 +59,13 @@
 -(instancetype) initWithRow: (GPKGUserRow *) row;
 
 /**
+ * Get the table name
+ *
+ * @return table name
+ */
+-(NSString *) tableName;
+
+/**
  *  Get the column count
  *
  *  @return column count

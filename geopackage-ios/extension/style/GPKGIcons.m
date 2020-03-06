@@ -26,9 +26,14 @@
 @implementation GPKGIcons
 
 -(instancetype) init{
+    return [self initAsTableIcons:NO];
+}
+
+-(instancetype) initAsTableIcons: (BOOL) tableIcons{
     self = [super init];
     if(self != nil){
         self.icons = [[NSMutableDictionary alloc] init];
+        self.tableIcons = tableIcons;
     }
     return self;
 }
@@ -38,6 +43,9 @@
 }
 
 -(void) setIcon: (GPKGIconRow *) iconRow forGeometryType: (enum SFGeometryType) geometryType{
+    if (iconRow != nil) {
+        [iconRow setTableIcon:self.tableIcons];
+    }
     if (geometryType != SF_NONE && geometryType >= 0) {
         if (iconRow != nil) {
             [self.icons setObject:iconRow forKey:[NSNumber numberWithInt:geometryType]];

@@ -68,6 +68,10 @@
     return nil;
 }
 
+-(NSString *) tableName{
+    return [_table tableName];
+}
+
 -(int) columnCount{
     return [_columns columnCount];
 }

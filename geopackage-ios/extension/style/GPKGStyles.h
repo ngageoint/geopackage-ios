@@ -15,11 +15,24 @@
 @interface GPKGStyles : NSObject
 
 /**
+ * Table styles flag
+ */
+@property (nonatomic) BOOL tableStyles;
+
+/**
  * Initialize
  *
  * @return new styles
  */
 -(instancetype) init;
+
+/**
+ * Initialize
+ *
+ * @param tableStyles table styles
+ * @return new styles
+ */
+-(instancetype) initAsTableStyles: (BOOL) tableStyles;
 
 /**
  * Set the default style

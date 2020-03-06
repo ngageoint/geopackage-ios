@@ -10,7 +10,15 @@
 #import "GPKGStyleTable.h"
 #import "GPKGColor.h"
 
+/**
+ * Style Row containing the values from a single result set row
+ */
 @interface GPKGStyleRow : GPKGAttributesRow
+
+/**
+ * Table style flag
+ */
+@property (nonatomic) BOOL tableStyle;
 
 /**
  * Initializer to create an empty row

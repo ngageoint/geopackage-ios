@@ -42,4 +42,8 @@
     return self.icon != nil;
 }
 
+-(BOOL) useIcon{
+    return [self hasIcon] && (!self.icon.tableIcon || ![self hasStyle] || self.style.tableStyle);
+}
+
 @end

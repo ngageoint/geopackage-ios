@@ -157,7 +157,7 @@
             if (styles == nil) {
                 styles = [self tableStyles];
                 if (styles == nil) {
-                    styles = [[GPKGStyles alloc] init];
+                    styles = [[GPKGStyles alloc] initAsTableStyles:YES];
                 }
                 [self.cachedTableFeatureStyles setStyles:styles];
             }
@@ -193,7 +193,7 @@
             if (icons == nil) {
                 icons = [self tableIcons];
                 if (icons == nil) {
-                    icons = [[GPKGIcons alloc] init];
+                    icons = [[GPKGIcons alloc] initAsTableIcons:YES];
                 }
                 [self.cachedTableFeatureStyles setIcons:icons];
             }

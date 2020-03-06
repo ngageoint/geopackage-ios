@@ -74,4 +74,13 @@
  */
 -(BOOL) hasIcon;
 
+/**
+ * Determine if an icon exists and should be used. Returns false when an
+ * icon does not exist or when both a table level icon and row level style
+ * exist.
+ *
+ * @return true if the icon exists and should be used over a style
+ */
+-(BOOL) useIcon;
+
 @end

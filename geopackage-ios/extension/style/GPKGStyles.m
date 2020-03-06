@@ -33,11 +33,23 @@
     return self;
 }
 
+-(instancetype) initAsTableStyles: (BOOL) tableStyles{
+    self = [super init];
+    if(self != nil){
+        self.styles = [[NSMutableDictionary alloc] init];
+        self.tableStyles = tableStyles;
+    }
+    return self;
+}
+
 -(void) setDefaultStyle: (GPKGStyleRow *) styleRow{
     [self setStyle:styleRow forGeometryType:SF_NONE];
 }
 
 -(void) setStyle: (GPKGStyleRow *) styleRow forGeometryType: (enum SFGeometryType) geometryType{
+    if (styleRow != nil) {
+        [styleRow setTableStyle:self.tableStyles];
+    }
     if (geometryType != SF_NONE && geometryType >= 0) {
         if (styleRow != nil) {
             [self.styles setObject:styleRow forKey:[NSNumber numberWithInt:geometryType]];

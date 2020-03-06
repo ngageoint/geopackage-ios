@@ -15,11 +15,24 @@
 @interface GPKGIcons : NSObject
 
 /**
+ * Table icons flag
+ */
+@property (nonatomic) BOOL tableIcons;
+
+/**
  * Initialize
  *
  * @return new icons
  */
 -(instancetype) init;
+
+/**
+ * Initialize
+ *
+ * @param tableIcons table icons
+ * @return new icons
+ */
+-(instancetype) initAsTableIcons: (BOOL) tableIcons;
 
 /**
  * Set the default icon

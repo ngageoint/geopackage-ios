@@ -7,6 +7,7 @@
 //
 
 #import "GPKGManualFeatureQuery.h"
+#import "GPKGSqlUtils.h"
 
 @interface GPKGManualFeatureQuery ()
 
@@ -43,7 +44,7 @@
 }
 
 -(int) countWithGeometries{
-    return [self.featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [self.featureDao geometryColumnName]]];
+    return [self.featureDao countWhere:[NSString stringWithFormat:@"%@ IS NOT NULL", [GPKGSqlUtils quoteWrapName:[self.featureDao geometryColumnName]]]];
 }
 
 -(GPKGResultSet *) queryWithFieldValues: (GPKGColumnValues *) fieldValues{

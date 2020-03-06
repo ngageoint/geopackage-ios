@@ -357,7 +357,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  * @return table styles or null
  */
 -(GPKGStyles *) tableStylesWithTableName: (NSString *) featureTable andContentsId: (int) contentsId{
-    return [self stylesWithId:contentsId andDao:[self tableStyleMappingDaoWithTable:featureTable]];
+    return [self tableStylesWithId:contentsId andDao:[self tableStyleMappingDaoWithTable:featureTable]];
 }
 
 -(GPKGStyleRow *) tableStyleWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType{
@@ -394,7 +394,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  * @return table icons or null
  */
 -(GPKGIcons *) tableIconsWithTableName: (NSString *) featureTable andContentsId: (int) contentsId{
-    return [self iconsWithId:contentsId andDao:[self tableIconMappingDaoWithTable:featureTable]];
+    return [self tableIconsWithId:contentsId andDao:[self tableIconMappingDaoWithTable:featureTable]];
 }
 
 -(GPKGIconRow *) tableIconDefaultWithTableName: (NSString *) featureTable{
@@ -621,6 +621,29 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  * @return styles
  */
 -(GPKGStyles *) stylesWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao{
+    return [self stylesWithId:featureId andDao:mappingDao andTableStyles:NO];
+}
+
+/**
+ * Get the table styles for feature id from the style mapping dao
+ *
+ * @param featureId  geometry feature id or feature table id
+ * @param mappingDao style mapping dao
+ * @return styles
+ */
+-(GPKGStyles *) tableStylesWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao{
+    return [self stylesWithId:featureId andDao:mappingDao andTableStyles:YES];
+}
+
+/**
+ * Get the styles for feature id from the style mapping dao
+ *
+ * @param featureId   geometry feature id or feature table id
+ * @param mappingDao  style mapping dao
+ * @param tableStyles table styles flag
+ * @return styles
+ */
+-(GPKGStyles *) stylesWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao andTableStyles: (BOOL) tableStyles{
     
     GPKGStyles *styles = nil;
     
@@ -638,7 +661,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
                     GPKGStyleRow *styleRow = [styleDao queryForRow:styleMappingRow];
                     if(styleRow != nil){
                         if(styles == nil){
-                            styles = [[GPKGStyles alloc] init];
+                            styles = [[GPKGStyles alloc] initAsTableStyles:tableStyles];
                         }
                         [styles setStyle:styleRow forGeometryType:[styleMappingRow geometryType]];
                     }
@@ -658,7 +681,29 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
  * @return icons
  */
 -(GPKGIcons *) iconsWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao{
-    
+    return [self iconsWithId:featureId andDao:mappingDao andTableIcons:NO];
+}
+
+/**
+ * Get the table icons for feature id from the icon mapping dao
+ *
+ * @param featureId  geometry feature id or feature table id
+ * @param mappingDao icon mapping dao
+ * @return icons
+ */
+-(GPKGIcons *) tableIconsWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao{
+    return [self iconsWithId:featureId andDao:mappingDao andTableIcons:YES];
+}
+
+/**
+ * Get the icons for feature id from the icon mapping dao
+ *
+ * @param featureId  geometry feature id or feature table id
+ * @param mappingDao icon mapping dao
+ * @param tableIcons table icons flag
+ * @return icons
+ */
+-(GPKGIcons *) iconsWithId: (int) featureId andDao: (GPKGStyleMappingDao *) mappingDao andTableIcons: (BOOL) tableIcons{
     GPKGIcons *icons = nil;
     
     if (mappingDao != nil) {
@@ -675,7 +720,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
                     GPKGIconRow *iconRow = [iconDao queryForRow:styleMappingRow];
                     if(iconRow != nil){
                         if(icons == nil){
-                            icons = [[GPKGIcons alloc] init];
+                            icons = [[GPKGIcons alloc] initAsTableIcons:tableIcons];
                         }
                         [icons setIcon:iconRow forGeometryType:[styleMappingRow geometryType]];
                     }

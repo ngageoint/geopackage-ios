@@ -265,6 +265,25 @@
                 
                 GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
                 
+                NSNumber *featureRowId = [featureRow id];
+                NSMutableDictionary<NSNumber *, GPKGStyleRow *> *featureRowStyles = [featureResultsStyles objectForKey:featureRowId];
+                BOOL hasFeatureRowStyles = featureRowStyles != nil;
+                NSMutableDictionary<NSNumber *, GPKGIconRow *> *featureRowIcons = [featureResultsIcons objectForKey:featureRowId];
+                BOOL hasFeatureRowIcons = featureRowIcons !=  nil;
+                GPKGFeatureStyle *featureStyle = [featureTableStyles featureStyleWithFeature:featureRow];
+                [GPKGTestUtils assertNotNil:featureStyle];
+                [GPKGTestUtils assertTrue:[featureStyle hasStyle]];
+                [GPKGTestUtils assertNotNil:featureStyle.style];
+                [GPKGTestUtils assertEqualBoolWithValue:!hasFeatureRowStyles andValue2:featureStyle.style.tableStyle];
+                GPKGStyleRow *expectedStyleRow = [self expectedRowStyle:featureRow andGeometryType:[featureRow geometryType] andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
+                [GPKGTestUtils assertEqualWithValue:[expectedStyleRow id] andValue2:[featureStyle.style id]];
+                [GPKGTestUtils assertTrue:[featureStyle hasIcon]];
+                [GPKGTestUtils assertNotNil:featureStyle.icon];
+                [GPKGTestUtils assertEqualBoolWithValue:!hasFeatureRowIcons andValue2:featureStyle.icon.tableIcon];
+                GPKGIconRow *expectedIconRow = [self expectedRowIcon:featureRow andGeometryType:[featureRow geometryType] andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
+                [GPKGTestUtils assertEqualWithValue:[expectedIconRow id] andValue2:[featureStyle.icon id]];
+                [GPKGTestUtils assertEqualBoolWithValue:hasFeatureRowIcons || !hasFeatureRowStyles andValue2:[featureStyle useIcon]];
+                
                 [self validateRowStyles:featureTableStyles andFeature:featureRow andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
                 
                 [self validateRowIcons:featureTableStyles andFeature:featureRow andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
@@ -400,6 +419,29 @@
         styleRow = [featureTableStyles styleWithFeature:featureRow andGeometryType:geometryType];
     }
     
+    GPKGStyleRow *expectedStyleRow = [self expectedRowStyle:featureRow andGeometryType:geometryType andTableStyleDefault:tableStyleDefault andTableStyles:geometryTypeTableStyles andFeatureStyles:featureResultsStyles];
+    
+    if (expectedStyleRow != nil) {
+        [GPKGTestUtils assertEqualWithValue:[expectedStyleRow id] andValue2:[styleRow id]];
+        [GPKGTestUtils assertNotNil:[styleRow table]];
+        [GPKGTestUtils assertTrue:[styleRow idValue] >= 0];
+        [styleRow name];
+        [styleRow description];
+        [styleRow color];
+        [styleRow hexColor];
+        [styleRow opacity];
+        [styleRow width];
+        [styleRow fillColor];
+        [styleRow fillHexColor];
+        [styleRow fillOpacity];
+    } else {
+        [GPKGTestUtils assertNil:styleRow];
+    }
+    
+}
+
++(GPKGStyleRow *) expectedRowStyle: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableStyleDefault: (GPKGStyleRow *) tableStyleDefault andTableStyles: (NSDictionary *) geometryTypeTableStyles andFeatureStyles: (NSDictionary *) featureResultsStyles{
+    
     NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
     if(geometryType != SF_NONE && geometryType >= 0){
         [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
@@ -431,23 +473,7 @@
         }
     }
     
-    if (expectedStyleRow != nil) {
-        [GPKGTestUtils assertEqualWithValue:[expectedStyleRow id] andValue2:[styleRow id]];
-        [GPKGTestUtils assertNotNil:[styleRow table]];
-        [GPKGTestUtils assertTrue:[styleRow idValue] >= 0];
-        [styleRow name];
-        [styleRow description];
-        [styleRow color];
-        [styleRow hexColor];
-        [styleRow opacity];
-        [styleRow width];
-        [styleRow fillColor];
-        [styleRow fillHexColor];
-        [styleRow fillOpacity];
-    } else {
-        [GPKGTestUtils assertNil:styleRow];
-    }
-    
+    return expectedStyleRow;
 }
 
 +(void) validateRowIcons: (GPKGFeatureTableStyles *) featureTableStyles andFeature: (GPKGFeatureRow *) featureRow andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
@@ -483,6 +509,26 @@
         iconRow = [featureTableStyles iconWithFeature:featureRow andGeometryType:geometryType];
     }
     
+    GPKGIconRow *expectedIconRow = [self expectedRowIcon:featureRow andGeometryType:geometryType andTableIconDefault:tableIconDefault andTableIcons:geometryTypeTableIcons andFeatureIcons:featureResultsIcons];
+    
+    if (expectedIconRow != nil) {
+        [GPKGTestUtils assertEqualWithValue:[expectedIconRow id] andValue2:[iconRow id]];
+        [GPKGTestUtils assertNotNil:[iconRow table]];
+        [GPKGTestUtils assertTrue:[iconRow idValue] >= 0];
+        [iconRow name];
+        [iconRow description];
+        [iconRow width];
+        [iconRow height];
+        [iconRow anchorU];
+        [iconRow anchorV];
+    } else {
+        [GPKGTestUtils assertNil:iconRow];
+    }
+    
+}
+
++(GPKGIconRow *) expectedRowIcon: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
+    
     NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
     if(geometryType != SF_NONE && geometryType >= 0){
         [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
@@ -514,20 +560,7 @@
         }
     }
     
-    if (expectedIconRow != nil) {
-        [GPKGTestUtils assertEqualWithValue:[expectedIconRow id] andValue2:[iconRow id]];
-        [GPKGTestUtils assertNotNil:[iconRow table]];
-        [GPKGTestUtils assertTrue:[iconRow idValue] >= 0];
-        [iconRow name];
-        [iconRow description];
-        [iconRow width];
-        [iconRow height];
-        [iconRow anchorU];
-        [iconRow anchorV];
-    } else {
-        [GPKGTestUtils assertNil:iconRow];
-    }
-    
+    return expectedIconRow;
 }
 
 +(GPKGStyleRow *) randomStyle{

@@ -396,13 +396,10 @@
     minLatitude = MIN(minLatitude, [webMercatorBoundingBox.minLatitude doubleValue]);
     maxLatitude = MAX(maxLatitude, [webMercatorBoundingBox.maxLatitude doubleValue]);
     
-    // Bound with the web mercator limits
-    minLongitude = MAX(minLongitude, -1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
-    maxLongitude = MIN(maxLongitude, PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
-    minLatitude = MAX(minLatitude, -1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
-    maxLatitude = MIN(maxLatitude, PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH);
-    
     GPKGBoundingBox * expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    
+    // Bound with the web mercator limits
+    expandedBoundingBox = [GPKGTileBoundingBoxUtils boundWebMercatorBoundingBox:expandedBoundingBox];
     
     return expandedBoundingBox;
 }
@@ -841,7 +838,7 @@
     double x = [GPKGTileBoundingBoxUtils xPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
     double y = [GPKGTileBoundingBoxUtils yPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
     
-    if(featureStyle != nil && [featureStyle hasIcon]){
+    if(featureStyle != nil && [featureStyle useIcon]){
     
         GPKGIconRow *iconRow = featureStyle.icon;
         UIImage *icon = [self iconImageForIcon:iconRow];

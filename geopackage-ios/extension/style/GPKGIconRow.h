@@ -15,6 +15,11 @@
 @interface GPKGIconRow : GPKGMediaRow
 
 /**
+ * Table icon flag
+ */
+@property (nonatomic) BOOL tableIcon;
+
+/**
  * Initializer to create an empty row
  */
 -(instancetype) init;
