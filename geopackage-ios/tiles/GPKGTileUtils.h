@@ -11,22 +11,22 @@
 /**
  * Displayed device-independent pixels
  */
-static int TILE_DP = 256;
+extern int const GPKG_TU_TILE_DP;
 
 /**
  * Tile pixels for default dpi tiles
  */
-static int TILE_PIXELS_DEFAULT = 256;
+extern int const GPKG_TU_TILE_PIXELS_DEFAULT;
 
 /**
  * Tile pixels for high dpi tiles
  */
-static int TILE_PIXELS_HIGH = 512;
+extern int const GPKG_TU_TILE_PIXELS_HIGH;
 
 /**
  * Default display scale factor
  */
-static float SCALE_FACTOR_DEFAULT = 2.0f;
+extern float const GPKG_TU_SCALE_FACTOR_DEFAULT;
 
 /**
  * Tile utilities and constants
