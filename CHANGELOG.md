@@ -18,6 +18,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * Result Set methods for column count, value by column name, and id
 * Removed default values on user tile table columns
 * Add Contents Id Extension table to Contents table for use in related tables
+* Feature Preview for drawing a single preview tile of features
+* Feature Style Extension fix to use an individual feature style over a default table icon
+* Bounding box utility methods
 
 ## [3.3.0](https://github.com/ngageoint/geopackage-ios/releases/tag/3.3.0) (10-14-2019)
 
