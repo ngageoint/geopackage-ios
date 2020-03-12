@@ -282,5 +282,6 @@
 #import "GPKGFeatureIndexLocation.h"
 #import "GPKGFeatureIndexerIdQuery.h"
 #import "GPKGFeatureIndexerIdResultSet.h"
+#import "GPKGFeaturePreview.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
