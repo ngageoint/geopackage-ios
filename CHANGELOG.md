@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 4.0.1 (TBD)
+
+* TBD
+
 ## [4.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/4.0.0) (03-12-2020)
 
 * Major renaming of methods throughout, including dropping the prefix word "get"
