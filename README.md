@@ -256,7 +256,9 @@ geoPackage.close();
 manager.close();
 ```
 
-### Developing ###
+### Build ###
+
+[![Build & Test](https://github.com/ngageoint/geopackage-ios/workflows/Build%20&%20Test/badge.svg)](https://github.com/ngageoint/geopackage-ios/actions?query=workflow%3A%22Build+%26+Test%22)
 
 Build this repository using Xcode and/or CocoaPods:
 
