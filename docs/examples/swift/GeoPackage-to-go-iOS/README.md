@@ -9,7 +9,7 @@ Disclaimer: Some images appearing in this example app use map layers from [OpenS
 
 This is a demo application that showcases how you might interact with a GeoPackage on iOS using the GeoPackage iOS Library. The [sample GeoPackage](https://github.com/ngageoint/geopackage-ios/blob/master/docs/examples/swift/GeoPackage-to-go-iOS/GeoPackage-iOS-example/StLouis.gpkg?raw=true) contains some information about pizza shops and points of interest near in the St. Louis area.
 
-Want to learn more? See the full API [documentation](http://cocoadocs.org/docsets/geopackage-ios/1.3.0/).
+Want to learn more? See the full API [documentation](http://ngageoint.github.io/geopackage-ios/docs/api/).
 
 ### Run
 
@@ -52,9 +52,9 @@ Next we query for the tiles, create an overlay, and add it to the map on the mai
 
 ```swift
 // Query Tiles - Do this first so that they tiles display on the bottom
-let tiles: NSArray = geoPackage.getTileTables() as NSArray;
+let tiles: NSArray = geoPackage.tileTables() as NSArray;
 let tileTable: String = tiles.object(at: 0) as! String;
-let tileDao: GPKGTileDao = geoPackage.getTileDao(withTableName: tileTable);
+let tileDao: GPKGTileDao = geoPackage.tileDao(withTableName: tileTable);
 
 // Tile Overlay
 let tileOverlay: MKTileOverlay = GPKGOverlayFactory.tileOverlay(with: tileDao);
@@ -71,9 +71,9 @@ Now for the features. At the top we loop through the feature tables. We will bas
 
 ```swift
 // Query Features
-let features: NSArray = geoPackage.getFeatureTables() as NSArray;
+let features: NSArray = geoPackage.featureTables() as NSArray;
 for case let featureTable as String in features {
-    let featureDao: GPKGFeatureDao = geoPackage.getFeatureDao(withTableName: featureTable);
+    let featureDao: GPKGFeatureDao = geoPackage.featureDao(withTableName: featureTable);
     let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
     let featureResults: GPKGResultSet = featureDao.queryForAll();
 
@@ -83,8 +83,8 @@ for case let featureTable as String in features {
     }
 
     while (featureResults.moveToNext()) {
-        let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
-        let geometryData: GPKGGeometryData = featureRow.getGeometry();
+        let featureRow: GPKGFeatureRow = featureDao.featureRow(featureResults);
+        let geometryData: GPKGGeometryData = featureRow.geometry();
         let shape: GPKGMapShape = converter.toShape(with: geometryData.geometry);
 
         // Add the feature to the map on the main thread, otherwise it wont show up.
@@ -93,7 +93,7 @@ for case let featureTable as String in features {
 
             if (mapShape?.shapeType == GPKG_MST_POINT) {
                 let mapPoint:GPKGMapPoint = mapShape?.shape as! GPKGMapPoint
-                mapPoint.title = featureRow.getValueWithColumnName("name") as! String
+                mapPoint.title = featureRow.valueString(withColumnName: "name")
                 mapPoint.options.image = icon
             }
         }
@@ -147,9 +147,9 @@ func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnota
 To move the map to where we have data, we get the bounds of the tile layer from the tile DAO and create a coordinate region, and set that region to our map.
 
 ```swift
-let boundingBox: GPKGBoundingBox = tileDao.getBoundingBox(withZoomLevel: 12)
+let boundingBox: GPKGBoundingBox = tileDao.boundingBox(withZoomLevel: 12)
 let transform: SFPProjectionTransform = SFPProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
 let transformedBoundingBox: GPKGBoundingBox = boundingBox.transform(transform)
-let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.getCenter(), span: transformedBoundingBox.getSpan())
+let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.center(), span: transformedBoundingBox.span())
 mapView.setRegion(region, animated: true)
 ```
