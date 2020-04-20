@@ -11,9 +11,16 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGPropertyConstants.h"
 
-static NSDictionary * properties;
-
 @implementation GPKGProperties
+
+static NSDictionary *properties;
+
++(void) initialize{
+    if(properties == nil){
+        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_PROPERTIES];
+        properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
+    }
+}
 
 +(NSString *) combineBaseProperty: (NSString *) base withProperty: (NSString *) property{
     return [NSString stringWithFormat:@"%@%@%@", base, GPKG_PROP_DIVIDER, property];
@@ -24,8 +31,6 @@ static NSDictionary * properties;
 }
 
 +(NSString *) valueOfProperty: (NSString *) property andRequired: (BOOL) required{
-    
-    [self initializeProperties];
     
     NSString * value = [properties valueForKey:property];
     
@@ -94,8 +99,6 @@ static NSDictionary * properties;
 
 +(NSArray *) arrayValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
-    [self initializeProperties];
-    
     NSArray * value = [properties objectForKey:property];
     
     if(value == nil && required){
@@ -119,8 +122,6 @@ static NSDictionary * properties;
 
 +(NSDictionary *) dictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
-    [self initializeProperties];
-    
     NSDictionary * value = [properties objectForKey:property];
     
     if(value == nil && required){
@@ -136,13 +137,6 @@ static NSDictionary * properties;
 
 +(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
     return [self dictionaryValueOfProperty:[self combineBaseProperty:base withProperty:property] andRequired:required];
-}
-
-+(void) initializeProperties{
-    if(properties == nil){
-        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_PROPERTIES];
-        properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
-    }
 }
 
 @end

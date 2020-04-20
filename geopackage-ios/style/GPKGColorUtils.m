@@ -13,8 +13,25 @@ NSString *const hexSingleColorPattern = @"^[0-9a-fA-F]{1,2}$";
 
 @implementation GPKGColorUtils
 
-static NSRegularExpression *hexColorExpression = nil;
-static NSRegularExpression *hexSingleColorExpression = nil;
+static NSRegularExpression *hexColorExpression;
+static NSRegularExpression *hexSingleColorExpression;
+
++(void) initialize{
+    if(hexColorExpression == nil){
+        NSError  *error = nil;
+        hexColorExpression = [NSRegularExpression regularExpressionWithPattern:hexColorPattern options:0 error:&error];
+        if(error){
+            [NSException raise:@"Hex Color Regular Expression" format:@"Failed to create hex color regular expression with error: %@", error];
+        }
+    }
+    if(hexSingleColorExpression == nil){
+        NSError  *error = nil;
+        hexSingleColorExpression = [NSRegularExpression regularExpressionWithPattern:hexSingleColorPattern options:0 error:&error];
+        if(error){
+            [NSException raise:@"Hex Single Color Regular Expression" format:@"Failed to create hex single color regular expression with error: %@", error];
+        }
+    }
+}
 
 +(NSString *) toColorFromHexRed: (NSString *) red andGreen: (NSString *) green andBlue: (NSString *) blue{
     return [self toColorWithAlphaFromHexRed:red andGreen:green andBlue:blue andAlpha:nil];
@@ -393,13 +410,6 @@ static NSRegularExpression *hexSingleColorExpression = nil;
 }
 
 +(BOOL) isValidHex: (NSString *) color{
-    if(hexColorExpression == nil){
-        NSError  *error = nil;
-        hexColorExpression = [NSRegularExpression regularExpressionWithPattern:hexColorPattern options:0 error:&error];
-        if(error){
-            [NSException raise:@"Hex Color Regular Expression" format:@"Failed to create hex color regular expression with error: %@", error];
-        }
-    }
     return color != nil && [hexColorExpression numberOfMatchesInString:color options:0 range:NSMakeRange(0, color.length)] == 1;
 }
 
@@ -410,13 +420,6 @@ static NSRegularExpression *hexSingleColorExpression = nil;
 }
 
 +(BOOL) isValidHexSingle: (NSString *) color{
-    if(hexSingleColorExpression == nil){
-        NSError  *error = nil;
-        hexSingleColorExpression = [NSRegularExpression regularExpressionWithPattern:hexSingleColorPattern options:0 error:&error];
-        if(error){
-            [NSException raise:@"Hex Single Color Regular Expression" format:@"Failed to create hex single color regular expression with error: %@", error];
-        }
-    }
     return color != nil && [hexSingleColorExpression numberOfMatchesInString:color options:0 range:NSMakeRange(0, color.length)] == 1;
 }
 

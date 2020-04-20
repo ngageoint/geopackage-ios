@@ -12,7 +12,17 @@ NSString *const colorPattern = @"^#([0-9a-fA-F]{3}){1,2}$";
 
 @implementation GPKGStyleRow
 
-static NSRegularExpression *colorExpression = nil;
+static NSRegularExpression *colorExpression;
+
++(void) initialize{
+    if(colorExpression == nil){
+        NSError  *error = nil;
+        colorExpression = [NSRegularExpression regularExpressionWithPattern:colorPattern options:0 error:&error];
+        if(error){
+            [NSException raise:@"Hex Color Regular Expression" format:@"Failed to create hex color regular expression with error: %@", error];
+        }
+    }
+}
 
 -(instancetype) init{
     self = [self initWithStyleTable:[[GPKGStyleTable alloc] init]];
@@ -255,13 +265,6 @@ static NSRegularExpression *colorExpression = nil;
     if(color != nil){
         if(![color hasPrefix:@"#"]){
             validated = [NSString stringWithFormat:@"#%@", color];
-        }
-        if(colorExpression == nil){
-            NSError  *error = nil;
-            colorExpression = [NSRegularExpression regularExpressionWithPattern:colorPattern options:0 error:&error];
-            if(error){
-                [NSException raise:@"Hex Color Regular Expression" format:@"Failed to create hex color regular expression with error: %@", error];
-            }
         }
         if([colorExpression numberOfMatchesInString:validated options:0 range:NSMakeRange(0, validated.length)] != 1){
             [NSException raise:@"Invalid Value" format:@"Color must be in hex format #RRGGBB or #RGB, invalid value: %@", color];
