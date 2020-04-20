@@ -4,7 +4,7 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    let _manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.getManager();
+    let _manager: GPKGGeoPackageManager = GPKGGeoPackageFactory.manager();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,9 +15,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let geoPackage: GPKGGeoPackage = _manager.open("StLouis")
         
         // Query Tiles - Do this first so that they tiles display on the bottom
-        let tiles: NSArray = geoPackage.getTileTables() as NSArray;
+        let tiles: NSArray = geoPackage.tileTables() as NSArray;
         let tileTable: String = tiles.object(at: 0) as! String;
-        let tileDao: GPKGTileDao = geoPackage.getTileDao(withTableName: tileTable);
+        let tileDao: GPKGTileDao = geoPackage.tileDao(withTableName: tileTable);
         
         // Tile Overlay
         let tileOverlay: MKTileOverlay = GPKGOverlayFactory.tileOverlay(with: tileDao);
@@ -25,14 +25,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         // Add the tile overlay to the map on the main thread, otherwise the tiles wont show up.
         DispatchQueue.main.async { [unowned self] in
-            self.mapView.add(tileOverlay);
+            self.mapView.addOverlay(tileOverlay);
         }
         
         
         // Query Features
-        let features: NSArray = geoPackage.getFeatureTables() as NSArray;
+        let features: NSArray = geoPackage.featureTables() as NSArray;
         for case let featureTable as String in features {
-            let featureDao: GPKGFeatureDao = geoPackage.getFeatureDao(withTableName: featureTable);
+            let featureDao: GPKGFeatureDao = geoPackage.featureDao(withTableName: featureTable);
             let converter: GPKGMapShapeConverter = GPKGMapShapeConverter(projection: featureDao.projection);
             let featureResults: GPKGResultSet = featureDao.queryForAll();
             
@@ -42,8 +42,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
             
             while(featureResults.moveToNext()){
-                let featureRow: GPKGFeatureRow = featureDao.getFeatureRow(featureResults);
-                let geometryData: GPKGGeometryData = featureRow.getGeometry();
+                let featureRow: GPKGFeatureRow = featureDao.featureRow(featureResults);
+                let geometryData: GPKGGeometryData = featureRow.geometry();
                 let shape: GPKGMapShape = converter.toShape(with: geometryData.geometry);
                 
                 // Add the feature to the map on the main thread, otherwise it wont show up.
@@ -52,7 +52,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
                     
                     if (mapShape?.shapeType == GPKG_MST_POINT) {
                         let mapPoint:GPKGMapPoint = mapShape?.shape as! GPKGMapPoint
-                        mapPoint.title = featureRow.getValueWithColumnName("name") as! String
+                        mapPoint.title = featureRow.valueString(withColumnName: "name")
                         mapPoint.options.image = icon
                     }
                 }
@@ -63,10 +63,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         
         // Find the data and set the bounds
-        let boundingBox: GPKGBoundingBox = tileDao.getBoundingBox(withZoomLevel: 12)
+        let boundingBox: GPKGBoundingBox = tileDao.boundingBox(withZoomLevel: 12)
         let transform: SFPProjectionTransform = SFPProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
         let transformedBoundingBox: GPKGBoundingBox = boundingBox.transform(transform)
-        let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.getCenter(), span: transformedBoundingBox.getSpan())
+        let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.center(), span: transformedBoundingBox.span())
         mapView.setRegion(region, animated: true)
         
         // Close the database and manager when you are done

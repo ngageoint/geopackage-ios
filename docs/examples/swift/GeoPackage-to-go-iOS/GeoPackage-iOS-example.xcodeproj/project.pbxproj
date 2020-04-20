@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -127,6 +127,7 @@
 				TargetAttributes = {
 					E3FAE2B7207F22440055C379 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -168,23 +169,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/geopackage-ios/geopackage_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/proj4-ios/proj4_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/sf-ios/sf_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/sf-proj-ios/sf_proj_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/sf-wkb-ios/sf_wkb_ios.framework",
-				"${BUILT_PRODUCTS_DIR}/tiff-ios/tiff_ios.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geopackage_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/proj4_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_proj_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sf_wkb_ios.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/tiff_ios.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GeoPackage-iOS-example/Pods-GeoPackage-iOS-example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -390,7 +380,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GeoPackage-iOS-example/Bridge.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "Pods/**";
 			};
@@ -414,7 +404,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GeoPackage-iOS-example/Bridge.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "Pods/**";
 			};
