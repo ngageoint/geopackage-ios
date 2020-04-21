@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 4.0.1 (TBD)
+## [4.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/4.0.1) (04-21-2020)
 
-* Static initializers added to resolve concurrency issues
+* Static initializers added to resolve concurrency issues with styles
 
 ## [4.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/4.0.0) (03-12-2020)
 
