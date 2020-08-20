@@ -11,7 +11,7 @@
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGExtensions.h"
 #import "GPKGProperties.h"
-#import "SFWGeometryCodes.h"
+#import "SFWBGeometryCodes.h"
 
 NSString * const GPKG_PROP_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopackage.extensions.geometry_types";
 NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopackage.extensions.user_geometry_types";
@@ -44,16 +44,16 @@ NSString * const GPKG_PROP_USER_GEOMETRY_TYPES_EXTENSION_DEFINITION = @"geopacka
 }
 
 +(BOOL) isExtension: (enum SFGeometryType) geometryType{
-    return [SFWGeometryCodes codeFromGeometryType:geometryType] > [SFWGeometryCodes codeFromGeometryType:SF_GEOMETRYCOLLECTION];
+    return [SFWBGeometryCodes codeFromGeometryType:geometryType] > [SFWBGeometryCodes codeFromGeometryType:SF_GEOMETRYCOLLECTION];
 }
 
 +(BOOL) isNonStandard: (enum SFGeometryType) geometryType{
-    return [SFWGeometryCodes codeFromGeometryType:geometryType] > [SFWGeometryCodes codeFromGeometryType:SF_SURFACE];
+    return [SFWBGeometryCodes codeFromGeometryType:geometryType] > [SFWBGeometryCodes codeFromGeometryType:SF_SURFACE];
 }
 
 +(BOOL) isGeoPackageExtension: (enum SFGeometryType) geometryType{
-    int geometryCode = [SFWGeometryCodes codeFromGeometryType:geometryType];
-    return geometryCode >= [SFWGeometryCodes codeFromGeometryType:SF_CIRCULARSTRING] && geometryCode <= [SFWGeometryCodes codeFromGeometryType:SF_SURFACE];
+    int geometryCode = [SFWBGeometryCodes codeFromGeometryType:geometryType];
+    return geometryCode >= [SFWBGeometryCodes codeFromGeometryType:SF_CIRCULARSTRING] && geometryCode <= [SFWBGeometryCodes codeFromGeometryType:SF_SURFACE];
 }
 
 +(NSString *) extensionName: (enum SFGeometryType) geometryType{

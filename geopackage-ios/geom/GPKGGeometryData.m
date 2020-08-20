@@ -10,9 +10,9 @@
 #import "SFByteReader.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGGeometryExtensions.h"
-#import "SFWGeometryReader.h"
+#import "SFWBGeometryReader.h"
 #import "SFByteWriter.h"
-#import "SFWGeometryWriter.h"
+#import "SFWBGeometryWriter.h"
 #import "SFGeometryEnvelopeBuilder.h"
 
 @implementation GPKGGeometryData
@@ -72,7 +72,7 @@
     
     // Read the Well-Known Binary Geometry if not marked as empty
     if(!self.empty){
-        self.geometry = [SFWGeometryReader readGeometryWithReader:reader];
+        self.geometry = [SFWBGeometryReader readGeometryWithReader:reader];
     }
     
 }
@@ -103,11 +103,11 @@
     
     // Write the Well-Known Binary Geometry if not marked as empty
     if (!self.empty) {
-        [SFWGeometryWriter writeGeometry:self.geometry withWriter:writer];
+        [SFWBGeometryWriter writeGeometry:self.geometry withWriter:writer];
     }
     
     // Get the bytes
-    self.bytes = [writer getData];
+    self.bytes = [writer data];
     
     // Close the writer
     [writer close];

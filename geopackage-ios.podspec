@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.license          =  {:type => 'MIT', :file => 'LICENSE' }
   s.summary          = 'iOS SDK for GeoPackage'
   s.homepage         = 'https://github.com/ngageoint/geopackage-ios'
-  s.authors          = { 'NGA' => '', 'BIT Systems' => '', 'Brian Osborn' => 'osbornb@bit-sys.com' }
+  s.authors          = { 'NGA' => '', 'BIT Systems' => '', 'Brian Osborn' => 'bosborn@caci.com' }
   s.social_media_url = 'https://twitter.com/NGA_GEOINT'
   s.source           = { :git => 'https://github.com/ngageoint/geopackage-ios.git', :tag => s.version }
   s.requires_arc     = true
@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
 
   s.library = 'sqlite3'
 
-  s.dependency 'sf-wkb-ios', '~> 2.0.3'
-  s.dependency 'sf-proj-ios', '~> 2.0.3'
-  s.dependency 'ogc-api-features-json-ios', '~> 1.0.0'
-  s.dependency 'tiff-ios', '~> 1.1.2'
+  s.dependency 'sf-wkb-ios', '~> 3.0.0'
+  s.dependency 'sf-proj-ios', '~> 3.0.0'
+  s.dependency 'ogc-api-features-json-ios', '~> 2.0.0'
+  s.dependency 'tiff-ios', '~> 2.0.0'
 end

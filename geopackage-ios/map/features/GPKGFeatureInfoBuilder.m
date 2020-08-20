@@ -150,7 +150,7 @@
                         if(projection != nil){
                             [self projectGeometry:geomData inProjection:projection];
                         }
-                        [message appendFormat:@"\n\n%@", [SFGeometryPrinter getGeometryString:geomData.geometry]];
+                        [message appendFormat:@"\n\n%@", [SFGeometryPrinter geometryString:geomData.geometry]];
                     }
                 }
             }
@@ -160,7 +160,7 @@
             if(CLLocationCoordinate2DIsValid(locationCoordinate)){
                 [message appendString:@" near location:\n"];
                 SFPoint *point = [[SFPoint alloc] initWithXValue:locationCoordinate.longitude andYValue:locationCoordinate.latitude];
-                [message appendFormat:@"%@", [SFGeometryPrinter getGeometryString:point]];
+                [message appendFormat:@"%@", [SFGeometryPrinter geometryString:point]];
             }
         }
     }

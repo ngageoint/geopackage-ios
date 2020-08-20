@@ -9,7 +9,7 @@
 #import "GPKGGeometryExtensionsTest.h"
 #import "GPKGGeometryExtensions.h"
 #import "GPKGTestUtils.h"
-#import "SFWGeometryCodes.h"
+#import "SFWBGeometryCodes.h"
 
 @implementation GPKGGeometryExtensionsTest
 
@@ -211,7 +211,7 @@
     // Test non extension geometries
     for(int i = SF_GEOMETRY; i <= SF_GEOMETRYCOLLECTION; i++){
         
-        enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
+        enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
         @try{
             [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
@@ -223,7 +223,7 @@
     // Test user created extension geometries
     for(int i = SF_POLYHEDRALSURFACE; i <= SF_TRIANGLE; i++){
         
-        enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
+        enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
         @try{
             [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
@@ -236,7 +236,7 @@
     int count = [extensionsDao count];
     for(int i = SF_CIRCULARSTRING; i <= SF_SURFACE; i++){
         
-        enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
+        enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
         NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
         NSString * columnName = @"geom";
         GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andType:geometryType];
@@ -268,7 +268,7 @@
     // Test non extension geometries
     for(int i = SF_GEOMETRY; i <= SF_GEOMETRYCOLLECTION; i++){
         
-        enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
+        enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
         @try{
             [extensions extensionCreateWithTable:@"table_name" andColumn:@"column_name" andAuthor:author andType:geometryType];
             [GPKGTestUtils fail:[NSString stringWithFormat:@"Geometry Extension was created for %@", [SFGeometryTypes name:geometryType]]];
@@ -281,7 +281,7 @@
     int count = [extensionsDao count];
     for(int i = SF_CIRCULARSTRING; i <= SF_TRIANGLE; i++){
         
-        enum SFGeometryType geometryType = [SFWGeometryCodes geometryTypeFromCode:i];
+        enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
         NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
         NSString * columnName = @"geom";
         GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType];

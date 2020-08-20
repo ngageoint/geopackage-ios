@@ -25,7 +25,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "SFPProjectionTransform.h"
-#import "SFWGeometryCodes.h"
+#import "SFWBGeometryCodes.h"
 
 @implementation GPKGGeoPackageGeometryDataUtils
 
@@ -299,7 +299,7 @@
     [GPKGTestUtils assertEqualIntWithValue:expected.geometryType andValue2:actual.geometryType];
     [GPKGTestUtils assertEqualBoolWithValue:expected.hasZ andValue2:actual.hasZ];
     [GPKGTestUtils assertEqualBoolWithValue:expected.hasM andValue2:actual.hasM];
-    [GPKGTestUtils assertEqualIntWithValue:[SFWGeometryCodes codeFromGeometry:expected] andValue2:[SFWGeometryCodes codeFromGeometry:actual]];
+    [GPKGTestUtils assertEqualIntWithValue:[SFWBGeometryCodes codeFromGeometry:expected] andValue2:[SFWBGeometryCodes codeFromGeometry:actual]];
 }
 
 +(void) comparePointWithExpected: (SFPoint *) expected andActual: (SFPoint *) actual andDelta: (double) delta{
