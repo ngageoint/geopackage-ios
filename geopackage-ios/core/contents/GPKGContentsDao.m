@@ -175,15 +175,15 @@
     }
 }
 
--(NSArray *) tablesOfType: (enum GPKGContentsDataType) dataType{
+-(NSArray<NSString *> *) tablesOfType: (enum GPKGContentsDataType) dataType{
     return [self tablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
--(NSArray *) tablesOfTypeName: (NSString *) dataType{
-    GPKGResultSet * contents = [self contentsOfTypeName:dataType];
-    NSMutableArray * tableNames = [[NSMutableArray alloc] init];
+-(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType{
+    GPKGResultSet *contents = [self contentsOfTypeName:dataType];
+    NSMutableArray *tableNames = [[NSMutableArray alloc] init];
     while([contents moveToNext]){
-        GPKGContents * content = (GPKGContents *)[self object:contents];
+        GPKGContents *content = (GPKGContents *)[self object:contents];
         [tableNames addObject:content.tableName];
     }
     [contents close];
@@ -199,11 +199,11 @@
     return contents;
 }
 
--(NSArray *) tables{
-    GPKGResultSet * contents = [self queryForAll];
-    NSMutableArray * tableNames = [[NSMutableArray alloc] init];
+-(NSArray<NSString *> *) tables{
+    GPKGResultSet *contents = [self queryForAll];
+    NSMutableArray<NSString *> *tableNames = [[NSMutableArray alloc] init];
     while([contents moveToNext]){
-        GPKGContents * content = (GPKGContents *)[self object:contents];
+        GPKGContents *content = (GPKGContents *)[self object:contents];
         [tableNames addObject:content.tableName];
     }
     [contents close];

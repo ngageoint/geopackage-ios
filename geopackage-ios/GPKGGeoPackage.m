@@ -9,7 +9,6 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGFeatureTableReader.h"
-#import "GPKGGeoPackageTableCreator.h"
 #import "GPKGTileTableReader.h"
 #import "GPKGUtils.h"
 #import "GPKGGeoPackageExtensions.h"
@@ -44,65 +43,90 @@
     return self;
 }
 
--(void)close{
+-(void) close{
     [self.database close];
+}
+
+-(GPKGGeoPackageTableCreator *) tableCreator{
+    return _tableCreator;
 }
 
 -(NSString *) applicationId{
     return [self.database applicationId];
 }
 
--(int) userVersion{
+-(NSNumber *) applicationIdNumber{
+    return [self.database applicationIdNumber];
+}
+
+-(NSString *) applicationIdHex{
+    return [self.database applicationIdHex];
+}
+
+-(NSNumber *) userVersion{
     return [self.database userVersion];
 }
 
--(int) userVersionMajor{
-    return [self userVersion] / 10000;
+-(NSNumber *) userVersionMajor{
+    return [self.database userVersionMajor];
 }
 
--(int) userVersionMinor{
-    return ([self userVersion] % 10000) / 100;
+-(NSNumber *) userVersionMinor{
+    return [self.database userVersionMinor];
 }
 
--(int) userVersionPatch{
-    return [self userVersion] % 100;
+-(NSNumber *) userVersionPatch{
+    return [self.database userVersionPatch];
 }
 
--(NSArray *) featureTables{
-    NSArray * tableNames = [self tablesByType:GPKG_CDT_FEATURES];
-    return tableNames;
+-(NSArray<NSString *> *) featureTables{
+    return [self tablesByType:GPKG_CDT_FEATURES];
 }
 
--(NSArray *) tileTables{
-    NSArray * tableNames = [self tablesByType:GPKG_CDT_TILES];
-    return tableNames;
+-(NSArray<NSString *> *) tileTables{
+    return [self tablesByType:GPKG_CDT_TILES];
 }
 
--(NSArray *) attributesTables{
-    NSArray * tableNames = [self tablesByType:GPKG_CDT_ATTRIBUTES];
-    return tableNames;
+-(NSArray<NSString *> *) attributesTables{
+    return [self tablesByType:GPKG_CDT_ATTRIBUTES];
 }
 
--(NSArray *) tablesByType: (enum GPKGContentsDataType) type{
+-(NSArray<NSString *> *) tablesByType: (enum GPKGContentsDataType) type{
     return [self tablesByTypeName:[GPKGContentsDataTypes name:type]];
 }
 
--(NSArray *) tablesByTypeName: (NSString *) type{
-    GPKGContentsDao * contentsDao = [self contentsDao];
-    NSArray *tableNames = [contentsDao tablesOfTypeName:type];
-    return tableNames;
+-(NSArray<NSString *> *) tablesByTypes: (NSArray *) types{
+    // TODO
 }
 
--(NSArray *) featureAndTileTables{
-    NSMutableArray * tables = [[NSMutableArray alloc] init];
-    [tables addObjectsFromArray:[self featureTables]];
-    [tables addObjectsFromArray:[self tileTables]];
-    return tables;
+-(NSArray<NSString *> *) tablesByTypeName: (NSString *) type{
+    GPKGContentsDao * contentsDao = [self contentsDao];
+    return [contentsDao tablesOfTypeName:type];
 }
 
--(NSArray *) tables{
-    GPKGContentsDao * contentsDao = [self contentsDao];
-    NSArray * tableNames = [contentsDao tables];
+-(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) types{
+    // TODO
+}
+
+-(NSArray<GPKGContents *> *) contentsByType: (enum GPKGContentsDataType) type{
+    // TODO
+}
+
+-(NSArray<GPKGContents *> *) contentsByTypes: (NSArray *) types{
+    // TODO
+}
+
+-(NSArray<GPKGContents *> *) contentsByTypeName: (NSString *) type{
+    // TODO
+}
+
+-(NSArray<GPKGContents *> *) contentsByTypeNames: (NSArray<NSString *> *) types{
+    // TODO
+}
+
+-(NSArray<NSString *> *) tables{
+    GPKGContentsDao *contentsDao = [self contentsDao];
+    NSArray *tableNames = [contentsDao tables];
     return tableNames;
 }
 
@@ -122,18 +146,16 @@
     return [self isTable:table ofTypeName:[GPKGContentsDataTypes name:type]];
 }
 
+-(BOOL) isTable: (NSString *) table ofTypes: (NSArray<NSNumber *> *) types{
+    // TODO
+}
+
 -(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type{
     return [type isEqualToString:[self typeOfTable:table]];
 }
 
--(BOOL) isFeatureOrTileTable: (NSString *) table{
-    BOOL isType = NO;
-    GPKGContents *contents = [self contentsOfTable:table];
-    if(contents != nil){
-        enum GPKGContentsDataType dataType = [contents contentsDataType];
-        isType = dataType == GPKG_CDT_FEATURES || dataType == GPKG_CDT_TILES;
-    }
-    return isType;
+-(BOOL) isTable: (NSString *) table ofTypeNames: (NSArray<NSString *> *) types{
+    // TODO
 }
 
 -(BOOL) isContentsTable: (NSString *) table{
@@ -142,6 +164,14 @@
 
 -(BOOL) isTable: (NSString *) table{
     return [self.database tableExists:table];
+}
+
+-(BOOL) isView: (NSString *) view{
+    // TODO
+}
+
+-(BOOL) isTableOrView: (NSString *) name{
+    // TODO
 }
 
 -(GPKGContents *) contentsOfTable: (NSString *) table{
@@ -221,6 +251,14 @@
     return boundingBox;
 }
 
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection{
+    // TODO
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    // TODO
+}
+
 -(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table{
     GPKGContentsDao *contentsDao = [self contentsDao];
     GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfTable:table];
@@ -281,6 +319,30 @@
     return boundingBox;
 }
 
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table{
+    // TODO
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+    // TODO
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table andManual: (BOOL) manual{
+    // TODO
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    // TODO
+}
+
+-(SFPProjection *) contentsProjectionOfTable: (NSString *) table{
+    // TODO
+}
+
+-(SFPProjection *) projectionOfTable: (NSString *) table{
+    // TODO
+}
+
 -(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *boundingBox = nil;
@@ -332,6 +394,10 @@
 
 -(void) createFeatureTable: (GPKGFeatureTable *) table{
     [self createUserTable:table];
+}
+
+-(GPKGFeatureTable *) createFeatureTableWithMetadata: (GPKGFeatureTableMetadata *) metadata{
+    // TODO and delete following methods
 }
 
 -(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
@@ -458,6 +524,10 @@
     [self createUserTable:table];
 }
 
+-(GPKGTileTable *) createTileTableWithMetadata: (GPKGTileTableMetadata *) metadata{
+    // TODO and delete following methods
+}
+
 -(GPKGTileMatrixSet *) createTileTableWithTableName: (NSString *) tableName
                              andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
                                    andContentsSrsId: (NSNumber *) contentsSrsId
@@ -520,6 +590,90 @@
     }
     
     return tileMatrixSet;
+}
+
+-(void) createAttributesTable: (GPKGAttributesTable *) table{
+    [self createUserTable:table];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithMetadata: (GPKGAttributesTableMetadata *) metadata{
+    // TODO and delete following methods
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns andConstraints:constraints];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns{
+    return [self createAttributesTableWithTableName:tableName andIdColumnName:idColumnName andAdditionalColumns:additionalColumns andConstraints:nil];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                            andIdColumnName: (NSString *) idColumnName
+                                       andAdditionalColumns: (NSArray *) additionalColumns
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
+    
+    if(idColumnName == nil){
+        idColumnName = @"id";
+    }
+    
+    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:idColumnName]];
+    
+    if(additionalColumns != nil){
+        [columns addObjectsFromArray:additionalColumns];
+    }
+    
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:constraints];
+}
+
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                                 andColumns: (NSArray *) columns{
+    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:nil];
+}
+    
+-(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
+                                                 andColumns: (NSArray *) columns
+                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
+    
+    // Build the user attributes table
+    GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
+    
+    // Add constraints
+    if(constraints != nil){
+        [table addConstraints:constraints];
+    }
+    
+    // Create the user attributes table
+    [self createAttributesTable:table];
+    
+    @try {
+        
+        // Create the contents
+        GPKGContents * contents = [[GPKGContents alloc] init];
+        [contents setTableName:tableName];
+        [contents setDataType:GPKG_CDT_ATTRIBUTES_NAME];
+        [contents setIdentifier:tableName];
+        // [contents setLastChange:[NSDate date]];
+        [[self contentsDao] create:contents];
+        
+        [table setContents:contents];
+    }
+    @catch (NSException *e) {
+        [self deleteTableQuietly:tableName];
+        @throw e;
+    }
+    
+    return table;
 }
 
 -(GPKGDataColumnsDao *) dataColumnsDao{
@@ -1135,137 +1289,6 @@
     return resultSet;
 }
 
--(GPKGGriddedCoverageDao *) griddedCoverageDao{
-    return [[GPKGGriddedCoverageDao alloc] initWithDatabase:self.database];
-}
-
--(BOOL) createGriddedCoverageTable{
-    
-    [self verifyWritable];
-    
-    BOOL created = false;
-    GPKGGriddedCoverageDao * dao = [self griddedCoverageDao];
-    if(![dao tableExists]){
-        created = [self.tableCreator createGriddedCoverage] > 0;
-    }
-    
-    return created;
-}
-
--(GPKGGriddedTileDao *) griddedTileDao{
-    return [[GPKGGriddedTileDao alloc] initWithDatabase:self.database];
-}
-
--(BOOL) createGriddedTileTable{
-    
-    [self verifyWritable];
-    
-    BOOL created = false;
-    GPKGGriddedTileDao * dao = [self griddedTileDao];
-    if(![dao tableExists]){
-        created = [self.tableCreator createGriddedTile] > 0;
-    }
-    
-    return created;
-}
-
--(void) createAttributesTable: (GPKGAttributesTable *) table{
-    [self createUserTable:table];
-}
-
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                       andAdditionalColumns: (NSArray *) additionalColumns{
-    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns];
-}
-
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                       andAdditionalColumns: (NSArray *) additionalColumns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
-    return [self createAttributesTableWithTableName:tableName andIdColumnName:nil andAdditionalColumns:additionalColumns andConstraints:constraints];
-}
-
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                            andIdColumnName: (NSString *) idColumnName
-                                       andAdditionalColumns: (NSArray *) additionalColumns{
-    return [self createAttributesTableWithTableName:tableName andIdColumnName:idColumnName andAdditionalColumns:additionalColumns andConstraints:nil];
-}
-
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                            andIdColumnName: (NSString *) idColumnName
-                                       andAdditionalColumns: (NSArray *) additionalColumns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
-    
-    if(idColumnName == nil){
-        idColumnName = @"id";
-    }
-    
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:idColumnName]];
-    
-    if(additionalColumns != nil){
-        [columns addObjectsFromArray:additionalColumns];
-    }
-    
-    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:constraints];
-}
-
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                                 andColumns: (NSArray *) columns{
-    return [self createAttributesTableWithTableName:tableName andColumns:columns andConstraints:nil];
-}
-    
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                                 andColumns: (NSArray *) columns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints{
-    
-    // Build the user attributes table
-    GPKGAttributesTable * table = [[GPKGAttributesTable alloc] initWithTable:tableName andColumns:columns];
-    
-    // Add constraints
-    if(constraints != nil){
-        [table addConstraints:constraints];
-    }
-    
-    // Create the user attributes table
-    [self createAttributesTable:table];
-    
-    @try {
-        
-        // Create the contents
-        GPKGContents * contents = [[GPKGContents alloc] init];
-        [contents setTableName:tableName];
-        [contents setDataType:GPKG_CDT_ATTRIBUTES_NAME];
-        [contents setIdentifier:tableName];
-        // [contents setLastChange:[NSDate date]];
-        [[self contentsDao] create:contents];
-        
-        [table setContents:contents];
-    }
-    @catch (NSException *e) {
-        [self deleteTableQuietly:tableName];
-        @throw e;
-    }
-    
-    return table;
-}
-
--(GPKGTileScalingDao *) tileScalingDao{
-    return [[GPKGTileScalingDao alloc] initWithDatabase:self.database];
-}
-
--(BOOL) createTileScalingTable{
-    
-    [self verifyWritable];
-    
-    BOOL created = false;
-    GPKGTileScalingDao * dao = [self tileScalingDao];
-    if(![dao tableExists]){
-        created = [self.tableCreator createTileScaling] > 0;
-    }
-    
-    return created;
-}
-
 -(GPKGSpatialReferenceSystem *) srs: (NSNumber *) srsId{
     GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:srsId];
@@ -1273,40 +1296,6 @@
         [NSException raise:@"No SRS" format:@"Spatial Reference System could not be found. SRS ID: %@", srsId];
     }
     return srs;
-}
-
--(GPKGExtendedRelationsDao *) extendedRelationsDao{
-    return [[GPKGExtendedRelationsDao alloc] initWithDatabase:self.database];
-}
-
--(BOOL) createExtendedRelationsTable{
-    
-    [self verifyWritable];
-    
-    BOOL created = false;
-    GPKGExtendedRelationsDao * dao = [self extendedRelationsDao];
-    if(![dao tableExists]){
-        created = [self.tableCreator createExtendedRelations] > 0;
-    }
-    
-    return created;
-}
-
--(GPKGContentsIdDao *) contentsIdDao{
-    return [[GPKGContentsIdDao alloc] initWithDatabase:self.database];
-}
-
--(BOOL) createContentsIdTable{
-    
-    [self verifyWritable];
-    
-    BOOL created = NO;
-    GPKGContentsIdDao *dao = [self contentsIdDao];
-    if(![dao tableExists]){
-        created = [self.tableCreator createContentsId] > 0;
-    }
-    
-    return created;
 }
 
 -(void) createUserTable: (GPKGUserTable *) table{

@@ -37,6 +37,7 @@
 #import "GPKGContentsIdDao.h"
 #import "GPKGConstraint.h"
 #import "GPKGUserCustomDao.h"
+#import "GPKGGeoPackageTableCreator.h"
 
 /**
  *  A single GeoPackage database connection
@@ -81,7 +82,14 @@
 /**
  *  Close the GeoPackage connection
  */
--(void)close;
+-(void) close;
+
+/**
+ * Get the Table Creator
+ *
+ * @return table creator
+ */
+-(GPKGGeoPackageTableCreator *) tableCreator;
 
 /**
  *  Get the application id
@@ -91,53 +99,66 @@
 -(NSString *) applicationId;
 
 /**
+ * Get the application id integer
+ *
+ * @return application id integer
+ */
+-(NSNumber *) applicationIdNumber;
+
+/**
+ * Get the application id as a hex string prefixed with 0x
+ *
+ * @return application id hex string
+ */
+-(NSString *) applicationIdHex;
+/**
  *  Get the user version
  *
  *  @return user version
  */
--(int) userVersion;
+-(NSNumber *) userVersion;
 
 /**
  *  Get the major user version
  *
  *  @return major user version
  */
--(int) userVersionMajor;
+-(NSNumber *) userVersionMajor;
 
 /**
  *  Get the minor user version
  *
  *  @return minor user version
  */
--(int) userVersionMinor;
+-(NSNumber *) userVersionMinor;
 
 /**
  *  Get the patch user version
  *
  *  @return patch user version
  */
--(int) userVersionPatch;
+-(NSNumber *) userVersionPatch;
 
 /**
  *  Get the feature tables
  *
  *  @return feature table names
  */
--(NSArray *) featureTables;
+-(NSArray<NSString *> *) featureTables;
 
 /**
  *  Get the tile tables
  *
  *  @return tile table names
  */
--(NSArray *) tileTables;
+-(NSArray<NSString *> *) tileTables;
 
 /**
  *  Get the attributes tables
  *
  *  @return attributes table names
  */
--(NSArray *) attributesTables;
+-(NSArray<NSString *> *) attributesTables;
 
 /**
  * Get the tables for the contents data type
@@ -146,7 +167,16 @@
  *            data type
  * @return table names
  */
--(NSArray *) tablesByType: (enum GPKGContentsDataType) type;
+-(NSArray<NSString *> *) tablesByType: (enum GPKGContentsDataType) type;
+
+/**
+ * Get the tables for the contents data types
+ *
+ * @param types
+ *            data types
+ * @return table names
+ */
+-(NSArray<NSString *> *) tablesByTypes: (NSArray<NSNumber *> *) types;
 
 /**
  * Get the tables for the contents data type
@@ -155,21 +185,59 @@
  *            data type
  * @return table names
  */
--(NSArray *) tablesByTypeName: (NSString *) type;
+-(NSArray<NSString *> *) tablesByTypeName: (NSString *) type;
 
 /**
- *  Get the feature and tile tables
+ * Get the tables for the contents data types
  *
- *  @return table names
+ * @param types
+ *            data types
+ * @return table names
  */
--(NSArray *) featureAndTileTables;
+-(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) types;
+
+/**
+ * Get the contents for the data type
+ *
+ * @param type
+ *            data type
+ * @return contents
+ */
+-(NSArray<GPKGContents *> *) contentsByType: (enum GPKGContentsDataType) type;
+
+/**
+ * Get the contents for the data types
+ *
+ * @param types
+ *            data types
+ * @return contents
+ */
+-(NSArray<GPKGContents *> *) contentsByTypes: (NSArray<NSNumber *> *) types;
+
+/**
+ * Get the contents for the data type
+ *
+ * @param type
+ *            data type
+ * @return contents
+ */
+-(NSArray<GPKGContents *> *) contentsByTypeName: (NSString *) type;
+
+/**
+ * Get the contents for the data types
+ *
+ * @param types
+ *            data types
+ * @return contents
+ */
+-(NSArray<GPKGContents *> *) contentsByTypeNames: (NSArray<NSString *> *) types;
 
 /**
  *  Get the feature and tile tables
  *
  *  @return feature and tile table names
  */
--(NSArray *) tables;
+-(NSArray<NSString *> *) tables;
 
 /**
  *  Check if the table is a feature table
@@ -209,6 +277,16 @@
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type;
 
 /**
+ *  Check if the table is one of the provided types
+ *
+ *  @param table table name
+ *  @param types contents data types
+ *
+ *  @return true if the type of table
+ */
+-(BOOL) isTable: (NSString *) table ofTypes: (NSArray<NSNumber *> *) types;
+
+/**
  *  Check if the table is the provided type
  *
  *  @param table table name
@@ -219,13 +297,15 @@
 -(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type;
 
 /**
- *  Check if the table exists as a feature or tile table
+ * Check if the table is one of the provided types
  *
- *  @param table table name
- *
- *  @return true if a feature or tile table
+ * @param table
+ *            table name
+ * @param types
+ *            data types
+ * @return true if the type of table
  */
--(BOOL) isFeatureOrTileTable: (NSString *) table;
+-(BOOL) isTable: (NSString *) table ofTypeNames: (NSArray<NSString *> *) types;
 
 /**
  * Check if the table exists as a user contents table
@@ -244,6 +324,24 @@
  * @return true if a table
  */
 -(BOOL) isTable: (NSString *) table;
+
+/**
+ * Check if the view exists
+ *
+ * @param view
+ *            view name
+ * @return true if a view
+ */
+-(BOOL) isView: (NSString *) view;
+
+/**
+ * Check if the table or view exists
+ *
+ * @param name
+ *            table or view name
+ * @return true if a table or view
+ */
+-(BOOL) isTableOrView: (NSString *) name;
 
 /**
  * Get the contents of the user table
@@ -328,6 +426,30 @@
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual;
 
 /**
+ * Get the bounding box for all tables in the provided projection, using
+ * only table metadata
+ *
+ * @param projection
+ *            desired bounding box projection
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for all tables in the provided projection, using
+ * only table metadata and manual queries if enabled
+ *
+ * @param projection
+ *            desired bounding box projection
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+
+/**
  * Get the bounding box from the contents for the table in the table's
  * projection
  *
@@ -404,6 +526,76 @@
 -(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
 
 /**
+ * Get the bounding box for the table in the table's projection, using only
+ * table metadata
+ *
+ * @param table
+ *            table name
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table;
+
+/**
+ * Get the bounding box for the table in the provided projection, using only
+ * table metadata
+ *
+ * @param projection
+ *            desired bounding box projection
+ * @param table
+ *            table name
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ * Get the bounding box for the table in the table's projection, using only
+ * table metadata and manual queries if enabled
+ *
+ * @param table
+ *            table name
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table andManual: (BOOL) manual;
+
+/**
+ * Get the bounding box for the table in the provided projection, using only
+ * table metadata and manual queries if enabled
+ *
+ * @param projection
+ *            desired bounding box projection
+ * @param table
+ *            table name
+ * @param manual
+ *            manual query flag, true to determine missing bounds manually
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+
+/**
+ * Get the projection of the table contents
+ *
+ * @param table
+ *            table name
+ * @return projection
+ */
+-(SFPProjection *) contentsProjectionOfTable: (NSString *) table;
+
+/**
+ * Get the projection of the table
+ *
+ * @param table
+ *            table name
+ * @return projection
+ */
+-(SFPProjection *) projectionOfTable: (NSString *) table;
+
+/**
  * Get the feature table bounding box
  *
  * @param table
@@ -447,115 +639,23 @@
 /**
  *  Create a new feature table
  *
+ *  WARNING: only creates the feature table, call
+ *  createFeatureTableWithMetadata instead to create both
+ *  the table and required GeoPackage metadata
+ *
  *  @param table feature table
  */
 -(void) createFeatureTable: (GPKGFeatureTable *) table;
 
 /**
- *  Create a new feature table with GeoPackage metadata. Create the Geometry
- *  Columns table if needed, create a user feature table, create a new
- *  Contents, insert the new Geometry Columns.
+ * Create a new feature table with GeoPackage metadata including: geometry
+ * columns table and row, user feature table, and contents row.
  *
- *  The user feature table will be created with 2 columns, an id column named
- *  "id" and a geometry column using GPKGGeometryColumns columnName.
- *
- *  @param geometryColumns geometry columns
- *  @param boundingBox     bounding box
- *  @param srsId           Spatial Reference System Id
- *
- *  @return Geometry Columns
+ * @param metadata
+ *            feature table metadata
+ * @return feature table
  */
--(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
-                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                andSrsId: (NSNumber *) srsId;
-
-/**
- *  Create a new feature table with GeoPackage metadata. Create the Geometry
- *  Columns table if needed, create a user feature table, create a new
- *  Contents, insert the new Geometry Columns.
- *
- *
- * The user feature table will be created with 2 columns, an id column with
- * the provided name and a geometry column using GPKGGeometryColumns columnName.
- *
- *  @param geometryColumns geometry columns
- *  @param idColumnName    id column name
- *  @param boundingBox     bounding box
- *  @param srsId           Spatial Reference System Id
- *
- *  @return Geometry Columns
- */
--(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
-                                               andIdColumnName: (NSString *) idColumnName
-                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                      andSrsId: (NSNumber *) srsId;
-
-/**
- *  Create a new feature table with GeoPackage metadata. Create the Geometry
- *  Columns table if needed, create a user feature table, create a new
- *  Contents, insert the new Geometry Columns.
- *
- *  The user feature table will be created with 2 + [additionalColumns count]
- *  columns, an id column named "id", a geometry column using
- *  GPKGGeometryColumns columnName, and the provided additional
- *  columns.
- *
- *  @param geometryColumns   geometry columns
- *  @param additionalColumns additional user feature table columns to create in addition to id and geometry columns
- *  @param boundingBox       bounding box
- *  @param srsId             Spatial Reference System Id
- *
- *  @return Geometry Columns
- */
--(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
-                                          andAdditionalColumns: (NSArray *) additionalColumns
-                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                      andSrsId: (NSNumber *) srsId;
-
-/**
- *  Create a new feature table with GeoPackage metadata. Create the Geometry
- *  Columns table if needed, create a user feature table, create a new
- *  Contents, insert the new Geometry Columns.
- *
- *  The user feature table will be created with 2 + [additionalColumns count]
- *  columns, an id column with the provided name, a geometry column using
- *  GPKGGeometryColumns columnName, and the provided additional
- *  columns.
- *
- *  @param geometryColumns   geometry columns
- *  @param idColumnName      id column name
- *  @param additionalColumns additional user feature table columns to create in addition to id and geometry columns
- *  @param boundingBox       bounding box
- *  @param srsId             Spatial Reference System Id
- *
- *  @return Geometry Columns
- */
--(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
-                                               andIdColumnName: (NSString *) idColumnName
-                                          andAdditionalColumns: (NSArray *) additionalColumns
-                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                      andSrsId: (NSNumber *) srsId;
-
-/**
- *  Create a new feature table with GeoPackage metadata. Create the Geometry
- *  Columns table if needed, create a user feature table, create a new
- *  Contents, insert the new Geometry Columns.
- *
- *  The user feature table will be created using only the provided columns.
- *  These should include the id column and the geometry column defined in
- *  GPKGGeometryColumns columnName
- *
- *  @param geometryColumns geometry columns
- *  @param boundingBox     bounding box
- *  @param srsId           Spatial Reference System Id
- *  @param columns         user feature table columns to create
- *
- *  @return Geometry Columns
- */
--(GPKGGeometryColumns *) createFeatureTableWithGeometryColumns: (GPKGGeometryColumns *) geometryColumns
-                                                andBoundingBox: (GPKGBoundingBox *) boundingBox
-                                                      andSrsId: (NSNumber *) srsId
-                                                    andColumns: (NSArray *) columns;
+-(GPKGFeatureTable *) createFeatureTableWithMetadata: (GPKGFeatureTableMetadata *) metadata;
 
 /**
  *  Get a Tile Matrix Set DAO
@@ -588,45 +688,45 @@
 /**
  *  Create a new tile table
  *
+ * WARNING: only creates the tile table, call
+ * createTileTableWithMetadata instead to create both the
+ * table and required GeoPackage metadata
+ *
  *  @param table tile table
  */
 -(void) createTileTable: (GPKGTileTable *) table;
 
 /**
- *  Create a new tile table with GeoPackage metadata
+ * Create a new tile table with GeoPackage metadata including: tile matrix
+ * set table and row, tile matrix table, user tile table, and contents row.
  *
- *  @param tableName                table name
- *  @param contentsBoundingBox      Contents table bounding box
- *  @param contentsSrsId            Contents table Spatial Reference System Id
- *  @param tileMatrixSetBoundingBox Tile Matrix Set table bounding box
- *  @param tileMatrixSetSrsId       Tile Matrix Set table Spatial Reference System Id
- *
- *  @return Tile Matrix Set
+ * @param metadata
+ *            tile table metadata
+ * @return tile table
  */
--(GPKGTileMatrixSet *) createTileTableWithTableName: (NSString *) tableName
-                                                andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
-                                                andContentsSrsId: (NSNumber *) contentsSrsId
-                                                andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
-                                                andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
+-(GPKGTileTable *) createTileTableWithMetadata: (GPKGTileTableMetadata *) metadata;
 
 /**
- *  Create a new tile table of the specified type and the GeoPackage metadata
+ * Create a new attributes table
  *
- *  @param type                     contents data type
- *  @param tableName                table name
- *  @param contentsBoundingBox      Contents table bounding box
- *  @param contentsSrsId            Contents table Spatial Reference System Id
- *  @param tileMatrixSetBoundingBox Tile Matrix Set table bounding box
- *  @param tileMatrixSetSrsId       Tile Matrix Set table Spatial Reference System Id
+ * WARNING: only creates the attributes table, call
+ * createAttributesTableWithMetadata instead to
+ * create both the table and required GeoPackage metadata
  *
- *  @return Tile Matrix Set
+ * @param table
+ *            attributes table
  */
--(GPKGTileMatrixSet *) createTileTableWithType: (enum GPKGContentsDataType) type
-                                     andTableName: (NSString *) tableName
-                             andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox
-                                   andContentsSrsId: (NSNumber *) contentsSrsId
-                        andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox
-                              andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
+-(void) createAttributesTable: (GPKGAttributesTable *) table;
+
+/**
+ * Create a new attributes table with GeoPackage metadata including: user
+ * attributes table and contents row.
+ *
+ * @param metadata
+ *            attributes table metadata
+ * @return attributes table
+ */
+-(GPKGAttributesTable *) createAttributesTableWithMetadata: (GPKGAttributesTableMetadata *) metadata;
 
 /**
  *  Get a Data Columns DAO
@@ -925,6 +1025,15 @@
 -(void) dropTable: (NSString *) table;
 
 /**
+ * Drop the view if it exists. Drops the view with the view name, not
+ * limited to GeoPackage specific tables.
+ *
+ * @param view
+ *            view name
+ */
+-(void) dropView: (NSString *) view;
+
+/**
  * Rename the table
  *
  * @param tableName
@@ -1008,195 +1117,6 @@
  *  @return nil if check passed, open result set with results if failed
  */
 -(GPKGResultSet *) quickCheck;
-
-/**
- * Get a 2D Gridded Coverage DAO
- *
- * @return 2d gridded coverage dao
- */
--(GPKGGriddedCoverageDao *) griddedCoverageDao;
-
-/**
- * Create the 2D Gridded Coverage Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createGriddedCoverageTable;
-
-/**
- * Get a 2D Gridded Tile DAO
- *
- * @return 2d gridded tile dao
- */
--(GPKGGriddedTileDao *) griddedTileDao;
-
-/**
- * Create the 2D Gridded Tile Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createGriddedTileTable;
-
-/**
- * Create a new attributes table (only the attributes table is created, no Contents entry is created)
- *
- * @param table
- *            attributes table
- */
--(void) createAttributesTable: (GPKGAttributesTable *) table;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with 1 + additionalColumns.size()
- * columns, an id column named "id" and the provided additional columns.
- *
- * @param tableName
- *            table name
- * @param additionalColumns
- *            additional attributes table columns to create in addition to
- *            id
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                       andAdditionalColumns: (NSArray *) additionalColumns;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with 1 + additionalColumns.size()
- * columns, an id column named "id" and the provided additional columns.
- *
- * @param tableName
- *            table name
- * @param additionalColumns
- *            additional attributes table columns to create in addition to
- *            id
- * @param constraints
- *            constraints
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                       andAdditionalColumns: (NSArray *) additionalColumns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with 1 + additionalColumns.size()
- * columns, an id column with the provided name and the provided additional
- * columns.
- *
- * @param tableName
- *            table name
- * @param idColumnName
- *            id column name
- * @param additionalColumns
- *            additional attributes table columns to create in addition to
- *            id
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                            andIdColumnName: (NSString *) idColumnName
-                                       andAdditionalColumns: (NSArray *) additionalColumns;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with 1 + additionalColumns.size()
- * columns, an id column with the provided name and the provided additional
- * columns.
- *
- * @param tableName
- *            table name
- * @param idColumnName
- *            id column name
- * @param additionalColumns
- *            additional attributes table columns to create in addition to
- *            id
- * @param constraints
- *            constraints
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                            andIdColumnName: (NSString *) idColumnName
-                                       andAdditionalColumns: (NSArray *) additionalColumns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with columns.size() columns and must
- * include an integer id column
- *
- * @param tableName
- *            table name
- * @param columns
- *            table columns to create
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                       andColumns: (NSArray *) columns;
-
-/**
- * Create a new attributes table.
- *
- * The attributes table will be created with columns.size() columns and must
- * include an integer id column
- *
- * @param tableName
- *            table name
- * @param columns
- *            table columns to create
- * @param constraints
- *            constraints
- * @return attributes table
- */
--(GPKGAttributesTable *) createAttributesTableWithTableName: (NSString *) tableName
-                                                 andColumns: (NSArray *) columns
-                                       andConstraints: (NSArray<GPKGConstraint *> *) constraints;
-
-/**
- * Get a Tile Scaling DAO
- *
- * @return tile scaling dao
- */
--(GPKGTileScalingDao *) tileScalingDao;
-
-/**
- * Create the Tile Scaling Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createTileScalingTable;
-
-/**
- * Get an Extended Relations DAO
- *
- * @return tile scaling dao
- */
--(GPKGExtendedRelationsDao *) extendedRelationsDao;
-
-/**
- * Create the Extended Relations Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createExtendedRelationsTable;
-
-/**
- * Get a Contents Id DAO
- *
- * @return contents id dao
- */
--(GPKGContentsIdDao *) contentsIdDao;
-
-/**
- * Create the Contents Id Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createContentsIdTable;
 
 /**
  * Create a new user table

@@ -34,7 +34,7 @@
  *            data type
  * @return table names
  */
--(NSArray *) tablesOfType: (enum GPKGContentsDataType) dataType;
+-(NSArray<NSString *> *) tablesOfType: (enum GPKGContentsDataType) dataType;
 
 /**
  * Get table names by data type
@@ -43,7 +43,7 @@
  *            data type
  * @return table names
  */
--(NSArray *) tablesOfTypeName: (NSString *) dataType;
+-(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType;
 
 /**
  * Get contents by data type
@@ -68,7 +68,7 @@
  *
  * @return table names
  */
--(NSArray *) tables;
+-(NSArray<NSString *> *) tables;
 
 /**
  *  Delete the Contents, cascading
