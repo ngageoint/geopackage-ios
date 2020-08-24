@@ -1119,6 +1119,13 @@
 -(GPKGResultSet *) quickCheck;
 
 /**
+ * Get an extension manager on the GeoPackage
+ *
+ * @return extension manager
+ */
+-(GPKGExtensionManager *) extensionManager;
+
+/**
  * Create a new user table
  *
  * @param table

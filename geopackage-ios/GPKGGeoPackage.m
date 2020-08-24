@@ -92,42 +92,39 @@
 }
 
 -(NSArray<NSString *> *) tablesByType: (enum GPKGContentsDataType) type{
-    return [self tablesByTypeName:[GPKGContentsDataTypes name:type]];
+    return [[self contentsDao] tablesByType:type];
 }
 
--(NSArray<NSString *> *) tablesByTypes: (NSArray *) types{
-    // TODO
+-(NSArray<NSString *> *) tablesByTypes: (NSArray<NSNumber *> *) types{
+    return [[self contentsDao] tablesByTypes:types];
 }
 
 -(NSArray<NSString *> *) tablesByTypeName: (NSString *) type{
-    GPKGContentsDao * contentsDao = [self contentsDao];
-    return [contentsDao tablesOfTypeName:type];
+    return [[self contentsDao] tablesByTypeName:type];
 }
 
 -(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) types{
-    // TODO
+    return [[self contentsDao] tablesByTypeNames:types];
 }
 
 -(NSArray<GPKGContents *> *) contentsByType: (enum GPKGContentsDataType) type{
-    // TODO
+    return [[self contentsDao] contentsByType:type];
 }
 
--(NSArray<GPKGContents *> *) contentsByTypes: (NSArray *) types{
-    // TODO
+-(NSArray<GPKGContents *> *) contentsByTypes: (NSArray<NSNumber *> *) types{
+    return [[self contentsDao] contentsByTypes:types];
 }
 
 -(NSArray<GPKGContents *> *) contentsByTypeName: (NSString *) type{
-    // TODO
+    return [[self contentsDao] contentsByTypeName:type];
 }
 
 -(NSArray<GPKGContents *> *) contentsByTypeNames: (NSArray<NSString *> *) types{
-    // TODO
+   return [[self contentsDao] contentsByTypeNames:type];
 }
 
 -(NSArray<NSString *> *) tables{
-    GPKGContentsDao *contentsDao = [self contentsDao];
-    NSArray *tableNames = [contentsDao tables];
-    return tableNames;
+    return [[self contentsDao] tables];
 }
 
 -(BOOL) isFeatureTable: (NSString *) table{
@@ -143,19 +140,28 @@
 }
 
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
-    return [self isTable:table ofTypeName:[GPKGContentsDataTypes name:type]];
+    return [self isTable:table ofTypes:[NSArray arrayWithObject:type]];
 }
 
 -(BOOL) isTable: (NSString *) table ofTypes: (NSArray<NSNumber *> *) types{
-    // TODO
+    NSSet *typeSet = [NSSet setWithArray:types];
+    return [typeSet containsObject:[self dataTypeOfTable:table]];
 }
 
 -(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type{
-    return [type isEqualToString:[self typeOfTable:table]];
+    return [self isTable:table ofTypeNames:[NSArray arrayWithObject:type]];
 }
 
 -(BOOL) isTable: (NSString *) table ofTypeNames: (NSArray<NSString *> *) types{
-    // TODO
+    NSSet *typeSet = [NSSet setWithArray:types];
+    BOOL isType = [typeSet containsObject:[self typeOfTable:table]];
+    if(!isType){
+        enum GPKGContentsDataType dataType = [self dataTypeOfTable:table];
+        if(dataType != nil){
+            isType = [typeSet containsObject:[GPKGContentsDataType name:dataType]];
+        }
+    }
+    return isType;
 }
 
 -(BOOL) isContentsTable: (NSString *) table{
@@ -167,11 +173,11 @@
 }
 
 -(BOOL) isView: (NSString *) view{
-    // TODO
+    return [self.database viewExists:view];
 }
 
 -(BOOL) isTableOrView: (NSString *) name{
-    // TODO
+    return [self.database tableOrViewExists:view];
 }
 
 -(GPKGContents *) contentsOfTable: (NSString *) table{
@@ -222,9 +228,7 @@
 }
 
 -(GPKGBoundingBox *) contentsBoundingBoxInProjection: (SFPProjection *) projection{
-    GPKGContentsDao *contentsDao = [self contentsDao];
-    GPKGBoundingBox *boundingBox = [contentsDao boundingBoxInProjection:projection];
-    return boundingBox;
+    return [[self contentsDao] boundingBoxInProjection:projection];
 }
 
 -(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
@@ -235,10 +239,30 @@
     
     GPKGBoundingBox *boundingBox = [self contentsBoundingBoxInProjection:projection];
     
+    GPKGBoundingBox *tableBoundingBox = [self tableBoundingBoxInProjection:projection andManual:manual];
+    
+    if(tableBoundingBox != nil){
+        if(boundingBox != nil){
+            boundingBox = [boundingBox union:tableBoundingBox];
+        }else{
+            boundingBox = tableBoundingBox;
+        }
+    }
+    
+    return boundingBox;
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection{
+    return [self tableBoundingBoxInProjection:projection andManual:NO];
+}
+
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+    
+    GPKGBoundingBox *boundingBox = nil;
+    
     NSArray<NSString *> *tables = [self tables];
     for(NSString *table in tables){
         GPKGBoundingBox *tableBoundingBox = [self boundingBoxOfTable:table inProjection:projection andManual:manual];
-        
         if(tableBoundingBox != nil){
             if(boundingBox != nil){
                 boundingBox = [boundingBox union:tableBoundingBox];
@@ -249,14 +273,6 @@
     }
     
     return boundingBox;
-}
-
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection{
-    // TODO
-}
-
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
-    // TODO
 }
 
 -(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table{
@@ -285,28 +301,13 @@
 
 -(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
     
-    GPKGBoundingBox *boundingBox = [self contentsBoundingBoxOfTable:table inProjection:projection];
+    GPKGBoundingBox *tableBoundingBox = [self tableBoundingBoxOfTable:table inProjection:projection andManual:manual];
     
-    GPKGBoundingBox *tableBoundingBox = nil;
-    NSString *tableType = [self typeOfTable:table];
-    enum GPKGContentsDataType dataType = [GPKGContentsDataTypes fromName:tableType];
-    if((int)dataType >= 0){
-        switch (dataType) {
-            case GPKG_CDT_FEATURES:
-                tableBoundingBox = [self featureBoundingBoxOfTable:table inProjection:projection andManual:manual];
-                break;
-            case GPKG_CDT_TILES:
-            case GPKG_CDT_GRIDDED_COVERAGE:
-                {
-                    GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
-                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:table];
-                    tableBoundingBox = [tileMatrixSetDao boundingBoxOfTileMatrixSet:tileMatrixSet inProjection:projection];
-                }
-                break;
-            default:
-                break;
-        }
+    if(tableBoundingBox != nil && projection == nil){
+        projection = [self projectionOfTable:table];
     }
+    
+    GPKGBoundingBox *boundingBox = [self contentsBoundingBoxOfTable:table inProjection:projection];
     
     if (tableBoundingBox != nil) {
         if (boundingBox == nil) {
@@ -320,27 +321,82 @@
 }
 
 -(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table{
-    // TODO
+    return [self tableBoundingBoxOfTable:table inProjection:nil];
 }
 
 -(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
-    // TODO
+    return [self tableBoundingBoxOfTable:table inProjection:projection andManual:NO];
 }
 
 -(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table andManual: (BOOL) manual{
-    // TODO
+    return [self tableBoundingBoxOfTable:table inProjection:nil andManual:manual];
 }
 
 -(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
-    // TODO
+    
+    GPKGBoundingBox *boundingBox = nil;
+    
+    NSString *tableType = [self typeOfTable:table];
+    enum GPKGContentsDataType dataType = [GPKGContentsDataTypes fromName:tableType];
+    if((int)dataType >= 0){
+        switch (dataType) {
+            case GPKG_CDT_FEATURES:
+                boundingBox = [self featureBoundingBoxOfTable:table inProjection:projection andManual:manual];
+                break;
+            case GPKG_CDT_TILES:
+                {
+                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[[self tileMatrixSetDao] queryForIdObject:table];
+                    boundingBox = [tileMatrixSet boundingBoxInProjection:projection];
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return boundingBox;
 }
 
 -(SFPProjection *) contentsProjectionOfTable: (NSString *) table{
-    // TODO
+    GPKGContents *contents = [self contentsOfTable:table];
+    if(contents == nil){
+        [NSException raise:@"No Contents" format:@"Failed to retrieve contents for table: %@", table];
+    }
+    return [[self contentsDao] projection:contents];
 }
 
 -(SFPProjection *) projectionOfTable: (NSString *) table{
-    // TODO
+    
+    SFPProjection *projection = nil;
+    
+    NSString *tableType = [self typeOfTable:table];
+    enum GPKGContentsDataType dataType = [GPKGContentsDataTypes fromName:tableType];
+    if((int)dataType >= 0){
+        switch (dataType) {
+            case GPKG_CDT_FEATURES:
+                {
+                    GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
+                    GPKGGeometryColumns *geometryColumns = [geometryColumnsDao queryForTableName:table];
+                    projection = [geometryColumnsDao projection:geometryColumns];
+                }
+                break;
+            case GPKG_CDT_TILES:
+                {
+                    GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
+                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:table];
+                    projection = [tileMatrixSetDao projection:tileMatrixSet];
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if(projection == nil){
+        projection = [self contentsProjectionOfTable:table];
+    }
+    
+    return projection;
 }
 
 -(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
@@ -361,7 +417,7 @@
 }
 
 -(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
-    GPKGSpatialReferenceSystemDao * dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+    GPKGSpatialReferenceSystemDao *dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
     [dao setCrsWktExtension:[[GPKGCrsWktExtension alloc] initWithGeoPackage:self]];
     return dao;
 }
@@ -397,6 +453,9 @@
 }
 
 -(GPKGFeatureTable *) createFeatureTableWithMetadata: (GPKGFeatureTableMetadata *) metadata{
+    
+    GPKGGeometryColumns *geometryColumns = metadata.geometryColumns;
+    
     // TODO and delete following methods
 }
 
@@ -1289,6 +1348,16 @@
     return resultSet;
 }
 
+-(GPKGExtensionManager *) extensionManager{
+    // TODO
+}
+
+-(void) createUserTable: (GPKGUserTable *) table{
+    [self verifyWritable];
+    
+    [self.tableCreator createUserTable:table];
+}
+
 -(GPKGSpatialReferenceSystem *) srs: (NSNumber *) srsId{
     GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:srsId];
@@ -1296,12 +1365,6 @@
         [NSException raise:@"No SRS" format:@"Spatial Reference System could not be found. SRS ID: %@", srsId];
     }
     return srs;
-}
-
--(void) createUserTable: (GPKGUserTable *) table{
-    [self verifyWritable];
-    
-    [self.tableCreator createUserTable:table];
 }
 
 @end
