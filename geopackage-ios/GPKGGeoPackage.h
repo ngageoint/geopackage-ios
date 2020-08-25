@@ -19,23 +19,10 @@
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGTileMatrixDao.h"
 #import "GPKGTileTable.h"
-#import "GPKGDataColumnsDao.h"
-#import "GPKGDataColumnConstraintsDao.h"
-#import "GPKGMetadataDao.h"
-#import "GPKGMetadataReferenceDao.h"
 #import "GPKGExtensionsDao.h"
-#import "GPKGTableIndexDao.h"
-#import "GPKGGeometryIndexDao.h"
 #import "GPKGMetadataDb.h"
-#import "GPKGFeatureTileLinkDao.h"
-#import "GPKGGriddedCoverageDao.h"
-#import "GPKGGriddedTileDao.h"
 #import "GPKGAttributesTable.h"
 #import "GPKGAttributesDao.h"
-#import "GPKGTileScalingDao.h"
-#import "GPKGExtendedRelationsDao.h"
-#import "GPKGContentsIdDao.h"
-#import "GPKGConstraint.h"
 #import "GPKGUserCustomDao.h"
 #import "GPKGGeoPackageTableCreator.h"
 
@@ -729,62 +716,6 @@
 -(GPKGAttributesTable *) createAttributesTableWithMetadata: (GPKGAttributesTableMetadata *) metadata;
 
 /**
- *  Get a Data Columns DAO
- *
- *  @return Data Columns DAO
- */
--(GPKGDataColumnsDao *) dataColumnsDao;
-
-/**
- *  Create the Data Columns table if it does not already exist
- *
- *  @return true if created
- */
--(BOOL) createDataColumnsTable;
-
-/**
- *  Get a Data Column Constraints DAO
- *
- *  @return Data Column Constraints DAO
- */
--(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDao;
-
-/**
- *  Create the Data Column Constraints table if it does not already exist
- *
- *  @return true if created
- */
--(BOOL) createDataColumnConstraintsTable;
-
-/**
- *  Get a Metadata DAO
- *
- *  @return Metadata DAO
- */
--(GPKGMetadataDao *) metadataDao;
-
-/**
- *  Create the Metadata table if it does not already exist
- *
- *  @return true if created
- */
--(BOOL) createMetadataTable;
-
-/**
- *  Get a Metadata Reference DAO
- *
- *  @return Metadata Reference DAO
- */
--(GPKGMetadataReferenceDao *) metadataReferenceDao;
-
-/**
- *  Create the Metadata Reference table if it does not already exist
- *
- *  @return true if created
- */
--(BOOL) createMetadataReferenceTable;
-
-/**
  *  Get an Extensions DAO
  *
  *  @return Extensions DAO
@@ -811,62 +742,6 @@
  *  @param tableName table name
  */
 -(void) deleteTableQuietly: (NSString *) tableName;
-
-/**
- * Get a Table Index DAO
- *
- * @return table index dao
- */
--(GPKGTableIndexDao *) tableIndexDao;
-
-/**
- * Create the Table Index Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createTableIndexTable;
-
-/**
- * Get a Geometry Index DAO
- *
- * @return geometry index dao
- */
--(GPKGGeometryIndexDao *) geometryIndexDao;
-
-/**
- * Create Geometry Index Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createGeometryIndexTable;
-
-/**
- * Index the Geometry Index Table if needed
- *
- * @return true if indexed
- */
--(BOOL) indexGeometryIndexTable;
-
-/**
- * Un-index the Geometry Index Table if needed
- *
- * @return true if unindexed
- */
--(BOOL) unindexGeometryIndexTable;
-
-/**
- * Get a Feature Tile Link DAO
- *
- * @return feature tile link dao
- */
--(GPKGFeatureTileLinkDao *) featureTileLinkDao;
-
-/**
- * Create the Feature Tile Link Table if it does not exist
- *
- * @return true if created
- */
--(BOOL) createFeatureTileLinkTable;
 
 /**
  *  Verify the GeoPackage is writable and throw an exception if it is not
