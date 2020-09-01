@@ -8,14 +8,14 @@
 
 #import "GPKGContentsIdUtils.h"
 #import "GPKGTestUtils.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 #import "GPKGContentsIdExtension.h"
 
 @implementation GPKGContentsIdUtils
 
 +(void) testContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
     
     GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNotNil:contentsIdExtension.extensionsDao];

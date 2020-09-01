@@ -74,7 +74,7 @@
 #import "GPKGExtensions.h"
 #import "GPKGExtensionsDao.h"
 #import "GPKGFeatureIndexRTreeResults.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 #import "GPKGGeometryExtensions.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGNGAExtensions.h"

@@ -1,5 +1,5 @@
 //
-//  GPKGGeoPackageExtensions.h
+//  GPKGExtensionManager.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 5/4/16.
@@ -13,7 +13,7 @@
  *  GeoPackage extension management class for deleting extensions for a table or
  *  in a GeoPackage
  */
-@interface GPKGGeoPackageExtensions : NSObject
+@interface GPKGExtensionManager : NSObject
 
 /**
  *  Delete all table extensions for the table within the GeoPackage

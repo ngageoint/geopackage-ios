@@ -1,12 +1,12 @@
 //
-//  GPKGGeoPackageExtensions.m
+//  GPKGExtensionManager.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 5/4/16.
 //  Copyright © 2016 NGA. All rights reserved.
 //
 
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 #import "GPKGNGAExtensions.h"
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGRelatedTablesExtension.h"
@@ -22,7 +22,7 @@
 #import "GPKGTableCreator.h"
 #import "GPKGConstraintParser.h"
 
-@implementation GPKGGeoPackageExtensions
+@implementation GPKGExtensionManager
 
 +(void) deleteTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
     

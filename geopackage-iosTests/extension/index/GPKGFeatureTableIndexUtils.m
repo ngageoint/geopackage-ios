@@ -14,7 +14,7 @@
 #import "SFPProjectionConstants.h"
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionTransform.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 
 @implementation GPKGFeatureTableIndexUtils
 
@@ -225,7 +225,7 @@
             [featureResults close];
         }
         
-        [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:geoPackage andTable:featureTable];
+        [GPKGExtensionManager deleteTableExtensionsWithGeoPackage:geoPackage andTable:featureTable];
         
         [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[geometryIndexDao countByTableName:featureTable]];
@@ -241,7 +241,7 @@
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
     // Test deleting all NGA extensions
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
      
     [GPKGTestUtils assertFalse:[geometryIndexDao tableExists]];
     [GPKGTestUtils assertFalse:[tableIndexDao tableExists]];

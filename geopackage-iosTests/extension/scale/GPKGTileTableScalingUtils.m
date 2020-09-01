@@ -10,13 +10,13 @@
 #import "GPKGTestUtils.h"
 #import "GPKGTileTableScaling.h"
 #import "GPKGProperties.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 
 @implementation GPKGTileTableScalingUtils
 
 +(void) testScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
     
     NSArray *tileTables = [geoPackage tileTables];
     
@@ -86,7 +86,7 @@
             [GPKGTestUtils assertTrue:[dao tableExists]];
             
             // Test deleting all extensions
-            [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage: geoPackage];
+            [GPKGExtensionManager deleteExtensionsWithGeoPackage: geoPackage];
             
             [GPKGTestUtils assertFalse:[dao tableExists]];
             [GPKGTestUtils assertNil:[tableScaling extension]];

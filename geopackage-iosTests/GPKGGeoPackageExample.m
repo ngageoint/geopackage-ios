@@ -38,7 +38,7 @@
 #import "GPKGRelatedTablesExtension.h"
 #import "GPKGRelatedTablesUtils.h"
 #import "GPKGDublinCoreMetadata.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 #import "GPKGNGAExtensions.h"
 #import "GPKGSchemaExtension.h"
 #import "GPKGMetadataExtension.h"
@@ -118,7 +118,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:YES];
     
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
     
     [self validateExtensionsWithGeoPackage:geoPackage andHas:NO];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:NO];

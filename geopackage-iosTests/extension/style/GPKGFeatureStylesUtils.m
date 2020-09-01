@@ -11,13 +11,13 @@
 #import "GPKGFeatureTableStyles.h"
 #import "GPKGTestConstants.h"
 #import "SFGeometryUtils.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 
 @implementation GPKGFeatureStylesUtils
 
 +(void) testFeatureStylesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
     
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
     

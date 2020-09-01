@@ -11,7 +11,7 @@
 #import "GPKGTestUtils.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 
 @implementation GPKGZoomOtherExtensionTest
 
@@ -36,7 +36,7 @@
     [GPKGTestUtils assertEqualIntWithValue:[extension extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
     [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:[GPKGProperties valueOfProperty:@"geopackage.extensions.zoom_other"]];
     
-    [GPKGGeoPackageExtensions deleteTableExtensionsWithGeoPackage:self.geoPackage andTable:tableName];
+    [GPKGExtensionManager deleteTableExtensionsWithGeoPackage:self.geoPackage andTable:tableName];
     [GPKGTestUtils assertFalse:[zoomOtherExtension hasWithTableName:tableName]];
 }
 

@@ -10,13 +10,13 @@
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGTestUtils.h"
 #import "GPKGProperties.h"
-#import "GPKGGeoPackageExtensions.h"
+#import "GPKGExtensionManager.h"
 
 @implementation GPKGFeatureTileTableLinkerUtils
 
 +(void) testLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
     
     GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNil:[linker extension]];
@@ -127,7 +127,7 @@
         [GPKGTestUtils assertNotNil:[linker extension]];
         
         // Test deleting all extensions
-        [GPKGGeoPackageExtensions deleteExtensionsWithGeoPackage: geoPackage];
+        [GPKGExtensionManager deleteExtensionsWithGeoPackage: geoPackage];
         
         [GPKGTestUtils assertFalse:[dao tableExists]];
         [GPKGTestUtils assertNil:[linker extension]];
