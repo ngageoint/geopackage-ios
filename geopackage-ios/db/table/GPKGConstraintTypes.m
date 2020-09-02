@@ -16,6 +16,7 @@ NSString * const GPKG_CT_FOREIGN_KEY_NAME = @"FOREIGN_KEY";
 NSString * const GPKG_CT_NOT_NULL_NAME = @"NOT_NULL";
 NSString * const GPKG_CT_DEFAULT_NAME = @"DEFAULT";
 NSString * const GPKG_CT_COLLATE_NAME = @"COLLATE";
+NSString * const GPKG_CT_AUTOINCREMENT_NAME = @"AUTOINCREMENT";
 
 @implementation GPKGConstraintTypes
 
@@ -46,6 +47,7 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
                               [NSNumber numberWithInteger:GPKG_CT_DEFAULT],
                               [NSNumber numberWithInteger:GPKG_CT_COLLATE],
                               [NSNumber numberWithInteger:GPKG_CT_FOREIGN_KEY],
+                              [NSNumber numberWithInteger:GPKG_CT_AUTOINCREMENT],
                               nil];
         columnLookup = [[NSMutableDictionary alloc] init];
         for(NSNumber *type in COLUMN_CONSTRAINTS){
@@ -90,6 +92,9 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
         case GPKG_CT_COLLATE:
             name = GPKG_CT_COLLATE_NAME;
             break;
+        case GPKG_CT_AUTOINCREMENT:
+            name = GPKG_CT_AUTOINCREMENT_NAME;
+            break;
     }
     
     return name;
@@ -108,6 +113,7 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
                                [NSNumber numberWithInteger:GPKG_CT_NOT_NULL], GPKG_CT_NOT_NULL_NAME,
                                [NSNumber numberWithInteger:GPKG_CT_DEFAULT], GPKG_CT_DEFAULT_NAME,
                                [NSNumber numberWithInteger:GPKG_CT_COLLATE], GPKG_CT_COLLATE_NAME,
+                               [NSNumber numberWithInteger:GPKG_CT_AUTOINCREMENT], GPKG_CT_AUTOINCREMENT_NAME,
                                nil
                                ];
         NSNumber *enumValue = [GPKGUtils objectForKey:name inDictionary:types];

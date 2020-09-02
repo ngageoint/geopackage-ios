@@ -11,11 +11,37 @@
 #import "GPKGConstraint.h"
 #import "GPKGTableColumn.h"
 #import "GPKGColumnConstraints.h"
+#import "GPKGConstraints.h"
 
 /**
  * User Column index value
  */
 static int NO_INDEX = -1;
+
+/**
+ * Not Null Constraint Order
+ */
+static int NOT_NULL_CONSTRAINT_ORDER = 1;
+
+/**
+ * Default Value Constraint Order
+ */
+static int DEFAULT_VALUE_CONSTRAINT_ORDER = 2;
+
+/**
+ * Primary Key Constraint Order
+ */
+static int PRIMARY_KEY_CONSTRAINT_ORDER = 3;
+
+/**
+ * Autoincrement Constraint Order
+ */
+static int AUTOINCREMENT_CONSTRAINT_ORDER = 4;
+
+/**
+ * Unique Constraint Order
+ */
+static int UNIQUE_CONSTRAINT_ORDER = 5;
 
 /**
  *  Metadata about a single column from a user table
@@ -53,6 +79,16 @@ static int NO_INDEX = -1;
 @property (nonatomic) BOOL primaryKey;
 
 /**
+ *  True if primary key is autoincrement
+ */
+@property (nonatomic) BOOL autoincrement;
+
+/**
+ *  True if unique column
+ */
+@property (nonatomic) BOOL unique;
+
+/**
  * Type
  */
 @property (nonatomic, strong) NSString *type;
@@ -61,11 +97,6 @@ static int NO_INDEX = -1;
  *  Data type
  */
 @property (nonatomic) enum GPKGDataType dataType;
-
-/**
- * List of column constraints
- */
-@property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
 
 /**
  *  Initialize
@@ -86,7 +117,8 @@ static int NO_INDEX = -1;
                       andMax: (NSNumber *) max
                       andNotNull: (BOOL) notNull
                       andDefaultValue: (NSObject *) defaultValue
-                      andPrimaryKey: (BOOL) primaryKey;
+                      andPrimaryKey: (BOOL) primaryKey
+                      andAutoincrement: (BOOL) autoincrement;
 
 /**
  *  Initialize
@@ -109,7 +141,8 @@ static int NO_INDEX = -1;
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey;
+                andPrimaryKey: (BOOL) primaryKey
+                andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Initialize
@@ -183,11 +216,54 @@ static int NO_INDEX = -1;
 -(BOOL) hasConstraints;
 
 /**
+ * Check if has constraints of the provided type
+ *
+ * @param type
+ *            constraint type
+ * @return true if has constraints
+ */
+-(BOOL) hasConstraintsOfType: (enum GPKGConstraintType) type;
+
+/**
+ * Get the constraints
+ *
+ * @return constraints
+ */
+-(GPKGConstraints *) constraints;
+
+/**
+ * Get the constraints of the provided type
+ *
+ * @param type
+ *            constraint type
+ * @return constraints
+ */
+-(NSArray<GPKGConstraint *> *) constraintsOfType: (enum GPKGConstraintType) type;
+
+/**
  * Clear the constraints
  *
  * @return cleared constraints
  */
 -(NSArray<GPKGConstraint *> *) clearConstraints;
+
+/**
+ * Clear the constraints
+ *
+ * @param reset
+ *            true to reset constraint settings
+ * @return cleared constraints
+ */
+-(NSArray<GPKGConstraint *> *) clearConstraintsWithReset: (BOOL) reset;
+
+/**
+ * Clear the constraints of the provided type
+ *
+ * @param type
+ *            constraint type
+ * @return cleared constraints
+ */
+-(NSArray<GPKGConstraint *> *) clearConstraintsOfType: (enum GPKGConstraintType) type;
 
 /**
  * Add the default constraints that are enabled (not null, default value,
@@ -204,6 +280,14 @@ static int NO_INDEX = -1;
 -(void) addConstraint: (GPKGConstraint *) constraint;
 
 /**
+ * Set the constraint order by constraint type
+ *
+ * @param constraint
+ *            constraint
+ */
+-(void) setConstraintOrder: (GPKGConstraint *) constraint;
+
+/**
  * Add a constraint
  *
  * @param constraint
@@ -212,12 +296,34 @@ static int NO_INDEX = -1;
 -(void) addConstraintSql: (NSString *) constraint;
 
 /**
+ * Add a constraint
+ *
+ * @param type
+ *            constraint type
+ * @param constraint
+ *            constraint
+ */
+-(void) addConstraintType: (enum GPKGConstraintType) type withSql: (NSString *) constraint;
+
+/**
+ * Add a constraint
+ *
+ * @param type
+ *            constraint type
+ * @param order
+ *            constraint order
+ * @param constraint
+ *            constraint
+ */
+-(void) addConstraintType: (enum GPKGConstraintType) type withOrder: (NSNumber *) order andSql: (NSString *) constraint;
+
+/**
  * Add constraints
  *
  * @param constraints
  *            constraints
  */
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints;
+-(void) addConstraintsArray: (NSArray<GPKGConstraint *> *) constraints;
 
 /**
  * Add constraints
@@ -228,9 +334,22 @@ static int NO_INDEX = -1;
 -(void) addColumnConstraints: (GPKGColumnConstraints *) constraints;
 
 /**
+ * Add constraints
+ *
+ * @param constraints
+ *            constraints
+ */
+-(void) addConstraints: (GPKGConstraints *) constraints;
+
+/**
  * Add a not null constraint
  */
 -(void) addNotNullConstraint;
+
+/**
+ * Remove a not null constraint
+ */
+-(void) removeNotNullConstraint;
 
 /**
  * Add a default value constraint
@@ -241,13 +360,47 @@ static int NO_INDEX = -1;
 -(void) addDefaultValueConstraint: (NSObject *) defaultValue;
 
 /**
+ * Remove a default value constraint
+ */
+-(void) removeDefaultValueConstraint;
+
+/**
  * Add a primary key constraint
  */
 -(void) addPrimaryKeyConstraint;
 
 /**
+ * Remove a primary key constraint
+ */
+-(void) removePrimaryKeyConstraint;
+
+/**
+ * Add an autoincrement constraint
+ */
+-(void) addAutoincrementConstraint;
+
+/**
+ * Remove an autoincrement constraint
+ */
+-(void) removeAutoincrementConstraint;
+
+/**
  * Add a unique constraint
  */
 -(void) addUniqueConstraint;
+
+/**
+ * Remove a unique constraint
+ */
+-(void) removeUniqueConstraint;
+
+/**
+ * Build the SQL for the constraint
+ *
+ * @param constraint
+ *            constraint
+ * @return SQL or null
+ */
+-(NSString *) buildConstraintSql: (GPKGConstraint *) constraint;
 
 @end

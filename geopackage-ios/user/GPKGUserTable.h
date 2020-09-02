@@ -12,6 +12,16 @@
 #import "GPKGUserColumns.h"
 
 /**
+ * Default id autoincrement setting
+ */
+static BOOL DEFAULT_AUTOINCREMENT = YES;
+
+/**
+ * Default primary key not null setting
+ */
+static BOOL DEFAULT_PK_NOT_NULL = YES;
+
+/**
  *  Abstract user table
  */
 @interface GPKGUserTable : NSObject <NSMutableCopying>

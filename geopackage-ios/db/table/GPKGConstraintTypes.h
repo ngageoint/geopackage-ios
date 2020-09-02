@@ -18,7 +18,8 @@ enum GPKGConstraintType{
     GPKG_CT_FOREIGN_KEY,
     GPKG_CT_NOT_NULL,
     GPKG_CT_DEFAULT,
-    GPKG_CT_COLLATE
+    GPKG_CT_COLLATE,
+    GPKG_CT_AUTOINCREMENT;
 };
 
 /**
@@ -31,6 +32,7 @@ extern NSString * const GPKG_CT_FOREIGN_KEY_NAME;
 extern NSString * const GPKG_CT_NOT_NULL_NAME;
 extern NSString * const GPKG_CT_DEFAULT_NAME;
 extern NSString * const GPKG_CT_COLLATE_NAME;
+extern NSString * const GPKG_CT_AUTOINCREMENT_NAME;
 
 @interface GPKGConstraintTypes : NSObject
 

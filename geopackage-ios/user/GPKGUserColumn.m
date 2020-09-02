@@ -10,6 +10,15 @@
 #import "GPKGRawConstraint.h"
 #import "GPKGSqlUtils.h"
 
+@interface GPKGUserColumn()
+
+/**
+ * List of column constraints
+ */
+@property (nonatomic, strong) GPKGConstraints *constraints;
+
+@end
+
 @implementation GPKGUserColumn
 
 -(instancetype) initWithIndex: (int) index
@@ -18,8 +27,9 @@
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey{
-    return [self initWithIndex:index andName:name andType:[GPKGUserColumn nameOfDataType:dataType forColumn:name] andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
+                andPrimaryKey: (BOOL) primaryKey
+                andAutoincrement: (BOOL) autoincrement{
+    return [self initWithIndex:index andName:name andType:[GPKGUserColumn nameOfDataType:dataType forColumn:name] andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey andAutoincrement:autoincrement];
 }
 
 -(instancetype) initWithIndex: (int) index
@@ -29,7 +39,8 @@
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey{
+                andPrimaryKey: (BOOL) primaryKey
+                andAutoincrement: (BOOL) autoincrement{
     self = [super init];
     if(self != nil){
         _index = index;
@@ -38,9 +49,10 @@
         _notNull = notNull;
         _defaultValue = defaultValue;
         _primaryKey = primaryKey;
+        _autoincrement = autoincrement;
         _type = type;
         _dataType = dataType;
-        _constraints = [[NSMutableArray alloc] init];
+        _constraints = [[GPKGConstraints alloc] init];
         
         [GPKGUserColumn validateDataType:dataType forColumn:name];
         [self validateMax];
@@ -51,7 +63,7 @@
 }
 
 -(instancetype) initWithTableColumn: (GPKGTableColumn *) tableColumn{
-    return [self initWithIndex:[tableColumn index] andName:[tableColumn name] andType:[tableColumn type] andDataType:[tableColumn dataType] andMax:[tableColumn max] andNotNull:[tableColumn notNull] andDefaultValue:[tableColumn defaultValue] andPrimaryKey:[tableColumn primaryKey]];
+    return [self initWithIndex:[tableColumn index] andName:[tableColumn name] andType:[tableColumn type] andDataType:[tableColumn dataType] andMax:[tableColumn max] andNotNull:[tableColumn notNull] || [tableColumn primaryKey] andDefaultValue:[tableColumn defaultValue] andPrimaryKey:[tableColumn primaryKey], andAutoincrement:[tableColumn primaryKey] && DEFAULT_AUTOINCREMENT];
 }
 
 /**
@@ -69,8 +81,10 @@
         _notNull = userColumn.notNull;
         _defaultValue = userColumn.defaultValue;
         _primaryKey = userColumn.primaryKey;
+        _autoincrement = userColumn.autoincrement;
         _type = userColumn.type;
         _dataType = userColumn.dataType;
+        _constraints = [userColumn.constraints mutableCopy];
     }
     return self;
 }
@@ -91,7 +105,7 @@
  */
 +(void) validateDataType: (enum GPKGDataType) dataType forColumn: (NSString *) name{
     if((int)dataType < 0){
-        [NSException raise:@"Data Type Required" format:@"Data Type is required to create column: %@", name];
+        NSLog(@"Column is missing a data type: %@", name);
     }
 }
 
@@ -121,18 +135,119 @@
     return self.max != nil;
 }
 
+-(void) setNotNull: (BOOL) notNull{
+    if(_notNull != notNull){
+        if(notNull){
+            [self addNotNullConstraint];
+        }else{
+            [self removeNotNullConstraint];
+        }
+    }
+    _notNull = notNull;
+}
+
 -(BOOL) hasDefaultValue{
     return self.defaultValue != nil;
 }
 
+-(void) setDefaultValue: (NSObject *) defaultValue{
+    [self removeDefaultValueConstraint];
+    if(defaultValue != nil){
+        [self addDefaultValueConstraint:defaultValue];
+    }
+    self.defaultValue = defaultValue;
+}
+
+-(void) setPrimaryKey: (BOOL) primaryKey{
+    if(_primaryKey != primaryKey){
+        if(primaryKey){
+            [self addPrimaryKeyConstraint];
+        }else{
+            [self removeAutoincrementConstraint];
+            [self removePrimaryKeyConstraint];
+        }
+    }
+    _primaryKey = primaryKey;
+}
+
+-(void) setAutoincrement: (BOOL) autoincrement{
+    if(_autoincrement != autoincrement){
+        if(autoincrement){
+            [self addAutoincrementConstraint];
+        }else{
+            [self removeAutoincrementConstraint];
+        }
+    }
+    _autoincrement = autoincrement;
+}
+
+-(void) setUnique: (BOOL) unique{
+    if(_unique != unique){
+        if(unique){
+            [self addUniqueConstraint];
+        }else{
+            [self removeUniqueConstraint];
+        }
+    }
+    _unique = unique;
+}
+
 -(BOOL) hasConstraints{
-    return self.constraints != nil && self.constraints.count > 0;
+    return [self.constraints has];
+}
+
+-(BOOL) hasConstraintsOfType: (enum GPKGConstraintType) type{
+    return [self.constraints hasType:type];
+}
+
+-(GPKGConstraints *) constraints{
+    return _constraints;
+}
+
+-(NSArray<GPKGConstraint *> *) constraintsOfType: (enum GPKGConstraintType) type{
+    return [self.constraints getType:type];
 }
 
 -(NSArray<GPKGConstraint *> *) clearConstraints{
-    NSArray<GPKGConstraint *> *constraintsCopy = [NSArray arrayWithArray:self.constraints];
-    [self.constraints removeAllObjects];
-    return constraintsCopy;
+    return [self clearConstraintsWithReset:YES];
+}
+
+-(NSArray<GPKGConstraint *> *) clearConstraintsWithReset: (BOOL) reset{
+
+    if (reset) {
+        _primaryKey = NO;
+        _unique = NO;
+        _notNull = NO;
+        _defaultValue = nil;
+        _autoincrement = NO;
+    }
+
+    return [self.constraints clear];
+}
+
+-(NSArray<GPKGConstraint *> *) clearConstraintsOfType: (enum GPKGConstraintType) type{
+    
+    switch (type) {
+        case GPKG_CT_PRIMARY_KEY:
+            _primaryKey = NO;
+            break;
+        case GPKG_CT_UNIQUE:
+            _unique = NO;
+            break;
+        case GPKG_CT_NOT_NULL:
+            _notNull = NO;
+            break;
+        case GPKG_CT_DEFAULT:
+            _defaultValue = nil;
+            break;
+        case GPKG_CT_AUTOINCREMENT:
+            _autoincrement = NO;
+            break;
+        default:
+            break;
+    }
+    
+    return [self.constraints clearType:type];
 }
 
 -(void) addDefaultConstraints{
@@ -145,17 +260,80 @@
     if ([self primaryKey]) {
         [self addPrimaryKeyConstraint];
     }
+    if ([self autoincrement]) {
+        [self addAutoincrementConstraint];
+    }
 }
 
 -(void) addConstraint: (GPKGConstraint *) constraint{
+    
+    if(constraint.order == nil){
+        [self setConstraintOrder:constraint];
+    }
+    
     [self.constraints addObject:constraint];
+    
+    switch (constraint.type) {
+        case GPKG_CT_PRIMARY_KEY:
+            _primaryKey = YES;
+            break;
+        case GPKG_CT_UNIQUE:
+            _unique = YES;
+            break;
+        case GPKG_CT_NOT_NULL:
+            _notNull = YES;
+            break;
+        case GPKG_CT_DEFAULT:
+            break;
+        case GPKG_CT_AUTOINCREMENT:
+            _autoincrement = YES;
+            break;
+        default:
+            break;
+    }
+    
+}
+
+-(void) setConstraintOrder: (GPKGConstraint *) constraint{
+    
+    NSNumber *order = nil;
+    
+    switch (constraint.type) {
+        case GPKG_CT_PRIMARY_KEY:
+            order = PRIMARY_KEY_CONSTRAINT_ORDER;
+            break;
+        case GPKG_CT_UNIQUE:
+            order = UNIQUE_CONSTRAINT_ORDER;
+            break;
+        case GPKG_CT_NOT_NULL:
+            order = NOT_NULL_CONSTRAINT_ORDER;
+            break;
+        case GPKG_CT_DEFAULT:
+            order = DEFAULT_VALUE_CONSTRAINT_ORDER;
+            break;
+        case GPKG_CT_AUTOINCREMENT:
+            order = AUTOINCREMENT_CONSTRAINT_ORDER;
+            break;
+        default:
+            break;
+    }
+    
+    [constraint setOrder:order];
 }
 
 -(void) addConstraintSql: (NSString *) constraint{
-    [self.constraints addObject:[[GPKGRawConstraint alloc] initWithSql:constraint]];
+    [self addConstraint:[[GPKGRawConstraint alloc] initWithSql:constraint]];
 }
 
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints{
+-(void) addConstraintType: (enum GPKGConstraintType) type withSql: (NSString *) constraint{
+    [self addConstraintType:type withOrder:nil andSql:constraint];
+}
+
+-(void) addConstraintType: (enum GPKGConstraintType) type withOrder: (NSNumber *) order andSql: (NSString *) constraint{
+    [self addConstraint:[[GPKGRawConstraint alloc] initWithType:type andOrder:order andSql:constraint]];
+}
+
+-(void) addConstraintsArray: (NSArray<GPKGConstraint *> *) constraints{
     for (GPKGConstraint *constraint in constraints) {
         [self addConstraint:constraint];
     }
@@ -165,30 +343,63 @@
     [self addConstraints:constraints.constraints];
 }
 
+-(void) addConstraints: (GPKGConstraints *) constraints{
+    [self addConstraintsArray:[constraints all]];
+}
+
 -(void) addNotNullConstraint{
-    [self setNotNull:YES];
-    [self addConstraintSql:@"NOT NULL"];
+    [self addConstraintType:GPKG_CT_NOT_NULL withOrder:NOT_NULL_CONSTRAINT_ORDER andSql:@"NOT NULL"];
+}
+
+-(void) removeNotNullConstraint{
+    [self clearConstraintsOfType:GPKG_CT_NOT_NULL];
 }
 
 -(void) addDefaultValueConstraint: (NSObject *) defaultValue{
-    [self setDefaultValue:defaultValue];
-    [self addConstraintSql:[NSString stringWithFormat:@"DEFAULT %@", [GPKGSqlUtils columnDefaultValue:self]]];
+    [self addConstraintType:GPKG_CT_DEFAULT withOrder:DEFAULT_VALUE_CONSTRAINT_ORDER andSql:[NSString stringWithFormat:@"DEFAULT %@", [GPKGSqlUtils columnDefaultValue:defaultValue withType:[self dataType]]]];
+}
+
+-(void) removeDefaultValueConstraint{
+    [self clearConstraintsOfType:GPKG_CT_DEFAULT];
 }
 
 -(void) addPrimaryKeyConstraint{
-    [self setPrimaryKey:YES];
-    [self addConstraintSql:@"PRIMARY KEY AUTOINCREMENT"];
+    [self addConstraintType:GPKG_CT_PRIMARY_KEY withOrder:PRIMARY_KEY_CONSTRAINT_ORDER andSql:@"PRIMARY KEY"];
+}
+
+-(void) removePrimaryKeyConstraint{
+    [self clearConstraintsOfType:GPKG_CT_PRIMARY_KEY];
+}
+
+-(void) addAutoincrementConstraint{
+    [self addConstraintType:GPKG_CT_AUTOINCREMENT withOrder:AUTOINCREMENT_CONSTRAINT_ORDER andSql:@"AUTOINCREMENT"];
+}
+
+-(void) removeAutoincrementConstraint{
+    [self clearConstraintsOfType:GPKG_CT_AUTOINCREMENT];
 }
 
 -(void) addUniqueConstraint{
-    [self addConstraintSql:@"UNIQUE"];
+    [self addConstraintType:GPKG_CT_UNIQUE withOrder:UNIQUE_CONSTRAINT_ORDER andSql:@"UNIQUE"];
+}
+
+-(void) removeUniqueConstraint{
+    [self clearConstraintsOfType:GPKG_CT_UNIQUE];
+}
+
+-(NSString *) buildConstraintSql: (GPKGConstraint *) constraint{
+    NSString *sql = nil;
+    if(DEFAULT_PK_NOT_NULL || !self.primaryKey || constraint.type != GPKG_CT_NOT_NULL){
+        sql = [constraint buildSql];
+    }
+    return sql;
 }
 
 -(void) validateMax{
     
     if(self.max != nil){
         if((int)self.dataType < 0){
-            [NSException raise:@"Illegal State" format:@"Column max is only supported for data typed columns. column: %@, max: %@", self.name, self.max];
+            NSLog(@"Column max set on a column without a data type. column: %@, max: %@", self.name, self.max);
         }else if(self.dataType != GPKG_DT_TEXT && self.dataType != GPKG_DT_BLOB){
             [NSException raise:@"Illegal State" format:@"Column max is only supported for TEXT and BLOB columns. column: %@, max: %@, type: %@", self.name, self.max, [GPKGDataTypes name:self.dataType]];
         }

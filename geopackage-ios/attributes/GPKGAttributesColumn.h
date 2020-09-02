@@ -24,6 +24,17 @@
 +(GPKGAttributesColumn *) createPrimaryKeyColumnWithName: (NSString *) name;
 
 /**
+ * Create a new primary key column
+ *
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return attributes column
+ */
++(GPKGAttributesColumn *) createPrimaryKeyColumnWithName: (NSString *) name andAutoincrement: (BOOL) autoincrement;
+
+/**
  *  Create a new primary key column
  *
  *  @param index column index
@@ -33,6 +44,20 @@
  */
 +(GPKGAttributesColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                andName: (NSString *) name;
+
+/**
+ * Create a new primary key column
+ *
+ * @param index
+ *            index
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return attributes column
+ */
++(GPKGAttributesColumn *) createPrimaryKeyColumnWithIndex: (int) index
+                                                  andName: (NSString *) name andAutoincrement: (BOOL) autoincrement;
 
 /**
  *  Create a new column
@@ -201,6 +226,7 @@
  *  @param notNull      not null
  *  @param defaultValue default value or nil
  *  @param primaryKey   true if primary key
+ *  @param autoincrement   autoincrement flag
  *
  *  @return new attributes column
  */
@@ -210,6 +236,7 @@
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey;
+                andPrimaryKey: (BOOL) primaryKey
+             andAutoincrement: (BOOL) autoincrement;
 
 @end

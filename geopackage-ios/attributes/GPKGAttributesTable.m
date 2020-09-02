@@ -18,14 +18,13 @@
 }
 
 -(NSString *) dataType{
-    return GPKG_CDT_ATTRIBUTES_NAME;
+    return [self dataTypeWithDefault:GPKG_CDT_ATTRIBUTES_NAME];
 }
 
 -(void) validateContents:(GPKGContents *)contents{
     // Verify the Contents have an attributes data type
-    enum GPKGContentsDataType dataType = [contents contentsDataType];
-    if (dataType != GPKG_CDT_ATTRIBUTES) {
-        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of an Attributes Table must have a data type of %@", GPKG_CDT_ATTRIBUTES_NAME];
+    if(![contents isAttributesTypeOrUnknown]){
+        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of an Attributes Table must have a data type of %@. actual type: %@", GPKG_CDT_ATTRIBUTES_NAME, contents.dataType];
     }
 }
 
