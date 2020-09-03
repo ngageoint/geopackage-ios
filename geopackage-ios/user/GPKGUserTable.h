@@ -10,6 +10,7 @@
 #import "GPKGUserColumn.h"
 #import "GPKGContents.h"
 #import "GPKGUserColumns.h"
+#import "GPKGConstraints.h"
 
 /**
  * Default id autoincrement setting
@@ -58,6 +59,15 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
 -(NSString *) dataType;
 
 /**
+ * Get the contents data type from the contents or use the default
+ *
+ * @param defaultType
+ *            default data type
+ * @return contents or default data type
+ */
+-(NSString *) dataTypeWithDefault: (NSString *) defaultType;
+
+/**
  * Create user columns for a subset of table columns
  *
  * @param columns
@@ -80,7 +90,7 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  *
  * @return user columns
  */
--(GPKGUserColumns *) userColumns;
+-(GPKGUserColumns *) columns;
 
 /**
  *  Get the column index of the column name
@@ -241,7 +251,15 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  * @param constraints
  *            constraints
  */
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints;
+-(void) addConstraintArray: (NSArray<GPKGConstraint *> *) constraints;
+
+/**
+ * Add constraints
+ *
+ * @param constraints
+ *            constraints
+ */
+-(void) addConstraints: (GPKGConstraints *) constraints;
 
 /**
  * Check if has constraints
@@ -251,11 +269,20 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
 -(BOOL) hasConstraints;
 
 /**
+ * Check if has constraints of the provided type
+ *
+ * @param type
+ *            constraint type
+ * @return true if has constraints
+ */
+-(BOOL) hasConstraintsOfType: (enum GPKGConstraintType) type;
+
+/**
  * Get the constraints
  *
  * @return constraints
  */
--(NSArray<GPKGConstraint *> *) constraints;
+-(GPKGConstraints *) constraints;
 
 /**
  * Get the constraints of the provided type
@@ -264,7 +291,7 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  *            constraint type
  * @return constraints
  */
--(NSArray<GPKGConstraint *> *) constraintsForType: (enum GPKGConstraintType) type;
+-(NSArray<GPKGConstraint *> *) constraintsOfType: (enum GPKGConstraintType) type;
 
 /**
  * Clear the constraints
@@ -281,6 +308,36 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  * @return columns
  */
 -(NSArray *) columnsOfType: (enum GPKGDataType) type;
+
+/**
+ * Is the primary key modifiable
+ *
+ * @return true if the primary key is modifiable
+ */
+-(BOOL) isPkModifiable;
+
+/**
+ * Set if the primary key can be modified
+ *
+ * @param pkModifiable
+ *            primary key modifiable flag
+ */
+-(void) setPkModifiable: (BOOL) pkModifiable;
+
+/**
+ * Is value validation against column types enabled
+ *
+ * @return true if values are validated against column types
+ */
+-(BOOL) isValueValidation;
+
+/**
+ * Set if values should validated against column types
+ *
+ * @param valueValidation
+ *            value validation flag
+ */
+-(void) setValueValidation: (BOOL) valueValidation;
 
 /**
  * Add a new column

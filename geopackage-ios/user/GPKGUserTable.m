@@ -14,17 +14,12 @@
 /**
  *  Columns
  */
-@property (nonatomic, strong) GPKGUserColumns *userColumns;
+@property (nonatomic, strong) GPKGUserColumns *columns;
 
 /**
- *  Constraints
+ * Constraints
  */
-@property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
-
-/**
- * Type Constraints
- */
-@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray<GPKGConstraint *> *> *typedContraints;
+@property (nonatomic, strong) GPKGConstraints *contraints;
 
 @end
 
@@ -33,9 +28,8 @@
 -(instancetype) initWithColumns: (GPKGUserColumns *) columns{
     self = [super init];
     if(self != nil){
-        self.userColumns = columns;
-        self.constraints = [[NSMutableArray alloc] init];
-        self.typedContraints = [[NSMutableDictionary alloc] init];
+        self.columns = columns;
+        self.constraints = [[GPKGConstraints alloc] init];
     }
     return self;
 }
@@ -44,12 +38,8 @@
     self = [super init];
     if(self != nil){
 
-        self.userColumns = [userTable.userColumns mutableCopy];
-        self.constraints = [[NSMutableArray alloc] init];
-        self.typedContraints = [[NSMutableDictionary alloc] init];
-        for(GPKGConstraint *constraint in userTable.constraints){
-            [self addConstraint:[constraint mutableCopy]];
-        }
+        self.columns = [userTable.columns mutableCopy];
+        self.constraints = [userTable mutableCopy];
         self.contents = userTable.contents;
         
     }
@@ -61,6 +51,17 @@
     return nil;
 }
 
+-(NSString *) dataTypeWithDefault: (NSString *) defaultType{
+    NSString *dataType = nil;
+    if(_contents != nil){
+        dataType = _contents.dataType;
+    }
+    if(dataType == nil){
+        dataType = defaultType;
+    }
+    return dataType;
+}
+
 -(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -70,24 +71,24 @@
     return [self createUserColumnsWithColumns:[self columnsWithNames:columnNames]];
 }
 
--(GPKGUserColumns *) userColumns{
-    return _userColumns;
+-(GPKGUserColumns *) columns{
+    return _columns;
 }
 
 -(int) columnIndexWithColumnName: (NSString *) columnName{
-    return [self.userColumns columnIndexWithColumnName:columnName];
+    return [self.columns columnIndexWithColumnName:columnName];
 }
 
 -(NSArray<NSString *> *) columnNames{
-    return [self.userColumns columnNames];
+    return [self.columns columnNames];
 }
 
 -(NSString *) columnNameWithIndex: (int) index{
-    return [self.userColumns columnNameWithIndex:index];
+    return [self.columns columnNameWithIndex:index];
 }
 
 -(NSArray<GPKGUserColumn *> *) columns{
-    return [self.userColumns columns];
+    return [self.columns columns];
 }
 
 -(NSArray<GPKGUserColumn *> *) columnsWithNames: (NSArray<NSString *> *) columnNames{
@@ -99,103 +100,99 @@
 }
 
 -(GPKGUserColumn *) columnWithIndex: (int) index{
-    return [self.userColumns columnWithIndex:index];
+    return [self.columns columnWithIndex:index];
 }
 
 -(GPKGUserColumn *) columnWithColumnName: (NSString *) columnName{
-    return [self.userColumns columnWithColumnName:columnName];
+    return [self.columns columnWithColumnName:columnName];
 }
 
 -(BOOL) hasColumnWithColumnName: (NSString *) columnName{
-    return [self.userColumns hasColumnWithColumnName:columnName];
+    return [self.columns hasColumnWithColumnName:columnName];
 }
 
 -(int) columnCount{
-    return [self.userColumns columnCount];
+    return [self.columns columnCount];
 }
 
 -(NSString *) tableName{
-    return _userColumns.tableName;
+    return _columns.tableName;
 }
 
 -(void) setTableName: (NSString *) tableName{
-    [self.userColumns setTableName:tableName];
+    [self.columns setTableName:tableName];
 }
 
 -(BOOL) hasIdColumn{
-    return [self.userColumns hasIdColumn];
+    return [self.columns hasIdColumn];
 }
 
 -(int) idIndex{
-    return [self.userColumns idIndex];
+    return [self.columns idIndex];
 }
 
 -(GPKGUserColumn *) idColumn{
-    return [self.userColumns idColumn];
+    return [self.columns idColumn];
 }
 
 -(NSString *) idColumnName{
-    return [self.userColumns idColumnName];
+    return [self.columns idColumnName];
 }
 
 -(BOOL) hasPkColumn{
-    return [self.userColumns hasPkColumn];
+    return [self.columns hasPkColumn];
 }
 
 -(int) pkIndex{
-    return [self.userColumns pkIndex];
+    return [self.columns pkIndex];
 }
 
 -(GPKGUserColumn *) pkColumn{
-    return [self.userColumns pkColumn];
+    return [self.columns pkColumn];
 }
 
 -(NSString *) pkColumnName{
-    return [self.userColumns pkColumnName];
+    return [self.columns pkColumnName];
 }
 
 -(void) addConstraint: (GPKGConstraint *) constraint{
-    [GPKGUtils addObject:constraint toArray:_constraints];
-    NSNumber *typeNumber = [NSNumber numberWithInteger:constraint.type];
-    NSMutableArray<GPKGConstraint *> *typeConstraints = [self.typedContraints objectForKey:typeNumber];
-    if(typeConstraints == nil){
-        typeConstraints = [[NSMutableArray alloc] init];
-        [self.typedContraints setObject:typeConstraints forKey:typeNumber];
-    }
-    [typeConstraints addObject:constraint];
+    [_contraints add:constraint];
 }
 
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints{
-    for(GPKGConstraint *constraint in constraints){
-        [self addConstraint:constraint];
-    }
+-(void) addConstraintArray: (NSArray<GPKGConstraint *> *) constraints{
+    [_contraints addArray:constraints];
+}
+
+-(void) addConstraints: (GPKGConstraints *) constraints{
+    [self addConstraintArray:[constraints all]];
 }
 
 -(BOOL) hasConstraints{
-    return self.constraints.count > 0;
+    return [_contraints has];
 }
 
--(NSArray<GPKGConstraint *> *) constraints{
+-(BOOL) hasConstraintsOfType: (enum GPKGConstraintType) type{
+    return [_contraints hasType:type];
+}
+
+-(GPKGConstraints *) constraints{
     return _constraints;
 }
 
--(NSArray<GPKGConstraint *> *) constraintsForType: (enum GPKGConstraintType) type{
-    NSArray<GPKGConstraint *> *constraints = [self.typedContraints objectForKey:[NSNumber numberWithInteger:type]];
-    if(constraints == nil){
-        constraints = [[NSArray alloc] init];
-    }
-    return constraints;
+-(NSArray<GPKGConstraint *> *) constraintsOfType: (enum GPKGConstraintType) type{
+    return [_constraints getType:type];
 }
 
 -(NSArray<GPKGConstraint *> *) clearConstraints{
-    NSArray<GPKGConstraint *> *constraintsCopy = [NSArray arrayWithArray:self.constraints];
-    [_constraints removeAllObjects];
-    [_typedContraints removeAllObjects];
-    return constraintsCopy;
+    return [_constraints clear];
+}
+
+-(NSArray<GPKGConstraint *> *) clearConstraintsOfType: (enum GPKGConstraintType) type{
+    return [_constraints clearType:type];
 }
 
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{
-    return [self.userColumns columnsOfType:type];
+    return [self.columns columnsOfType:type];
 }
 
 -(void) setContents:(GPKGContents *)contents{
@@ -215,36 +212,52 @@
     
 }
 
+-(BOOL) isPkModifiable{
+    return _columns.pkModifiable;
+}
+
+-(void) setPkModifiable: (BOOL) pkModifiable{
+    [_columns setPkModifiable:pkModifiable];
+}
+
+-(BOOL) isValueValidation{
+    return _columns.valueValidation;
+}
+
+-(void) setValueValidation: (BOOL) valueValidation{
+    [_columns setValueValidation:valueValidation];
+}
+
 -(void) addColumn: (GPKGUserColumn *) column{
-    [self.userColumns addColumn:column];
+    [self.columns addColumn:column];
 }
 
 -(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
-    [self.userColumns renameColumn:column toColumn:newColumnName];
+    [self.columns renameColumn:column toColumn:newColumnName];
 }
 
 -(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
-    [self.userColumns renameColumnWithName:columnName toColumn:newColumnName];
+    [self.columns renameColumnWithName:columnName toColumn:newColumnName];
 }
 
 -(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
-    [self.userColumns renameColumnWithIndex:index toColumn:newColumnName];
+    [self.columns renameColumnWithIndex:index toColumn:newColumnName];
 }
 
 -(void) dropColumn: (GPKGUserColumn *) column{
-    [self.userColumns dropColumn:column];
+    [self.columns dropColumn:column];
 }
 
 -(void) dropColumnWithName: (NSString *) columnName{
-    [self.userColumns dropColumnWithName:columnName];
+    [self.columns dropColumnWithName:columnName];
 }
 
 -(void) dropColumnWithIndex: (int) index{
-    [self.userColumns dropColumnWithIndex:index];
+    [self.columns dropColumnWithIndex:index];
 }
 
 -(void) alterColumn: (GPKGUserColumn *) column{
-    [self.userColumns alterColumn:column];
+    [self.columns alterColumn:column];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

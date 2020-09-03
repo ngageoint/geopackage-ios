@@ -43,13 +43,14 @@
     
     for(GPKGTableColumn *tableColumn in [tableInfo columns]){
         if((int)[tableColumn dataType] < 0){
-            [NSException raise:@"Unsupported Type" format:@"Unsupported column data type %@", [tableColumn type]];
+            NSLog(@"Unexpected column data type: '%@', column: %@", [tableColumn type], tableColumn.name);
         }
         GPKGUserColumn *column = [self createColumnWithTableColumn:tableColumn];
+        [column setAutoincrement:NO];
         
         GPKGColumnConstraints *columnConstraints = [constraints columnConstraintsForColumn:column.name];
         if(columnConstraints != nil && [columnConstraints hasConstraints]){
-            [column clearConstraints];
+            [column clearConstraintsWithReset:NO];
             [column addColumnConstraints:columnConstraints];
         }
         

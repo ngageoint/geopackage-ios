@@ -27,6 +27,16 @@
 @property (nonatomic) BOOL custom;
 
 /**
+ * Indicates if the primary key is modifiable
+ */
+@property (nonatomic) BOOL pkModifiable;
+
+/**
+ * Indicates if values are validated against column types
+ */
+@property (nonatomic) BOOL valueValidation;
+
+/**
  *  Initialize
  *
  *  @param tableName table name

@@ -42,6 +42,8 @@
         self.columns = [NSMutableArray arrayWithArray:columns];
         self.custom = custom;
         self.nameToIndex = [[NSMutableDictionary alloc] init];
+        self.pkModifiable = NO;
+        self.valueValidation = YES;
     }
     return self;
 }
@@ -58,6 +60,8 @@
         }
         self.nameToIndex = [NSMutableDictionary dictionaryWithDictionary:userColumns.nameToIndex];
         self.pkIndex = userColumns.pkIndex;
+        self.pkModifiable = userColumns.pkModifiable;
+        self.valueValidation = userColumns.valueValidation;
     }
     return self;
 }
@@ -145,20 +149,20 @@
 
 -(void) duplicateCheckWithIndex: (int) index andPreviousIndex: (NSNumber *) previousIndex andColumn: (NSString *) column{
     if(previousIndex != nil){
-        [NSException raise:@"Duplicate Column" format:@"More than one %@ column was found for table '%@'. Index %@ and %d", column, self.tableName, previousIndex, index];
+        NSLog(@"More than one %@ column was found for table '%@'. Index %@ and %d", column, self.tableName, previousIndex, index);
     }
 }
 
 -(void) typeCheckWithExpected: (enum GPKGDataType) expected andColumn: (GPKGUserColumn *) column{
     enum GPKGDataType actual = column.dataType;
     if(actual != expected){
-        [NSException raise:@"Unexpected Data Type" format:@"Unexpected %@ column data type was found for table '%@', expected: %@, actual: %@", column.name, self.tableName, [GPKGDataTypes name:expected], column.type];
+        NSLog(@"Unexpected %@ column data type was found for table '%@', expected: %@, actual: %@", column.name, self.tableName, [GPKGDataTypes name:expected], column.type);
     }
 }
 
 -(void) missingCheckWithIndex: (NSNumber *) index andColumn: (NSString *) column{
     if(index == nil){
-        [NSException raise:@"Missing Column" format:@"No %@ column was found for table '%@'", column, self.tableName];
+        NSLog(@"No %@ column was found for table '%@'", column, self.tableName);
     }
 }
 
@@ -245,7 +249,12 @@
 }
 
 -(NSString *) pkColumnName{
-    return [self pkColumn].name;
+    NSString *name = nil;
+    GPKGUserColumn *pkColumn = [self pkColumn];
+    if(pkColumn != nil){
+        name = pkColumn.name;
+    }
+    return name;
 }
 
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{

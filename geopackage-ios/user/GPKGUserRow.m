@@ -248,8 +248,8 @@
 }
 
 -(void) setValueWithIndex: (int) index andValue: (NSObject *) value{
-    if(index == [_columns pkIndex]){
-        [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", [_table tableName], index, [_table pkColumn].name];
+    if(index == [_columns pkIndex] && !_columns.pkModifiable){
+        [NSException raise:@"Primary Key Update" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", [_table tableName], index, [_table pkColumnName]];
     }
     [self setValueNoValidationWithIndex:index andValue:value];
 }
@@ -271,8 +271,16 @@
 }
 
 -(void) setId: (NSNumber *) id{
-    if([self hasIdColumn]){
-        [GPKGUtils replaceObjectAtIndex:[self pkIndex] withObject:id inArray:self.values];
+    [self setId:id withModifiable:_columns.pkModifiable];
+}
+
+-(void) setId: (NSNumber *) id withModifiable: (BOOL) pkModifiable{
+    int index = [self pkIndex];
+    if(index >= 0){
+        if(!pkModifiable){
+            [NSException raise:@"Not Modifiable" format:@"Can not update the primary key of the row. Table Name: %@, Index: %@, Name: %@", [_table tableName], index, [_table pkColumnName]];
+        }
+        [GPKGUtils replaceObjectAtIndex:index withObject:id inArray:self.values];
     }
 }
 
@@ -282,20 +290,29 @@
 
 -(void) validateValueWithColumn: (GPKGUserColumn *) column andValue: (NSObject *) value andValueTypes: (NSArray *) valueTypes{
     
-    enum GPKGDataType dataType = column.dataType;
-    Class dataTypeClass = [GPKGDataTypes classType:dataType];
-    
-    BOOL valid = false;
-    for(Class valueType in valueTypes){
-        if(valueType == dataTypeClass){
-            valid = true;
-            break;
+    if(_columns.valueValidation){
+        
+        enum GPKGDataType dataType = column.dataType;
+        if ((int)dataType < 0) {
+            [NSException raise:@"Missing Data Type" format:@"Column is missing a data type. Column: %@, Value: %@, Type: '%@', Actual Type: %@", column.name, value, column.type, NSStringFromClass([[valueTypes objectAtIndex:0] class])];
         }
+        
+        Class dataTypeClass = [GPKGDataTypes classType:dataType];
+        
+        BOOL valid = NO;
+        for(Class valueType in valueTypes){
+            if(valueType == dataTypeClass){
+                valid = YES;
+                break;
+            }
+        }
+        
+        if(!valid){
+            [NSException raise:@"Illegal Value" format:@"Column: %@, Value: %@, Expected Type: %@, Actual Type: %@", column.name, value, [dataTypeClass description], [[[GPKGUtils objectAtIndex:0 inArray:valueTypes] class] description]];
+        }
+        
     }
     
-    if(!valid){
-        [NSException raise:@"Illegal Value" format:@"Column: %@, Value: %@, Expected Type: %@, Actual Type: %@", column.name, value, [dataTypeClass description], [[[GPKGUtils objectAtIndex:0 inArray:valueTypes] class] description]];
-    }
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

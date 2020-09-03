@@ -15,7 +15,7 @@
 extern NSString * const GPKG_CONSTRAINT;
 
 /**
- * User table constraint
+ * Table or column constraint
  */
 @interface GPKGConstraint : NSObject <NSMutableCopying>
 
@@ -28,6 +28,11 @@ extern NSString * const GPKG_CONSTRAINT;
  *  Constraint type
  */
 @property (nonatomic) enum GPKGConstraintType type;
+
+/**
+ * Optional order
+ */
+@property (nonatomic, strong) NSNumber *order;
 
 /**
  * Initialize
@@ -46,6 +51,28 @@ extern NSString * const GPKG_CONSTRAINT;
  *            constraint name
  */
 -(instancetype) initWithType: (enum GPKGConstraintType) type andName: (NSString *) name;
+
+/**
+ * Initialize
+ *
+ * @param type
+ *            constraint type
+ * @param order
+ *            constraint order
+ */
+-(instancetype) initWithType: (enum GPKGConstraintType) type andOrder: (NSNumber *) order;
+
+/**
+ * Initialize
+ *
+ * @param type
+ *            constraint type
+ * @param name
+ *            constraint name
+ * @param order
+ *            constraint order
+ */
+-(instancetype) initWithType: (enum GPKGConstraintType) type andName: (NSString *) name andOrder: (NSNumber *) order;
 
 /**
  * Build the name SQL

@@ -283,5 +283,17 @@
 #import "GPKGFeatureIndexerIdQuery.h"
 #import "GPKGFeatureIndexerIdResultSet.h"
 #import "GPKGFeaturePreview.h"
+#import "GPKGUserTableMetadata.h"
+#import "GPKGAttributesTableMetadata.h"
+#import "GPKGConstraints.h"
+#import "GPKGExtensionManagement.h"
+#import "GPKGContentsIdTableCreator.h"
+#import "GPKGGeometryIndexTableCreator.h"
+#import "GPKGFeatureTileLinkTableCreator.h"
+#import "GPKGTileScalingTableCreator.h"
+#import "GPKGMediaTableMetadata.h"
+#import "GPKGSimpleAttributesTableMetadata.h"
+#import "GPKGFeatureTableMetadata.h"
+#import "GPKGTileTableMetadata.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */
