@@ -48,6 +48,10 @@ NSString * const GPKG_CONSTRAINT = @"CONSTRAINT";
     return nil;
 }
 
+-(int) sortOrder{
+    return self.order != nil ? [self.order intValue] : INT_MAX;
+}
+
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGConstraint *constraint = [[[self class] allocWithZone:zone] init];
     constraint.name = _name;

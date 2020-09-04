@@ -88,4 +88,11 @@ extern NSString * const GPKG_CONSTRAINT;
  */
 -(NSString *) buildSql;
 
+/**
+ * Get the order for maintaining sorted constraints
+ *
+ * @return sort order
+ */
+-(int) sortOrder;
+
 @end
