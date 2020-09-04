@@ -8,8 +8,31 @@
 
 #import "GPKGUserTableMetadata.h"
 
+NSString * const GPKG_UTM_DEFAULT_ID_COLUMN_NAME = @"id";
+
 @implementation GPKGUserTableMetadata
 
-// TODO
+-(instancetype) init{
+    self = [super init];
+    return self;
+}
+
+-(NSString *) defaultDataType{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSArray<GPKGUserColumn *> *) buildColumns{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(NSString *) dataType{
+    return _dataType != nil ? _dataType : [self defaultDataType];
+}
+
+-(NSString *) idColumnName{
+    return _idColumnName != nil ? _idColumnName : GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
+}
 
 @end
