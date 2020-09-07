@@ -46,7 +46,7 @@
 -(instancetype) initWithColumns: (GPKGUserCustomColumns *) columns;
 
 /**
- * Constructor
+ * Initialize
  *
  * @param userCustomTable
  *            user custom table

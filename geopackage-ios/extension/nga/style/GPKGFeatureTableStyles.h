@@ -15,7 +15,7 @@
 @interface GPKGFeatureTableStyles : NSObject
 
 /**
- * Constructor
+ * Initialize
  *
  * @param geoPackage   GeoPackage
  * @param featureTable feature table
@@ -25,7 +25,7 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (GPKGFeatureTable *) featureTable;
 
 /**
- * Constructor
+ * Initialize
  *
  * @param geoPackage      GeoPackage
  * @param geometryColumns geometry columns
@@ -35,7 +35,7 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeometryColumns: (GPKGGeometryColumns *) geometryColumns;
 
 /**
- * Constructor
+ * Initialize
  *
  * @param geoPackage GeoPackage
  * @param contents   feature contents
@@ -45,7 +45,7 @@
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents;
 
 /**
- * Constructor
+ * Initialize
  *
  * @param geoPackage   GeoPackage
  * @param featureTable feature table

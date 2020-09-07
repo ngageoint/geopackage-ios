@@ -41,7 +41,7 @@
 -(instancetype) initWithTable: (NSString *) tableName andRelation: (NSString *) relationName andDataType: (NSString *) dataType andColumns: (NSArray<GPKGUserCustomColumn *> *) columns andRequiredColumns: (NSArray<NSString *> *) requiredColumns;
 
 /**
- * Constructor
+ * Initialize
  *
  * @param relationName   relation name
  * @param dataType contents data type

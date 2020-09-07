@@ -16,7 +16,7 @@
 @interface GPKGAttributesDao : GPKGUserDao
 
 /**
- * Constructor
+ * Initialize
  *
  * @param database        database connection
  * @param table           attributes table
