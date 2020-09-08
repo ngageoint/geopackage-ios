@@ -39,6 +39,35 @@ NSString * const GPKG_CON_COLUMN_SRS_ID = @"srs_id";
     self.dataType = [GPKGContentsDataTypes name:dataType];
 }
 
+-(void) setDataType: (NSString *) name asContentsDataType: (enum GPKGContentsDataType) dataType{
+    [self setDataType:name];
+    [GPKGContentsDataTypes setName:name asType:dataType];
+}
+
+-(BOOL) isFeaturesType{
+    return [GPKGContentsDataTypes isFeaturesType:_dataType];
+}
+
+-(BOOL) isFeaturesTypeOrUnknown{
+    return [GPKGContentsDataTypes isFeaturesType:_dataType andMatchUnknown:YES];
+}
+
+-(BOOL) isTilesType{
+    return [GPKGContentsDataTypes isTilesType:_dataType];
+}
+
+-(BOOL) isTilesTypeOrUnknown{
+    return [GPKGContentsDataTypes isTilesType:_dataType andMatchUnknown:YES];
+}
+
+-(BOOL) isAttributesType{
+    return [GPKGContentsDataTypes isAttributesType:_dataType];
+}
+
+-(BOOL) isAttributesTypeOrUnknown{
+    return [GPKGContentsDataTypes isAttributesType:_dataType andMatchUnknown:YES];
+}
+
 -(void) setSrs: (GPKGSpatialReferenceSystem *) srs{
     if(srs != nil){
         self.srsId = srs.srsId;

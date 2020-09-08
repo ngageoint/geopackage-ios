@@ -173,6 +173,16 @@
 -(int) count:(NSString *) statement andArgs: (NSArray *) args;
 
 /**
+ * Count with table
+ *
+ * @param table
+ *            table name
+ *
+ * @return count
+ */
+-(int) countWithTable: (NSString *) table;
+
+/**
  *  Count with table where
  *
  *  @param table table
@@ -192,6 +202,62 @@
  *  @return count
  */
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Get a count of table results
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @return count
+ */
+-(int) countWithTable: (NSString *) table andColumn: (NSString *) column;
+
+/**
+ * Get a count of table results
+ *
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @return count
+ */
+-(int) countWithTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column;
+
+/**
+ * Get a count of table results
+ *
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return count
+ */
+-(int) countWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Get a count of table results
+ *
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return count
+ */
+-(int) countWithTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Get the min result of the column
@@ -216,6 +282,70 @@
  *  @return max or nil
  */
 -(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Execute an aggregate function
+ *
+ * @param function
+ *            aggregate function
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @return value or null
+ */
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column;
+
+/**
+ * Execute an aggregate function
+ *
+ * @param function
+ *            aggregate function
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @return value or null
+ */
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column;
+
+/**
+ * Execute an aggregate function
+ *
+ * @param function
+ *            aggregate function
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return value or null
+ */
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Execute an aggregate function
+ *
+ * @param function
+ *            aggregate function
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return value or null
+ */
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Begin an exclusive transaction on the database

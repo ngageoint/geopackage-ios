@@ -119,9 +119,12 @@
 }
 
 -(SFPProjection *) projection: (NSObject *) object{
+    SFPProjection *projection = nil;
     GPKGContents *projectionObject = (GPKGContents*) object;
-    GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
-    SFPProjection *projection = [srs projection];
+    GPKGSpatialReferenceSystem *srs = [self srs:projectionObject];
+    if(srs != nil){
+        projection = [srs projection];
+    }
     return projection;
 }
 

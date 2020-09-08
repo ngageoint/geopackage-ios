@@ -83,11 +83,37 @@
 -(NSString *) columnNameWithIndex: (int) index;
 
 /**
- *  Does the table exist?
+ *  Check if the DAO is backed by a table or a view
  *
- *  @return true if exists
+ *  @return true if a table or view exists
  */
 -(BOOL) tableExists;
+
+/**
+ * Check if the DAO is backed by a table or a view
+ *
+ * @return true if a table or view exists
+ */
+-(BOOL) isTableOrView;
+
+/**
+ * Check if the DAO is backed by a table
+ *
+ * @return true if a table exists
+ */
+-(BOOL) isTable;
+
+/**
+ * Check if the DAO is backed by a view
+ *
+ * @return true if a view exists
+ */
+-(BOOL) isView;
+
+/**
+ * Verify the DAO is backed by a table or view
+ */
+-(void) verifyExists;
 
 /**
  *  Get a single or first id column name
@@ -109,6 +135,41 @@
  *  Drop the table
  */
 -(void) dropTable;
+
+/**
+ * Check if the table exists
+ *
+ * @param tableName
+ *            table name
+ * @return true if exists
+ */
+-(BOOL) tableExistsWithName: (NSString *) tableName;
+
+/**
+ * Check if the view exists
+ *
+ * @param viewName
+ *            view name
+ * @return true if exists
+ */
+-(BOOL) viewExistsWithName: (NSString *) viewName;
+
+/**
+ * Check if a table or view exists with the name
+ *
+ * @param name
+ *            table or view name
+ * @return true if exists
+ */
+-(BOOL) tableOrViewExists: (NSString *) name;
+
+/**
+ * Drop the table
+ *
+ * @param table
+ *            table name
+ */
+-(void) dropTableWithName: (NSString *) table;
 
 /**
  *  Query for id

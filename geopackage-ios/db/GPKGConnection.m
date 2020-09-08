@@ -136,17 +136,41 @@
     return count;
 }
 
+-(int) countWithTable: (NSString *) table{
+    return [self countWithTable:table andWhere:nil];
+}
+
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where{
-    GPKGDbConnection * connection = [self.connectionPool connection];
-    int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where];
-    [self.connectionPool releaseConnection:connection];
-    return count;
+    return [self countWithTable:table andWhere:where andWhereArgs:nil];
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     GPKGDbConnection * connection = [self.connectionPool connection];
     int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
+    return count;
+}
+
+-(int) countWithTable: (NSString *) table andColumn: (NSString *) column{
+    return [self countWithTable:table andDistinct:NO andColumn:column];
+}
+
+-(int) countWithTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    return [self countWithTable:table andDistinct:distinct andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
+-(int) countWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countWithTable:table andDistinct:NO andColumn:column andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countWithTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+
+    int count = 0;
+    NSNumber *value = [self aggregateFunction:@"COUNT" withTable:table andDistinct:distinct andColumn:column andWhere:where andWhereArgs:whereArgs];
+    if(value != nil){
+        count = [value intValue];
+    }
+    
     return count;
 }
 
@@ -157,11 +181,52 @@
     return min;
 }
 
+// TODO
+
 -(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     GPKGDbConnection * connection = [self.connectionPool connection];
     NSNumber * max = [GPKGSqlUtils maxWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return max;
+}
+
+// TODO
+
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column{
+    return [self aggregateFunction:function withTable:table andDistinct:NO andColumn:column];
+}
+
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    return [self aggregateFunction:function withTable:table andDistinct:distinct andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self aggregateFunction:function withTable:table andDistinct:NO andColumn:column andWhere:where andWhereArgs:whereArgs];
+}
+
+-(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    
+    NSMutableString *sql = [NSMutableString alloc];
+    [sql appendString:@"SELECT "];
+    [sql appendString:function];
+    [sql appendString:@"("];
+    if(column != nil){
+        if(distinct){
+            [sql appendString:@"DISTINCT "];
+        }
+        [sql appendString:[GPKGSqlUtils quoteWrapName:column]];
+    }else{
+        [sql appendString:@"*"];
+    }
+    [sql appendString:@") FROM "];
+    [sql appendString:[GPKGSqlUtils quoteWrapName:table]];
+    if(where != nil){
+        [sql appendFormat:@" WHERE %@", where];
+    }
+    
+    NSNumber *value = (NSNumber *)[self querySingleResultWithSql:sql andArgs:whereArgs];
+    
+    return value;
 }
 
 -(void) beginTransaction{

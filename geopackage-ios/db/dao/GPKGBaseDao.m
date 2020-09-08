@@ -75,7 +75,25 @@
 }
 
 -(BOOL) tableExists{
+    return [self isTableOrView];
+}
+
+-(BOOL) isTableOrView{
+    return [self isTable] || [self isView];
+}
+
+-(BOOL) isTable{
     return [self.database tableExists:self.tableName];
+}
+
+-(BOOL) isView{
+    return [self.database viewExists:self.tableName];
+}
+
+-(void) verifyExists{
+    if(![self isTableOrView]){
+        [NSException raise:@"Does Not Exist" format:@"Table or view does not exist for: %@", NSStringFromClass([self class])];
+    }
 }
 
 -(NSString *) idColumnName{
@@ -89,6 +107,22 @@
 
 -(void) dropTable{
     [self.database dropTable:self.tableName];
+}
+
+-(BOOL) tableExistsWithName: (NSString *) tableName{
+    return [self.database tableExists:tableName];
+}
+
+-(BOOL) viewExistsWithName: (NSString *) viewName{
+    return [self.database viewExists:viewName];
+}
+
+-(BOOL) tableOrViewExists: (NSString *) name{
+    return [self.database tableOrViewExists:name];
+}
+
+-(void) dropTableWithName: (NSString *) table{
+    [self.database dropTable:table];
 }
 
 -(GPKGResultSet *) queryForId: (NSObject *) idValue{

@@ -101,6 +101,58 @@ extern NSString * const GPKG_CON_COLUMN_SRS_ID;
 -(void) setContentsDataType: (enum GPKGContentsDataType) dataType;
 
 /**
+ * Set the data type name and register the core data type
+ *
+ * @param name
+ *            data type name
+ * @param dataType
+ *            core data type
+ */
+-(void) setDataType: (NSString *) name asContentsDataType: (enum GPKGContentsDataType) dataType;
+
+/**
+ * Determine if the contents data type is features
+ *
+ * @return true if features type
+ */
+-(BOOL) isFeaturesType;
+
+/**
+ * Determine if the contents data type is features or unknown
+ *
+ * @return true if features type or unknown
+ */
+-(BOOL) isFeaturesTypeOrUnknown;
+
+/**
+ * Determine if the contents data type is tiles
+ *
+ * @return true if tiles type
+ */
+-(BOOL) isTilesType;
+
+/**
+ * Determine if the contents data type is tiles or unknown
+ *
+ * @return true if tiles type or unknown
+ */
+-(BOOL) isTilesTypeOrUnknown;
+
+/**
+ * Determine if the contents data type is attributes
+ *
+ * @return true if attributes type
+ */
+-(BOOL) isAttributesType;
+
+/**
+ * Determine if the contents data type is attributes or unknown
+ *
+ * @return true if attributes type or unknown
+ */
+-(BOOL) isAttributesTypeOrUnknown;
+
+/**
  *  Set the Spatial Reference System
  *
  *  @param srs Spatial Reference System
