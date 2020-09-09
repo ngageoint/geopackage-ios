@@ -115,6 +115,16 @@
  *
  *  @param connection  connection
  *  @param table    table
+ *
+ *  @return count
+ */
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table;
+
+/**
+ *  Count on the database table where
+ *
+ *  @param connection  connection
+ *  @param table    table
  *  @param where    where clause
  *
  *  @return count
@@ -153,6 +163,70 @@
  *  @return count
  */
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args;
+
+/**
+ * Get a count of table results
+ *
+ * @param connection
+ *            connection
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @return count
+ */
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column;
+
+/**
+ * Get a count of table results
+ *
+ * @param connection
+ *            connection
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @return count
+ */
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column;
+
+/**
+ * Get a count of table results
+ *
+ * @param connection
+ *            connection
+ * @param table
+ *            table name
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return count
+ */
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Get a count of table results
+ *
+ * @param connection
+ *            connection
+ * @param table
+ *            table name
+ * @param distinct
+ *            distinct column flag
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            arguments
+ * @return count
+ */
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query the SQL for a single result object with the expected data type
@@ -297,6 +371,17 @@
 +(NSObject *) value: (NSObject *) value asDataType: (enum GPKGDataType) dataType;
 
 /**
+*  Min on the database table column where
+*
+*  @param connection  connection
+*  @param table     table
+*  @param column    column
+*
+*  @return min or nil
+*/
++(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column;
+
+/**
  *  Min on the database table column where
  *
  *  @param connection  connection
@@ -308,6 +393,17 @@
  *  @return min or nil
  */
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+*  Max on the database table column where
+*
+*  @param connection  connection
+*  @param table     table
+*  @param column    column
+*
+*  @return max or nil
+*/
++(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column;
 
 /**
  *  Max on the database table column where

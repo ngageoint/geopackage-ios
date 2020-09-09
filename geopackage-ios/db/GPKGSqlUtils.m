@@ -134,17 +134,17 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
-    NSString *countStatement = [statement lowercaseString];
+    NSString *countStatement = [statement uppercaseString];
     
-    if(![countStatement containsString:@" count(*) "]){
+    if(![countStatement containsString:@" COUNT(*) "]){
         
-        NSRange range = [countStatement rangeOfString:@" from "];
+        NSRange range = [countStatement rangeOfString:@" FROM "];
         if(range.length == 0){
             return -1;
         }
         NSInteger index = range.location;
         
-        countStatement = [NSString stringWithFormat:@"select count(*)%@", [countStatement substringFromIndex:index]];
+        countStatement = [NSString stringWithFormat:@"SELECT COUNT(*)%@", [countStatement substringFromIndex:index]];
     }
     
     int count = [self countWithDatabase: connection andCountStatement:countStatement andArgs:args];
@@ -152,28 +152,16 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return count;
 }
 
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table{
+    return [self countWithDatabase:connection andTable:table andWhere:nil];
+}
+
 +(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where{
     return [self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:nil];
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    
-    NSMutableString *countStatement = [NSMutableString string];
-    
-    [countStatement appendString:@"select count(*) from "];
-    [countStatement appendString:[self quoteWrapName:table]];
-    
-    if(where != nil){
-        [countStatement appendString:@" "];
-        if(![where hasPrefix:@"where"]){
-            [countStatement appendString:@"where "];
-        }
-        [countStatement appendString:where];
-    }
-    
-    int count = [self countWithDatabase: connection andCountStatement:countStatement andArgs:whereArgs];
-    
-    return count;
+    return [self countWithDatabase:connection andTable:table andColumn:nil andWhere:where andWhereArgs:whereArgs];
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement{
@@ -182,6 +170,46 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andCountStatement: (NSString *) countStatement andArgs: (NSArray *) args{
     return [self querySingleIntegerWithDatabase:connection andSql:countStatement andArgs:args andAllowEmpty:YES];
+}
+
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column{
+    return [self countWithDatabase:connection andTable:table andDistinct:NO andColumn:column];
+}
+
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    return [self countWithDatabase:connection andTable:table andDistinct:distinct andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countWithDatabase:connection andTable:table andDistinct:NO andColumn:column andWhere:where andWhereArgs:whereArgs];
+}
+
++(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    
+    NSMutableString *sql = [NSMutableString alloc];
+    [sql appendString:@"SELECT COUNT"];
+    [sql appendString:@"("];
+    if(column != nil){
+        if(distinct){
+            [sql appendString:@"DISTINCT "];
+        }
+        [sql appendString:[GPKGSqlUtils quoteWrapName:column]];
+    }else{
+        [sql appendString:@"*"];
+    }
+    [sql appendString:@") FROM "];
+    [sql appendString:[self quoteWrapName:table]];
+    if(where != nil){
+        [sql appendString:@" "];
+        if(![[where uppercaseString] hasPrefix:@"WHERE"]){
+            [sql appendString:@"WHERE "];
+        }
+        [sql appendString:where];
+    }
+    
+    int count = [self countWithDatabase: connection andCountStatement:sql andArgs:whereArgs];
+    
+    return count;
 }
 
 +(int) querySingleIntegerWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andAllowEmpty: (BOOL) allowEmptyResults{
@@ -406,18 +434,22 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return value;
 }
 
++(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column{
+    return [self minWithDatabase:connection andTable:table andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * min = nil;
     if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
         NSMutableString *minStatement = [NSMutableString string];
         
-        [minStatement appendFormat:@"select min(%@) from %@", [self quoteWrapName:column], [self quoteWrapName:table]];
+        [minStatement appendFormat:@"SELECT MIN(%@) FROM %@", [self quoteWrapName:column], [self quoteWrapName:table]];
         
         if(where != nil){
             [minStatement appendString:@" "];
-            if(![where hasPrefix:@"where"]){
-                [minStatement appendString:@"where "];
+            if(![[where uppercaseString] hasPrefix:@"WHERE"]){
+                [minStatement appendString:@"WHERE "];
             }
             [minStatement appendString:where];
         }
@@ -428,18 +460,22 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return min;
 }
 
++(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column{
+    return [self maxWithDatabase:connection andTable:table andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
 +(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSNumber * max = nil;
     if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
         NSMutableString *maxStatement = [NSMutableString string];
         
-        [maxStatement appendFormat:@"select max(%@) from %@", [self quoteWrapName:column], [self quoteWrapName:table]];
+        [maxStatement appendFormat:@"SELECT MAX(%@) FROM %@", [self quoteWrapName:column], [self quoteWrapName:table]];
         
         if(where != nil){
             [maxStatement appendString:@" "];
-            if(![where hasPrefix:@"where"]){
-                [maxStatement appendString:@"where "];
+            if(![[where uppercaseString] hasPrefix:@"WHERE"]){
+                [maxStatement appendString:@"WHERE "];
             }
             [maxStatement appendString:where];
         }
@@ -457,7 +493,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(long long) insertWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values{
     
     NSMutableString *insertStatement = [NSMutableString string];
-    [insertStatement appendString:@"insert into "];
+    [insertStatement appendString:@"INSERT INTO "];
     [insertStatement appendString:[self quoteWrapName:table]];
     [insertStatement appendString:@"("];
     
@@ -477,7 +513,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         [args addObject:value];
         i++;
     }
-    [insertStatement appendString:@") values ("];
+    [insertStatement appendString:@") VALUES ("];
     for(i = 0; i < size; i++){
         if(i > 0){
             [insertStatement appendString:@","];
@@ -533,9 +569,9 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(int) updateWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andValues: (GPKGContentValues *) values andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
     NSMutableString *updateStatement = [NSMutableString string];
-    [updateStatement appendString:@"update "];
+    [updateStatement appendString:@"UPDATE "];
     [updateStatement appendString:[self quoteWrapName:table]];
-    [updateStatement appendString:@" set "];
+    [updateStatement appendString:@" SET "];
     
     int setValuesSize = [values size];
     int argsSize = (whereArgs == nil) ? setValuesSize : (setValuesSize + (int)[whereArgs count]);
@@ -559,7 +595,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         [args addObjectsFromArray:whereArgs];
     }
     if(where != nil){
-        [updateStatement appendString:@" where "];
+        [updateStatement appendString:@" WHERE "];
         [updateStatement appendString:where];
     }
     
@@ -584,11 +620,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     NSMutableString *deleteStatement = [NSMutableString string];
     
-    [deleteStatement appendString:@"delete from "];
+    [deleteStatement appendString:@"DELETE FROM "];
     [deleteStatement appendString:[self quoteWrapName:table]];
     
     if(where != nil){
-        [deleteStatement appendString:@" where "];
+        [deleteStatement appendString:@" WHERE "];
         [deleteStatement appendString:where];
     }
     
@@ -766,9 +802,9 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     [sql appendFormat:@"CREATE TABLE %@ (", [self quoteWrapName:table.tableName]];
     
     // Add each column to the sql
-    NSArray *columns = [table columns];
-    for(int i = 0; i < [columns count]; i++){
-        GPKGUserColumn *column = [columns objectAtIndex:i];
+    GPKGUserColumns *columns = [table columns];
+    for(int i = 0; i < [columns columnCount]; i++){
+        GPKGUserColumn *column = [columns columnWithIndex:i];
         if(i > 0){
             [sql appendString:@","];
         }
@@ -777,7 +813,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     }
     
     // Add constraints
-    NSArray *constraints = [table constraints];
+    NSArray<GPKGConstraint *> *constraints = [[table constraints] all];
     for(int i = 0; i < [constraints count]; i++){
         [sql appendFormat:@",\n  "];
         GPKGConstraint *constraint = [constraints objectAtIndex:i];
@@ -803,8 +839,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         [sql appendFormat:@"(%d)", [column.max intValue]];
     }
     
-    for(GPKGConstraint *constraint in column.constraints){
-        [sql appendFormat:@" %@", [constraint buildSql]];
+    for(GPKGConstraint *constraint in [column.constraints all]){
+        NSString *constraintSql = [column buildConstraintSql:constraint];
+        if (constraintSql != nil) {
+            [sql appendFormat:@" %@", constraintSql];
+        }
     }
     
     return sql;
@@ -964,7 +1003,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         }else{
             
             if([column hasDefaultValue]){
-                [selectColumns appendString:@"ifnull("];
+                [selectColumns appendString:@"IFNULL("];
             }
             [selectColumns appendString:[self quoteWrapName:[column fromColumn]]];
             if([column hasDefaultValue]){
@@ -1020,7 +1059,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(NSString *) tempTableNameWithPrefix: (NSString *) prefix andBaseName: (NSString *) baseName withConnection: (GPKGConnection *) db{
     NSString *name = [NSString stringWithFormat:@"%@_%@", prefix, baseName];
     int nameNumber = 0;
-    while([db tableExists:name]){
+    while([db tableOrViewExists:name]){
         name = [NSString stringWithFormat:@"%@%d_%@", prefix, ++nameNumber, baseName];
     }
     return name;

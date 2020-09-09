@@ -269,7 +269,29 @@
  *
  *  @return min or nil
  */
+-(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column;
+
+/**
+ *  Get the min result of the column
+ *
+ *  @param table     table
+ *  @param column    column
+ *  @param where     where
+ *  @param whereArgs where args
+ *
+ *  @return min or nil
+ */
 -(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ *  Get the max result of the column
+ *
+ *  @param table     table
+ *  @param column    column
+ *
+ *  @return max or nil
+ */
+-(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column;
 
 /**
  *  Get the max result of the column
@@ -282,70 +304,6 @@
  *  @return max or nil
  */
 -(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
-
-/**
- * Execute an aggregate function
- *
- * @param function
- *            aggregate function
- * @param table
- *            table name
- * @param column
- *            column name
- * @return value or null
- */
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column;
-
-/**
- * Execute an aggregate function
- *
- * @param function
- *            aggregate function
- * @param table
- *            table name
- * @param distinct
- *            distinct column flag
- * @param column
- *            column name
- * @return value or null
- */
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column;
-
-/**
- * Execute an aggregate function
- *
- * @param function
- *            aggregate function
- * @param table
- *            table name
- * @param column
- *            column name
- * @param where
- *            where clause
- * @param whereArgs
- *            arguments
- * @return value or null
- */
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
-
-/**
- * Execute an aggregate function
- *
- * @param function
- *            aggregate function
- * @param table
- *            table name
- * @param distinct
- *            distinct column flag
- * @param column
- *            column name
- * @param where
- *            where clause
- * @param whereArgs
- *            arguments
- * @return value or null
- */
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  *  Begin an exclusive transaction on the database
@@ -539,11 +497,29 @@
 /**
  *  Check if a table exists
  *
- *  @param table table
+ *  @param table table name
  *
  *  @return true if exists
  */
 -(BOOL) tableExists: (NSString *) table;
+
+/**
+ *  Check if a view exists
+ *
+ *  @param view view name
+ *
+ *  @return true if exists
+ */
+-(BOOL) viewExists: (NSString *) view;
+
+/**
+ *  Check if a table or view exists with the name
+ *
+ *  @param name table or view name
+ *
+ *  @return true if exists
+ */
+-(BOOL) tableOrViewExists: (NSString *) name;
 
 /**
  *  Check if the table column exists
@@ -795,6 +771,29 @@
 -(NSString *) applicationId;
 
 /**
+ * Get the application id integer
+ *
+ * @return application id integer
+ */
+-(NSNumber *) applicationIdNumber;
+
+/**
+ * Get the application id as a hex string prefixed with 0x
+ *
+ * @return application id hex string
+ */
+-(NSString *) applicationIdHex;
+
+/**
+ * Get the application id string value for the application id integer
+ *
+ * @param applicationId
+ *            application id integer
+ * @return application id
+ */
++(NSString *) applicationIdOfNumber: (NSNumber *) applicationId;
+
+/**
  *  Set the GeoPackage user version
  */
 -(void) setUserVersion;
@@ -811,7 +810,28 @@
  *
  *  @return user version
  */
--(int) userVersion;
+-(NSNumber *) userVersion;
+
+/**
+ * Get the user version major
+ *
+ * @return user version major
+ */
+-(NSNumber *) userVersionMajor;
+
+/**
+ * Get the user version minor
+ *
+ * @return user version minor
+ */
+-(NSNumber *) userVersionMinor;
+
+/**
+ * Get the user version patch
+ *
+ * @return user version patch
+ */
+-(NSNumber *) userVersionPatch;
 
 /**
  *  Drop the table

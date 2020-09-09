@@ -145,10 +145,7 @@
 }
 
 -(int) countWithTable: (NSString *) table andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    GPKGDbConnection * connection = [self.connectionPool connection];
-    int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andWhere:where andWhereArgs: whereArgs];
-    [self.connectionPool releaseConnection:connection];
-    return count;
+    return [self countWithTable:table andColumn:nil andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countWithTable: (NSString *) table andColumn: (NSString *) column{
@@ -164,14 +161,14 @@
 }
 
 -(int) countWithTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-
-    int count = 0;
-    NSNumber *value = [self aggregateFunction:@"COUNT" withTable:table andDistinct:distinct andColumn:column andWhere:where andWhereArgs:whereArgs];
-    if(value != nil){
-        count = [value intValue];
-    }
-    
+    GPKGDbConnection * connection = [self.connectionPool connection];
+    int count = [GPKGSqlUtils countWithDatabase:connection andTable:table andDistinct:distinct andColumn:column andWhere:where andWhereArgs: whereArgs];
+    [self.connectionPool releaseConnection:connection];
     return count;
+}
+
+-(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column{
+    return [self minWithTable:table andColumn:column andWhere:nil andWhereArgs:nil];
 }
 
 -(NSNumber *) minWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
@@ -181,52 +178,15 @@
     return min;
 }
 
-// TODO
+-(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column{
+    return [self maxWithTable:table andColumn:column andWhere:nil andWhereArgs:nil];
+}
 
 -(NSNumber *) maxWithTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     GPKGDbConnection * connection = [self.connectionPool connection];
     NSNumber * max = [GPKGSqlUtils maxWithDatabase:connection andTable:table andColumn:column andWhere:where andWhereArgs: whereArgs];
     [self.connectionPool releaseConnection:connection];
     return max;
-}
-
-// TODO
-
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column{
-    return [self aggregateFunction:function withTable:table andDistinct:NO andColumn:column];
-}
-
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column{
-    return [self aggregateFunction:function withTable:table andDistinct:distinct andColumn:column andWhere:nil andWhereArgs:nil];
-}
-
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self aggregateFunction:function withTable:table andDistinct:NO andColumn:column andWhere:where andWhereArgs:whereArgs];
-}
-
--(NSNumber *) aggregateFunction: (NSString *) function withTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    
-    NSMutableString *sql = [NSMutableString alloc];
-    [sql appendString:@"SELECT "];
-    [sql appendString:function];
-    [sql appendString:@"("];
-    if(column != nil){
-        if(distinct){
-            [sql appendString:@"DISTINCT "];
-        }
-        [sql appendString:[GPKGSqlUtils quoteWrapName:column]];
-    }else{
-        [sql appendString:@"*"];
-    }
-    [sql appendString:@") FROM "];
-    [sql appendString:[GPKGSqlUtils quoteWrapName:table]];
-    if(where != nil){
-        [sql appendFormat:@" WHERE %@", where];
-    }
-    
-    NSNumber *value = (NSNumber *)[self querySingleResultWithSql:sql andArgs:whereArgs];
-    
-    return value;
 }
 
 -(void) beginTransaction{
@@ -372,6 +332,14 @@
     return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_TABLE andTable:table] > 0;
 }
 
+-(BOOL) viewExists: (NSString *) view{
+    return [GPKGSQLiteMaster countWithConnection:self andType:GPKG_SMT_VIEW andTable:view] > 0;
+}
+
+-(BOOL) tableOrViewExists: (NSString *) name{
+    return [GPKGSQLiteMaster countWithConnection:self andTypes:[NSArray arrayWithObjects:[NSNumber numberWithInt:GPKG_SMT_TABLE], [NSNumber numberWithInt:GPKG_SMT_VIEW], nil] andTable:name] > 0;
+}
+
 -(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     
     BOOL exists = false;
@@ -477,22 +445,38 @@
 }
 
 -(NSString *) applicationId{
+    return [GPKGConnection applicationIdOfNumber:[self applicationIdNumber]];
+}
 
-    NSString * applicationId = nil;
-    
-    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA application_id"]];
-    @try{
-        if([result moveToNext]){
-            NSNumber * resultNumber = [result intWithIndex:0];
-            int applicationIdInt = CFSwapInt32HostToBig([resultNumber intValue]);
-            NSData * applicationIdData = [NSData dataWithBytes:&applicationIdInt length:4];
-            applicationId = [[NSString alloc] initWithData:applicationIdData encoding:NSUTF8StringEncoding];
-        }
-    }@finally{
-        [result close];
+-(NSNumber *) applicationIdNumber{
+    NSNumber *applicationId = (NSNumber *)[self querySingleResultWithSql:@"PRAGMA application_id" andArgs:nil andDataType:GPKG_DT_MEDIUMINT];
+    if(applicationId != nil){
+        applicationId = [NSNumber numberWithUnsignedInt:[applicationId intValue]];
     }
-    
     return applicationId;
+}
+
+-(NSString *) applicationIdHex{
+    NSString *hex = nil;
+    NSNumber *applicationId = [self applicationIdNumber];
+    if(applicationId != nil){
+        hex = [NSString stringWithFormat:@"0x%02x", [applicationId intValue]];
+    }
+    return hex;
+}
+
++(NSString *) applicationIdOfNumber: (NSNumber *) applicationId{
+    NSString *id = nil;
+    if(applicationId != nil){
+        if([applicationId intValue] == 0){
+            id = GPKG_SQLITE_APPLICATION_ID;
+        }else{
+            int idInt = [applicationId intValue];
+            NSData *idData = [NSData dataWithBytes:&idInt length:4];
+            id = [[NSString alloc] initWithData:idData encoding:NSUTF8StringEncoding];
+        }
+    }
+    return id;
 }
 
 -(void) setUserVersion{
@@ -503,20 +487,39 @@
     [self exec:[NSString stringWithFormat:@"PRAGMA user_version = %d", userVersion]];
 }
 
--(int) userVersion{
-    
-    int userVersion = -1;
-    
-    GPKGResultSet * result = [self rawQuery:[NSString stringWithFormat:@"PRAGMA user_version"]];
-    @try{
-        if([result moveToNext]){
-            userVersion = [[result intWithIndex:0] intValue];
-        }
-    }@finally{
-        [result close];
+-(NSNumber *) userVersion{
+    NSNumber *userVersion = (NSNumber *)[self querySingleResultWithSql:@"PRAGMA user_version" andArgs:nil andDataType:GPKG_DT_MEDIUMINT];
+    if(userVersion != nil){
+        userVersion = [NSNumber numberWithUnsignedInt:[userVersion intValue]];
     }
-    
     return userVersion;
+}
+
+-(NSNumber *) userVersionMajor{
+    NSNumber *major = nil;
+    NSNumber *userVersion = [self userVersion];
+    if (userVersion != nil) {
+        major = [NSNumber numberWithInt:[userVersion intValue] / 10000];
+    }
+    return major;
+}
+
+-(NSNumber *) userVersionMinor{
+    NSNumber *minor = nil;
+    NSNumber *userVersion = [self userVersion];
+    if (userVersion != nil) {
+        minor = [NSNumber numberWithInt:([userVersion intValue] % 10000) / 100];
+    }
+    return minor;
+}
+
+-(NSNumber *) userVersionPatch{
+    NSNumber *patch = nil;
+    NSNumber *userVersion = [self userVersion];
+    if (userVersion != nil) {
+        patch = [NSNumber numberWithInt:[userVersion intValue] % 100];
+    }
+    return patch;
 }
 
 -(void) dropTable: (NSString *) table{
