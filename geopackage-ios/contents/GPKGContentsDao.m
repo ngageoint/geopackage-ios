@@ -16,6 +16,10 @@
 
 @implementation GPKGContentsDao
 
++(GPKGContentsDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGContentsDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
@@ -146,9 +150,6 @@
             case GPKG_CDT_TILES:
                     [self verifyTiles:dataType];
                 break;
-            case GPKG_CDT_GRIDDED_COVERAGE:
-                    [self verifyTiles:dataType];
-                break;
             case GPKG_CDT_ATTRIBUTES:
                 break;
             default:
@@ -158,8 +159,8 @@
     }
     
     // Verify the feature or tile table exists
-    if(![self.database tableExists:validateObject.tableName]){
-        [NSException raise:@"Missing Table" format:@"No table exists for Content Table Name: %@. Table must first be created.", validateObject.tableName];
+    if(![self tableOrViewExists:validateObject.tableName]){
+        [NSException raise:@"Missing Table" format:@"No table or view exists for Content Table Name: %@. Table must first be created.", validateObject.tableName];
     }
 }
 
@@ -182,35 +183,36 @@
     return [self tablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
+-(NSArray<NSString *> *) tablesOfTypes: (NSArray<NSNumber *> *) dataTypes{
+    return [self tablesOfTypeNames:[self dataTypeNames:dataTypes]];
+}
+
 -(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType{
-    GPKGResultSet *contents = [self contentsOfTypeName:dataType];
-    NSMutableArray *tableNames = [[NSMutableArray alloc] init];
-    while([contents moveToNext]){
-        GPKGContents *content = (GPKGContents *)[self object:contents];
-        [tableNames addObject:content.tableName];
-    }
-    [contents close];
-    return tableNames;
+    return [self tablesOfTypeNames:[NSArray arrayWithObject:dataType]];
+}
+
+-(NSArray<NSString *> *) tablesOfTypeNames: (NSArray<NSString *> *) dataTypes{
+    return [self tableNames:[self contentsWithColumn:GPKG_CON_TABLE_NAME andTypeNames:dataTypes]];
 }
 
 -(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType{
     return [self contentsOfTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
+-(GPKGResultSet *) contentsOfTypes: (NSArray<NSNumber *> *) dataTypes{
+    return [self contentsOfTypeNames:[self dataTypeNames:dataTypes]];
+}
+
 -(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType{
-    GPKGResultSet * contents = [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
-    return contents;
+    return [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
+}
+
+-(GPKGResultSet *) contentsOfTypeNames: (NSString *) dataTypes{
+    return [self contentsWithColumn:nil andTypeNames:dataTypes];
 }
 
 -(NSArray<NSString *> *) tables{
-    GPKGResultSet *contents = [self queryForAll];
-    NSMutableArray<NSString *> *tableNames = [[NSMutableArray alloc] init];
-    while([contents moveToNext]){
-        GPKGContents *content = (GPKGContents *)[self object:contents];
-        [tableNames addObject:content.tableName];
-    }
-    [contents close];
-    return tableNames;
+    return [self tableNames:[self contentsWithColumn:GPKG_CON_TABLE_NAME andTypeNames:nil]];
 }
 
 -(int) deleteCascade: (GPKGContents *) contents{
@@ -239,7 +241,6 @@
                     break;
                     
                 case GPKG_CDT_TILES:
-                case GPKG_CDT_GRIDDED_COVERAGE:
                     {
                         // Delete Tile Matrix
                         GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
@@ -423,6 +424,9 @@
 -(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
 
     GPKGContents *contents = (GPKGContents *)[self queryForIdObject:table];
+    if(contents == nil){
+        [NSException raise:@"No Contents" format:@"No contents for table: %@", table]
+    }
     GPKGBoundingBox *boundingBox = [self boundingBoxOfContents:contents inProjection:projection];
     
     return boundingBox;
@@ -438,6 +442,8 @@
     }
     return boundingBox;
 }
+
+// TODO private methods
 
 -(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
     return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];

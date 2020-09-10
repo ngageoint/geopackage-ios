@@ -7,6 +7,7 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGGeoPackage.h"
 #import "GPKGContents.h"
 #import "GPKGSpatialReferenceSystem.h"
 #import "GPKGGeometryColumns.h"
@@ -17,6 +18,15 @@
  *  Contents Data Access Object
  */
 @interface GPKGContentsDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param db
+ *            database connection
+ * @return dao
+ */
++(GPKGContentsDao *) createWithDatabase: (GPKGConnection *) database;
 
 /**
  *  Initialize
@@ -37,6 +47,15 @@
 -(NSArray<NSString *> *) tablesOfType: (enum GPKGContentsDataType) dataType;
 
 /**
+ * Get table names by data types
+ *
+ * @param dataTypes
+ *            data types
+ * @return table names
+ */
+-(NSArray<NSString *> *) tablesOfTypes: (NSArray<NSNumber *> *) dataTypes;
+
+/**
  * Get table names by data type
  *
  * @param dataType
@@ -46,6 +65,15 @@
 -(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType;
 
 /**
+ * Get table names by data types
+ *
+ * @param dataTypes
+ *            data types
+ * @return table names
+ */
+-(NSArray<NSString *> *) tablesOfTypeNames: (NSArray<NSString *> *) dataTypes;
+
+/**
  * Get contents by data type
  *
  * @param dataType
@@ -53,6 +81,15 @@
  * @return contents result set
  */
 -(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType;
+
+/**
+ * Get contents by data types
+ *
+ * @param dataTypes
+ *            data types
+ * @return contents result set
+ */
+-(GPKGResultSet *) contentsOfTypes: (NSArray<NSNumber *> *) dataTypes;
 
 /**
  * Get contents by data type

@@ -131,8 +131,8 @@
 -(void) createUserTable: (GPKGUserTable *) table{
     
     // Verify the table does not already exist
-    if([self.db tableExists:table.tableName]){
-        [NSException raise:@"Table Creation" format:@"Table already exists and can not be created: %@", table.tableName];
+    if([self.db tableOrViewExists:table.tableName]){
+        [NSException raise:@"Table Creation" format:@"Table or view already exists and can not be created: %@", table.tableName];
     }
     
     // Build the create table sql
@@ -152,7 +152,8 @@
     
     // Create the required Spatial Reference Systems (spec Requirement
     // 11)
-    GPKGSpatialReferenceSystemDao * dao =[[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.db];
+    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createDao:self.db];
+    GPKGSpatialReferenceSystemDao * dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.db];
     [dao createWgs84];
     [dao createUndefinedCartesian];
     [dao createUndefinedGeographic];
@@ -161,6 +162,10 @@
 
 -(void) dropTable: (NSString *) table{
     [GPKGSqlUtils dropTable:table withConnection:self.db];
+}
+
+-(void) dropView: (NSString *) view{
+    [GPKGSqlUtils dropView:view withConnection:self.db];
 }
 
 @end

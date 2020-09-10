@@ -181,4 +181,11 @@
  */
 -(void) dropTable: (NSString *) table;
 
+/**
+ *  Drop the view if it exists
+ *
+ *  @param view view name
+ */
+-(void) dropView: (NSString *) view;
+
 @end

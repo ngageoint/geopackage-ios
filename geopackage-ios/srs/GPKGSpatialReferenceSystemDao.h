@@ -10,11 +10,21 @@
 #import "GPKGConnection.h"
 #import "GPKGBaseDao.h"
 #import "GPKGSpatialReferenceSystem.h"
+#import "GPKGGeoPackage.h"
 
 /**
  *  Spatial Reference System Data Access Object
  */
 @interface GPKGSpatialReferenceSystemDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param db
+ *            database connection
+ * @return dao
+ */
++(GPKGSpatialReferenceSystemDao *) createWithDatabase: (GPKGConnection *) database;
 
 /**
  *  Initialize

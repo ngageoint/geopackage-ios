@@ -24,6 +24,10 @@
 
 @implementation GPKGSpatialReferenceSystemDao
 
++(GPKGSpatialReferenceSystemDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
@@ -489,16 +493,16 @@
 }
 
 -(GPKGContentsDao *) contentsDao{
-    return [[GPKGContentsDao alloc] initWithDatabase:self.database];
+    return [GPKGContentsDao createWithDatabase:self.database];
 }
 
 -(GPKGGeometryColumnsDao *) geometryColumnsDao{
-    return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
+    return [GPKGGeometryColumnsDao createWithDatabase:self.database];
 }
 
 
 -(GPKGTileMatrixSetDao *) tileMatrixSetDao{
-    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
+    return [GPKGTileMatrixSetDao createWithDatabase:self.database];
 }
 
 @end
