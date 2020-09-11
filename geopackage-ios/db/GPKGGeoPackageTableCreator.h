@@ -20,7 +20,7 @@
  *
  *  @return new GeoPackage table creator
  */
--(instancetype)initWithDatabase:(GPKGConnection *) db;
+-(instancetype) initWithDatabase: (GPKGConnection *) db;
 
 /**
  *  Create Spatial Reference System table
@@ -58,6 +58,13 @@
 -(int) createTileMatrix;
 
 /**
+ *  Create Extensions table
+ *
+ *  @return tables created
+ */
+-(int) createExtensions;
+
+/**
  *  Create Data Columns table
  *
  *  @return tables created
@@ -86,13 +93,6 @@
 -(int) createMetadataReference;
 
 /**
- *  Create Extensions table
- *
- *  @return tables created
- */
--(int) createExtensions;
-
-/**
  * Create the Tiled Gridded Coverage Data Coverage extension table
  *
  * @return executed statements
@@ -113,54 +113,7 @@
  */
 -(int) createExtendedRelations;
 
-/**
- *  Create Table Index table
- *
- *  @return tables created
- */
--(int) createTableIndex;
-
-/**
- *  Create Geometry Index table
- *
- *  @return tables created
- */
--(int) createGeometryIndex;
-
-/**
- * Create Geometry Index table column indexes
- *
- * @return executed statements
- */
--(int) indexGeometryIndex;
-
-/**
- * Un-index (drop) Geometry Index table column indexes
- *
- * @return executed statements
- */
--(int) unindexGeometryIndex;
-
-/**
- *  Create Feature Tile Link table
- *
- *  @return tables created
- */
--(int) createFeatureTileLink;
-
-/**
- *  Create Tile Scaling table
- *
- *  @return tables created
- */
--(int) createTileScaling;
-
-/**
- * Create Contents Id table
- *
- * @return executed statements
- */
--(int) createContentsId;
+// TODO
 
 /**
  *  Create the user table

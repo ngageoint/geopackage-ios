@@ -57,6 +57,10 @@
     return [self createTable:GPKG_TM_TABLE_NAME];
 }
 
+-(int) createExtensions{
+    return [self createTable:GPKG_EX_TABLE_NAME];
+}
+
 -(int) createDataColumns{
     return [self createTable:GPKG_DC_TABLE_NAME];
 }
@@ -73,10 +77,6 @@
     return [self createTable:GPKG_MR_TABLE_NAME];
 }
 
--(int) createExtensions{
-    return [self createTable:GPKG_EX_TABLE_NAME];
-}
-
 -(int) createGriddedCoverage{
     return [self createTable:GPKG_CDGC_TABLE_NAME];
 }
@@ -87,34 +87,6 @@
 
 -(int) createExtendedRelations{
     return [self createTable:GPKG_ER_TABLE_NAME];
-}
-
--(int) createTableIndex{
-    return [self createTable:GPKG_TI_TABLE_NAME];
-}
-
--(int) createGeometryIndex{
-    return [self createTable:GPKG_GI_TABLE_NAME];
-}
-
--(int) indexGeometryIndex{
-    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_index"]];
-}
-
--(int) unindexGeometryIndex{
-    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_unindex"]];
-}
-
--(int) createFeatureTileLink{
-    return [self createTable:GPKG_FTL_TABLE_NAME];
-}
-
--(int) createTileScaling{
-    return [self createTable:GPKG_TS_TABLE_NAME];
-}
-
--(int) createContentsId{
-    return [self createTable:GPKG_CI_TABLE_NAME];
 }
 
 -(int) createTable: (NSString *) tableName{

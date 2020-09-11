@@ -12,4 +12,8 @@
 
 // TODO
 
+-(int) createFeatureTileLink{
+    return [self createTable:GPKG_FTL_TABLE_NAME];
+}
+
 @end

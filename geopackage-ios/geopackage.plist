@@ -165,6 +165,13 @@
 	<string>true</string>
 	<key>geopackage.feature_overlay_query.detailed_info_print_features</key>
 	<string>false</string>
+	<key>geopackage.extensions.contents.data_type</key>
+	<dict>
+		<key>2d-gridded-coverage</key>
+		<string>tiles</string>
+		<key>vector-tiles</key>
+		<string>tiles</string>
+	</dict>
 	<key>geopackage.feature_generator.download_attempts</key>
 	<string>3</string>
 	<key>geopackage.max_zoom_level</key>

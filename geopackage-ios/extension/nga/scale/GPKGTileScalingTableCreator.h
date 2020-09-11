@@ -12,4 +12,11 @@
 
 // TODO
 
+/**
+ *  Create Tile Scaling table
+ *
+ *  @return tables created
+ */
+-(int) createTileScaling;
+
 @end

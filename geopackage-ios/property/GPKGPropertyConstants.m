@@ -48,6 +48,7 @@ NSString * const GPKG_PROP_FEATURE_QUERY_MAX_POINT_DETAILED_INFO = @"max_point_d
 NSString * const GPKG_PROP_FEATURE_QUERY_MAX_FEATURE_DETAILED_INFO = @"max_feature_detailed_info";
 NSString * const GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_POINTS = @"detailed_info_print_points";
 NSString * const GPKG_PROP_FEATURE_QUERY_DETAILED_INFO_PRINT_FEATURES = @"detailed_info_print_features";
+NSString * const GPKG_PROP_CONTENTS_DATA_TYPE = @"geopackage.extensions.contents.data_type";
 NSString * const GPKG_PROP_FEATURE_GENERATOR = @"geopackage.feature_generator";
 NSString * const GPKG_PROP_FEATURE_GENERATOR_DOWNLOAD_ATTEMPTS = @"download_attempts";
 NSString * const GPKG_PROP_MAX_ZOOM_LEVEL = @"geopackage.max_zoom_level";

@@ -33,7 +33,7 @@
 }
 
 -(GPKGUserCustomColumns *) userCustomColumns{
-    return (GPKGUserCustomColumns *) [super userColumns];
+    return (GPKGUserCustomColumns *) [super columns];
 }
 
 -(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{

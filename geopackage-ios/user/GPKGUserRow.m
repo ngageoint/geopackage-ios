@@ -27,7 +27,7 @@
     self = [super init];
     if(self != nil){
         self.table = table;
-        self.columns = [table userColumns];
+        self.columns = [table columns];
         
         int columnCount = [_columns columnCount];
         NSMutableArray * tempValues = [[NSMutableArray alloc] initWithCapacity:columnCount];

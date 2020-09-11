@@ -101,6 +101,15 @@
 -(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType;
 
 /**
+ * Get contents by data types
+ *
+ * @param dataTypes
+ *            data types
+ * @return contents result set
+ */
+-(GPKGResultSet *) contentsOfTypeNames: (NSArray<NSString *> *) dataTypes;
+
+/**
  * Get table names
  *
  * @return table names

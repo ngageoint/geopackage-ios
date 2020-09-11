@@ -12,4 +12,11 @@
 
 // TODO
 
+/**
+ *  Create Feature Tile Link table
+ *
+ *  @return tables created
+ */
+-(int) createFeatureTileLink;
+
 @end

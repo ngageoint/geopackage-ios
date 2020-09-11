@@ -46,7 +46,7 @@
 }
 
 -(GPKGTileColumns *) tileColumns{
-    return (GPKGTileColumns *) [super userColumns];
+    return (GPKGTileColumns *) [super columns];
 }
 
 -(GPKGUserColumns *) createUserColumnsWithColumns: (NSArray<GPKGUserColumn *> *) columns{

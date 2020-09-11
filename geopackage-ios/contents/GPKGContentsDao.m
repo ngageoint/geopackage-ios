@@ -13,6 +13,8 @@
 #import "GPKGTileMatrixDao.h"
 #import "GPKGDateTimeUtils.h"
 #import "GPKGUtils.h"
+#import "GPKGSqlUtils.h"
+#import "GPKGContentsDataTypes.h"
 
 @implementation GPKGContentsDao
 
@@ -207,7 +209,7 @@
     return [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
 }
 
--(GPKGResultSet *) contentsOfTypeNames: (NSString *) dataTypes{
+-(GPKGResultSet *) contentsOfTypeNames: (NSArray<NSString *> *) dataTypes{
     return [self contentsWithColumn:nil andTypeNames:dataTypes];
 }
 
@@ -425,7 +427,7 @@
 
     GPKGContents *contents = (GPKGContents *)[self queryForIdObject:table];
     if(contents == nil){
-        [NSException raise:@"No Contents" format:@"No contents for table: %@", table]
+        [NSException raise:@"No Contents" format:@"No contents for table: %@", table];
     }
     GPKGBoundingBox *boundingBox = [self boundingBoxOfContents:contents inProjection:projection];
     
@@ -443,22 +445,88 @@
     return boundingBox;
 }
 
-// TODO private methods
+/**
+ * Get the contents
+ *
+ * @param column
+ *            select column
+ * @param dataTypes
+ *            data types
+ * @return contents
+ */
+-(GPKGResultSet *) contentsWithColumn: (NSString *) column andTypeNames: (NSArray<NSString *> *) dataTypes{
+    
+    NSArray<NSString *> *columns = nil;
+    if(column != nil){
+        columns = [NSMutableArray arrayWithObject:column];
+    }
+    
+    NSMutableString *where = nil;
+    NSMutableArray *whereArgs = nil;
+    if(dataTypes != nil  && dataTypes.count > 0){
+        where = [NSMutableString string];
+        whereArgs = [NSMutableArray array];
+        for(int i = 0; i < dataTypes.count; i++){
+            if(i > 0){
+                [where appendString:@" OR "];
+            }
+            [where appendFormat:@"%@ = ?", [GPKGSqlUtils quoteWrapName:GPKG_CON_COLUMN_DATA_TYPE]];
+            [whereArgs addObject:[dataTypes objectAtIndex:i]];
+        }
+    }
+    
+    return [self queryWithColumns:columns andWhere:where andWhereArgs:whereArgs];
+}
+
+/**
+ * Get the data type names from the data types
+ *
+ * @param dataTypes
+ *            data types
+ * @return data type names
+ */
+-(NSArray<NSString *> *) dataTypeNames:  (NSArray<NSNumber *> *) dataTypes{
+    NSMutableArray<NSString *> *types = [NSMutableArray array];
+    if(dataTypes != nil){
+        for(NSNumber *dataType in dataTypes){
+            [types addObject:[GPKGContentsDataTypes name:[dataType intValue]]];
+        }
+    }
+    return types;
+}
+
+/**
+ * Get the tables names from the contents
+ *
+ * @param contents
+ *            contents
+ * @return table names
+ */
+-(NSArray<NSString *> *) tableNames: (GPKGResultSet *) contents{
+    NSMutableArray<NSString *> *tableNames = [NSMutableArray alloc];
+    if(contents != nil){
+        while([contents moveToNext]){
+            GPKGContents *content = (GPKGContents *) [self object:contents];
+            [tableNames addObject:content.tableName];
+        }
+    }
+    return tableNames;
+}
 
 -(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
-    return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.database];
+    return [GPKGSpatialReferenceSystemDao createWithDatabase:self.database];
 }
 
 -(GPKGGeometryColumnsDao *) geometryColumnsDao{
-    return [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.database];
+    return [GPKGGeometryColumnsDao createWithDatabase:self.database];
 }
 
 -(GPKGTileMatrixSetDao *) tileMatrixSetDao{
-    return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
+    return [GPKGTileMatrixSetDao createWithDatabase:self.database];
 }
 
 -(GPKGTileMatrixDao *) tileMatrixDao{
-    return [[GPKGTileMatrixDao alloc] initWithDatabase:self.database];
+    return [GPKGTileMatrixDao createWithDatabase:self.database];
 }
 
 @end

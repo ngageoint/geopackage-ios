@@ -197,7 +197,7 @@
 
 -(void) setColumnsFromTable: (GPKGUserTable *) table{
     if([[table columnNames] isEqualToArray:_columnNames]){
-        _columns = [table userColumns];
+        _columns = [table columns];
     }else{
         _columns = [table createUserColumnsWithNames:_columnNames];
     }
