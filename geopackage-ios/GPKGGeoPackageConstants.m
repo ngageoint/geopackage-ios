@@ -23,7 +23,6 @@ NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX = @"geom";
 NSString * const GPKG_BUNDLE_NAME = @"geopackage-ios.bundle";
 NSString * const GPKG_PROPERTY_LIST_TYPE = @"plist";
 NSString * const GPKG_RESOURCES_PROPERTIES = @"geopackage";
-NSString * const GPKG_RESOURCES_TABLES = @"geopackage.tables";
 CGFloat const GPKG_EARTH_RADIUS = 6372797.6;
 
 @implementation GPKGGeoPackageConstants

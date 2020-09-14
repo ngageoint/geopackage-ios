@@ -11,11 +11,17 @@
 #import "GPKGTableMetadata.h"
 #import "GPKGGeometryMetadata.h"
 
+NSString * const GPKG_METADATA_TABLES = @"metadata";
+
 @implementation GPKGGeoPackageMetadataTableCreator
 
 -(instancetype)initWithDatabase:(GPKGConnection *) db{
     self = [super initWithDatabase:db];
     return self;
+}
+
+-(NSString *) properties{
+    return GPKG_METADATA_TABLES;
 }
 
 -(int) createGeoPackageMetadata{

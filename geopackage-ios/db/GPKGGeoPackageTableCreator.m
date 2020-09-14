@@ -30,6 +30,8 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGContentsId.h"
 
+NSString * const GPKG_EXTENSION_TABLES = @"extension";
+
 @implementation GPKGGeoPackageTableCreator
 
 -(instancetype)initWithDatabase:(GPKGConnection *) db{
@@ -62,42 +64,35 @@
 }
 
 -(int) createDataColumns{
-    return [self createTable:GPKG_DC_TABLE_NAME];
+    return [self createExtensionTable:GPKG_DC_TABLE_NAME];
 }
 
 -(int) createDataColumnConstraints{
-    return [self createTable:GPKG_DCC_TABLE_NAME];
+    return [self createExtensionTable:GPKG_DCC_TABLE_NAME];
 }
 
 -(int) createMetadata{
-    return [self createTable:GPKG_M_TABLE_NAME];
+    return [self createExtensionTable:GPKG_M_TABLE_NAME];
 }
 
 -(int) createMetadataReference{
-    return [self createTable:GPKG_MR_TABLE_NAME];
+    return [self createExtensionTable:GPKG_MR_TABLE_NAME];
 }
 
 -(int) createGriddedCoverage{
-    return [self createTable:GPKG_CDGC_TABLE_NAME];
+    return [self createExtensionTable:GPKG_CDGC_TABLE_NAME];
 }
 
 -(int) createGriddedTile{
-    return [self createTable:GPKG_CDGT_TABLE_NAME];
+    return [self createExtensionTable:GPKG_CDGT_TABLE_NAME];
 }
 
 -(int) createExtendedRelations{
-    return [self createTable:GPKG_ER_TABLE_NAME];
+    return [self createExtensionTable:GPKG_ER_TABLE_NAME];
 }
 
--(int) createTable: (NSString *) tableName{
-    
-    NSArray<NSString *> *statements = [GPKGTableCreator readSQLScript:tableName];
-    
-    for(NSString * statement in statements){
-        [self.db execResettable:statement];
-    }
-    
-    return (int)[statements count];
+-(int) createExtensionTable: (NSString *) tableName{
+    return [self createTable:tableName fromProperties:GPKG_EXTENSION_TABLES];
 }
 
 -(void) createUserTable: (GPKGUserTable *) table{
@@ -124,8 +119,7 @@
     
     // Create the required Spatial Reference Systems (spec Requirement
     // 11)
-    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createDao:self.db];
-    GPKGSpatialReferenceSystemDao * dao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.db];
+    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createWithDatabase:self.db];
     [dao createWgs84];
     [dao createUndefinedCartesian];
     [dao createUndefinedGeographic];

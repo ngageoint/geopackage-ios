@@ -8,7 +8,7 @@
 
 #import "GPKGTableCreator.h"
 
-@interface GPKGTileScalingTableCreator : GPKGTableCreator
+@interface GPKGTileScalingTableCreator : GPKGNgaTableCreator
 
 // TODO
 

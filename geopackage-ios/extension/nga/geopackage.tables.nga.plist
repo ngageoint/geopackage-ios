@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>nga_table_index</key>
+	<array>
+		<string>CREATE TABLE nga_table_index (
+  table_name TEXT NOT NULL PRIMARY KEY,
+  last_indexed DATETIME
+);</string>
+	</array>
+	<key>nga_geometry_index</key>
+	<array>
+		<string>CREATE TABLE nga_geometry_index (
+  table_name TEXT NOT NULL,
+  geom_id INTEGER NOT NULL,
+  min_x DOUBLE NOT NULL,
+  max_x DOUBLE NOT NULL,
+  min_y DOUBLE NOT NULL,
+  max_y DOUBLE NOT NULL,
+  min_z DOUBLE,
+  max_z DOUBLE,
+  min_m DOUBLE,
+  max_m DOUBLE,
+  CONSTRAINT pk_ngi PRIMARY KEY (table_name, geom_id),
+  CONSTRAINT fk_ngi_nti_tn FOREIGN KEY (table_name) REFERENCES nga_table_index(table_name)
+);</string>
+	</array>
+	<key>nga_geometry_index_index</key>
+	<array>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_min_x ON nga_geometry_index ( min_x );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_max_x ON nga_geometry_index ( max_x );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_min_y ON nga_geometry_index ( min_y );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_max_y ON nga_geometry_index ( max_y );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_min_z ON nga_geometry_index ( min_z );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_max_z ON nga_geometry_index ( max_z );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_min_m ON nga_geometry_index ( min_m );</string>
+		<string>CREATE INDEX IF NOT EXISTS idx_nga_geometry_index_max_m ON nga_geometry_index ( max_m );</string>
+	</array>
+	<key>nga_geometry_index_unindex</key>
+	<array>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_min_x;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_max_x;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_min_y;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_max_y;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_min_z;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_max_z;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_min_m;</string>
+		<string>DROP INDEX IF EXISTS idx_nga_geometry_index_max_m;</string>
+	</array>
+	<key>nga_feature_tile_link</key>
+	<array>
+		<string>CREATE TABLE nga_feature_tile_link (
+  feature_table_name TEXT NOT NULL,
+  tile_table_name TEXT NOT NULL,
+  CONSTRAINT pk_nftl PRIMARY KEY (feature_table_name, tile_table_name)
+);</string>
+	</array>
+	<key>nga_tile_scaling</key>
+	<array>
+		<string>CREATE TABLE nga_tile_scaling (
+  table_name TEXT PRIMARY KEY NOT NULL,
+  scaling_type TEXT NOT NULL,
+  zoom_in INTEGER,
+  zoom_out INTEGER,
+  CONSTRAINT fk_nts_gtms_tn FOREIGN KEY(&apos;table_name&apos;) REFERENCES gpkg_tile_matrix_set(&apos;table_name&apos;),
+  CHECK (scaling_type in (&apos;in&apos;,&apos;out&apos;,&apos;in_out&apos;,&apos;out_in&apos;,&apos;closest_in_out&apos;,&apos;closest_out_in&apos;))
+);</string>
+	</array>
+	<key>nga_contents_id</key>
+	<array>
+		<string>CREATE TABLE nga_contents_id (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  table_name TEXT NOT NULL,
+  CONSTRAINT uk_nci_table_name UNIQUE (table_name),
+  CONSTRAINT fk_nci_gc_tn FOREIGN KEY (table_name) REFERENCES gpkg_contents(table_name)
+);</string>
+	</array>
+</dict>
+</plist>

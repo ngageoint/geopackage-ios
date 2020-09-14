@@ -90,7 +90,7 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  *
  * @return user columns
  */
--(GPKGUserColumns *) columns;
+-(GPKGUserColumns *) columns; // TODO
 
 /**
  *  Get the column index of the column name
@@ -122,7 +122,7 @@ static BOOL DEFAULT_PK_NOT_NULL = YES;
  *
  * @return columns
  */
--(NSArray<GPKGUserColumn *> *) columns;
+-(NSArray<GPKGUserColumn *> *) columns; // TODO
 
 /**
  * Get the columns from the column names

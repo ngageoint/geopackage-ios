@@ -8,6 +8,8 @@
 
 #import "GPKGTableCreator.h"
 
+extern NSString * const GPKG_EXTENSION_TABLES;
+
 /**
  *  Executes database scripts to create GeoPackage tables
  */
@@ -112,6 +114,13 @@
  * @return executed statements
  */
 -(int) createExtendedRelations;
+
+/**
+ * Create an extension table
+ *
+ * @return executed statements
+ */
+-(int) createExtensionTable: (NSString *) tableName;
 
 // TODO
 

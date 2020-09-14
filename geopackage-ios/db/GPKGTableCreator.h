@@ -10,6 +10,8 @@
 #import "GPKGConnection.h"
 #import "GPKGUserTable.h"
 
+extern NSString * const GPKG_RESOURCES_TABLES;
+
 /**
  *  Executes database scripts to create tables
  */
@@ -27,7 +29,14 @@
  *
  *  @return new table creator
  */
--(instancetype)initWithDatabase:(GPKGConnection *) db;
+-(instancetype) initWithDatabase: (GPKGConnection *) db;
+
+/**
+ * Get the table creator properties name
+ *
+ * @return properties name or nil for base
+ */
+-(NSString *) properties;
 
 /**
  *  Create the table
@@ -39,13 +48,33 @@
 -(int) createTable: (NSString *) tableName;
 
 /**
- *  Execute the SQL script with the property name
+ *  Create the table
+ *
+ *  @param tableName table name
+ *  @param properties properties name
+ *
+ *  @return SQL statements executed
+ */
+-(int) createTable: (NSString *) tableName fromProperties: (NSString *) properties;
+
+/**
+ *  Execute the SQL statement for the property name
  *
  *  @param propertyName property name
  *
  *  @return SQL statements executed
  */
--(int) execSQLScript: (NSString *) propertyName;
+-(int) execSQLForProperty: (NSString *) propertyName;
+
+/**
+ *  Execute the SQL statement for the property name
+ *
+ *  @param propertyName property name
+ *  @param properties properties name
+ *
+ *  @return SQL statements executed
+ */
+-(int) execSQLForProperty: (NSString *) propertyName fromProperties: (NSString *) properties;
 
 /**
  *  Execute the SQL statements
@@ -55,12 +84,34 @@
 -(void) execSQLStatements: (NSArray *) statements;
 
 /**
- * Read the SQL Script and parse the statements
+ * Read the SQL statements for the property name
  *
- * @param name
- *            table or property name
+ * @param propertyName
+ *            property name
  * @return statements
  */
-+(NSArray<NSString *> *) readSQLScript: (NSString *) name;
++(NSArray<NSString *> *) readProperty: (NSString *) propertyName;
+
+/**
+ * Read the SQL statements for the property name from the properties
+ *
+ * @param propertyName
+ *            property name
+ * @param properties
+ *            properties name
+ * @return statements
+ */
++(NSArray<NSString *> *) readProperty: (NSString *) propertyName fromProperties: (NSString *) properties;
+
+/**
+ * Read the SQL statements for the property name from the properties file
+ *
+ * @param propertyName
+ *            property name
+ * @param propertiesFile
+ *            properties file
+ * @return statements
+ */
++(NSArray<NSString *> *) readProperty: (NSString *) propertyName fromFile: (NSString *) propertiesFile;
 
 @end

@@ -8,6 +8,8 @@
 
 #import "GPKGTableCreator.h"
 
+extern NSString * const GPKG_METADATA_TABLES;
+
 /**
  * GeoPackage Metadata Table Creator
  */
