@@ -71,7 +71,7 @@
     return [self createUserColumnsWithColumns:[self columnsWithNames:columnNames]];
 }
 
--(GPKGUserColumns *) columns{
+-(GPKGUserColumns *) userColumns{
     return _columns;
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPKGConstraint.h"
+#import "GPKGConstraints.h"
 
 /**
  * Column Constraints
@@ -22,7 +22,7 @@
 /**
  *  Column constraints
  */
-@property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
+@property (nonatomic, strong) GPKGConstraints *constraints;
 
 /**
  *  Initialize
@@ -47,7 +47,15 @@
  * @param constraints
  *            constraints
  */
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints;
+-(void) addConstraintArray: (NSArray<GPKGConstraint *> *) constraints;
+
+/**
+ * Add constraints
+ *
+ * @param constraints
+ *            constraints
+ */
+-(void) addConstraints: (GPKGConstraints *) constraints;
 
 /**
  * Get the constraint at the index

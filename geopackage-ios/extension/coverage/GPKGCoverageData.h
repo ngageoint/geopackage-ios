@@ -13,6 +13,7 @@
 #import "GPKGCoverageDataRequest.h"
 #import "GPKGCoverageDataResults.h"
 #import "GPKGGriddedCoverageEncodingTypes.h"
+#import "GPKGGriddedTileDao.h"
 
 extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 

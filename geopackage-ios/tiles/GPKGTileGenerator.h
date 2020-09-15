@@ -10,6 +10,7 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGProgress.h"
+#import "GPKGTileScaling.h"
 
 /**
  *  Creates a set of tiles within a GeoPackage

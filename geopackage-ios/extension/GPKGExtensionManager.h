@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 
+@class GPKGGeoPackage;
+
 /**
  *  GeoPackage extension management class for deleting extensions for a table or
  *  in a GeoPackage

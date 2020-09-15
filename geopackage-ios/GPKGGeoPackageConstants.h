@@ -26,7 +26,7 @@ extern NSString * const GPKG_METADATA_APPLICATION_ID;
 extern NSString * const GPKG_GEOMETRY_MAGIC_NUMBER;
 extern NSInteger const GPKG_GEOMETRY_VERSION_1;
 extern NSString * const GPKG_SQLITE_HEADER_PREFIX;
-extern NSString * const GPKG_SQLITE_APPLICATION_ID
+extern NSString * const GPKG_SQLITE_APPLICATION_ID;
 extern NSString * const GPKG_EXTENSION_AUTHOR;
 extern NSString * const GPKG_GEOMETRY_EXTENSION_PREFIX;
 extern NSString * const GPKG_BUNDLE_NAME;

@@ -25,6 +25,10 @@
 #import "GPKGAttributesDao.h"
 #import "GPKGUserCustomDao.h"
 #import "GPKGGeoPackageTableCreator.h"
+#import "GPKGFeatureTableMetadata.h"
+#import "GPKGTileTableMetadata.h"
+#import "GPKGAttributesTableMetadata.h"
+#import "GPKGExtensionManager.h"
 
 /**
  *  A single GeoPackage database connection

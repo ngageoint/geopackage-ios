@@ -13,7 +13,7 @@
 /**
  * Table constraints
  */
-@property (nonatomic, strong) NSMutableArray<GPKGConstraint *> *constraints;
+@property (nonatomic, strong) GPKGConstraints *constraints;
 
 /**
  * Column constraints
@@ -27,30 +27,30 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.constraints = [[NSMutableArray alloc] init];
+        self.constraints = [[GPKGConstraints alloc] init];
         self.columnConstraints = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 -(void) addTableConstraint: (GPKGConstraint *) constraint{
-    [self.constraints addObject:constraint];
+    [self.constraints add:constraint];
 }
 
--(void) addTableConstraintsInArray: (NSArray<GPKGConstraint *> *) constraints{
-    [self.constraints addObjectsFromArray:constraints];
+-(void) addTableConstraints: (GPKGConstraints *) constraints{
+    [self.constraints addConstraints:constraints];
 }
 
--(NSArray<GPKGConstraint *> *) tableConstraints{
+-(GPKGConstraints *) tableConstraints{
     return _constraints;
 }
 
 -(GPKGConstraint *) tableConstraintAtIndex: (int) index{
-    return [self.constraints objectAtIndex:index];
+    return [self.constraints atIndex:index];
 }
 
 -(int) numTableConstraints{
-    return (int) self.constraints.count;
+    return [self.constraints size];
 }
 
 -(void) addColumnConstraint: (GPKGConstraint *) constraint forColumn: (NSString *) columnName{
@@ -58,7 +58,7 @@
 }
 
 -(void) addColumnConstraintsInArray: (NSArray<GPKGConstraint *> *) constraints forColumn: (NSString *) columnName{
-    [[self columnConstraintsCreateForColumn:columnName] addConstraints:constraints];
+    [[self columnConstraintsCreateForColumn:columnName] addConstraintArray:constraints];
 }
 
 -(void) addColumnConstraints: (GPKGColumnConstraints *) constraints{
@@ -123,7 +123,7 @@
 
 -(void) addConstraints: (GPKGTableConstraints *) constraints{
     if (constraints != nil) {
-        [self addTableConstraintsInArray:[constraints tableConstraints]];
+        [self addTableConstraints:[constraints tableConstraints]];
         [self addColumnConstraintsInDictionary:[constraints columnConstraints]];
     }
 }
@@ -133,7 +133,7 @@
 }
 
 -(BOOL) hasTableConstraints{
-    return self.constraints.count > 0;
+    return [self.constraints has];
 }
 
 -(BOOL) hasColumnConstraints{

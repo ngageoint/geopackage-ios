@@ -14,25 +14,29 @@
     self = [super init];
     if(self != nil){
         self.name = name;
-        self.constraints = [[NSMutableArray alloc] init];
+        self.constraints = [[GPKGConstraints alloc] init];
     }
     return self;
 }
 
 -(void) addConstraint: (GPKGConstraint *) constraint{
-    [self.constraints addObject:constraint];
+    [self.constraints add:constraint];
 }
 
--(void) addConstraints: (NSArray<GPKGConstraint *> *) constraints{
-    [self.constraints addObjectsFromArray:constraints];
+-(void) addConstraintArray: (NSArray<GPKGConstraint *> *) constraints{
+    [self.constraints addArray:constraints];
+}
+
+-(void) addConstraints: (GPKGConstraints *) constraints{
+    [self.constraints addConstraints:constraints];
 }
 
 -(GPKGConstraint *) constraintAtIndex: (int) index{
-    return [self.constraints objectAtIndex:index];
+    return [self.constraints atIndex:index];
 }
 
 -(int) numConstraints{
-    return (int) self.constraints.count;
+    return [self.constraints size];
 }
 
 -(void) addColumnConstraints: (GPKGColumnConstraints *) constraints{
@@ -42,7 +46,7 @@
 }
 
 -(BOOL) hasConstraints{
-    return self.constraints.count > 0;
+    return [self.constraints has];
 }
 
 @end

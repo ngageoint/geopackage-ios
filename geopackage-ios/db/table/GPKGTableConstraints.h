@@ -34,14 +34,14 @@
  * @param constraints
  *            constraints
  */
--(void) addTableConstraintsInArray: (NSArray<GPKGConstraint *> *) constraints;
+-(void) addTableConstraints: (GPKGConstraints *) constraints;
 
 /**
  * Get the table constraints
  *
  * @return table constraints
  */
--(NSArray<GPKGConstraint *> *) tableConstraints;
+-(GPKGConstraints *) tableConstraints;
 
 /**
  * Get the table constraint at the index
