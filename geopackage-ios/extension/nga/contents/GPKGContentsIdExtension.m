@@ -9,7 +9,6 @@
 #import "GPKGContentsIdExtension.h"
 #import "GPKGProperties.h"
 
-NSString * const GPKG_EXTENSION_CONTENTS_ID_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR = @"contents_id";
 NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.extensions.contents_id";
 
@@ -26,7 +25,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_CONTENTS_ID_AUTHOR andExtensionName:GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION];
         self.contentsIdDao = [geoPackage contentsIdDao];
     }

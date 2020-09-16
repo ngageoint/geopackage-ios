@@ -15,7 +15,6 @@
 #import "GPKGFeatureStyles.h"
 #import "GPKGFeatureStyle.h"
 
-extern NSString * const GPKG_EXTENSION_FEATURE_STYLE_AUTHOR;
 extern NSString * const GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION;
 

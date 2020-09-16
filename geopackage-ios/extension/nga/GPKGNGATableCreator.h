@@ -1,5 +1,5 @@
 //
-//  GPKGNgaTableCreator.h
+//  GPKGNGATableCreator.h
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 9/14/20.
@@ -10,7 +10,7 @@
 
 extern NSString * const GPKG_NGA_TABLES;
 
-@interface GPKGNgaTableCreator : GPKGGeoPackageTableCreator
+@interface GPKGNGATableCreator : GPKGGeoPackageTableCreator
 
 // TODO
 

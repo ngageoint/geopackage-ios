@@ -10,7 +10,6 @@
 #import "GPKGExtensions.h"
 #import "GPKGProperties.h"
 
-NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR = @"feature_tile_link";
 NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage.extensions.feature_tile_link";
 
@@ -27,7 +26,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION];
         self.featureTileLinkDao = [geoPackage featureTileLinkDao];
     }

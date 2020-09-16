@@ -107,4 +107,9 @@
  */
 -(BOOL) hasWithExtensionName: (NSString *) extensionName andTableName: (NSString *) tableName andColumnName: (NSString *) columnName;
 
+/**
+ * Verify the GeoPackage is writable and throw an exception if it is not
+ */
+-(void) verifyWritable;
+
 @end

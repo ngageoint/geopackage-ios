@@ -40,6 +40,24 @@ extern NSString * const GPKG_UNIQUE;
 /**
  * Initialize
  *
+ * @param order
+ *            constraint order
+ */
+-(instancetype) initWithOrder: (NSNumber *) order;
+
+/**
+ * Initialize
+ *
+ * @param name
+ *            constraint name
+ * @param order
+ *            constraint order
+ */
+-(instancetype) initWithName: (NSString *) name andOrder: (NSNumber *) order;
+
+/**
+ * Initialize
+ *
  * @param column
  *            column
  */

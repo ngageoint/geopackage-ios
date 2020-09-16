@@ -8,12 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
+#import "GPKGExtensionManagement.h"
 
 /**
- *  NGA extension management class for deleting extensions for a table or in a
- *  GeoPackage
+ * NGA Extension author
  */
-@interface GPKGNGAExtensions : NSObject
+extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
+
+/**
+ *  NGA extensions
+ *
+ *  http://ngageoint.github.io/GeoPackage/docs/extensions/
+ */
+@interface GPKGNGAExtensions : GPKGExtensionManagement
 
 /**
  *  Delete all NGA table extensions for the table within the GeoPackage

@@ -12,7 +12,6 @@
 #import "GPKGProgress.h"
 #import "GPKGBaseExtension.h"
 
-extern NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR;
 extern NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 

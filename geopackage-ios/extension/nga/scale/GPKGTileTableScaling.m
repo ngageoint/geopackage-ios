@@ -9,7 +9,6 @@
 #import "GPKGTileTableScaling.h"
 #import "GPKGProperties.h"
 
-NSString * const GPKG_EXTENSION_TILE_SCALING_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR = @"tile_scaling";
 NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.extensions.tile_scaling";
 
@@ -39,7 +38,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION];
         self.tableName = tableName;
         self.tileScalingDao = [geoPackage tileScalingDao];

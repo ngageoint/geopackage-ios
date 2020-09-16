@@ -18,6 +18,8 @@
 #import "GPKGUserCustomTableReader.h"
 #import "GPKGAlterTable.h"
 
+NSString * const GPKG_NGA_EXTENSION_AUTHOR = @"nga";
+
 @implementation GPKGNGAExtensions
 
 +(void) deleteTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
@@ -71,7 +73,7 @@
         [tableIndexDao deleteByIdCascade:table];
     }
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension andTable:table];
     }
     
@@ -90,7 +92,7 @@
         [tableIndexDao dropTable];
     }
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension];
     }
     
@@ -104,7 +106,7 @@
         
         if ([extensionsDao tableExists]) {
             
-            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR] andTable:table];
+            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR] andTable:table];
             @try {
                 if([extensions moveToNext]){
                     GPKGExtensions *extension = (GPKGExtensions *)[extensionsDao object:extensions];
@@ -159,7 +161,7 @@
         [featureTileLinkDao dropTable];
     }
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension];
     }
 }
@@ -172,7 +174,7 @@
         
         if ([extensionsDao tableExists]) {
             
-            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR]];
+            GPKGResultSet *extensions = [extensionsDao queryByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR]];
             @try {
                 if(extensions.count > 0){
 
@@ -231,7 +233,7 @@
         [tileScalingDao deleteById:table];
     }
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension andTable:table];
     }
     
@@ -246,7 +248,7 @@
         [tileScalingDao dropTable];
     }
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension];
     }
     
@@ -298,7 +300,7 @@
     }
     
     if([extensionsDao tableExists]){
-        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_PROPERTIES_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
+        NSString * extension = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
         [extensionsDao deleteByExtension:extension andTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
     }
 }

@@ -12,7 +12,6 @@
 #import "GPKGNGAExtensions.h"
 #import "GPKGUniqueConstraint.h"
 
-NSString * const GPKG_EXTENSION_PROPERTIES_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR = @"properties";
 NSString * const GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION = @"geopackage.extensions.properties";
 NSString * const GPKG_EXTENSION_PROPERTIES_TABLE_NAME = @"nga_properties";
@@ -31,7 +30,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_PROPERTIES_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION];
     }
     return self;

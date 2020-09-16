@@ -9,7 +9,6 @@
 #import "GPKGBaseExtension.h"
 #import "GPKGContentsIdDao.h"
 
-extern NSString * const GPKG_EXTENSION_CONTENTS_ID_AUTHOR;
 extern NSString * const GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
 

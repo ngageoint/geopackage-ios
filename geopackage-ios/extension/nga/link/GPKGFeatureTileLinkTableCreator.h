@@ -8,7 +8,7 @@
 
 #import "GPKGTableCreator.h"
 
-@interface GPKGFeatureTileLinkTableCreator : GPKGNgaTableCreator
+@interface GPKGFeatureTileLinkTableCreator : GPKGNGATableCreator
 
 // TODO
 

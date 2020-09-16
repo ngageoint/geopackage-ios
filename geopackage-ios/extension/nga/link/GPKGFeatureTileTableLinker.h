@@ -10,7 +10,6 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGBaseExtension.h"
 
-extern NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR;
 extern NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 

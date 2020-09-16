@@ -8,7 +8,7 @@
 
 #import "GPKGTableCreator.h"
 
-@interface GPKGGeometryIndexTableCreator : GPKGNgaTableCreator
+@interface GPKGGeometryIndexTableCreator : GPKGNGATableCreator
 
 // TODO
 

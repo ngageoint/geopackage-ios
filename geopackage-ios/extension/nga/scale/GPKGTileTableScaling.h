@@ -9,7 +9,6 @@
 #import "GPKGBaseExtension.h"
 #import "GPKGTileScalingDao.h"
 
-extern NSString * const GPKG_EXTENSION_TILE_SCALING_AUTHOR;
 extern NSString * const GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
 

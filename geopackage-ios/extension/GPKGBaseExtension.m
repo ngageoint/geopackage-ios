@@ -90,4 +90,8 @@
     return extension != nil;
 }
 
+-(void) verifyWritable{
+    [self.geoPackage verifyWritable];
+}
+
 @end

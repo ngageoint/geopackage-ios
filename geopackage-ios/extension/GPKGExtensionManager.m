@@ -22,46 +22,52 @@
 #import "GPKGTableCreator.h"
 #import "GPKGConstraintParser.h"
 
+@interface GPKGExtensionManager()
+
+@property (nonatomic, strong)  NSMutableArray<GPKGExtensionManagement *> *communityExtensions;
+
+@end
+
 @implementation GPKGExtensionManager
 
-+(void) deleteTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
-    
-    // Handle deleting any extensions with extra tables here
-    [GPKGNGAExtensions deleteTableExtensionsWithGeoPackage:geoPackage andTable:table];
-    
-    [self deleteRTreeSpatialIndexWithGeoPackage:geoPackage andTable:table];
-    [self deleteRelatedTablesWithGeoPackage:geoPackage andTable:table];
-    [self deleteGriddedCoverageWithGeoPackage:geoPackage andTable:table];
-    [self deleteSchemaWithGeoPackage:geoPackage andTable:table];
-    [self deleteMetadataWithGeoPackage:geoPackage andTable:table];
-    
-    [self deleteWithGeoPackage:geoPackage andTable:table];
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    self = [super initWithGeoPackage:geoPackage];
+    if(self != nil){
+        _communityExtensions = [NSMutableArray array];
+        [_communityExtensions addObject:[[GPKGNGAExtensions alloc] initWithGeoPackage:geoPackage]];
+    }
+    return self;
 }
 
-+(void) deleteExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+-(NSString *) author{
+    return GPKG_EXTENSION_AUTHOR;
+}
+
+-(void) deleteExtensionsForTable: (NSString *) table{
     
     // Handle deleting any extensions with extra tables here
-    [GPKGNGAExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    for(GPKGExtensionManagement *extensions in _communityExtensions){
+        [extensions deleteExtensionsForTable:table];
+    }
     
-    [self deleteRTreeSpatialIndexExtensionWithGeoPackage:geoPackage];
-    [self deleteRelatedTablesExtensionWithGeoPackage:geoPackage];
-    [self deleteGriddedCoverageExtensionWithGeoPackage:geoPackage];
-    [self deleteSchemaExtensionWithGeoPackage:geoPackage];
-    [self deleteMetadataExtensionWithGeoPackage:geoPackage];
-    [self deleteCrsWktExtensionWithGeoPackage:geoPackage];
+    [self deleteRTreeSpatialIndexForTable:table];
+    [self deleteRelatedTablesForTable:table];
+    [self deleteGriddedCoverageForTable:table];
+    [self deleteSchemaForTable:table];
+    [self deleteMetadataForTable:table];
     
-    [self deleteWithGeoPackage:geoPackage];
+    [self deleteForTable:table];
+    
 }
 
 /**
  *  Delete the extensions for the table
  *
- *  @param geoPackage GeoPackage
  *  @param table      table
  */
-+(void) deleteWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+-(void) deleteForTable: (NSString *) table{
     
-    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
+    GPKGExtensionsDao *extensionsDao = [_geoPackage extensionsDao];
     
     if([extensionsDao tableExists]){
         [extensionsDao deleteByTableName:table];
@@ -69,32 +75,54 @@
     
 }
 
+-(void) deleteExtensions{
+    
+    // Handle deleting any extensions with extra tables here
+    for(GPKGExtensionManagement *extensions in _communityExtensions){
+        [extensions deleteExtensions];
+    }
+    
+    [self deleteRTreeSpatialIndexExtension];
+    [self deleteRelatedTablesExtension];
+    [self deleteGriddedCoverageExtension];
+    [self deleteSchemaExtension];
+    [self deleteMetadataExtension];
+    [self deleteCrsWktExtension];
+    
+    [self delete];
+    
+}
+
 /**
  *  Delete the extensions
- *
- *  @param geoPackage GeoPackage
  */
-+(void) deleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+-(void) delete{
     
-    GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
+    GPKGExtensionsDao *extensionsDao = [_geoPackage extensionsDao];
     
     if([extensionsDao tableExists]){
         [geoPackage dropTable:extensionsDao.tableName];
     }
 }
 
-+(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+-(void) copyExtensionsFromTable: (NSString *) table toTable: (NSString *) newTable{
     
     @try {
         
-        [self copyRTreeSpatialIndexWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
-        [self copyRelatedTablesWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
-        [self copyGriddedCoverageWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
-        [self copySchemaWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
-        [self copyMetadataWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        [self copyRTreeSpatialIndexFromTable:table toTable:newTable];
+        [self copyRelatedTablesFromTable:table toTable:newTable];
+        [self copyGriddedCoverageFromTable:table toTable:newTable];
+        [self copySchemaFromTable:table toTable:newTable];
+        [self copyMetadataFromTable:table toTable:newTable];
         
         // Handle copying any extensions with extra tables here
-        [GPKGNGAExtensions copyTableExtensionsWithGeoPackage:geoPackage andTable:table andNewTable:newTable];
+        for(GPKGExtensionManagement *extensions in _communityExtensions){
+            @try {
+                [extensions copyExtensionsFromTable:table toTable:newTable];
+            } @catch (NSException *exception) {
+                NSLog(@"Failed to copy '%@' extensions for table: %@, copied from table: %@. error: %@", [extensions author], newTable, table, exception);
+            }
+        }
         
     } @catch (NSException *exception) {
         NSLog(@"Failed to copy extensions for table: %@, copied from table: %@. error: %@", newTable, table, exception);
@@ -102,7 +130,7 @@
     
 }
 
-+(void) deleteRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+-(void) deleteRTreeSpatialIndexForTable: (NSString *) table{
 
     GPKGRTreeIndexExtension *rTreeIndexExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
     if([rTreeIndexExtension hasWithTableName:table]){
@@ -111,7 +139,7 @@
 
 }
 
-+(void) deleteRTreeSpatialIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+-(void) deleteRTreeSpatialIndexExtension{
     
     GPKGRTreeIndexExtension *rTreeIndexExtension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
     if([rTreeIndexExtension has]){
@@ -120,7 +148,7 @@
     
 }
 
-+(void) copyRTreeSpatialIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+-(void) copyRTreeSpatialIndexFromTable: (NSString *) table toTable: (NSString *) newTable{
 
     @try {
         
@@ -144,7 +172,7 @@
     }
 }
 
-+(void) deleteRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table{
+-(void) deleteRelatedTablesForTable: (NSString *) table{
 
     GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     if ([relatedTablesExtension has]) {
@@ -153,7 +181,7 @@
     
 }
 
-+(void) deleteRelatedTablesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+-(void) deleteRelatedTablesExtension{
 
     GPKGRelatedTablesExtension *relatedTablesExtension = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     if ([relatedTablesExtension has]) {
@@ -162,7 +190,7 @@
     
 }
 
-+(void) copyRelatedTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable{
+-(void) copyRelatedTablesFromTable: (NSString *) table toTable: (NSString *) newTable{
 
     @try {
         

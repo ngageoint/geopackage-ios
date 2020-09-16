@@ -13,7 +13,6 @@
 #import "GPKGIconTable.h"
 #import "GPKGStyleMappingTable.h"
 
-NSString * const GPKG_EXTENSION_FEATURE_STYLE_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR = @"feature_style";
 NSString * const GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION = @"geopackage.extensions.feature_style";
 
@@ -36,7 +35,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_STYLE_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION];
         self.relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
         self.contentsId = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];

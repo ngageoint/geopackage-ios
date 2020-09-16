@@ -8,8 +8,41 @@
 
 #import "GPKGExtensionManagement.h"
 
+@interface GPKGExtensionManagement()
+
+@property (nonatomic, strong)  GPKGGeoPackage *geoPackage;
+
+@end
+
 @implementation GPKGExtensionManagement
 
-// TODO
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    self = [super init];
+    if(self != nil){
+        _geoPackage = geoPackage;
+    }
+    return self;
+}
+
+-(GPKGGeoPackage *) geoPackage{
+    return _geoPackage;
+}
+
+-(NSString *) author{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+-(void) deleteExtensionsForTable: (NSString *) table{
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+-(void) deleteExtensions{
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+-(void) copyExtensionsFromTable: (NSString *) table toTable: (NSString *) newTable{
+    [self doesNotRecognizeSelector:_cmd];
+}
 
 @end

@@ -8,7 +8,7 @@
 
 #import "GPKGTableCreator.h"
 
-@interface GPKGContentsIdTableCreator : GPKGNgaTableCreator
+@interface GPKGContentsIdTableCreator : GPKGNGATableCreator
 
 // TODO
 

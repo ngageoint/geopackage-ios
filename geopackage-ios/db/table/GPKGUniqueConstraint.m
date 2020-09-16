@@ -28,6 +28,22 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
     return self;
 }
 
+-(instancetype) initWithOrder: (NSNumber *) order{
+    self = [super initWithType:GPKG_CT_UNIQUE andOrder:order];
+    if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+-(instancetype) initWithName: (NSString *) name andOrder: (NSNumber *) order{
+    self = [super initWithType:GPKG_CT_UNIQUE andName:name andOrder:order];
+    if(self != nil){
+        self.columns = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 -(instancetype) initWithColumn: (GPKGUserColumn *) column{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){

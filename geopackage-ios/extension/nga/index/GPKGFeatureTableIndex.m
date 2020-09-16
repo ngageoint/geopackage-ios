@@ -12,7 +12,6 @@
 #import "GPKGUserRowSync.h"
 #import "GPKGSqlLiteQueryBuilder.h"
 
-NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR = @"nga";
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
 NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.extensions.geometry_index";
 
@@ -36,7 +35,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(self != nil){
         self.featureDao = featureDao;
         self.featureRowSync = [[GPKGUserRowSync alloc] init];
-        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+        self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
         self.columnName = [featureDao geometryColumnName];
