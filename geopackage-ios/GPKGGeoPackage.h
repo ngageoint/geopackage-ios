@@ -194,7 +194,7 @@
  *            data type
  * @return contents
  */
--(NSArray<GPKGContents *> *) contentsByType: (enum GPKGContentsDataType) type;
+-(GPKGResultSet *) contentsByType: (enum GPKGContentsDataType) type;
 
 /**
  * Get the contents for the data types
@@ -203,7 +203,7 @@
  *            data types
  * @return contents
  */
--(NSArray<GPKGContents *> *) contentsByTypes: (NSArray<NSNumber *> *) types;
+-(GPKGResultSet *) contentsByTypes: (NSArray<NSNumber *> *) types;
 
 /**
  * Get the contents for the data type
@@ -212,7 +212,7 @@
  *            data type
  * @return contents
  */
--(NSArray<GPKGContents *> *) contentsByTypeName: (NSString *) type;
+-(GPKGResultSet *) contentsByTypeName: (NSString *) type;
 
 /**
  * Get the contents for the data types
@@ -221,7 +221,7 @@
  *            data types
  * @return contents
  */
--(NSArray<GPKGContents *> *) contentsByTypeNames: (NSArray<NSString *> *) types;
+-(GPKGResultSet *) contentsByTypeNames: (NSArray<NSString *> *) types;
 
 /**
  *  Get the feature and tile tables

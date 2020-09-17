@@ -175,7 +175,7 @@
         [GPKGTestUtils assertTrue:[tileMatrixSetDao tableExists]];
         [GPKGTestUtils assertTrue:[tileMatrixDao tableExists]];
         
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CDT_TILES].count + (int)[geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CDT_TILES].count + (int)[geoPackage tablesByType:GPKG_CD_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
         for(NSString *tileTable in [geoPackage tileTables]){
             [GPKGTestUtils assertTrue:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNotNil:[contentsDao queryForIdObject:tileTable]];
@@ -183,7 +183,7 @@
             [GPKGTestUtils assertFalse:[geoPackage isTable:tileTable]];
             [GPKGTestUtils assertNil:[contentsDao queryForIdObject:tileTable]];
         }
-        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
+        [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tablesByType:GPKG_CD_GRIDDED_COVERAGE].count andValue2:[tileMatrixSetDao count]];
         
         [geoPackage dropTable:GPKG_TM_TABLE_NAME];
         [geoPackage dropTable:GPKG_TMS_TABLE_NAME];
@@ -341,7 +341,6 @@
                         break;
                       
                     case GPKG_CDT_TILES:
-                    case GPKG_CDT_GRIDDED_COVERAGE:
                         {
                             GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:contents.tableName];
                             GPKGBoundingBox *tileBoundingBox = [tileDao boundingBoxInProjection:projection];

@@ -12,6 +12,14 @@
 
 @implementation GPKGGriddedCoverageDao
 
++(GPKGGriddedCoverageDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGGriddedCoverageDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGGriddedCoverageDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

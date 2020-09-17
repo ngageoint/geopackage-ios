@@ -11,6 +11,14 @@
 
 @implementation GPKGExtensionsDao
 
++(GPKGExtensionsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGExtensionsDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGExtensionsDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

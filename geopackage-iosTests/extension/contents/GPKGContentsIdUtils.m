@@ -25,7 +25,7 @@
     [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage tables].count andValue2:[contentsIdExtension missing].count];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension ids] countAndClose]];
     
-    for(int i = 0; i <= GPKG_CDT_GRIDDED_COVERAGE; i++){
+    for(int i = 0; i <= GPKG_CDT_ATTRIBUTES; i++){
         enum GPKGContentsDataType type = i;
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[[contentsIdExtension idsForType:type] countAndClose]];
         [GPKGTestUtils assertEqualUnsignedLongWithValue:[geoPackage tablesByType:type].count andValue2:[contentsIdExtension missingForType:type].count];
@@ -67,7 +67,7 @@
     
     // Create contents ids for each contents data type
     int currentCount = 0;
-    for(int i = 0; i <= GPKG_CDT_GRIDDED_COVERAGE; i++){
+    for(int i = 0; i <= GPKG_CDT_ATTRIBUTES; i++){
         enum GPKGContentsDataType type = i;
         int created = [contentsIdExtension createIdsForType:type];
         currentCount += created;
@@ -79,7 +79,7 @@
     }
     
     // Delete contents ids for each contents data type
-    for(int i = 0; i <= GPKG_CDT_GRIDDED_COVERAGE; i++){
+    for(int i = 0; i <= GPKG_CDT_ATTRIBUTES; i++){
         enum GPKGContentsDataType type = i;
         int deleted = [contentsIdExtension deleteIdsForType:type];
         currentCount -= deleted;

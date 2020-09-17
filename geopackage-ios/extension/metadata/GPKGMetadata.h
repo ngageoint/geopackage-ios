@@ -42,7 +42,8 @@ enum GPKGMetadataScopeType{
     GPKG_MST_SERVICE,
     GPKG_MST_COLLECTION_HARDWARE,
     GPKG_MST_NON_GEOGRAPHIC_DATASET,
-    GPKG_MST_DIMENSION_GROUP
+    GPKG_MST_DIMENSION_GROUP,
+    GPKG_MST_STYLE
 };
 
 /**
@@ -67,6 +68,7 @@ extern NSString * const GPKG_MST_SERVICE_NAME;
 extern NSString * const GPKG_MST_COLLECTION_HARDWARE_NAME;
 extern NSString * const GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME;
 extern NSString * const GPKG_MST_DIMENSION_GROUP_NAME;
+extern NSString * const GPKG_MST_STYLE_NAME;
 
 /**
  *  Contains metadata in MIME encodings structured in accordance with any

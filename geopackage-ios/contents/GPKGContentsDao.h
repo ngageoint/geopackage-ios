@@ -14,10 +14,21 @@
 #import "GPKGTileMatrixSet.h"
 #import "GPKGContentsDataTypes.h"
 
+@class GPKGGeoPackage;
+
 /**
  *  Contents Data Access Object
  */
 @interface GPKGContentsDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            geoPackage
+ * @return dao
+ */
++(GPKGContentsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO
@@ -44,7 +55,7 @@
  *            data type
  * @return table names
  */
--(NSArray<NSString *> *) tablesOfType: (enum GPKGContentsDataType) dataType;
+-(NSArray<NSString *> *) tablesByType: (enum GPKGContentsDataType) dataType;
 
 /**
  * Get table names by data types
@@ -53,7 +64,7 @@
  *            data types
  * @return table names
  */
--(NSArray<NSString *> *) tablesOfTypes: (NSArray<NSNumber *> *) dataTypes;
+-(NSArray<NSString *> *) tablesByTypes: (NSArray<NSNumber *> *) dataTypes;
 
 /**
  * Get table names by data type
@@ -62,7 +73,7 @@
  *            data type
  * @return table names
  */
--(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType;
+-(NSArray<NSString *> *) tablesByTypeName: (NSString *) dataType;
 
 /**
  * Get table names by data types
@@ -71,7 +82,7 @@
  *            data types
  * @return table names
  */
--(NSArray<NSString *> *) tablesOfTypeNames: (NSArray<NSString *> *) dataTypes;
+-(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) dataTypes;
 
 /**
  * Get contents by data type
@@ -80,7 +91,7 @@
  *            data type
  * @return contents result set
  */
--(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType;
+-(GPKGResultSet *) contentsByType: (enum GPKGContentsDataType) dataType;
 
 /**
  * Get contents by data types
@@ -89,7 +100,7 @@
  *            data types
  * @return contents result set
  */
--(GPKGResultSet *) contentsOfTypes: (NSArray<NSNumber *> *) dataTypes;
+-(GPKGResultSet *) contentsByTypes: (NSArray<NSNumber *> *) dataTypes;
 
 /**
  * Get contents by data type
@@ -98,7 +109,7 @@
  *            data type
  * @return contents result set
  */
--(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType;
+-(GPKGResultSet *) contentsByTypeName: (NSString *) dataType;
 
 /**
  * Get contents by data types
@@ -107,7 +118,7 @@
  *            data types
  * @return contents result set
  */
--(GPKGResultSet *) contentsOfTypeNames: (NSArray<NSString *> *) dataTypes;
+-(GPKGResultSet *) contentsByTypeNames: (NSArray<NSString *> *) dataTypes;
 
 /**
  * Get table names

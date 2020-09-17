@@ -30,8 +30,6 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGContentsId.h"
 
-NSString * const GPKG_EXTENSION_TABLES = @"extension";
-
 @implementation GPKGGeoPackageTableCreator
 
 -(instancetype)initWithDatabase:(GPKGConnection *) db{
@@ -92,7 +90,7 @@ NSString * const GPKG_EXTENSION_TABLES = @"extension";
 }
 
 -(int) createExtensionTable: (NSString *) tableName{
-    return [self createTable:tableName fromProperties:GPKG_EXTENSION_TABLES];
+    return [self createTable:tableName fromProperties:GPKG_EXTENSION_AUTHOR];
 }
 
 -(void) createUserTable: (GPKGUserTable *) table{

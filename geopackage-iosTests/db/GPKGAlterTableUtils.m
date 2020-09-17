@@ -666,7 +666,7 @@
             
             GPKGGriddedCoverage *griddedCoverage = nil;
             NSMutableArray<GPKGGriddedTile *> *griddedTiles = [NSMutableArray array];
-            if([geoPackage isTable:tableName ofType:GPKG_CDT_GRIDDED_COVERAGE]){
+            if([geoPackage isTable:tableName ofType:GPKG_CD_GRIDDED_COVERAGE]){
                 GPKGCoverageData *coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:dao];
                 griddedCoverage = [coverageData queryGriddedCoverage];
                 GPKGResultSet *griddedTilesResults = [coverageData griddedTile];

@@ -12,6 +12,8 @@ extern NSString * const GPKG_WEBP_EXTENSION_NAME;
 
 /**
  *  WebP Extension
+ *
+ *  https://www.geopackage.org/spec/#extension_tiles_webp
  */
 @interface GPKGWebPExtension : GPKGBaseExtension
 

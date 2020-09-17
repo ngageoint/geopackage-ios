@@ -15,10 +15,13 @@
 #import "GPKGGriddedCoverageEncodingTypes.h"
 #import "GPKGGriddedTileDao.h"
 
+extern NSString * const GPKG_CD_GRIDDED_COVERAGE;
 extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 
 /**
  *  Tiled Gridded Coverage Data, Common Encoding, Extension
+ *
+ *  http://docs.opengeospatial.org/is/17-066r1/17-066r1.html
  */
 @interface GPKGCoverageData : GPKGBaseExtension
 
@@ -195,6 +198,56 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(BOOL) has;
 
 /**
+ * Get a 2D Gridded Coverage DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return 2d gridded coverage dao
+ */
++(GPKGGriddedCoverageDao *) griddedCoverageDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a 2D Gridded Coverage DAO
+ *
+ * @param db
+ *            database connection
+ * @return 2d gridded coverage dao
+ */
++(GPKGGriddedCoverageDao *) griddedCoverageDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the 2D Gridded Coverage Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createGriddedCoverageTable;
+
+/**
+ * Get a 2D Gridded Tile DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return 2d gridded tile dao
+ */
++(GPKGGriddedTileDao *) griddedTileDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a 2D Gridded Tile DAO
+ *
+ * @param db
+ *            database connection
+ * @return 2d gridded tile dao
+ */
++(GPKGGriddedTileDao *) griddedTileDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the 2D Gridded Tile Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createGriddedTileTable;
+
+/**
  * Get the gridded coverage
  *
  * @return gridded coverage
@@ -326,16 +379,15 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count;
 
 /**
- * Create the coverage data tile table with metadata
+ * Create the coverage data tile table
  *
- * @param geoPackage GeoPackage
- * @param tableName table name
- * @param contentsBoundingBox contents bounding box
- * @param contentsSrsId contents srs id
- * @param tileMatrixSetBoundingBox tile matrix set bounding box
- * @param tileMatrixSetSrsId tile matrix set srs id
+ * @param geoPackage
+ *            GeoPackage
+ * @param metadata
+ *            tile table metadata
+ * @return tile table
  */
-+(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId;
++(GPKGTileTable *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andMetadata: (GPKGTileTableMetadata *) metadata;
 
 /**
  * Get the unsigned short pixel value of the coverage data value

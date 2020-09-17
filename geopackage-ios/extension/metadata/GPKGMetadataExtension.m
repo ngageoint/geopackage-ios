@@ -57,4 +57,56 @@ NSString * const GPKG_PROP_METADATA_EXTENSION_DEFINITION = @"geopackage.extensio
     
 }
 
+-(GPKGMetadataDao *) metadataDao{
+    return [GPKGMetadataExtension metadataDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGMetadataDao *) metadataDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGMetadataDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGMetadataDao *) metadataDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGMetadataDao createWithDatabase:database];
+}
+
+-(BOOL) createMetadataTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    GPKGMetadataDao *dao = [self metadataDao];
+    if(![dao tableExists]){
+        created = [[self.geoPackage tableCreator] createMetadata] > 0;
+        if(created){
+            GPKGMetadataExtension * metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:self.geoPackage];
+            [metadataExtension extensionCreate];
+        }
+    }
+    
+    return created;
+}
+
+-(GPKGMetadatReferenceaDao *) metadataReferenceDao{
+    return [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGMetadataReferenceDao *) metadataReferenceDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGMetadataReferenceDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGMetadataReferenceDao *) metadataReferenceDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGMetadataReferenceDao createWithDatabase:database];
+}
+
+-(BOOL) createMetadataReferenceTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    GPKGMetadataReferenceDao *dao = [self metadataReferenceDao];
+    if(![dao tableExists]){
+        created = [[self.geoPackage tableCreator] createMetadataReference] > 0;
+    }
+    
+    return created;
+}
+
 @end

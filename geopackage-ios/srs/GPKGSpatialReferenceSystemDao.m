@@ -24,6 +24,10 @@
 
 @implementation GPKGSpatialReferenceSystemDao
 
++(GPKGSpatialReferenceSystemDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
 +(GPKGSpatialReferenceSystemDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:database];
 }

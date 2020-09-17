@@ -36,6 +36,7 @@ NSString * const GPKG_MST_SERVICE_NAME = @"service";
 NSString * const GPKG_MST_COLLECTION_HARDWARE_NAME = @"collectionHardware";
 NSString * const GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME = @"nonGeographicDataset";
 NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
+NSString * const GPKG_MST_STYLE_NAME = @"style";
 
 @implementation GPKGMetadata
 
@@ -63,6 +64,7 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
                                          [NSNumber numberWithInteger:GPKG_MST_COLLECTION_HARDWARE], GPKG_MST_COLLECTION_HARDWARE_NAME,
                                          [NSNumber numberWithInteger:GPKG_MST_NON_GEOGRAPHIC_DATASET], GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME,
                                          [NSNumber numberWithInteger:GPKG_MST_DIMENSION_GROUP], GPKG_MST_DIMENSION_GROUP_NAME,
+                                         [NSNumber numberWithInteger:GPKG_MST_STYLE], GPKG_MST_STYLE_NAME,
                                          nil
                                          ];
         NSNumber *enumValue = [GPKGUtils objectForKey:self.scope inDictionary:scopeTypes];
@@ -179,6 +181,11 @@ NSString * const GPKG_MST_DIMENSION_GROUP_NAME = @"dimensionGroup";
             scope.name = GPKG_MST_DIMENSION_GROUP_NAME;
             scope.code = @"008";
             scope.definition = @"Information applies to a dimension group";
+            break;
+        case GPKG_MST_STYLE:
+            scope.name = GPKG_MST_STYLE_NAME;
+            scope.code = @"NA";
+            scope.definition = @"Information applies to a specific style";
             break;
     }
     

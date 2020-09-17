@@ -11,6 +11,14 @@
 
 @implementation GPKGMetadataDao
 
++(GPKGMetadataDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGMetadataDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGMetadataDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
@@ -149,7 +157,7 @@
 }
 
 -(GPKGMetadataReferenceDao *) metadataReferenceDao{
-    return [[GPKGMetadataReferenceDao alloc] initWithDatabase:self.database];
+    return [GPKGMetadataReferenceDao createWithDatabase:self.database];
 }
 
 @end

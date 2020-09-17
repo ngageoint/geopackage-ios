@@ -24,8 +24,8 @@ NSString * const GPKG_TMS_COLUMN_MAX_Y = @"max_y";
     if(contents != nil){
         // Verify the Contents have a tiles data type (Spec Requirement 33)
         enum GPKGContentsDataType dataType = [contents contentsDataType];
-        if(dataType != GPKG_CDT_TILES && dataType != GPKG_CDT_GRIDDED_COVERAGE){
-            [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix Set must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CDT_GRIDDED_COVERAGE_NAME];
+        if(dataType != GPKG_CDT_TILES && dataType != GPKG_CD_GRIDDED_COVERAGE){
+            [NSException raise:@"Contents Type" format:@"The Contents of a Tile Matrix Set must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CD_GRIDDED_COVERAGE];
         }
         self.tableName = contents.tableName;
     }else{

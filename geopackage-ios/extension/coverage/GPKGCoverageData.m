@@ -19,6 +19,7 @@
 #import "GPKGCoverageDataPng.h"
 #import "GPKGCoverageDataTiff.h"
 
+NSString * const GPKG_CD_GRIDDED_COVERAGE = @"2d-gridded-coverage";
 NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME = @"2d_gridded_coverage";
 NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.extensions.2d_gridded_coverage";
 
@@ -140,8 +141,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         
         self.tileDao = tileDao;
         self.tileMatrixSet = tileDao.tileMatrixSet;
-        self.griddedCoverageDao = [geoPackage griddedCoverageDao];
-        self.griddedTileDao = [geoPackage griddedTileDao];
+        self.griddedCoverageDao = [self griddedCoverageDao];
+        self.griddedTileDao = [self griddedTileDao];
         [self queryGriddedCoverage];
         
         self.width = width;
@@ -165,10 +166,16 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(GPKGGriddedCoverageDao *) griddedCoverageDao{
+    if(_griddedCoverageDao == nil){
+        _griddedCoverageDao = [GPKGGriddedCoverageDao createWithGeoPackage:self.geoPackage];
+    }
     return _griddedCoverageDao;
 }
 
 -(GPKGGriddedTileDao *) griddedTileDao{
+    if(_griddedTileDao == nil){
+        _griddedTileDao = [GPKGGriddedTileDao createWithGeoPackage:self.geoPackage];
+    }
     return _griddedTileDao;
 }
 
@@ -191,8 +198,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 -(NSArray *) extensionCreate{
     
     // Create tables
-    [self.geoPackage createGriddedCoverageTable];
-    [self.geoPackage createGriddedTileTable];
+    [self createGriddedCoverageTable];
+    [self createGriddedTileTable];
     
     NSMutableArray * extensions = [[NSMutableArray alloc] init];
     
@@ -212,6 +219,46 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     BOOL exists = [self hasWithExtensionName:self.extensionName andTableName:self.tileMatrixSet.tableName andColumnName:GPKG_TC_COLUMN_TILE_DATA];
     
     return exists;
+}
+
++(GPKGGriddedCoverageDao *) griddedCoverageDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGGriddedCoverageDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGGriddedCoverageDao *) griddedCoverageDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGGriddedCoverageDao createWithDatabase:database];
+}
+
+-(BOOL) createGriddedCoverageTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    
+    if(![_griddedCoverageDao tableExists]){
+        created = [[self.geoPackage tableCreator] createGriddedCoverage] > 0;
+    }
+    
+    return created;
+}
+
++(GPKGGriddedTileDao *) griddedTileDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGGriddedTileDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGGriddedTileDao *) griddedTileDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGGriddedTileDao createWithDatabase:database];
+}
+
+-(BOOL) createGriddedTileTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    
+    if(![_griddedTileDao tableExists]){
+        created = [[self.geoPackage tableCreator] createGriddedTile] > 0;
+    }
+    
+    return created;
 }
 
 -(GPKGGriddedCoverage *) griddedCoverage{
@@ -260,7 +307,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 +(NSArray *) tablesForGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [geoPackage tablesByType:GPKG_CDT_GRIDDED_COVERAGE];
+    return [geoPackage tablesByTypeName:GPKG_CD_GRIDDED_COVERAGE];
 }
 
 /**
@@ -1026,10 +1073,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return values;
 }
 
-+(GPKGTileMatrixSet *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
-    
-    GPKGTileMatrixSet * tileMatrixSet = [geoPackage createTileTableWithType:GPKG_CDT_GRIDDED_COVERAGE andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
-    return tileMatrixSet;
++(GPKGTileTable *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andMetadata: (GPKGTileTableMetadata *) metadata{
+    [metadata setDataType:GPKG_CD_GRIDDED_COVERAGE];
+    return [geoPackage createTileTableWithMetadata:metadata];
 }
 
 -(unsigned short) pixelValueWithGriddedTile: (GPKGGriddedTile *) griddedTile andValue: (NSDecimalNumber *) value{

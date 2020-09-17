@@ -104,20 +104,20 @@
     return [[self contentsDao] tablesByTypeNames:types];
 }
 
--(NSArray<GPKGContents *> *) contentsByType: (enum GPKGContentsDataType) type{
+-(GPKGResultSet *) contentsByType: (enum GPKGContentsDataType) type{
     return [[self contentsDao] contentsByType:type];
 }
 
--(NSArray<GPKGContents *> *) contentsByTypes: (NSArray<NSNumber *> *) types{
+-(GPKGResultSet *) contentsByTypes: (NSArray<NSNumber *> *) types{
     return [[self contentsDao] contentsByTypes:types];
 }
 
--(NSArray<GPKGContents *> *) contentsByTypeName: (NSString *) type{
+-(GPKGResultSet *) contentsByTypeName: (NSString *) type{
     return [[self contentsDao] contentsByTypeName:type];
 }
 
--(NSArray<GPKGContents *> *) contentsByTypeNames: (NSArray<NSString *> *) types{
-   return [[self contentsDao] contentsByTypeNames:type];
+-(GPKGResultSet *) contentsByTypeNames: (NSArray<NSString *> *) types{
+   return [[self contentsDao] contentsByTypeNames:types];
 }
 
 -(NSArray<NSString *> *) tables{
@@ -137,12 +137,12 @@
 }
 
 -(BOOL) isTable: (NSString *) table ofType: (enum GPKGContentsDataType) type{
-    return [self isTable:table ofTypes:[NSArray arrayWithObject:type]];
+    return [self isTable:table ofTypes:[NSArray arrayWithObject:[NSNumber numberWithInt:type]]];
 }
 
 -(BOOL) isTable: (NSString *) table ofTypes: (NSArray<NSNumber *> *) types{
     NSSet *typeSet = [NSSet setWithArray:types];
-    return [typeSet containsObject:[self dataTypeOfTable:table]];
+    return [typeSet containsObject:[NSNumber numberWithInt:[self dataTypeOfTable:table]]];
 }
 
 -(BOOL) isTable: (NSString *) table ofTypeName: (NSString *) type{
@@ -154,8 +154,8 @@
     BOOL isType = [typeSet containsObject:[self typeOfTable:table]];
     if(!isType){
         enum GPKGContentsDataType dataType = [self dataTypeOfTable:table];
-        if(dataType != nil){
-            isType = [typeSet containsObject:[GPKGContentsDataType name:dataType]];
+        if(dataType >= 0){
+            isType = [typeSet containsObject:[GPKGContentsDataTypes name:dataType]];
         }
     }
     return isType;
@@ -174,7 +174,7 @@
 }
 
 -(BOOL) isTableOrView: (NSString *) name{
-    return [self.database tableOrViewExists:view];
+    return [self.database tableOrViewExists:name];
 }
 
 -(GPKGContents *) contentsOfTable: (NSString *) table{
@@ -471,7 +471,7 @@
         // Create the contents
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
-        [contents setContentsDataType:GPKG_CDT_FEATURES asName:[metadata dataType]];
+        [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_FEATURES];
         [contents setIdentifier:tableName];
         // [contents setLastChange:[NSDate date]];
         GPKGBoundingBox *boundingBox = metadata.boundingBox;

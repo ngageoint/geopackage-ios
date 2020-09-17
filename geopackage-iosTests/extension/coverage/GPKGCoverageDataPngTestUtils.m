@@ -60,8 +60,8 @@
         GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
         [GPKGTestUtils assertNotNil:contents];
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:contents.tableName];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CDT_GRIDDED_COVERAGE andValue2:[contents contentsDataType]];
-        [GPKGTestUtils assertEqualWithValue:GPKG_CDT_GRIDDED_COVERAGE_NAME andValue2:contents.dataType];
+        [GPKGTestUtils assertEqualIntWithValue:GPKG_CD_GRIDDED_COVERAGE andValue2:[contents contentsDataType]];
+        [GPKGTestUtils assertEqualWithValue:GPKG_CD_GRIDDED_COVERAGE andValue2:contents.dataType];
         [GPKGTestUtils assertNotNil:contents.lastChange];
         
         // Test the contents SRS

@@ -8,8 +8,6 @@
 
 #import "GPKGTableCreator.h"
 
-extern NSString * const GPKG_EXTENSION_TABLES;
-
 /**
  *  Executes database scripts to create GeoPackage tables
  */

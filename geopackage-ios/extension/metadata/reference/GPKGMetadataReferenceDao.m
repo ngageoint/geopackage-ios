@@ -13,6 +13,14 @@
 
 @implementation GPKGMetadataReferenceDao
 
++(GPKGMetadataReferenceDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGMetadataReferenceDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGMetadataReferenceDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

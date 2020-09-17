@@ -11,6 +11,8 @@
 
 /**
  *  Geometry Extensions utility methods and constants
+ *
+ *  https://www.geopackage.org/spec/#extension_geometry_types
  */
 @interface GPKGGeometryExtensions : GPKGBaseExtension
 

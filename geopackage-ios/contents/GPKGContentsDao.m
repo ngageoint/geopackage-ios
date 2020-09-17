@@ -18,6 +18,10 @@
 
 @implementation GPKGContentsDao
 
++(GPKGContentsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
 +(GPKGContentsDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGContentsDao alloc] initWithDatabase:database];
 }
@@ -181,35 +185,35 @@
     }
 }
 
--(NSArray<NSString *> *) tablesOfType: (enum GPKGContentsDataType) dataType{
-    return [self tablesOfTypeName:[GPKGContentsDataTypes name:dataType]];
+-(NSArray<NSString *> *) tablesByType: (enum GPKGContentsDataType) dataType{
+    return [self tablesByTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
--(NSArray<NSString *> *) tablesOfTypes: (NSArray<NSNumber *> *) dataTypes{
-    return [self tablesOfTypeNames:[self dataTypeNames:dataTypes]];
+-(NSArray<NSString *> *) tablesByTypes: (NSArray<NSNumber *> *) dataTypes{
+    return [self tablesByTypeNames:[self dataTypeNames:dataTypes]];
 }
 
--(NSArray<NSString *> *) tablesOfTypeName: (NSString *) dataType{
-    return [self tablesOfTypeNames:[NSArray arrayWithObject:dataType]];
+-(NSArray<NSString *> *) tablesByTypeName: (NSString *) dataType{
+    return [self tablesByTypeNames:[NSArray arrayWithObject:dataType]];
 }
 
--(NSArray<NSString *> *) tablesOfTypeNames: (NSArray<NSString *> *) dataTypes{
+-(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) dataTypes{
     return [self tableNames:[self contentsWithColumn:GPKG_CON_TABLE_NAME andTypeNames:dataTypes]];
 }
 
--(GPKGResultSet *) contentsOfType: (enum GPKGContentsDataType) dataType{
-    return [self contentsOfTypeName:[GPKGContentsDataTypes name:dataType]];
+-(GPKGResultSet *) contentsByType: (enum GPKGContentsDataType) dataType{
+    return [self contentsByTypeName:[GPKGContentsDataTypes name:dataType]];
 }
 
--(GPKGResultSet *) contentsOfTypes: (NSArray<NSNumber *> *) dataTypes{
-    return [self contentsOfTypeNames:[self dataTypeNames:dataTypes]];
+-(GPKGResultSet *) contentsByTypes: (NSArray<NSNumber *> *) dataTypes{
+    return [self contentsByTypeNames:[self dataTypeNames:dataTypes]];
 }
 
--(GPKGResultSet *) contentsOfTypeName: (NSString *) dataType{
+-(GPKGResultSet *) contentsByTypeName: (NSString *) dataType{
     return [self queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:dataType];
 }
 
--(GPKGResultSet *) contentsOfTypeNames: (NSArray<NSString *> *) dataTypes{
+-(GPKGResultSet *) contentsByTypeNames: (NSArray<NSString *> *) dataTypes{
     return [self contentsWithColumn:nil andTypeNames:dataTypes];
 }
 

@@ -7,11 +7,15 @@
 //
 
 #import "GPKGBaseExtension.h"
+#import "GPKGMetadataDao.h"
+#import "GPKGMetadatReferenceaDao.h"
 
 extern NSString * const GPKG_METADATA_EXTENSION_NAME;
 
 /**
  *  Metadata extension
+ *
+ *  https://www.geopackage.org/spec/#extension_metadata
  */
 @interface GPKGMetadataExtension : GPKGBaseExtension
 
@@ -52,5 +56,69 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
  * Remove all trace of the extension
  */
 -(void) removeExtension;
+
+/**
+ * Get a Metadata DAO
+ *
+ * @return Metadata DAO
+ */
+-(GPKGMetadataDao *) metadataDao;
+
+/**
+ * Get a Metadata DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return Metadata DAO
+ */
++(GPKGMetadataDao *) metadataDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Metadata DAO
+ *
+ * @param db
+ *            database connection
+ * @return Metadata DAO
+ */
++(GPKGMetadataDao *) metadataDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Metadata Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createMetadataTable;
+
+/**
+ * Get a Metadata Reference DAO
+ *
+ * @return Metadata Reference DAO
+ */
+-(GPKGMetadatReferenceaDao *) metadataReferenceDao;
+
+/**
+ * Get a Metadata Reference DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return Metadata Reference DAO
+ */
++(GPKGMetadataReferenceDao *) metadataReferenceDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Metadata Reference DAO
+ *
+ * @param db
+ *            database connection
+ * @return Metadata Reference DAO
+ */
++(GPKGMetadataReferenceDao *) metadataReferenceDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Metadata Reference Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createMetadataReferenceTable;
 
 @end
