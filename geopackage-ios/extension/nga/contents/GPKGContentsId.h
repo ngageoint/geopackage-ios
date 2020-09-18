@@ -17,6 +17,9 @@ extern NSString * const GPKG_CI_COLUMN_PK;
 extern NSString * const GPKG_CI_COLUMN_ID;
 extern NSString * const GPKG_CI_COLUMN_TABLE_NAME;
 
+/**
+ * Contents Id object, for maintaining a unique identifier for contents tables
+ */
 @interface GPKGContentsId : NSObject <NSMutableCopying>
 
 /**

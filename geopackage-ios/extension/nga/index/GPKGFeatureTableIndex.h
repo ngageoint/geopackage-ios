@@ -11,6 +11,8 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGProgress.h"
 #import "GPKGBaseExtension.h"
+#import "GPKGTableIndexDao.h"
+#import "GPKGGeometryIndexDao.h"
 
 extern NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
@@ -165,6 +167,8 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  *  @return last indexed date or null
  */
 -(NSDate *) lastIndexed;
+
+// TODO
 
 /**
  *  Get the extension

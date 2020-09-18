@@ -11,6 +11,14 @@
 
 @implementation GPKGContentsIdDao
 
++(GPKGContentsIdDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGContentsIdDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGContentsIdDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

@@ -23,116 +23,82 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 @interface GPKGNGAExtensions : GPKGExtensionManagement
 
 /**
- *  Delete all NGA table extensions for the table within the GeoPackage
+ *  Initialize
  *
  *  @param geoPackage GeoPackage
- *  @param table      table name
- */
-+(void) deleteTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
-
-/**
- *  Delete all NGA extensions including custom extension tables for the
- *  GeoPackage
  *
- *  @param geoPackage GeoPackage
+ *  @return new instance
  */
-+(void) deleteExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Copy all NGA table extensions for the table within the GeoPackage
- *
- * @param geoPackage
- *            GeoPackage
- * @param table
- *            table name
- * @param newTable
- *            new table name
- */
-+(void) copyTableExtensionsWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Delete the Geometry Index extension for the table
  *
- *  @param geoPackage GeoPackage
  *  @param table      table name
  */
-+(void) deleteGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deleteGeometryIndexForTable: (NSString *) table;
 
 /**
  *  Delete the Geometry Index extension including the extension entries and
  *  custom tables
- *
- *  @param geoPackage GeoPackage
  */
-+(void) deleteGeometryIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deleteGeometryIndexExtension;
 
 /**
  * Copy the Geometry Index extension for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  * @param newTable
  *            new table name
  */
-+(void) copyGeometryIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(void) copyGeometryIndexFromTable: (NSString *) table toTable: (NSString *) newTable;
 
 /**
  *  Delete the Feature Tile Link extensions for the table
  *
- *  @param geoPackage GeoPackage
  *  @param table      table name
  */
-+(void) deleteFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deleteFeatureTileLinkForTable: (NSString *) table;
 
 /**
  *  Delete the Feature Tile Link extension including the extension entries
  *  and custom tables
- *
- *  @param geoPackage GeoPackage
  */
-+(void) deleteFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deleteFeatureTileLinkExtension;
 
 /**
  * Copy the Feature Tile Link extensions for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  * @param newTable
  *            new table name
  */
-+(void) copyFeatureTileLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(void) copyFeatureTileLinkFromTable: (NSString *) table toTable: (NSString *) newTable;
 
 /**
  *  Delete the Tile Scaling extensions for the table
  *
- *  @param geoPackage GeoPackage
  *  @param table      table name
  */
-+(void) deleteTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deleteTileScalingForTable: (NSString *) table;
 
 /**
  *  Delete the Tile Scaling extension including the extension entries and
  *  custom tables
- *
- *  @param geoPackage GeoPackage
  */
-+(void) deleteTileScalingExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deleteTileScalingExtension;
 
 /**
  * Copy the Tile Scaling extensions for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  * @param newTable
  *            new table name
  */
-+(void) copyTileScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(void) copyTileScalingFromTable: (NSString *) table toTable: (NSString *) newTable;
 
 /**
  * Delete the Properties extension if the deleted table is the properties
@@ -143,46 +109,40 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
  * @param table
  *            table name
  */
-+(void) deletePropertiesWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deletePropertiesForTable: (NSString *) table;
 
 /**
  * Delete the properties extension from the GeoPackage
  *
  * @param geoPackage GeoPackage
  */
-+(void) deletePropertiesExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deletePropertiesExtension;
 
 /**
  * Delete the Feature Style extensions for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  */
-+(void) deleteFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deleteFeatureStyleForTable: (NSString *) table;
 
 /**
  * Delete the Feature Style extension including the extension entries and
  * custom tables
- *
- * @param geoPackage GeoPackage
  */
-+(void) deleteFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deleteFeatureStyleExtension;
 
 /**
  * Copy the Feature Style extensions for the table. Relies on
  * {@link GeoPackageExtensions#copyRelatedTables(GeoPackageCore, String, String)}
  * to be called first.
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  * @param newTable
  *            new table name
  */
-+(void) copyFeatureStyleWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(void) copyFeatureStyleFromTable: (NSString *) table toTable: (NSString *) newTable;
 
 /**
  * Delete the Contents Id extensions for the table
@@ -192,7 +152,7 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
  * @param table
  *            table name
  */
-+(void) deleteContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table;
+-(void) deleteContentsIdForTable: (NSString *) table;
 
 /**
  * Delete the Contents Id extension including the extension entries and
@@ -200,7 +160,7 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
  *
  * @param geoPackage GeoPackage
  */
-+(void) deleteContentsIdExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+-(void) deleteContentsIdExtension;
 
 /**
  * Copy the Contents Id extensions for the table
@@ -212,6 +172,6 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
  * @param newTable
  *            new table name
  */
-+(void) copyContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andNewTable: (NSString *) newTable;
+-(void) copyContentsIdFromTable: (NSString *) table toTable: (NSString *) newTable;
 
 @end

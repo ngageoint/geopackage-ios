@@ -8,6 +8,8 @@
 
 #import "GPKGContentsIdExtension.h"
 #import "GPKGProperties.h"
+#import "GPKGNGAExtensions.h"
+#import "GPKGContentsIdTableCreator.h"
 
 NSString * const GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR = @"contents_id";
 NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.extensions.contents_id";
@@ -27,7 +29,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION];
-        self.contentsIdDao = [geoPackage contentsIdDao];
+        self.contentsIdDao = [self contentsIdDao];
     }
     return self;
 }
@@ -275,7 +277,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 -(GPKGExtensions *) extensionCreate{
     
     // Create table
-    [self.geoPackage createContentsIdTable];
+    [self createContentsIdTable];
     
     GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
@@ -309,6 +311,33 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     }
     [[self.geoPackage contentsDao] deleteById:GPKG_CI_TABLE_NAME];
     
+}
+
+-(GPKGContentsIdDao *) contentsIdDao{
+    return [GPKGContentsIdExtension contentsIdDaoWithGeoPackage:self.geoPackage];
+}
+
+
++(GPKGContentsIdDao *) contentsIdDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGContentsIdDao createWithGeoPackage:geoPackage];
+}
+
+
++(GPKGContentsIdDao *) contentsIdDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGContentsIdDao createWithDatabase:database];
+}
+
+-(BOOL) createContentsIdTable{
+    
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    if(![_contentsIdDao tableExists]){
+        GPKGContentsIdTableCreator *tableCreator = [[GPKGContentsIdTableCreator alloc] initWithGeoPackage:geoPackage];
+        created = [tableCreator createContentsId] > 0;
+    }
+    
+    return created;
 }
 
 @end

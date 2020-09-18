@@ -7,10 +7,29 @@
 //
 
 #import "GPKGTableCreator.h"
+#import "GPKGNGATableCreator.h"
 
+/**
+ * Contents Id Extension Table Creator
+ */
 @interface GPKGContentsIdTableCreator : GPKGNGATableCreator
 
-// TODO
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new contents id dao
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Initialize
+ *
+ * @param geoPackage
+ *            GeoPackage
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create Contents Id table

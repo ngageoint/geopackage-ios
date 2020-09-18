@@ -16,6 +16,4 @@ NSString * const GPKG_NGA_TABLES = @"nga";
     return GPKG_NGA_TABLES;
 }
 
-// TODO
-
 @end

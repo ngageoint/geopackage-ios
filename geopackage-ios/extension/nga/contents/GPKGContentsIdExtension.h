@@ -12,6 +12,13 @@
 extern NSString * const GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
 
+/**
+ * This extension assigns a unique integer identifier to tables defined in the
+ * contents. Allows foreign key referencing to a contents (text based primary
+ * key) by an integer identifier.
+ *
+ * http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html
+ */
 @interface GPKGContentsIdExtension : GPKGBaseExtension
 
 /**
@@ -313,6 +320,38 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  * Remove all trace of the extension
  */
 -(void) removeExtension;
+
+/**
+ * Get a Contents Id DAO
+ *
+ * @return contents id dao
+ */
+-(GPKGContentsIdDao *) contentsIdDao;
+
+/**
+ * Get a Contents Id DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return contents id dao
+ */
++(GPKGContentsIdDao *) contentsIdDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Contents Id DAO
+ *
+ * @param database
+ *            database connection
+ * @return contents id dao
+ */
++(GPKGContentsIdDao *) contentsIdDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Contents Id Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createContentsIdTable;
 
 @end
 

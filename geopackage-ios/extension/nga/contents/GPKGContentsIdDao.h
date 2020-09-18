@@ -7,9 +7,31 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGGeoPackage.h"
 #import "GPKGContentsId.h"
 
+/**
+ * Contents Id Data Access Object
+ */
 @interface GPKGContentsIdDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            geoPackage
+ * @return dao
+ */
++(GPKGContentsIdDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param db
+ *            database connection
+ * @return dao
+ */
++(GPKGContentsIdDao *) createWithDatabase: (GPKGConnection *) database;
 
 /**
  *  Initialize

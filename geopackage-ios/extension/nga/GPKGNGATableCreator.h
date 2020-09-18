@@ -10,8 +10,9 @@
 
 extern NSString * const GPKG_NGA_TABLES;
 
+/**
+ * Executes database scripts to create NGA Extension GeoPackage tables
+ */
 @interface GPKGNGATableCreator : GPKGGeoPackageTableCreator
-
-// TODO
 
 @end

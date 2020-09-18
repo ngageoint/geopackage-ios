@@ -39,8 +39,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION];
         self.tableName = featureDao.tableName;
         self.columnName = [featureDao geometryColumnName];
-        self.tableIndexDao = [geoPackage tableIndexDao];
-        self.geometryIndexDao = [geoPackage geometryIndexDao];
+        self.tableIndexDao = [self tableIndexDao];
+        self.geometryIndexDao = [self geometryIndexDao];
         self.chunkLimit = 1000;
         self.tolerance = .00000000000001;
     }
@@ -85,9 +85,9 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         [self extensionCreate];
         GPKGTableIndex * tableIndex = [self tableIndexCreate];
         [self createOrClearGeometryIndices];
-        [self.geoPackage unindexGeometryIndexTable];
+        [self unindexGeometryIndexTable];
         count = [self indexTable:tableIndex];
-        [self.geoPackage indexGeometryIndexTable];
+        [self indexGeometryIndexTable];
     }
     return count;
 }
@@ -245,7 +245,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     if(tableIndex == nil){
         if(![self.tableIndexDao tableExists]){
-            [self.geoPackage createTableIndexTable];
+            [self createTableIndexTable];
         }
         
         tableIndex = [[GPKGTableIndex alloc] init];
@@ -293,6 +293,8 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     return deleted;
 }
+
+// TODO
 
 -(BOOL) createGeometryIndexTable{
     
