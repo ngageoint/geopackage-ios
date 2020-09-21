@@ -7,10 +7,31 @@
 //
 
 #import "GPKGTableCreator.h"
+#import "GPKGNGATableCreator.h"
 
+/**
+ * Feature Tile Link Extension Table Creator
+ */
 @interface GPKGFeatureTileLinkTableCreator : GPKGNGATableCreator
 
-// TODO
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new feature tile link table creator
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Initialize
+ *
+ * @param geoPackage
+ *            GeoPackage
+ *
+ *  @return new feature tile link table creator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Create Feature Tile Link table

@@ -11,6 +11,7 @@
 #import "SFPProjectionTransform.h"
 #import "GPKGUserRowSync.h"
 #import "GPKGSqlLiteQueryBuilder.h"
+#import "GPKGGeometryIndexTableCreator.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
 NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.extensions.geometry_index";
@@ -294,28 +295,82 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return deleted;
 }
 
-// TODO
+-(GPKGExtensions *) extensionCreate{
+    return [self extensionCreateWithName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+}
 
--(BOOL) createGeometryIndexTable{
+-(GPKGExtensions *) extension{
+    return [self extensionWithName:self.extensionName andTableName:self.tableName  andColumnName:self.columnName];
+}
+
+-(GPKGTableIndexDao *) tableIndexDao{
+    return [GPKGFeatureTableIndex tableIndexDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGTableIndexDao *) tableIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGTableIndexDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGTableIndexDao *) tableIndexDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGTableIndexDao createWithDatabase:database];
+}
+
+-(BOOL) createTableIndexTable{
+    [self verifyWritable];
     
-    BOOL created = false;
-    
-    // Create the geometry index table if needed as well
-    if(![self.geometryIndexDao tableExists]){
-        created = [self.geoPackage createGeometryIndexTable];
+    BOOL created = NO;
+    if(![self.tableIndexDao tableExists]){
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        created = [tableCreator createTableIndex] > 0;
     }
     
     return created;
 }
 
--(GPKGExtensions *) extensionCreate{
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:self.tableName andColumnName:self.columnName andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
-    return extension;
+-(GPKGGeometryIndexDao *) geometryIndexDao{
+    return [GPKGFeatureTableIndex geometryIndexDaoWithGeoPackage:self.geoPackage];
 }
 
--(GPKGExtensions *) extension{
-    GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:self.tableName  andColumnName:self.columnName];
-    return extension;
++(GPKGGeometryIndexDao *) geometryIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGGeometryIndexDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGGeometryIndexDao *) geometryIndexDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGGeometryIndexDao createWithDatabase:database];
+}
+
+-(BOOL) createGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    if(![self.geometryIndexDao tableExists]){
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        created = [tableCreator createGeometryIndex] > 0;
+    }
+    
+    return created;
+}
+
+-(BOOL) indexGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL indexed = NO;
+    if([self.geometryIndexDao tableExists]){
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        indexed = [tableCreator indexGeometryIndex] > 0;
+    }
+    return indexed;
+}
+
+-(BOOL) unindexGeometryIndexTable{
+    [self verifyWritable];
+    
+    BOOL unindexed = NO;
+    if([self.geometryIndexDao tableExists]){
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        unindexed = [tableCreator unindexGeometryIndex] > 0;
+    }
+    return unindexed;
 }
 
 -(GPKGResultSet *) query{

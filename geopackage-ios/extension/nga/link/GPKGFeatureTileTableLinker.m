@@ -9,6 +9,8 @@
 #import "GPKGFeatureTileTableLinker.h"
 #import "GPKGExtensions.h"
 #import "GPKGProperties.h"
+#import "GPKGFeatureTileLinkTableCreator.h"
+#import "GPKGNGAExtensions.h"
 
 NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR = @"feature_tile_link";
 NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage.extensions.feature_tile_link";
@@ -28,7 +30,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION];
-        self.featureTileLinkDao = [geoPackage featureTileLinkDao];
+        self.featureTileLinkDao = [self featureTileLinkDao];
     }
     return self;
 }
@@ -51,7 +53,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
         [self extensionCreate];
         
         if(![self.featureTileLinkDao tableExists]){
-            [self.geoPackage createFeatureTileLinkTable];
+            [self createFeatureTileLinkTable];
         }
         
         GPKGFeatureTileLink * link = [[GPKGFeatureTileLink alloc] init];
@@ -134,6 +136,30 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 -(GPKGExtensions *) extension{
     GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:nil  andColumnName:nil];
     return extension;
+}
+
+-(GPKGFeatureTileLinkDao *) featureTileLinkDao{
+    return [GPKGFeatureTileTableLinker featureTileLinkDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGFeatureTileLinkDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGFeatureTileLinkDao createWithDatabase:database];
+}
+
+-(BOOL) createFeatureTileLinkTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    if(![self.featureTileLinkDao tableExists]){
+        GPKGFeatureTileLinkTableCreator *tableCreator = [[GPKGFeatureTileLinkTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        created = [tableCreator createFeatureTileLink] > 0;
+    }
+    
+    return created;
 }
 
 -(BOOL) featureTileLinksActive{

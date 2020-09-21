@@ -168,14 +168,90 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  */
 -(NSDate *) lastIndexed;
 
-// TODO
-
 /**
  *  Get the extension
  *
  *  @return extensions object or null if one does not exist
  */
 -(GPKGExtensions *) extension;
+
+/**
+ * Get a Table Index DAO
+ *
+ * @return table index dao
+ */
+-(GPKGTableIndexDao *) tableIndexDao;
+
+/**
+ * Get a Table Index DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return table index dao
+ */
++(GPKGTableIndexDao *) tableIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Table Index DAO
+ *
+ * @param db
+ *            database connection
+ * @return table index dao
+ */
++(GPKGTableIndexDao *) tableIndexDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Table Index Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createTableIndexTable;
+
+/**
+ * Get a Geometry Index DAO
+ *
+ * @return geometry index dao
+ */
+-(GPKGGeometryIndexDao *) geometryIndexDao;
+
+/**
+ * Get a Geometry Index DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return geometry index dao
+ */
++(GPKGGeometryIndexDao *) geometryIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Geometry Index DAO
+ *
+ * @param db
+ *            database connection
+ * @return geometry index dao
+ */
++(GPKGGeometryIndexDao *) geometryIndexDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create Geometry Index Table if it does not exist and index it
+ *
+ * @return true if created
+ */
+-(BOOL) createGeometryIndexTable;
+
+/**
+ * Index the Geometry Index Table if needed
+ *
+ * @return true if indexed
+ */
+-(BOOL) indexGeometryIndexTable;
+
+/**
+ * Un-index the Geometry Index Table if needed
+ *
+ * @return true if unindexed
+ */
+-(BOOL) unindexGeometryIndexTable;
 
 /**
  *  Query for all Geometry Index objects

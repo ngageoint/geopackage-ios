@@ -10,11 +10,30 @@
 #import "GPKGGeometryIndex.h"
 #import "GPKGTableIndex.h"
 #import "SFGeometryEnvelope.h"
+#import "GPKGGeoPackage.h"
 
 /**
  * Geometry Index Data Access Object
  */
 @interface GPKGGeometryIndexDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return dao
+ */
++(GPKGGeometryIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param database
+ *            database connection
+ * @return dao
+ */
++(GPKGGeometryIndexDao *) createWithDatabase: (GPKGConnection *) database;
 
 /**
  *  Initialize

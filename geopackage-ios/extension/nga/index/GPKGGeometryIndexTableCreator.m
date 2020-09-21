@@ -7,10 +7,20 @@
 //
 
 #import "GPKGGeometryIndexTableCreator.h"
+#import "GPKGTableIndex.h"
+#import "GPKGGeometryIndex.h"
 
 @implementation GPKGGeometryIndexTableCreator
 
-// TODO
+-(instancetype) initWithDatabase: (GPKGConnection *) database{
+    self = [super initWithDatabase:database];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    self = [super initWithGeoPackage:geoPackage];
+    return self;
+}
 
 -(int) createTableIndex{
     return [self createTable:GPKG_TI_TABLE_NAME];
@@ -21,11 +31,11 @@
 }
 
 -(int) indexGeometryIndex{
-    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_index"]];
+    return [self execSQLForProperty:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_index"]];
 }
 
 -(int) unindexGeometryIndex{
-    return [self execSQLScript:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_unindex"]];
+    return [self execSQLForProperty:[NSString stringWithFormat:@"%@%@", GPKG_GI_TABLE_NAME, @"_unindex"]];
 }
 
 @end

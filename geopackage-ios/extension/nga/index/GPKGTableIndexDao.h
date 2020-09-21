@@ -16,6 +16,24 @@
 @interface GPKGTableIndexDao : GPKGBaseDao
 
 /**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return dao
+ */
++(GPKGTableIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param database
+ *            database connection
+ * @return dao
+ */
++(GPKGTableIndexDao *) createWithDatabase: (GPKGConnection *) database;
+
+/**
  *  Initialize
  *
  *  @param database database connection

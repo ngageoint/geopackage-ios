@@ -19,7 +19,7 @@
  *
  *  @param database database connection
  *
- *  @return new contents id dao
+ *  @return new contents id table creator
  */
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
@@ -28,6 +28,8 @@
  *
  * @param geoPackage
  *            GeoPackage
+ *
+ * @return new contents id table creator
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 

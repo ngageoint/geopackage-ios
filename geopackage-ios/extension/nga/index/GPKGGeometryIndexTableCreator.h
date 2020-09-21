@@ -7,10 +7,31 @@
 //
 
 #import "GPKGTableCreator.h"
+#import "GPKGNGATableCreator.h"
 
+/**
+ * Geometry Index Extension Table Creator
+ */
 @interface GPKGGeometryIndexTableCreator : GPKGNGATableCreator
 
-// TODO
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new geometry index table creator
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Initialize
+ *
+ * @param geoPackage
+ *            GeoPackage
+ *
+ * @return new geometry index table creator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Create Table Index table

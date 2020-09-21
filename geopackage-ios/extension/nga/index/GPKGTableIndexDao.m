@@ -14,6 +14,14 @@
 
 @implementation GPKGTableIndexDao
 
++(GPKGTableIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGTableIndexDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGTableIndexDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
@@ -158,7 +166,7 @@
 }
 
 -(GPKGGeometryIndexDao *) geometryIndexDao{
-    return [[GPKGGeometryIndexDao alloc] initWithDatabase:self.database];
+    return [GPKGGeometryIndexDao createWithDatabase:self.database];
 }
 
 -(int) deleteAllCascade{

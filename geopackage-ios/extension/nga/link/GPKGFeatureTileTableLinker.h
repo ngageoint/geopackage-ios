@@ -9,10 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 #import "GPKGBaseExtension.h"
+#import "GPKGFeatureTileLinkDao.h"
 
 extern NSString * const GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 
+/**
+ * Feature Tile Table linker, used to link feature and tile tables
+ * together when the tiles represent the feature data
+ *
+ * http://ngageoint.github.io/GeoPackage/docs/extensions/feature-tile-link.html
+ */
 @interface GPKGFeatureTileTableLinker : GPKGBaseExtension
 
 /**
@@ -123,6 +130,38 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
  *  @return extensions object or null if one does not exist
  */
 -(GPKGExtensions *) extension;
+
+/**
+ * Get a Feature Tile Link DAO
+ *
+ * @return feature tile link dao
+ */
+-(GPKGFeatureTileLinkDao *) featureTileLinkDao;
+
+/**
+ * Get a Feature Tile Link DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return feature tile link dao
+ */
++(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Feature Tile Link DAO
+ *
+ * @param db
+ *            database connection
+ * @return feature tile link dao
+ */
++(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Feature Tile Link Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createFeatureTileLinkTable;
 
 /**
  *  Pull the the current result set feature tile link out
