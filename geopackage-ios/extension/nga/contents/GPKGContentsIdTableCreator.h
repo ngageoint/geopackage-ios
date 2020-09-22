@@ -9,6 +9,8 @@
 #import "GPKGTableCreator.h"
 #import "GPKGNGATableCreator.h"
 
+@class GPKGGeoPackage;
+
 /**
  * Contents Id Extension Table Creator
  */

@@ -12,6 +12,12 @@
 extern NSString * const GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
 
+/**
+ * Abstract Tile Table Scaling, for scaling tiles from nearby zoom levels for
+ * missing tiles
+ *
+ * http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html
+ */
 @interface GPKGTileTableScaling : GPKGBaseExtension
 
 /**
@@ -135,5 +141,37 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  * @return extensions object or null if one does not exist
  */
 -(GPKGExtensions *) extension;
+
+/**
+ * Get a Tile Scaling DAO
+ *
+ * @return tile scaling dao
+ */
+-(GPKGTileScalingDao *) tileScalingDao;
+
+/**
+ * Get a Tile Scaling DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return tile scaling dao
+ */
++(GPKGTileScalingDao *) tileScalingDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Tile Scaling DAO
+ *
+ * @param database
+ *            database connection
+ * @return tile scaling dao
+ */
++(GPKGTileScalingDao *) tileScalingDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Tile Scaling Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createTileScalingTable;
 
 @end

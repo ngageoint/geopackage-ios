@@ -8,6 +8,8 @@
 
 #import "GPKGTileTableScaling.h"
 #import "GPKGProperties.h"
+#import "GPKGNGAExtensions.h"
+#import "GPKGTileScalingTableCreator.h"
 
 NSString * const GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR = @"tile_scaling";
 NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.extensions.tile_scaling";
@@ -41,7 +43,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION];
         self.tableName = tableName;
-        self.tileScalingDao = [geoPackage tileScalingDao];
+        self.tileScalingDao = [self tileScalingDao];
     }
     return self;
 }
@@ -93,7 +95,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     
     [self extensionCreate];
     if(![self.tileScalingDao tableExists]){
-        [self.geoPackage createTileScalingTable];
+        [self createTileScalingTable];
     }
     
     [self.tileScalingDao createOrUpdate:tileScaling];
@@ -103,12 +105,11 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     
     BOOL deleted = NO;
     
-    GPKGExtensionsDao *extensionsDao = [self.geoPackage extensionsDao];
     if([self.tileScalingDao tableExists]){
         deleted = [self.tileScalingDao deleteById:self.tableName] > 0;
     }
-    if([extensionsDao tableExists]){
-        deleted = [extensionsDao deleteByExtension:self.extensionName andTable:self.tableName] > 0 || deleted;
+    if([self.extensionsDao tableExists]){
+        deleted = [self.extensionsDao deleteByExtension:self.extensionName andTable:self.tableName] > 0 || deleted;
     }
 
     return deleted;
@@ -122,6 +123,30 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
 -(GPKGExtensions *) extension{
     GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:self.tableName andColumnName:nil];
     return extension;
+}
+
+-(GPKGTileScalingDao *) tileScalingDao{
+    return [GPKGTileTableScaling tileScalingDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGTileScalingDao *) tileScalingDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGTileScalingDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGTileScalingDao *) tileScalingDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGTileScalingDao createWithDatabase:database];
+}
+
+-(BOOL) createTileScalingTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    if(![self.tileScalingDao tableExists]){
+        GPKGTileScalingTableCreator *tableCreator = [[GPKGTileScalingTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        created = [tableCreator createTileScaling] > 0;
+    }
+    
+    return created;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGBaseExtension.h"
+#import "GPKGExtendedRelationsDao.h"
 #import "GPKGUserRelatedTable.h"
 #import "GPKGUserMappingTable.h"
 #import "GPKGMediaTable.h"
@@ -21,6 +22,8 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 
 /**
  * Related Tables extension
+ *
+ * http://docs.opengeospatial.org/is/18-000/18-000.html
  */
 @interface GPKGRelatedTablesExtension : GPKGBaseExtension
 
@@ -32,13 +35,6 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  *  @return new related tables
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Get the extended relations DAO
- *
- * @return extended relations DAO
- */
--(GPKGExtendedRelationsDao *) extendedRelationsDao;
 
 /**
  *  Get the extension name
@@ -69,6 +65,38 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  * @return true if has extension
  */
 -(BOOL) hasWithMappingTable: (NSString *) mappingTable;
+
+/**
+ * Get the extended relations DAO
+ *
+ * @return extended relations DAO
+ */
+-(GPKGExtendedRelationsDao *) extendedRelationsDao;
+
+/**
+ * Get a Extended Relations DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return extended relations dao
+ */
++(GPKGExtendedRelationsDao *) extendedRelationsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Get a Extended Relations DAO
+ *
+ * @param db
+ *            database connection
+ * @return extended relations dao
+ */
++(GPKGExtendedRelationsDao *) extendedRelationsDaoWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Create the Extended Relations Table if it does not exist
+ *
+ * @return true if created
+ */
+-(BOOL) createExtendedRelationsTable;
 
 /**
  * Get the primary key of a table

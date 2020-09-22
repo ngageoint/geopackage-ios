@@ -10,6 +10,15 @@
 
 @implementation GPKGTileScalingDao
 
++(GPKGTileScalingDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGTileScalingDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGTileScalingDao alloc] initWithDatabase:database];
+}
+
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

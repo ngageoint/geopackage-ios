@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGUserRelatedTable.h"
 #import "GPKGRelationTypes.h"
+#import "GPKGMediaTableMetadata.h"
 
 /**
  *  Media Table constants
@@ -30,49 +31,13 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 +(enum GPKGRelationType) relationType;
 
 /**
- * Create a media table with the minimum required columns
+ * Create a media table with the metadata
  *
- * @param tableName
- *            table name
+ * @param metadata
+ *            media table metadata
  * @return media table
  */
-+(GPKGMediaTable *) createWithName: (NSString *) tableName;
-
-/**
-* Create a media table with the minimum required columns followed by
-* the additional columns
-*
-* @param tableName
-*            table name
-* @param additionalColumns
-*            additional columns
-* @return media table
-*/
-+(GPKGMediaTable *) createWithName: (NSString *) tableName andAdditionalColumns: (NSArray<GPKGUserCustomColumn *> *) additionalColumns;
-
-/**
- * Create a media table with the id column and minimum required columns
- *
- * @param tableName
- *            table name
- * @param idColumnName
- *            id column name
- * @return media table
- */
-+(GPKGMediaTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName;
-
-/**
- * Create a media table with the id column and minimum required columns followed by the additional columns
- *
- * @param tableName
- *            table name
- * @param idColumnName
- *            id column name
- * @param additionalColumns
- *            additional columns
- * @return media table
- */
-+(GPKGMediaTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName andAdditionalColumns: (NSArray<GPKGUserCustomColumn *> *) additionalColumns;
++(GPKGMediaTable *) createWithMetadata: (GPKGMediaTableMetadata *) metadata;
 
 /**
  * Create the required table columns
@@ -82,6 +47,15 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns;
 
 /**
+ * Create the required table columns
+ *
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement;
+
+/**
  * Create the required table columns with the id column name
  *
  * @param idColumnName
@@ -89,6 +63,17 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName;
+
+/**
+ * Create the required table columns with the id column name
+ *
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create the required table columns, starting at the provided index

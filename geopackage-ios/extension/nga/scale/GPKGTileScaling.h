@@ -20,6 +20,10 @@ extern NSString * const GPKG_TS_COLUMN_SCALING_TYPE;
 extern NSString * const GPKG_TS_COLUMN_ZOOM_IN;
 extern NSString * const GPKG_TS_COLUMN_ZOOM_OUT;
 
+/**
+ * Tile Scaling object, for scaling tiles from nearby zoom levels for missing
+ * tiles
+ */
 @interface GPKGTileScaling : NSObject <NSMutableCopying>
 
 /**

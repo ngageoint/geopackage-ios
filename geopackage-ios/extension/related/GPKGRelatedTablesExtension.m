@@ -29,13 +29,9 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     if(self != nil){
         self.extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR];
         self.extensionDefinition = [GPKGProperties valueOfProperty:GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION];
-        self.extendedRelationsDao = [geoPackage extendedRelationsDao];
+        self.extendedRelationsDao = [self extendedRelationsDao];
     }
     return self;
-}
-
--(GPKGExtendedRelationsDao *) extendedRelationsDao{
-    return _extendedRelationsDao;
 }
 
 -(NSString *) extensionName{
@@ -49,9 +45,9 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(GPKGExtensions *) extensionCreate{
     
     // Create table
-    [self.geoPackage createExtendedRelationsTable];
+    [self createExtendedRelationsTable];
     
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }
@@ -66,13 +62,36 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(BOOL) has{
-    return [self hasWithExtensionName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil];
+    return [self hasWithExtensionName:self.extensionName andTableName:GPKG_ER_TABLE_NAME andColumnName:nil]
+        && [self.geoPackage isTable:GPKG_ER_TABLE_NAME];
 }
 
 -(BOOL) hasWithMappingTable: (NSString *) mappingTable{
     return [self has] && [self hasWithExtensionName:self.extensionName andTableName:mappingTable andColumnName:nil];
 }
 
+-(GPKGExtendedRelationsDao *) extendedRelationsDao{
+    return _extendedRelationsDao;
+}
+
++(GPKGExtendedRelationsDao *) extendedRelationsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGExtendedRelationsDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGExtendedRelationsDao *) extendedRelationsDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGExtendedRelationsDao createWithDatabase:database];
+}
+
+-(BOOL) createExtendedRelationsTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    if(![self.extendedRelationsDao tableExists]){
+        created = [[self.geoPackage tableCreator] createExtendedRelations] > 0;
+    }
+    
+    return created;
+}
 
 -(NSString *) primaryKeyColumnNameOfTable: (NSString *) tableName{
     GPKGUserCustomTable *table = [GPKGUserCustomTableReader readTableWithConnection:self.geoPackage.database andTableName:tableName];
@@ -255,10 +274,10 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(void) validateRelationshipWithBaseTable: (NSString *) baseTableName andRelatedTable: (NSString *) relatedTableName andRelationName: (NSString *) relationName{
     
     // Verify the base and related tables exist
-    if(![self.geoPackage isTable:baseTableName]){
+    if(![self.geoPackage isTableOrView:baseTableName]){
         [NSException raise:@"Base Table" format:@"Base Relationship table does not exist: %@, Relation: %@", baseTableName, relationName];
     }
-     if(![self.geoPackage isTable:relatedTableName]){
+     if(![self.geoPackage isTableOrView:relatedTableName]){
         [NSException raise:@"Related Table" format:@"Related Relationship table does not exist: %@, Relation: %@", relatedTableName, relationName];
     }
     
@@ -307,7 +326,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     NSString *userMappingTableName = userMappingTable.tableName;
     [self extensionCreateWithMappingTable:userMappingTableName];
     
-    if(![self.geoPackage isTable:userMappingTableName]){
+    if(![self.geoPackage isTableOrView:userMappingTableName]){
         
         [self.geoPackage createUserTable:userMappingTable];
         
@@ -322,7 +341,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     BOOL created = NO;
     
     NSString *relatedTableName = relatedTable.tableName;
-    if(![self.geoPackage isTable:relatedTableName]){
+    if(![self.geoPackage isTableOrView:relatedTableName]){
         
         [self.geoPackage createUserTable:relatedTable];
         

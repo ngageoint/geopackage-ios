@@ -39,7 +39,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 -(GPKGExtensions *) extensionCreate{
     
     // Create the attributes table
-    if(![self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+    if(![self.geoPackage isTableOrView:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
         
         GPKGAttributesColumn *propertyColumn = [GPKGAttributesColumn createColumnWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:nil];
         GPKGAttributesColumn *valueColumn = [GPKGAttributesColumn createColumnWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE andDataType:GPKG_DT_TEXT];
@@ -48,9 +48,10 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
         [additionalColumns addObject:propertyColumn];
         [additionalColumns addObject:valueColumn];
         
-        NSArray<GPKGConstraint *> *constraints = [[NSArray alloc] initWithObjects:[[GPKGUniqueConstraint alloc] initWithColumns:additionalColumns], nil];
+        GPKGConstraints *constraints = [[GPKGConstraints alloc] init];
+        [constraints add:[[GPKGUniqueConstraint alloc] initWithColumns:additionalColumns]];
         
-        [self.geoPackage createAttributesTableWithTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andAdditionalColumns:additionalColumns andConstraints:constraints];
+        [self.geoPackage createAttributesTableWithMetadata:[GPKGAttributesTableMetadata createWithTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andAdditionalColumns:additionalColumns andConstraints:constraints]];
     }
     
     GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
@@ -59,7 +60,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(BOOL) has{
-    return [self hasWithExtensionName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil] && [self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    return [self hasWithExtensionName:self.extensionName andTableName:GPKG_EXTENSION_PROPERTIES_TABLE_NAME andColumnName:nil] && [self.geoPackage isTableOrView:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
 }
 
 -(GPKGAttributesDao *) dao{
@@ -191,7 +192,18 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 }
 
 -(void) removeExtension{
-    [GPKGNGAExtensions deletePropertiesExtensionWithGeoPackage:self.geoPackage];
+    
+    GPKGExtensionsDao * extensionsDao = [self.geoPackage extensionsDao];
+    
+    if([self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
+        GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];
+        [contentsDao deleteTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    }
+    
+    if([extensionsDao tableExists]){
+        [extensionsDao deleteByExtension:self.extensionName andTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME];
+    }
+    
 }
 
 /**

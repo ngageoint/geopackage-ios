@@ -2738,12 +2738,12 @@
 				04329B992056ABC100F3EBBE /* GPKGTileScaling.m */,
 				04329B9C2056ADA400F3EBBE /* GPKGTileScalingDao.h */,
 				04329B9D2056ADA400F3EBBE /* GPKGTileScalingDao.m */,
+				04DA344B2501604A0005AD20 /* GPKGTileScalingTableCreator.h */,
+				04DA344C2501604A0005AD20 /* GPKGTileScalingTableCreator.m */,
 				04329BA02056ADEB00F3EBBE /* GPKGTileScalingTypes.h */,
 				04329BA12056ADEB00F3EBBE /* GPKGTileScalingTypes.m */,
 				04329BA42056AE2E00F3EBBE /* GPKGTileTableScaling.h */,
 				04329BA52056AE2E00F3EBBE /* GPKGTileTableScaling.m */,
-				04DA344B2501604A0005AD20 /* GPKGTileScalingTableCreator.h */,
-				04DA344C2501604A0005AD20 /* GPKGTileScalingTableCreator.m */,
 			);
 			path = scale;
 			sourceTree = "<group>";

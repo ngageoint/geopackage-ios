@@ -40,6 +40,8 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 
 /**
  * Feature Style extension
+ *
+ * http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html
  */
 @interface GPKGFeatureStyleExtension : GPKGBaseExtension
 
@@ -72,6 +74,15 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return true if has extension
  */
 -(BOOL) has;
+
+/**
+ * Get the extension for the feature table
+ *
+ * @param featureTable
+ *            feature table
+ * @return extension
+ */
+-(GPKGExtensions *) forTable: (NSString *) featureTable;
 
 /**
  * Determine if the GeoPackage has the extension for the feature table

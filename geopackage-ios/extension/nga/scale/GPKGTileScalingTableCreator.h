@@ -7,10 +7,31 @@
 //
 
 #import "GPKGTableCreator.h"
+#import "GPKGNGATableCreator.h"
 
+/**
+ * Tile Scaling Extension Table Creator
+ */
 @interface GPKGTileScalingTableCreator : GPKGNGATableCreator
 
-// TODO
+/**
+ *  Initialize
+ *
+ *  @param database database connection
+ *
+ *  @return new table scaling table creator
+ */
+-(instancetype) initWithDatabase: (GPKGConnection *) database;
+
+/**
+ * Initialize
+ *
+ * @param geoPackage
+ *            GeoPackage
+ *
+ *  @return new table scaling table creator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Create Tile Scaling table

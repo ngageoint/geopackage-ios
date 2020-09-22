@@ -10,6 +10,14 @@
 
 @implementation GPKGExtendedRelationsDao
 
++(GPKGExtendedRelationsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGExtendedRelationsDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGExtendedRelationsDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
