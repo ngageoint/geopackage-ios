@@ -16,6 +16,13 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
     return GPKG_RT_SIMPLE_ATTRIBUTES;
 }
 
++(GPKGSimpleAttributesTable *) createWithMetadata: (GPKGSimpleAttributesTableMetadata *) metadata{
+    NSArray<GPKGUserColumn *> *columns = [metadata buildColumns];
+    return [[GPKGSimpleAttributesTable alloc] initWithTable:metadata.tableName andColumns:columns andIdColumnName:metadata.idColumnName];
+}
+
+// TODO
+
 +(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns{
     return [self createWithName:tableName andIdColumnName:nil andColumns:columns];
 }

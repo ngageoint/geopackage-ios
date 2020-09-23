@@ -187,7 +187,7 @@
     if(attributesColumns == nil){
         
         NSMutableArray<GPKGUserColumn *> *columns = [NSMutableArray array];
-        [columns addObject:[GPKGAttributesColumn createPrimaryKeyColumnWithName:[self idColumnName] andAutoincrement:[self autoincrement]]];
+        [columns addObject:[GPKGAttributesColumn createPrimaryKeyColumnWithName:self.idColumnName andAutoincrement:[self autoincrement]]];
         
         NSArray<GPKGUserColumn *> *additional = [self additionalColumns];
         if(additional != nil){

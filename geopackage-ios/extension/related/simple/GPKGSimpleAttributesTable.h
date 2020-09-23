@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGUserRelatedTable.h"
 #import "GPKGRelationTypes.h"
+#import "GPKGSimpleAttributesTableMetadata.h"
 
 /**
  *  Simple Attributes constants
@@ -28,28 +29,13 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 +(enum GPKGRelationType) relationType;
 
 /**
- * Create a simple attributes table with the columns
+ * Create a simple attributes table with the metadata
  *
- * @param tableName
- *            table name
- * @param columns
- *            columns
+ * @param metadata
+ *            simple attributes table metadata
  * @return simple attributes table
  */
-+(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns;
-
-/**
- * Create a simple attributes table with the id column and columns
- *
- * @param tableName
- *            table name
- * @param idColumnName
- *            id column name
- * @param columns
- *            columns
- * @return simple attributes table
- */
-+(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns;
++(GPKGSimpleAttributesTable *) createWithMetadata: (GPKGSimpleAttributesTableMetadata *) metadata;
 
 /**
  * Create the required table columns

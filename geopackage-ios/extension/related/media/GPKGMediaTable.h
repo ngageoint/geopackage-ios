@@ -14,7 +14,6 @@
 /**
  *  Media Table constants
  */
-extern NSString * const GPKG_RMT_COLUMN_ID;
 extern NSString * const GPKG_RMT_COLUMN_DATA;
 extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 
@@ -85,6 +84,17 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex;
 
 /**
+ * Create the required table columns, starting at the provided index
+ *
+ * @param startingIndex
+ *            starting index
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement;
+
+/**
  * Create the required table columns with id column name, starting at the provided index
  *
  * @param startingIndex
@@ -94,6 +104,20 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName;
+
+/**
+ * Create the required table columns with id column name, starting at the
+ * provided index
+ *
+ * @param startingIndex
+ *            starting index
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create the primary key id column
@@ -107,6 +131,17 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
 /**
  * Create the primary key id column
  *
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return id column
+ */
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
+
+/**
+ * Create the primary key id column
+ *
  * @param index
  *            column index
  * @param idColumnName
@@ -114,6 +149,19 @@ extern NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE;
  * @return id column
  */
 +(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName;
+
+/**
+ * Create the primary key id column
+ *
+ * @param index
+ *            column index
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return id column
+ */
++(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create a data column
