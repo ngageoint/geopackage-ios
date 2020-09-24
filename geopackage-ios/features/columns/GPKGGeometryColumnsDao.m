@@ -12,6 +12,14 @@
 
 @implementation GPKGGeometryColumnsDao
 
++(GPKGGeometryColumnsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGGeometryColumnsDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGGeometryColumnsDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

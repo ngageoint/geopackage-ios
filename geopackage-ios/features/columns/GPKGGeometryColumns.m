@@ -41,9 +41,8 @@ NSString * const GPKG_GC_COLUMN_M = @"m";
 
 -(void) setContents: (GPKGContents *) contents{
     if(contents != nil){
-        enum GPKGContentsDataType dataType = contents.contentsDataType;
-        if(dataType != GPKG_CDT_FEATURES){
-            [NSException raise:@"Contents Type" format:@"The Contents of Geometry Columns must have a data type of features"];
+        if(![contents isFeaturesTypeOrUnknown]){
+            [NSException raise:@"Contents Type" format:@"The Contents of Geometry Columns must have a data type of features. actual type: %@", contents.dataType];
         }
         self.tableName = contents.tableName;
     }else{

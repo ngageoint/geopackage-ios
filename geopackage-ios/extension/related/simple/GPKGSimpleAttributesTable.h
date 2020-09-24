@@ -45,6 +45,15 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns;
 
 /**
+ * Create the required table columns
+ *
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement;
+
+/**
  * Create the required table columns with the id column name
  *
  * @param idColumnName
@@ -52,6 +61,16 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName;
+/**
+ * Create the required table columns with the id column name
+ *
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create the required table columns, starting at the provided index
@@ -61,6 +80,17 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
  * @return user custom columns
  */
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex;
+
+/**
+ * Create the required table columns, starting at the provided index
+ *
+ * @param startingIndex
+ *            starting index
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create the required table columns with id column name, starting at the provided index
@@ -74,6 +104,20 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName;
 
 /**
+ * Create the required table columns with id column name, starting at the
+ * provided index
+ *
+ * @param startingIndex
+ *            starting index
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return user custom columns
+ */
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
+
+/**
  * Create the primary key id column
  *
  * @param idColumnName
@@ -85,6 +129,17 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
 /**
  * Create the primary key id column
  *
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return id column
+ */
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
+
+/**
+ * Create the primary key id column
+ *
  * @param index
  *            column index
  * @param idColumnName
@@ -92,6 +147,19 @@ extern NSString * const GPKG_RSAT_COLUMN_ID;
  * @return id column
  */
 +(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName;
+
+/**
+ * Create the primary key id column
+ *
+ * @param index
+ *            column index
+ * @param idColumnName
+ *            id column name
+ * @param autoincrement
+ *            autoincrement id values
+ * @return id column
+ */
++(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Get the number of required columns

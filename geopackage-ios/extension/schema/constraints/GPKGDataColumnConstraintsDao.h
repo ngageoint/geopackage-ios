@@ -7,12 +7,31 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGGeoPackage.h"
 #import "GPKGDataColumnConstraints.h"
 
 /**
  *  Data Column Constraints Data Access Object
  */
 @interface GPKGDataColumnConstraintsDao : GPKGBaseDao
+
+/**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return dao
+ */
++(GPKGDataColumnConstraintsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param database
+ *            database connection
+ * @return dao
+ */
++(GPKGDataColumnConstraintsDao *) createWithDatabase: (GPKGConnection *) database;
 
 /**
  *  Initialize

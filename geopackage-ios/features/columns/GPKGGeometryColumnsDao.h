@@ -19,6 +19,24 @@
 @interface GPKGGeometryColumnsDao : GPKGBaseDao
 
 /**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return dao
+ */
++(GPKGGeometryColumnsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param database
+ *            database connection
+ * @return dao
+ */
++(GPKGGeometryColumnsDao *) createWithDatabase: (GPKGConnection *) database;
+
+/**
  *  Initialize
  *
  *  @param database database connection

@@ -30,6 +30,17 @@
 +(GPKGFeatureColumn *) createPrimaryKeyColumnWithName: (NSString *) name;
 
 /**
+ * Create a new primary key column
+ *
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return feature column
+ */
++(GPKGFeatureColumn *) createPrimaryKeyColumnWithName: (NSString *) name andAutoincrement: (BOOL) autoincrement;
+
+/**
  *  Create a new primary key column
  *
  *  @param index column index
@@ -39,6 +50,19 @@
  */
 +(GPKGFeatureColumn *) createPrimaryKeyColumnWithIndex: (int) index
                       andName: (NSString *) name;
+
+/**
+ * Create a new primary key column
+ *
+ * @param index
+ *            index
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return feature column
+ */
++(GPKGFeatureColumn *) createPrimaryKeyColumnWithIndex: (int) index andName: (NSString *) name andAutoincrement: (BOOL) autoincrement;
 
 /**
  *  Create a new geometry column
@@ -262,6 +286,7 @@
  *  @param notNull      not null
  *  @param defaultValue default value or nil
  *  @param primaryKey   true if primary key
+ *  @param autoincrement autoincrement flag
  *  @param geometryType geometry type
  *
  *  @return new feature column
@@ -273,6 +298,7 @@
                       andNotNull: (BOOL) notNull
                       andDefaultValue: (NSObject *) defaultValue
                       andPrimaryKey: (BOOL) primaryKey
+                      andAutoincrement: (BOOL) autoincrement
                       andGeometryType: (enum SFGeometryType) geometryType;
 
 /**

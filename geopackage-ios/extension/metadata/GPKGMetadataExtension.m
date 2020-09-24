@@ -77,8 +77,7 @@ NSString * const GPKG_PROP_METADATA_EXTENSION_DEFINITION = @"geopackage.extensio
     if(![dao tableExists]){
         created = [[self.geoPackage tableCreator] createMetadata] > 0;
         if(created){
-            GPKGMetadataExtension * metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:self.geoPackage];
-            [metadataExtension extensionCreate];
+            [self extensionCreate];
         }
     }
     

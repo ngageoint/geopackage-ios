@@ -12,6 +12,14 @@
 
 @implementation GPKGDataColumnConstraintsDao
 
++(GPKGDataColumnConstraintsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGDataColumnConstraintsDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGDataColumnConstraintsDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){
@@ -121,7 +129,7 @@
     if(constraints != nil){
         
         // Check if the last remaining contraint with the constraint name is being deleted
-        GPKGResultSet * remainingConstraints = [self queryByConstraintName:constraints.constraintName];
+        GPKGResultSet *remainingConstraints = [self queryByConstraintName:constraints.constraintName];
         if(remainingConstraints.count == 1){
             
             if([remainingConstraints moveToNext]){
@@ -134,10 +142,10 @@
                        constraints.value == nil : [remainingConstraint.value isEqualToString:constraints.value])){
                     
                        // Delete Date Columns
-                       GPKGDataColumnsDao * dao = [self dataColumnsDao];
-                       GPKGResultSet * dataColumnResults = [dao queryByConstraintName:constraints.constraintName];
+                       GPKGDataColumnsDao *dao = [self dataColumnsDao];
+                       GPKGResultSet *dataColumnResults = [dao queryByConstraintName:constraints.constraintName];
                        while([dataColumnResults moveToNext]){
-                           GPKGDataColumns * dataColumns = (GPKGDataColumns *) [dao object:dataColumnResults];
+                           GPKGDataColumns *dataColumns = (GPKGDataColumns *) [dao object:dataColumnResults];
                            [dao delete: dataColumns];
                        }
                        [dataColumnResults close];
@@ -211,7 +219,7 @@
 }
 
 -(GPKGDataColumnsDao *) dataColumnsDao{
-    return [[GPKGDataColumnsDao alloc] initWithDatabase:self.database];
+    return [GPKGDataColumnsDao createWithDatabase:self.database];
 }
 
 @end

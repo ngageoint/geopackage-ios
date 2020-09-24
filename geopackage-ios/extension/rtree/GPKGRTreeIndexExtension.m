@@ -107,7 +107,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 
 -(BOOL) hasWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     return [self hasWithExtensionName:self.extensionName andTableName:tableName andColumnName:columnName]
-    && [self.connection tableExists:[self rTreeTableNameWithTable:tableName andColumn:columnName]];
+    && [self.connection tableOrViewExists:[self rTreeTableNameWithTable:tableName andColumn:columnName]];
 }
 
 -(BOOL) hasWithTableName: (NSString *) tableName{
@@ -246,7 +246,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 -(GPKGUserCustomTable *) rTreeTableWithFeatureTable: (GPKGFeatureTable *) featureTable{
 
     NSMutableArray *columns = [[NSMutableArray alloc] init];
-    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID]];
+    [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID andAutoincrement:NO]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X andDataType:GPKG_DT_FLOAT]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X andDataType:GPKG_DT_FLOAT]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y andDataType:GPKG_DT_FLOAT]];

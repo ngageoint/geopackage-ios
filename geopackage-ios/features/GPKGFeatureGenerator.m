@@ -10,6 +10,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGFeatureTableReader.h"
+#import "GPKGFeatureTableMetadata.h"
 
 @interface GPKGFeatureGenerator()
 
@@ -178,13 +179,13 @@ static SFPProjection *EPSG_WGS84 = nil;
             }
             
             // Create the feature table
-            GPKGGeometryColumns *geomColumns = [[GPKGGeometryColumns alloc] init];
-            [geomColumns setTableName:self.tableName];
-            [geomColumns setColumnName:@"geometry"];
-            [geomColumns setGeometryType:SF_GEOMETRY];
-            [geomColumns setZ:[NSNumber numberWithInt:0]];
-            [geomColumns setM:[NSNumber numberWithInt:0]];
-            self.geometryColumns = [self.geoPackage createFeatureTableWithGeometryColumns:geomColumns andIdColumnName:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox andSrsId:self.srs.srsId];
+            self.geometryColumns = [[GPKGGeometryColumns alloc] init];
+            [self.geometryColumns setTableName:self.tableName];
+            [self.geometryColumns setColumnName:@"geometry"];
+            [self.geometryColumns setGeometryType:SF_GEOMETRY];
+            [self.geometryColumns setZ:[NSNumber numberWithInt:0]];
+            [self.geometryColumns setM:[NSNumber numberWithInt:0]];
+            [self.geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:self.geometryColumns andIdColumnName:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox]];
             
         } else {
             GPKGFeatureTableReader *tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:self.geometryColumns];
@@ -201,8 +202,6 @@ static SFPProjection *EPSG_WGS84 = nil;
             [self.geoPackage beginTransaction];
         }
     }
-        
-    
     
 }
 
@@ -270,9 +269,7 @@ static SFPProjection *EPSG_WGS84 = nil;
 }
 
 -(GPKGGeometryData *) createGeometryData: (SFGeometry *) geometry{
-    GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:self.srs.srsId];
-    [geometryData setGeometry:geometry];
-    return geometryData;
+    return [GPKGGeometryData createWithSrsId:srsl.srs.srsId andGeometry:geometry];
 }
 
 /**

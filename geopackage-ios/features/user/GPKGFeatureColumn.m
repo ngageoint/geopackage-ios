@@ -11,12 +11,20 @@
 @implementation GPKGFeatureColumn
 
 +(GPKGFeatureColumn *) createPrimaryKeyColumnWithName: (NSString *) name{
-    return [self createPrimaryKeyColumnWithIndex:NO_INDEX andName:name];
+    return [self createPrimaryKeyColumnWithName:name andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(GPKGFeatureColumn *) createPrimaryKeyColumnWithName: (NSString *) name andAutoincrement: (BOOL) autoincrement{
+    return [self createPrimaryKeyColumnWithIndex:NO_INDEX andName:name andAutoincrement:autoincrement];
 }
 
 +(GPKGFeatureColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                andName: (NSString *) name{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:true andGeometryType:SF_NONE];
+    return [self createPrimaryKeyColumnWithIndex:index andName:name andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(GPKGFeatureColumn *) createPrimaryKeyColumnWithIndex: (int) index andName: (NSString *) name andAutoincrement: (BOOL) autoincrement{
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:YES andDefaultValue:nil andPrimaryKey:YES andAutoincrement:autoincrement andGeometryType:SF_NONE];
 }
 
 +(GPKGFeatureColumn *) createGeometryColumnWithName: (NSString *) name
@@ -41,7 +49,7 @@
                                      andGeometryType: (enum SFGeometryType) type
                                           andNotNull: (BOOL) notNull
                                      andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_BLOB andMax:nil andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:type];
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_BLOB andMax:nil andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:NO andAutoincrement:NO andGeometryType:type];
 }
 
 +(GPKGFeatureColumn *) createColumnWithName: (NSString *) name
@@ -110,7 +118,7 @@
                                       andMax: (NSNumber *) max
                                   andNotNull: (BOOL) notNull
                              andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false andGeometryType:SF_NONE];
+    return [[GPKGFeatureColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:NO andAutoincrement:NO andGeometryType:SF_NONE];
 }
 
 +(GPKGFeatureColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
@@ -124,8 +132,9 @@
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
                 andPrimaryKey: (BOOL) primaryKey
+             andAutoincrement: (BOOL) autoincrement
               andGeometryType: (enum SFGeometryType) geometryType{
-    self = [super initWithIndex:index andName:name andType:[self typeNameForName:name withDataType:dataType andGeometryType:geometryType] andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
+    self = [super initWithIndex:index andName:name andType:[self typeNameForName:name withDataType:dataType andGeometryType:geometryType] andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey andAutoincrement:autoincrement];
     if(self != nil){
         self.geometryType = geometryType;
     }

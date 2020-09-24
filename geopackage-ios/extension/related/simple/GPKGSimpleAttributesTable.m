@@ -21,62 +21,68 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
     return [[GPKGSimpleAttributesTable alloc] initWithTable:metadata.tableName andColumns:columns andIdColumnName:metadata.idColumnName];
 }
 
-// TODO
-
-+(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns{
-    return [self createWithName:tableName andIdColumnName:nil andColumns:columns];
-}
-
-+(GPKGSimpleAttributesTable *) createWithName: (NSString *) tableName andIdColumnName: (NSString *) idColumnName andColumns: (NSArray<GPKGUserCustomColumn *> *) columns{
-    
-    NSMutableArray<GPKGUserCustomColumn *> *tableColumns = [[NSMutableArray alloc] init];
-    [tableColumns addObjectsFromArray:[self createRequiredColumnsWithIdColumnName:idColumnName]];
-    
-    if(columns != nil){
-        [tableColumns addObjectsFromArray:columns];
-    }
-    
-    return [[GPKGSimpleAttributesTable alloc] initWithTable:tableName andColumns:tableColumns andIdColumnName:idColumnName];
-}
-
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
-    return [self createRequiredColumnsWithIdColumnName:nil];
+    return [self createRequiredColumnsWithAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement{
+    return [self createRequiredColumnsWithIdColumnName:nil andAutoincrement:autoincrement];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName{
+    return [self createRequiredColumnsWithIdColumnName:idColumnName andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement{
 
     if(idColumnName == nil){
         idColumnName = GPKG_RSAT_COLUMN_ID;
     }
     
     NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
-    [columns addObject:[self createIdColumnWithName:idColumnName]];
+    [columns addObject:[self createIdColumnWithName:idColumnName andAutoincrement:autoincrement]];
     
     return columns;
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex{
-    return [self createRequiredColumnsWithIndex:startingIndex andIdColumnName:nil];
+    return [self createRequiredColumnsWithIndex:startingIndex andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement{
+    return [self createRequiredColumnsWithIndex:startingIndex andIdColumnName:nil andAutoincrement:autoincrement];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName{
+    return [self createRequiredColumnsWithIndex:startingIndex andIdColumnName:idColumnName andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex andIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement{
     
     if(idColumnName == nil){
         idColumnName = GPKG_RSAT_COLUMN_ID;
     }
     
     NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
-    [columns addObject:[self createIdColumnWithIndex:startingIndex++ andName:idColumnName]];
+    [columns addObject:[self createIdColumnWithIndex:startingIndex++ andName:idColumnName andAutoincrement:autoincrement]];
     
     return columns;
 }
 
 +(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName{
-    return [self createIdColumnWithIndex:NO_INDEX andName:idColumnName];
+    return [GPKGUserCustomColumn createPrimaryKeyColumnWithName:idColumnName];
+}
+
++(GPKGUserCustomColumn *) createIdColumnWithName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement{
+    return [GPKGUserCustomColumn createPrimaryKeyColumnWithName:idColumnName andAutoincrement:autoincrement];
 }
 
 +(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName{
     return [GPKGUserCustomColumn createPrimaryKeyColumnWithIndex:index andName:idColumnName];
+}
+
++(GPKGUserCustomColumn *) createIdColumnWithIndex: (int) index andName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement{
+    return [GPKGUserCustomColumn createPrimaryKeyColumnWithIndex:index andName:idColumnName andAutoincrement:autoincrement];
 }
 
 +(int) numRequiredColumns{

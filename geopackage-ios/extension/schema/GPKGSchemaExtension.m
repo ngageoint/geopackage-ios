@@ -9,6 +9,7 @@
 #import "GPKGSchemaExtension.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
+#import "GPKGDataColumns.h"
 
 NSString * const GPKG_SCHEMA_EXTENSION_NAME = @"schema";
 NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions.schema";
@@ -55,6 +56,57 @@ NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions
         [self.extensionsDao deleteByExtension:self.extensionName];
     }
     
+}
+
+-(GPKGDataColumnsDao *) dataColumnsDao{
+    return [GPKGSchemaExtension dataColumnsDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGDataColumnsDao *) dataColumnsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGDataColumnsDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGDataColumnsDao *) dataColumnsDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGDataColumnsDao createWithDatabase:database];
+}
+
+-(BOOL) createDataColumnsTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    GPKGDataColumnsDao *dao = [self dataColumnsDao];
+    if(![dao tableExists]){
+        created = [[self.geoPackage tableCreator] createDataColumns] > 0;
+    }
+    
+    return created;
+}
+
+-(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDao{
+    return [GPKGSchemaExtension dataColumnConstraintsDaoWithGeoPackage:self.geoPackage];
+}
+
++(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [GPKGDataColumnConstraintsDao createWithGeoPackage:geoPackage];
+}
+
++(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDaoWithDatabase: (GPKGConnection *) database{
+    return [GPKGDataColumnConstraintsDao createWithDatabase:database];
+}
+
+-(BOOL) createDataColumnConstraintsTable{
+    [self verifyWritable];
+    
+    BOOL created = NO;
+    GPKGDataColumnConstraintsDao *dao = [self dataColumnConstraintsDao];
+    if(![dao tableExists]){
+        created = [[self.geoPackage tableCreator] createDataColumnConstraints] > 0;
+        if(created){
+            [self extensionCreate];
+        }
+    }
+    
+    return created;
 }
 
 @end
