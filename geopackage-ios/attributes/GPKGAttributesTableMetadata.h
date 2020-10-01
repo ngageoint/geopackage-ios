@@ -385,7 +385,7 @@
 /**
  * Initialize
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
 -(instancetype) init;
 
@@ -401,7 +401,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
 -(instancetype) initWithTable: (NSString *) tableName andIdColumn: (NSString *) idColumnName andAdditionalColumns: (NSArray<GPKGAttributesColumn *> *) additionalColumns andConstraints: (GPKGConstraints *) constraints;
 
@@ -419,7 +419,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
  -(instancetype) initWithDataType: (NSString *) dataType andTable: (NSString *) tableName andIdColumn: (NSString *) idColumnName andAdditionalColumns: (NSArray<GPKGAttributesColumn *> *) additionalColumns andConstraints: (GPKGConstraints *) constraints;
 
@@ -437,7 +437,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
 -(instancetype) initWithTable: (NSString *) tableName andIdColumn: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement andAdditionalColumns: (NSArray<GPKGAttributesColumn *> *) additionalColumns andConstraints: (GPKGConstraints *) constraints;
 
@@ -457,7 +457,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
  -(instancetype) initWithDataType: (NSString *) dataType andTable: (NSString *) tableName andIdColumn: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement andAdditionalColumns: (NSArray<GPKGAttributesColumn *> *) additionalColumns andConstraints: (GPKGConstraints *) constraints;
 
@@ -471,7 +471,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray<GPKGAttributesColumn *> *) columns andConstraints: (GPKGConstraints *) constraints;
 
@@ -487,7 +487,7 @@
  * @param constraints
  *            constraints
  *
- * @return new attributes row
+ * @return new attributes table metadata
  */
 -(instancetype) initWithDataType: (NSString *) dataType andTable: (NSString *) tableName andColumns: (NSArray<GPKGAttributesColumn *> *) columns andConstraints: (GPKGConstraints *) constraints;
 

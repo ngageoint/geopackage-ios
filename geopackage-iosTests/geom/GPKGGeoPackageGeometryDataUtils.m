@@ -181,7 +181,7 @@
     [GPKGTestUtils assertEqualIntWithValue:(int)expected.byteOrder andValue2:(int)actual.byteOrder];
     [GPKGTestUtils assertEqualWithValue:expected.srsId andValue2:actual.srsId];
     [self compareEnvelopesWithExpected:expected.envelope andActual:actual.envelope];
-    [GPKGTestUtils assertEqualIntWithValue:expected.SFGeometryIndex andValue2:actual.SFGeometryIndex];
+    [GPKGTestUtils assertEqualIntWithValue:expected.wkbGeometryIndex andValue2:actual.wkbGeometryIndex];
     
     // Compare header bytes
     [self compareByteArrayWithExpected:[expected headerData] andActual:[actual headerData]];

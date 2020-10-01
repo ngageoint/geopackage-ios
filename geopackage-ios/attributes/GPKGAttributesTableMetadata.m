@@ -11,6 +11,8 @@
 
 @implementation GPKGAttributesTableMetadata
 
+static enum GPKGContentsDataType defaultDataType = GPKG_CDT_ATTRIBUTES;
+
 +(GPKGAttributesTableMetadata *) create{
     return [[GPKGAttributesTableMetadata alloc] init];
 }
@@ -177,7 +179,7 @@
 }
 
 -(NSString *) defaultDataType{
-    return [GPKGContentsDataTypes name:GPKG_CDT_ATTRIBUTES];
+    return [GPKGContentsDataTypes name:defaultDataType];
 }
 
 -(NSArray<GPKGUserColumn *> *) buildColumns{
