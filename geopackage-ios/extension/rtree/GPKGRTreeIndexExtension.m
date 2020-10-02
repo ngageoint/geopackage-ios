@@ -213,7 +213,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
 +(SFGeometryEnvelope *) envelopeOfGeometryData: (GPKGGeometryData *) data{
     SFGeometryEnvelope *envelope = nil;
     if(data != nil){
-        envelope = [data buildEnvelope];
+        envelope = [data envelope];
     }
     if(envelope == nil){
         envelope = [[SFGeometryEnvelope alloc] init];
