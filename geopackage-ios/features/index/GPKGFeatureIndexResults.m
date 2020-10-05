@@ -34,7 +34,7 @@
 
 -(BOOL) moveToNext{
     [self doesNotRecognizeSelector:_cmd];
-    return false;
+    return NO;
 }
 
 -(GPKGFeatureRow *) featureRow{

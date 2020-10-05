@@ -695,7 +695,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                 NSNumber * number = (NSNumber *) argument;
                 CFNumberType numberType = CFNumberGetType((CFNumberRef)number);
                 
-                BOOL success = false;
+                BOOL success = NO;
                 
                 if (numberType == kCFNumberFloat32Type ||
                     numberType == kCFNumberFloat64Type ||

@@ -300,7 +300,7 @@
 }
 
 -(int) deleteCascadeWithCollection: (NSArray *) contentsCollection{
-    return [self deleteCascadeWithCollection:contentsCollection andUserTable:false];
+    return [self deleteCascadeWithCollection:contentsCollection andUserTable:NO];
 }
 
 -(int) deleteCascadeWithCollection: (NSArray *) contentsCollection andUserTable: (BOOL) userTable{
@@ -314,7 +314,7 @@
 }
 
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self deleteCascadeWhere:where andWhereArgs:whereArgs andUserTable:false];
+    return [self deleteCascadeWhere:where andWhereArgs:whereArgs andUserTable:NO];
 }
 
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andUserTable: (BOOL) userTable{
@@ -335,7 +335,7 @@
 }
 
 -(int) deleteByIdCascade: (NSString *) id{
-    return [self deleteByIdCascade:id andUserTable:false];
+    return [self deleteByIdCascade:id andUserTable:NO];
 }
 
 -(int) deleteByIdCascade: (NSString *) id andUserTable: (BOOL) userTable{
@@ -352,7 +352,7 @@
 }
 
 -(int) deleteIdsCascade: (NSArray *) idCollection{
-    return [self deleteIdsCascade:idCollection andUserTable:false];
+    return [self deleteIdsCascade:idCollection andUserTable:NO];
 }
 
 -(int) deleteIdsCascade: (NSArray *) idCollection andUserTable: (BOOL) userTable{

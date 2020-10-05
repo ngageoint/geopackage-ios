@@ -69,7 +69,7 @@
 }
 
 -(BOOL) createGeoPackageMetadataTable{
-    BOOL created = false;
+    BOOL created = NO;
     GPKGGeoPackageMetadataDao * dao = [self geoPackageMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
@@ -79,7 +79,7 @@
 }
 
 -(BOOL) createTableMetadataTable{
-    BOOL created = false;
+    BOOL created = NO;
     GPKGTableMetadataDao * dao = [self tableMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
@@ -89,7 +89,7 @@
 }
 
 -(BOOL) createGeometryMetadataTable{
-    BOOL created = false;
+    BOOL created = NO;
     GPKGGeometryMetadataDao * dao = [self geometryMetadataDao];
     if(![dao tableExists]){
         GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];

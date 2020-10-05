@@ -13,6 +13,14 @@
 
 @implementation GPKGTileMatrixDao
 
++(GPKGTileMatrixDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [self createWithDatabase:geoPackage.database];
+}
+
++(GPKGTileMatrixDao *) createWithDatabase: (GPKGConnection *) database{
+    return [[GPKGTileMatrixDao alloc] initWithDatabase:database];
+}
+
 -(instancetype) initWithDatabase: (GPKGConnection *) database{
     self = [super initWithDatabase:database];
     if(self != nil){

@@ -22,13 +22,33 @@
 +(GPKGTileColumn *) createIdColumn;
 
 /**
+ * Create an id column
+ *
+ * @param autoincrement
+ *            autoincrement flag
+ * @return tile column
+ */
++(GPKGTileColumn *) createIdColumnWithAutoincrement: (BOOL) autoincrement;
+
+/**
  *  Create an id column
  *
  *  @param index column index
  *
  *  @return tile column
  */
-+(GPKGTileColumn *) createIdColumn: (int) index;
++(GPKGTileColumn *) createIdColumnWithIndex: (int) index;
+
+/**
+ * Create an id column
+ *
+ * @param index
+ *            index
+ * @param autoincrement
+ *            autoincrement flag
+ * @return tile column
+ */
++(GPKGTileColumn *) createIdColumnWithIndex: (int) index andAutoincrement: (BOOL) autoincrement;
 
 /**
  *  Create a zoom level column
@@ -44,7 +64,7 @@
  *
  *  @return tile column
  */
-+(GPKGTileColumn *) createZoomLevelColumn: (int) index;
++(GPKGTileColumn *) createZoomLevelColumnWithIndex: (int) index;
 
 /**
  *  Create a tile column column
@@ -60,7 +80,7 @@
  *
  *  @return tile column
  */
-+(GPKGTileColumn *) createTileColumnColumn: (int) index;
++(GPKGTileColumn *) createTileColumnColumnWithIndex: (int) index;
 
 /**
  *  Create a tile row column
@@ -76,7 +96,7 @@
  *
  *  @return tile column
  */
-+(GPKGTileColumn *) createTileRowColumn: (int) index;
++(GPKGTileColumn *) createTileRowColumnWithIndex: (int) index;
 
 /**
  *  Create a tile data column
@@ -92,7 +112,7 @@
  *
  *  @return tile column
  */
-+(GPKGTileColumn *) createTileDataColumn: (int) index;
++(GPKGTileColumn *) createTileDataColumnWithIndex: (int) index;
 
 /**
  *  Create a new column
@@ -261,6 +281,7 @@
  *  @param notNull      not null
  *  @param defaultValue default value or nil
  *  @param primaryKey   true if a primary key
+ *  @param autoincrement autoincrement flag
  *
  *  @return new tile column
  */
@@ -270,6 +291,7 @@
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey;
+                andPrimaryKey: (BOOL) primaryKey
+             andAutoincrement: (BOOL) autoincrement;
 
 @end

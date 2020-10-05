@@ -37,7 +37,7 @@ static int openConnectionsPerPool = -1;
 /**
  *  Flag indicating to check for connections that remain open for long periods of time
  */
-static BOOL checkConnections = false;
+static BOOL checkConnections = NO;
 
 /**
  *  Frequency in seconds to check for long opened connections
@@ -52,7 +52,7 @@ static int checkConnectionsWarningTime = -1;
 /**
  *  Flag indicating whether to save the stack trace of the connection checkout caller
  */
-static BOOL maintainStackTraces = false;
+static BOOL maintainStackTraces = NO;
 
 +(int) openConnectionsPerPool{
     [self initializeDefaults];
@@ -180,7 +180,7 @@ static BOOL maintainStackTraces = false;
     GPKGDbConnection * connection = nil;
     @synchronized(self) {
          if(self.writableConnection != nil){
-             connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:false];
+             connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
          }else{
              GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
              connection =  [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
@@ -215,7 +215,7 @@ static BOOL maintainStackTraces = false;
     GPKGDbConnection * connection = nil;
     @synchronized(self) {
         if(self.writableConnection != nil){
-            connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:false];
+            connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
         }else{
             GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
             [self createWriteFunctionsOnConnection:sqlConnection];
@@ -230,7 +230,7 @@ static BOOL maintainStackTraces = false;
     GPKGDbConnection * connection = nil;
     @synchronized(self) {
         if(self.writableConnection != nil){
-            connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:false];
+            connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
         } else{
             GPKGSqliteConnection * sqlConnection = nil;
             if(self.resultConnections.count > 0){
@@ -240,7 +240,7 @@ static BOOL maintainStackTraces = false;
                      (unsigned long)self.resultConnections.count, self.filename];
                 }
                 sqlConnection = [[self.resultConnections allValues] objectAtIndex:0];
-                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:false andWriteReleasable:true];
+                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:NO andWriteReleasable:true];
             }else{
                 sqlConnection = [self sqliteConnection];
                 [self createWriteFunctionsOnConnection:sqlConnection];
@@ -310,7 +310,7 @@ static BOOL maintainStackTraces = false;
 }
 
 -(BOOL) releaseConnection: (GPKGDbConnection *) connection{
-    BOOL released = false;
+    BOOL released = NO;
     if([connection isReleasable]){
         released = [self releaseConnectionWithId:[connection connectionId]];
     } else {
@@ -320,7 +320,7 @@ static BOOL maintainStackTraces = false;
 }
 
 -(BOOL) releaseConnectionWithId: (NSNumber *) connectionId{
-    BOOL released = false;
+    BOOL released = NO;
     @synchronized(self) {
         GPKGSqliteConnection * connection = [self.usedConnections objectForKey:connectionId];
         if(connection != nil){
@@ -352,7 +352,7 @@ static BOOL maintainStackTraces = false;
 }
 
 -(BOOL) releaseWriteConnection: (GPKGDbConnection *) connection{
-    BOOL writeReleased = false;
+    BOOL writeReleased = NO;
     if([connection isWriteReleasable]){
         writeReleased = [self releaseWriteConnectionWithId:[connection connectionId]];
     }
@@ -360,7 +360,7 @@ static BOOL maintainStackTraces = false;
 }
 
 -(BOOL) releaseWriteConnectionWithId: (NSNumber *) connectionId{
-    BOOL writeReleased = false;
+    BOOL writeReleased = NO;
     @synchronized(self) {
         
         // Check if the write connection

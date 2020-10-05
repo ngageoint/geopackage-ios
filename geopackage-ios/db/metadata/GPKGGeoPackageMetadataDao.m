@@ -77,7 +77,7 @@
 
 -(BOOL) deleteByName: (NSString *) name{
     
-    BOOL deleted = false;
+    BOOL deleted = NO;
     
     GPKGGeoPackageMetadata * metadata = [self metadataByName:name];
     if(metadata != nil){

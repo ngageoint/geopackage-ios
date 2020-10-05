@@ -116,7 +116,7 @@
 }
 
 -(int) index{
-    return [self indexWithFeatureIndexType:[self verifyIndexLocation] andForce:false];
+    return [self indexWithFeatureIndexType:[self verifyIndexLocation] andForce:NO];
 }
 
 -(int) indexFeatureIndexTypes: (NSArray<NSString *> *) types{
@@ -184,7 +184,7 @@
 }
 
 -(BOOL) indexWithFeatureRow: (GPKGFeatureRow *) row andFeatureIndexTypes: (NSArray<NSString *> *) types{
-    BOOL indexed = false;
+    BOOL indexed = NO;
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self indexWithFeatureIndexType:type andFeatureRow:row]){
@@ -195,7 +195,7 @@
 }
 
 -(BOOL) indexWithFeatureIndexType:(enum GPKGFeatureIndexType) type andFeatureRow: (GPKGFeatureRow *) row{
-    BOOL indexed = false;
+    BOOL indexed = NO;
     if(type == GPKG_FIT_NONE){
         [NSException raise:@"No Feature Index Type" format:@"Feature Index Type is required to index"];
     }
@@ -225,7 +225,7 @@
 }
 
 -(BOOL) deleteIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types{
-    BOOL deleted = false;
+    BOOL deleted = NO;
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type]){
@@ -239,7 +239,7 @@
     if(type == GPKG_FIT_NONE){
         [NSException raise:@"No Feature Index Type" format:@"Feature Index Type is required to delete index"];
     }
-    BOOL deleted = false;
+    BOOL deleted = NO;
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             deleted = [self.featureTableIndex deleteIndex];
@@ -262,7 +262,7 @@
 }
 
 -(BOOL) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row andFeatureIndexTypes: (NSArray<NSString *> *) types{
-    BOOL deleted = false;
+    BOOL deleted = NO;
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type andFeatureRow:row]){
@@ -281,7 +281,7 @@
 }
 
 -(BOOL) deleteIndexWithGeomId: (int) geomId andFeatureIndexTypes: (NSArray<NSString *> *) types{
-    BOOL deleted = false;
+    BOOL deleted = NO;
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type andGeomId:geomId]){
@@ -295,7 +295,7 @@
     if(type == GPKG_FIT_NONE){
         [NSException raise:@"No Feature Index Type" format:@"Feature Index Type is required to delete index"];
     }
-    BOOL deleted = false;
+    BOOL deleted = NO;
     switch(type){
         case GPKG_FIT_GEOPACKAGE:
             deleted = [self.featureTableIndex deleteIndexWithGeomId:geomId] > 0;
@@ -340,7 +340,7 @@
 }
 
 -(BOOL) isIndexed{
-    BOOL indexed = false;
+    BOOL indexed = NO;
     for(NSString * typeName in self.indexLocationQueryOrder){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         indexed = [self isIndexedWithFeatureIndexType:type];
@@ -352,7 +352,7 @@
 }
 
 -(BOOL) isIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
-    BOOL indexed = false;
+    BOOL indexed = NO;
     if(type == GPKG_FIT_NONE){
         indexed = [self isIndexed];
     }else{

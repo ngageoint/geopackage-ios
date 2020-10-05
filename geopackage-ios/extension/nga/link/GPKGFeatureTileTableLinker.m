@@ -104,7 +104,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(BOOL) deleteLinkWithFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
     
-    BOOL deleted = false;
+    BOOL deleted = NO;
     
     if([self.featureTileLinkDao tableExists]){
         deleted = [self.featureTileLinkDao deleteByFeatureTable:featureTable andTileTable:tileTable] > 0;
@@ -164,7 +164,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(BOOL) featureTileLinksActive{
     
-    BOOL active = false;
+    BOOL active = NO;
     
     if([self has]){
         active = [self.featureTileLinkDao tableExists];

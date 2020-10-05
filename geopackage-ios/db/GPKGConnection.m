@@ -83,7 +83,7 @@
                             andLimit: (NSString *) limit{
     GPKGDbConnection * connection = [self.connectionPool resultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection
-                                        andDistinct:false andTable:table
+                                        andDistinct:NO andTable:table
                                          andColumns:columns
                                            andWhere:where
                                        andWhereArgs:whereArgs
@@ -342,7 +342,7 @@
 
 -(BOOL) columnExistsWithTableName: (NSString *) tableName andColumnName: (NSString *) columnName{
     
-    BOOL exists = false;
+    BOOL exists = NO;
     
     GPKGTableInfo *tableInfo = [GPKGTableInfo infoWithConnection:self andTable:tableName];
     if(tableInfo != nil){

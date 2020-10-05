@@ -16,6 +16,24 @@
 @interface GPKGTileMatrixDao : GPKGBaseDao
 
 /**
+ * Create the DAO
+ *
+ * @param geoPackage
+ *            GeoPackage
+ * @return dao
+ */
++(GPKGTileMatrixDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Create the DAO
+ *
+ * @param database
+ *            database connection
+ * @return dao
+ */
++(GPKGTileMatrixDao *) createWithDatabase: (GPKGConnection *) database;
+
+/**
  *  Initialize
  *
  *  @param database database connection

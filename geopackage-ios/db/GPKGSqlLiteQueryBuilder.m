@@ -74,12 +74,12 @@
 
 +(void) appendColumnsToString: (NSArray<NSString *> *) columns toString: (NSMutableString *) string{
     
-    BOOL first = true;
+    BOOL first = YES;
     for(NSString * column in columns){
         
         if(column != nil){
             if(first){
-                first = false;
+                first = NO;
             }else{
                 [string appendString:@", "];
             }

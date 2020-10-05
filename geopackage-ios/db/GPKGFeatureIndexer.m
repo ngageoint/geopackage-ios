@@ -43,7 +43,7 @@
 }
 
 -(int) index{
-    return [self indexWithForce:false];
+    return [self indexWithForce:NO];
 }
 
 -(int) indexWithForce: (BOOL) force{
@@ -124,7 +124,7 @@
             }
             @try {
                 GPKGFeatureRow *row = (GPKGFeatureRow *)[self.featureDao object:results];
-                BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:false];
+                BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:NO];
                 if(indexed){
                     count++;
                 }
@@ -144,7 +144,7 @@
 
 -(BOOL) indexWithGeoPackageId: (NSNumber *) geoPackageId andFeatureRow: (GPKGFeatureRow *) row andPossibleUpdate: (BOOL) possibleUpdate{
     
-    BOOL indexed = false;
+    BOOL indexed = NO;
     
     GPKGGeometryData * geomData = [row geometry];
     if(geomData != nil){
@@ -203,7 +203,7 @@
 
 -(BOOL) isIndexed{
     
-    BOOL indexed = false;
+    BOOL indexed = NO;
     
     NSDate * lastIndexed = [self lastIndexed];
     if(lastIndexed != nil){

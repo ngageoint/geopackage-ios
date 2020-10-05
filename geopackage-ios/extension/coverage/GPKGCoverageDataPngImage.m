@@ -28,7 +28,7 @@
         self.imageData = [tileRow tileData];
         self.image = [tileRow tileDataImage];
         [GPKGCoverageDataPng validateImageType:self.image];
-        self.pixelsRead = false;
+        self.pixelsRead = NO;
         self.width = self.image.size.width;
         self.height = self.image.size.height;
     }

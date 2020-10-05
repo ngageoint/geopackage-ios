@@ -77,7 +77,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(int) index{
-    return [self indexWithForce:false];
+    return [self indexWithForce:NO];
 }
 
 -(int) indexWithForce: (BOOL) force{
@@ -159,7 +159,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(BOOL) indexTableIndex: (GPKGTableIndex *) tableIndex withGeomId: (int) geomId andGeometryData: (GPKGGeometryData *) geomData{
     
-    BOOL indexed = false;
+    BOOL indexed = NO;
     
     if(geomData != nil){
         
@@ -218,7 +218,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(BOOL) isIndexed{
-    BOOL indexed = false;
+    BOOL indexed = NO;
     GPKGExtensions * extension = [self extension];
     if(extension != nil){
         

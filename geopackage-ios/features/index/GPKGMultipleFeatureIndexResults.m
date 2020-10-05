@@ -47,7 +47,7 @@
 }
 
 -(BOOL) moveToNext{
-    BOOL hasNext = false;
+    BOOL hasNext = NO;
     
     if(self.currentResults != nil){
         hasNext = [self.currentResults moveToNext];

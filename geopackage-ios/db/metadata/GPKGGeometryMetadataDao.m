@@ -208,13 +208,13 @@
 
 -(BOOL) createOrUpdateMetadata: (GPKGGeometryMetadata *) metadata{
     
-    BOOL success = false;
+    BOOL success = NO;
     
     if([self existsByMetadata:metadata]){
         success = [self updateMetadata:metadata];
     }else{
         [self create:metadata];
-        success = true;
+        success = YES;
     }
     
     return success;
