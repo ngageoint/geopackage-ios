@@ -139,7 +139,7 @@
                 GPKGGeometryData * geomData = [featureRow geometry];
                 if(geomData != nil && geomData.geometry != nil){
                     
-                    BOOL printFeatures = false;
+                    BOOL printFeatures = NO;
                     if(geomData.geometry.geometryType == SF_POINT){
                         printFeatures = self.detailedInfoPrintPoints;
                     } else{

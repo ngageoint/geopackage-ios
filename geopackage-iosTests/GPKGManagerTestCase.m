@@ -91,7 +91,7 @@
     }
     
     // Import with override
-    [GPKGTestUtils assertTrue:[manager importGeoPackageFromPath:importFile andOverride:true]];
+    [GPKGTestUtils assertTrue:[manager importGeoPackageFromPath:importFile andOverride:YES]];
     
     // Open
     geoPackage = [manager open:GPKG_TEST_IMPORT_DB_NAME];

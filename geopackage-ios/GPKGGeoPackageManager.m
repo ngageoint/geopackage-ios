@@ -165,7 +165,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(BOOL) delete: (NSString *) database andFile: (BOOL) deleteFile{
-    BOOL deleted = false;
+    BOOL deleted = NO;
     
     // Get the metadata record
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
@@ -200,7 +200,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         }
     }
     
-    BOOL deleted = false;
+    BOOL deleted = NO;
     if([self count] == 0){
         deleted = [GPKGMetadataDb deleteMetadataFile];
         
@@ -223,7 +223,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(BOOL) create: (NSString *) database inDirectory: (NSString *) dbDirectory{
 
-    BOOL created = false;
+    BOOL created = NO;
     
     if([self exists:database]){
         [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", database];
@@ -246,7 +246,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         // Create the metadata record
         [self createMetadataWithName:database andPath:databasePath];
         
-        created = true;
+        created = YES;
     }
     @catch (NSException *e) {
         NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -263,15 +263,15 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path{
-    return [self importGeoPackageFromPath:path withName:nil inDirectory:nil andOverride:false];
+    return [self importGeoPackageFromPath:path withName:nil inDirectory:nil andOverride:NO];
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name{
-    return [self importGeoPackageFromPath:path withName:name inDirectory:nil andOverride:false];
+    return [self importGeoPackageFromPath:path withName:name inDirectory:nil andOverride:NO];
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path inDirectory: (NSString *) dbDirectory{
-    return [self importGeoPackageFromPath:path withName:nil inDirectory:dbDirectory andOverride:false];
+    return [self importGeoPackageFromPath:path withName:nil inDirectory:dbDirectory andOverride:NO];
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path andOverride: (BOOL) override{
@@ -291,11 +291,11 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory{
-    return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:false];
+    return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:NO];
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
-    return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:override andMove:false];
+    return [self importGeoPackageFromPath:path withName:name inDirectory:dbDirectory andOverride:override andMove:NO];
 }
 
 -(BOOL) importGeoPackageFromPath: (NSString *) path withName: (NSString *) name andOverride: (BOOL) override andMove: (BOOL) moveFile{
@@ -315,7 +315,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         database = [[path lastPathComponent] stringByDeletingPathExtension];
     }
     
-    BOOL imported = false;
+    BOOL imported = NO;
     
     BOOL exists = [self exists:database];
     if(exists){
@@ -353,36 +353,36 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(void) importGeoPackageFromUrl: (NSURL *) url{
     NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
-    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session{
     NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
-    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name{
-    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name{
-    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory{
-    [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory{
-    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:false andProgress:nil];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress{
-    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:false andProgress:progress];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:NO andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name andProgress: (NSObject<GPKGProgress> *) progress{
-    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:false andProgress:progress];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:NO andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name andOverride: (BOOL) override{
@@ -394,11 +394,11 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress{
-    [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:false andProgress:progress];
+    [self importGeoPackageFromUrl:url withName:name inDirectory:dbDirectory andOverride:NO andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session andName: (NSString *) name inDirectory: (NSString *) dbDirectory andProgress: (NSObject<GPKGProgress> *) progress{
-    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:false andProgress:progress];
+    [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:dbDirectory andOverride:NO andProgress:progress];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withName: (NSString *) name inDirectory: (NSString *) dbDirectory andOverride: (BOOL) override{
@@ -606,17 +606,17 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(BOOL) validate: (NSString *) database{
-    BOOL valid = [self isValidWithDatabase:database andValidateHeader:true andValidateIntegrity:true];
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:YES andValidateIntegrity:YES];
     return valid;
 }
 
 -(BOOL) validateHeader: (NSString *) database{
-    BOOL valid = [self isValidWithDatabase:database andValidateHeader:true andValidateIntegrity:false];
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:YES andValidateIntegrity:NO];
     return valid;
 }
 
 -(BOOL) validateIntegrity: (NSString *) database{
-    BOOL valid = [self isValidWithDatabase:database andValidateHeader:false andValidateIntegrity:true];
+    BOOL valid = [self isValidWithDatabase:database andValidateHeader:NO andValidateIntegrity:YES];
     return valid;
 }
 
@@ -631,7 +631,7 @@ didCompleteWithError:(nullable NSError *)error{
  */
 -(BOOL) isValidWithDatabase: (NSString *) database andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
     
-    BOOL valid = false;
+    BOOL valid = NO;
     
     if([self exists:database]){
         NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
@@ -652,7 +652,7 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy{
-    return [self copy:database to:databaseCopy andSameDirectory:true];
+    return [self copy:database to:databaseCopy andSameDirectory:YES];
 }
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy andSameDirectory: (BOOL) sameDirectory{
@@ -681,19 +681,19 @@ didCompleteWithError:(nullable NSError *)error{
     
     if(copied){
         [self createMetadataWithDao:geoPackageMetadataDao andName:databaseCopy andPath:copyPath];
-        copied = true;
+        copied = YES;
     }
     
     return copied && [self exists:databaseCopy];
 }
 
 -(BOOL) rename: (NSString *) database to: (NSString *) newDatabase{
-    return [self rename:database to:newDatabase andRenameFile:true];
+    return [self rename:database to:newDatabase andRenameFile:YES];
 }
 
 -(BOOL) rename: (NSString *) database to: (NSString *) newDatabase andRenameFile: (BOOL) renameFile{
     
-    BOOL renamed = false;
+    BOOL renamed = NO;
     
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
@@ -701,7 +701,7 @@ didCompleteWithError:(nullable NSError *)error{
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
     
-    BOOL success = true;
+    BOOL success = YES;
     
     NSString * renamePath = metadata.path;
     if(renameFile){
@@ -728,7 +728,7 @@ didCompleteWithError:(nullable NSError *)error{
 
 -(BOOL) move: (NSString *) database toDirectory: (NSString *) dbDirectory{
     
-    BOOL moved = false;
+    BOOL moved = NO;
     
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
@@ -806,7 +806,7 @@ didCompleteWithError:(nullable NSError *)error{
  *  @return true if valid
  */
 -(BOOL) isDatabaseFileValid: (NSString *) databaseFile andValidateHeader: (BOOL) validateHeader andValidateIntegrity: (BOOL) validateIntegrity{
-    BOOL valid = false;
+    BOOL valid = NO;
     sqlite3 *sqlite3Database;
     int openDatabaseResult = sqlite3_open([databaseFile UTF8String], &sqlite3Database);
     @try {
@@ -876,7 +876,7 @@ didCompleteWithError:(nullable NSError *)error{
  */
 -(BOOL) isDatabaseHeaderValid: (NSString *) databaseFile{
     
-    BOOL validHeader = false;
+    BOOL validHeader = NO;
     NSInputStream * is = nil;
     @try {
         is = [NSInputStream inputStreamWithFileAtPath:databaseFile];
@@ -926,7 +926,7 @@ didCompleteWithError:(nullable NSError *)error{
  */
 -(BOOL) isDatabaseIntegrityValid: (sqlite3 *) sqlite3Database{
     
-    BOOL validIntegrity = false;
+    BOOL validIntegrity = NO;
     
     sqlite3_stmt *integrity = NULL;
     
@@ -937,7 +937,7 @@ didCompleteWithError:(nullable NSError *)error{
             while ( sqlite3_step( integrity ) == SQLITE_ROW ) {
                 const unsigned char *result = sqlite3_column_text( integrity, 0 );
                 if ( result && strcmp( ( const char * )result, (const char *)"ok" ) == 0 ) {
-                    validIntegrity = true;
+                    validIntegrity = YES;
                     break;
                 }
             }

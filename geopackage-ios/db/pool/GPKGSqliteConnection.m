@@ -67,7 +67,7 @@
 }
 
 -(BOOL) isReleasable{
-    return true;
+    return YES;
 }
 
 @end

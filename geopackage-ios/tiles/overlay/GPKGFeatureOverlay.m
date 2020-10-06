@@ -34,10 +34,10 @@
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Determine if the tile should be drawn
-    BOOL drawTile = true;
+    BOOL drawTile = YES;
     for(GPKGGeoPackageOverlay * geoPackageOverlay in self.linkedOverlays){
         if([geoPackageOverlay hasTileWithX:x andY:y andZoom:zoom]){
-            drawTile = false;
+            drawTile = NO;
             break;
         }
     }

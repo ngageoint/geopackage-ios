@@ -18,7 +18,7 @@
 
 @implementation GPKGCoverageDataTiffImportTest
 
-static BOOL allowNulls = true;
+static BOOL allowNulls = YES;
 
 /**
  * Test the coverage data extension with a newly created GeoPackage using the
@@ -48,28 +48,28 @@ static BOOL allowNulls = true;
  * Test a random bounding box using the Nearest Neighbor Algorithm
  */
 - (void)testRandomBoundingBoxNearestNeighbor {
-    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:true];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_NEAREST_NEIGHBOR andAllowNils:YES];
 }
 
 /**
  * Test a random bounding box using the Bilinear Algorithm
  */
 - (void)testRandomBoundingBoxBilinear {
-    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:true];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BILINEAR andAllowNils:YES];
 }
 
 /**
  * Test a random bounding box using the Bicubic Algorithm
  */
 - (void)testRandomBoundingBoxBicubic {
-    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:true];
+    [GPKGCoverageDataTestUtils testRandomBoundingBoxWithGeoPackage:self.geoPackage andValues:nil andAlgorithm:GPKG_CDA_BICUBIC andAllowNils:YES];
 }
 
 /**
  * Test the pixel encoding
  */
 - (void) testPixelEncoding {
-    [GPKGCoverageDataTestUtils testPixelEncodingWithGeoPackage:self.geoPackage andAllowNils:true];
+    [GPKGCoverageDataTestUtils testPixelEncodingWithGeoPackage:self.geoPackage andAllowNils:YES];
 }
 
 /**
@@ -137,7 +137,7 @@ static BOOL allowNulls = true;
  */
 -(void) testBounds{
     
-    BOOL allowNulls = false;
+    BOOL allowNulls = NO;
     
     int requestEpsg = PROJ_EPSG_WEB_MERCATOR;
     

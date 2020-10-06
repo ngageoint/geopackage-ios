@@ -109,7 +109,7 @@
     }
     
     int count = 0;
-    BOOL update = false;
+    BOOL update = NO;
     
     // Adjust the tile matrix set and  bounds
     GPKGBoundingBox *minZoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
@@ -127,7 +127,7 @@
         tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:srs.srsId andTileMatrixSetBoundingBox:self.tileGridBoundingBox andTileMatrixSetSrsId:srs.srsId];
         
     }else{
-        update = true;
+        update = YES;
         //Query to get the Tile Matrix Set
         tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:self.tableName];
         
@@ -243,7 +243,7 @@
     if([tileDao isXYZTiles]){
         if(!self.xyzTiles){
             // If adding GeoPackage tiles to a Standard Tile format, add them as standard web mercator format tiles
-            self.xyzTiles = true;
+            self.xyzTiles = YES;
             [self adjustXYZBounds];
         }
     } else if(self.xyzTiles){
@@ -554,7 +554,7 @@
     }else{
         
         // Check if the tile matrix already exists
-        BOOL create = true;
+        BOOL create = YES;
         if (update) {
             create = ![tileMatrixDao multiIdExists:[[NSArray alloc] initWithObjects:self.tableName, zoomLevelArg, nil]];
         }

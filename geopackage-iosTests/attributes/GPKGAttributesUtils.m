@@ -105,7 +105,7 @@
                 results = [dao queryForEqWithField:column1.name andColumnValue:column1AttributesValue];
                 
                 [GPKGTestUtils assertTrue:results.count > 0];
-                BOOL found = false;
+                BOOL found = NO;
                 while([results moveToNext]){
                     queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
@@ -135,7 +135,7 @@
                 }
                 results = [dao queryForColumnValueFieldValues:fieldValues];
                 [GPKGTestUtils assertTrue:results.count > 0];
-                found = false;
+                found = NO;
                 while ([results moveToNext]) {
                     queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];

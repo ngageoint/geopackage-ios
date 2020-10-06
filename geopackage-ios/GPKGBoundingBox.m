@@ -83,24 +83,24 @@
 
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox{
     if(self == boundingBox){
-        return true;
+        return YES;
     }
     if(boundingBox == nil){
-        return false;
+        return NO;
     }
     if([self.maxLatitude doubleValue] != [boundingBox.maxLatitude doubleValue]){
-        return false;
+        return NO;
     }
     if([self.maxLongitude doubleValue] != [boundingBox.maxLongitude doubleValue]){
-        return false;
+        return NO;
     }
     if([self.minLatitude doubleValue] != [boundingBox.minLatitude doubleValue]){
-        return false;
+        return NO;
     }
     if([self.minLongitude doubleValue] != [boundingBox.minLongitude doubleValue]){
-        return false;
+        return NO;
     }
-    return true;
+    return YES;
 }
 
 - (BOOL)isEqual:(id)object {

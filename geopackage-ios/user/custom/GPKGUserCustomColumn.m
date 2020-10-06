@@ -16,7 +16,7 @@
 
 +(GPKGUserCustomColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                   andName: (NSString *) name{
-    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:true andDefaultValue:nil andPrimaryKey:true];
+    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:YES andDefaultValue:nil andPrimaryKey:YES];
 }
 
 +(GPKGUserCustomColumn *) createColumnWithName: (NSString *) name
@@ -85,7 +85,7 @@
                                          andMax: (NSNumber *) max
                                      andNotNull: (BOOL) notNull
                                 andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:false];
+    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:NO];
 }
 
 +(GPKGUserCustomColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{

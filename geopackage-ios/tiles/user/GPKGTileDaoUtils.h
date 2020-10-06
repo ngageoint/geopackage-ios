@@ -22,7 +22,7 @@
  *  @param tileMatrixSet tile matrix set
  *  @param tileMatrices  tile matrices
  */
-+(void) adjustTileMatrixLengthsWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray *) tileMatrices;
++(void) adjustTileMatrixLengthsWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices;
 
 /**
  *  Get the zoom level for the provided width and height in the default units
@@ -34,7 +34,7 @@
  *
  *  @return zoom level
  */
-+(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andLength: (double) length;
 
 /**
  * Get the zoom level for the provided width and height in the default units
@@ -51,7 +51,7 @@
  *            in default units
  * @return tile matrix zoom level
  */
-+(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
++(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andWidth: (double) width andHeight: (double) height;
 
 /**
  * Get the closest zoom level for the provided width and height in the
@@ -67,7 +67,7 @@
  *            in default units
  * @return tile matrix zoom level
  */
-+(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
++(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andLength: (double) length;
 
 /**
  * Get the closest zoom level for the provided width and height in the
@@ -85,7 +85,7 @@
  *            in default units
  * @return tile matrix zoom level
  */
-+(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
++(NSNumber *) closestZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andWidth: (double) width andHeight: (double) height;
 
 /**
  * Get the approximate zoom level for the provided length in the default
@@ -103,7 +103,7 @@
  *            length in default units
  * @return actual or approximate tile matrix zoom level
  */
-+(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andLength: (double) length;
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andLength: (double) length;
 
 /**
  * Get the approximate zoom level for the provided width and height in the
@@ -123,7 +123,7 @@
  *            height in default units
  * @return actual or approximate tile matrix zoom level
  */
-+(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray *) tileMatrices andWidth: (double) width andHeight: (double) height;
++(NSNumber *) approximateZoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andWidth: (double) width andHeight: (double) height;
 
 /**
  *  Get the max distance length that matches the tile widths and heights
@@ -144,5 +144,57 @@
  *  @return min length
  */
 +(double) minLengthWithWidths: (NSArray *) widths andHeights: (NSArray *) heights;
+
+/**
+ * Get the map zoom level range
+ *
+ * @param tileMatrixSetDao
+ *            tile matrix set dao
+ * @param tileMatrixSet
+ *            tile matrix set
+ * @param tileMatrices
+ *            tile matrices
+ * @return map zoom level range, min at index 0, max at index 1
+ */
++(int *) mapZoomRangeWithTileMatrixSetDao: (GPKGTileMatrixSetDao *) tileMatrixSetDao andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices;
+
+/**
+ * Get the map min zoom level
+ *
+ * @param tileMatrixSetDao
+ *            tile matrix set dao
+ * @param tileMatrixSet
+ *            tile matrix set
+ * @param tileMatrices
+ *            tile matrices
+ * @return map min zoom level
+ */
++(int) mapMinZoomWithTileMatrixSetDao: (GPKGTileMatrixSetDao *) tileMatrixSetDao andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices;
+
+/**
+ * Get the map max zoom level
+ *
+ * @param tileMatrixSetDao
+ *            tile matrix set dao
+ * @param tileMatrixSet
+ *            tile matrix set
+ * @param tileMatrices
+ *            tile matrices
+ * @return map max zoom level
+ */
++(int) mapMaxZoomWithTileMatrixSetDao: (GPKGTileMatrixSetDao *) tileMatrixSetDao andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices;
+
+/**
+ * Get the map zoom level
+ *
+ * @param tileMatrixSetDao
+ *            tile matrix set dao
+ * @param tileMatrixSet
+ *            tile matrix set
+ * @param tileMatrix
+ *            tile matrix
+ * @return map zoom level
+ */
++(int) mapZoomWithTileMatrixSetDao: (GPKGTileMatrixSetDao *) tileMatrixSetDao andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrix: (GPKGTileMatrix *) tileMatrix;
 
 @end

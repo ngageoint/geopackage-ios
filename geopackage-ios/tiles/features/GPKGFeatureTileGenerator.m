@@ -28,7 +28,7 @@
     self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:[self boundingBoxWithGeoPackage:featureGeoPackage andFeatureTiles:featureTiles andBoundingBox:boundingBox andProjection:projection] andProjection:projection];
     if(self != nil){
         self.featureTiles = featureTiles;
-        self.linkTables = true;
+        self.linkTables = YES;
     }
     return self;
 }

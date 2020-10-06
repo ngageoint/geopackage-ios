@@ -48,7 +48,7 @@
         
         [GPKGTestUtils assertNotNil:querySrsResults];
         [GPKGTestUtils assertTrue:querySrsResults.count >= 1];
-        BOOL found = false;
+        BOOL found = NO;
         while([querySrsResults moveToNext]){
             GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao object:querySrsResults];
             [GPKGTestUtils assertEqualWithValue:srs.organizationCoordsysId andValue2:querySrsValue.organizationCoordsysId];
@@ -68,7 +68,7 @@
         querySrsResults = [dao queryForFieldValues:fieldValues];
         [GPKGTestUtils assertNotNil:querySrsResults];
         [GPKGTestUtils assertTrue:querySrsResults.count > 0];
-        found = false;
+        found = NO;
         while ([querySrsResults moveToNext]) {
             GPKGSpatialReferenceSystem *querySrsValue = (GPKGSpatialReferenceSystem *)[dao object:querySrsResults];
             [GPKGTestUtils assertEqualWithValue:srs.definition andValue2:querySrsValue.definition];
@@ -209,13 +209,13 @@
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:false];
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:NO];
     
 }
 
 +(void) testDeleteCascadeWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:true];
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:YES];
     
 }
 

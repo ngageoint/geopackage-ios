@@ -183,7 +183,7 @@ static BOOL maintainStackTraces = NO;
              connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
          }else{
              GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
-             connection =  [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
+             connection =  [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:YES];
          }
     }
     return connection;
@@ -220,7 +220,7 @@ static BOOL maintainStackTraces = NO;
             GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
             [self createWriteFunctionsOnConnection:sqlConnection];
             [self.resultConnections setObject:sqlConnection forKey:[sqlConnection connectionId]];
-            connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
+            connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:YES];
         }
     }
     return connection;
@@ -240,11 +240,11 @@ static BOOL maintainStackTraces = NO;
                      (unsigned long)self.resultConnections.count, self.filename];
                 }
                 sqlConnection = [[self.resultConnections allValues] objectAtIndex:0];
-                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:NO andWriteReleasable:true];
+                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:NO andWriteReleasable:YES];
             }else{
                 sqlConnection = [self sqliteConnection];
                 [self createWriteFunctionsOnConnection:sqlConnection];
-                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:true];
+                connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:YES];
             }
             self.writableConnection = connection;
         }
@@ -325,7 +325,7 @@ static BOOL maintainStackTraces = NO;
         GPKGSqliteConnection * connection = [self.usedConnections objectForKey:connectionId];
         if(connection != nil){
             [self.usedConnections removeObjectForKey:connectionId];
-            released = true;
+            released = YES;
             
             BOOL close = !connection.reusable || self.availableConnections.count >= openConnectionsPerPool;
             
@@ -382,7 +382,7 @@ static BOOL maintainStackTraces = NO;
             
             // Clear the write connection
             self.writableConnection = nil;
-            writeReleased = true;
+            writeReleased = YES;
             
         }
     }

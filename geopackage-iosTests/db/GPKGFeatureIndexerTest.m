@@ -78,7 +78,7 @@
     [GPKGTestUtils assertTrue:[indexer isIndexed]];
     
     // Force indexing again
-    [indexer indexWithForce:true];
+    [indexer indexWithForce:YES];
     
     db= [[GPKGMetadataDb alloc] init];
     @try {
@@ -148,9 +148,9 @@
     [envelope setMinY:[[NSDecimalNumber alloc] initWithDouble:minY]];
     [envelope setMaxY:[[NSDecimalNumber alloc] initWithDouble:maxY]];
     
-    BOOL id1Found = false;
-    BOOL id2Found = false;
-    BOOL id3Found = false;
+    BOOL id1Found = NO;
+    BOOL id2Found = NO;
+    BOOL id3Found = NO;
     
     int count = 0;
     
@@ -173,21 +173,21 @@
                 enum SFGeometryType geometryType = [queryRow geometry].geometry.geometryType;
                 
                 if([id intValue] == id1){
-                    id1Found = true;
+                    id1Found = YES;
                     [GPKGTestUtils assertEqualWithValue:SF_POINT_NAME andValue2:[SFGeometryTypes name:geometryType]];
                     [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.maxY doubleValue] andDelta:.00000000000001];
                 } else if([id intValue] == id2){
-                    id2Found = true;
+                    id2Found = YES;
                     [GPKGTestUtils assertEqualWithValue:SF_LINESTRING_NAME andValue2:[SFGeometryTypes name:geometryType]];
                     [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:minY andValue2:[metadata.minY doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:maxY andValue2:[metadata.maxY doubleValue] andDelta:.00000000000001];
                 } else if([id intValue] == id3){
-                    id3Found = true;
+                    id3Found = YES;
                     [GPKGTestUtils assertEqualWithValue:SF_POLYGON_NAME andValue2:[SFGeometryTypes name:geometryType]];
                     [GPKGTestUtils assertEqualDoubleWithValue:minX andValue2:[metadata.minX doubleValue] andDelta:.00000000000001];
                     [GPKGTestUtils assertEqualDoubleWithValue:maxX andValue2:[metadata.maxX doubleValue] andDelta:.00000000000001];

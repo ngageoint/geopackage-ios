@@ -36,7 +36,7 @@
 -(instancetype) initWithLatitude: (double) latitude andLongitude: (double) longitude{
     self = [self initWithBoundingBox:[[GPKGBoundingBox alloc] initWithMinLongitudeDouble:longitude andMinLatitudeDouble:latitude andMaxLongitudeDouble:longitude andMaxLatitudeDouble:latitude]];
     if(self != nil){
-        self.point = true;
+        self.point = YES;
     }
     return self;
 }

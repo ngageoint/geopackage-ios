@@ -19,7 +19,7 @@
 @implementation GPKGCreateCoverageDataGeoPackageTestCase
 
 -(BOOL) shouldAllowNils{
-    return true;
+    return YES;
 }
 
 -(GPKGGeoPackage *) createGeoPackage{
@@ -59,20 +59,20 @@
     GPKGGriddedCoverage * griddedCoverage = [[GPKGGriddedCoverage alloc] init];
     [griddedCoverage setTileMatrixSet:tileMatrixSet];
     [griddedCoverage setGriddedCoverageDataType:GPKG_GCDT_INTEGER];
-    BOOL defaultScale = true;
+    BOOL defaultScale = YES;
     if([GPKGTestUtils randomDouble] < .5){
         [griddedCoverage setScale:[[NSDecimalNumber alloc] initWithDouble:100.0 * [GPKGTestUtils randomDouble]]];
-        defaultScale = false;
+        defaultScale = NO;
     }
-    BOOL defaultOffset = true;
+    BOOL defaultOffset = YES;
     if([GPKGTestUtils randomDouble] < .5){
         [griddedCoverage setOffset:[[NSDecimalNumber alloc] initWithDouble:100.0 * [GPKGTestUtils randomDouble]]];
-        defaultOffset = false;
+        defaultOffset = NO;
     }
-    BOOL defaultPrecision = true;
+    BOOL defaultPrecision = YES;
     if([GPKGTestUtils randomDouble] < .5){
         [griddedCoverage setPrecision:[[NSDecimalNumber alloc] initWithDouble:10.0 * [GPKGTestUtils randomDouble]]];
-        defaultPrecision = false;
+        defaultPrecision = NO;
     }
     [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:SHRT_MAX - SHRT_MIN]];
     enum GPKGGriddedCoverageEncodingType encoding;
@@ -116,41 +116,41 @@
     GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
     [commonGriddedTile setContents:contents];
-    BOOL defaultGTScale = true;
+    BOOL defaultGTScale = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:100.0 * [GPKGTestUtils randomDouble]]];
-        defaultGTScale = false;
+        defaultGTScale = NO;
     }
-    BOOL defaultGTOffset = true;
+    BOOL defaultGTOffset = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setOffset:[[NSDecimalNumber alloc] initWithDouble:100.0 * [GPKGTestUtils randomDouble]]];
-        defaultGTOffset = false;
+        defaultGTOffset = NO;
     }
     // The min, max, mean, and sd are just for testing and have
     // no association on the test tile created
-    BOOL defaultGTMin = true;
+    BOOL defaultGTMin = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setMin:[[NSDecimalNumber alloc] initWithDouble:1000.0 * [GPKGTestUtils randomDouble]]];
-        defaultGTMin = false;
+        defaultGTMin = NO;
     }
-    BOOL defaultGTMax = true;
+    BOOL defaultGTMax = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setMax:[[NSDecimalNumber alloc] initWithDouble:1000.0 * [GPKGTestUtils randomDouble] + (commonGriddedTile.min == nil ? 0 : [commonGriddedTile.min doubleValue])]];
-        defaultGTMax = false;
+        defaultGTMax = NO;
     }
-    BOOL defaultGTMean = true;
+    BOOL defaultGTMean = YES;
     if([GPKGTestUtils randomDouble] <.5){
         double min = commonGriddedTile.min != nil ? [commonGriddedTile.min doubleValue] : 0;
         double max = commonGriddedTile.max != nil ? [commonGriddedTile.max doubleValue] : 2000.0;
         [commonGriddedTile setMean:[[NSDecimalNumber alloc] initWithDouble:((max - min) * [GPKGTestUtils randomDouble]) + min]];
-        defaultGTMean = false;
+        defaultGTMean = NO;
     }
-    BOOL defaultGTStandardDeviation = true;
+    BOOL defaultGTStandardDeviation = YES;
     if([GPKGTestUtils randomDouble] <.5){
         double min = commonGriddedTile.min != nil ? [commonGriddedTile.min doubleValue] : 0;
         double max = commonGriddedTile.max != nil ? [commonGriddedTile.max doubleValue] : 2000.0;
         [commonGriddedTile setStandardDeviation:[[NSDecimalNumber alloc] initWithDouble:(max - min) * [GPKGTestUtils randomDouble]]];
-        defaultGTStandardDeviation = false;
+        defaultGTStandardDeviation = NO;
     }
     
     GPKGGriddedTileDao * griddedTileDao = [coverageData griddedTileDao];

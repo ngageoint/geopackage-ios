@@ -7,8 +7,11 @@
 //
 
 #import "GPKGTileTableMetadata.h"
+#import "GPKGContentsDataTypes.h"
 
 @implementation GPKGTileTableMetadata
+
+static enum GPKGContentsDataType defaultDataType = GPKG_CDT_TILES;
 
 // TODO
 

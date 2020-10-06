@@ -16,6 +16,16 @@
 @interface GPKGTileTable : GPKGUserTable
 
 /**
+ * Initialize
+ *
+ * @param tableName
+ *            table name
+ *
+ *  @return new tile table
+ */
+-(instancetype) initWithTable: (NSString *) tableName;
+
+/**
  *  Initialize
  *
  *  @param tableName table name
@@ -89,6 +99,16 @@
 +(NSArray *) createRequiredColumns;
 
 /**
+ * Create the required table columns
+ *
+ * @param autoincrement
+ *            autoincrement id values
+ *
+ * @return tile columns
+ */
++(NSArray *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement;
+
+/**
  *  Create the required table columns, starting at the provided index
  *
  *  @param startingIndex starting column index
@@ -96,6 +116,17 @@
  *  @return columns
  */
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex;
+
+/**
+ * Create the required table columns, starting at the provided index
+ *
+ * @param startingIndex
+ *            starting index
+ * @param autoincrement
+ *            autoincrement id values
+ * @return tile columns
+ */
++(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Get the tile columns

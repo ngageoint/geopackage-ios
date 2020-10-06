@@ -193,7 +193,7 @@
         [featureDao commitTransaction];
         
         // Validate updates
-        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:true];
+        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:YES];
         
         [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
     }
@@ -213,7 +213,7 @@
         [featureDao rollbackTransaction];
         
         // Validate rollback
-        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:false];
+        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:NO];
         
         [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
     }
@@ -237,7 +237,7 @@
             [featureDao commitTransaction];
             
             // Validate updates
-            int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:true];
+            int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:YES];
             
             [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
         }
@@ -264,7 +264,7 @@
             [featureDao rollbackTransaction];
             
             // Validate rollback
-            int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:false];
+            int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:NO];
             
             [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
         }
@@ -280,10 +280,10 @@
         
         GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
-        int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:true];
+        int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:YES];
         
         // Validate updates
-        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:true];
+        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:YES];
         
         [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
     }
@@ -296,10 +296,10 @@
         
         GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
         
-        int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:false];
+        int updated = [self transactionChunkUpdateHelperWithFeatureDao:featureDao andCommit:NO];
         
         // Validate updates
-        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:false];
+        int checked = [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:NO];
         
         [GPKGTestUtils assertEqualIntWithValue:updated andValue2:checked];
     }

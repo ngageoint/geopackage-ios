@@ -174,34 +174,34 @@
         [GPKGTestUtils assertEqualIntWithValue:specifiedWidth andValue2:[values width]];
         
         for (int y = 0; y < specifiedHeight; y++) {
-            BOOL nonNilFound = false;
-            BOOL secondNilsFound = false;
+            BOOL nonNilFound = NO;
+            BOOL secondNilsFound = NO;
             for (int x = 0; x < specifiedWidth; x++) {
                 NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
                 [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([values valueAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];
-                        nonNilFound = true;
+                        nonNilFound = YES;
                     } else if (nonNilFound) {
-                        secondNilsFound = true;
+                        secondNilsFound = YES;
                     }
                 }
             }
         }
         
         for (int x = 0; x < specifiedWidth; x++) {
-            BOOL nonNilFound = false;
-            BOOL secondNilsFound = false;
+            BOOL nonNilFound = NO;
+            BOOL secondNilsFound = NO;
             for (int y = 0; y < specifiedHeight; y++) {
                 NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:x inArray:(NSArray *)[[values values] objectAtIndex:y]];
                 [GPKGTestUtils assertEqualDecimalNumberWithValue:value andValue2:[values valueAtRow:y andColumn:x] andDelta:.000001];
                 if (!allowNils) {
                     if ([values valueAtRow:y andColumn:x] != nil) {
                         [GPKGTestUtils assertFalse:secondNilsFound];
-                        nonNilFound = true;
+                        nonNilFound = YES;
                     } else if (nonNilFound) {
-                        secondNilsFound = true;
+                        secondNilsFound = YES;
                     }
                 }
             }

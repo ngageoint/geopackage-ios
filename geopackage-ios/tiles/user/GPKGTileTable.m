@@ -14,6 +14,10 @@
 
 @implementation GPKGTileTable
 
+-(instancetype) initWithTable: (NSString *) tableName{
+    return [self initWithTable:tableName andColumns:[GPKGTileTable createRequiredColumns]];
+}
+
 -(instancetype) initWithTable: (NSString *) tableName andColumns: (NSArray *) columns{
     self = [super initWithColumns:[[GPKGTileColumns alloc] initWithTable:tableName andColumns:columns]];
     
@@ -34,14 +38,13 @@
 }
 
 -(NSString *) dataType{
-    return GPKG_CDT_TILES_NAME;
+    return [self dataTypeWithDefault:GPKG_CDT_TILES_NAME];
 }
 
 -(void) validateContents:(GPKGContents *)contents{
     // Verify the Contents have a tiles data type
-    enum GPKGContentsDataType dataType = [contents contentsDataType];
-    if (dataType != GPKG_CDT_TILES && dataType != GPKG_CD_GRIDDED_COVERAGE) {
-        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Tile Table must have a data type of %@ or %@", GPKG_CDT_TILES_NAME, GPKG_CD_GRIDDED_COVERAGE];
+    if(![contents isTilesTypeOrUnknown]){
+        [NSException raise:@"Invalid Contents Data Type" format:@"The Contents of a Tile Table must have a data type of %@. actual type: %@", GPKG_CDT_TILES_NAME, contents.dataType];
     }
 }
 
@@ -86,8 +89,12 @@
 }
 
 +(NSArray *) createRequiredColumns{
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [GPKGUtils addObject:[GPKGTileColumn createIdColumn] toArray:columns];
+    return [self createRequiredColumnsWithAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement{
+    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    [GPKGUtils addObject:[GPKGTileColumn createIdColumnWithAutoincrement:autoincrement] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumn] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumn] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createTileRowColumn] toArray:columns];
@@ -97,12 +104,16 @@
 }
 
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex{
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
-    [GPKGUtils addObject:[GPKGTileColumn createIdColumn:startingIndex++] toArray:columns];
-    [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumn:startingIndex++] toArray:columns];
-    [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumn:startingIndex++] toArray:columns];
-    [GPKGUtils addObject:[GPKGTileColumn createTileRowColumn:startingIndex++] toArray:columns];
-    [GPKGUtils addObject:[GPKGTileColumn createTileDataColumn:startingIndex++] toArray:columns];
+    return [self createRequiredColumnsWithStartingIndex:startingIndex andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement{
+    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    [GPKGUtils addObject:[GPKGTileColumn createIdColumnWithIndex:startingIndex++ andAutoincrement:autoincrement] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumnWithIndex:startingIndex++] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumnWithIndex:startingIndex++] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileRowColumnWithIndex:startingIndex++] toArray:columns];
+    [GPKGUtils addObject:[GPKGTileColumn createTileDataColumnWithIndex:startingIndex++] toArray:columns];
 
     return columns;
 }

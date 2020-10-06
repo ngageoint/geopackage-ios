@@ -83,7 +83,7 @@
 
 -(BOOL) hasTileToRetrieveWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     [self doesNotRecognizeSelector:_cmd];
-    return false;
+    return NO;
 }
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
@@ -100,7 +100,7 @@
 }
 
 -(BOOL) isWithinBoundingBoxWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
-    BOOL withinBounds = true;
+    BOOL withinBounds = YES;
     
     // If a bounding box is set, check if it overlaps with the request
     if(self.webMercatorBoundingBox != nil){

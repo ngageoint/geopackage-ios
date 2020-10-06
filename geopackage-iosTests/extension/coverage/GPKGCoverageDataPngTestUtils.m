@@ -270,11 +270,11 @@
                                     NSDecimalNumber * value1 = [coverageDataValues valueWithY:y andX:x];
                                     NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                                     if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
-                                        BOOL nilValue = false;
+                                        BOOL nilValue = NO;
                                         for (int yLocation = y - 2; !nilValue && yLocation <= y + 2; yLocation++) {
                                             for (int xLocation = x - 2; xLocation <= x + 2; xLocation++) {
                                                 if ([coverageDataValues valueWithY:yLocation andX:xLocation] == nil) {
-                                                    nilValue = true;
+                                                    nilValue = YES;
                                                     break;
                                                 }
                                             }
@@ -301,11 +301,11 @@
                                     NSDecimalNumber * value1 = [coverageDataValues valueWithY:y andX:x];
                                     NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                                     if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
-                                        BOOL nilValue = false;
+                                        BOOL nilValue = NO;
                                         for (int yLocation = y - 1; !nilValue && yLocation <= y + 1; yLocation++) {
                                             for (int xLocation = x - 1; xLocation <= x + 1; xLocation++) {
                                                 if ([coverageDataValues valueWithY:yLocation andX:xLocation] == nil) {
-                                                    nilValue = true;
+                                                    nilValue = YES;
                                                     break;
                                                 }
                                             }
@@ -326,13 +326,13 @@
                                 NSDecimalNumber * value2 = [coverageDataResults valueAtRow:y andColumn:x];
                                 if(value1 == nil ? value2 != nil : ![GPKGTestUtils equalDoubleWithValue:[value1 doubleValue] andValue2:[value2 doubleValue] andDelta:.000001]){
                                     // Find a matching neighbor
-                                    BOOL nonNil = false;
-                                    BOOL match = false;
+                                    BOOL nonNil = NO;
+                                    BOOL match = NO;
                                     for (int yLocation = MAX(0, y - 1); !match && yLocation <= y + 1 && yLocation < [coverageDataValues height]; yLocation++) {
                                         for (int xLocation = MAX(0, x - 1); xLocation <= x + 1 && xLocation < [coverageDataValues width]; xLocation++) {
                                             NSDecimalNumber * value = [coverageDataValues valueWithY:yLocation andX:xLocation];
                                             if (value != nil) {
-                                                nonNil = true;
+                                                nonNil = YES;
                                                 match = [GPKGTestUtils equalDoubleWithValue:[value doubleValue] andValue2:[value2 doubleValue] andDelta:.000001];
                                                 if (match) {
                                                     break;

@@ -112,17 +112,17 @@
 }
 
 +(void) insertFourLinesWithFeatureDao: (GPKGFeatureDao *) featureDao andPoints: (NSArray *) points{
-    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:false andNegativeX:false]];
-    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:true andNegativeX:false]];
-    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:false andNegativeX:true]];
-    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:true andNegativeX:true]];
+    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:NO andNegativeX:NO]];
+    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:YES andNegativeX:NO]];
+    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:NO andNegativeX:YES]];
+    [self insertLineWithFeatureDao:featureDao andPoints:[self convertPoints:points withNegativeY:YES andNegativeX:YES]];
 }
 
 +(void) insertFourPolygonsWithFeatureDao: (GPKGFeatureDao *) featureDao andLines: (NSArray *) lines{
-    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:false andNegativeX:false]];
-    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:true andNegativeX:false]];
-    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:false andNegativeX:true]];
-    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:true andNegativeX:true]];
+    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:NO andNegativeX:NO]];
+    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:YES andNegativeX:NO]];
+    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:NO andNegativeX:YES]];
+    [self insertPolygonWithFeatureDao:featureDao andLines:[self convertLines:lines withNegativeY:YES andNegativeX:YES]];
 }
 
 +(NSArray *) convertPoints: (NSArray *) points withNegativeY: (BOOL) negativeY andNegativeX: (BOOL) negativeX{
@@ -166,7 +166,7 @@
 
 +(void) setPointWithFeatureRow: (GPKGFeatureRow *) featureRow andX: (double) x andY: (double) y{
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    SFPoint * point = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
+    SFPoint * point = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:[[NSDecimalNumber alloc] initWithDouble:x] andY:[[NSDecimalNumber alloc] initWithDouble:y]];
     [geomData setGeometry:point];
     [featureRow setGeometry:geomData];
 }
@@ -181,11 +181,11 @@
 }
 
 +(SFLineString *) lineStringWithPoints: (NSArray *) points{
-    SFLineString * lineString = [[SFLineString alloc] initWithHasZ:false andHasM:false];
+    SFLineString * lineString = [[SFLineString alloc] initWithHasZ:NO andHasM:NO];
     for(NSArray * point in points){
         NSDecimalNumber * x = [point objectAtIndex:0];
         NSDecimalNumber * y = [point objectAtIndex:1];
-        SFPoint * point = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:x andY:y];
+        SFPoint * point = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:x andY:y];
         [lineString addPoint:point];
     }
     return lineString;
@@ -194,7 +194,7 @@
 +(long long) insertPolygonWithFeatureDao: (GPKGFeatureDao *) featureDao andLines: (NSArray *) lines{
     GPKGFeatureRow * featureRow = [featureDao newRow];
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:false andHasM:false];
+    SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:NO andHasM:NO];
     for(NSArray * ring in lines){
         SFLineString * lineString = [self lineStringWithPoints:ring];
         [polygon addRing:lineString];

@@ -57,7 +57,7 @@
 -(BOOL) indexFeatureRow: (GPKGFeatureRow *) row{
     
     NSNumber * geoPackageId = [self.geometryMetadataDataSource geoPackageIdForGeoPackageName:self.featureDao.databaseName];
-    BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:true];
+    BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:YES];
     
     // Update the last indexed time
     [self updateLastIndexedWithGeoPackageId:geoPackageId];
@@ -168,7 +168,7 @@
             }else{
                 [self.geometryMetadataDataSource create:metadata];
             }
-            indexed = true;
+            indexed = YES;
         }
     }
     

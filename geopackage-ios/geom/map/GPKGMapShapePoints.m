@@ -64,9 +64,9 @@
 }
 
 -(BOOL) deletePoint: (GPKGMapPoint *) point fromMapView: (MKMapView *) mapView{
-    BOOL deleted = false;
+    BOOL deleted = NO;
     if([self containsPoint:point]){
-        deleted = true;
+        deleted = YES;
         NSObject<GPKGShapePoints> * shapePoints = [self shapePointsForPoint:point];
         [self.shapePoints removeObjectForKey:[NSNumber numberWithInteger:point.id]];
         if(shapePoints != nil){
@@ -90,7 +90,7 @@
 }
 
 -(BOOL) isValid{
-    BOOL valid = true;
+    BOOL valid = YES;
     if(self.shape != nil){
         valid = [self.shape isValid];
     }

@@ -134,9 +134,9 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [sampleRange setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT];
     [sampleRange setDataColumnConstraintType:GPKG_DCCT_RANGE];
     [sampleRange setMin: [[NSDecimalNumber alloc] initWithDouble:1.0]];
-    [sampleRange setMinIsInclusiveValue:true];
+    [sampleRange setMinIsInclusiveValue:YES];
     [sampleRange setMax: [[NSDecimalNumber alloc] initWithDouble:10.0]];
-    [sampleRange setMaxIsInclusiveValue:true];
+    [sampleRange setMaxIsInclusiveValue:YES];
     [dao create:sampleRange];
     
     GPKGDataColumnConstraints * sampleEnum1 = [[GPKGDataColumnConstraints alloc] init];
@@ -220,7 +220,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:9 andName:@"test_date" andDataType:GPKG_DT_DATE] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:10 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createGeometryColumnWithIndex:1 andName:geometryColumn andGeometryType:geometryType] toArray:columns];
-    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:2 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
+    [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:2 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:3 andName:@"test_real" andDataType:GPKG_DT_REAL] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:4 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:5 andName:@"test_blob" andDataType:GPKG_DT_BLOB] toArray:columns];
@@ -270,7 +270,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             geometry = [self createPointWithHasZ:hasZ andHasM:hasM];
                             break;
                         case SF_LINESTRING:
-                            geometry = [self createLineStringWithHasZ:hasZ andHasM:hasM andRing:false];
+                            geometry = [self createLineStringWithHasZ:hasZ andHasM:hasM andRing:NO];
                             break;
                         case SF_POLYGON:
                             geometry = [self createPolygonWithHasZ:hasZ andHasM:hasM];
@@ -303,7 +303,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             value = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
                             break;
                         case GPKG_DT_BOOLEAN:
-                            value = [NSNumber numberWithBool:([self randomDouble] < .5 ? false : true)];
+                            value = [NSNumber numberWithBool:([self randomDouble] < .5 ? NO : YES)];
                             break;
                         case GPKG_DT_INTEGER:
                         case GPKG_DT_INT:
@@ -411,7 +411,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     int numLineStrings = 1 + [self randomIntLessThan:5];
     
     for(int i = 0; i < numLineStrings; i++){
-        [polygon addRing:[self createLineStringWithHasZ:hasZ andHasM:hasM andRing:true]];
+        [polygon addRing:[self createLineStringWithHasZ:hasZ andHasM:hasM andRing:YES]];
     }
     
     return polygon;

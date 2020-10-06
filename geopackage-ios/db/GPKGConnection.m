@@ -116,7 +116,7 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    return [GPKGSqlUtils querySQLWithDistinct:false andTable:table
+    return [GPKGSqlUtils querySQLWithDistinct:NO andTable:table
                                          andColumns:columns
                                            andWhere:where
                                          andGroupBy:groupBy

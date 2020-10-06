@@ -664,7 +664,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         
         [newRow setValueWithColumnName:TEXT_COLUMN andValue:name];
         [newRow setValueWithColumnName:REAL_COLUMN andValue:[[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]]];
-        [newRow setValueWithColumnName:BOOLEAN_COLUMN andValue:[NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)]];
+        [newRow setValueWithColumnName:BOOLEAN_COLUMN andValue:[NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? NO : YES)]];
         [newRow setValueWithColumnName:BLOB_COLUMN andValue:[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding]];
         [newRow setValueWithColumnName:INTEGER_COLUMN andValue:[NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]]];
         [newRow setValueWithColumnName:TEXT_LIMITED_COLUMN andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
@@ -829,7 +829,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
         
         [newRow setValueWithColumnName:TEXT_COLUMN andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
         [newRow setValueWithColumnName:REAL_COLUMN andValue:[[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]]];
-        [newRow setValueWithColumnName:BOOLEAN_COLUMN andValue:[NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)]];
+        [newRow setValueWithColumnName:BOOLEAN_COLUMN andValue:[NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? NO : YES)]];
         [newRow setValueWithColumnName:BLOB_COLUMN andValue:[[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding]];
         [newRow setValueWithColumnName:INTEGER_COLUMN andValue:[NSNumber numberWithInt:[GPKGTestUtils randomIntLessThan:500]]];
         [newRow setValueWithColumnName:TEXT_LIMITED_COLUMN andValue:[[NSProcessInfo processInfo] globallyUniqueString]];
@@ -899,9 +899,9 @@ static int dataColumnConstraintIndex = 0;
     [sampleRange setConstraintName:@"sampleRange"];
     [sampleRange setDataColumnConstraintType:GPKG_DCCT_RANGE];
     [sampleRange setMinValue:1.0];
-    [sampleRange setMinIsInclusiveValue:true];
+    [sampleRange setMinIsInclusiveValue:YES];
     [sampleRange setMaxValue:10.0];
-    [sampleRange setMaxIsInclusiveValue:true];
+    [sampleRange setMaxIsInclusiveValue:YES];
     [sampleRange setTheDescription:@"sampleRange description"];
     [dao create:sampleRange];
     

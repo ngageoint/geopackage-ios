@@ -270,8 +270,8 @@
     double minLatitude = MAX([boundingBox.minLatitude doubleValue], PROJ_WEB_MERCATOR_MIN_LAT_RANGE);
     double maxLatitude = MIN([boundingBox.maxLatitude doubleValue], PROJ_WEB_MERCATOR_MAX_LAT_RANGE);
     
-    SFPoint * lowerLeftPoint = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:boundingBox.minLongitude andY:[[NSDecimalNumber alloc] initWithDouble:minLatitude]];
-    SFPoint * upperRightPoint = [[SFPoint alloc] initWithHasZ:false andHasM:false andX:boundingBox.maxLongitude andY:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
+    SFPoint * lowerLeftPoint = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:boundingBox.minLongitude andY:[[NSDecimalNumber alloc] initWithDouble:minLatitude]];
+    SFPoint * upperRightPoint = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:boundingBox.maxLongitude andY:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
     
     SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     lowerLeftPoint = [toWebMercator transformWithPoint:lowerLeftPoint];

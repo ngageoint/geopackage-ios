@@ -171,7 +171,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:7 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7]] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:8 andName:@"test_date" andDataType:GPKG_DT_DATE] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:9 andName:@"test_datetime" andDataType:GPKG_DT_DATETIME] toArray:columns];
-    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:false andDefaultValue:@""] toArray:columns];
+    [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:1 andName:@"test_text" andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:2 andName:@"test_real" andDataType:GPKG_DT_REAL] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:3 andName:@"test_boolean" andDataType:GPKG_DT_BOOLEAN] toArray:columns];
     [GPKGUtils addObject:[GPKGAttributesColumn createColumnWithIndex:4 andName:@"test_blob" andDataType:GPKG_DT_BLOB] toArray:columns];
@@ -227,7 +227,7 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
                         value = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
                         break;
                     case GPKG_DT_BOOLEAN:
-                        value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)];
+                        value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? NO : YES)];
                         break;
                     case GPKG_DT_INTEGER:
                     case GPKG_DT_INT:
@@ -405,10 +405,10 @@ NSInteger const GPKG_TEST_SETUP_CREATE_EXTENSIONS_COUNT = 7;
     [geometryColumnsDao create:lineString3dMGeometryColumns];
     
     // Populate the feature tables with rows
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:false andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:true andHasM:false andAllowEmptyFeatures:allowEmptyFeatures];
-    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:true andHasM:true andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point2dGeometryColumns andFeatureTable:point2dTable andNumRows:3 andHasZ:NO andHasM:NO andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:polygon2dGeometryColumns andFeatureTable:polygon2dTable andNumRows:3 andHasZ:NO andHasM:NO andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:point3dGeometryColumns andFeatureTable:point3dTable andNumRows:3 andHasZ:YES andHasM:NO andAllowEmptyFeatures:allowEmptyFeatures];
+    [GPKGTestUtils addRowsToFeatureTableWithGeoPackage:geoPackage andGeometryColumns:lineString3dMGeometryColumns andFeatureTable:lineString3dMTable andNumRows:3 andHasZ:YES andHasM:YES andAllowEmptyFeatures:allowEmptyFeatures];
 
 }
 

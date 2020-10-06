@@ -266,7 +266,7 @@
 
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withTolerance: (GPKGMapTolerance *) tolerance{
     
-    BOOL onShape = false;
+    BOOL onShape = NO;
     
     switch(mapShape.shapeType){
             
@@ -315,7 +315,7 @@
 }
 
 +(BOOL) isLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (GPKGMapTolerance *) tolerance{
-    BOOL near = false;
+    BOOL near = NO;
     for(GPKGMapPoint *mapPoint in multiPoint.points){
         near = [self isLocation:location nearMapPoint:mapPoint withTolerance:tolerance];
         if(near){
@@ -345,7 +345,7 @@
 }
 
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolyline: (GPKGMultiPolyline *) multiPolyline withTolerance: (GPKGMapTolerance *) tolerance{
-    BOOL near = false;
+    BOOL near = NO;
     for(MKPolyline *polyline in multiPolyline.polylines){
         near = [self isLocation:location onPolyline:polyline withTolerance:tolerance];
         if(near){
@@ -363,7 +363,7 @@
 
     if(onShape){
         // Verify not in a hole
-        onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:false];
+        onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:NO];
     }else{
         // Check the complementary polygon path in case it crosses -180 / 180 longitude
         
@@ -376,7 +376,7 @@
         
         if(onShape){
             // Verify not in a hole
-            onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:true];
+            onShape = ![self isLocation:location onPolygonHoles:polygon withComplementary:YES];
         }
     }
     
@@ -387,7 +387,7 @@
 
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onPolygonHoles: (MKPolygon *) polygon withComplementary: (BOOL) complementary{
     
-    BOOL onHole = false;
+    BOOL onHole = NO;
     
     for(MKPolygon *hole in polygon.interiorPolygons){
         
@@ -418,7 +418,7 @@
 }
 
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withTolerance: (GPKGMapTolerance *) tolerance{
-    BOOL near = false;
+    BOOL near = NO;
     for(MKPolygon *polygon in multiPolygon.polygons){
         near = [self isLocation:location onPolygon:polygon withTolerance:tolerance];
         if(near){

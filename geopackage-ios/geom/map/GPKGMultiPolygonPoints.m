@@ -42,7 +42,7 @@
 }
 
 -(BOOL) isValid{
-    BOOL valid = true;
+    BOOL valid = YES;
     for(GPKGPolygonPoints * polygonPoint in self.polygonPoints){
         valid = [polygonPoint isValid];
         if(!valid){
@@ -53,7 +53,7 @@
 }
 
 -(BOOL) isDeleted{
-    BOOL deleted = true;
+    BOOL deleted = YES;
     for(GPKGPolygonPoints * polygonPoint in self.polygonPoints){
         deleted = [polygonPoint isDeleted];
         if(!deleted){

@@ -74,7 +74,7 @@
     CGContextDrawImage(context, CGRectMake(0, 0, self.width, self.height), tileImageRef);
     CGContextRelease(context);
     
-    self.pixelsRead = true;
+    self.pixelsRead = YES;
 }
 
 @end

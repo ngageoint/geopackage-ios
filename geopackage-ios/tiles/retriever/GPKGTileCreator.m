@@ -96,7 +96,7 @@
 
 -(BOOL) hasTileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
     
-    BOOL hasTile = false;
+    BOOL hasTile = NO;
     
     // Transform to the projection of the tiles
     SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];

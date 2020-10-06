@@ -505,7 +505,7 @@
 -(BOOL) createTileMatrixSetTable{
     [self verifyWritable];
     
-    BOOL created = false;
+    BOOL created = NO;
     GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
     if(![dao tableExists]){
         created = [self.tableCreator createTileMatrixSet] > 0;
@@ -521,7 +521,7 @@
 -(BOOL) createTileMatrixTable{
     [self verifyWritable];
     
-    BOOL created = false;
+    BOOL created = NO;
     GPKGTileMatrixDao * dao = [self tileMatrixDao];
     if(![dao tableExists]){
         created = [self.tableCreator createTileMatrix] > 0;
@@ -631,7 +631,7 @@
 -(BOOL) createExtensionsTable{
     [self verifyWritable];
     
-    BOOL created = false;
+    BOOL created = NO;
     GPKGExtensionsDao * dao = [self extensionsDao];
     if(![dao tableExists]){
         created = [self.tableCreator createExtensions] > 0;

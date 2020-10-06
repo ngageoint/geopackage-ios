@@ -170,7 +170,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
         if(envelope != nil){
             GPKGGeometryIndex * geometryIndex = [self.geometryIndexDao populateWithTableIndex:tableIndex andGeomId:geomId andEnvelope:envelope];
             [self.geometryIndexDao createOrUpdate:geometryIndex];
-            indexed = true;
+            indexed = YES;
         }
     }
     

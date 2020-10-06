@@ -21,17 +21,17 @@
 /**
  *  Tile Matrix Set
  */
-@property (nonatomic, strong) GPKGTileMatrixSet * tileMatrixSet;
+@property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
 
 /**
  *  Tile Matrices
  */
-@property (nonatomic, strong) NSArray * tileMatrices;
+@property (nonatomic, strong) NSArray<GPKGTileMatrix *> *tileMatrices;
 
 /**
  *  Mapping between zoom levels and the tile matrix
  */
-@property (nonatomic, strong) NSDictionary * zoomLevelToTileMatrix;
+@property (nonatomic, strong) NSDictionary *zoomLevelToTileMatrix;
 
 /**
  *  Min zoom
@@ -46,12 +46,12 @@
 /**
  *  Array of widths of the tiles at each zoom level in default units
  */
-@property (nonatomic, strong) NSArray * widths;
+@property (nonatomic, strong) NSArray *widths;
 
 /**
  *  Array of heights of the tiles at each zoom level in default units
  */
-@property (nonatomic, strong) NSArray * heights;
+@property (nonatomic, strong) NSArray *heights;
 
 /**
  *  Initialize
@@ -63,7 +63,7 @@
  *
  *  @return new tile dao
  */
--(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGTileTable *) table andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray *) tileMatrices;
+-(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGTileTable *) table andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices;
 
 /**
  *  Get the bounding box of tiles at the zoom level

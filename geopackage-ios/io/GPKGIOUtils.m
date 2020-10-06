@@ -108,7 +108,7 @@ static int COPY_BUFFER_SIZE = 8192;
 +(void) copyFile: (NSString *) copyFrom toFile: (NSString *) copyTo{
     
     NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
-    NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
     
     [to open];
     @try {
@@ -125,7 +125,7 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(void) copyInputStream: (NSInputStream *) copyFrom toFile: (NSString *) copyTo withProgress: (NSObject<GPKGProgress> *) progress{
     
-    NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:false];
+    NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
     [outputStream open];
     @try {
         [self copyInputStream:copyFrom toOutputStream:outputStream withProgress:progress];

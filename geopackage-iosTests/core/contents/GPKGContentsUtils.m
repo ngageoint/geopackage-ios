@@ -71,7 +71,7 @@
         queryContentsResults = [dao queryForFieldValues:fieldValues];
         [GPKGTestUtils assertNotNil:queryContentsResults];
         [GPKGTestUtils assertTrue:queryContentsResults.count > 0];
-        BOOL found = false;
+        BOOL found = NO;
         while ([queryContentsResults moveToNext]) {
             GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             [GPKGTestUtils assertEqualWithValue:contents.dataType andValue2:queryContentsValue.dataType];
@@ -94,11 +94,11 @@
         
         int queryCount = queryContentsResults.count;
         
-        found = false;
+        found = NO;
         while ([queryContentsResults moveToNext]) {
             GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             if([contents.tableName isEqualToString:queryContentsValue.tableName]){
-                found = true;
+                found = YES;
                 break;
             }
         }
@@ -112,11 +112,11 @@
         [whereArgs addObject:contents.lastChange];
         queryContentsResults = [dao queryWhere:where andWhereArgs:whereArgs];
         
-        found = false;
+        found = NO;
         while ([queryContentsResults moveToNext]) {
             GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
             if([contents.tableName isEqualToString:queryContentsValue.tableName]){
-                found = true;
+                found = YES;
                 break;
             }
         }
@@ -332,13 +332,13 @@
 
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:false];
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:NO];
     
 }
 
 +(void) testDeleteCascadeWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:true];
+    [self testDeleteHelperWithGeoPackage:geoPackage andCascade:YES];
     
 }
 

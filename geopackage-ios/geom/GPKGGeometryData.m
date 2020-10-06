@@ -534,14 +534,14 @@ static int defaultByteOrder;
         
         // Read z values
         if (envelopeIndicator == 2 || envelopeIndicator == 4) {
-            hasZ = true;
+            hasZ = YES;
             minZ = [reader readDouble];
             maxZ = [reader readDouble];
         }
         
         // Read m values
         if (envelopeIndicator == 3 || envelopeIndicator == 4) {
-            hasM = true;
+            hasM = YES;
             minM = [reader readDouble];
             maxM = [reader readDouble];
         }

@@ -19,7 +19,7 @@
 
 @implementation GPKGTileDao
 
--(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGTileTable *) table andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray *) tileMatrices{
+-(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGTileTable *) table andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices{
     self = [super initWithDatabase:database andTable:table];
     if(self != nil){
         self.database = database;
@@ -27,11 +27,11 @@
         self.tileMatrices = tileMatrices;
         
         NSInteger count = [tileMatrices count];
-        NSMutableDictionary * tempZoomLevelToTileMatrix = [[NSMutableDictionary alloc] initWithCapacity:count];
-        NSMutableArray * tempWidths = [[NSMutableArray alloc] initWithCapacity:count];
-        NSMutableArray * tempHeights = [[NSMutableArray alloc] initWithCapacity:count];
+        NSMutableDictionary *tempZoomLevelToTileMatrix = [[NSMutableDictionary alloc] initWithCapacity:count];
+        NSMutableArray *tempWidths = [[NSMutableArray alloc] initWithCapacity:count];
+        NSMutableArray *tempHeights = [[NSMutableArray alloc] initWithCapacity:count];
         
-        GPKGTileMatrixSetDao * dao =  [self tileMatrixSetDao];
+        GPKGTileMatrixSetDao *dao =  [self tileMatrixSetDao];
         self.projection = [dao projection:tileMatrixSet];
         
         // Set the min and max zoom levels
@@ -39,14 +39,14 @@
             self.minZoom = 0;
             self.maxZoom = 0;
         }else{
-            self.minZoom = [((GPKGTileMatrix *)[tileMatrices objectAtIndex:0]).zoomLevel intValue];
-            self.maxZoom = [((GPKGTileMatrix *)[tileMatrices objectAtIndex:(count-1)]).zoomLevel intValue];
+            self.minZoom = [[tileMatrices objectAtIndex:0].zoomLevel intValue];
+            self.maxZoom = [[tileMatrices objectAtIndex:(count-1)].zoomLevel intValue];
         }
         
         // Populate the zoom level to tile matrix and the sorted tile widths and
         // heights
         for (int i = ((int)count)-1; i >= 0; i--) {
-            GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *) [tileMatrices objectAtIndex:i];
+            GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
             [GPKGUtils setObject:tileMatrix forKey:tileMatrix.zoomLevel inDictionary:tempZoomLevelToTileMatrix];
             double width = [tileMatrix.pixelXSize doubleValue] * [tileMatrix.tileWidth intValue];
             double height = [tileMatrix.pixelYSize doubleValue] * [tileMatrix.tileHeight intValue];
@@ -74,12 +74,12 @@
 }
 
 -(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel{
-    GPKGBoundingBox * boundingBox = nil;
-    GPKGTileMatrix * tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
+    GPKGBoundingBox *boundingBox = nil;
+    GPKGTileMatrix *tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
     if(tileMatrix != nil){
-        GPKGTileGrid * tileGrid = [self queryForTileGridWithZoomLevel:zoomLevel];
+        GPKGTileGrid *tileGrid = [self queryForTileGridWithZoomLevel:zoomLevel];
         if(tileGrid != nil){
-            GPKGBoundingBox * matrixSetBoundingBox = [self boundingBox];
+            GPKGBoundingBox *matrixSetBoundingBox = [self boundingBox];
             boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:matrixSetBoundingBox andTileMatrix:tileMatrix andTileGrid:tileGrid];
         }
     }
@@ -87,8 +87,8 @@
 }
 
 -(GPKGTileGrid *) tileGridWithZoomLevel: (int) zoomLevel{
-    GPKGTileGrid * tileGrid = nil;
-    GPKGTileMatrix * tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
+    GPKGTileGrid *tileGrid = nil;
+    GPKGTileMatrix *tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
     if(tileMatrix != nil){
         tileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMinY:0 andMaxX:[tileMatrix.matrixWidth intValue] - 1 andMaxY:[tileMatrix.matrixHeight intValue] - 1];
     }
@@ -121,13 +121,13 @@
 
 -(GPKGTileRow *) queryForTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{
     
-    GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
+    GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
     [fieldValues addColumn:GPKG_TC_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
     [fieldValues addColumn:GPKG_TC_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
     [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
-    GPKGResultSet * results = [self queryForFieldValues:fieldValues];
-    GPKGTileRow * tileRow = nil;
+    GPKGResultSet *results = [self queryForFieldValues:fieldValues];
+    GPKGTileRow *tileRow = nil;
     @try{
         if([results moveToNext]){
             tileRow = [self tileRow:results];
@@ -149,7 +149,7 @@
 
 -(GPKGResultSet *) queryForTilesInColumn: (int) column andZoomLevel: (int) zoomLevel{
     
-    GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
+    GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
     [fieldValues addColumn:GPKG_TC_COLUMN_TILE_COLUMN withValue:[NSNumber numberWithInt:column]];
     [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
@@ -157,7 +157,7 @@
 }
 
 -(GPKGResultSet *) queryForTilesInRow: (int) row andZoomLevel: (int) zoomLevel{
-    GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
+    GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
     [fieldValues addColumn:GPKG_TC_COLUMN_TILE_ROW withValue:[NSNumber numberWithInt:row]];
     [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:[NSNumber numberWithInt:zoomLevel]];
     
@@ -193,17 +193,17 @@
 }
 
 -(GPKGResultSet *) queryByTileGrid: (GPKGTileGrid *) tileGrid andZoomLevel: (int) zoomLevel andOrderBy: (NSString *) orderBy{
-    GPKGResultSet * results = nil;
+    GPKGResultSet *results = nil;
     
     if(tileGrid != nil){
         
-        NSMutableString * where = [[NSMutableString alloc] init];
+        NSMutableString *where = [[NSMutableString alloc] init];
         
-        NSNumber * zoom = [NSNumber numberWithInt:zoomLevel];
-        NSNumber * minX = [NSNumber numberWithInt:tileGrid.minX];
-        NSNumber * maxX = [NSNumber numberWithInt:tileGrid.maxX];
-        NSNumber * minY = [NSNumber numberWithInt:tileGrid.minY];
-        NSNumber * maxY = [NSNumber numberWithInt:tileGrid.maxY];
+        NSNumber *zoom = [NSNumber numberWithInt:zoomLevel];
+        NSNumber *minX = [NSNumber numberWithInt:tileGrid.minX];
+        NSNumber *maxX = [NSNumber numberWithInt:tileGrid.maxX];
+        NSNumber *minY = [NSNumber numberWithInt:tileGrid.minY];
+        NSNumber *maxY = [NSNumber numberWithInt:tileGrid.maxY];
         
         [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom]];
         
@@ -219,7 +219,7 @@
         [where appendString:@" and "];
         [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxY andOperation:@"<="]];
         
-        NSArray * whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
+        NSArray *whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
                                minX,
                                maxX,
                                minY,
@@ -232,16 +232,16 @@
 
 -(GPKGTileGrid *) queryForTileGridWithZoomLevel: (int) zoomLevel{
     
-    NSNumber * zoomLevelNumber = [NSNumber numberWithInt:zoomLevel];
-    NSString * where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelNumber];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:zoomLevelNumber];
+    NSNumber *zoomLevelNumber = [NSNumber numberWithInt:zoomLevel];
+    NSString *where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelNumber];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:zoomLevelNumber];
     
-    NSNumber * minX = [self minOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
-    NSNumber * maxX = [self maxOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
-    NSNumber * minY = [self minOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
-    NSNumber * maxY = [self maxOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    NSNumber *minX = [self minOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber *maxX = [self maxOfColumn:GPKG_TC_COLUMN_TILE_COLUMN andWhere:where andWhereArgs:whereArgs];
+    NSNumber *minY = [self minOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
+    NSNumber *maxY = [self maxOfColumn:GPKG_TC_COLUMN_TILE_ROW andWhere:where andWhereArgs:whereArgs];
     
-    GPKGTileGrid * tileGrid = nil;
+    GPKGTileGrid *tileGrid = nil;
     if(minX != nil && maxX != nil && minY != nil && maxY != nil){
         tileGrid = [[GPKGTileGrid alloc] initWithMinX:[minX intValue] andMinY:[minY intValue] andMaxX:[maxX intValue] andMaxY:[maxY intValue]];
     }
@@ -251,11 +251,11 @@
 
 -(int) deleteTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{
     
-    NSMutableString * where = [[NSMutableString alloc] init];
+    NSMutableString *where = [[NSMutableString alloc] init];
     
-    NSNumber * zoom = [NSNumber numberWithInt:zoomLevel];
-    NSNumber * columnNumber = [NSNumber numberWithInt:column];
-    NSNumber * rowNumber = [NSNumber numberWithInt:row];
+    NSNumber *zoom = [NSNumber numberWithInt:zoomLevel];
+    NSNumber *columnNumber = [NSNumber numberWithInt:column];
+    NSNumber *rowNumber = [NSNumber numberWithInt:row];
     
     [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom]];
     
@@ -265,7 +265,7 @@
     [where appendString:@" and "];
     [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:rowNumber]];
     
-    NSArray * whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
+    NSArray *whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
                            columnNumber,
                            rowNumber, nil]];
     int deleted = [self deleteWhere:where andWhereArgs:whereArgs];
@@ -274,9 +274,9 @@
 }
 
 -(int) countWithZoomLevel: (int) zoomLevel{
-    NSNumber * zoom = [NSNumber numberWithInt:zoomLevel];
-    NSString * where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:zoom];
+    NSNumber *zoom = [NSNumber numberWithInt:zoomLevel];
+    NSString *where = [self buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoom];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:zoom];
     return [self countWhere:where andWhereArgs:whereArgs];
 }
 
@@ -291,11 +291,11 @@
 -(BOOL) isXYZTiles{
     
     // Convert the bounding box to wgs84
-    GPKGBoundingBox * boundingBox = [self.tileMatrixSet boundingBox];
-    SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:transform];
+    GPKGBoundingBox *boundingBox = [self.tileMatrixSet boundingBox];
+    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:transform];
 
-    BOOL isFormat = false;
+    BOOL isFormat = NO;
     
     // Verify the bounds are the entire world
     if([wgs84BoundingBox.minLatitude doubleValue] <= PROJ_WEB_MERCATOR_MIN_LAT_RANGE
@@ -303,14 +303,14 @@
        && [wgs84BoundingBox.minLongitude doubleValue] <= -PROJ_WGS84_HALF_WORLD_LON_WIDTH
        && [wgs84BoundingBox.maxLongitude doubleValue] >= PROJ_WGS84_HALF_WORLD_LON_WIDTH){
         
-        isFormat = true;
+        isFormat = YES;
         
-        for(GPKGTileMatrix * tileMatrix in self.tileMatrices){
+        for(GPKGTileMatrix *tileMatrix in self.tileMatrices){
             int zoomLevel = [tileMatrix.zoomLevel intValue];
             int tilesPerSide = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:zoomLevel];
             if([tileMatrix.matrixWidth intValue] != tilesPerSide
                || [tileMatrix.matrixHeight intValue] != tilesPerSide){
-                isFormat = false;
+                isFormat = NO;
                 break;
             }
         }

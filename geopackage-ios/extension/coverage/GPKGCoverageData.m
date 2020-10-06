@@ -133,9 +133,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     if(self != nil){
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_GRIDDED_COVERAGE_EXTENSION_NAME];
         self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION];
-        self.zoomIn = true;
-        self.zoomOut = true;
-        self.zoomInBeforeOut = true;
+        self.zoomIn = YES;
+        self.zoomOut = YES;
+        self.zoomInBeforeOut = YES;
         self.algorithm = GPKG_CDA_NEAREST_NEIGHBOR;
         self.encoding = GPKG_GCET_CENTER;
         
@@ -155,7 +155,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         if(requestProjection != nil){
             self.sameProjection = [requestProjection getUnit] == [self.coverageProjection getUnit];
         }else{
-            self.sameProjection = true;
+            self.sameProjection = YES;
         }
     }
     return self;

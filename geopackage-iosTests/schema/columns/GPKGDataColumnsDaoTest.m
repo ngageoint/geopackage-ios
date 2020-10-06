@@ -13,7 +13,7 @@
 @implementation GPKGDataColumnsDaoTest
 
 -(GPKGGeoPackage *) createGeoPackage{
-    return [GPKGTestSetupTeardown setUpCreateWithFeatures:true andTiles:true];
+    return [GPKGTestSetupTeardown setUpCreateWithFeatures:YES andTiles:YES];
 }
 
 - (void)setUp {

@@ -95,7 +95,7 @@
                     value = [[NSDecimalNumber alloc] initWithDouble:[GPKGTestUtils randomDoubleLessThan:5000.0]];
                     break;
                 case GPKG_DT_BOOLEAN:
-                    value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? false : true)];
+                    value = [NSNumber numberWithBool:([GPKGTestUtils randomDouble] < .5 ? NO : YES)];
                     break;
                 case GPKG_DT_INTEGER:
                 case GPKG_DT_INT:

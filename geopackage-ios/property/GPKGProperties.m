@@ -27,7 +27,7 @@ static NSDictionary *properties;
 }
 
 +(NSString *) valueOfProperty: (NSString *) property{
-    return [self valueOfProperty:property andRequired:true];
+    return [self valueOfProperty:property andRequired:YES];
 }
 
 +(NSString *) valueOfProperty: (NSString *) property andRequired: (BOOL) required{
@@ -42,7 +42,7 @@ static NSDictionary *properties;
 }
 
 +(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self valueOfBaseProperty:base andProperty:property andRequired:true];
+    return [self valueOfBaseProperty:base andProperty:property andRequired:YES];
 }
 
 +(NSString *) valueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
@@ -50,7 +50,7 @@ static NSDictionary *properties;
 }
 
 +(NSNumber *) numberValueOfProperty: (NSString *) property{
-    return [self numberValueOfProperty:property andRequired:true];
+    return [self numberValueOfProperty:property andRequired:YES];
 }
 
 +(NSNumber *) numberValueOfProperty: (NSString *) property andRequired: (BOOL) required{
@@ -65,7 +65,7 @@ static NSDictionary *properties;
 }
 
 +(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self numberValueOfBaseProperty:base andProperty:property andRequired:true];
+    return [self numberValueOfBaseProperty:base andProperty:property andRequired:YES];
 }
 
 +(NSNumber *) numberValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
@@ -73,11 +73,11 @@ static NSDictionary *properties;
 }
 
 +(BOOL) boolValueOfProperty: (NSString *) property{
-    return [self boolValueOfProperty:property andRequired:true];
+    return [self boolValueOfProperty:property andRequired:YES];
 }
 
 +(BOOL) boolValueOfProperty: (NSString *) property andRequired: (BOOL) required{
-    BOOL value = false;
+    BOOL value = NO;
     NSString * stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
         value = [stringValue boolValue];
@@ -86,7 +86,7 @@ static NSDictionary *properties;
 }
 
 +(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self boolValueOfBaseProperty:base andProperty:property andRequired:true];
+    return [self boolValueOfBaseProperty:base andProperty:property andRequired:YES];
 }
 
 +(BOOL) boolValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
@@ -94,7 +94,7 @@ static NSDictionary *properties;
 }
 
 +(NSArray *) arrayValueOfProperty: (NSString *) property{
-    return [self arrayValueOfProperty:property andRequired:true];
+    return [self arrayValueOfProperty:property andRequired:YES];
 }
 
 +(NSArray *) arrayValueOfProperty: (NSString *) property andRequired: (BOOL) required{
@@ -109,7 +109,7 @@ static NSDictionary *properties;
 }
 
 +(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self arrayValueOfBaseProperty:base andProperty:property andRequired:true];
+    return [self arrayValueOfBaseProperty:base andProperty:property andRequired:YES];
 }
 
 +(NSArray *) arrayValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{
@@ -117,7 +117,7 @@ static NSDictionary *properties;
 }
 
 +(NSDictionary *) dictionaryValueOfProperty: (NSString *) property{
-    return [self dictionaryValueOfProperty:property andRequired:true];
+    return [self dictionaryValueOfProperty:property andRequired:YES];
 }
 
 +(NSDictionary *) dictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
@@ -132,7 +132,7 @@ static NSDictionary *properties;
 }
 
 +(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property{
-    return [self dictionaryValueOfBaseProperty:base andProperty:property andRequired:true];
+    return [self dictionaryValueOfBaseProperty:base andProperty:property andRequired:YES];
 }
 
 +(NSDictionary *) dictionaryValueOfBaseProperty: (NSString *) base andProperty: (NSString *) property andRequired: (BOOL) required{

@@ -27,24 +27,24 @@
 
 -(BOOL) equals: (GPKGTileGrid *) tileGrid{
     if(self == tileGrid){
-        return true;
+        return YES;
     }
     if(tileGrid == nil){
-        return false;
+        return NO;
     }
     if(self.minX != tileGrid.minX){
-        return false;
+        return NO;
     }
     if(self.maxX != tileGrid.maxX){
-        return false;
+        return NO;
     }
     if(self.minY != tileGrid.minY){
-        return false;
+        return NO;
     }
     if(self.maxY != tileGrid.maxY){
-        return false;
+        return NO;
     }
-    return true;
+    return YES;
 }
 
 - (BOOL)isEqual:(id)object {

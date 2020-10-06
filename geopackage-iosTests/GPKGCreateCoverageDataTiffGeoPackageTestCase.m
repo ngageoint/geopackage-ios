@@ -20,7 +20,7 @@
 
 
 -(BOOL) shouldAllowNils{
-    return true;
+    return YES;
 }
 
 -(GPKGGeoPackage *) createGeoPackage{
@@ -60,10 +60,10 @@
     GPKGGriddedCoverage * griddedCoverage = [[GPKGGriddedCoverage alloc] init];
     [griddedCoverage setTileMatrixSet:tileMatrixSet];
     [griddedCoverage setGriddedCoverageDataType:GPKG_GCDT_FLOAT];
-    BOOL defaultPrecision = true;
+    BOOL defaultPrecision = YES;
     if([GPKGTestUtils randomDouble] < .5){
         [griddedCoverage setPrecision:[[NSDecimalNumber alloc] initWithDouble:10.0 * [GPKGTestUtils randomDouble]]];
-        defaultPrecision = false;
+        defaultPrecision = NO;
     }
     [griddedCoverage setDataNull:[[NSDecimalNumber alloc] initWithDouble:FLT_MAX]];
     enum GPKGGriddedCoverageEncodingType encoding;
@@ -103,29 +103,29 @@
     
     // The min, max, mean, and sd are just for testing and have
     // no association on the test tile created
-    BOOL defaultGTMin = true;
+    BOOL defaultGTMin = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setMin:[[NSDecimalNumber alloc] initWithDouble:1000.0 * [GPKGTestUtils randomDouble]]];
-        defaultGTMin = false;
+        defaultGTMin = NO;
     }
-    BOOL defaultGTMax = true;
+    BOOL defaultGTMax = YES;
     if([GPKGTestUtils randomDouble] <.5){
         [commonGriddedTile setMax:[[NSDecimalNumber alloc] initWithDouble:1000.0 * [GPKGTestUtils randomDouble] + (commonGriddedTile.min == nil ? 0 : [commonGriddedTile.min doubleValue])]];
-        defaultGTMax = false;
+        defaultGTMax = NO;
     }
-    BOOL defaultGTMean = true;
+    BOOL defaultGTMean = YES;
     if([GPKGTestUtils randomDouble] <.5){
         double min = commonGriddedTile.min != nil ? [commonGriddedTile.min doubleValue] : 0;
         double max = commonGriddedTile.max != nil ? [commonGriddedTile.max doubleValue] : 2000.0;
         [commonGriddedTile setMean:[[NSDecimalNumber alloc] initWithDouble:((max - min) * [GPKGTestUtils randomDouble]) + min]];
-        defaultGTMean = false;
+        defaultGTMean = NO;
     }
-    BOOL defaultGTStandardDeviation = true;
+    BOOL defaultGTStandardDeviation = YES;
     if([GPKGTestUtils randomDouble] <.5){
         double min = commonGriddedTile.min != nil ? [commonGriddedTile.min doubleValue] : 0;
         double max = commonGriddedTile.max != nil ? [commonGriddedTile.max doubleValue] : 2000.0;
         [commonGriddedTile setStandardDeviation:[[NSDecimalNumber alloc] initWithDouble:(max - min) * [GPKGTestUtils randomDouble]]];
-        defaultGTStandardDeviation = false;
+        defaultGTStandardDeviation = NO;
     }
     
     GPKGGriddedTileDao * griddedTileDao = [coverageData griddedTileDao];

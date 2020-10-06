@@ -14,7 +14,7 @@
     self = [super init];
     if(self != nil){
         self.progress = 0;
-        self.active = true;
+        self.active = YES;
     }
     return self;
 }
@@ -32,7 +32,7 @@
 }
 
 -(BOOL) cleanupOnCancel{
-    return false;
+    return NO;
 }
 
 -(void) completed{
@@ -44,7 +44,7 @@
 }
 
 -(void) cancel{
-    self.active = false;
+    self.active = NO;
 }
 
 @end

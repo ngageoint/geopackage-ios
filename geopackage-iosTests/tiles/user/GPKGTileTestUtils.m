@@ -237,9 +237,9 @@
             GPKGBoundingBox * totalBoundingBox = [tileMatrixSet boundingBox];
             [GPKGTestUtils assertTrue:[totalBoundingBox equals:[dao boundingBox]]];
             
-            NSArray * tileMatrices = dao.tileMatrices;
+            NSArray<GPKGTileMatrix *> *tileMatrices = dao.tileMatrices;
             
-            for(GPKGTileMatrix * tileMatrix in tileMatrices){
+            for(GPKGTileMatrix *tileMatrix in tileMatrices){
                 
                 int zoomLevel = [tileMatrix.zoomLevel intValue];
                 int count = [dao countWithZoomLevel:zoomLevel];

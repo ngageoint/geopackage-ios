@@ -366,7 +366,7 @@
 }
 
 -(void) deleteTable: (NSString *) table{
-    [self deleteByIdCascade:table andUserTable:true];
+    [self deleteByIdCascade:table andUserTable:YES];
 }
 
 -(GPKGSpatialReferenceSystem *) srs: (GPKGContents *) contents{

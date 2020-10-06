@@ -76,7 +76,7 @@
         // Test re-indexing, both ignored and forced
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[featureTableIndex index]];
         [NSThread sleepForTimeInterval:1];
-        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[featureTableIndex indexWithForce:true]];
+        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:[featureTableIndex indexWithForce:YES]];
         [GPKGTestUtils assertTrue:([[featureTableIndex lastIndexed] compare:lastIndexed] == NSOrderedDescending)];
         
         // Query for all indexed geometries
@@ -105,14 +105,14 @@
             [envelope setMaxM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxM doubleValue] + .000001)]];
         }
         resultCount = 0;
-        BOOL featureFound = false;
+        BOOL featureFound = NO;
         [GPKGTestUtils assertTrue:[featureTableIndex countWithEnvelope:envelope] >= 1];
         featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
-                featureFound = true;
+                featureFound = YES;
             }
             resultCount++;
         }
@@ -137,14 +137,14 @@
         
         // Test the query by projected bounding box
         resultCount = 0;
-        featureFound = false;
+        featureFound = NO;
         [GPKGTestUtils assertTrue:[featureTableIndex countWithBoundingBox:transformedBoundingBox inProjection:projection] >= 1];
         featureTableResults = [featureTableIndex queryWithBoundingBox:transformedBoundingBox inProjection:projection];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
-                featureFound = true;
+                featureFound = YES;
             }
             resultCount++;
         }
@@ -167,14 +167,14 @@
         // Verify the index was updated for the feature row
         envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
         resultCount = 0;
-        featureFound = false;
+        featureFound = NO;
         [GPKGTestUtils assertTrue:[featureTableIndex countWithEnvelope:envelope] >= 1];
         featureTableResults = [featureTableIndex queryWithEnvelope:envelope];
         while([featureTableResults moveToNext]){
             GPKGGeometryIndex * geometryIndex = [featureTableIndex geometryIndexWithResultSet:featureTableResults];
             [self validateGeometryIndexWithFeatureTableIndex:featureTableIndex andGeometryIndex:geometryIndex];
             if([geometryIndex.geomId intValue] == [testFeatureRow idValue]){
-                featureFound = true;
+                featureFound = YES;
             }
             resultCount++;
         }
@@ -188,7 +188,7 @@
     GPKGTableIndexDao * tableIndexDao = [geoPackage tableIndexDao];
     
     // Delete the extensions for the first half of the feature tables
-    BOOL everyOther = false;
+    BOOL everyOther = NO;
     for(NSString * featureTable in [featureTables subarrayWithRange:NSMakeRange(0, (int)ceil(featureTables.count * .5))]){
         GPKGFeatureDao * featureDao = [geoPackage featureDaoWithTableName:featureTable];
         GPKGFeatureTableIndex * featureTableIndex = [[GPKGFeatureTableIndex alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];

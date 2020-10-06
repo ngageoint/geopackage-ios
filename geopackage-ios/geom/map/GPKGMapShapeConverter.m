@@ -44,7 +44,7 @@
         }
         self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
         self.holeOrientation = GPKG_PO_CLOCKWISE;
-        [self setDrawShortestDirection:true];
+        [self setDrawShortestDirection:YES];
     }
     return self;
 }
@@ -99,7 +99,7 @@
 }
 
 -(SFPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint{
-    return [self toPointWithMapPoint:mapPoint andHasZ:false andHasM:false];
+    return [self toPointWithMapPoint:mapPoint andHasZ:NO andHasM:NO];
 }
 
 -(SFPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -111,7 +111,7 @@
 }
 
 -(SFPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint{
-    return [self toPointWithMKMapPoint:mapPoint andHasZ:false andHasM:false];
+    return [self toPointWithMKMapPoint:mapPoint andHasZ:NO andHasM:NO];
 }
 
 -(SFPoint *) toPointWithMKMapPoint: (MKMapPoint) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -145,7 +145,7 @@
 }
 
 -(SFLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline{
-    return [self toLineStringWithMapPolyline:mapPolyline andHasZ:false andHasM:false];
+    return [self toLineStringWithMapPolyline:mapPolyline andHasZ:NO andHasM:NO];
 }
 
 -(SFLineString *) toLineStringWithMapPolyline: (MKPolyline *) mapPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -153,7 +153,7 @@
 }
 
 -(SFLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount{
-    return [self toLineStringWithMKMapPoints:mapPoints andPointCount:pointCount andHasZ:false andHasM:false];
+    return [self toLineStringWithMKMapPoints:mapPoints andPointCount:pointCount andHasZ:NO andHasM:NO];
 }
 
 -(SFLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -163,7 +163,7 @@
 }
 
 -(SFLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints{
-    return [self toLineStringWithMapPoints:mapPoints andHasZ:false andHasM:false];
+    return [self toLineStringWithMapPoints:mapPoints andHasZ:NO andHasM:NO];
 }
 
 -(SFLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -173,7 +173,7 @@
 }
 
 -(SFCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints{
-    return [self toCircularStringWithMapPoints:mapPoints andHasZ:false andHasM:false];
+    return [self toCircularStringWithMapPoints:mapPoints andHasZ:NO andHasM:NO];
 }
 
 -(SFCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -337,7 +337,7 @@
 }
 
 -(SFPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon{
-    return [self toPolygonWithMapPolygon:mapPolygon andHasZ:false andHasM:false];
+    return [self toPolygonWithMapPolygon:mapPolygon andHasZ:NO andHasM:NO];
 }
 
 -(SFPolygon *) toPolygonWithMapPolygon: (MKPolygon *) mapPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -345,7 +345,7 @@
 }
 
 -(SFPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes{
-    return [self toPolygonWithMKMapPoints:mapPoints andPointCount:pointCount andHolePolygons:holes andHasZ:false andHasM:false];
+    return [self toPolygonWithMKMapPoints:mapPoints andPointCount:pointCount andHolePolygons:holes andHasZ:NO andHasM:NO];
 }
 
 -(SFPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -386,7 +386,7 @@
 }
 
 -(SFPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes{
-    return [self toPolygonWithMapPoints:mapPoints andHolePoints:holes andHasZ:false andHasM:false];
+    return [self toPolygonWithMapPoints:mapPoints andHolePoints:holes andHasZ:NO andHasM:NO];
 }
 
 -(SFPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -532,7 +532,7 @@
 }
 
 -(SFMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint{
-    return [self toMultiPointWithMapMultiPoint:mapMultiPoint andHasZ:false andHasM:false];
+    return [self toMultiPointWithMapMultiPoint:mapMultiPoint andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiPoint *) toMultiPointWithMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -540,7 +540,7 @@
 }
 
 -(SFMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints{
-    return [self toMultiPointWithMapPoints:mapPoints andHasZ:false andHasM:false];
+    return [self toMultiPointWithMapPoints:mapPoints andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -568,7 +568,7 @@
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines{
-    return [self toMultiLineStringWithMapPolylines:mapPolylines andHasZ:false andHasM:false];
+    return [self toMultiLineStringWithMapPolylines:mapPolylines andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -584,7 +584,7 @@
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray{
-    return [self toMultiLineStringWithMapPolylinesArray:mapPolylinesArray andHasZ:false andHasM:false];
+    return [self toMultiLineStringWithMapPolylinesArray:mapPolylinesArray andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -600,7 +600,7 @@
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray{
-    return [self toCompoundCurveWithMapPolylinesArray:mapPolylinesArray andHasZ:false andHasM:false];
+    return [self toCompoundCurveWithMapPolylinesArray:mapPolylinesArray andHasZ:NO andHasM:NO];
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -616,7 +616,7 @@
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline{
-    return [self toMultiLineStringWithMapMultiPolyline:multiPolyline andHasZ:false andHasM:false];
+    return [self toMultiLineStringWithMapMultiPolyline:multiPolyline andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -632,7 +632,7 @@
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline{
-    return [self toCompoundCurveWithMapMultiPolyline:multiPolyline andHasZ:false andHasM:false];
+    return [self toCompoundCurveWithMapMultiPolyline:multiPolyline andHasZ:NO andHasM:NO];
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -660,7 +660,7 @@
 }
 
 -(SFMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons{
-    return [self toMultiPolygonWithMapPolygons:mapPolygons andHasZ:false andHasM:false];
+    return [self toMultiPolygonWithMapPolygons:mapPolygons andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -676,7 +676,7 @@
 }
 
 -(SFMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons{
-    return [self createMultiPolygonWithPolygons:polygons andHasZ:false andHasM:false];
+    return [self createMultiPolygonWithPolygons:polygons andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -691,7 +691,7 @@
 }
 
 -(SFMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon{
-    return [self toMultiPolygonWithMapMultiPolygon:mapMultiPolygon andHasZ:false andHasM:false];
+    return [self toMultiPolygonWithMapMultiPolygon:mapMultiPolygon andHasZ:NO andHasM:NO];
 }
 
 -(SFMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -719,7 +719,7 @@
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines{
-    return [self toCompoundCurveWithMapPolylines:mapPolylines andHasZ:false andHasM:false];
+    return [self toCompoundCurveWithMapPolylines:mapPolylines andHasZ:NO andHasM:NO];
 }
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -747,7 +747,7 @@
 }
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons{
-    return [self toPolyhedralSurfaceWithMapPolygons:mapPolygons andHasZ:false andHasM:false];
+    return [self toPolyhedralSurfaceWithMapPolygons:mapPolygons andHasZ:NO andHasM:NO];
 }
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -763,7 +763,7 @@
 }
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon{
-    return [self toPolyhedralSurfaceWithMapMultiPolygon:mapMultiPolygon andHasZ:false andHasM:false];
+    return [self toPolyhedralSurfaceWithMapMultiPolygon:mapMultiPolygon andHasZ:NO andHasM:NO];
 }
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
@@ -1103,7 +1103,7 @@
     GPKGPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
     [polylinePoints setPolyline:polyline];
     
-    NSMutableArray * points = [self addMKMapPoints:polyline.points withPointCount:polyline.pointCount asPointsToMapView:mapView withPointOptions:polylinePointOptions andIgnoreIdenticalEnds:false];
+    NSMutableArray * points = [self addMKMapPoints:polyline.points withPointCount:polyline.pointCount asPointsToMapView:mapView withPointOptions:polylinePointOptions andIgnoreIdenticalEnds:NO];
     [polylinePoints setPoints:points];
     
     return polylinePoints;
@@ -1124,11 +1124,11 @@
     GPKGPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
     [polygonPoints setPolygon:polygon];
     
-    NSMutableArray * points = [self addMKMapPoints:polygon.points withPointCount:polygon.pointCount asPointsToMapView:mapView withPointOptions:polygonPointOptions andIgnoreIdenticalEnds:true];
+    NSMutableArray * points = [self addMKMapPoints:polygon.points withPointCount:polygon.pointCount asPointsToMapView:mapView withPointOptions:polygonPointOptions andIgnoreIdenticalEnds:YES];
     [polygonPoints setPoints:points];
     
     for(MKPolygon * hole in polygon.interiorPolygons){
-        NSMutableArray * holePoints = [self addMKMapPoints:hole.points withPointCount:hole.pointCount asPointsToMapView:mapView withPointOptions:polygonHolePointOptions andIgnoreIdenticalEnds:true];
+        NSMutableArray * holePoints = [self addMKMapPoints:hole.points withPointCount:hole.pointCount asPointsToMapView:mapView withPointOptions:polygonHolePointOptions andIgnoreIdenticalEnds:YES];
         GPKGPolygonHolePoints * polygonHolePoints = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:polygonPoints];
         [polygonHolePoints setPoints:holePoints];
         [shapePoints addShapePoints:polygonHolePoints];
@@ -1413,7 +1413,7 @@
         case SF_GEOMETRYCOLLECTION:
             {
                 NSArray * shapeArray = (NSArray *) mapShape.shape;
-                SFGeometryCollection * geometryCollection = [[SFGeometryCollection alloc] initWithHasZ:false andHasM:false];
+                SFGeometryCollection * geometryCollection = [[SFGeometryCollection alloc] initWithHasZ:NO andHasM:NO];
                 for(GPKGMapShape * shapeArrayItem in shapeArray){
                     SFGeometry * subGeometry = [self toGeometryFromMapShape:shapeArrayItem];
                     if(subGeometry != nil){

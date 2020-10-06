@@ -130,7 +130,7 @@
 }
 
 -(int) indexWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
-    return [self indexWithFeatureIndexType:type andForce:false];
+    return [self indexWithFeatureIndexType:type andForce:NO];
 }
 
 -(int) indexWithForce: (BOOL) force{
@@ -188,7 +188,7 @@
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self indexWithFeatureIndexType:type andFeatureRow:row]){
-            indexed = true;
+            indexed = YES;
         }
     }
     return indexed;
@@ -208,7 +208,7 @@
             break;
         case GPKG_FIT_RTREE:
             // Updated by triggers, ignore for RTree
-            indexed = true;
+            indexed = YES;
             break;
         default:
             [NSException raise:@"Unsupported Feature Index Type" format:@"Unsupported Feature Index Type: %u", type];
@@ -229,7 +229,7 @@
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type]){
-            deleted = true;
+            deleted = YES;
         }
     }
     return deleted;
@@ -266,7 +266,7 @@
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type andFeatureRow:row]){
-            deleted = true;
+            deleted = YES;
         }
     }
     return deleted;
@@ -285,7 +285,7 @@
     for(NSString *typeName in types){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self deleteIndexWithFeatureIndexType:type andGeomId:geomId]){
-            deleted = true;
+            deleted = YES;
         }
     }
     return deleted;

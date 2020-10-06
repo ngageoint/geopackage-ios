@@ -13,7 +13,7 @@
 @implementation GPKGCoverageDataPngNoNullsCreateTest
 
 -(BOOL) shouldAllowNils{
-    return false;
+    return NO;
 }
 
 /**

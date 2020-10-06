@@ -75,7 +75,7 @@
         }
         
         GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
-        [tileGenerator setXyzTiles:false];
+        [tileGenerator setXyzTiles:NO];
         
         int tiles = [tileGenerator generateTiles];
         

@@ -75,7 +75,7 @@
                     // Set the geometry empty flag and verify the geometry
                     // was not written / read
                     geometryDataAfterToBytes = [featureRow geometry];
-                    [geometryDataAfterToBytes setEmpty:true];
+                    [geometryDataAfterToBytes setEmpty:YES];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
                     geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
                     [GPKGTestUtils assertNil:geometryDataFromBytes.geometry];

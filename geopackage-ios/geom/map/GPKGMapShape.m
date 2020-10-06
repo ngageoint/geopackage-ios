@@ -160,7 +160,7 @@
 
 -(BOOL) isValid{
     
-    BOOL valid = true;
+    BOOL valid = YES;
     
     switch(self.shapeType){
         case GPKG_MST_POLYLINE_POINTS:

@@ -98,7 +98,7 @@
         }
         
         // Sort the columns by index
-        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:true];
+        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
         self.columns = [NSMutableArray arrayWithArray:[self.columns sortedArrayUsingDescriptors:@[sort]]];
     
     }
