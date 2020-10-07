@@ -318,6 +318,18 @@ static int UNIQUE_CONSTRAINT_ORDER = 5;
 -(void) addConstraintType: (enum GPKGConstraintType) type withOrder: (NSNumber *) order andSql: (NSString *) constraint;
 
 /**
+ * Add a constraint
+ *
+ * @param type
+ *            constraint type
+ * @param order
+ *            constraint order
+ * @param constraint
+ *            constraint
+ */
+-(void) addConstraintType: (enum GPKGConstraintType) type withOrderInt: (int) order andSql: (NSString *) constraint;
+
+/**
  * Add constraints
  *
  * @param constraints

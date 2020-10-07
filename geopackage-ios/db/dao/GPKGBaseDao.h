@@ -284,12 +284,33 @@
 /**
  * Query for all rows
  *
+ * @param distinct
+ *            distinct rows
+ * @return result
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct;
+
+/**
+ * Query for all rows
+ *
  * @param columns
  *            columns
  *
  * @return result
  */
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query for all rows
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ *
+ * @return result
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns;
 
 /**
  * Query SQL for all rows
@@ -299,11 +320,29 @@
 -(NSString *) querySQL;
 
 /**
+ * Query SQL for all rows
+ *
+ * @param distinct
+ *            distinct rows
+ * @return SQL
+ */
+-(NSString *) querySQLWithDistinct: (BOOL) distinct;
+
+/**
  * Query SQL for all row ids
  *
  * @return SQL
  */
 -(NSString *) queryIdsSQL;
+
+/**
+ * Query SQL for all row ids
+ * 
+ * @param distinct
+ *            distinct rows
+ * @return SQL
+ */
+-(NSString *) queryIdsSQLWithDistinct: (BOOL) distinct;
 
 /**
  * Query SQL for all rows
@@ -313,6 +352,17 @@
  * @return SQL
  */
 -(NSString *) querySQLWithColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query SQL for all rows
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @return SQL
+ */
+-(NSString *) querySQLWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns;
 
 /**
  *  Get the current object from the result set
@@ -373,6 +423,19 @@
 /**
  * Query for the row where the field equals the value
  *
+ * @param distinct
+ *            distinct rows
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Query for the row where the field equals the value
+ *
  * @param columns
  *            columns
  * @param field
@@ -382,6 +445,21 @@
  * @return result
  */
 -(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value;
 
 /**
  * Count where the field equals the value
@@ -395,6 +473,34 @@
 -(int) countForEqWithField: (NSString *) field andValue: (NSObject *) value;
 
 /**
+ * Count where the field equals the value
+ *
+ * @param column
+ *            count column name
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return count
+ */
+-(int) countForEqWithColumn: (NSString *) column andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
+ * Count where the field equals the value
+ *
+ * @param distinct
+ *            distinct column values
+ * @param column
+ *            count column name
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @return count
+ */
+-(int) countForEqWithDistinct: (BOOL) distinct andColumn: (NSString *) column andField: (NSString *) field andValue: (NSObject *) value;
+
+/**
  *  Query for field equality
  *
  *  @param field   field
@@ -406,6 +512,30 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field
+                              andValue: (NSObject *) value
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param distinct
+ *            distinct rows
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct
+                              andField: (NSString *) field
                               andValue: (NSObject *) value
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
@@ -436,6 +566,33 @@
                             andOrderBy: (NSString *) orderBy;
 
 /**
+ * Query for the row where the field equals the value
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
  * Count where the field equals the value
  *
  * @param field
@@ -457,6 +614,57 @@
                             andOrderBy: (NSString *) orderBy;
 
 /**
+ * Count where the field equals the value
+ *
+ * @param column
+ *            count column name
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return count
+ */
+-(int) countForEqWithColumn: (NSString *) column
+                            andField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
+ * Count where the field equals the value
+ *
+ * @param distinct
+ *            distinct column values
+ * @param column
+ *            count column name
+ * @param field
+ *            field name
+ * @param value
+ *            value
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @return count
+ */
+-(int) countForEqWithDistinct: (BOOL) distinct
+                            andColumn: (NSString *) column
+                            andField: (NSString *) field
+                            andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy;
+
+/**
  *  Query for field equality
  *
  *  @param field field
@@ -465,6 +673,19 @@
  *  @return result set
  */
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param distinct
+ *            distinct rows
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
  * Query for the row where the field equals the value
@@ -478,6 +699,21 @@
  * @return result
  */
 -(GPKGResultSet *) queryForEqWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
+
+/**
+ * Query for the row where the field equals the value
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param field
+ *            field name
+ * @param value
+ *            column value
+ * @return result
+ */
+-(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value;
 
 /**
  * Count where the field equals the value

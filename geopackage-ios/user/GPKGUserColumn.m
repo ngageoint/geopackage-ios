@@ -63,7 +63,7 @@
 }
 
 -(instancetype) initWithTableColumn: (GPKGTableColumn *) tableColumn{
-    return [self initWithIndex:[tableColumn index] andName:[tableColumn name] andType:[tableColumn type] andDataType:[tableColumn dataType] andMax:[tableColumn max] andNotNull:[tableColumn notNull] || [tableColumn primaryKey] andDefaultValue:[tableColumn defaultValue] andPrimaryKey:[tableColumn primaryKey], andAutoincrement:[tableColumn primaryKey] && DEFAULT_AUTOINCREMENT];
+    return [self initWithIndex:[tableColumn index] andName:[tableColumn name] andType:[tableColumn type] andDataType:[tableColumn dataType] andMax:[tableColumn max] andNotNull:[tableColumn notNull] || [tableColumn primaryKey] andDefaultValue:[tableColumn defaultValue] andPrimaryKey:[tableColumn primaryKey] andAutoincrement:[tableColumn primaryKey] && DEFAULT_AUTOINCREMENT];
 }
 
 /**
@@ -205,7 +205,7 @@
 }
 
 -(NSArray<GPKGConstraint *> *) constraintsOfType: (enum GPKGConstraintType) type{
-    return [self.constraints getType:type];
+    return [self.constraints ofType:type];
 }
 
 -(NSArray<GPKGConstraint *> *) clearConstraints{
@@ -271,7 +271,7 @@
         [self setConstraintOrder:constraint];
     }
     
-    [self.constraints addObject:constraint];
+    [self.constraints add:constraint];
     
     switch (constraint.type) {
         case GPKG_CT_PRIMARY_KEY:
@@ -300,19 +300,19 @@
     
     switch (constraint.type) {
         case GPKG_CT_PRIMARY_KEY:
-            order = PRIMARY_KEY_CONSTRAINT_ORDER;
+            order = [NSNumber numberWithInt:PRIMARY_KEY_CONSTRAINT_ORDER];
             break;
         case GPKG_CT_UNIQUE:
-            order = UNIQUE_CONSTRAINT_ORDER;
+            order = [NSNumber numberWithInt:UNIQUE_CONSTRAINT_ORDER];
             break;
         case GPKG_CT_NOT_NULL:
-            order = NOT_NULL_CONSTRAINT_ORDER;
+            order = [NSNumber numberWithInt:NOT_NULL_CONSTRAINT_ORDER];
             break;
         case GPKG_CT_DEFAULT:
-            order = DEFAULT_VALUE_CONSTRAINT_ORDER;
+            order = [NSNumber numberWithInt:DEFAULT_VALUE_CONSTRAINT_ORDER];
             break;
         case GPKG_CT_AUTOINCREMENT:
-            order = AUTOINCREMENT_CONSTRAINT_ORDER;
+            order = [NSNumber numberWithInt:AUTOINCREMENT_CONSTRAINT_ORDER];
             break;
         default:
             break;
@@ -333,6 +333,10 @@
     [self addConstraint:[[GPKGRawConstraint alloc] initWithType:type andOrder:order andSql:constraint]];
 }
 
+-(void) addConstraintType: (enum GPKGConstraintType) type withOrderInt: (int) order andSql: (NSString *) constraint{
+    [self addConstraintType:type withOrder:[NSNumber numberWithInt:order] andSql:constraint];
+}
+
 -(void) addConstraintsArray: (NSArray<GPKGConstraint *> *) constraints{
     for (GPKGConstraint *constraint in constraints) {
         [self addConstraint:constraint];
@@ -348,7 +352,7 @@
 }
 
 -(void) addNotNullConstraint{
-    [self addConstraintType:GPKG_CT_NOT_NULL withOrder:NOT_NULL_CONSTRAINT_ORDER andSql:@"NOT NULL"];
+    [self addConstraintType:GPKG_CT_NOT_NULL withOrderInt:NOT_NULL_CONSTRAINT_ORDER andSql:@"NOT NULL"];
 }
 
 -(void) removeNotNullConstraint{
@@ -356,7 +360,7 @@
 }
 
 -(void) addDefaultValueConstraint: (NSObject *) defaultValue{
-    [self addConstraintType:GPKG_CT_DEFAULT withOrder:DEFAULT_VALUE_CONSTRAINT_ORDER andSql:[NSString stringWithFormat:@"DEFAULT %@", [GPKGSqlUtils columnDefaultValue:defaultValue withType:[self dataType]]]];
+    [self addConstraintType:GPKG_CT_DEFAULT withOrderInt:DEFAULT_VALUE_CONSTRAINT_ORDER andSql:[NSString stringWithFormat:@"DEFAULT %@", [GPKGSqlUtils columnDefaultValue:defaultValue withType:[self dataType]]]];
 }
 
 -(void) removeDefaultValueConstraint{
@@ -364,7 +368,7 @@
 }
 
 -(void) addPrimaryKeyConstraint{
-    [self addConstraintType:GPKG_CT_PRIMARY_KEY withOrder:PRIMARY_KEY_CONSTRAINT_ORDER andSql:@"PRIMARY KEY"];
+    [self addConstraintType:GPKG_CT_PRIMARY_KEY withOrderInt:PRIMARY_KEY_CONSTRAINT_ORDER andSql:@"PRIMARY KEY"];
 }
 
 -(void) removePrimaryKeyConstraint{
@@ -372,7 +376,7 @@
 }
 
 -(void) addAutoincrementConstraint{
-    [self addConstraintType:GPKG_CT_AUTOINCREMENT withOrder:AUTOINCREMENT_CONSTRAINT_ORDER andSql:@"AUTOINCREMENT"];
+    [self addConstraintType:GPKG_CT_AUTOINCREMENT withOrderInt:AUTOINCREMENT_CONSTRAINT_ORDER andSql:@"AUTOINCREMENT"];
 }
 
 -(void) removeAutoincrementConstraint{
@@ -380,7 +384,7 @@
 }
 
 -(void) addUniqueConstraint{
-    [self addConstraintType:GPKG_CT_UNIQUE withOrder:UNIQUE_CONSTRAINT_ORDER andSql:@"UNIQUE"];
+    [self addConstraintType:GPKG_CT_UNIQUE withOrderInt:UNIQUE_CONSTRAINT_ORDER andSql:@"UNIQUE"];
 }
 
 -(void) removeUniqueConstraint{

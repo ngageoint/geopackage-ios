@@ -126,6 +126,36 @@
 -(GPKGUserRow *) queryWithColumns: (NSArray<NSString *> *) columns forIdRow: (int) id;
 
 /**
+ * Is the primary key modifiable
+ *
+ * @return true if the primary key is modifiable
+ */
+-(BOOL) isPkModifiable;
+
+/**
+ * Set if the primary key can be modified
+ *
+ * @param pkModifiable
+ *            primary key modifiable flag
+ */
+-(void) setPkModifiable: (BOOL) pkModifiable;
+
+/**
+ * Is value validation against column types enabled
+ *
+ * @return true if values are validated against column types
+ */
+-(BOOL) isValueValidation;
+
+/**
+ * Set if values should validated against column types
+ *
+ * @param valueValidation
+ *            value validation flag
+ */
+-(void) setValueValidation: (BOOL) valueValidation;
+
+/**
  * Add a new column
  *
  * @param column

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGUserTableMetadata.h"
+#import "GPKGUserTable.h"
 
 NSString * const GPKG_UTM_DEFAULT_ID_COLUMN_NAME = @"id";
 
@@ -14,6 +15,9 @@ NSString * const GPKG_UTM_DEFAULT_ID_COLUMN_NAME = @"id";
 
 -(instancetype) init{
     self = [super init];
+    if(self != nil){
+        self.autoincrement = DEFAULT_AUTOINCREMENT;
+    }
     return self;
 }
 

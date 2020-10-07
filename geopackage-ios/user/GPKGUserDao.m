@@ -179,6 +179,22 @@
     return row;
 }
 
+-(BOOL) isPkModifiable{
+    return [self.table isPkModifiable];
+}
+
+-(void) setPkModifiable: (BOOL) pkModifiable{
+    [self.table setPkModifiable:pkModifiable];
+}
+
+-(BOOL) isValueValidation{
+    return [self.table isValueValidation];
+}
+
+-(void) setValueValidation: (BOOL) valueValidation{
+    [self.table setValueValidation:valueValidation];
+}
+
 -(void) addColumn: (GPKGUserColumn *) column{
     [GPKGSqlUtils addColumn:column toTable:self.tableName withConnection:self.database];
     [self.table addColumn:column];
