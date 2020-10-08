@@ -93,6 +93,29 @@
 /**
  *  Query table columns where
  *
+ *  @param distinct  distinct flag
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param whereArgs where args
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                    andTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andWhereArgs: (NSArray *) whereArgs
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy;
+
+/**
+ *  Query table columns where
+ *
  *  @param table     table
  *  @param columns   columns
  *  @param where     where clause
@@ -112,6 +135,31 @@
                        andHaving: (NSString *) having
                        andOrderBy: (NSString *) orderBy
                        andLimit: (NSString *) limit;
+
+/**
+ *  Query table columns where
+ *
+ *  @param distinct  distinct flag
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param whereArgs where args
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *  @param limit     limit clause
+ *
+ *  @return result set
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andWhereArgs: (NSArray *) whereArgs
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
 
 /**
  *  Build query SQL
@@ -135,6 +183,27 @@
 /**
  *  Build query SQL
  *
+ *  @param distinct  distinct flag
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *
+ *  @return SQL
+ */
+-(NSString *) querySQLWithDistinct: (BOOL) distinct
+                    andTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                        andOrderBy: (NSString *) orderBy;
+
+/**
+ *  Build query SQL
+ *
  *  @param table     table
  *  @param columns   columns
  *  @param where     where clause
@@ -152,6 +221,29 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                        andLimit: (NSString *) limit;
+
+/**
+ *  Build query SQL
+ *
+ *  @param distinct  distinct flag
+ *  @param table     table
+ *  @param columns   columns
+ *  @param where     where clause
+ *  @param groupBy   group by clause
+ *  @param having    having clause
+ *  @param orderBy   order by clause
+ *  @param limit     limit clause
+ *
+ *  @return SQL
+ */
+-(NSString *) querySQLWithDistinct: (BOOL) distinct
+                          andTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                          andLimit: (NSString *) limit;
 
 /**
  *  Count statement

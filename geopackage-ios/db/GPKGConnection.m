@@ -63,7 +63,19 @@
                   andGroupBy: (NSString *) groupBy
                    andHaving: (NSString *) having
                   andOrderBy: (NSString *) orderBy{
-    return [self queryWithTable:table
+    return [self queryWithDistinct:NO andTable:table andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                    andTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andWhereArgs: (NSArray *) whereArgs
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                  andOrderBy: (NSString *) orderBy{
+    return [self queryWithDistinct:distinct
+                     andTable:table
                      andColumns:columns
                      andWhere:where
                      andWhereArgs:whereArgs
@@ -81,9 +93,22 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
+    return [self queryWithDistinct:NO andTable:table andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andWhereArgs: (NSArray *) whereArgs
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
     GPKGDbConnection * connection = [self.connectionPool resultConnection];
     GPKGResultSet * resultSet = [GPKGSqlUtils queryWithDatabase:connection
-                                        andDistinct:NO andTable:table
+                                        andDistinct:distinct
+                                        andTable:table
                                          andColumns:columns
                                            andWhere:where
                                        andWhereArgs:whereArgs
@@ -100,7 +125,18 @@
                   andGroupBy: (NSString *) groupBy
                    andHaving: (NSString *) having
                   andOrderBy: (NSString *) orderBy{
-    return [self querySQLWithTable:table
+    return [self querySQLWithDistinct:NO andTable:table andColumns:columns andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(NSString *) querySQLWithDistinct: (BOOL) distinct
+                    andTable: (NSString *) table
+                  andColumns: (NSArray<NSString *> *) columns
+                    andWhere: (NSString *) where
+                  andGroupBy: (NSString *) groupBy
+                   andHaving: (NSString *) having
+                  andOrderBy: (NSString *) orderBy{
+    return [self querySQLWithDistinct:distinct
+                     andTable:table
                      andColumns:columns
                      andWhere:where
                      andGroupBy:groupBy
@@ -116,7 +152,19 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    return [GPKGSqlUtils querySQLWithDistinct:NO andTable:table
+    return [self querySQLWithDistinct:NO andTable:table andColumns:columns andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(NSString *) querySQLWithDistinct: (BOOL) distinct
+                          andTable: (NSString *) table
+                          andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                          andGroupBy: (NSString *) groupBy
+                           andHaving: (NSString *) having
+                          andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [GPKGSqlUtils querySQLWithDistinct:distinct
+                                        andTable:table
                                          andColumns:columns
                                            andWhere:where
                                          andGroupBy:groupBy

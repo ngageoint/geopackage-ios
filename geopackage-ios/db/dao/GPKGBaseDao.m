@@ -374,26 +374,50 @@
 -(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereWithField:field andColumnValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
-    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil]; // TODO
+    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
 -(int) countForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self countForEqWithDistinct:NO andColumn:nil andField:field andColumnValue:value];
+}
+
+-(int) countForEqWithColumn: (NSString *) column andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self countForEqWithDistinct:NO andColumn:column andField:field andColumnValue:value];
+}
+
+-(int) countForEqWithDistinct: (BOOL) distinct andColumn: (NSString *) column andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereWithField:field andColumnValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
-    return [self countWhere:whereString andWhereArgs:whereArgs];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field andValue: (NSObject *) value{
-    return [self queryForLikeWithColumns:self.columnNames andField:field andValue:value];
+    return [self queryForLikeWithDistinct:NO andField:field andValue:value];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct andField: (NSString *) field andValue: (NSObject *) value{
+    return [self queryForLikeWithDistinct:distinct andColumns:self.columnNames andField:field andValue:value];
 }
 
 -(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value{
-    return [self queryForLikeWithColumns:columns andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self queryForLikeWithDistinct:NO andColumns:columns andField:field andValue:value];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value{
+    return [self queryForLikeWithDistrict:district andColumns:columns andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(int) countForLikeWithField: (NSString *) field andValue: (NSObject *) value{
-    return [self countForLikeWithField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self countForLikeWithDistinct:NO andColumn:nil andField:field andValue:value];
+}
+
+-(int) countForLikeWithColumn: (NSString *) column andField: (NSString *) field andValue: (NSObject *) value{
+    return [self countForLikeWithDistinct:NO andColumn:column andField:field andValue:value];
+}
+
+-(int) countForLikeWithDistinct: (BOOL) distinct andColumn: (NSString *) column andField: (NSString *) field andValue: (NSObject *) value{
+    return [self countForLikeWithDistinct:distinct andColumn:column andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field
@@ -401,7 +425,16 @@
                             andGroupBy: (NSString *) groupBy
                              andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
-    return [self queryForLikeWithColumns:self.columnNames andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    return [self queryForLikeWithDistinct:NO andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct
+                            andField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
+    return [self queryForLikeWithDistinct:distinct andColumns:self.columnNames andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
 }
 
 -(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns
@@ -410,9 +443,19 @@
                             andGroupBy: (NSString *) groupBy
                              andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
+    return [self queryForLikeWithDistinct:NO andColumns:columns andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
     NSString *whereString = [self buildWhereLikeWithField:field andValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithValue:value];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
     return results;
 }
 
@@ -421,196 +464,423 @@
                             andGroupBy: (NSString *) groupBy
                              andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
+    return [self countForLikeWithDistinct:NO andColumn:nil andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(int) countForLikeWithColumn: (NSString *) column
+                            andField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
+    return [self countForLikeWithDistinct:NO andColumn:column andField:field andValue:value andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(int) countForLikeWithDistinct: (BOOL) distinct
+                            andColumn: (NSString *) column
+                            andField: (NSString *) field
+                              andValue: (NSObject *) value
+                            andGroupBy: (NSString *) groupBy
+                             andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
     NSString *whereString = [self buildWhereLikeWithField:field andValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithValue:value];
-    return [self countWhere:whereString andWhereArgs:whereArgs];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
-    return [self queryForLikeWithColumns:self.columnNames andField:field andColumnValue:value];
+    return [self queryForLikeWithDistinct:NO andField:field andColumnValue:value];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self queryForLikeWithDistinct:distinct andColumns:self.columnNames andField:field andColumnValue:value];
 }
 
 -(GPKGResultSet *) queryForLikeWithColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self queryForLikeWithDistinct:NO andColumns:columns andField:field andColumnValue:value];
+}
+
+-(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereLikeWithField:field andColumnValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
 -(int) countForLikeWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self countForLikeWithDistinct:NO andColumn:nil andField:field andColumnValue:value];
+}
+
+-(int) countForLikeWithColumn: (NSString *) column andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
+    return [self countForLikeWithDistinct:NO andColumn:column andField:field andColumnValue:value];
+}
+
+-(int) countForLikeWithDistinct: (BOOL) distinct andColumn: (NSString *) column andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
     NSString *whereString = [self buildWhereLikeWithField:field andColumnValue:value];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValue:value];
-    return [self countWhere:whereString andWhereArgs:whereArgs];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryForFieldValues:(GPKGColumnValues *) fieldValues{
-    return [self queryWithColumns:self.columnNames forFieldValues:fieldValues];
+    return [self queryWithDistinct:NO forFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct forFieldValues:(GPKGColumnValues *) fieldValues{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames forFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithDistinct:NO andColumns:columns forFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns forFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
 -(int) countForFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithDistinct:NO andColumn:nil forFieldValues:fieldValues];
+}
+
+-(int) countWithColumn: (NSString *) column forFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithDistinct:NO andColumn:column forFieldValues:fieldValues];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column forFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
-    return [self countWhere:whereString andWhereArgs:whereArgs];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryForColumnValueFieldValues:(GPKGColumnValues *) fieldValues{
-    return [self queryWithColumns:self.columnNames forColumnValueFieldValues:fieldValues];
+    return [self queryWithDistinct:NO forColumnValueFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct forColumnValueFieldValues:(GPKGColumnValues *) fieldValues{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames forColumnValueFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forColumnValueFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithDistinct:NO andColumns:columns forColumnValueFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns forColumnValueFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithColumnValueFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValues:fieldValues];
-    GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    GPKGResultSet *results = [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
 
 -(int) countForColumnValueFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithDistinct:NO andColumn:nil forColumnValueFieldValues:fieldValues];
+}
+
+-(int) countWithColumn: (NSString *) column forColumnValueFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countWithDistinct:NO andColumn:column forColumnValueFieldValues:fieldValues];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column forColumnValueFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithColumnValueFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithColumnValues:fieldValues];
-    return [self countWhere:whereString andWhereArgs:whereArgs];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL{
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
+    return [self countInWithDistinct:distinct andColumn:column NestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andFieldValues:fieldValues];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andFieldValues:fieldValues];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andFieldValues:fieldValues];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:whereString andWhereArgs:whereArgs];
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *whereString = [self buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
     return [self countInWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:whereString andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where{
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andWhere:where];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andWhere:where];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andWhere:where];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where{
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryInWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs];
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct:distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self countInWithNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs];
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryInWithColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
+    return [self queryInWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryInWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     NSString *whereString = [self buildWhereInWithNestedSQL:nestedSQL andWhere:where];
     NSArray *args = [self buildWhereInArgsWithNestedArgs:nestedArgs andWhereArgs:whereArgs];
-    return [self queryWithColumns:columns andWhere:whereString andWhereArgs:args];
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:whereString andWhereArgs:args];
 }
 
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countInWithColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self countInWithDistinct:NO andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     NSString *whereString = [self buildWhereInWithNestedSQL:nestedSQL andWhere:where];
     NSArray *args = [self buildWhereInArgsWithNestedArgs:nestedArgs andWhereArgs:whereArgs];
-    return [self countWhere:whereString andWhereArgs:args];
+    return [self countWithDistinct:distinct andColumn:column andWhere:whereString andWhereArgs:args];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where{
-    return [self queryWithColumns:self.columnNames andWhere:where];
+    return [self queryWithDistinct:NO andWhere:where];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andWhere: (NSString *) where{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames andWhere:where];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
-    return [self queryWithColumns:columns andWhere:where andWhereArgs:nil];
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs];
+    return [self queryWithDistinct:NO andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-        return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(NSString *) querySQLWhere: (NSString *) where{
-    return [self querySQLWithColumns:self.columnNames andWhere:where];
+    return [self querySQLWithDistinct:NO andWhere:where];
+}
+
+-(NSString *) querySQLWithDistinct: (BOOL) distinct andWhere: (NSString *) where{
+    return [self querySQLWithDistinct:distinct andColumns:self.columnNames andWhere:where];
 }
 
 -(NSString *) queryIdsSQLWhere: (NSString *) where{
-    return [self querySQLWithColumns:[NSArray arrayWithObject:[self idColumnName]] andWhere:where];
+    return [self queryIdsSQLWithDistinct:NO andWhere:where];
+}
+
+-(NSString *) queryIdsSQLWithDistinct: (BOOL) distinct andWhere: (NSString *) where{
+    return [self querySQLWithDistinct:distinct andColumns:[NSArray arrayWithObject:[self idColumnName]] andWhere:where];
 }
 
 -(NSString *) queryMultiIdsSQLWhere: (NSString *) where{
-    return [self querySQLWithColumns:self.idColumns andWhere:where];
+    return [self queryMultiIdsSQLWithDistinct:NO andWhere:where];
+}
+
+-(NSString *) queryMultiIdsSQLWithDistinct: (BOOL) distinct andWhere: (NSString *) where{
+    return [self querySQLWithDistinct:distinct andColumns:self.idColumns andWhere:where];
 }
 
 -(NSString *) querySQLWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
-    return [self.database querySQLWithTable:self.tableName andColumns:columns andWhere:where andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self querySQLWithDistinct:NO andColumns:columns andWhere:where];
+}
+
+-(NSString *) querySQLWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self.database querySQLWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:where andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
@@ -618,7 +888,16 @@
                               andGroupBy: (NSString *) groupBy
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy{
-    return [self queryWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    return [self queryWithDistinct:NO andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                              andWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
@@ -627,7 +906,17 @@
                             andGroupBy: (NSString *) groupBy
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy{
-    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy{
+    return [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
 }
 
 -(GPKGResultSet *) queryWhere: (NSString *) where
@@ -636,7 +925,17 @@
                               andHaving: (NSString *) having
                               andOrderBy: (NSString *) orderBy
                               andLimit: (NSString *) limit{
-    return [self queryWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+    return [self queryWithDistinct:NO andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                              andWhere: (NSString *) where
+                              andWhereArgs: (NSArray *) whereArgs
+                              andGroupBy: (NSString *) groupBy
+                              andHaving: (NSString *) having
+                              andOrderBy: (NSString *) orderBy
+                              andLimit: (NSString *) limit{
+    return [self queryWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
@@ -646,12 +945,25 @@
                             andHaving: (NSString *) having
                             andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andGroupBy: (NSString *) groupBy
+                            andHaving: (NSString *) having
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithColumns:self.columnNames andLimit:limit andOffset:offset];
 }
+
+// TODO
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithColumns:columns andWhere:nil andWhereArgs:nil andLimit:limit andOffset:offset];
