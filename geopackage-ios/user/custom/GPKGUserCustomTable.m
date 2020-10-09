@@ -29,7 +29,7 @@
 }
 
 -(NSString *) dataType{
-    return nil;
+    return [self dataTypeWithDefault:nil];
 }
 
 -(GPKGUserCustomColumns *) userCustomColumns{

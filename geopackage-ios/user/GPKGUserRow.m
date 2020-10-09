@@ -27,7 +27,7 @@
     self = [super init];
     if(self != nil){
         self.table = table;
-        self.columns = [table columns];
+        self.columns = [table userColumns];
         
         int columnCount = [_columns columnCount];
         NSMutableArray * tempValues = [[NSMutableArray alloc] initWithCapacity:columnCount];
@@ -278,7 +278,7 @@
     int index = [self pkIndex];
     if(index >= 0){
         if(!pkModifiable){
-            [NSException raise:@"Not Modifiable" format:@"Can not update the primary key of the row. Table Name: %@, Index: %@, Name: %@", [_table tableName], index, [_table pkColumnName]];
+            [NSException raise:@"Not Modifiable" format:@"Can not update the primary key of the row. Table Name: %@, Index: %d, Name: %@", [_table tableName], index, [_table pkColumnName]];
         }
         [GPKGUtils replaceObjectAtIndex:index withObject:id inArray:self.values];
     }

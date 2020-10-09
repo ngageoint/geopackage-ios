@@ -269,7 +269,7 @@ static SFPProjection *EPSG_WGS84 = nil;
 }
 
 -(GPKGGeometryData *) createGeometryData: (SFGeometry *) geometry{
-    return [GPKGGeometryData createWithSrsId:srsl.srs.srsId andGeometry:geometry];
+    return [GPKGGeometryData createWithSrsId:self.srs.srsId andGeometry:geometry];
 }
 
 /**

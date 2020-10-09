@@ -7,16 +7,28 @@
 //
 
 #import "GPKGUserCustomColumn.h"
+#import "GPKGUserTable.h"
 
 @implementation GPKGUserCustomColumn
 
 +(GPKGUserCustomColumn *) createPrimaryKeyColumnWithName: (NSString *) name{
-    return [self createPrimaryKeyColumnWithIndex:NO_INDEX andName:name];
+    return [self createPrimaryKeyColumnWithName:name andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(GPKGUserCustomColumn *) createPrimaryKeyColumnWithName: (NSString *) name
+                                        andAutoincrement: (BOOL) autoincrement{
+    return [self createPrimaryKeyColumnWithIndex:NO_INDEX andName:name andAutoincrement:autoincrement];
 }
 
 +(GPKGUserCustomColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                   andName: (NSString *) name{
-    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:YES andDefaultValue:nil andPrimaryKey:YES];
+    return [self createPrimaryKeyColumnWithIndex:index andName:name andAutoincrement:DEFAULT_AUTOINCREMENT];
+}
+
++(GPKGUserCustomColumn *) createPrimaryKeyColumnWithIndex: (int) index
+                                                  andName: (NSString *) name
+                                         andAutoincrement: (BOOL) autoincrement{
+    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:GPKG_DT_INTEGER andMax:nil andNotNull:YES andDefaultValue:nil andPrimaryKey:YES andAutoincrement:autoincrement];
 }
 
 +(GPKGUserCustomColumn *) createColumnWithName: (NSString *) name
@@ -85,7 +97,7 @@
                                          andMax: (NSNumber *) max
                                      andNotNull: (BOOL) notNull
                                 andDefaultValue: (NSObject *) defaultValue{
-    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:NO];
+    return [[GPKGUserCustomColumn alloc] initWithIndex:index andName:name andDataType:type andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:NO andAutoincrement:NO];
 }
 
 +(GPKGUserCustomColumn *) createColumnWithTableColumn: (GPKGTableColumn *) tableColumn{
@@ -102,6 +114,7 @@
  *  @param notNull      not null flag
  *  @param defaultValue default value
  *  @param primaryKey   primary key flag
+ *  @param autoincrement autoincrement flag
  *
  *  @return new user column
  */
@@ -111,8 +124,9 @@
                        andMax: (NSNumber *) max
                    andNotNull: (BOOL) notNull
               andDefaultValue: (NSObject *) defaultValue
-                andPrimaryKey: (BOOL) primaryKey{
-    self = [super initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey];
+                andPrimaryKey: (BOOL) primaryKey
+             andAutoincrement: (BOOL) autoincrement{
+    self = [super initWithIndex:index andName:name andDataType:dataType andMax:max andNotNull:notNull andDefaultValue:defaultValue andPrimaryKey:primaryKey andAutoincrement:autoincrement];
     return self;
 }
 

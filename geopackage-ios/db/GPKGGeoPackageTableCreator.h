@@ -9,6 +9,8 @@
 #import "GPKGTableCreator.h"
 #import "GPKGGeoPackage.h"
 
+@class GPKGGeoPackage;
+
 /**
  *  Executes database scripts to create GeoPackage tables
  */

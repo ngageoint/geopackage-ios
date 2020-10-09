@@ -405,7 +405,7 @@
 }
 
 -(GPKGResultSet *) queryForLikeWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andField: (NSString *) field andValue: (NSObject *) value{
-    return [self queryForLikeWithDistrict:district andColumns:columns andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
+    return [self queryForLikeWithDistinct:distinct andColumns:columns andField:field andValue:value andGroupBy:nil andHaving:nil andOrderBy:nil];
 }
 
 -(int) countForLikeWithField: (NSString *) field andValue: (NSObject *) value{
@@ -640,7 +640,7 @@
 }
 
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs{
-    return [self countInWithDistinct:distinct andColumn:column NestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
+    return [self countInWithDistinct:distinct andColumn:column andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues{
@@ -771,7 +771,7 @@
     return [self queryInWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGResultSet *) queryInWithDistinct:distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     return [self queryInWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs];
 }
 
@@ -960,68 +960,87 @@
 }
 
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:self.columnNames andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andLimit:limit andOffset:offset];
 }
 
-// TODO
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andLimit:limit andOffset:offset];
+}
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:columns andWhere:nil andWhereArgs:nil andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andColumns:columns andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:self.columnNames andOrderBy:orderBy andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:columns andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryForChunkWithColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
-    return [self queryWithColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:[self buildLimitWithLimit:limit andOffset:offset]];
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:[self buildLimitWithLimit:limit andOffset:offset]];
 }
 
 -(NSString *) buildLimitWithLimit: (int) limit andOffset: (int) offset{
     return [NSString stringWithFormat:@"%d,%d", offset, limit];
-}
-
--(GPKGResultSet *) queryColumns: (NSArray *) columns
-                       andWhere: (NSString *) where
-                   andWhereArgs: (NSArray *) whereArgs
-                     andGroupBy: (NSString *) groupBy
-                      andHaving: (NSString *) having
-                     andOrderBy: (NSString *) orderBy{
-    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy];
-}
-
--(GPKGResultSet *) queryColumns: (NSArray *) columns
-                       andWhere: (NSString *) where
-                   andWhereArgs: (NSArray *) whereArgs
-                     andGroupBy: (NSString *) groupBy
-                      andHaving: (NSString *) having
-                     andOrderBy: (NSString *) orderBy
-                    andLimit: (NSString *) limit{
-    return [self.database queryWithTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 -(BOOL) idExists: (NSObject *) id{
@@ -1409,7 +1428,7 @@
 }
 
 -(int) count{
-    return [self countWhere:nil andWhereArgs:nil];
+    return [self countWhere:nil];
 }
 
 -(int) countWhere: (NSString *) where{
@@ -1417,11 +1436,43 @@
 }
 
 -(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args{
-    return [self.database countWithTable:self.tableName andWhere:where andWhereArgs:args];
+    return [self countWithColumn:nil andWhere:where andWhereArgs:args];
+}
+
+-(int) countWithColumn: (NSString *) column{
+    return [self countWithDistinct:NO andColumn:column];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    return [self countWithDistinct:distinct andColumn:column andWhere:nil andWhereArgs:nil];
+}
+
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where{
+    return [self countWithColumn:column andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
+    return [self countWithDistinct:NO andColumn:column andWhere:where andWhereArgs:args];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where{
+    return [self countWithDistinct:distinct andColumn:column andWhere:where andWhereArgs:nil];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
+    return [self.database countWithTable:self.tableName andDistinct:distinct andColumn:column andWhere:where andWhereArgs:args];
+}
+
+-(NSNumber *) minOfColumn: (NSString *) column{
+    return [self minOfColumn:column andWhere:nil andWhereArgs:nil];
 }
 
 -(NSNumber *) minOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{
     return [self.database minWithTable:self.tableName andColumn:column andWhere:where andWhereArgs:args];
+}
+
+-(NSNumber *) maxOfColumn: (NSString *) column{
+    return [self maxOfColumn:column andWhere:nil andWhereArgs:nil];
 }
 
 -(NSNumber *) maxOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args{

@@ -24,6 +24,18 @@
 +(GPKGUserCustomColumn *) createPrimaryKeyColumnWithName: (NSString *) name;
 
 /**
+ * Create a new primary key column
+ *
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return user custom column
+ */
++(GPKGUserCustomColumn *) createPrimaryKeyColumnWithName: (NSString *) name
+                                        andAutoincrement: (BOOL) autoincrement;
+
+/**
  *  Create a new primary key column
  *
  *  @param index column index
@@ -33,6 +45,21 @@
  */
 +(GPKGUserCustomColumn *) createPrimaryKeyColumnWithIndex: (int) index
                                                   andName: (NSString *) name;
+
+/**
+ * Create a new primary key column
+ *
+ * @param index
+ *            index
+ * @param name
+ *            name
+ * @param autoincrement
+ *            autoincrement flag
+ * @return user custom column
+ */
++(GPKGUserCustomColumn *) createPrimaryKeyColumnWithIndex: (int) index
+                                                  andName: (NSString *) name
+                                         andAutoincrement: (BOOL) autoincrement;
 
 /**
  * Create a new column

@@ -1876,7 +1876,7 @@
  *            where arguments
  * @return result
  */
--(GPKGResultSet *) queryInWithDistinct:distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Get the count in the nested SQL query
@@ -2433,7 +2433,19 @@
  */
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset;
 
-// TODO
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more
@@ -2448,6 +2460,22 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more
@@ -2469,6 +2497,24 @@
  * Query for id ordered rows starting at the offset and returning no more
  * than the limit.
  *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
  * @param columns
  *            columns
  * @param where
@@ -2482,6 +2528,26 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2501,6 +2567,22 @@
  * Query for ordered rows starting at the offset and returning no more than
  * the limit.
  *
+ * @param distinct
+ *            distinct rows
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
  * @param columns
  *            columns
  * @param orderBy
@@ -2512,6 +2594,24 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2535,6 +2635,26 @@
  * Query for ordered rows starting at the offset and returning no more than
  * the limit.
  *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
  * @param columns
  *            columns
  * @param where
@@ -2550,6 +2670,28 @@
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2577,6 +2719,30 @@
  * Query for ordered rows starting at the offset and returning no more than
  * the limit.
  *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
  * @param columns
  *            columns
  * @param where
@@ -2598,6 +2764,32 @@
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
 /**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
  * Build a limit String with the limit and offset
  *
  * @param limit
@@ -2607,46 +2799,6 @@
  * @return limit
  */
 -(NSString *) buildLimitWithLimit: (int) limit andOffset: (int) offset;
-
-/**
- *  Query columns where
- *
- *  @param columns   columns
- *  @param where     where caluse
- *  @param whereArgs where args
- *  @param groupBy   group by clause
- *  @param having    having clause
- *  @param orderBy   order by clause
- *
- *  @return result set
- */
--(GPKGResultSet *) queryColumns: (NSArray *) columns
-                       andWhere: (NSString *) where
-                   andWhereArgs: (NSArray *) whereArgs
-                     andGroupBy: (NSString *) groupBy
-                      andHaving: (NSString *) having
-                     andOrderBy: (NSString *) orderBy;
-
-/**
- *  Query columns where
- *
- *  @param columns   columns
- *  @param where     where caluse
- *  @param whereArgs where args
- *  @param groupBy   group by clause
- *  @param having    having clause
- *  @param orderBy   order by clause
- *  @param limit     limit clause
- *
- *  @return result set
- */
--(GPKGResultSet *) queryColumns: (NSArray *) columns
-                       andWhere: (NSString *) where
-                   andWhereArgs: (NSArray *) whereArgs
-                     andGroupBy: (NSString *) groupBy
-                      andHaving: (NSString *) having
-                     andOrderBy: (NSString *) orderBy
-                       andLimit: (NSString *) limit;
 
 /**
  *  Check if id exists
@@ -3075,6 +3227,87 @@
 -(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) args;
 
 /**
+ * Get a count of results
+ *
+ * @param column
+ *            column name
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column;
+
+/**
+ * Get a count of results
+ *
+ * @param distinct
+ *            distinct column values
+ * @param column
+ *            column name
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column;
+
+/**
+ * Get a count of results
+ *
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where;
+
+/**
+ * Get a count of results
+ *
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param args
+ *            arguments
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
+/**
+ * Get a count of results
+ *
+ * @param distinct
+ *            distinct column values
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where;
+
+/**
+ * Get a count of results
+ *
+ * @param distinct
+ *            distinct column values
+ * @param column
+ *            column name
+ * @param where
+ *            where clause
+ * @param args
+ *            arguments
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
+/**
+ * Get the min result of the column
+ *
+ * @param column
+ *            column name
+ * @return min or null
+ */
+-(NSNumber *) minOfColumn: (NSString *) column;
+
+/**
  *  Get the min result of the column
  *
  *  @param column column
@@ -3084,6 +3317,17 @@
  *  @return min or nil
  */
 -(NSNumber *) minOfColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) args;
+
+/**
+ * Get the max result of the column
+ *
+ * @param <T>
+ *            return type
+ * @param column
+ *            column name
+ * @return max or null
+ */
+-(NSNumber *) maxOfColumn: (NSString *) column;
 
 /**
  *  Get the max result of the column

@@ -137,7 +137,7 @@
 
 -(NSArray *) allNamesSortedBy: (NSString *) column{
     NSMutableArray * names = [[NSMutableArray alloc] init];
-    GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:column];
+    GPKGResultSet * results = [self queryWithColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){
             [names addObject:[results stringWithIndex:0]];
@@ -185,7 +185,7 @@
     NSMutableArray * names = [[NSMutableArray alloc] init];
     NSString * where = [NSString stringWithFormat:@"%@%@ like ?", GPKG_GPM_COLUMN_NAME, notLike ? @" not" : @""];
     NSArray * whereArgs = [[NSArray alloc] initWithObjects:like, nil];
-    GPKGResultSet * results = [self queryColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:column];
+    GPKGResultSet * results = [self queryWithColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){
             [names addObject:[results stringWithIndex:0]];

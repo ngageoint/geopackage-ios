@@ -7,6 +7,7 @@
 //
 
 #import "GPKGBaseDao.h"
+#import "GPKGGeoPackage.h"
 #import "GPKGTableIndex.h"
 #import "GPKGExtensions.h"
 
