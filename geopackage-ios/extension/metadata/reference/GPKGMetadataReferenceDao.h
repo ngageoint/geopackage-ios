@@ -7,22 +7,12 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGMetadataReference.h"
 
 /**
  *  Metadata Reference Data Access Object
  */
 @interface GPKGMetadataReferenceDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            geoPackage
- * @return dao
- */
-+(GPKGMetadataReferenceDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

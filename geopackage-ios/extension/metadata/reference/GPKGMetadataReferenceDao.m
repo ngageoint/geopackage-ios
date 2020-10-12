@@ -13,10 +13,6 @@
 
 @implementation GPKGMetadataReferenceDao
 
-+(GPKGMetadataReferenceDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGMetadataReferenceDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGMetadataReferenceDao alloc] initWithDatabase:database];
 }

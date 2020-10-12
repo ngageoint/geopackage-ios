@@ -8,9 +8,11 @@
 
 #import "GPKGBaseExtension.h"
 #import "GPKGMetadataDao.h"
-#import "GPKGMetadatReferenceaDao.h"
+#import "GPKGMetadataReferenceDao.h"
 
 extern NSString * const GPKG_METADATA_EXTENSION_NAME;
+
+@class GPKGMetadataReferenceDao;
 
 /**
  *  Metadata extension
@@ -94,7 +96,7 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
  *
  * @return Metadata Reference DAO
  */
--(GPKGMetadatReferenceaDao *) metadataReferenceDao;
+-(GPKGMetadataReferenceDao *) metadataReferenceDao;
 
 /**
  * Get a Metadata Reference DAO

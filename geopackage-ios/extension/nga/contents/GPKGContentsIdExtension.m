@@ -319,7 +319,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 
 
 +(GPKGContentsIdDao *) contentsIdDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGContentsIdDao createWithGeoPackage:geoPackage];
+    return [GPKGContentsIdDao createWithDatabase:geoPackage.database];
 }
 
 

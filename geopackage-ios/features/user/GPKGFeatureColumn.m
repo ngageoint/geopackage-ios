@@ -7,6 +7,7 @@
 //
 
 #import "GPKGFeatureColumn.h"
+#import "GPKGUserTable.h"
 
 @implementation GPKGFeatureColumn
 

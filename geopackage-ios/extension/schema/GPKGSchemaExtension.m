@@ -63,7 +63,7 @@ NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions
 }
 
 +(GPKGDataColumnsDao *) dataColumnsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGDataColumnsDao createWithGeoPackage:geoPackage];
+    return [GPKGDataColumnsDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGDataColumnsDao *) dataColumnsDaoWithDatabase: (GPKGConnection *) database{
@@ -87,7 +87,7 @@ NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions
 }
 
 +(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGDataColumnConstraintsDao createWithGeoPackage:geoPackage];
+    return [GPKGDataColumnConstraintsDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGDataColumnConstraintsDao *) dataColumnConstraintsDaoWithDatabase: (GPKGConnection *) database{

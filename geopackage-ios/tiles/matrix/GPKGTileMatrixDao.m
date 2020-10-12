@@ -13,10 +13,6 @@
 
 @implementation GPKGTileMatrixDao
 
-+(GPKGTileMatrixDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGTileMatrixDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGTileMatrixDao alloc] initWithDatabase:database];
 }

@@ -12,10 +12,6 @@
 
 @implementation GPKGGriddedTileDao
 
-+(GPKGGriddedTileDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGGriddedTileDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGGriddedTileDao alloc] initWithDatabase:database];
 }

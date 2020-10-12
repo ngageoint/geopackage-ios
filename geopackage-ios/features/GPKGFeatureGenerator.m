@@ -185,7 +185,7 @@ static SFPProjection *EPSG_WGS84 = nil;
             [self.geometryColumns setGeometryType:SF_GEOMETRY];
             [self.geometryColumns setZ:[NSNumber numberWithInt:0]];
             [self.geometryColumns setM:[NSNumber numberWithInt:0]];
-            [self.geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:self.geometryColumns andIdColumnName:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox]];
+            [self.geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:self.geometryColumns andIdColumn:[NSString stringWithFormat:@"%@_id", self.tableName] andAdditionalColumns:featureColumns andBoundingBox:self.boundingBox]];
             
         } else {
             GPKGFeatureTableReader *tableReader = [[GPKGFeatureTableReader alloc] initWithGeometryColumns:self.geometryColumns];

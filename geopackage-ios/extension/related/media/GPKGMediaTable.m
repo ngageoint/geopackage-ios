@@ -31,7 +31,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName{
-    return [self createRequiredColumnsWithIdColumnName:idColumnName andAutoincrement:autoincrement];
+    return [self createRequiredColumnsWithIdColumnName:idColumnName andAutoincrement:DEFAULT_AUTOINCREMENT];
 }
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIdColumnName: (NSString *) idColumnName andAutoincrement: (BOOL) autoincrement{

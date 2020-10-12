@@ -8,12 +8,6 @@
 
 #import "GPKGExtensionManagement.h"
 
-@interface GPKGExtensionManagement()
-
-@property (nonatomic, strong)  GPKGGeoPackage *geoPackage;
-
-@end
-
 @implementation GPKGExtensionManagement
 
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{

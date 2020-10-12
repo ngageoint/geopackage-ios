@@ -24,16 +24,6 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
 
 /**
- * Initialize
- *
- * @param geoPackage
- *            GeoPackage
- *
- * @return new geometry index table creator
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
  *  Create Table Index table
  *
  *  @return tables created

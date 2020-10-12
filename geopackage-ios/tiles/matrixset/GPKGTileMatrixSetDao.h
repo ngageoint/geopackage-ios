@@ -19,15 +19,6 @@
 /**
  * Create the DAO
  *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGTileMatrixSetDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Create the DAO
- *
  * @param database
  *            database connection
  * @return dao

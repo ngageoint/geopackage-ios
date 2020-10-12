@@ -167,14 +167,14 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
 -(GPKGGriddedCoverageDao *) griddedCoverageDao{
     if(_griddedCoverageDao == nil){
-        _griddedCoverageDao = [GPKGGriddedCoverageDao createWithGeoPackage:self.geoPackage];
+        _griddedCoverageDao = [GPKGGriddedCoverageDao createWithDatabase:self.geoPackage.database];
     }
     return _griddedCoverageDao;
 }
 
 -(GPKGGriddedTileDao *) griddedTileDao{
     if(_griddedTileDao == nil){
-        _griddedTileDao = [GPKGGriddedTileDao createWithGeoPackage:self.geoPackage];
+        _griddedTileDao = [GPKGGriddedTileDao createWithDatabase:self.geoPackage.database];
     }
     return _griddedTileDao;
 }
@@ -222,7 +222,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 +(GPKGGriddedCoverageDao *) griddedCoverageDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGGriddedCoverageDao createWithGeoPackage:geoPackage];
+    return [GPKGGriddedCoverageDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGGriddedCoverageDao *) griddedCoverageDaoWithDatabase: (GPKGConnection *) database{
@@ -242,7 +242,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 +(GPKGGriddedTileDao *) griddedTileDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGGriddedTileDao createWithGeoPackage:geoPackage];
+    return [GPKGGriddedTileDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGGriddedTileDao *) griddedTileDaoWithDatabase: (GPKGConnection *) database{

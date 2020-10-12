@@ -62,7 +62,7 @@ NSString * const GPKG_PROP_METADATA_EXTENSION_DEFINITION = @"geopackage.extensio
 }
 
 +(GPKGMetadataDao *) metadataDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGMetadataDao createWithGeoPackage:geoPackage];
+    return [GPKGMetadataDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGMetadataDao *) metadataDaoWithDatabase: (GPKGConnection *) database{
@@ -84,12 +84,12 @@ NSString * const GPKG_PROP_METADATA_EXTENSION_DEFINITION = @"geopackage.extensio
     return created;
 }
 
--(GPKGMetadatReferenceaDao *) metadataReferenceDao{
+-(GPKGMetadataReferenceDao *) metadataReferenceDao{
     return [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:self.geoPackage];
 }
 
 +(GPKGMetadataReferenceDao *) metadataReferenceDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGMetadataReferenceDao createWithGeoPackage:geoPackage];
+    return [GPKGMetadataReferenceDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGMetadataReferenceDao *) metadataReferenceDaoWithDatabase: (GPKGConnection *) database{

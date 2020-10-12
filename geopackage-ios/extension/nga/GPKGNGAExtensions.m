@@ -419,7 +419,7 @@ NSString * const GPKG_NGA_EXTENSION_AUTHOR = @"nga";
 
 -(void) deleteContentsIdForTable: (NSString *) table{
     
-    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:self.geoPackage];
     if ([contentsIdExtension has]) {
         [contentsIdExtension deleteForTableName:table];
     }
@@ -428,7 +428,7 @@ NSString * const GPKG_NGA_EXTENSION_AUTHOR = @"nga";
 
 -(void) deleteContentsIdExtension{
     
-    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+    GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:self.geoPackage];
     if ([contentsIdExtension has]) {
         [contentsIdExtension removeExtension];
     }
@@ -439,7 +439,7 @@ NSString * const GPKG_NGA_EXTENSION_AUTHOR = @"nga";
     
     @try {
         
-        GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
+        GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:self.geoPackage];
         
         if ([contentsIdExtension has]) {
             if([contentsIdExtension forTableName:table] != nil){

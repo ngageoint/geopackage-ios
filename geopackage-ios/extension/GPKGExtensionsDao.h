@@ -8,23 +8,11 @@
 
 #import "GPKGBaseDao.h"
 #import "GPKGExtensions.h"
-#import "GPKGGeoPackage.h"
-
-@class GPKGGeoPackage;
 
 /**
  * Extensions Data Access Object
  */
 @interface GPKGExtensionsDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGExtensionsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

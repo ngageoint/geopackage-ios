@@ -16,11 +16,6 @@
     return self;
 }
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    self = [super initWithGeoPackage:geoPackage];
-    return self;
-}
-
 -(int) createFeatureTileLink{
     return [self createTable:GPKG_FTL_TABLE_NAME];
 }

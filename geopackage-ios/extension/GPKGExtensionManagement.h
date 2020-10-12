@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 
-@class GPKGGeoPackage;
-
 /**
  * Extension Management for deleting and copying extensions
  */
 @interface GPKGExtensionManagement : NSObject
+
+/**
+ * GeoPackage
+ */
+@property (nonatomic, strong)  GPKGGeoPackage *geoPackage;
 
 /**
  * Initialize
@@ -23,13 +26,6 @@
  *            GeoPackage
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Get the GeoPackage
- *
- * @return GeoPackage
- */
--(GPKGGeoPackage *) geoPackage;
 
 /**
  * Get the extension author

@@ -143,7 +143,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 }
 
 +(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGFeatureTileLinkDao createWithGeoPackage:geoPackage];
+    return [GPKGFeatureTileLinkDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGFeatureTileLinkDao *) featureTileLinkDaoWithDatabase: (GPKGConnection *) database{
@@ -155,7 +155,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
     
     BOOL created = NO;
     if(![self.featureTileLinkDao tableExists]){
-        GPKGFeatureTileLinkTableCreator *tableCreator = [[GPKGFeatureTileLinkTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGFeatureTileLinkTableCreator *tableCreator = [[GPKGFeatureTileLinkTableCreator alloc] initWithDatabase:self.geoPackage.database];
         created = [tableCreator createFeatureTileLink] > 0;
     }
     

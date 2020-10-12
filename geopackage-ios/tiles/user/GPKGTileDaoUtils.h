@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGTileMatrixSet.h"
+#import "GPKGTileMatrix.h"
+#import "GPKGTileMatrixSetDao.h"
 
 /**
  *  Tile Data Access Object utilities

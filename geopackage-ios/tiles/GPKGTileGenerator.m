@@ -124,8 +124,8 @@
         NSNumber *coordsysId = [NSNumber numberWithInteger:[[self.projection code] integerValue]];
         GPKGSpatialReferenceSystem * srs = [srsDao srsWithOrganization:[self.projection authority] andCoordsysId:coordsysId];
         // Create the tile table
-        tileMatrixSet = [self.geoPackage createTileTableWithTableName:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:srs.srsId andTileMatrixSetBoundingBox:self.tileGridBoundingBox andTileMatrixSetSrsId:srs.srsId];
-        
+        [self.geoPackage createTileTableWithMetadata:[[GPKGTileTableMetadata alloc] initWithTable:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:srs.srsId andTileBoundingBox:self.tileGridBoundingBox andTileSrsId:srs.srsId]];
+        tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:self.tableName];
     }else{
         update = YES;
         //Query to get the Tile Matrix Set

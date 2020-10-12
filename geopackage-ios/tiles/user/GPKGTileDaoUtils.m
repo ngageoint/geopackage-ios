@@ -9,6 +9,8 @@
 #import "GPKGTileDaoUtils.h"
 #import "GPKGTileMatrixSet.h"
 #import "GPKGTileMatrix.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGTileDaoUtils
 
@@ -308,7 +310,7 @@
 }
 
 +(int) mapZoomWithMin: (NSDecimalNumber *) min andMax: (NSDecimalNumber *) max andMatrixLength: (NSNumber *) matrixLength{
-    return (int) round(log((2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH) / ((max - min) / matrixLength)) / log(2));
+    return (int) round(log((2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH) / (([max doubleValue] - [min doubleValue]) / [matrixLength doubleValue])) / log(2));
 }
 
 @end

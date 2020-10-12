@@ -802,7 +802,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     [sql appendFormat:@"CREATE TABLE %@ (", [self quoteWrapName:table.tableName]];
     
     // Add each column to the sql
-    GPKGUserColumns *columns = [table columns];
+    GPKGUserColumns *columns = [table userColumns];
     for(int i = 0; i < [columns columnCount]; i++){
         GPKGUserColumn *column = [columns columnWithIndex:i];
         if(i > 0){

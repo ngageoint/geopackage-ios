@@ -37,10 +37,6 @@
     return self;
 }
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self initWithDatabase:geoPackage.database];
-}
-
 -(int) createSpatialReferenceSystem{
     return [self createTable:GPKG_SRS_TABLE_NAME];
 }

@@ -9,8 +9,6 @@
 #import "GPKGTableCreator.h"
 #import "GPKGNGATableCreator.h"
 
-@class GPKGGeoPackage;
-
 /**
  * Contents Id Extension Table Creator
  */
@@ -24,16 +22,6 @@
  *  @return new contents id table creator
  */
 -(instancetype) initWithDatabase: (GPKGConnection *) database;
-
-/**
- * Initialize
- *
- * @param geoPackage
- *            GeoPackage
- *
- * @return new contents id table creator
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create Contents Id table

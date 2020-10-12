@@ -16,11 +16,6 @@
     return self;
 }
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    self = [super initWithGeoPackage:geoPackage];
-    return self;
-}
-
 -(int) createContentsId{
     return [self createTable:GPKG_CI_TABLE_NAME];
 }

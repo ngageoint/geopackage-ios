@@ -11,10 +11,6 @@
 
 @implementation GPKGExtensionsDao
 
-+(GPKGExtensionsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGExtensionsDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGExtensionsDao alloc] initWithDatabase:database];
 }

@@ -12,10 +12,6 @@
 
 @implementation GPKGGeometryIndexDao
 
-+(GPKGGeometryIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGGeometryIndexDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGGeometryIndexDao alloc] initWithDatabase:database];
 }

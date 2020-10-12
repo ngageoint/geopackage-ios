@@ -342,8 +342,9 @@
                 break;
             case GPKG_CDT_TILES:
                 {
-                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[[self tileMatrixSetDao] queryForIdObject:table];
-                    boundingBox = [tileMatrixSet boundingBoxInProjection:projection];
+                    GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
+                    GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:table];
+                    boundingBox = [tileMatrixSetDao boundingBoxOfTileMatrixSet:tileMatrixSet inProjection:projection];
                 }
                 break;
             default:
@@ -414,13 +415,13 @@
 }
 
 -(GPKGSpatialReferenceSystemDao *) spatialReferenceSystemDao{
-    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createWithGeoPackage:self];
+    GPKGSpatialReferenceSystemDao *dao = [GPKGSpatialReferenceSystemDao createWithDatabase:_database];
     [dao setCrsWktExtension:[[GPKGCrsWktExtension alloc] initWithGeoPackage:self]];
     return dao;
 }
 
 -(GPKGContentsDao *) contentsDao{
-    return [GPKGContentsDao createWithGeoPackage:self];
+    return [GPKGContentsDao createWithDatabase:_database];
 }
 
 -(GPKGGeometryColumnsDao *) geometryColumnsDao{
@@ -430,7 +431,7 @@
         GPKGRTreeIndexExtension *rtree = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:self];
         [rtree createFunctions];
     }
-    return [GPKGGeometryColumnsDao createWithGeoPackage:self];
+    return [GPKGGeometryColumnsDao createWithDatabase:_database];
 }
 
 -(BOOL) createGeometryColumnsTable{
@@ -499,7 +500,7 @@
 }
 
 -(GPKGTileMatrixSetDao *) tileMatrixSetDao{
-    return [GPKGTileMatrixSetDao createWithGeoPackage:self];
+    return [GPKGTileMatrixSetDao createWithDatabase:_database];
 }
 
 -(BOOL) createTileMatrixSetTable{
@@ -515,7 +516,7 @@
 }
 
 -(GPKGTileMatrixDao *) tileMatrixDao{
-    return [GPKGTileMatrixDao createWithGeoPackage:self];
+    return [GPKGTileMatrixDao createWithDatabase:_database];
 }
 
 -(BOOL) createTileMatrixTable{
@@ -537,8 +538,8 @@
 -(GPKGTileTable *) createTileTableWithMetadata: (GPKGTileTableMetadata *) metadata{
     
     // Get the SRS
-    GPKGSpatialReferenceSystem *contentsSrs = [self srs:contentsSrsId];
-    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [self srs:tileMatrixSetSrsId];
+    GPKGSpatialReferenceSystem *contentsSrs = [self srs:metadata.contentsSrsId];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [self srs:metadata.tileSrsId];
     
     // Create the Tile Matrix Set and Tile Matrix tables
     [self createTileMatrixSetTable];
@@ -553,7 +554,7 @@
         // Create the contents
         GPKGContents *contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
-        [contents setContentsDataType:GPKG_CDT_TILES asName:[metadata dataType]];
+        [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_TILES];
         [contents setIdentifier:tableName];
         // [contents setLastChange:[NSDate date]];
         GPKGBoundingBox *contentsBoundingBox = [metadata contentsBoundingBox];
@@ -609,7 +610,7 @@
         // Create the contents
         GPKGContents * contents = [[GPKGContents alloc] init];
         [contents setTableName:tableName];
-        [contents setContentsDataType:GPKG_CDT_ATTRIBUTES asName:[metadata dataType]];
+        [contents setDataType:[metadata dataType] asContentsDataType:GPKG_CDT_ATTRIBUTES];
         [contents setIdentifier:tableName];
         // [contents setLastChange:[NSDate date]];
         [[self contentsDao] create:contents];
@@ -625,7 +626,7 @@
 }
 
 -(GPKGExtensionsDao *) extensionsDao{
-    return [GPKGExtensionsDao createWithGeoPackage:self];
+    return [GPKGExtensionsDao createWithDatabase:_database];
 }
 
 -(BOOL) createExtensionsTable{
@@ -643,7 +644,7 @@
 -(void) deleteTable: (NSString *) tableName{
     [self verifyWritable];
     
-    [[self extensionManager] deleteTableExtensionsWithTable:tableName];
+    [[self extensionManager] deleteExtensionsForTable:tableName];
     
     GPKGContentsDao * contentsDao = [self contentsDao];
     [contentsDao deleteTable:tableName];
@@ -905,7 +906,7 @@
     
     // Copy extensions
     if(extensions){
-        [[self extensionManager] copyTableExtensionsWithTable:tableName andNewTable:newTableName];
+        [[self extensionManager] copyExtensionsFromTable:tableName toTable:newTableName];
     }
     
 }

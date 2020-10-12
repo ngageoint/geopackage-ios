@@ -18,15 +18,6 @@
 /**
  * Create the DAO
  *
- * @param geoPackage
- *            geoPackage
- * @return dao
- */
-+(GPKGGriddedTileDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
-
-/**
- * Create the DAO
- *
  * @param db
  *            database connection
  * @return dao

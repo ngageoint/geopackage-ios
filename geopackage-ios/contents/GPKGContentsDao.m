@@ -18,10 +18,6 @@
 
 @implementation GPKGContentsDao
 
-+(GPKGContentsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGContentsDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGContentsDao alloc] initWithDatabase:database];
 }

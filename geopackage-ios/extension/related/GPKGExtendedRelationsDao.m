@@ -10,10 +10,6 @@
 
 @implementation GPKGExtendedRelationsDao
 
-+(GPKGExtendedRelationsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGExtendedRelationsDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGExtendedRelationsDao alloc] initWithDatabase:database];
 }

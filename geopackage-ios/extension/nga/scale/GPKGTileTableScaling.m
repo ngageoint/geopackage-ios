@@ -130,7 +130,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
 }
 
 +(GPKGTileScalingDao *) tileScalingDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGTileScalingDao createWithGeoPackage:geoPackage];
+    return [GPKGTileScalingDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGTileScalingDao *) tileScalingDaoWithDatabase: (GPKGConnection *) database{
@@ -142,7 +142,7 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
     
     BOOL created = NO;
     if(![self.tileScalingDao tableExists]){
-        GPKGTileScalingTableCreator *tableCreator = [[GPKGTileScalingTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGTileScalingTableCreator *tableCreator = [[GPKGTileScalingTableCreator alloc] initWithDatabase:self.geoPackage.database];
         created = [tableCreator createTileScaling] > 0;
     }
     

@@ -7,7 +7,6 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGDataColumns.h"
 #import "GPKGContents.h"
 
@@ -15,15 +14,6 @@
  *  Data Columns Data Access Object
  */
 @interface GPKGDataColumnsDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGDataColumnsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

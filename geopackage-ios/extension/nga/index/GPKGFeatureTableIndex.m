@@ -12,6 +12,7 @@
 #import "GPKGUserRowSync.h"
 #import "GPKGSqlLiteQueryBuilder.h"
 #import "GPKGGeometryIndexTableCreator.h"
+#import "GPKGNGAExtensions.h"
 
 NSString * const GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR = @"geometry_index";
 NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.extensions.geometry_index";
@@ -308,7 +309,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 +(GPKGTableIndexDao *) tableIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGTableIndexDao createWithGeoPackage:geoPackage];
+    return [GPKGTableIndexDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGTableIndexDao *) tableIndexDaoWithDatabase: (GPKGConnection *) database{
@@ -320,7 +321,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     BOOL created = NO;
     if(![self.tableIndexDao tableExists]){
-        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithDatabase:self.geoPackage.database];
         created = [tableCreator createTableIndex] > 0;
     }
     
@@ -332,7 +333,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 +(GPKGGeometryIndexDao *) geometryIndexDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [GPKGGeometryIndexDao createWithGeoPackage:geoPackage];
+    return [GPKGGeometryIndexDao createWithDatabase:geoPackage.database];
 }
 
 +(GPKGGeometryIndexDao *) geometryIndexDaoWithDatabase: (GPKGConnection *) database{
@@ -344,7 +345,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     BOOL created = NO;
     if(![self.geometryIndexDao tableExists]){
-        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithDatabase:self.geoPackage.database];
         created = [tableCreator createGeometryIndex] > 0;
     }
     
@@ -356,7 +357,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     BOOL indexed = NO;
     if([self.geometryIndexDao tableExists]){
-        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithDatabase:self.geoPackage.database];
         indexed = [tableCreator indexGeometryIndex] > 0;
     }
     return indexed;
@@ -367,7 +368,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     
     BOOL unindexed = NO;
     if([self.geometryIndexDao tableExists]){
-        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithGeoPackage:self.geoPackage];
+        GPKGGeometryIndexTableCreator *tableCreator = [[GPKGGeometryIndexTableCreator alloc] initWithDatabase:self.geoPackage.database];
         unindexed = [tableCreator unindexGeometryIndex] > 0;
     }
     return unindexed;

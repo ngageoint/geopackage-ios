@@ -12,10 +12,6 @@
 
 @implementation GPKGDataColumnsDao
 
-+(GPKGDataColumnsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGDataColumnsDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGDataColumnsDao alloc] initWithDatabase:database];
 }

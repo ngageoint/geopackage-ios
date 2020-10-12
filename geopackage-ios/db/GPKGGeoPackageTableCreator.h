@@ -7,9 +7,6 @@
 //
 
 #import "GPKGTableCreator.h"
-#import "GPKGGeoPackage.h"
-
-@class GPKGGeoPackage;
 
 /**
  *  Executes database scripts to create GeoPackage tables
@@ -24,15 +21,6 @@
  *  @return new GeoPackage table creator
  */
 -(instancetype) initWithDatabase: (GPKGConnection *) db;
-
-/**
- *  Initialize
- *
- *  @param geoPackage GeoPackage
- *
- *  @return new GeoPackage table creator
- */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  *  Create Spatial Reference System table

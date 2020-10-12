@@ -11,10 +11,6 @@
 
 @implementation GPKGMetadataDao
 
-+(GPKGMetadataDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGMetadataDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGMetadataDao alloc] initWithDatabase:database];
 }

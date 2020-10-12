@@ -14,10 +14,6 @@
 
 @implementation GPKGTableIndexDao
 
-+(GPKGTableIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    return [self createWithDatabase:geoPackage.database];
-}
-
 +(GPKGTableIndexDao *) createWithDatabase: (GPKGConnection *) database{
     return [[GPKGTableIndexDao alloc] initWithDatabase:database];
 }

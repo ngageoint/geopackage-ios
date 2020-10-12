@@ -7,28 +7,16 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGContents.h"
 #import "GPKGSpatialReferenceSystem.h"
 #import "GPKGGeometryColumns.h"
 #import "GPKGTileMatrixSet.h"
 #import "GPKGContentsDataTypes.h"
 
-@class GPKGGeoPackage;
-
 /**
  *  Contents Data Access Object
  */
 @interface GPKGContentsDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            geoPackage
- * @return dao
- */
-+(GPKGContentsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

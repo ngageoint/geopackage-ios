@@ -7,7 +7,6 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGTableIndex.h"
 #import "GPKGExtensions.h"
 
@@ -15,15 +14,6 @@
  *  Table Index Data Access Object
  */
 @interface GPKGTableIndexDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGTableIndexDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

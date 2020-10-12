@@ -7,22 +7,12 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGFeatureTileLink.h"
 
 /**
  * Feature Tile Link Data Access Object
  */
 @interface GPKGFeatureTileLinkDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGFeatureTileLinkDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

@@ -7,22 +7,12 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGExtendedRelation.h"
 
 /**
  * Extended Relations Data Access Object
  */
 @interface GPKGExtendedRelationsDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            GeoPackage
- * @return dao
- */
-+(GPKGExtendedRelationsDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO

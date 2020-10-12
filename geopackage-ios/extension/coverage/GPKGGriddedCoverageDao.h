@@ -7,22 +7,12 @@
 //
 
 #import "GPKGBaseDao.h"
-#import "GPKGGeoPackage.h"
 #import "GPKGGriddedCoverage.h"
 
 /**
  * Gridded Coverage Data Access Object
  */
 @interface GPKGGriddedCoverageDao : GPKGBaseDao
-
-/**
- * Create the DAO
- *
- * @param geoPackage
- *            geoPackage
- * @return dao
- */
-+(GPKGGriddedCoverageDao *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
  * Create the DAO
