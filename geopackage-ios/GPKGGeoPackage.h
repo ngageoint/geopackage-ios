@@ -28,7 +28,6 @@
 #import "GPKGFeatureTableMetadata.h"
 #import "GPKGTileTableMetadata.h"
 #import "GPKGAttributesTableMetadata.h"
-#import "GPKGExtensionManager.h"
 
 /**
  *  A single GeoPackage database connection
@@ -771,6 +770,14 @@
 -(GPKGFeatureDao *) featureDaoWithContents: (GPKGContents *) contents;
 
 /**
+ * Get a Feature DAO from a table
+ *
+ * @param table feature table
+ * @return feature dao
+ */
+-(GPKGFeatureDao *) featureDaoWithTable: (GPKGFeatureTable *) table;
+
+/**
  *  Get a Feature DAO from a table name
  *
  *  @param tableName table name
@@ -798,6 +805,14 @@
 -(GPKGTileDao *) tileDaoWithContents: (GPKGContents *) contents;
 
 /**
+ * Get a Tile DAO from a table
+ *
+ * @param table tile table
+ * @return tile dao
+ */
+-(GPKGTileDao *) tileDaoWithTable: (GPKGTileTable *) table;
+
+/**
  *  Get a Tile DAO from a table name
  *
  *  @param tableName table name
@@ -814,6 +829,14 @@
  * @return attributes dao
  */
 -(GPKGAttributesDao *) attributesDaoWithContents: (GPKGContents *) contents;
+
+/**
+ * Get an Attributes DAO from a table
+ *
+ * @param table attributes table
+ * @return attributes dao
+ */
+-(GPKGAttributesDao *) attributesDaoWithTable: (GPKGAttributesTable *) table;
 
 /**
  * Get an Attributes DAO from a table name
@@ -1002,7 +1025,7 @@
  *
  * @return extension manager
  */
--(GPKGExtensionManager *) extensionManager;
+//-(GPKGExtensionManager *) extensionManager; TODO
 
 /**
  * Create a new user table

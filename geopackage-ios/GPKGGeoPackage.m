@@ -18,6 +18,7 @@
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGAlterTable.h"
 #import "GPKGUserCustomTableReader.h"
+#import "GPKGExtensionManager.h"
 
 @interface GPKGGeoPackage()
 
@@ -696,6 +697,10 @@
     return [self featureDaoWithGeometryColumns:geometryColumns];
 }
 
+-(GPKGFeatureDao *) featureDaoWithTable: (GPKGFeatureTable *) table{
+    return [self featureDaoWithTableName:table.tableName];
+}
+
 -(GPKGFeatureDao *) featureDaoWithTableName: (NSString *) tableName{
     GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
     GPKGGeometryColumns * geometryColumns = [dao queryForTableName:tableName];
@@ -742,6 +747,10 @@
     return [self tileDaoWithTileMatrixSet:tileMatrixSet];
 }
 
+-(GPKGTileDao *) tileDaoWithTable: (GPKGTileTable *) table{
+    return [self tileDaoWithTableName:table.tableName];
+}
+
 -(GPKGTileDao *) tileDaoWithTableName: (NSString *) tableName{
     
     GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
@@ -774,7 +783,7 @@
     if(contents == nil){
         [NSException raise:@"Illegal Argument" format:@"Non null Contents is required to create Attributes DAO"];
     }
-    if([contents contentsDataType] != GPKG_CDT_ATTRIBUTES){
+    if(![contents isAttributesTypeOrUnknown]){
         [NSException raise:@"Illegal Argument" format:@"Contents is required to be of type Attributes. Actual: %@", contents.dataType];
     }
     
@@ -785,6 +794,10 @@
     GPKGAttributesDao * dao = [[GPKGAttributesDao alloc] initWithDatabase:self.database andTable:attributesTable];
     
     return dao;
+}
+
+-(GPKGAttributesDao *) attributesDaoWithTable: (GPKGAttributesTable *) table{
+    return [self attributesDaoWithTableName:table.tableName];
 }
 
 -(GPKGAttributesDao *) attributesDaoWithTableName: (NSString *) tableName{

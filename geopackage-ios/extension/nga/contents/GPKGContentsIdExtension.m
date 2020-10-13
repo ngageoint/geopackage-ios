@@ -333,7 +333,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     
     BOOL created = NO;
     if(![_contentsIdDao tableExists]){
-        GPKGContentsIdTableCreator *tableCreator = [[GPKGContentsIdTableCreator alloc] initWithGeoPackage:geoPackage];
+        GPKGContentsIdTableCreator *tableCreator = [[GPKGContentsIdTableCreator alloc] initWithDatabase:self.geoPackage.database];
         created = [tableCreator createContentsId] > 0;
     }
     

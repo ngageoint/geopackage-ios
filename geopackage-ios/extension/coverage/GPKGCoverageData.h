@@ -58,16 +58,12 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 /**
  * Create the coverage data tile table with metadata and extension
  *
- * @param geoPackage               GeoPackage
- * @param tableName                table name
- * @param contentsBoundingBox      contents bounding box
- * @param contentsSrsId            contents srs id
- * @param tileMatrixSetBoundingBox tile matrix set bounding box
- * @param tileMatrixSetSrsId       tile matrix set srs id
- * @param dataType                 gridded coverage data type
+ * @param geoPackage GeoPackage
+ * @param metadata   tile table metadata
+ * @param dataType   gridded coverage data type
  * @return coverage data
  */
-+(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId andDataType: (enum GPKGGriddedCoverageDataType) dataType;
++(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andMetadata: (GPKGTileTableMetadata *) metadata andDataType: (enum GPKGGriddedCoverageDataType) dataType;
 
 /**
  *  Extension name

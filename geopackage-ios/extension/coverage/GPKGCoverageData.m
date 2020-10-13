@@ -70,7 +70,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 +(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
     
     GPKGTileMatrixSet *tileMatrixSet = tileDao.tileMatrixSet;
-    GPKGGriddedCoverageDao *griddedCoverageDao = [geoPackage griddedCoverageDao];
+    GPKGGriddedCoverageDao *griddedCoverageDao = [self griddedCoverageDaoWithGeoPackage:geoPackage];
     
     GPKGGriddedCoverage *griddedCoverage = nil;
     @try {
@@ -106,10 +106,10 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     return [self coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
-+(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId andDataType: (enum GPKGGriddedCoverageDataType) dataType{
++(GPKGCoverageData *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andMetadata: (GPKGTileTableMetadata *) metadata andDataType: (enum GPKGGriddedCoverageDataType) dataType{
     
-    GPKGTileMatrixSet *tileMatrixSet = [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId];
-    GPKGTileDao *tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
+    GPKGTileTable *tileTable = [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andMetadata:metadata];
+    GPKGTileDao *tileDao = [geoPackage tileDaoWithTable:tileTable];
     
     GPKGCoverageData *coverageData = nil;
     switch (dataType) {

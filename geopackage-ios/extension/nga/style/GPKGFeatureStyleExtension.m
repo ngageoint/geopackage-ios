@@ -7,6 +7,7 @@
 //
 
 #import "GPKGFeatureStyleExtension.h"
+#import "GPKGNGAExtensions.h"
 #import "GPKGExtensions.h"
 #import "GPKGProperties.h"
 #import "GPKGStyleTable.h"
