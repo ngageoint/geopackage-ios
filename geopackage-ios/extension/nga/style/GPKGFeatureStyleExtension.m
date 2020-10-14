@@ -291,7 +291,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     
     NSString *tableName = [NSString stringWithFormat:@"%@%@", tablePrefix, featureTable];
     GPKGStyleMappingDao *dao = nil;
-    if([self.geoPackage isTable:tableName]){
+    if([self.geoPackage isTableOrView:tableName]){
         dao = [[GPKGStyleMappingDao alloc] initWithDao:[self.relatedTables userDaoForTableName:tableName]];
     }
     return dao;
@@ -299,7 +299,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(GPKGStyleDao *) styleDao{
     GPKGStyleDao *styleDao = nil;
-    if([self.geoPackage isTable:GPKG_ST_TABLE_NAME]){
+    if([self.geoPackage isTableOrView:GPKG_ST_TABLE_NAME]){
         GPKGAttributesDao *attributesDao = [self.geoPackage attributesDaoWithTableName:GPKG_ST_TABLE_NAME];
         styleDao = [[GPKGStyleDao alloc] initWithDao:attributesDao];
         [self.relatedTables setContentsInTable:[styleDao table]];
@@ -309,7 +309,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 
 -(GPKGIconDao *) iconDao{
     GPKGIconDao *iconDao = nil;
-    if([self.geoPackage isTable:GPKG_IT_TABLE_NAME]){
+    if([self.geoPackage isTableOrView:GPKG_IT_TABLE_NAME]){
         iconDao = [[GPKGIconDao alloc] initWithDao:[self.relatedTables userDaoForTableName:GPKG_IT_TABLE_NAME]];
         [self.relatedTables setContentsInTable:[iconDao table]];
     }

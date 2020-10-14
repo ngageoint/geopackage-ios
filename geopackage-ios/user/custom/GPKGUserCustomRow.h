@@ -10,7 +10,7 @@
 #import "GPKGUserCustomTable.h"
 
 /**
- * User Custom Row containing the values from a single cursor row
+ * User Custom Row containing the values from a single results row
  */
 @interface GPKGUserCustomRow : GPKGUserRow
 

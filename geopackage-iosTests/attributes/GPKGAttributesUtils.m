@@ -363,7 +363,7 @@
         
         // // Choose random attribute
         // int random = (int) (Math.random() * count);
-        // cursor.moveToPosition(random);
+        // results.moveToPosition(random);
         [results moveToFirst];
         [results moveToNext];
         

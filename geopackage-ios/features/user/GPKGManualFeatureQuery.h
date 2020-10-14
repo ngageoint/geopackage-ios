@@ -75,7 +75,7 @@
  * Query for features
  *
  * @param fieldValues field values
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryWithFieldValues: (GPKGColumnValues *) fieldValues;
 
@@ -100,7 +100,7 @@
  * Query for features
  *
  * @param where where clause
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryWhere: (NSString *) where;
 
@@ -126,7 +126,7 @@
  *
  * @param where     where clause
  * @param whereArgs where arguments
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 

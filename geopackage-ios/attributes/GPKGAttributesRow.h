@@ -10,7 +10,7 @@
 #import "GPKGAttributesTable.h"
 
 /**
- * Attributes Row containing the values from a single cursor row
+ * Attributes Row containing the values from a single results row
  */
 @interface GPKGAttributesRow : GPKGUserRow
 

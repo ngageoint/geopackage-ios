@@ -260,10 +260,8 @@
     return calloc(count, sizeof(unsigned short));
 }
 
-+(GPKGCoverageDataPng *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andContentsBoundingBox: (GPKGBoundingBox *) contentsBoundingBox andContentsSrsId: (NSNumber *) contentsSrsId andTileMatrixSetBoundingBox: (GPKGBoundingBox *) tileMatrixSetBoundingBox andTileMatrixSetSrsId: (NSNumber *) tileMatrixSetSrsId{
-    
-    GPKGCoverageDataPng *coverageData = (GPKGCoverageDataPng *) [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andTableName:tableName andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrsId andTileMatrixSetBoundingBox:tileMatrixSetBoundingBox andTileMatrixSetSrsId:tileMatrixSetSrsId andDataType:GPKG_GCDT_INTEGER];
-    return coverageData;
++(GPKGCoverageDataPng *) createTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andMetadata: (GPKGTileTableMetadata *) metadata{
+    return (GPKGCoverageDataPng *) [GPKGCoverageData createTileTableWithGeoPackage:geoPackage andMetadata:metadata andDataType:GPKG_GCDT_INTEGER];
 }
 
 @end

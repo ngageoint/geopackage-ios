@@ -103,9 +103,34 @@
     return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL]];
 }
 
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andNestedSQL:[self queryIdsSQL]];
+}
+
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns{
     [self validateRTree];
     return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL]];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQL]];
+}
+
+-(int) countFeatures{
+    [self validateRTree];
+    return [self.featureDao countInWithNestedSQL:[self queryIdsSQL]];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column{
+    [self validateRTree];
+    return [self.featureDao countInWithColumn:column andNestedSQL:[self queryIdsSQL]];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    [self validateRTree];
+    return [self.featureDao countInWithDistinct:distinct andColumn:column andNestedSQL:[self queryIdsSQL]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues{
@@ -113,9 +138,19 @@
     return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
 }
 
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
     [self validateRTree];
     return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
 }
 
 -(int) countFeaturesWithFieldValues: (GPKGColumnValues *) fieldValues{
@@ -123,16 +158,42 @@
     return [self.featureDao countInWithNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
 }
 
+-(int) countFeaturesWithColumn: (NSString *) column andFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao countInWithColumn:column andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andFieldValues: (GPKGColumnValues *) fieldValues{
+    [self validateRTree];
+    return [self.featureDao countInWithDistinct:distinct andColumn:column andNestedSQL:[self queryIdsSQL] andFieldValues:fieldValues];
+}
+
 -(GPKGResultSet *) queryFeaturesWhere: (NSString *) where{
-    return [self queryFeaturesWhere:where andWhereArgs:nil];
+    return [self queryFeaturesWithDistinct:NO andWhere:where];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andWhere: (NSString *) where{
+    return [self queryFeaturesWithDistinct:distinct andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
-    return [self queryFeaturesWithColumns:columns andWhere:where andWhereArgs:nil];
+    return [self queryFeaturesWithDistinct:NO andColumns:columns andWhere:where];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where{
+    return [self queryFeaturesWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil];
 }
 
 -(int) countFeaturesWhere: (NSString *) where{
-    return [self countFeaturesWhere:where andWhereArgs:nil];
+    return [self countFeaturesWithDistinct:NO andColumn:nil andWhere:where];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column andWhere: (NSString *) where{
+    return [self countFeaturesWithDistinct:NO andColumn:column andWhere:where];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where{
+    return [self countFeaturesWithDistinct:distinct andColumn:column andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
@@ -140,14 +201,34 @@
     return [self.featureDao queryInWithNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
 }
 
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     [self validateRTree];
     return [self.featureDao queryInWithColumns:columns andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
 }
 
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao queryInWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
 -(int) countFeaturesWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     [self validateRTree];
     return [self.featureDao countInWithNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao countInWithColumn:column andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    [self validateRTree];
+    return [self.featureDao countInWithDistinct:distinct andColumn:column andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGBoundingBox *) boundingBox{
@@ -184,64 +265,138 @@
 }
 
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryWithEnvelope:[boundingBox buildEnvelope]];
+    return [self queryWithDistinct:NO andBoundingBox:boundingBox];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryWithColumns:columns andEnvelope:[boundingBox buildEnvelope]];
+    return [self queryWithDistinct:NO andColumns:columns andBoundingBox:boundingBox];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self countWithEnvelope:[boundingBox buildEnvelope]];
+    return [self countWithDistinct:NO andColumn:nil andBoundingBox:boundingBox];
+}
+
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self countWithDistinct:NO andColumn:column andBoundingBox:boundingBox];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self countWithDistinct:distinct andColumn:column andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope]];
+    return [self queryFeaturesWithDistinct:NO andBoundingBox:boundingBox];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryFeaturesWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope]];
+    return [self queryFeaturesWithDistinct:NO andColumns:columns andBoundingBox:boundingBox];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self queryFeaturesWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox{
-    return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope]];
+    return [self countFeaturesWithDistinct:NO andColumn:nil andBoundingBox:boundingBox];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self countFeaturesWithDistinct:NO andColumn:column andBoundingBox:boundingBox];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [self countFeaturesWithDistinct:distinct andColumn:column andEnvelope:[boundingBox buildEnvelope]];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self queryFeaturesWithDistinct:NO andBoundingBox:boundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryFeaturesWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self queryFeaturesWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryFeaturesWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
-    return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
+    return [self countFeaturesWithDistinct:NO andColumn:nil andBoundingBox:boundingBox andFieldValues:fieldValues];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countFeaturesWithDistinct:NO andColumn:column andBoundingBox:boundingBox andFieldValues:fieldValues];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self countFeaturesWithDistinct:distinct andColumn:column andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
-    return [self queryFeaturesWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+    return [self queryFeaturesWithDistinct:NO andBoundingBox:boundingBox andWhere:where];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryFeaturesWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
-    return [self queryFeaturesWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+    return [self queryFeaturesWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self queryFeaturesWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
-    return [self countFeaturesWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
+    return [self countFeaturesWithDistinct:NO andColumn:nil andBoundingBox:boundingBox andWhere:where];
+}
+
+-(int) countFeaturesWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self countFeaturesWithDistinct:NO andColumn:column andBoundingBox:boundingBox andWhere:where];
+}
+
+-(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where{
+    return [self countFeaturesWithDistinct:distinct andColumn:column andBoundingBox:boundingBox andWhere:where andWhereArgs:nil];
 }
 
 -(GPKGResultSet *) queryFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryFeaturesWithEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+    return [self queryFeaturesWithDistinct:NO andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryFeaturesWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(GPKGResultSet *) queryFeaturesWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
-    return [self queryFeaturesWithColumns:columns andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
+    return [self queryFeaturesWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs];
+}
+
+-(GPKGResultSet *) queryFeaturesWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    return [self queryFeaturesWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
 
 -(int) countFeaturesWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     return [self countFeaturesWithEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs];
 }
+
+// TODO
 
 -(GPKGResultSet *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
     GPKGBoundingBox *featureBoundingBox = [self boundingBox:boundingBox inProjection:projection];

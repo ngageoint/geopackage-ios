@@ -13,7 +13,7 @@
 #import "GPKGCompressFormats.h"
 
 /**
- *  Tile Row containing the values from a single cursor row
+ *  Tile Row containing the values from a single results row
  */
 @interface GPKGTileRow : GPKGUserRow
 
