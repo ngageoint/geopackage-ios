@@ -18,7 +18,7 @@
     if(self != nil){
         self.geometryColumns = geometryColumns;
         self.metadataDb = metadataDb;
-        GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
+        GPKGGeometryColumnsDao *dao = [self geometryColumnsDao];
         if([dao contents:geometryColumns] == nil){
             [NSException raise:@"Missing Contents" format:@"Geometry Columns %@ has null Contents", [dao id:geometryColumns]];
         }
@@ -57,6 +57,14 @@
 
 -(enum SFGeometryType) geometryType{
     return [self.geometryColumns geometryType];
+}
+
+-(GPKGSpatialReferenceSystem *) srs{
+    return [[self geometryColumnsDao] srs:self.geometryColumns];
+}
+
+-(NSNumber *) srsId{
+    return self.geometryColumns.srsId;
 }
 
 -(GPKGFeatureColumn *) idColumn{

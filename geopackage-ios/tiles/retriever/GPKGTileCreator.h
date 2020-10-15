@@ -115,6 +115,12 @@
  *  @return true if the same projection
  */
 -(BOOL) sameProjection;
+/**
+ * Is the request and tile projection the same unit
+ *
+ * @return true if the same
+ */
+-(BOOL) sameUnit;
 
 /**
  *  Check if the tile table contains a tile for the request bounding box

@@ -120,8 +120,6 @@
  */
 -(int) createExtensionTable: (NSString *) tableName;
 
-// TODO
-
 /**
  *  Create the user table
  *

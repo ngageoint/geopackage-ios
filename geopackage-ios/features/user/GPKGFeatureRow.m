@@ -43,14 +43,14 @@
 -(void) setValueWithIndex:(int)index andValue:(NSObject *)value{
     if(index == [self geometryColumnIndex] && [value isKindOfClass:[NSData class]]){
         NSData * data = (NSData *) value;
-        value = [[GPKGGeometryData alloc] initWithData:data];
+        value = [GPKGGeometryData createWithData:data];
     }
     [super setValueWithIndex:index andValue:value];
 }
 
 -(GPKGGeometryData *) geometry{
     GPKGGeometryData * geometryData = nil;
-    NSObject * value = [self valueWithIndex:[self.featureColumns geometryIndex]];
+    NSObject *value = [self valueWithIndex:[self.featureColumns geometryIndex]];
     if(value != nil){
         geometryData = (GPKGGeometryData *) value;
     }
@@ -96,7 +96,7 @@
     if([column isGeometry] && ![value isKindOfClass:[GPKGGeometryData class]]){
         
         if([value isKindOfClass:[NSData class]]){
-            objectValue = [[GPKGGeometryData alloc] initWithData:(NSData *) value];
+            objectValue = [GPKGGeometryData createWithData:(NSData *) value];
         } else{
             [NSException raise:@"Unsupported Geometry Value" format:@"Unsupported geometry column value type. column %@, value type: %@", column.name, NSStringFromClass([value class])];
         }
@@ -113,7 +113,7 @@
     if([column isGeometry] && ![value isKindOfClass:[NSData class]]){
         
         if([value isKindOfClass:[GPKGGeometryData class]]){
-            GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
+            GPKGGeometryData *geometryData = (GPKGGeometryData *) value;
             dbValue = [geometryData toData];
         } else{
             [NSException raise:@"Unsupported Geometry Value" format:@"Unsupported geometry column value type. column %@, value type: %@", column.name, NSStringFromClass([value class])];
@@ -127,7 +127,7 @@
     
     NSObject *copyValue = nil;
     
-    GPKGFeatureColumn * featureColumn = (GPKGFeatureColumn *) column;
+    GPKGFeatureColumn *featureColumn = (GPKGFeatureColumn *) column;
     if([featureColumn isGeometry] && ![value isKindOfClass:[GPKGGeometryData class]]){
      
         if([value isKindOfClass:[GPKGGeometryData class]]){
@@ -135,7 +135,7 @@
             @try {
                 NSData *data = [geometryData toData];
                 NSData *copyData = [data mutableCopy];
-                copyValue = [[GPKGGeometryData alloc] initWithData:copyData];
+                copyValue = [GPKGGeometryData createWithData:copyData];
             } @catch (NSException *e) {
                 NSLog(@"Failed to copy Geometry Data. column: %@, error: %@", column.name, [e description]);
             }

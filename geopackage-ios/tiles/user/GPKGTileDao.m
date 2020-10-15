@@ -119,6 +119,14 @@
     return (GPKGTileMatrix *)[GPKGUtils objectForKey:[NSNumber numberWithInt:zoomLevel] inDictionary:self.zoomLevelToTileMatrix];
 }
 
+-(GPKGSpatialReferenceSystem *) srs{
+    return [[self tileMatrixSetDao] srs:self.tileMatrixSet];
+}
+
+-(NSNumber *) srsId{
+    return self.tileMatrixSet.srsId;
+}
+
 -(GPKGTileRow *) queryForTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{
     
     GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
@@ -317,6 +325,26 @@
     }
     
     return isFormat;
+}
+
+-(int *) mapZoomRange{
+    return [GPKGTileDaoUtils mapZoomRangeWithTileMatrixSetDao:[self tileMatrixSetDao] andTileMatrixSet:self.tileMatrixSet andTileMatrices:self.tileMatrices];
+}
+
+-(int) mapMinZoom{
+    return [GPKGTileDaoUtils mapMinZoomWithTileMatrixSetDao:[self tileMatrixSetDao] andTileMatrixSet:self.tileMatrixSet andTileMatrices:self.tileMatrices];
+}
+
+-(int) mapMaxZoom{
+    return [GPKGTileDaoUtils mapMaxZoomWithTileMatrixSetDao:[self tileMatrixSetDao] andTileMatrixSet:self.tileMatrixSet andTileMatrices:self.tileMatrices];
+}
+
+-(int) mapZoomWithTileMatrix: (GPKGTileMatrix *) tileMatrix{
+    return [GPKGTileDaoUtils mapZoomWithTileMatrixSetDao:[self tileMatrixSetDao] andTileMatrixSet:self.tileMatrixSet andTileMatrix:tileMatrix];
+}
+
+-(int) mapZoomWithZoomLevel: (int) zoomLevel{
+    return [self mapZoomWithTileMatrix:[self tileMatrixWithZoomLevel:zoomLevel]];
 }
 
 -(GPKGTileMatrixSetDao *) tileMatrixSetDao{

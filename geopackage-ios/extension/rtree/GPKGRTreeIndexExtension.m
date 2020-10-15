@@ -196,7 +196,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     if(byteCount > 0){
         NSData *data = [NSData dataWithBytes:bytes length:byteCount];
         if(data != nil){
-            geometryData = [[GPKGGeometryData alloc] initWithData:data];
+            geometryData = [GPKGGeometryData createWithData:data];
         }
     }
     

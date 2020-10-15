@@ -20,12 +20,12 @@
 /**
  *  Geometry Columns
  */
-@property (nonatomic, strong) GPKGGeometryColumns * geometryColumns;
+@property (nonatomic, strong) GPKGGeometryColumns *geometryColumns;
 
 /**
  *  Metadata db
  */
-@property (nonatomic, strong)  GPKGMetadataDb * metadataDb;
+@property (nonatomic, strong)  GPKGMetadataDb *metadataDb;
 
 /**
  *  Initialize
@@ -75,6 +75,20 @@
  *  @return geometry type
  */
 -(enum SFGeometryType) geometryType;
+
+/**
+ * Get the Spatial Reference System
+ *
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) srs;
+
+/**
+ * Get the Spatial Reference System id
+ *
+ * @return srs id
+ */
+-(NSNumber *) srsId;
 
 /**
  * Get the Id Column

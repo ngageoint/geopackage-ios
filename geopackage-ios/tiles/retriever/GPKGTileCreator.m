@@ -23,6 +23,7 @@
 @property (nonatomic, strong) SFPProjection *tilesProjection;
 @property (nonatomic, strong) GPKGBoundingBox *tileSetBoundingBox;
 @property (nonatomic) BOOL sameProjection;
+@property (nonatomic) BOOL sameUnit;
 
 @end
 
@@ -40,12 +41,12 @@
         self.requestProjection = requestProjection;
         
         self.tileMatrixSet = tileDao.tileMatrixSet;
-        GPKGTileMatrixSetDao * tileMatrixSetDao = [[GPKGTileMatrixSetDao alloc] initWithDatabase: tileDao.database];
-        self.tilesProjection = [tileMatrixSetDao projection:tileDao.tileMatrixSet];
+        self.tilesProjection = tileDao.projection;
         self.tileSetBoundingBox = [tileDao.tileMatrixSet boundingBox];
         
-        // Check if the projections have the same units
-        self.sameProjection = [self.requestProjection getUnit] == [self.tilesProjection getUnit];
+        // Check if the projections are the same or have the same units
+        self.sameProjection = [self.requestProjection isEqualToProjection:self.tilesProjection];
+        self.sameUnit = [self.requestProjection isUnit:[self.tilesProjection getUnit]];
     }
     return self;
 }
@@ -92,6 +93,10 @@
 
 -(BOOL) sameProjection{
     return _sameProjection;
+}
+
+-(BOOL) sameUnit{
+    return _sameUnit;
 }
 
 -(BOOL) hasTileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
@@ -152,7 +157,7 @@
                     // Determine the size of the tile to initially draw
                     int tileWidth = requestedTileWidth;
                     int tileHeight = requestedTileHeight;
-                    if (!self.sameProjection) {
+                    if (!self.sameUnit) {
                         tileWidth = round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
                         tileHeight = round(([requestProjectedBoundingBox.maxLatitude doubleValue] - [requestProjectedBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
                     }

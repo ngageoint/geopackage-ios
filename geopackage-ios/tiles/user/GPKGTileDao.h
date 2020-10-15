@@ -123,6 +123,20 @@
 -(GPKGTileMatrix *) tileMatrixWithZoomLevel: (int) zoomLevel;
 
 /**
+ * Get the Spatial Reference System
+ *
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) srs;
+
+/**
+ * Get the Spatial Reference System id
+ *
+ * @return srs id
+ */
+-(NSNumber *) srsId;
+
+/**
  *  Query for a Tile
  *
  *  @param column    column
@@ -306,5 +320,44 @@
  *  @return true if XYZ tile format
  */
 -(BOOL) isXYZTiles;
+
+/**
+ * Get the map zoom level range
+ *
+ * @return map zoom level range, min at index 0, max at index 1
+ */
+-(int *) mapZoomRange;
+
+/**
+ * Get the map min zoom level
+ *
+ * @return map min zoom level
+ */
+-(int) mapMinZoom;
+
+/**
+ * Get the map max zoom level
+ *
+ * @return map max zoom level
+ */
+-(int) mapMaxZoom;
+
+/**
+ * Get the map zoom level from the tile matrix
+ *
+ * @param tileMatrix
+ *            tile matrix
+ * @return map zoom level
+ */
+-(int) mapZoomWithTileMatrix: (GPKGTileMatrix *) tileMatrix;
+
+/**
+ * Get the map zoom level from the tile matrix zoom level
+ *
+ * @param zoomLevel
+ *            tile matrix zoom level
+ * @return map zoom level
+ */
+-(int) mapZoomWithZoomLevel: (int) zoomLevel;
 
 @end
