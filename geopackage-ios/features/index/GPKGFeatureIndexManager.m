@@ -411,10 +411,18 @@
 }
 
 -(GPKGFeatureIndexResults *) query{
-    return [self queryWithColumns:[self.featureDao columnNames]];
+    return [self queryWithDistinct:NO];
+}
+
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct{
+    return [self queryWithDistinct:distinct andColumns:[self.featureDao columnNames]];
 }
 
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns{
+    return [self queryWithDistinct:NO andColumns:columns];
+}
+
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns{
     GPKGFeatureIndexResults * results = nil;
     for(NSNumber *typeNumber in [self location]){
         enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
@@ -422,19 +430,19 @@
             switch(type){
                 case GPKG_FIT_GEOPACKAGE:
                     {
-                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesWithColumns:columns];
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesWithDistinct:distinct andColumns:columns];
                         results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
                     }
                     break;
                 case GPKG_FIT_METADATA:
                     {
-                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesWithColumns:columns];
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesWithDistinct:distinct andColumns:columns];
                         results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
                     }
                     break;
                 case GPKG_FIT_RTREE:
                     {
-                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesWithColumns:columns];
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesWithDistinct:distinct andColumns:columns];
                         results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
                     }
                     break;
@@ -453,10 +461,55 @@
         }
     }
     if (results == nil) {
-        GPKGResultSet *resultSet = [self.manualFeatureQuery queryWithColumns:columns];
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryWithDistinct:distinct andColumns:columns];
         results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
     }
     return results;
+}
+
+-(int) countWithColumn: (NSString *) column{
+    return [self countWithDistinct:NO andColumn:column];
+}
+
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column{
+    int count = -1;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        count = [self.featureTableIndex countFeaturesWithDistinct:distinct andColumn:column];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        count = [self.featureIndexer countFeaturesWithDistinct:distinct andColumn:column];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        count = [self.rTreeIndexTableDao countFeaturesWithDistinct:distinct andColumn:column];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            break;
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to count from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (count == -1) {
+        count = [self.manualFeatureQuery countWithGeometries];
+    }
+    return count;
 }
 
 -(int) count{
@@ -501,10 +554,16 @@
 }
 
 -(GPKGFeatureIndexResults *) queryWithFieldValues: (GPKGColumnValues *) fieldValues{
+    return [self queryWithDistinct:NO andFieldValues:fieldValues];
+}
+
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
     NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
-    return [self queryWhere:where andWhereArgs:whereArgs];
+    return [self queryWithDistinct:distinct andWhere:where andWhereArgs:whereArgs];
 }
+
+// TODO
 
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues{
     NSString *where = [self.featureDao buildWhereWithFields:fieldValues];

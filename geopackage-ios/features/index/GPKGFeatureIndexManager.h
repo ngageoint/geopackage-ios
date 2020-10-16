@@ -361,10 +361,44 @@
 /**
  * Query for all feature index results
  *
+ * @param distinct distinct rows
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct;
+
+/**
+ * Query for all feature index results
+ *
  * @param columns columns
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query for all feature index results
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns;
+
+/**
+ * Query for all feature index count
+ *
+ * @param column count column name
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column;
+
+/**
+ * Query for all feature index count
+ *
+ * @param distinct distinct column values
+ * @param column   count column name
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column;
 
 /**
  *  Query for all feature index count
@@ -380,6 +414,15 @@
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results
