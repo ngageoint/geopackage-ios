@@ -15,6 +15,14 @@
 @interface GPKGExtensionManager : GPKGExtensionManagement
 
 /**
+ * Create
+ *
+ * @param geoPackage
+ *            GeoPackage
+ */
++(GPKGExtensionManager *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
  * Initialize
  *
  * @param geoPackage

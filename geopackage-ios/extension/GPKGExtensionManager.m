@@ -30,6 +30,10 @@
 
 @implementation GPKGExtensionManager
 
++(GPKGExtensionManager *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [[GPKGExtensionManager alloc] initWithGeoPackage:geoPackage];
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     if(self != nil){

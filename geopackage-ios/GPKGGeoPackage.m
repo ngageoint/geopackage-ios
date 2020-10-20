@@ -1113,7 +1113,7 @@
 }
 
 -(GPKGExtensionManager *) extensionManager{
-    return [[GPKGExtensionManager alloc] initWithGeoPackage:self];
+    return [GPKGExtensionManager createWithGeoPackage:self];
 }
 
 -(void) createUserTable: (GPKGUserTable *) table{

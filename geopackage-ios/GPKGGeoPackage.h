@@ -1021,13 +1021,6 @@
 -(GPKGResultSet *) quickCheck;
 
 /**
- * Get an extension manager on the GeoPackage
- *
- * @return extension manager
- */
-//-(GPKGExtensionManager *) extensionManager; TODO
-
-/**
  * Create a new user table
  *
  * @param table
