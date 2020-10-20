@@ -434,12 +434,41 @@
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
+ * Query for feature index results
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
  * Query for feature index count
  *
  * @param fieldValues field values
  * @return feature index results, close when done
  */
 -(int) countWithFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count
+ *
+ * @param column      count column name
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(int) countWithColumn: (NSString *) column andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results
@@ -452,11 +481,30 @@
 /**
  * Query for feature index results
  *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results
+ *
  * @param columns columns
  * @param where   where clause
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where;
 
 /**
  * Query for feature index count
@@ -465,6 +513,25 @@
  * @return count
  */
 -(int) countWhere: (NSString *) where;
+
+/**
+ * Query for feature index count
+ *
+ * @param column count column name
+ * @param where  where clause
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count
+ *
+ * @param distinct distinct column values
+ * @param column   count column name
+ * @param where    where clause
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where;
 
 /**
  * Query for feature index results
@@ -478,12 +545,33 @@
 /**
  * Query for feature index results
  *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results
+ *
  * @param columns   columns
  * @param where     where clause
  * @param whereArgs where arguments
  * @return feature index results, close when done
  */
- -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index count
@@ -493,6 +581,27 @@
  * @return count
  */
 -(int) countWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count
+ *
+ * @param column    count column name
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count
+ *
+ * @param distinct  distinct column values
+ * @param column    count column name
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for the feature index bounds
@@ -524,11 +633,32 @@
  * Query for feature index results within the bounding box, projected
  * correctly
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Query for feature index count within the bounding box, projected
@@ -539,6 +669,27 @@
  *  @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  * Query for feature index results within the bounding box, projected
@@ -554,12 +705,35 @@
  * Query for feature index results within the bounding box, projected
  * correctly
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param fieldValues field values
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index count within the bounding box, projected
@@ -570,6 +744,28 @@
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param column      column name
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param column      column name
+ * @param boundingBox bounding box
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results within the bounding box, projected
@@ -585,12 +781,35 @@
  * Query for feature index results within the bounding box, projected
  * correctly
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param where       where clause
  * @return feature index results, close when done
  */
- -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
 
 /**
  * Query for feature index count within the bounding box, projected
@@ -601,6 +820,29 @@
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param column      column name
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct column values
+ * @param column      column name
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where;
 
 /**
  * Query for feature index results within the bounding box, projected
@@ -617,6 +859,18 @@
  * Query for feature index results within the bounding box, projected
  * correctly
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param where       where clause
@@ -624,6 +878,19 @@
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index count within the bounding box, projected
@@ -637,6 +904,31 @@
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param column      count column value
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count within the bounding box, projected
+ * correctly
+ *
+ * @param distinct    distinct column values
+ * @param column      count column value
+ * @param boundingBox bounding box
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  *  Query for feature index results within the Geometry Envelope
  *
  *  @param envelope geometry envelope
@@ -648,11 +940,30 @@
 /**
  * Query for feature index results within the Geometry Envelope
  *
+ * @param distinct distinct rows
+ * @param envelope geometry envelope
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
  * @param columns  columns
  * @param envelope geometry envelope
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  *  Query for feature index count within the Geometry Envelope
@@ -662,6 +973,25 @@
  *  @return count
  */
 -(int) countWithEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param column   count column name
+ * @param envelope geometry envelope
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param distinct distinct column values
+ * @param column   count column name
+ * @param envelope geometry envelope
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -675,12 +1005,33 @@
 /**
  * Query for feature index results within the Geometry Envelope
  *
+ * @param distinct    distinct rows
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
  * @param columns     columns
  * @param envelope    geometry envelope
  * @param fieldValues field values
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -690,6 +1041,27 @@
  * @return count
  */
 -(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param column      count column name
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param envelope    geometry envelope
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -703,12 +1075,33 @@
 /**
  * Query for feature index results within the Geometry Envelope
  *
+ * @param distinct distinct rows
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
  * @param columns  columns
  * @param envelope geometry envelope
  * @param where    where clause
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -718,6 +1111,27 @@
  * @return count
  */
 -(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param column   count column name
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param distinct distinct column values
+ * @param column   count column name
+ * @param envelope geometry envelope
+ * @param where    where clause
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where;
 
 /**
  * Query for feature index results within the Geometry Envelope
@@ -732,6 +1146,17 @@
 /**
  * Query for feature index results within the Geometry Envelope
  *
+ * @param distinct  distinct rows
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
  * @param columns   columns
  * @param envelope  geometry envelope
  * @param where     where clause
@@ -739,6 +1164,18 @@
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the Geometry Envelope
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index count within the Geometry Envelope
@@ -751,6 +1188,29 @@
 -(int) countWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param column    count column name
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count within the Geometry Envelope
+ *
+ * @param distinct  distinct column values
+ * @param column    count column name
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
  *  Query for feature index results within the bounding box in
  *  the provided projection
  *
@@ -760,6 +1220,17 @@
  *  @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
  * Query for feature index results within the bounding box in the provided
@@ -784,6 +1255,29 @@
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
 
 /**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+
+/**
  * Query for feature index results within the bounding box in the provided
  * projection
  *
@@ -798,6 +1292,18 @@
  * Query for feature index results within the bounding box in the provided
  * projection
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param projection  projection
@@ -805,6 +1311,19 @@
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index count within the bounding box in the provided
@@ -816,6 +1335,31 @@
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param column      count column value
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct column values
+ * @param column      count column value
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param fieldValues field values
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
  * Query for feature index results within the bounding box in the provided
@@ -832,13 +1376,38 @@
  * Query for feature index results within the bounding box in the provided
  * projection
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param projection  projection
  * @param where       where clause
  * @return feature index results, close when done
  */
- -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+-(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
 
 /**
  * Query for feature index count within the bounding box in the provided
@@ -850,6 +1419,31 @@
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where;
 
 /**
  * Query for feature index results within the bounding box in the provided
@@ -867,6 +1461,19 @@
  * Query for feature index results within the bounding box in the provided
  * projection
  *
+ * @param distinct    distinct rows
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
  * @param columns     columns
  * @param boundingBox bounding box
  * @param projection  projection
@@ -875,6 +1482,20 @@
  * @return feature index results, close when done
  */
 -(GPKGFeatureIndexResults *) queryWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index results within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return feature index results, close when done
+ */
+-(GPKGFeatureIndexResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Query for feature index count within the bounding box in the provided
@@ -887,6 +1508,33 @@
  * @return count
  */
 -(int) countWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Query for feature index count within the bounding box in the provided
+ * projection
+ *
+ * @param distinct    distinct column values
+ * @param column      count column name
+ * @param boundingBox bounding box
+ * @param projection  projection
+ * @param where       where clause
+ * @param whereArgs   where arguments
+ * @return count
+ */
+-(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
  * Get a feature index location to iterate over indexed types
