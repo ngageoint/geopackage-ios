@@ -89,7 +89,7 @@
     [GPKGTestUtils assertTrue:[extension addValue:[NSString stringWithFormat:@"%@%d", tag, 4] withProperty:GPKG_PE_TAG]];
     [GPKGTestUtils assertFalse:[extension addValue:[NSString stringWithFormat:@"%@%d", tag, 4] withProperty:GPKG_PE_TAG]];
     
-    NSSet<NSString *> *values = [[NSSet alloc] initWithArray:[extension valuesOfProperty:GPKG_PE_TAG]];
+    NSSet<NSString *> *values = [NSSet setWithArray:[extension valuesOfProperty:GPKG_PE_TAG]];
     for (int i = 1; i <= 4; i++) {
         [GPKGTestUtils assertTrue:[values containsObject:[NSString stringWithFormat:@"%@%d", tag, i]]];
         [GPKGTestUtils assertTrue:[extension hasValue:[NSString stringWithFormat:@"%@%d", tag, i] withProperty:GPKG_PE_TAG]];
@@ -168,7 +168,7 @@
         count = 1 + [GPKGTestUtils randomIntLessThan:10];
     }
     
-    NSMutableSet<NSString *> *values = [[NSMutableSet alloc] init];
+    NSMutableSet<NSString *> *values = [NSMutableSet set];
     for (int i = 0; i < count; i++) {
         NSString *value = [[NSProcessInfo processInfo] globallyUniqueString];
         [values addObject:value];

@@ -16,8 +16,8 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.points = [[NSMutableArray alloc] init];
-        self.holes = [[NSMutableArray alloc] init];
+        self.points = [NSMutableArray array];
+        self.holes = [NSMutableArray array];
     }
     return self;
 }
@@ -42,7 +42,7 @@
             
             CLLocationCoordinate2D * points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
             
-            NSMutableArray * holePolygons = [[NSMutableArray alloc] init];
+            NSMutableArray * holePolygons = [NSMutableArray array];
             for(GPKGPolygonHolePoints * hole in self.holes){
                 if(![hole isDeleted]){
                     CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter locationCoordinatesFromPoints: [hole points]];

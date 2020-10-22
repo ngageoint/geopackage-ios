@@ -300,8 +300,8 @@
 -(GPKGBoundingBox *) boundingBoxByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
     
     NSString *sql = [NSString stringWithFormat:@"SELECT MIN(%@), MIN(%@), MAX(%@), MAX(%@) FROM %@ WHERE %@ = ? AND %@ = ?", GPKG_GPGM_COLUMN_MIN_X, GPKG_GPGM_COLUMN_MIN_Y, GPKG_GPGM_COLUMN_MAX_X, GPKG_GPGM_COLUMN_MAX_Y, GPKG_GPGM_TABLE_NAME, GPKG_GPGM_COLUMN_GEOPACKAGE_ID, GPKG_GPGM_COLUMN_TABLE_NAME];
-    NSArray *args = [[NSArray alloc] initWithObjects:[geoPackageId stringValue], tableName, nil];
-    NSArray *dataTypes = [[NSArray alloc] initWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
+    NSArray *args = [NSArray arrayWithObjects:[geoPackageId stringValue], tableName, nil];
+    NSArray *dataTypes = [NSArray arrayWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
     
     NSArray<NSNumber *> *results = (NSArray<NSNumber *> *) [self querySingleRowResultsWithSql:sql andArgs:args andDataTypes:dataTypes];
     
@@ -453,7 +453,7 @@
 
 -(NSArray *) querySQLArgsWithEnvelope: (SFGeometryEnvelope *) envelope andGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
     
-    NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+    NSMutableArray * whereArgs = [NSMutableArray array];
     
     BOOL minXLessThanMaxX = [envelope.minX compare:envelope.maxX] != NSOrderedDescending;
     

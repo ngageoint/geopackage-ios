@@ -12,6 +12,7 @@
 #import "GPKGDateTimeUtils.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGPropertiesExtension.h"
+#import "GPKGMetadataExtension.h"
 
 @implementation GPKGAttributesUtils
 
@@ -150,30 +151,101 @@
                 [results close];
             }
             
-            GPKGMetadataReferenceDao * referenceDao = [geoPackage metadataReferenceDao];
-            GPKGResultSet * references = [referenceDao queryForEqWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:attributesTable.tableName];
+            GPKGMetadataReferenceDao *referenceDao = [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:geoPackage];
+            GPKGResultSet *references = [referenceDao queryForEqWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:attributesTable.tableName];
             if (references != nil && references.count > 0) {
-                GPKGMetadata * metadata = nil;
+                GPKGMetadata *metadata = nil;
                 while([references moveToNext]){
                     
-                    GPKGMetadataReference * reference = (GPKGMetadataReference *) [referenceDao object:references];
+                    GPKGMetadataReference *reference = (GPKGMetadataReference *) [referenceDao object:references];
                     
                     if(metadata == nil){
-                        GPKGMetadataDao * metadataDao = [geoPackage metadataDao];
+                        GPKGMetadataDao *metadataDao = [GPKGMetadataExtension metadataDaoWithGeoPackage:geoPackage];
                         metadata = (GPKGMetadata *)[metadataDao queryForIdObject:reference.fileId];
                         [GPKGTestUtils assertEqualIntWithValue:GPKG_MST_ATTRIBUTE_TYPE andValue2:[metadata metadataScopeType]];
                     }
                     
                     [GPKGTestUtils assertTrue:[reference referenceScopeType] == GPKG_RST_ROW
                      || [reference referenceScopeType] == GPKG_RST_ROW_COL];
-                    NSNumber * rowId = reference.rowIdValue;
+                    NSNumber *rowId = reference.rowIdValue;
                     [GPKGTestUtils assertNotNil:rowId];
                     
-                    GPKGAttributesRow * queryRow = (GPKGAttributesRow *)[dao queryForIdObject:rowId];
+                    GPKGAttributesRow *queryRow = (GPKGAttributesRow *)[dao queryForIdObject:rowId];
                     [GPKGTestUtils assertNotNil:queryRow];
                     [GPKGTestUtils assertNotNil:queryRow.table];
                     [GPKGTestUtils assertEqualWithValue:attributesTable.tableName andValue2:queryRow.table.tableName];
                 }
+            }
+            
+            NSString *previousColumn = nil;
+            for (NSString *column in columns) {
+
+                int expectedDistinctCount = [(NSNumber *)[dao querySingleResultWithSql:[NSString stringWithFormat:@"SELECT COUNT(DISTINCT %@) FROM %@", column, dao.tableName] andArgs:nil] intValue];
+                int distinctCount = [dao countWithDistinct:YES andColumn:column];
+                [GPKGTestUtils assertEqualIntWithValue:expectedDistinctCount andValue2:distinctCount];
+                if([dao countWhere:[NSString stringWithFormat:@"%@ IS NULL", column]] > 0){
+                    distinctCount++;
+                }
+                GPKGResultSet *expectedResults = [dao rawQuery:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", column, dao.tableName]];
+                int expectedDistinctCursorCount = expectedResults.count;
+                int expectedDistinctManualCursorCount = 0;
+                while([expectedResults moveToNext]){
+                    expectedDistinctManualCursorCount++;
+                }
+                [expectedResults close];
+                [GPKGTestUtils assertEqualIntWithValue:expectedDistinctManualCursorCount andValue2:expectedDistinctCursorCount];
+                results = [dao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:column]];
+                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[results columnCount]];
+                [GPKGTestUtils assertEqualIntWithValue:expectedDistinctCursorCount andValue2:results.count];
+                [GPKGTestUtils assertEqualIntWithValue:distinctCount andValue2:results.count];
+                [results close];
+                results = [dao queryWithColumns:[NSArray arrayWithObject:column]];
+                [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[results columnCount]];
+                [GPKGTestUtils assertEqualIntWithValue:count andValue2:results.count];
+                NSMutableSet<NSObject *> *distinctValues = [NSMutableSet set];
+                while([results moveToNext]){
+                    NSObject *value = [results valueWithColumnName:column];
+                    [distinctValues addObject:value];
+                }
+                [results close];
+                [GPKGTestUtils assertEqualIntWithValue:distinctCount andValue2:(int)distinctValues.count];
+
+                if(previousColumn != nil){
+
+                    results = [dao queryWithDistinct:YES andColumns:[NSArray arrayWithObjects:previousColumn, column, nil]];
+                    [GPKGTestUtils assertEqualIntWithValue:2 andValue2:[results columnCount]];
+                    distinctCount = results.count;
+                    if(distinctCount < 0){
+                        distinctCount = 0;
+                        while([results moveToNext]){
+                            distinctCount++;
+                        }
+                    }
+                    [results close];
+                    results = [dao queryWithColumns:[NSArray arrayWithObjects:previousColumn, column, nil]];
+                    [GPKGTestUtils assertEqualIntWithValue:2 andValue2:[results columnCount]];
+                    [GPKGTestUtils assertEqualIntWithValue:count andValue2:results.count];
+                    NSMutableDictionary<NSObject *, NSMutableSet<NSObject *> *> *distinctPairs = [NSMutableDictionary dictionary];
+                    while([results moveToNext]){
+                        NSObject<NSCopying> *previousValue = (NSObject<NSCopying> *)[results valueWithColumnName:previousColumn];
+                        NSObject *value = [results valueWithColumnName:column];
+                        distinctValues = [distinctPairs objectForKey:previousValue];
+                        if(distinctValues == nil){
+                            distinctValues = [NSMutableSet set];
+                            [distinctPairs setObject:distinctValues forKey:previousValue];
+                        }
+                        [distinctValues addObject:value];
+                    }
+                    [results close];
+                    int distinctPairsCount = 0;
+                    for(NSSet<NSObject *> *values in [distinctPairs allValues]){
+                        distinctPairsCount += values.count;
+                    }
+                    [GPKGTestUtils assertEqualIntWithValue:distinctCount andValue2:distinctPairsCount];
+
+                }
+
+                previousColumn = column;
             }
         }
     }

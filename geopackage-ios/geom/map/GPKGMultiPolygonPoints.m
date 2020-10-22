@@ -14,7 +14,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.polygonPoints = [[NSMutableArray alloc] init];
+        self.polygonPoints = [NSMutableArray array];
     }
     return self;
 }

@@ -16,7 +16,7 @@
 
 +(void) testScalingWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
     NSArray *tileTables = [geoPackage tileTables];
     
@@ -86,7 +86,7 @@
             [GPKGTestUtils assertTrue:[dao tableExists]];
             
             // Test deleting all extensions
-            [GPKGExtensionManager deleteExtensionsWithGeoPackage: geoPackage];
+            [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
             
             [GPKGTestUtils assertFalse:[dao tableExists]];
             [GPKGTestUtils assertNil:[tableScaling extension]];

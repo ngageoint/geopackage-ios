@@ -28,8 +28,8 @@
     self = [super init];
     if(self != nil){
         self.transferContent = YES;
-        self.columns = [[NSMutableDictionary alloc] init];
-        self.droppedColumns = [[NSMutableSet alloc] init];
+        self.columns = [NSMutableDictionary dictionary];
+        self.droppedColumns = [NSMutableSet set];
     }
     return self;
 }

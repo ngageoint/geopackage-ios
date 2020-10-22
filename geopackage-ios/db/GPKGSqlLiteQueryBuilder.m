@@ -19,7 +19,7 @@
                            andHaving: (NSString *) having
                           andOrderBy: (NSString *) orderBy
                             andLimit: (NSString *) limit{
-    return [self buildQueryWithDistinct:distinct andTables:[[NSArray alloc] initWithObjects:table, nil] andColumns:columns andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+    return [self buildQueryWithDistinct:distinct andTables:[NSArray arrayWithObjects:table, nil] andColumns:columns andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 

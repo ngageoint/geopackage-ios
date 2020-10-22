@@ -50,7 +50,7 @@ static int ICON_LAYER = 3;
     if(self != nil){
         self.tileWidth = tileWidth;
         self.tileHeight = tileHeight;
-        self.layeredContext = [[NSMutableDictionary alloc] init];
+        self.layeredContext = [NSMutableDictionary dictionary];
     }
     return self;
 }

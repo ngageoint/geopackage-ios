@@ -14,7 +14,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.points = [[NSMutableArray alloc] init];
+        self.points = [NSMutableArray array];
     }
     return self;
 }

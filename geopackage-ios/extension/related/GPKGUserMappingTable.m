@@ -19,7 +19,7 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 
 +(GPKGUserMappingTable *) createWithName: (NSString *) tableName andAdditionalColumns: (NSArray<GPKGUserCustomColumn *> *) additionalColumns{
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObjectsFromArray:[self createRequiredColumns]];
     
     if(additionalColumns != nil){
@@ -31,7 +31,7 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumns{
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createBaseIdColumn]];
     [columns addObject:[self createRelatedIdColumn]];
     
@@ -40,7 +40,7 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 
 +(NSArray<GPKGUserCustomColumn *> *) createRequiredColumnsWithIndex: (int) startingIndex{
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createBaseIdColumnWithIndex:startingIndex++]];
     [columns addObject:[self createRelatedIdColumnWithIndex:startingIndex++]];
     
@@ -68,7 +68,7 @@ NSString * const GPKG_UMT_COLUMN_RELATED_ID = @"related_id";
 }
 
 +(NSArray<NSString *> *) requiredColumns{
-    NSMutableArray<NSString *> *requiredColumns = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *requiredColumns = [NSMutableArray array];
     [requiredColumns addObject:GPKG_UMT_COLUMN_BASE_ID];
     [requiredColumns addObject:GPKG_UMT_COLUMN_RELATED_ID];
     return requiredColumns;

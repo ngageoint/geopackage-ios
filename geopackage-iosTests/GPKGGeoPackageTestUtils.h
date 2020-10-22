@@ -27,4 +27,6 @@
 
 +(void)testVacuum: (GPKGGeoPackage *) geoPackage;
 
++(void) testTableTypes: (GPKGGeoPackage *) geoPackage;
+
 @end

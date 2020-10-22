@@ -16,7 +16,7 @@
 
 +(void) testLinkWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
     GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNil:[linker extension]];
@@ -29,13 +29,13 @@
         
         GPKGFeatureTileLinkDao * dao = [linker dao];
         
-        NSMutableSet * linkedFeatureTables = [[NSMutableSet alloc] init];
+        NSMutableSet * linkedFeatureTables = [NSMutableSet set];
         
         for(NSString * featureTable in featureTables){
             
             [linkedFeatureTables addObject:featureTable];
             
-            NSMutableSet * linkedTileTables = [[NSMutableSet alloc] init];
+            NSMutableSet * linkedTileTables = [NSMutableSet set];
             
             for(NSString * tileTable in tileTables){
                 
@@ -127,7 +127,7 @@
         [GPKGTestUtils assertNotNil:[linker extension]];
         
         // Test deleting all extensions
-        [GPKGExtensionManager deleteExtensionsWithGeoPackage: geoPackage];
+        [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
         
         [GPKGTestUtils assertFalse:[dao tableExists]];
         [GPKGTestUtils assertNil:[linker extension]];

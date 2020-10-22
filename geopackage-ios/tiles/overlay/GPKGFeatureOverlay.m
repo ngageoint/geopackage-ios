@@ -22,7 +22,7 @@
     if(self != nil){
         self.featureTiles = featureTiles;
         self.tileSize = CGSizeMake(featureTiles.tileWidth, featureTiles.tileHeight);
-        self.linkedOverlays = [[NSMutableArray alloc] init];
+        self.linkedOverlays = [NSMutableArray array];
     }
     return self;
 }
@@ -68,7 +68,7 @@
 }
 
 -(void) clearIgnored{
-    self.linkedOverlays = [[NSMutableArray alloc] init];
+    self.linkedOverlays = [NSMutableArray array];
 }
 
 @end

@@ -23,6 +23,14 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 @interface GPKGNGAExtensions : GPKGExtensionManagement
 
 /**
+ * Create
+ *
+ * @param geoPackage
+ *            GeoPackage
+ */
++(GPKGNGAExtensions *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage

@@ -112,7 +112,7 @@
 
 -(NSArray *) all{
     
-    NSMutableArray * allMetadata = [[NSMutableArray alloc] init];
+    NSMutableArray * allMetadata = [NSMutableArray array];
     
     GPKGResultSet * results = [self queryForAll];
     @try{
@@ -136,7 +136,7 @@
 }
 
 -(NSArray *) allNamesSortedBy: (NSString *) column{
-    NSMutableArray * names = [[NSMutableArray alloc] init];
+    NSMutableArray * names = [NSMutableArray array];
     GPKGResultSet * results = [self queryWithColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){
@@ -182,9 +182,9 @@
 }
 
 -(NSArray *) metadataWhereNameLike: (NSString *) like sortedBy: (NSString *) column andNotLike: (BOOL) notLike{
-    NSMutableArray * names = [[NSMutableArray alloc] init];
+    NSMutableArray * names = [NSMutableArray array];
     NSString * where = [NSString stringWithFormat:@"%@%@ like ?", GPKG_GPM_COLUMN_NAME, notLike ? @" not" : @""];
-    NSArray * whereArgs = [[NSArray alloc] initWithObjects:like, nil];
+    NSArray * whereArgs = [NSArray arrayWithObjects:like, nil];
     GPKGResultSet * results = [self queryWithColumns:[NSArray arrayWithObject:GPKG_GPM_COLUMN_NAME] andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:column];
     @try{
         while([results moveToNext]){

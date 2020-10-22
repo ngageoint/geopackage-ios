@@ -170,7 +170,7 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
-        NSMutableArray *dataColumnConstraintsArray = [[NSMutableArray alloc] init];
+        NSMutableArray *dataColumnConstraintsArray = [NSMutableArray array];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGDataColumnConstraints *dataColumnConstraints = (GPKGDataColumnConstraints *)[self object:results];

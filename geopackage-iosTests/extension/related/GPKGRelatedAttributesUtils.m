@@ -67,7 +67,7 @@
     GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:baseTableName];
     GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
     int attributesCount = attributesResultSet.count;
-    NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *attributeIds = [NSMutableArray array];
     while([attributesResultSet moveToNext]){
         [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
     }
@@ -77,7 +77,7 @@
     GPKGAttributesDao *attributesDao2 = [geoPackage attributesDaoWithTableName:relatedTableName];
     GPKGResultSet *attributesResultSet2 = [attributesDao2 queryForAll];
     int attributesCount2 = attributesResultSet2.count;
-    NSMutableArray<NSNumber *> *attributeIds2 = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *attributeIds2 = [NSMutableArray array];
     while([attributesResultSet2 moveToNext]){
         [attributeIds2 addObject:[[attributesDao2 attributesRow:attributesResultSet2] id]];
     }

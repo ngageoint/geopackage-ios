@@ -246,7 +246,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
     
-    NSMutableArray<NSObject *> *results = [[NSMutableArray alloc] init];
+    NSMutableArray<NSObject *> *results = [NSMutableArray array];
     @try {
         while([result moveToNext]) {
             NSObject *value = [self valueInResult:result atIndex:column withDataType:dataType];
@@ -266,11 +266,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
     
-    NSMutableArray<NSArray<NSObject *> *> *results = [[NSMutableArray alloc] init];
+    NSMutableArray<NSArray<NSObject *> *> *results = [NSMutableArray array];
     @try {
         int columns = (int)result.columnNames.count;
         while([result moveToNext]) {
-            NSMutableArray<NSObject *> *row = [[NSMutableArray alloc] init];
+            NSMutableArray<NSObject *> *row = [NSMutableArray array];
             for(int i = 0; i < columns; i++){
                 enum GPKGDataType dataType = -1;
                 if(dataTypes != nil){
@@ -498,7 +498,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     [insertStatement appendString:@"("];
     
     int size = (values != nil) ? [values size] : 0;
-    NSMutableArray * args = [[NSMutableArray alloc] initWithCapacity:size];
+    NSMutableArray * args = [NSMutableArray arrayWithCapacity:size];
     
     int i = 0;
     for(NSString * colName in [values keySet]){
@@ -575,7 +575,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     int setValuesSize = [values size];
     int argsSize = (whereArgs == nil) ? setValuesSize : (setValuesSize + (int)[whereArgs count]);
-    NSMutableArray * args = [[NSMutableArray alloc] initWithCapacity:argsSize];
+    NSMutableArray * args = [NSMutableArray arrayWithCapacity:argsSize];
     
     int i = 0;
     for(NSString * colName in [values keySet]){
@@ -775,7 +775,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(NSArray<NSString *> *) quoteWrapNames: (NSArray<NSString *> *) names{
     NSMutableArray * quoteNames = nil;
     if(names != nil){
-        quoteNames = [[NSMutableArray alloc] init];
+        quoteNames = [NSMutableArray array];
         for(NSString * name in names){
             [quoteNames addObject:[self quoteWrapName:name]];
         }

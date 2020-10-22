@@ -15,7 +15,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) init{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
     }
     return self;
 }
@@ -23,7 +23,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
     }
     return self;
 }
@@ -31,7 +31,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithOrder: (NSNumber *) order{
     self = [super initWithType:GPKG_CT_UNIQUE andOrder:order];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
     }
     return self;
 }
@@ -39,7 +39,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name andOrder: (NSNumber *) order{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name andOrder:order];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
     }
     return self;
 }
@@ -47,7 +47,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithColumn: (GPKGUserColumn *) column{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
         [self addColumn:column];
     }
     return self;
@@ -56,7 +56,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithColumns: (NSArray<GPKGUserColumn *> *) columns{
     self = [super initWithType:GPKG_CT_UNIQUE];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
         [self addColumns:columns];
     }
     return self;
@@ -65,7 +65,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name andColumn: (GPKGUserColumn *) column{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
         [self addColumn:column];
     }
     return self;
@@ -74,7 +74,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 -(instancetype) initWithName: (NSString *) name andColumns: (NSArray<GPKGUserColumn *> *) columns{
     self = [super initWithType:GPKG_CT_UNIQUE andName:name];
     if(self != nil){
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
         [self addColumns:columns];
     }
     return self;
@@ -106,7 +106,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 
 -(id) mutableCopyWithZone: (NSZone *) zone{
     GPKGUniqueConstraint *constraint = [super mutableCopyWithZone:zone];
-    constraint.columns = [[NSMutableArray alloc] init];
+    constraint.columns = [NSMutableArray array];
     for(GPKGUserColumn *column in _columns){
         [constraint addColumn:[column mutableCopy]];
     }

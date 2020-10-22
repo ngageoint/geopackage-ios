@@ -49,7 +49,7 @@
     NSNumber *typeNumber = [NSNumber numberWithInteger:constraint.type];
     NSMutableArray<GPKGConstraint *> *typeConstraints = [_typedContraints objectForKey:typeNumber];
     if(typeConstraints == nil){
-        typeConstraints = [[NSMutableArray alloc] init];
+        typeConstraints = [NSMutableArray array];
         [_typedContraints setObject:typeConstraints forKey:typeNumber];
     }
     [typeConstraints addObject:constraint];

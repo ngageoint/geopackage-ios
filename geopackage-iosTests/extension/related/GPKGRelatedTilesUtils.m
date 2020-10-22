@@ -73,7 +73,7 @@
     GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:baseTableName];
     GPKGResultSet *featureResultSet = [featureDao queryForAll];
     int featuresCount = featureResultSet.count;
-    NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *featureIds = [NSMutableArray array];
     while([featureResultSet moveToNext]){
         [featureIds addObject:[[featureDao featureRow:featureResultSet] id]];
     }
@@ -83,7 +83,7 @@
     GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:relatedTableName];
     GPKGResultSet *tileResultSet = [tileDao queryForAll];
     int tilesCount = tileResultSet.count;
-    NSMutableArray<NSNumber *> *tileIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *tileIds = [NSMutableArray array];
     while([tileResultSet moveToNext]){
         [tileIds addObject:[[tileDao tileRow:tileResultSet] id]];
     }

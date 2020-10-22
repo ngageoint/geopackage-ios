@@ -15,7 +15,7 @@
 
 +(void) testContentsIdWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
     GPKGContentsIdExtension *contentsIdExtension = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNotNil:contentsIdExtension.extensionsDao];
@@ -48,7 +48,7 @@
     GPKGResultSet *contentsIds = [contentsIdExtension ids];
     [GPKGTestUtils assertEqualIntWithValue:(int)[geoPackage tables].count andValue2:contentsIds.count];
     
-    NSMutableSet *uniqueIds = [[NSMutableSet alloc] init];
+    NSMutableSet *uniqueIds = [NSMutableSet set];
     while([contentsIds moveToNext]){
         GPKGContentsId *contentsId = [contentsIdExtension contentsId:contentsIds];
         [GPKGTestUtils assertTrue:[contentsId.id intValue] >=0];

@@ -14,7 +14,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.values = [[NSMutableDictionary alloc]init];
+        self.values = [NSMutableDictionary dictionary];
     }
     return self;
 }

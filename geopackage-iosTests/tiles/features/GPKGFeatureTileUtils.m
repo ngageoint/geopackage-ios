@@ -48,27 +48,27 @@
     [self insertFourPointsWithFeatureDao:featureDao andX:90 andY:45];
     
     count+=4;
-    NSArray * points = [[NSArray alloc] initWithObjects:
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:67.5], nil],
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:90.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
+    NSArray * points = [NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:67.5], nil],
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:90.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
                          nil];
     [self insertFourLinesWithFeatureDao:featureDao andPoints:points];
     
     count+=4;
-    NSArray * outerRing = [[NSArray alloc] initWithObjects:
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:60.0], [[NSDecimalNumber alloc] initWithDouble:35.0], nil],
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:65.0], [[NSDecimalNumber alloc] initWithDouble:15.0], nil],
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:15.0], [[NSDecimalNumber alloc] initWithDouble:20.0], nil],
-                           [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:20.0], [[NSDecimalNumber alloc] initWithDouble:40.0], nil],
+    NSArray * outerRing = [NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:60.0], [[NSDecimalNumber alloc] initWithDouble:35.0], nil],
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:65.0], [[NSDecimalNumber alloc] initWithDouble:15.0], nil],
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:15.0], [[NSDecimalNumber alloc] initWithDouble:20.0], nil],
+                           [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:20.0], [[NSDecimalNumber alloc] initWithDouble:40.0], nil],
                         nil];
-    NSArray * innerRing = [[NSArray alloc] initWithObjects:
-                           [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:50.0], [[NSDecimalNumber alloc] initWithDouble:30.0], nil],
-                           [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:48.0], [[NSDecimalNumber alloc] initWithDouble:22.0], nil],
-                           [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:30.0], [[NSDecimalNumber alloc] initWithDouble:23.0], nil],
-                           [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:25.0], [[NSDecimalNumber alloc] initWithDouble:34.0], nil],
+    NSArray * innerRing = [NSArray arrayWithObjects:
+                           [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:50.0], [[NSDecimalNumber alloc] initWithDouble:30.0], nil],
+                           [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:48.0], [[NSDecimalNumber alloc] initWithDouble:22.0], nil],
+                           [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:30.0], [[NSDecimalNumber alloc] initWithDouble:23.0], nil],
+                           [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:25.0], [[NSDecimalNumber alloc] initWithDouble:34.0], nil],
                            nil];
-    NSArray * lines = [[NSArray alloc] initWithObjects:outerRing, innerRing, nil];
+    NSArray * lines = [NSArray arrayWithObjects:outerRing, innerRing, nil];
     [self insertFourPolygonsWithFeatureDao:featureDao andLines:lines];
     
     return count;
@@ -127,9 +127,9 @@
 
 +(NSArray *) convertPoints: (NSArray *) points withNegativeY: (BOOL) negativeY andNegativeX: (BOOL) negativeX{
     
-    NSMutableArray * newPoints = [[NSMutableArray alloc] init];
+    NSMutableArray * newPoints = [NSMutableArray array];
     for(NSArray * point in points){
-        NSMutableArray * newPoint = [[NSMutableArray alloc] init];
+        NSMutableArray * newPoint = [NSMutableArray array];
         
         double x = [(NSDecimalNumber *)[point objectAtIndex:0] doubleValue];
         if(negativeX){
@@ -151,7 +151,7 @@
 
 +(NSArray *) convertLines: (NSArray *) lines withNegativeY: (BOOL) negativeY andNegativeX: (BOOL) negativeX{
     
-    NSMutableArray * newLines = [[NSMutableArray alloc] init];
+    NSMutableArray * newLines = [NSMutableArray array];
     for(NSArray * line in lines){
         [newLines addObject:[self convertPoints:line withNegativeY:negativeY andNegativeX:negativeX]];
     }

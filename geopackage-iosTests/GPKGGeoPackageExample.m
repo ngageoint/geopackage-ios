@@ -118,7 +118,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:YES];
     
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
     [self validateExtensionsWithGeoPackage:geoPackage andHas:NO];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:NO];
@@ -138,7 +138,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:YES];
     
-    [GPKGNGAExtensions deleteExtensionsWithGeoPackage:geoPackage];
+    GPKGNGAExtensions *extensions = [GPKGNGAExtensions createWithGeoPackage:geoPackage];
+    [extensions deleteExtensions];
     
     [self validateExtensionsWithGeoPackage:geoPackage andHas:YES];
     [self validateNGAExtensionsWithGeoPackage:geoPackage andHas:NO];
@@ -351,8 +352,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeatures1WithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs{
     
-    NSMutableArray<SFGeometry *> *points = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *pointNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *points = [NSMutableArray array];
+    NSMutableArray<NSString *> *pointNames = [NSMutableArray array];
     
     [points addObject:[[SFPoint alloc] initWithXValue:-104.801918 andYValue:39.720014]];
     [pointNames addObject:@"BIT Systems"];
@@ -368,8 +369,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point1" andType:SF_POINT andGeometries:points andNames:pointNames];
     
-    NSMutableArray<SFGeometry *> *lines = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *lineNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *lines = [NSMutableArray array];
+    NSMutableArray<NSString *> *lineNames = [NSMutableArray array];
     
     SFLineString *line1 = [[SFLineString alloc] init];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-104.800614 andYValue:39.720721]];
@@ -406,8 +407,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line1" andType:SF_LINESTRING andGeometries:lines andNames:lineNames];
 
-    NSMutableArray<SFGeometry *> *polygons = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *polygonNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *polygons = [NSMutableArray array];
+    NSMutableArray<NSString *> *polygonNames = [NSMutableArray array];
     
     SFPolygon *polygon1 = [[SFPolygon alloc] init];
     SFLineString *ring1 = [[SFLineString alloc] init];
@@ -495,8 +496,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon1" andType:SF_POLYGON andGeometries:polygons andNames:polygonNames];
     
-    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *geometryNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries = [NSMutableArray array];
+    NSMutableArray<NSString *> *geometryNames = [NSMutableArray array];
     [geometries addObjectsFromArray:points];
     [geometryNames addObjectsFromArray:pointNames];
     [geometries addObjectsFromArray:lines];
@@ -510,16 +511,16 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeatures2WithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs{
 
-    NSMutableArray<SFGeometry *> *points = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *pointNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *points = [NSMutableArray array];
+    NSMutableArray<NSString *> *pointNames = [NSMutableArray array];
     
     [points addObject:[[SFPoint alloc] initWithXValue:-77.196736 andYValue:38.753370]];
     [pointNames addObject:@"NGA"];
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"point2" andType:SF_POINT andGeometries:points andNames:pointNames];
     
-    NSMutableArray<SFGeometry *> *lines = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *lineNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *lines = [NSMutableArray array];
+    NSMutableArray<NSString *> *lineNames = [NSMutableArray array];
     
     SFLineString *line1 = [[SFLineString alloc] init];
     [line1 addPoint:[[SFPoint alloc] initWithXValue:-77.196650 andYValue:38.756501]];
@@ -536,8 +537,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"line2" andType:SF_LINESTRING andGeometries:lines andNames:lineNames];
     
-    NSMutableArray<SFGeometry *> *polygons = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *polygonNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *polygons = [NSMutableArray array];
+    NSMutableArray<NSString *> *polygonNames = [NSMutableArray array];
     
     SFPolygon *polygon1 = [[SFPolygon alloc] init];
     SFLineString *ring1 = [[SFLineString alloc] init];
@@ -567,8 +568,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:@"polygon2" andType:SF_POLYGON andGeometries:polygons andNames:polygonNames];
     
-    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
-    NSMutableArray<NSString *> *geometryNames = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries = [NSMutableArray array];
+    NSMutableArray<NSString *> *geometryNames = [NSMutableArray array];
     [geometries addObjectsFromArray:points];
     [geometryNames addObjectsFromArray:pointNames];
     [geometries addObjectsFromArray:lines];
@@ -582,9 +583,9 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeaturesWithGeoPackage: (GPKGGeoPackage *) geoPackage andSrs: (GPKGSpatialReferenceSystem *) srs andTableName: (NSString *) tableName andType: (enum SFGeometryType) type andGeometry: (SFGeometry *) geometry andName: (NSString *) name{
     
-    NSMutableArray<SFGeometry *> *geometries = [[NSMutableArray alloc] init];
+    NSMutableArray<SFGeometry *> *geometries = [NSMutableArray array];
     [geometries addObject:geometry];
-    NSMutableArray<NSString *> *names = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *names = [NSMutableArray array];
     [names addObject:name];
     
     [self createFeaturesWithGeoPackage:geoPackage andSrs:srs andTableName:tableName andType:type andGeometries:geometries andNames:names];
@@ -614,7 +615,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [contents setMaxY:envelope.maxY];
     [contents setSrs:srs];
     
-    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *columns = [NSMutableArray array];
     
     [columns addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithName:ID_COLUMN]];
     [columns addObject:[GPKGFeatureColumn createGeometryColumnWithName:GEOMETRY_COLUMN andGeometryType:type andNotNull:NO andDefaultValue:nil]];
@@ -658,8 +659,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
         GPKGFeatureRow *newRow = [dao newRow];
         
-        GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:geometryColumns.srsId];
-        [geometryData setGeometry:geometry];
+        GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:geometryColumns.srsId andGeometry:geometry];
         [newRow setGeometry:geometryData];
         
         [newRow setValueWithColumnName:TEXT_COLUMN andValue:name];
@@ -807,7 +807,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createAttributesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *columns = [NSMutableArray array];
     
     [columns addObject:[GPKGFeatureColumn createColumnWithName:TEXT_COLUMN andDataType:GPKG_DT_TEXT andNotNull:NO andDefaultValue:@""]];
     [columns addObject:[GPKGFeatureColumn createColumnWithName:REAL_COLUMN andDataType:GPKG_DT_REAL andNotNull:NO andDefaultValue:nil]];
@@ -819,7 +819,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     [columns addObject:[GPKGFeatureColumn createColumnWithName:DATE_COLUMN andDataType:GPKG_DT_DATE andNotNull:NO andDefaultValue:nil]];
     [columns addObject:[GPKGFeatureColumn createColumnWithName:DATETIME_COLUMN andDataType:GPKG_DT_DATETIME andNotNull:NO andDefaultValue:nil]];
     
-    GPKGAttributesTable *attributesTable = [geoPackage createAttributesTableWithTableName:@"attributes" andAdditionalColumns:columns];
+    GPKGAttributesTable *attributesTable = [geoPackage createAttributesTableWithMetadata:[GPKGAttributesTableMetadata createWithTable:@"attributes" andAdditionalColumns:columns]];
     
     GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:attributesTable.tableName];
     
@@ -891,9 +891,10 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createSchemaExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    [geoPackage createDataColumnConstraintsTable];
+    GPKGSchemaExtension *schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage];
+    [schemaExtension createDataColumnConstraintsTable];
     
-    GPKGDataColumnConstraintsDao *dao = [geoPackage dataColumnConstraintsDao];
+    GPKGDataColumnConstraintsDao *dao = [schemaExtension dataColumnConstraintsDao];
     
     GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:@"sampleRange"];
@@ -947,9 +948,9 @@ static int dataColumnConstraintIndex = 0;
     [sampleGlob setTheDescription:@"sampleGlob description"];
     [dao create:sampleGlob];
     
-    [geoPackage createDataColumnsTable];
+    [schemaExtension createDataColumnsTable];
     
-    GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
+    GPKGDataColumnsDao *dataColumnsDao = [schemaExtension dataColumnsDao];
     
     NSArray *featureTables = [geoPackage featureTables];
     for (NSString *featureTable in featureTables) {
@@ -962,8 +963,7 @@ static int dataColumnConstraintIndex = 0;
             if(!column.primaryKey && column.dataType == GPKG_DT_INTEGER){
                 
                 GPKGDataColumns *dataColumns = [[GPKGDataColumns alloc] init];
-                GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
-                [dataColumns setContents:[geometryColumnsDao contents:featureDao.geometryColumns]];
+                [dataColumns setContents:[featureDao contents]];
                 [dataColumns setColumnName:column.name];
                 [dataColumns setName:featureTable];
                 [dataColumns setTitle:@"TEST_TITLE"];
@@ -1020,8 +1020,8 @@ static int dataColumnConstraintIndex = 0;
     
     NSString *tableName = @"non_linear_geometries";
     
-    NSMutableArray *geometries = [[NSMutableArray alloc] init];
-    NSMutableArray *geometryNames = [[NSMutableArray alloc] init];
+    NSMutableArray *geometries = [NSMutableArray array];
+    NSMutableArray *geometryNames = [NSMutableArray array];
     
     SFCircularString *circularString = [[SFCircularString alloc] init];
     [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
@@ -1145,11 +1145,11 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createMetadataExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [geoPackage createMetadataTable];
-    GPKGMetadataDao *metadataDao = [geoPackage metadataDao];
+    GPKGMetadataExtension *metadataExtension = [[GPKGMetadataExtension alloc] initWithGeoPackage:geoPackage];
+    [metadataExtension createMetadataTable];
+    GPKGMetadataDao *metadataDao = [metadataExtension metadataDao];
     
     GPKGMetadata *metadata1 = [[GPKGMetadata alloc] init];
-    [metadata1 setId:[NSNumber numberWithInt:1]];
     [metadata1 setMetadataScopeType:GPKG_MST_DATASET];
     [metadata1 setStandardUri:@"TEST_URI_1"];
     [metadata1 setMimeType:@"text/xml"];
@@ -1157,7 +1157,6 @@ static int dataColumnConstraintIndex = 0;
     [metadataDao create:metadata1];
     
     GPKGMetadata *metadata2 = [[GPKGMetadata alloc] init];
-    [metadata2 setId:[NSNumber numberWithInt:2]];
     [metadata2 setMetadataScopeType:GPKG_MST_FEATURE_TYPE];
     [metadata2 setStandardUri:@"TEST_URI_2"];
     [metadata2 setMimeType:@"text/xml"];
@@ -1165,15 +1164,14 @@ static int dataColumnConstraintIndex = 0;
     [metadataDao create:metadata2];
     
     GPKGMetadata *metadata3 = [[GPKGMetadata alloc] init];
-    [metadata3 setId:[NSNumber numberWithInt:3]];
     [metadata3 setMetadataScopeType:GPKG_MST_TILE];
     [metadata3 setStandardUri:@"TEST_URI_3"];
     [metadata3 setMimeType:@"text/xml"];
     [metadata3 setMetadata:@"TEST METADATA 3"];
     [metadataDao create:metadata3];
     
-    [geoPackage createMetadataReferenceTable];
-    GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
+    [metadataExtension createMetadataReferenceTable];
+    GPKGMetadataReferenceDao *metadataReferenceDao = [metadataExtension metadataReferenceDao];
     
     GPKGMetadataReference *reference1 = [[GPKGMetadataReference alloc] init];
     [reference1 setReferenceScopeType:GPKG_RST_GEOPACKAGE];
@@ -1231,7 +1229,7 @@ static int dataColumnConstraintIndex = 0;
         contentsBoundingBox = [bbox transform:transform];
     }
     
-    GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
+    GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:@"coverage_png" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao *tileDao = [coverageData tileDao];
     GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
@@ -1251,21 +1249,21 @@ static int dataColumnConstraintIndex = 0;
     int tileWidth = 3;
     int tileHeight = 3;
     
-    NSMutableArray *tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
+    NSMutableArray *tilePixels = [NSMutableArray arrayWithCapacity:tileHeight];
     
-    NSMutableArray *row0 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row0 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row0 addObject:[NSNumber numberWithUnsignedShort:1661.95]];
     [row0 addObject:[NSNumber numberWithUnsignedShort:1665.40]];
     [row0 addObject:[NSNumber numberWithUnsignedShort:1668.19]];
     [tilePixels addObject:row0];
     
-    NSMutableArray *row1 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row1 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row1 addObject:[NSNumber numberWithUnsignedShort:1657.18]];
     [row1 addObject:[NSNumber numberWithUnsignedShort:1663.39]];
     [row1 addObject:[NSNumber numberWithUnsignedShort:1669.65]];
     [tilePixels addObject:row1];
     
-    NSMutableArray *row2 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row2 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row2 addObject:[NSNumber numberWithUnsignedShort:1654.78]];
     [row2 addObject:[NSNumber numberWithUnsignedShort:1660.31]];
     [row2 addObject:[NSNumber numberWithUnsignedShort:1666.44]];
@@ -1322,7 +1320,7 @@ static int dataColumnConstraintIndex = 0;
         contentsBoundingBox = [bbox transform:transform];
     }
     
-    GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andTableName:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
+    GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:@"coverage_tiff" andContentsBoundingBox:contentsBoundingBox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao *tileDao = [coverageData tileDao];
     GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
@@ -1342,30 +1340,30 @@ static int dataColumnConstraintIndex = 0;
     int tileWidth = 4;
     int tileHeight = 4;
     
-    NSMutableArray *tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
+    NSMutableArray *tilePixels = [NSMutableArray arrayWithCapacity:tileHeight];
     
-    NSMutableArray *row0 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row0 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row0 addObject:[NSNumber numberWithFloat:71.78]];
     [row0 addObject:[NSNumber numberWithFloat:74.31]];
     [row0 addObject:[NSNumber numberWithFloat:70.19]];
     [row0 addObject:[NSNumber numberWithFloat:68.07]];
     [tilePixels addObject:row0];
     
-    NSMutableArray *row1 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row1 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row1 addObject:[NSNumber numberWithFloat:61.01]];
     [row1 addObject:[NSNumber numberWithFloat:69.66]];
     [row1 addObject:[NSNumber numberWithFloat:68.65]];
     [row1 addObject:[NSNumber numberWithFloat:72.02]];
     [tilePixels addObject:row1];
     
-    NSMutableArray *row2 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row2 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row2 addObject:[NSNumber numberWithFloat:41.58]];
     [row2 addObject:[NSNumber numberWithFloat:69.46]];
     [row2 addObject:[NSNumber numberWithFloat:67.56]];
     [row2 addObject:[NSNumber numberWithFloat:70.42]];
     [tilePixels addObject:row2];
     
-    NSMutableArray *row3 = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+    NSMutableArray *row3 = [NSMutableArray arrayWithCapacity:tileWidth];
     [row3 addObject:[NSNumber numberWithFloat:54.03]];
     [row3 addObject:[NSNumber numberWithFloat:71.32]];
     [row3 addObject:[NSNumber numberWithFloat:57.61]];
@@ -1424,7 +1422,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
     NSArray<GPKGUserCustomColumn *> *additionalMediaColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
-    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"media" andAdditionalColumns:additionalMediaColumns];
+    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithMetadata:[GPKGMediaTableMetadata createWithTable:@"media" andAdditionalColumns:additionalMediaColumns]];
     
     NSArray<GPKGUserCustomColumn *> *additionalMappingColumns = [GPKGRelatedTablesUtils createAdditionalUserColumns];
     
@@ -1487,7 +1485,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGContentsIdExtension *contentsId = [[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage];
     
-    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithName:@"preview"];
+    GPKGMediaTable *mediaTable = [GPKGMediaTable createWithMetadata:[GPKGMediaTableMetadata createWithTable:@"preview"]];
     GPKGUserMappingTable *userMappingTable = [GPKGUserMappingTable createWithName:[NSString stringWithFormat:@"features_%@", [mediaTable tableName]]];
     
     GPKGExtendedRelation *relation = [relatedTables addMediaRelationshipWithBaseTable:GPKG_CI_TABLE_NAME andMediaTable:mediaTable andUserMappingTable:userMappingTable];
@@ -1552,7 +1550,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGFeatureDao *featureDao1 = [geoPackage featureDaoWithTableName:relation.baseTableName];
     GPKGFeatureDao *featureDao2 = [geoPackage featureDaoWithTableName:relation.relatedTableName];
     
-    NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [NSMutableArray array];
     
     GPKGResultSet *featureResultSet1 = [featureDao1 queryForAll];
     while([featureResultSet1 moveToNext]){
@@ -1590,7 +1588,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGRelatedTablesExtension *relatedTables = [[GPKGRelatedTablesExtension alloc] initWithGeoPackage:geoPackage];
     
     NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumns];
-    GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithName:@"simple_attributes" andColumns:simpleUserColumns];
+    GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithMetadata:[GPKGSimpleAttributesTableMetadata createWithTable:@"simple_attributes" andColumns:simpleUserColumns]];
     
     NSString *tableName = @"attributes";
     
@@ -1599,7 +1597,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGExtendedRelation *relation = [relatedTables addSimpleAttributesRelationshipWithBaseTable:tableName andSimpleAttributesTable:simpleTable andUserMappingTable:userMappingTable];
     
     GPKGSimpleAttributesDao *simpleAttributesDao = [relatedTables simpleAttributesDaoForTable:simpleTable];
-    NSMutableArray<NSNumber *> *simpleAttributesIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *simpleAttributesIds = [NSMutableArray array];
     for(int i = 1; i <=3; i++){
         
         GPKGSimpleAttributesRow *simpleAttributesRow = [simpleAttributesDao newRow];
@@ -1740,7 +1738,7 @@ static int dataColumnConstraintIndex = 0;
 
 +(void) createFeatureStyleExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSMutableArray<GPKGStyleRow *> *styles = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGStyleRow *> *styles = [NSMutableArray array];
     
     GPKGStyleRow *style1 = [[GPKGStyleRow alloc] init];
     [style1 setName:@"Green"];
@@ -1771,7 +1769,7 @@ static int dataColumnConstraintIndex = 0;
     [style4 setFillColor:[[GPKGColor alloc] initWithHue:61 andSaturation:.89f andLightness:.72f andAlpha:.3f]];
     [styles addObject:style4];
 
-    NSMutableArray<GPKGIconRow *> *icons = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGIconRow *> *icons = [NSMutableArray array];
     
     NSString *buildingPath  = [[[NSBundle bundleForClass:[GPKGGeoPackageExample class]] resourcePath] stringByAppendingPathComponent:@"building.png"];
     GPKGIconRow *icon1 = [[GPKGIconRow alloc] init];

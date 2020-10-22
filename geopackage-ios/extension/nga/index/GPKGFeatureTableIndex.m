@@ -211,7 +211,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 }
 
 -(int) deleteIndexWithGeomId: (int) geomId{
-    return [self.geometryIndexDao deleteByMultiId:[[NSArray alloc] initWithObjects:self.tableName, [NSNumber numberWithInt:geomId], nil]];
+    return [self.geometryIndexDao deleteByMultiId:[NSArray arrayWithObjects:self.tableName, [NSNumber numberWithInt:geomId], nil]];
 }
 
 -(int) deleteIndexWithFeatureRow: (GPKGFeatureRow *) row{
@@ -398,9 +398,9 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 -(GPKGBoundingBox *) boundingBox{
     
     NSString *sql = [NSString stringWithFormat:@"SELECT MIN(%@), MIN(%@), MAX(%@), MAX(%@) FROM %@ WHERE %@ = ?", GPKG_GI_COLUMN_MIN_X, GPKG_GI_COLUMN_MIN_Y, GPKG_GI_COLUMN_MAX_X, GPKG_GI_COLUMN_MAX_Y, GPKG_GI_TABLE_NAME, GPKG_GI_COLUMN_TABLE_NAME];
-    NSArray *dataTypes = [[NSArray alloc] initWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
+    NSArray *dataTypes = [NSArray arrayWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
     
-    NSArray<NSNumber *> *results = (NSArray<NSNumber *> *)[self.geometryIndexDao querySingleRowResultsWithSql:sql andArgs:[[NSArray alloc] initWithObjects:self.tableName, nil] andDataTypes:dataTypes];
+    NSArray<NSNumber *> *results = (NSArray<NSNumber *> *)[self.geometryIndexDao querySingleRowResultsWithSql:sql andArgs:[NSArray arrayWithObjects:self.tableName, nil] andDataTypes:dataTypes];
     
     double minLongitude = [[results objectAtIndex:0] doubleValue];
     double minLatitude = [[results objectAtIndex:1] doubleValue];
@@ -525,7 +525,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     NSDecimalNumber *minY = [[NSDecimalNumber alloc] initWithDouble:[envelope.minY doubleValue] - self.tolerance];
     NSDecimalNumber *maxY = [[NSDecimalNumber alloc] initWithDouble:[envelope.maxY doubleValue] + self.tolerance];
 
-    NSMutableArray *whereArgs = [[NSMutableArray alloc] init];
+    NSMutableArray *whereArgs = [NSMutableArray array];
     [whereArgs addObject:self.tableName];
     [whereArgs addObject:maxX];
     [whereArgs addObject:minX];

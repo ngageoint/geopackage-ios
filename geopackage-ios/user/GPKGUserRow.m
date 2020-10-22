@@ -30,7 +30,7 @@
         self.columns = [table userColumns];
         
         int columnCount = [_columns columnCount];
-        NSMutableArray * tempValues = [[NSMutableArray alloc] initWithCapacity:columnCount];
+        NSMutableArray * tempValues = [NSMutableArray arrayWithCapacity:columnCount];
         for(int i = 0; i < columnCount; i++){
             [GPKGUtils addObject:nil toArray:tempValues];
         }
@@ -45,7 +45,7 @@
     if(self != nil){
         self.table = row.table;
         self.columns = row.columns;
-        self.values = [[NSMutableArray alloc] init];
+        self.values = [NSMutableArray array];
         for(int i = 0; i < row.values.count; i++){
             NSObject *value = [GPKGUtils objectAtIndex:i inArray:row.values];
             if(value != nil){
@@ -319,7 +319,7 @@
     GPKGUserRow *userRow = [[[self class] allocWithZone:zone] init];
     userRow.table = _table;
     userRow.columns = _columns;
-    userRow.values = [[NSMutableArray alloc] initWithCapacity:_values.count];
+    userRow.values = [NSMutableArray arrayWithCapacity:_values.count];
     for(int i = 0; i < _values.count; i++){
         NSObject *value = [_values objectAtIndex:i];
         if(![value isEqual:[NSNull null]]){

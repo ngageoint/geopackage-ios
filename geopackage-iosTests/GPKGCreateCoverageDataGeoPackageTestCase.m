@@ -50,7 +50,7 @@
     GPKGSpatialReferenceSystem * contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     GPKGSpatialReferenceSystem * tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
-    GPKGCoverageDataPng * coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andTableName:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileMatrixSetBoundingBox:bbox andTileMatrixSetSrsId:tileMatrixSetSrs.srsId];
+    GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao * tileDao = coverageData.tileDao;
     GPKGTileMatrixSet * tileMatrixSet = [coverageData tileMatrixSet];
     
@@ -272,10 +272,10 @@
 -(NSData *) drawTileWithCoverageData: (GPKGCoverageDataPng *) coverageData andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
     
     GPKGCoverageDataValues * values = [[GPKGCoverageDataValues alloc] init];
-    values.tilePixels = [[NSMutableArray alloc] initWithCapacity:tileHeight];
-    values.coverageData = [[NSMutableArray alloc] initWithCapacity:tileHeight];
-    values.tilePixelsFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
-    values.coverageDataFlat = [[NSMutableArray alloc] initWithCapacity:tileHeight * tileWidth];
+    values.tilePixels = [NSMutableArray arrayWithCapacity:tileHeight];
+    values.coverageData = [NSMutableArray arrayWithCapacity:tileHeight];
+    values.tilePixelsFlat = [NSMutableArray arrayWithCapacity:tileHeight * tileWidth];
+    values.coverageDataFlat = [NSMutableArray arrayWithCapacity:tileHeight * tileWidth];
     
     GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
     [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
@@ -288,10 +288,10 @@
     // Create the image and graphics
     for (int y = 0; y < tileHeight; y++) {
         
-        NSMutableArray * tilePixelsRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+        NSMutableArray * tilePixelsRow = [NSMutableArray arrayWithCapacity:tileWidth];
         [values.tilePixels addObject:tilePixelsRow];
         
-        NSMutableArray * coverageDataRow = [[NSMutableArray alloc] initWithCapacity:tileWidth];
+        NSMutableArray * coverageDataRow = [NSMutableArray arrayWithCapacity:tileWidth];
         [values.coverageData addObject:coverageDataRow];
         
         for (int x = 0; x < tileWidth; x++) {

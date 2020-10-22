@@ -16,7 +16,7 @@
     self = [super init];
     if(self != nil){
         self.parentPolygon = polygonPoints;
-        self.points = [[NSMutableArray alloc] init];
+        self.points = [NSMutableArray array];
     }
     return self;
 }

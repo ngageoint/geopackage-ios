@@ -21,7 +21,7 @@
     self = [super init];
     if(self != nil){
         self.manager = manager;
-        self.cache = [[NSMutableDictionary alloc] init];
+        self.cache = [NSMutableDictionary dictionary];
         self.closeQuietly = YES;
     }
     return self;
@@ -104,7 +104,7 @@
 }
 
 -(void) closeRetain: (NSArray *) retain{
-    NSMutableArray * close = [[NSMutableArray alloc] initWithArray:[self.cache allKeys]];
+    NSMutableArray * close = [NSMutableArray arrayWithArray:[self.cache allKeys]];
     [close removeObjectsInArray:retain];
     for(NSString * name in close){
         [self closeByName:name];

@@ -179,7 +179,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<NSString *> *) tileTablesForFeatureTable: (NSString *) featureTable{
     
-    NSMutableArray<NSString *> * tileTables = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> * tileTables = [NSMutableArray array];
     
     GPKGResultSet * results = [self queryForFeatureTable:featureTable];
     @try {
@@ -197,7 +197,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<NSString *> *) featureTablesForTileTable: (NSString *) tileTable{
     
-    NSMutableArray<NSString *> * featureTables = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> * featureTables = [NSMutableArray array];
     
     GPKGResultSet * results = [self queryForTileTable:tileTable];
     @try {
@@ -215,7 +215,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<GPKGTileDao *> *) tileDaosForFeatureTable: (NSString *) featureTable{
     
-    NSMutableArray<GPKGTileDao *> * tileDaos = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGTileDao *> * tileDaos = [NSMutableArray array];
     
     NSArray<NSString *> * tileTables = [self tileTablesForFeatureTable:featureTable];
     for(NSString * tileTable in tileTables){
@@ -230,7 +230,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<GPKGFeatureDao *> *) featureDaosForTileTable: (NSString *) tileTable{
     
-    NSMutableArray<GPKGFeatureDao *> * featureDaos = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGFeatureDao *> * featureDaos = [NSMutableArray array];
     
     NSArray<NSString *> * featureTables = [self featureTablesForTileTable:tileTable];
     for(NSString * featureTable in featureTables){

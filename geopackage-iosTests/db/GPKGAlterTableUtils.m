@@ -23,6 +23,8 @@
 #import "GPKGUniqueConstraint.h"
 #import "GPKGRawConstraint.h"
 #import "SFPProjectionConstants.h"
+#import "GPKGMetadataExtension.h"
+#import "GPKGSchemaExtension.h"
 
 @implementation GPKGAlterTableUtils
 
@@ -139,7 +141,7 @@
             
             [dao alterColumn:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 3] andDataType:GPKG_DT_BOOLEAN andNotNull:YES andDefaultValue:[NSNumber numberWithInt:0]]];
             
-            NSMutableArray<GPKGFeatureColumn *> *alterColumns = [[NSMutableArray alloc] init];
+            NSMutableArray<GPKGFeatureColumn *> *alterColumns = [NSMutableArray array];
             [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 5] andDataType:GPKG_DT_FLOAT andNotNull:YES andDefaultValue:[NSNumber numberWithFloat:1.5]]];
             [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 8] andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:@"date_to_text"]];
             [alterColumns addObject:[GPKGFeatureColumn createColumnWithName:[NSString stringWithFormat:@"%@%d", newerColumnName, 9] andDataType:GPKG_DT_DATETIME andNotNull:YES andDefaultValue:@"(strftime('%Y-%m-%dT%H:%M:%fZ','now'))"]];
@@ -372,7 +374,7 @@
             GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
             
             NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
+            GPKGMetadataReferenceDao *metadataReferenceDao = [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:geoPackage];
             if([metadataReferenceDao tableExists]){
                 GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
                 while([metadataReferenceResults moveToNext]){
@@ -382,7 +384,7 @@
             }
             
             NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-            GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] dataColumnsDao];
             if([dataColumnsDao tableExists]){
                 GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
                 while([dataColumnsResults moveToNext]){
@@ -538,8 +540,8 @@
                     [GPKGTestUtils assertEqualWithValue:extendedRelation.relationName andValue2:copyExtendedRelation.relationName];
                     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
                     [GPKGTestUtils assertTrue:[geoPackage isTable:copyMappingTableName]];
-                    int mappingTableCount = [geoPackage.database countWithTable:mappingTableName andWhere:nil andWhereArgs:nil];
-                    int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName andWhere:nil andWhereArgs:nil];
+                    int mappingTableCount = [geoPackage.database countWithTable:mappingTableName];
+                    int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName];
                     [GPKGTestUtils assertEqualIntWithValue:mappingTableCount andValue2:copyMappingTableCount];
                 }
             }
@@ -629,7 +631,7 @@
             GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
             
             NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-            GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
+            GPKGMetadataReferenceDao *metadataReferenceDao = [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:geoPackage];
             if([metadataReferenceDao tableExists]){
                 GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
                 while([metadataReferenceResults moveToNext]){
@@ -639,7 +641,7 @@
             }
             
             NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-            GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] dataColumnsDao];
             if([dataColumnsDao tableExists]){
                 GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
                 while([dataColumnsResults moveToNext]){
@@ -666,7 +668,7 @@
             
             GPKGGriddedCoverage *griddedCoverage = nil;
             NSMutableArray<GPKGGriddedTile *> *griddedTiles = [NSMutableArray array];
-            if([geoPackage isTable:tableName ofType:GPKG_CD_GRIDDED_COVERAGE]){
+            if([geoPackage isTable:tableName ofTypeName:GPKG_CD_GRIDDED_COVERAGE]){
                 GPKGCoverageData *coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:dao];
                 griddedCoverage = [coverageData queryGriddedCoverage];
                 GPKGResultSet *griddedTilesResults = [coverageData griddedTile];
@@ -768,8 +770,8 @@
                     [GPKGTestUtils assertEqualWithValue:extendedRelation.relationName andValue2:copyExtendedRelation.relationName];
                     [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
                     [GPKGTestUtils assertTrue:[geoPackage isTable:copyMappingTableName]];
-                    int mappingTableCount = [geoPackage.database countWithTable:mappingTableName andWhere:nil andWhereArgs:nil];
-                    int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName andWhere:nil andWhereArgs:nil];
+                    int mappingTableCount = [geoPackage.database countWithTable:mappingTableName];
+                    int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName];
                     [GPKGTestUtils assertEqualIntWithValue:mappingTableCount andValue2:copyMappingTableCount];
                 }
             }
@@ -827,7 +829,7 @@
         GPKGContentsId *contentsId = [contentsIdExtension forTableName:tableName];
         
         NSMutableArray<GPKGMetadataReference *> *metadataReference = [NSMutableArray array];
-        GPKGMetadataReferenceDao *metadataReferenceDao = [geoPackage metadataReferenceDao];
+        GPKGMetadataReferenceDao *metadataReferenceDao = [GPKGMetadataExtension metadataReferenceDaoWithGeoPackage:geoPackage];
         if([metadataReferenceDao tableExists]){
             GPKGResultSet *metadataReferenceResults = [metadataReferenceDao queryByTable:tableName];
             while([metadataReferenceResults moveToNext]){
@@ -837,7 +839,7 @@
         }
         
         NSMutableArray<GPKGDataColumns *> *dataColumns = [NSMutableArray array];
-        GPKGDataColumnsDao *dataColumnsDao = [geoPackage dataColumnsDao];
+        GPKGDataColumnsDao *dataColumnsDao = [[[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage] dataColumnsDao];
         if([dataColumnsDao tableExists]){
             GPKGResultSet *dataColumnsResults = [dataColumnsDao queryByTable:tableName];
             while([dataColumnsResults moveToNext]){
@@ -938,8 +940,8 @@
                 [GPKGTestUtils assertEqualWithValue:extendedRelation.relationName andValue2:copyExtendedRelation.relationName];
                 [GPKGTestUtils assertTrue:[geoPackage isTable:mappingTableName]];
                 [GPKGTestUtils assertTrue:[geoPackage isTable:copyMappingTableName]];
-                int mappingTableCount = [geoPackage.database countWithTable:mappingTableName andWhere:nil andWhereArgs:nil];
-                int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName andWhere:nil andWhereArgs:nil];
+                int mappingTableCount = [geoPackage.database countWithTable:mappingTableName];
+                int copyMappingTableCount = [geoPackage.database countWithTable:copyMappingTableName];
                 [GPKGTestUtils assertEqualIntWithValue:mappingTableCount andValue2:copyMappingTableCount];
             }
         }
@@ -1018,44 +1020,49 @@
     [self testTableCountsWithConnection:geoPackage.database andTable:copyTableName andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
     [GPKGTestUtils assertEqualWithValue:copyTableName andValue2:copyTable.tableName];
     
-    NSArray<GPKGConstraint *> *copyConstraints = [copyTable constraints];
-    [GPKGTestUtils assertEqualIntWithValue:4 andValue2:(int)copyConstraints.count];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName] andValue2:[copyConstraints objectAtIndex:0].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints objectAtIndex:0].type];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT \"%@_unique\" UNIQUE (column2, column3)", copyTableName] andValue2:[[copyConstraints objectAtIndex:0] buildSql]];
-    [GPKGTestUtils assertNil:[copyConstraints objectAtIndex:1].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints objectAtIndex:1].type];
-    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:1] buildSql] andValue2:[[copyConstraints objectAtIndex:1] buildSql]];
-    [GPKGTestUtils assertNil:[copyConstraints objectAtIndex:2].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints objectAtIndex:2].type];
-    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:2] buildSql] andValue2:[[copyConstraints objectAtIndex:2] buildSql]];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName] andValue2:[copyConstraints objectAtIndex:3].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints objectAtIndex:3].type];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", copyTableName] andValue2:[[copyConstraints objectAtIndex:3] buildSql]];
+    GPKGConstraints *copyConstraints = [copyTable constraints];
+    [GPKGTestUtils assertEqualIntWithValue:4 andValue2:[copyConstraints size]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName] andValue2:[copyConstraints atIndex:0].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints atIndex:0].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT \"%@_unique\" UNIQUE (column2, column3)", copyTableName] andValue2:[[copyConstraints atIndex:0] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints atIndex:1].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints atIndex:1].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] atIndex:1] buildSql] andValue2:[[copyConstraints atIndex:1] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints atIndex:2].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints atIndex:2].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] atIndex:2] buildSql] andValue2:[[copyConstraints atIndex:2] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName] andValue2:[copyConstraints atIndex:3].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints atIndex:3].type];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", copyTableName] andValue2:[[copyConstraints atIndex:3] buildSql]];
     
-    
+    if(DEFAULT_PK_NOT_NULL){
+        [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
+                                  andValue2:[[[[copyTable columnWithIndex:0] constraints] atIndex:0] buildSql]];
+    }
+    [GPKGTestUtils assertEqualWithValue:@"PRIMARY KEY"
+                              andValue2:[[[[copyTable columnWithIndex:0] constraints]
+                                          atIndex:(DEFAULT_PK_NOT_NULL ? 1 : 0)] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:@"AUTOINCREMENT"
+                              andValue2:[[[[copyTable columnWithIndex:0] constraints]
+                                          atIndex:(DEFAULT_PK_NOT_NULL ? 2 : 1)] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable columnWithIndex:0] constraints] objectAtIndex:0] buildSql]];
-    [GPKGTestUtils assertEqualWithValue:@"PRIMARY KEY AUTOINCREMENT"
-                              andValue2:[[[[copyTable columnWithIndex:0] constraints] objectAtIndex:1] buildSql]];
-    [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable columnWithIndex:1] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:1] constraints] atIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"UNIQUE"
-                              andValue2:[[[[copyTable columnWithIndex:1] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:1] constraints] atIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable columnWithIndex:2] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:2] constraints] atIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"DEFAULT 'default_value'"
-                              andValue2:[[[[copyTable columnWithIndex:2] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:2] constraints] atIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"NOT NULL"
-                              andValue2:[[[[copyTable columnWithIndex:5] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:5] constraints] atIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT check_constraint_2 CHECK (%@ >= 0)", column6.name]
-                              andValue2:[[[[copyTable columnWithIndex:5] constraints] objectAtIndex:1] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:5] constraints] atIndex:1] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"check_constraint_2"
-                              andValue2:[[[copyTable columnWithIndex:5] constraints] objectAtIndex:1].name];
+                              andValue2:[[[copyTable columnWithIndex:5] constraints] atIndex:1].name];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT another_check_constraint_14 CHECK (%@ >= 0)", column7.name]
-                              andValue2:[[[[copyTable columnWithIndex:6] constraints] objectAtIndex:0] buildSql]];
+                              andValue2:[[[[copyTable columnWithIndex:6] constraints] atIndex:0] buildSql]];
     [GPKGTestUtils assertEqualWithValue:@"another_check_constraint_14"
-                              andValue2:[[[copyTable columnWithIndex:6] constraints] objectAtIndex:0].name];
+                              andValue2:[[[copyTable columnWithIndex:6] constraints] atIndex:0].name];
 
     [geoPackage copyTableAsEmpty:tableName toTable:copyTableName2];
     
@@ -1070,22 +1077,22 @@
     [self testTableCountsWithConnection:geoPackage.database andTable:copyTableName2 andTableCount:tableCount andIndexCount:indexCount andTriggerCount:triggerCount andViewCount:viewCount];
     [GPKGTestUtils assertEqualWithValue:copyTableName2 andValue2:copyTable2.tableName];
     
-    NSArray<GPKGConstraint *> *copyConstraints2 = [copyTable2 constraints];
-    [GPKGTestUtils assertEqualIntWithValue:(int)copyConstraints.count andValue2:(int)copyConstraints2.count];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName2] andValue2:[copyConstraints2 objectAtIndex:0].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 objectAtIndex:0].type];
+    GPKGConstraints *copyConstraints2 = [copyTable2 constraints];
+    [GPKGTestUtils assertEqualIntWithValue:[copyConstraints size]andValue2:[copyConstraints2 size]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"%@_unique", copyTableName2] andValue2:[copyConstraints2 atIndex:0].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 atIndex:0].type];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT \"%@_unique\" UNIQUE (column2, column3)", copyTableName2]
-                              andValue2:[[copyConstraints2 objectAtIndex:0] buildSql]];
-    [GPKGTestUtils assertNil:[copyConstraints2 objectAtIndex:1].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 objectAtIndex:1].type];
-    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:1] buildSql] andValue2:[[copyConstraints2 objectAtIndex:1] buildSql]];
-    [GPKGTestUtils assertNil:[copyConstraints2 objectAtIndex:2].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints2 objectAtIndex:2].type];
-    [GPKGTestUtils assertEqualWithValue:[[[table constraints] objectAtIndex:2] buildSql] andValue2:[[copyConstraints2 objectAtIndex:2] buildSql]];
-    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName2] andValue2:[copyConstraints2 objectAtIndex:3].name];
-    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints2 objectAtIndex:3].type];
+                              andValue2:[[copyConstraints2 atIndex:0] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints2 atIndex:1].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_UNIQUE andValue2:[copyConstraints2 atIndex:1].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] atIndex:1] buildSql] andValue2:[[copyConstraints2 atIndex:1] buildSql]];
+    [GPKGTestUtils assertNil:[copyConstraints2 atIndex:2].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_CHECK andValue2:[copyConstraints2 atIndex:2].type];
+    [GPKGTestUtils assertEqualWithValue:[[[table constraints] atIndex:2] buildSql] andValue2:[[copyConstraints2 atIndex:2] buildSql]];
+    [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"fk_%@", copyTableName2] andValue2:[copyConstraints2 atIndex:3].name];
+    [GPKGTestUtils assertEqualIntWithValue:GPKG_CT_FOREIGN_KEY andValue2:[copyConstraints2 atIndex:3].type];
     [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"CONSTRAINT fk_%@ FOREIGN KEY (column6) REFERENCES gpkg_spatial_ref_sys(srs_id)", copyTableName2]
-                              andValue2:[[copyConstraints2 objectAtIndex:3] buildSql]];
+                              andValue2:[[copyConstraints2 atIndex:3] buildSql]];
 
 }
 

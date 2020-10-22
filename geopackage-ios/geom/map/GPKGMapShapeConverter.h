@@ -34,11 +34,6 @@
 #import "GPKGPolyline.h"
 #import "GPKGPolygon.h"
 
-@class GPKGPolylinePoints;
-@class GPKGPolygonPoints;
-@class GPKGMultiPolylinePoints;
-@class GPKGMultiPolygonPoints;
-
 /**
  *  Provides conversion methods between Well-Known Binary geometry objects and Map shapes. Includes adding shapes to map view functionality.
  */

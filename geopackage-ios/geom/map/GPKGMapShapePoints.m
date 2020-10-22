@@ -14,7 +14,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.shapePoints = [[NSMutableDictionary alloc] init];
+        self.shapePoints = [NSMutableDictionary dictionary];
     }
     return self;
 }

@@ -192,7 +192,7 @@
 }
 
 -(NSArray *) pixelValuesUnsignedShortToArray: (unsigned short *) pixelValues withCount: (int) count{
-    NSMutableArray * pixels = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * pixels = [NSMutableArray arrayWithCapacity:count];
     for(int i= 0; i < count; i++){
         unsigned short pixel = pixelValues[i];
         [pixels addObject:[NSNumber numberWithUnsignedShort:pixel]];

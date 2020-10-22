@@ -218,7 +218,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     if([self.contentsIdDao tableExists]){
         
         NSString *query = [NSString stringWithFormat:@"SELECT %@.* FROM %@ INNER JOIN %@ ON %@.%@ = %@.%@ WHERE %@ = ?", GPKG_CI_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CI_TABLE_NAME, GPKG_CI_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME, GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_COLUMN_DATA_TYPE];
-        contentsIds = [self.contentsIdDao rawQuery:query andArgs:[[NSArray alloc] initWithObjects:type, nil]];
+        contentsIds = [self.contentsIdDao rawQuery:query andArgs:[NSArray arrayWithObjects:type, nil]];
         
     }
     
@@ -235,7 +235,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
 
 -(NSArray<NSString *> *) missingForTypeName: (NSString *) type{
     
-    NSMutableArray<NSString *> *missing = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *missing = [NSMutableArray array];
     
     GPKGContentsDao *contentDao = [self.geoPackage contentsDao];
     
@@ -246,7 +246,7 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     NSMutableArray *queryArgs = nil;
     if(type != nil && type.length > 0){
         [where appendFormat:@"%@ = ?", GPKG_CON_COLUMN_DATA_TYPE];
-        queryArgs = [[NSMutableArray alloc] initWithObjects:type, nil];
+        queryArgs = [NSMutableArray arrayWithObjects:type, nil];
     }else{
         type = nil;
     }

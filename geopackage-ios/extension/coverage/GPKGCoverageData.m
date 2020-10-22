@@ -35,8 +35,8 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.keys = [[NSMutableArray alloc] init];
-        self.dictionary = [[NSMutableDictionary alloc] init];
+        self.keys = [NSMutableArray array];
+        self.dictionary = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -201,7 +201,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     [self createGriddedCoverageTable];
     [self createGriddedTileTable];
     
-    NSMutableArray * extensions = [[NSMutableArray alloc] init];
+    NSMutableArray * extensions = [NSMutableArray array];
     
     GPKGExtensions * coverage = [self extensionCreateWithName:self.extensionName andTableName:GPKG_CDGC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     GPKGExtensions * tile = [self extensionCreateWithName:self.extensionName andTableName:GPKG_CDGT_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
@@ -338,11 +338,11 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     int width = [self countInDoubleArray:values atIndex1:0];
     int height = (int) values.count;
     
-    NSMutableArray * projectedValues = [[NSMutableArray alloc] initWithCapacity:requestedHeight];
+    NSMutableArray * projectedValues = [NSMutableArray arrayWithCapacity:requestedHeight];
     
     // Retrieve each coverage data value in the unprojected coverage data
     for (int y = 0; y < requestedHeight; y++) {
-        NSMutableArray * coverageDataRow = [[NSMutableArray alloc] initWithCapacity:requestedWidth];
+        NSMutableArray * coverageDataRow = [NSMutableArray arrayWithCapacity:requestedWidth];
         [projectedValues addObject:coverageDataRow];
         for (int x = 0; x < requestedWidth; x++) {
             
@@ -641,7 +641,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  */
 -(NSArray *) nearestNeighborsWithXSource: (float) xSource andYSource: (float) ySource {
     
-    NSMutableArray * results = [[NSMutableArray alloc] init];
+    NSMutableArray * results = [NSMutableArray array];
     
     // Get the coverage data source pixels for x and y
     GPKGCoverageDataSourcePixel * xPixel = [self minAndMaxOfXSource:xSource];
@@ -678,33 +678,33 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     }
     
     // Add the closest neighbor
-    [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:firstY], nil]];
+    [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:firstY], nil]];
     
     // Add the second and third neighbor based upon the x and y distances to
     // second coordinates
     if (xDistance <= yDistance) {
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:firstY], nil]];
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:secondY], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:firstY], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:secondY], nil]];
     } else {
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:secondY], nil]];
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:firstY], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:firstX], [NSNumber numberWithInt:secondY], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:firstY], nil]];
     }
     
     // Add the farthest neighbor
-    [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:secondY], nil]];
+    [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:secondX], [NSNumber numberWithInt:secondY], nil]];
     
     // If right on the boundary between the forward and backwards pixel, add
     // the backwards pixel options
     if (xPixel.offset == 0) {
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.min], nil]];
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.max], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.min], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.max], nil]];
     }
     if (yPixel.offset == 0) {
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:xPixel.min], [NSNumber numberWithInt:yPixel.min - 1], nil]];
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:xPixel.max], [NSNumber numberWithInt:yPixel.min - 1], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:xPixel.min], [NSNumber numberWithInt:yPixel.min - 1], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:xPixel.max], [NSNumber numberWithInt:yPixel.min - 1], nil]];
     }
     if (xPixel.offset == 0 && yPixel.offset == 0) {
-        [results addObject:[[NSArray alloc] initWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.min - 1], nil]];
+        [results addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:xPixel.min - 1], [NSNumber numberWithInt:yPixel.min - 1], nil]];
     }
     
     return results;
@@ -917,7 +917,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 
     NSDecimalNumber * value = nil;
     
-    NSMutableArray * rowValues = [[NSMutableArray alloc] initWithCapacity:4];
+    NSMutableArray * rowValues = [NSMutableArray arrayWithCapacity:4];
     
     for (int y = 0; y < 4; y++) {
         NSArray * yValues = [values objectAtIndex:y];
@@ -1058,7 +1058,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (NSArray *) pixelValues{
-    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    NSMutableArray * values = [NSMutableArray arrayWithCapacity:pixelValues.count];
     for(int i = 0; i < pixelValues.count; i++){
         [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:[((NSNumber *)[pixelValues objectAtIndex:i]) unsignedShortValue]] toArray:values];
     }
@@ -1066,7 +1066,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelValues: (unsigned short *) pixelValues andCount: (int) count{
-    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * values = [NSMutableArray arrayWithCapacity:count];
     for(int i = 0; i < count; i++){
         [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelValue:pixelValues[i]] toArray:values];
     }
@@ -1142,7 +1142,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (NSArray *) pixelValues{
-    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:pixelValues.count];
+    NSMutableArray * values = [NSMutableArray arrayWithCapacity:pixelValues.count];
     for (int i = 0; i < pixelValues.count; i++) {
         [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:[((NSDecimalNumber *)[pixelValues objectAtIndex:i]) floatValue]] toArray:values];
     }
@@ -1150,7 +1150,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
 }
 
 -(NSArray *) valuesWithGriddedTile: (GPKGGriddedTile *) griddedTile andPixelFloatValues: (float *) pixelValues andCount: (int) count{
-    NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * values = [NSMutableArray arrayWithCapacity:count];
     for(int i = 0; i < count; i++){
         [GPKGUtils addObject:[self valueWithGriddedTile:griddedTile andPixelFloatValue:pixelValues[i]] toArray:values];
     }
@@ -1556,7 +1556,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         // tracking this row. Clear the left last columns.
         if (currentRow > previousRow) {
             previousLastRowsByColumn = lastRowsByColumn;
-            lastRowsByColumn = [[NSMutableDictionary alloc] init];
+            lastRowsByColumn = [NSMutableDictionary dictionary];
             leftLastColumns = nil;
         }
         
@@ -1701,15 +1701,15 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
         }
         
         // Determine and store the coverage data values of the last columns and rows
-        leftLastColumns = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
-        NSMutableArray * lastRows = [[NSMutableArray alloc] initWithCapacity:overlappingPixels];
+        leftLastColumns = [NSMutableArray arrayWithCapacity:overlappingPixels];
+        NSMutableArray * lastRows = [NSMutableArray arrayWithCapacity:overlappingPixels];
         [lastRowsByColumn setObject:lastRows forKey:[NSNumber numberWithInt:currentColumn]];
         
         // For each overlapping pixel
         for (int lastIndex = 0; lastIndex < overlappingPixels; lastIndex++) {
             
             // Store the last column row coverage data values
-            NSMutableArray * leftLastColumnsRow = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileHeight intValue]];
+            NSMutableArray * leftLastColumnsRow = [NSMutableArray arrayWithCapacity:[tileMatrix.tileHeight intValue]];
             [leftLastColumns addObject:leftLastColumnsRow];
             int lastColumnIndex = [tileMatrix.tileWidth intValue] - lastIndex - 1;
             for (int row = 0; row < [tileMatrix.tileHeight intValue]; row++) {
@@ -1718,7 +1718,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
             }
             
             // Store the last row column coverage data values
-            NSMutableArray * lastRowsColumn = [[NSMutableArray alloc] initWithCapacity:[tileMatrix.tileWidth intValue]];
+            NSMutableArray * lastRowsColumn = [NSMutableArray arrayWithCapacity:[tileMatrix.tileWidth intValue]];
             [lastRows addObject:lastRowsColumn];
             int lastRowIndex = [tileMatrix.tileHeight intValue] - lastIndex - 1;
             for (int column = 0; column < [tileMatrix.tileWidth intValue]; column++) {
@@ -2096,7 +2096,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 NSObject<GPKGCoverageDataImage> * image = [self createImageWithTileRow:tileRow];
                 
                 // Create the coverage data results for this tile
-                NSMutableArray * values = [[NSMutableArray alloc] initWithCapacity:srcBottom - srcTop + 1];
+                NSMutableArray * values = [NSMutableArray arrayWithCapacity:srcBottom - srcTop + 1];
                 
                 // Get or add the columns map to the rows map
                 GPKGCoverageDictionary * columnsMap = [rowsMap.dictionary objectForKey:[NSNumber numberWithInt:[tileRow tileRow]]];
@@ -2108,7 +2108,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
                 // Read and set the coverage data values
                 for (int y = srcTop; y <= srcBottom; y++) {
                     
-                    NSMutableArray * innerValues = [[NSMutableArray alloc] initWithCapacity:srcRight - srcLeft + 1];
+                    NSMutableArray * innerValues = [NSMutableArray arrayWithCapacity:srcRight - srcLeft + 1];
                     [values addObject:innerValues];
                     
                     for (int x = srcLeft; x <= srcRight; x++) {
@@ -2210,9 +2210,9 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
  * @return NSNull filled double array
  */
 -(NSMutableArray *) createNullFilledDoubleArrayWithSize1: (int) size1 andSize2: (int) size2{
-    NSMutableArray * array = [[NSMutableArray alloc] initWithCapacity:size1];
+    NSMutableArray * array = [NSMutableArray arrayWithCapacity:size1];
     for(int i = 0; i < size1; i++){
-        NSMutableArray * subArray = [[NSMutableArray alloc] initWithCapacity:size2];
+        NSMutableArray * subArray = [NSMutableArray arrayWithCapacity:size2];
         for(int j = 0; j < size2; j++){
             [subArray addObject:[NSNull null]];
         }

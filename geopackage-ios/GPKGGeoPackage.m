@@ -717,7 +717,7 @@
     
     // Get the Tile Matrix collection, order by zoom level ascending & pixel
     // size descending per requirement 51
-    NSMutableArray * tileMatrices = [[NSMutableArray alloc] init];
+    NSMutableArray * tileMatrices = [NSMutableArray array];
     GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
     GPKGResultSet * results = [tileMatrixDao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:tileMatrixSet.tableName andGroupBy:nil andHaving:nil
                   andOrderBy:[NSString stringWithFormat:@"%@ ASC, %@ DESC, %@ DESC", GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE]];

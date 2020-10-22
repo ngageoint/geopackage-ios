@@ -438,7 +438,7 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
-        NSMutableArray *srsArray = [[NSMutableArray alloc] init];
+        NSMutableArray *srsArray = [NSMutableArray array];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[self object:results];

@@ -38,7 +38,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.rows = [[NSMutableDictionary alloc] init];
+        self.rows = [NSMutableDictionary dictionary];
         self.rowsLock = [NSLock new];
     }
     return self;

@@ -40,7 +40,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
         idColumnName = GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
     }
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createIdColumnWithName:idColumnName andAutoincrement:autoincrement]];
     [columns addObject:[self createDataColumn]];
     [columns addObject:[self createContentTypeColumn]];
@@ -66,7 +66,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
         idColumnName = GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
     }
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createIdColumnWithIndex:startingIndex++ andName:idColumnName andAutoincrement:autoincrement]];
     [columns addObject:[self createDataColumnWithIndex:startingIndex++]];
     [columns addObject:[self createContentTypeColumnWithIndex:startingIndex++]];
@@ -120,7 +120,7 @@ NSString * const GPKG_RMT_COLUMN_CONTENT_TYPE = @"content_type";
         idColumnName = GPKG_UTM_DEFAULT_ID_COLUMN_NAME;
     }
     
-    NSMutableArray<NSString *> *requiredColumns = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *requiredColumns = [NSMutableArray array];
     [requiredColumns addObject:idColumnName];
     [requiredColumns addObject:GPKG_RMT_COLUMN_DATA];
     [requiredColumns addObject:GPKG_RMT_COLUMN_CONTENT_TYPE];

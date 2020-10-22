@@ -39,7 +39,7 @@
 }
 
 +(GPKGCompositeOverlay *) compositeOverlayWithTileDao: (GPKGTileDao *) tileDao andOverlay: (GPKGBoundedOverlay *) overlay{
-    NSArray *tileDaos = [[NSArray alloc] initWithObjects:tileDao, nil];
+    NSArray *tileDaos = [NSArray arrayWithObjects:tileDao, nil];
     return [self compositeOverlayWithTileDaos:tileDaos andOverlay:overlay];
 }
 

@@ -22,7 +22,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.overlays = [[NSMutableArray alloc] init];
+        self.overlays = [NSMutableArray array];
     }
     return self;
 }
@@ -30,7 +30,7 @@
 -(instancetype) initWithOverlay: (GPKGBoundedOverlay *) overlay{
     self = [super init];
     if(self != nil){
-        self.overlays = [[NSMutableArray alloc] init];
+        self.overlays = [NSMutableArray array];
         [self addOverlay:overlay];
     }
     return self;
@@ -39,7 +39,7 @@
 -(instancetype) initWithOverlays: (NSArray<GPKGBoundedOverlay *> *) overlays{
     self = [super init];
     if(self != nil){
-        self.overlays = [[NSMutableArray alloc] init];
+        self.overlays = [NSMutableArray array];
         [self addOverlays:overlays];
     }
     return self;

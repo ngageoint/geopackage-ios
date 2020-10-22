@@ -53,4 +53,10 @@
     
 }
 
+- (void) testTableTypes {
+    
+    [GPKGGeoPackageTestUtils testTableTypes:self.geoPackage];
+    
+}
+
 @end

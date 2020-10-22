@@ -34,8 +34,8 @@
     self = [super init];
     if(self != nil){
         self.combineOperation = combineOperation;
-        self.queries = [[NSMutableArray alloc] init];
-        self.arguments = [[NSMutableArray alloc] init];
+        self.queries = [NSMutableArray array];
+        self.arguments = [NSMutableArray array];
     }
     return self;
 }
@@ -154,7 +154,7 @@
 
 +(GPKGSQLiteMasterQuery *) createViewQueryWithTable: (NSString *) tableName{
     
-    NSMutableArray<NSString *> *queries = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *queries = [NSMutableArray array];
     [queries addObject:[NSString stringWithFormat:@"%%\"%@\"%%", tableName]];
     [queries addObject:[NSString stringWithFormat:@"%% %@ %%", tableName]];
     [queries addObject:[NSString stringWithFormat:@"%%,%@ %%", tableName]];

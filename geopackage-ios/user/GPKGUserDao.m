@@ -105,7 +105,7 @@
         
         NSUInteger columns = [results.columnNames count];
         
-        NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:columns];
+        NSMutableArray *values = [NSMutableArray arrayWithCapacity:columns];
         
         [results rowPopulateValues:values];
         
@@ -249,7 +249,7 @@
 }
 
 -(void) dropColumns: (NSArray<GPKGUserColumn *> *) columns{
-    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *columnNames = [NSMutableArray array];
     for(GPKGUserColumn *column in columns){
         [columnNames addObject:column.name];
     }
@@ -257,7 +257,7 @@
 }
 
 -(void) dropColumnIndexes: (NSArray<NSNumber *> *) indexes{
-    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *columnNames = [NSMutableArray array];
     for(NSNumber *index in indexes){
         [columnNames addObject:[self columnNameWithIndex:[index intValue]]];
     }

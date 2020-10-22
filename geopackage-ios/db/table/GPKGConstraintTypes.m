@@ -27,19 +27,19 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
 
 +(void) initialize{
     if(TABLE_CONSTRAINTS == nil){
-        TABLE_CONSTRAINTS = [[NSSet alloc] initWithObjects:
+        TABLE_CONSTRAINTS = [NSSet setWithObjects:
                               [NSNumber numberWithInteger:GPKG_CT_PRIMARY_KEY],
                               [NSNumber numberWithInteger:GPKG_CT_UNIQUE],
                               [NSNumber numberWithInteger:GPKG_CT_CHECK],
                               [NSNumber numberWithInteger:GPKG_CT_FOREIGN_KEY],
                               nil];
-        tableLookup = [[NSMutableDictionary alloc] init];
+        tableLookup = [NSMutableDictionary dictionary];
         for(NSNumber *type in TABLE_CONSTRAINTS){
             [self addConstraint:type toLookup:tableLookup];
         }
     }
     if(COLUMN_CONSTRAINTS == nil){
-        COLUMN_CONSTRAINTS = [[NSSet alloc] initWithObjects:
+        COLUMN_CONSTRAINTS = [NSSet setWithObjects:
                               [NSNumber numberWithInteger:GPKG_CT_PRIMARY_KEY],
                               [NSNumber numberWithInteger:GPKG_CT_NOT_NULL],
                               [NSNumber numberWithInteger:GPKG_CT_UNIQUE],
@@ -49,7 +49,7 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
                               [NSNumber numberWithInteger:GPKG_CT_FOREIGN_KEY],
                               [NSNumber numberWithInteger:GPKG_CT_AUTOINCREMENT],
                               nil];
-        columnLookup = [[NSMutableDictionary alloc] init];
+        columnLookup = [NSMutableDictionary dictionary];
         for(NSNumber *type in COLUMN_CONSTRAINTS){
             [self addConstraint:type toLookup:columnLookup];
         }

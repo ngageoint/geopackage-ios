@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GPKGPolylinePoints.h"
 
-@class GPKGPolylinePoints;
-
 /**
  *  Multiple Polyline Points shape
  */

@@ -116,7 +116,7 @@
         [values putKey:GPKG_SRS_COLUMN_DESCRIPTION withValue:updatedDescription];
         NSMutableString * where = [[NSMutableString alloc] init];
         [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_PK andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
-        NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+        NSMutableArray * whereArgs = [NSMutableArray array];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         int updated = [dao updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     
@@ -236,7 +236,7 @@
         // Save the ids of contents
         GPKGResultSet *contentsResults = [dao contents:srs];
         GPKGContentsDao *contentsDao = [geoPackage contentsDao];
-        NSMutableArray *contentsIds = [[NSMutableArray alloc] init];
+        NSMutableArray *contentsIds = [NSMutableArray array];
         while([contentsResults moveToNext]){
             GPKGContents *contents = (GPKGContents *) [contentsDao object:contentsResults];
             [contentsIds addObject:[contentsDao id:contents]];
@@ -244,7 +244,7 @@
         [contentsResults close];
         
         // Save the ids of geometry columns
-        NSMutableArray *geometryColumnsIds = [[NSMutableArray alloc] init];
+        NSMutableArray *geometryColumnsIds = [NSMutableArray array];
         GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
         if([geometryColumnsDao tableExists]){
             GPKGResultSet *geometryColumnsResults = [dao geometryColumns:srs];
@@ -301,8 +301,8 @@
             // Find which srs to delete and the contents
             GPKGResultSet *queryResults = [dao queryForEqWithField:GPKG_SRS_COLUMN_ORGANIZATION andValue:srs.organization];
             int count = queryResults.count;
-            contentsIds = [[NSMutableArray alloc] init];
-            geometryColumnsIds = [[NSMutableArray alloc] init];
+            contentsIds = [NSMutableArray array];
+            geometryColumnsIds = [NSMutableArray array];
             while([queryResults moveToNext]){
                 GPKGSpatialReferenceSystem *queryResultsSrs = (GPKGSpatialReferenceSystem *)[dao object:queryResults];
                 GPKGResultSet *contentsResults = [dao contents:queryResultsSrs];
@@ -326,7 +326,7 @@
             int deleted;
             NSMutableString * where = [[NSMutableString alloc] init];
             [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_ORGANIZATION andValue:srs.organization]];
-            NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+            NSMutableArray * whereArgs = [NSMutableArray array];
             [whereArgs addObject:srs.organization];
             if (cascade) {
                 deleted = [dao deleteCascadeWhere:where andWhereArgs:whereArgs];

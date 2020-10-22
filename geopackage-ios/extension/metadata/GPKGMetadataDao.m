@@ -117,7 +117,7 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
-        NSMutableArray *metadataArray = [[NSMutableArray alloc] init];
+        NSMutableArray *metadataArray = [NSMutableArray array];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGMetadata *metadata = (GPKGMetadata *)[self object:results];

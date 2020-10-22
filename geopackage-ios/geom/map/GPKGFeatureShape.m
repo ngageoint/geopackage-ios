@@ -22,8 +22,8 @@
     self = [super init];
     if(self != nil){
         self.featureId = featureId;
-        self.shapes = [[NSMutableArray alloc] init];
-        self.metadataShapes = [[NSMutableArray alloc] init];
+        self.shapes = [NSMutableArray array];
+        self.metadataShapes = [NSMutableArray array];
     }
     return self;
 }

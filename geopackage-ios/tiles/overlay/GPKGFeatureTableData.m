@@ -61,7 +61,7 @@
     if(self.rows == nil || self.rows.count == 0){
         jsonObject = [NSNumber numberWithInt:self.count];
     }else{
-        NSMutableArray * jsonRows = [[NSMutableArray alloc] init];
+        NSMutableArray * jsonRows = [NSMutableArray array];
         for(GPKGFeatureRowData * row in self.rows){
             [jsonRows addObject:[row jsonCompatibleWithPoints:includePoints andGeometries:includeGeometries]];
         }

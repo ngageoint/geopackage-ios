@@ -14,7 +14,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.polylines = [[NSMutableArray alloc] init];
+        self.polylines = [NSMutableArray array];
     }
     return self;
 }

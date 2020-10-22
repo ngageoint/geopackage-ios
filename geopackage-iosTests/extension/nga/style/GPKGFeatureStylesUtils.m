@@ -17,7 +17,7 @@
 
 +(void) testFeatureStylesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
     GPKGFeatureStyleExtension *featureStyleExtension = [[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage];
     
@@ -175,8 +175,8 @@
             GPKGStyleDao *styleDao = [featureTableStyles styleDao];
             GPKGIconDao *iconDao = [featureTableStyles iconDao];
             
-            NSMutableArray<GPKGStyleRow *> *randomStyles = [[NSMutableArray alloc] init];
-            NSMutableArray<GPKGIconRow *> *randomIcons = [[NSMutableArray alloc] init];
+            NSMutableArray<GPKGStyleRow *> *randomStyles = [NSMutableArray array];
+            NSMutableArray<GPKGIconRow *> *randomIcons = [NSMutableArray array];
             for (int i = 0; i < 10; i++) {
                 GPKGStyleRow *styleRow = [self randomStyle];
                 [randomStyles addObject:styleRow];
@@ -197,8 +197,8 @@
             [GPKGTestUtils assertTrue:[featureTableStyles hasIconRelationship]];
             [GPKGTestUtils assertTrue:[geoPackage isTable:[[featureTableStyles featureStyleExtension] mappingTableNameWithPrefix:GPKG_FSE_TABLE_MAPPING_ICON andTable:tableName]]];
             
-            NSMutableDictionary<NSNumber *, NSMutableDictionary *> *featureResultsStyles = [[NSMutableDictionary alloc] init];
-            NSMutableDictionary<NSNumber *, NSMutableDictionary *> *featureResultsIcons = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary<NSNumber *, NSMutableDictionary *> *featureResultsStyles = [NSMutableDictionary dictionary];
+            NSMutableDictionary<NSNumber *, NSMutableDictionary *> *featureResultsIcons = [NSMutableDictionary dictionary];
             
             featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
@@ -215,7 +215,7 @@
                     
                     // Feature Styles
                     
-                    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *featureRowStyles = [[NSMutableDictionary alloc] init];
+                    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *featureRowStyles = [NSMutableDictionary dictionary];
                     [featureResultsStyles setObject:featureRowStyles forKey:[featureRow id]];
                     
                     // Add a default style
@@ -238,7 +238,7 @@
                     
                     // Feature Icons
                     
-                    NSMutableDictionary<NSNumber *, GPKGIconRow *> *featureRowIcons = [[NSMutableDictionary alloc] init];
+                    NSMutableDictionary<NSNumber *, GPKGIconRow *> *featureRowIcons = [NSMutableDictionary dictionary];
                     [featureResultsIcons setObject:featureRowIcons forKey:[featureRow id]];
                     
                     // Add a default icon
@@ -442,7 +442,7 @@
 
 +(GPKGStyleRow *) expectedRowStyle: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableStyleDefault: (GPKGStyleRow *) tableStyleDefault andTableStyles: (NSDictionary *) geometryTypeTableStyles andFeatureStyles: (NSDictionary *) featureResultsStyles{
     
-    NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *geometryTypes = [NSMutableArray array];
     if(geometryType != SF_NONE && geometryType >= 0){
         [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
         [geometryTypes addObjectsFromArray:[SFGeometryUtils parentHierarchyOfType:geometryType]];
@@ -529,7 +529,7 @@
 
 +(GPKGIconRow *) expectedRowIcon: (GPKGFeatureRow *) featureRow andGeometryType: (enum SFGeometryType) geometryType andTableIconDefault: (GPKGIconRow *) tableIconDefault andTableIcons: (NSDictionary *) geometryTypeTableIcons andFeatureIcons: (NSDictionary *) featureResultsIcons{
     
-    NSMutableArray<NSNumber *> *geometryTypes = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *geometryTypes = [NSMutableArray array];
     if(geometryType != SF_NONE && geometryType >= 0){
         [geometryTypes addObject:[NSNumber numberWithInt:geometryType]];
         [geometryTypes addObjectsFromArray:[SFGeometryUtils parentHierarchyOfType:geometryType]];
@@ -634,7 +634,7 @@
 }
 
 +(NSMutableDictionary<NSNumber *, GPKGStyleRow *> *) randomStylesWithGeometryTypes: (NSDictionary *) geometryTypes andRandomSyles: (NSArray *) randomStyles{
-    NSMutableDictionary<NSNumber *, GPKGStyleRow *>  *rowMap = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *>  *rowMap = [NSMutableDictionary dictionary];
     if(geometryTypes != nil){
         for(NSNumber *typeNumber in [geometryTypes allKeys]){
             enum SFGeometryType type = (enum SFGeometryType) [typeNumber intValue];
@@ -650,7 +650,7 @@
 }
 
 +(NSMutableDictionary<NSNumber *, GPKGIconRow *> *) randomIconsWithGeometryTypes: (NSDictionary *) geometryTypes andRandomIcons: (NSArray *) randomIcons{
-    NSMutableDictionary<NSNumber *, GPKGIconRow *> *rowMap = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *rowMap = [NSMutableDictionary dictionary];
     if(geometryTypes != nil){
         for(NSNumber *typeNumber in [geometryTypes allKeys]){
             enum SFGeometryType type = (enum SFGeometryType) [typeNumber intValue];
@@ -689,7 +689,7 @@
 
 +(NSMutableArray<NSNumber *> *) allChildTypes: (enum SFGeometryType) geometryType{
     
-    NSMutableArray<NSNumber *> *allChildTypes = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *allChildTypes = [NSMutableArray array];
     
     NSArray<NSNumber *> *childTypes = [SFGeometryUtils childTypesOfType:geometryType];
     [allChildTypes addObjectsFromArray:childTypes];

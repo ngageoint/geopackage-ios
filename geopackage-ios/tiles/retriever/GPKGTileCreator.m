@@ -320,7 +320,7 @@
 
 -(NSArray<GPKGTileMatrix *> *) tileMatrices: (GPKGBoundingBox *) projectedRequestBoundingBox{
 
-    NSMutableArray<GPKGTileMatrix *> *tileMatrices = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGTileMatrix *> *tileMatrices = [NSMutableArray array];
     
     // Check if the request overlaps the tile matrix set
     if(self.tileDao.tileMatrices.count > 0 && [projectedRequestBoundingBox intersects:self.tileSetBoundingBox]){
@@ -350,7 +350,7 @@
             if (self.scaling != nil && self.scaling.scalingType != nil) {
                 
                 // Find zoom in levels
-                NSMutableArray<NSNumber *> *zoomInLevels = [[NSMutableArray alloc] init];
+                NSMutableArray<NSNumber *> *zoomInLevels = [NSMutableArray array];
                 if ([self.scaling isZoomIn]) {
                     int zoomIn = self.scaling.zoomIn != nil ? [requestZoomLevel intValue] + [self.scaling.zoomIn intValue] : self.tileDao.maxZoom;
                     for (int zoomLevel = [requestZoomLevel intValue] + 1; zoomLevel <= zoomIn; zoomLevel++) {
@@ -359,7 +359,7 @@
                 }
                 
                 // Find zoom out levels
-                NSMutableArray<NSNumber *> *zoomOutLevels = [[NSMutableArray alloc] init];
+                NSMutableArray<NSNumber *> *zoomOutLevels = [NSMutableArray array];
                 if ([self.scaling isZoomOut]) {
                     int zoomOut = self.scaling.zoomOut != nil ? [requestZoomLevel intValue] - [self.scaling.zoomOut intValue] : self.tileDao.minZoom;
                     for (int zoomLevel = [requestZoomLevel intValue] - 1; zoomLevel >= zoomOut; zoomLevel--) {
@@ -405,7 +405,7 @@
                                     secondLevels = zoomInLevels;
                                 }
                                 
-                                zoomLevels = [[NSMutableArray alloc] init];
+                                zoomLevels = [NSMutableArray array];
                                 int maxLevels = (int)MAX(firstLevels.count, secondLevels.count);
                                 for (int i = 0; i < maxLevels; i++) {
                                     if (i < firstLevels.count) {
@@ -423,7 +423,7 @@
                 }
                 
             }else{
-                zoomLevels = [[NSMutableArray alloc] init];
+                zoomLevels = [NSMutableArray array];
             }
             
             // Always check the request zoom level first

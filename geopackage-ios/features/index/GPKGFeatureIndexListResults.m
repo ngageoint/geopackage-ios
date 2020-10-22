@@ -20,7 +20,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.rows = [[NSMutableArray alloc] init];
+        self.rows = [NSMutableArray array];
         self.rowIndex = -1;
     }
     return self;

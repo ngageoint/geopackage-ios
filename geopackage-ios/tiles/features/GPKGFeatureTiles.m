@@ -155,7 +155,7 @@
     if(self.featureTableStyles != nil && [self.featureTableStyles has]){
         
         // Style Rows
-        NSMutableSet<NSNumber *> *styleRowIds = [[NSMutableSet alloc] init];
+        NSMutableSet<NSNumber *> *styleRowIds = [NSMutableSet set];
         NSArray<NSNumber *> *tableStyleIds = [self.featureTableStyles allTableStyleIds];
         if(tableStyleIds != nil){
             [styleRowIds addObjectsFromArray:tableStyleIds];
@@ -174,7 +174,7 @@
         }
         
         // Icon Rows
-        NSMutableSet<NSNumber *> *iconRowIds = [[NSMutableSet alloc] init];
+        NSMutableSet<NSNumber *> *iconRowIds = [NSMutableSet set];
         NSArray<NSNumber *> *tableIconIds = [self.featureTableStyles allTableIconIds];
         if(tableIconIds != nil){
             [iconRowIds addObjectsFromArray:tableIconIds];

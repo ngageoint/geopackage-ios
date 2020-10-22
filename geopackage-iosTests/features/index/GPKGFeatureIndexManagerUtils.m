@@ -558,7 +558,7 @@
 }
 
 +(NSArray<GPKGFeatureIndexTestEnvelope *> *) createEnvelopesWithEnvelope: (SFGeometryEnvelope *) envelope{
-    NSMutableArray<GPKGFeatureIndexTestEnvelope *> *envelopes = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGFeatureIndexTestEnvelope *> *envelopes = [NSMutableArray array];
     for (int percentage = 100; percentage >= 0; percentage -= 10) {
         [envelopes addObject:[self createEnvelopeWithEnvelope:envelope andPercentage:percentage]];
     }
@@ -623,7 +623,7 @@
             [featureIndexManager deleteIndexWithFeatureIndexType:type];
             [GPKGTestUtils assertFalse:[featureIndexManager isIndexedWithFeatureIndexType:type]];
         }else{
-            [featureIndexManager setIndexLocationOrderWithTypes:[[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:type], nil]];
+            [featureIndexManager setIndexLocationOrderWithTypes:[NSArray arrayWithObjects:[GPKGFeatureIndexTypes name:type], nil]];
             [GPKGTestUtils assertFalse:[featureIndexManager isIndexed]];
         }
         

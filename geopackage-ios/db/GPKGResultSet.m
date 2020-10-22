@@ -27,8 +27,8 @@
     
         int totalColumns = sqlite3_column_count(statement);
 
-        NSMutableArray<NSString *> *statementColumns = [[NSMutableArray alloc] init];
-        NSMutableDictionary<NSString *, NSNumber *> *statementColumnIndex = [[NSMutableDictionary alloc] init];
+        NSMutableArray<NSString *> *statementColumns = [NSMutableArray array];
+        NSMutableDictionary<NSString *, NSNumber *> *statementColumnIndex = [NSMutableDictionary dictionary];
         
         for (int i=0; i<totalColumns; i++){
             char *columnName = (char *)sqlite3_column_name(statement, i);
@@ -96,7 +96,7 @@
 }
 
 -(NSArray<NSObject *> *) row{
-     NSMutableArray *rowValues = [[NSMutableArray alloc] init];
+    NSMutableArray *rowValues = [NSMutableArray array];
     [self rowPopulateValues:rowValues];
     return rowValues;
 }

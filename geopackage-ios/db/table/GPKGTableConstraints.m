@@ -28,7 +28,7 @@
     self = [super init];
     if(self != nil){
         self.constraints = [[GPKGConstraints alloc] init];
-        self.columnConstraints = [[NSMutableDictionary alloc] init];
+        self.columnConstraints = [NSMutableDictionary dictionary];
     }
     return self;
 }

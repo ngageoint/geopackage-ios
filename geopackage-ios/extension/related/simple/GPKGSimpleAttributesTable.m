@@ -39,7 +39,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
         idColumnName = GPKG_RSAT_COLUMN_ID;
     }
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createIdColumnWithName:idColumnName andAutoincrement:autoincrement]];
     
     return columns;
@@ -63,7 +63,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
         idColumnName = GPKG_RSAT_COLUMN_ID;
     }
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObject:[self createIdColumnWithIndex:startingIndex++ andName:idColumnName andAutoincrement:autoincrement]];
     
     return columns;
@@ -99,7 +99,7 @@ NSString * const GPKG_RSAT_COLUMN_ID = @"id";
         idColumnName = GPKG_RSAT_COLUMN_ID;
     }
     
-    NSMutableArray<NSString *> *requiredColumns = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *requiredColumns = [NSMutableArray array];
     [requiredColumns addObject:idColumnName];
     return requiredColumns;
 }

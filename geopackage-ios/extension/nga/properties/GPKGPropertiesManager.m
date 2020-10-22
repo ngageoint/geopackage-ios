@@ -19,7 +19,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.propertiesMap = [[NSMutableDictionary alloc] init];
+        self.propertiesMap = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -49,7 +49,7 @@
 }
 
 -(NSSet<NSString *> *) geoPackageNames{
-    return  [[NSSet alloc] initWithArray:[self.propertiesMap allKeys]];
+    return  [NSSet setWithArray:[self.propertiesMap allKeys]];
 }
 
 -(int) numGeoPackages{
@@ -57,7 +57,7 @@
 }
 
 -(NSArray<GPKGGeoPackage *> *) geoPackages{
-    NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
+    NSMutableArray *geoPackages = [NSMutableArray array];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
         [geoPackages addObject:properties.geoPackage];
     }
@@ -120,7 +120,7 @@
 }
 
 -(void) closeRetainGeoPackages: (NSArray<NSString *> *) retain{
-    NSMutableSet<NSString *> *close = [[NSMutableSet alloc] initWithArray:[self.propertiesMap allKeys]];
+    NSMutableSet<NSString *> *close = [NSMutableSet setWithArray:[self.propertiesMap allKeys]];
     for(NSString *retainGeoPackage in retain){
         [close removeObject:retainGeoPackage];
     }
@@ -140,7 +140,7 @@
 }
 
 -(NSSet<NSString *> *) properties{
-    NSMutableSet<NSString *> *allProperties = [[NSMutableSet alloc] init];
+    NSMutableSet<NSString *> *allProperties = [NSMutableSet set];
     for(GPKGPropertiesExtension *properties in self.propertiesMap.allValues){
         [allProperties addObjectsFromArray:[properties properties]];
     }
@@ -148,7 +148,7 @@
 }
 
 -(NSArray<GPKGGeoPackage *> *) hasProperty: (NSString *) property{
-    NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
+    NSMutableArray *geoPackages = [NSMutableArray array];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
         if([properties hasProperty:property]){
             [geoPackages addObject:properties.geoPackage];
@@ -158,7 +158,7 @@
 }
 
 -(NSArray<GPKGGeoPackage *> *) missingProperty: (NSString *) property{
-    NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
+    NSMutableArray *geoPackages = [NSMutableArray array];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
         if(![properties hasProperty:property]){
             [geoPackages addObject:properties.geoPackage];
@@ -176,7 +176,7 @@
 }
 
 -(NSSet<NSString *> *) valuesOfProperty: (NSString *) property{
-    NSMutableSet<NSString *> *allValues = [[NSMutableSet alloc] init];
+    NSMutableSet<NSString *> *allValues = [NSMutableSet set];
     for(GPKGPropertiesExtension *properties in self.propertiesMap.allValues){
         [allValues addObjectsFromArray:[properties valuesOfProperty:property]];
     }
@@ -184,7 +184,7 @@
 }
 
 -(NSArray<GPKGGeoPackage *> *) hasValue: (NSString *) value withProperty: (NSString *) property{
-    NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
+    NSMutableArray *geoPackages = [NSMutableArray array];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
         if([properties hasValue:value withProperty:property]){
             [geoPackages addObject:properties.geoPackage];
@@ -194,7 +194,7 @@
 }
 
 -(NSArray<GPKGGeoPackage *> *) missingValue: (NSString *) value withProperty: (NSString *) property{
-    NSMutableArray *geoPackages = [[NSMutableArray alloc] init];
+    NSMutableArray *geoPackages = [NSMutableArray array];
     for(GPKGPropertiesExtension *properties in [self.propertiesMap allValues]){
         if(![properties hasValue:value withProperty:property]){
             [geoPackages addObject:properties.geoPackage];

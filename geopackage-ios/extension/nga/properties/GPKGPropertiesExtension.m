@@ -44,7 +44,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
         GPKGAttributesColumn *propertyColumn = [GPKGAttributesColumn createColumnWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY andDataType:GPKG_DT_TEXT andNotNull:YES andDefaultValue:nil];
         GPKGAttributesColumn *valueColumn = [GPKGAttributesColumn createColumnWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE andDataType:GPKG_DT_TEXT];
         
-        NSMutableArray *additionalColumns = [[NSMutableArray alloc] init];
+        NSMutableArray *additionalColumns = [NSMutableArray array];
         [additionalColumns addObject:propertyColumn];
         [additionalColumns addObject:valueColumn];
         
@@ -88,7 +88,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
     if([self has]){
         properties = (NSArray<NSString *> *)[[self dao] querySingleColumnResultsWithSql:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY, GPKG_EXTENSION_PROPERTIES_TABLE_NAME] andArgs:nil];
     }else{
-        properties = [[NSArray alloc] init];
+        properties = [NSArray array];
     }
     return properties;
 }
@@ -253,13 +253,13 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
                 int columnIndex = [results columnIndexWithName:GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE];
                 values = [self columnResultsAtIndex:columnIndex withResults:results];
             } else {
-                values = [[NSArray alloc] init];
+                values = [NSArray array];
             }
         }@finally {
             [results close];
         }
     }else{
-        values = [[NSArray alloc] init];
+        values = [NSArray array];
     }
     
     return values;
@@ -276,7 +276,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
  */
 -(NSArray<NSString *> *) columnResultsAtIndex: (int) columnIndex withResults: (GPKGResultSet *) results{
 
-    NSMutableArray<NSString *> *values = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *values = [NSMutableArray array];
     while ([results moveToNext]) {
         [values addObject:[results stringWithIndex:columnIndex]];
     }

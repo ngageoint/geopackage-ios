@@ -41,7 +41,7 @@
         self.tableName = tableName;
         self.columns = [NSMutableArray arrayWithArray:columns];
         self.custom = custom;
-        self.nameToIndex = [[NSMutableDictionary alloc] init];
+        self.nameToIndex = [NSMutableDictionary dictionary];
         self.pkModifiable = NO;
         self.valueValidation = YES;
     }
@@ -53,7 +53,7 @@
     if(self != nil){
         self.tableName = userColumns.tableName;
         self.columnNames = [NSMutableArray arrayWithArray:userColumns.columnNames];
-        self.columns = [[NSMutableArray alloc] init];
+        self.columns = [NSMutableArray array];
         for(GPKGUserColumn *column in userColumns.columns){
             GPKGUserColumn *copiedColumn = [column mutableCopy];
             [_columns addObject:copiedColumn];
@@ -72,10 +72,10 @@
     
     if(!self.custom){
     
-        NSMutableSet<NSNumber *> *indices = [[NSMutableSet alloc] init];
+        NSMutableSet<NSNumber *> *indices = [NSMutableSet set];
         
         // Check for missing indices and duplicates
-        NSMutableArray<GPKGUserColumn *> *needsIndex = [[NSMutableArray alloc] init];
+        NSMutableArray<GPKGUserColumn *> *needsIndex = [NSMutableArray array];
         for (GPKGUserColumn *column in self.columns) {
             if ([column hasIndex]) {
                 NSNumber *index = [NSNumber numberWithInt:column.index];
@@ -104,7 +104,7 @@
     }
         
     self.pkIndex = -1;
-    self.columnNames = [[NSMutableArray alloc] initWithCapacity:self.columns.count];
+    self.columnNames = [NSMutableArray arrayWithCapacity:self.columns.count];
     
     for (int index = 0; index < self.columns.count; index++) {
         
@@ -258,7 +258,7 @@
 }
 
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{
-    NSMutableArray * columnsOfType = [[NSMutableArray alloc] init];
+    NSMutableArray * columnsOfType = [NSMutableArray array];
     for(GPKGUserColumn *column in self.columns){
         if(column.dataType == type){
             [columnsOfType addObject:column];

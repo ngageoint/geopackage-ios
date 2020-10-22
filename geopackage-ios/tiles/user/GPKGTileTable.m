@@ -93,7 +93,7 @@
 }
 
 +(NSArray *) createRequiredColumnsWithAutoincrement: (BOOL) autoincrement{
-    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *columns = [NSMutableArray array];
     [GPKGUtils addObject:[GPKGTileColumn createIdColumnWithAutoincrement:autoincrement] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumn] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumn] toArray:columns];
@@ -108,7 +108,7 @@
 }
 
 +(NSArray *) createRequiredColumnsWithStartingIndex: (int) startingIndex andAutoincrement: (BOOL) autoincrement{
-    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *columns = [NSMutableArray array];
     [GPKGUtils addObject:[GPKGTileColumn createIdColumnWithIndex:startingIndex++ andAutoincrement:autoincrement] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createZoomLevelColumnWithIndex:startingIndex++] toArray:columns];
     [GPKGUtils addObject:[GPKGTileColumn createTileColumnColumnWithIndex:startingIndex++] toArray:columns];

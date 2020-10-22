@@ -23,7 +23,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        _databases = [[NSMutableDictionary alloc] init];
+        _databases = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -40,7 +40,7 @@
     
     NSMutableDictionary * tables = [_databases objectForKey:database];
     if(tables == nil){
-        tables = [[NSMutableDictionary alloc] init];
+        tables = [NSMutableDictionary dictionary];
         [_databases setObject:tables forKey:database];
     }
     return tables;
@@ -65,7 +65,7 @@
     
     NSMutableDictionary * featureIds = [tables objectForKey:table];
     if(featureIds == nil){
-        featureIds = [[NSMutableDictionary alloc] init];
+        featureIds = [NSMutableDictionary dictionary];
         [tables setObject:featureIds forKey:table];
     }
     return featureIds;
@@ -122,7 +122,7 @@
 }
 
 -(int) removeShapesFromMapView: (MKMapView *) mapView withExclusion: (enum GPKGMapShapeType) excludedType{
-    NSMutableSet *excludedTypes = [[NSMutableSet alloc] init];
+    NSMutableSet *excludedTypes = [NSMutableSet set];
     [excludedTypes addObject:[NSNumber numberWithInt:excludedType]];
     return [self removeShapesFromMapView:mapView withExclusions:excludedTypes];
 }
@@ -131,7 +131,7 @@
     
     int count = 0;
     
-    NSMutableArray<NSString *> *deleteDatabases = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *deleteDatabases = [NSMutableArray array];
     
     for(NSString *database in [self.databases allKeys]){
         
@@ -154,7 +154,7 @@
 }
 
 -(int) removeShapesFromMapView: (MKMapView *) mapView inDatabase: (NSString *) database withExclusion: (enum GPKGMapShapeType) excludedType{
-    NSMutableSet *excludedTypes = [[NSMutableSet alloc] init];
+    NSMutableSet *excludedTypes = [NSMutableSet set];
     [excludedTypes addObject:[NSNumber numberWithInt:excludedType]];
     return [self removeShapesFromMapView:mapView inDatabase:database withExclusions:excludedTypes];
 }
@@ -167,7 +167,7 @@
     
     if(tables != nil){
         
-        NSMutableArray<NSString *> *deleteTables = [[NSMutableArray alloc] init];
+        NSMutableArray<NSString *> *deleteTables = [NSMutableArray array];
         
         for(NSString *table in [tables allKeys]){
             
@@ -192,7 +192,7 @@
 }
 
 -(int) removeShapesFromMapView: (MKMapView *) mapView inDatabase: (NSString *) database withTable: (NSString *) table withExclusion: (enum GPKGMapShapeType) excludedType{
-    NSMutableSet *excludedTypes = [[NSMutableSet alloc] init];
+    NSMutableSet *excludedTypes = [NSMutableSet set];
     [excludedTypes addObject:[NSNumber numberWithInt:excludedType]];
     return [self removeShapesFromMapView:mapView inDatabase:database withTable:table withExclusions:excludedTypes];
 }
@@ -205,7 +205,7 @@
     
     if (featureIds != nil) {
         
-        NSMutableArray *deleteFeatureIds = [[NSMutableArray alloc] init];
+        NSMutableArray *deleteFeatureIds = [NSMutableArray array];
         
         for(NSNumber *featureId in [featureIds allKeys]){
             
@@ -213,7 +213,7 @@
             
             if(featureShape != nil){
                 
-                NSMutableArray *deleteMapShapes = [[NSMutableArray alloc] init];
+                NSMutableArray *deleteMapShapes = [NSMutableArray array];
                 
                 NSMutableArray<GPKGMapShape *> *mapShapes = [featureShape shapes];
                 for(GPKGMapShape *mapShape in mapShapes){
@@ -299,7 +299,7 @@
     
     if(featureIds != nil){
     
-        NSMutableArray *deleteFeatureIds = [[NSMutableArray alloc] init];
+        NSMutableArray *deleteFeatureIds = [NSMutableArray array];
         
         for(NSNumber *featureId in [featureIds allKeys]){
             

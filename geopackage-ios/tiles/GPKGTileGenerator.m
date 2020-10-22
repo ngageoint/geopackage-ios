@@ -26,8 +26,8 @@
         self.maxZoom = maxZoom;
         self.boundingBox = boundingBox;
         self.projection = projection;
-        self.tileGrids = [[NSMutableDictionary alloc] init];
-        self.tileBounds = [[NSMutableDictionary alloc] init];
+        self.tileGrids = [NSMutableDictionary dictionary];
+        self.tileBounds = [NSMutableDictionary dictionary];
         self.compressFormat = GPKG_CF_NONE;
         self.compressQuality = 1.0;
         self.compressScale = 1.0;
@@ -548,7 +548,7 @@
         [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxYArg andOperation:@"<="]];
         
 
-        NSArray * whereArgs =[tileDao buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoomLevelArg, minXArg, maxXArg, minYArg, maxYArg, nil]];
+        NSArray * whereArgs =[tileDao buildWhereArgsWithValueArray:[NSArray arrayWithObjects:zoomLevelArg, minXArg, maxXArg, minYArg, maxYArg, nil]];
         
         [tileDao deleteWhere:where andWhereArgs:whereArgs];
     }else{
@@ -556,7 +556,7 @@
         // Check if the tile matrix already exists
         BOOL create = YES;
         if (update) {
-            create = ![tileMatrixDao multiIdExists:[[NSArray alloc] initWithObjects:self.tableName, zoomLevelArg, nil]];
+            create = ![tileMatrixDao multiIdExists:[NSArray arrayWithObjects:self.tableName, zoomLevelArg, nil]];
         }
         
         // Create the tile matrix

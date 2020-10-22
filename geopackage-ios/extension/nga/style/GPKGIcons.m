@@ -32,7 +32,7 @@
 -(instancetype) initAsTableIcons: (BOOL) tableIcons{
     self = [super init];
     if(self != nil){
-        self.icons = [[NSMutableDictionary alloc] init];
+        self.icons = [NSMutableDictionary dictionary];
         self.tableIcons = tableIcons;
     }
     return self;

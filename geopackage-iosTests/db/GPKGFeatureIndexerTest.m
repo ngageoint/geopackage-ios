@@ -101,9 +101,9 @@
     double minY = 6.82645;
     double maxY = 9.134445;
     long long id1 = [GPKGFeatureTileUtils insertPointWithFeatureDao:featureDao andX:minX andY:maxY];
-    NSArray * linePoints = [[NSArray alloc] initWithObjects:
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
-                        [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
+    NSArray * linePoints = [NSArray arrayWithObjects:
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
+                        [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
                         nil];
     long long id2 = [GPKGFeatureTileUtils insertLineWithFeatureDao:featureDao andPoints:linePoints];
     [NSThread sleepForTimeInterval:1];
@@ -117,12 +117,12 @@
     [GPKGTestUtils assertTrue:[indexer isIndexed]];
     
     // Insert a polygon and index manually
-    NSArray * polygonPoints = [[NSArray alloc] initWithObjects:
-                            [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
-                            [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
-                            [[NSArray alloc] initWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
+    NSArray * polygonPoints = [NSArray arrayWithObjects:
+                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
+                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
+                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
                             nil];
-    long long id3 = [GPKGFeatureTileUtils insertPolygonWithFeatureDao:featureDao andLines:[[NSArray alloc] initWithObjects:polygonPoints, nil]];
+    long long id3 = [GPKGFeatureTileUtils insertPolygonWithFeatureDao:featureDao andLines:[NSArray arrayWithObjects:polygonPoints, nil]];
     [NSThread sleepForTimeInterval:1];
     [GPKGFeatureTileUtils updateLastChangeWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     GPKGFeatureRow * polygonRow = (GPKGFeatureRow * )[featureDao queryForIdObject:[NSNumber numberWithLongLong:id3]];

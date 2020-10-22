@@ -60,7 +60,6 @@
         GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
         [GPKGTestUtils assertNotNil:contents];
         [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:contents.tableName];
-        [GPKGTestUtils assertEqualIntWithValue:GPKG_CD_GRIDDED_COVERAGE andValue2:[contents contentsDataType]];
         [GPKGTestUtils assertEqualWithValue:GPKG_CD_GRIDDED_COVERAGE andValue2:contents.dataType];
         [GPKGTestUtils assertNotNil:contents.lastChange];
         
@@ -199,7 +198,7 @@
     int height = [image height];
     
     // Get each individual image pixel value
-    NSMutableArray * pixelValuesList = [[NSMutableArray alloc] init];
+    NSMutableArray * pixelValuesList = [NSMutableArray array];
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             float pixelValue = [image pixelAtX:x andY:y];

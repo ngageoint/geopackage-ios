@@ -109,7 +109,7 @@
 -(int) deleteCascadeWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     int count = 0;
     if(where != nil){
-        NSMutableArray *tableIndexArray = [[NSMutableArray alloc] init];
+        NSMutableArray *tableIndexArray = [NSMutableArray array];
         GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
         while([results moveToNext]){
             GPKGTableIndex *tableIndex = (GPKGTableIndex *)[self object:results];

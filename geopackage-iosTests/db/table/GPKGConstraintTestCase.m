@@ -12,6 +12,17 @@
 #import "GPKGGeoPackageTableCreator.h"
 #import "GPKGConstraintTestResult.h"
 #import "GPKGConstraintParser.h"
+#import "GPKGDataColumns.h"
+#import "GPKGMetadata.h"
+#import "GPKGMetadataReference.h"
+#import "GPKGGriddedCoverage.h"
+#import "GPKGGriddedTile.h"
+#import "GPKGExtendedRelation.h"
+#import "GPKGTableIndex.h"
+#import "GPKGGeometryIndex.h"
+#import "GPKGFeatureTileLink.h"
+#import "GPKGTileScaling.h"
+#import "GPKGContentsId.h"
 
 @implementation GPKGConstraintTestCase
 
@@ -25,11 +36,11 @@
     [self testSQLTable:GPKG_GC_TABLE_NAME withPrimaryKey:1 andUnique:1 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"pk_geom_cols", @"uk_gc_table_name", @"fk_gc_tn", @"fk_gc_srs", nil]];
     [self testSQLTable:GPKG_TMS_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"fk_gtms_table_name", @"fk_gtms_srs", nil]];
     [self testSQLTable:GPKG_TM_TABLE_NAME withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"pk_ttm", @"fk_tmm_table_name", nil]];
+    [self testSQLTable:GPKG_EX_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"ge_tce"]];
     [self testSQLTable:GPKG_DC_TABLE_NAME withPrimaryKey:1 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObjects:@"pk_gdc", @"gdc_tn", nil]];
     [self testSQLTable:GPKG_DCC_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"gdcc_ntv"]];
     [self testSQLTable:GPKG_M_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"m_pk"]];
     [self testSQLTable:GPKG_MR_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"crmr_mfi_fk", @"crmr_mpi_fk", nil]];
-    [self testSQLTable:GPKG_EX_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"ge_tce"]];
     [self testSQLTable:GPKG_CDGC_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:1 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtct_name", [NSNull null], nil]];
     [self testSQLTable:GPKG_CDGT_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtat_name", [NSNull null], nil]];
     [self testSQLTable:GPKG_ER_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray array]];
@@ -189,7 +200,7 @@
  * @return names
  */
 -(NSMutableArray<NSString *> *) createNames: (int) count{
-    NSMutableArray<NSString *> *names = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *names = [NSMutableArray array];
     for(int i = 0; i < count; i++){
         [GPKGUtils addObject:nil toArray:names];
     }
@@ -220,7 +231,7 @@
     int checkCount = 0;
     int foreignKeyCount = 0;
     
-    NSArray<NSString *> *statements = [GPKGGeoPackageTableCreator readSQLScript:tableName];
+    NSArray<NSString *> *statements = [GPKGTableCreator readProperty:tableName];
     for (NSString *sql in statements) {
         
         GPKGConstraintTestResult *constraintResult = [self testConstraintWithSql:sql andNames:names];

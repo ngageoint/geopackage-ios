@@ -22,6 +22,10 @@ NSString * const GPKG_NGA_EXTENSION_AUTHOR = @"nga";
 
 @implementation GPKGNGAExtensions
 
++(GPKGNGAExtensions *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    return [[GPKGNGAExtensions alloc] initWithGeoPackage:geoPackage];
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     self = [super initWithGeoPackage:geoPackage];
     return self;

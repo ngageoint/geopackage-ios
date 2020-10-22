@@ -35,7 +35,7 @@ NSString * const GPKG_IT_COLUMN_ANCHOR_V = @"anchor_v";
  */
 +(NSArray *) createColumns{
     
-    NSMutableArray<GPKGUserCustomColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *columns = [NSMutableArray array];
     [columns addObjectsFromArray:[self createRequiredColumns]];
     
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_IT_COLUMN_NAME andDataType:GPKG_DT_TEXT]];

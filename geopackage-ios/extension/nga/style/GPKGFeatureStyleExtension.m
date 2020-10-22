@@ -59,7 +59,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
 }
 
 -(NSArray<NSString *> *) tables{
-    NSMutableArray<NSString *> *tables = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *tables = [NSMutableArray array];
     GPKGResultSet *extensions = [self extensionsWithName:self.extensionName];
     if(extensions != nil){
         @try {

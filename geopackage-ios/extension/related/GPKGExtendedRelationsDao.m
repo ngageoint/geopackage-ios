@@ -109,7 +109,7 @@
 
 -(NSArray<NSString *> *) baseTables{
     
-    NSMutableArray *baseTables = [[NSMutableArray alloc] init];
+    NSMutableArray *baseTables = [NSMutableArray array];
     
     GPKGResultSet *results = [self queryForAll];
     @try {
@@ -126,7 +126,7 @@
 
 -(NSArray<NSString *> *) relatedTables{
     
-    NSMutableArray *relatedTables = [[NSMutableArray alloc] init];
+    NSMutableArray *relatedTables = [NSMutableArray array];
     
     GPKGResultSet *results = [self queryForAll];
     @try {

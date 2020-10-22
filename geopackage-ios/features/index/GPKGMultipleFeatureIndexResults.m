@@ -20,17 +20,17 @@
 @implementation GPKGMultipleFeatureIndexResults
 
 -(instancetype) initWithFeatureIndexResults: (GPKGFeatureIndexResults *) results{
-    return [self initWithFeatureIndexResultsArray:[[NSArray alloc] initWithObjects:results, nil]];
+    return [self initWithFeatureIndexResultsArray:[NSArray arrayWithObjects:results, nil]];
 }
 
 -(instancetype) initWithFeatureIndexResults1: (GPKGFeatureIndexResults *) results1 andFeatureIndexResults2: (GPKGFeatureIndexResults *) results2{
-    return [self initWithFeatureIndexResultsArray:[[NSArray alloc] initWithObjects:results1, results2, nil]];
+    return [self initWithFeatureIndexResultsArray:[NSArray arrayWithObjects:results1, results2, nil]];
 }
 
 -(instancetype) initWithFeatureIndexResultsArray: (NSArray<GPKGFeatureIndexResults *> *) resultsArray{
     self = [super init];
     if(self != nil){
-        self.results = [[NSMutableArray alloc] init];
+        self.results = [NSMutableArray array];
         [self.results addObjectsFromArray:resultsArray];
         int totalCount = 0;
         for(GPKGFeatureIndexResults *results in resultsArray){

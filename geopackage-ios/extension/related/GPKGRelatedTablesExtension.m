@@ -112,7 +112,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(NSArray<GPKGExtendedRelation *> *) relationships{
-    NSMutableArray<GPKGExtendedRelation *> *relationships = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGExtendedRelation *> *relationships = [NSMutableArray array];
     if([self.extendedRelationsDao tableExists]){
         GPKGResultSet *resultSet = [self.extendedRelationsDao queryForAll];
         @try {
@@ -412,7 +412,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
  */
 -(void) removeRelationships: (GPKGResultSet *) results{
     if(results != nil){
-        NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [[NSMutableArray alloc] init];
+        NSMutableArray<GPKGExtendedRelation *> *extendedRelations = [NSMutableArray array];
         @try {
             while([results moveToNext]){
                 GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:results];
@@ -430,7 +430,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(void) removeExtension{
     
     if([self.extendedRelationsDao tableExists]){
-        NSMutableArray<NSString *> *mappingTables = [[NSMutableArray alloc] init];
+        NSMutableArray<NSString *> *mappingTables = [NSMutableArray array];
         GPKGResultSet *extendedRelations = [self.extendedRelationsDao queryForAll];
         @try {
             while([extendedRelations moveToNext]){
@@ -549,7 +549,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 -(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withBaseId: (int) baseId{
     
-    NSMutableArray<NSNumber *> *relatedIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *relatedIds = [NSMutableArray array];
     
     GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
     GPKGResultSet *resultSet = [userMappingDao queryByBaseId:baseId];
@@ -571,7 +571,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 
 -(NSArray<NSNumber *> *) mappingsForTableName: (NSString *) tableName withRelatedId: (int) relatedId{
     
-    NSMutableArray<NSNumber *> *baseIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *baseIds = [NSMutableArray array];
     
     GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
     GPKGResultSet *resultSet = [userMappingDao queryByRelatedId:relatedId];

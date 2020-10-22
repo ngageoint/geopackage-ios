@@ -353,7 +353,7 @@ static NSRegularExpression *constraintExpression = nil;
                 definition = [definition stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             }
         }
-        NSMutableArray *partsArray = [[NSMutableArray alloc] init];
+        NSMutableArray *partsArray = [NSMutableArray array];
         [GPKGUtils addObject:name toArray:partsArray];
         [GPKGUtils addObject:definition toArray:partsArray];
         parts = partsArray;

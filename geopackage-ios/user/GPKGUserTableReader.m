@@ -32,7 +32,7 @@
 
 -(GPKGUserTable *) readTableWithConnection: (GPKGConnection *) db{
     
-    NSMutableArray<GPKGUserColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserColumn *> *columns = [NSMutableArray array];
     
     GPKGTableInfo *tableInfo = [GPKGTableInfo infoWithConnection:db andTable:self.tableName];
     if(tableInfo == nil){

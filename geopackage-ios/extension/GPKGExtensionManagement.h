@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 
-@class GPKGGeoPackage;
-
 /**
  * Extension Management for deleting and copying extensions
  */

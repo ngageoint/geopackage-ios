@@ -75,7 +75,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) deleteMissingDatabases: (NSArray *) databases{
     
-    NSMutableArray * filesExist = [[NSMutableArray alloc] init];
+    NSMutableArray * filesExist = [NSMutableArray array];
     for(NSString * database in databases){
         if([self exists:database]){
             [filesExist addObject:database];

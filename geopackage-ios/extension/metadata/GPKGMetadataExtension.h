@@ -12,8 +12,6 @@
 
 extern NSString * const GPKG_METADATA_EXTENSION_NAME;
 
-@class GPKGMetadataReferenceDao;
-
 /**
  *  Metadata extension
  *

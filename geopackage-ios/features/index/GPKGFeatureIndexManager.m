@@ -41,7 +41,7 @@
         self.manualFeatureQuery = [[GPKGManualFeatureQuery alloc] initWithFeatureDao:featureDao];
 
         self.indexLocation = GPKG_FIT_NONE;
-        self.indexLocationQueryOrder = [[NSMutableArray alloc] initWithObjects:
+        self.indexLocationQueryOrder = [NSMutableArray arrayWithObjects:
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_RTREE],
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_GEOPACKAGE],
                                         [GPKGFeatureIndexTypes name:GPKG_FIT_METADATA],
@@ -78,7 +78,7 @@
 }
 
 -(void) prioritizeQueryLocationWithType: (enum GPKGFeatureIndexType) featureIndexType{
-    NSArray *featureIndexTypes = [[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:featureIndexType], nil];
+    NSArray *featureIndexTypes = [NSArray arrayWithObjects:[GPKGFeatureIndexTypes name:featureIndexType], nil];
     return [self prioritizeQueryLocationWithTypes:featureIndexTypes];
 }
 
@@ -97,7 +97,7 @@
 
 -(void) setIndexLocationOrderWithTypes: (NSArray *) featureIndexTypes{
     
-    NSMutableArray *queryOrder = [[NSMutableArray alloc] init];
+    NSMutableArray *queryOrder = [NSMutableArray array];
     for(int i = 0; i < featureIndexTypes.count; i++){
         NSString *featureIndexTypeString = featureIndexTypes[i];
         enum GPKGFeatureIndexType featureIndexType = [GPKGFeatureIndexTypes fromName:featureIndexTypeString];
@@ -314,12 +314,12 @@
 }
 
 -(BOOL) retainIndexWithFeatureIndexType: (enum GPKGFeatureIndexType) type{
-    NSArray *retain = [[NSArray alloc] initWithObjects:[GPKGFeatureIndexTypes name:type], nil];
+    NSArray *retain = [NSArray arrayWithObjects:[GPKGFeatureIndexTypes name:type], nil];
     return [self retainIndexWithFeatureIndexTypes:retain];
 }
 
 -(BOOL) retainIndexWithFeatureIndexTypes: (NSArray<NSString *> *) types{
-    NSMutableArray *delete = [[NSMutableArray alloc] init];
+    NSMutableArray *delete = [NSMutableArray array];
     for(NSString *indexLocationType in self.indexLocationQueryOrder){
         if(![types containsObject:indexLocationType]){
             [delete addObject:indexLocationType];
@@ -329,7 +329,7 @@
 }
 
 -(NSArray<NSString *> *) indexedTypes{
-    NSMutableArray<NSString *> *indexed = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *indexed = [NSMutableArray array];
     for(NSString *typeName in self.indexLocationQueryOrder){
         enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName:typeName];
         if([self isIndexedWithFeatureIndexType:type]){

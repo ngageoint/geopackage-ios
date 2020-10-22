@@ -36,7 +36,7 @@
 }
 
 -(NSArray<GPKGIconRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
-    NSMutableArray<GPKGIconRow *> *iconRows = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGIconRow *> *iconRows = [NSMutableArray array];
     for(NSNumber *id in ids){
         GPKGIconRow *row = (GPKGIconRow *)[self queryForIdObject:id];
         if(row != nil){

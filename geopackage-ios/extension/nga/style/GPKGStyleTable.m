@@ -40,7 +40,7 @@ NSString * const GPKG_ST_COLUMN_FILL_OPACITY = @"fill_opacity";
  */
 +(NSArray *) createColumns{
     
-    NSMutableArray<GPKGAttributesColumn *> *columns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGAttributesColumn *> *columns = [NSMutableArray array];
     
     [columns addObject:[GPKGAttributesColumn createPrimaryKeyColumnWithName:GPKG_ST_COLUMN_ID]];
     [columns addObject:[GPKGAttributesColumn createColumnWithName:GPKG_ST_COLUMN_NAME andDataType:GPKG_DT_TEXT]];

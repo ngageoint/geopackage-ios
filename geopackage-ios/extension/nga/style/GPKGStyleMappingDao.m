@@ -36,7 +36,7 @@
 }
 
 -(NSArray<GPKGStyleMappingRow *> *) queryByBaseFeatureId: (int) id{
-    NSMutableArray *rows = [[NSMutableArray alloc] init];
+    NSMutableArray *rows = [NSMutableArray array];
     GPKGResultSet *resultSet = [self queryByBaseId:id];
     @try{
         while([resultSet moveToNext]){

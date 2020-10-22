@@ -36,7 +36,7 @@
     [GPKGTestUtils assertEqualIntWithValue:[extension extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
     [GPKGTestUtils assertEqualWithValue:extension.definition andValue2:[GPKGProperties valueOfProperty:@"geopackage.extensions.zoom_other"]];
     
-    [GPKGExtensionManager deleteTableExtensionsWithGeoPackage:self.geoPackage andTable:tableName];
+    [[GPKGExtensionManager createWithGeoPackage:self.geoPackage] deleteExtensionsForTable:tableName];
     [GPKGTestUtils assertFalse:[zoomOtherExtension hasWithTableName:tableName]];
 }
 

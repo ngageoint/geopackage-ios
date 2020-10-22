@@ -78,7 +78,7 @@ NSString * const GPKG_DCM_ID_NAME = @"id";
 }
 
 +(NSArray<NSString *> *) synonyms: (enum GPKGDublinCoreType) dublinCoreType{
-    NSMutableArray<NSString *> *synonyms = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *synonyms = [NSMutableArray array];
     
     switch(dublinCoreType){
         case GPKG_DCM_FORMAT:

@@ -69,7 +69,7 @@
 }
 
 -(GPKGFeatureTileLink *) queryForFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    NSArray * id = [[NSArray alloc] initWithObjects:featureTable, tileTable, nil];
+    NSArray * id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
     GPKGFeatureTileLink * link = (GPKGFeatureTileLink *)[self queryForMultiIdObject:id];
     return link;
 }
@@ -83,7 +83,7 @@
 }
 
 -(int) deleteByFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    NSArray * id = [[NSArray alloc] initWithObjects:featureTable, tileTable, nil];
+    NSArray * id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
     int count = [self deleteByMultiId:id];
     return count;
 }

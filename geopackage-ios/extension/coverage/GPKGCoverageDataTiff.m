@@ -227,7 +227,7 @@ NSInteger const GPKG_TIFF_BITS_PER_SAMPLE = 32;
 }
 
 -(NSArray *) pixelValuesFloatToArray: (float *) pixelValues withCount: (int) count{
-    NSMutableArray * pixels = [[NSMutableArray alloc] initWithCapacity:count];
+    NSMutableArray * pixels = [NSMutableArray arrayWithCapacity:count];
     for(int i= 0; i < count; i++){
         float pixel = pixelValues[i];
         [pixels addObject:[NSNumber numberWithFloat:pixel]];

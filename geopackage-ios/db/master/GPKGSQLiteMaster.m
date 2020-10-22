@@ -44,7 +44,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 -(instancetype) initWithResults: (NSArray<NSArray<NSObject *> *> *) results andColumns: (NSArray<NSNumber *> *) columns{
     self = [super init];
     if(self != nil){
-        self.columnIndices = [[NSMutableDictionary alloc] init];
+        self.columnIndices = [NSMutableDictionary dictionary];
         
         if(columns != nil){
             
@@ -57,7 +57,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
             
         }else{
             // Count only result
-            self.results = [[NSArray alloc] init];
+            self.results = [NSArray array];
             self.count = [((NSNumber *)[[results objectAtIndex:0] objectAtIndex:0]) intValue];
         }
     }
@@ -255,7 +255,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 +(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types andQuery: (GPKGSQLiteMasterQuery *) query{
     
     NSMutableString *sql = [[NSMutableString alloc] initWithString:@"SELECT "];
-    NSMutableArray<NSString *> *args = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *args = [NSMutableArray array];
     
     if(columns != nil && columns.count > 0){
         

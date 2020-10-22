@@ -18,7 +18,7 @@
     if(self != nil){
         self.database = database;
         self.databaseName = database.name;
-        self.idColumns = [[NSArray alloc] init];
+        self.idColumns = [NSArray array];
         self.autoIncrementId = NO;
     }
     return self;
@@ -59,7 +59,7 @@
 }
 
 -(void) initializeColumnIndex{
-    self.columnIndex = [[NSMutableDictionary alloc] init];
+    self.columnIndex = [NSMutableDictionary dictionary];
     int count = [self columnCount];
     for(int i = 0; i < count; i++){
         [GPKGUtils setObject:[NSNumber numberWithInt:i] forKey:[GPKGUtils objectAtIndex:i inArray:self.columnNames] inDictionary:self.columnIndex];
@@ -255,7 +255,7 @@
 }
 
 -(NSArray *) singleColumnResults: (GPKGResultSet *) results{
-    NSMutableArray *singleColumnResults = [[NSMutableArray alloc] init];
+    NSMutableArray *singleColumnResults = [NSMutableArray array];
     while([results moveToNext]){
         NSArray *result = [results row];
         [GPKGUtils addObject:[GPKGUtils objectAtIndex:0 inArray:result] toArray:singleColumnResults];
@@ -1202,7 +1202,7 @@
 }
 
 -(NSArray *) multiId: (NSObject *) object{
-    NSMutableArray *idValues = [[NSMutableArray alloc] init];
+    NSMutableArray *idValues = [NSMutableArray array];
     for(NSString *idColumn in self.idColumns){
         NSObject* idValue = [self valueFromObject:object withColumnName:idColumn];
         [GPKGUtils addObject:idValue toArray:idValues];
@@ -1247,7 +1247,7 @@
 }
 
 -(NSArray *) buildPkWhereArgsWithValues: (NSArray *) idValues{
-    NSMutableArray * values = [[NSMutableArray alloc] init];
+    NSMutableArray * values = [NSMutableArray array];
     for(int i = 0; i < [idValues count]; i++){
         NSObject *value = [GPKGUtils objectAtIndex:i inArray:idValues];
         if(value != nil){
@@ -1340,7 +1340,7 @@
 }
 
 -(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) values{
-    NSMutableArray * args = [[NSMutableArray alloc] init];
+    NSMutableArray * args = [NSMutableArray array];
     for(NSString * column in values.columns){
         NSObject * value = [values value:column];
         if(value != nil){
@@ -1351,7 +1351,7 @@
 }
 
 -(NSArray *) buildWhereArgsWithValueArray: (NSArray *) values{
-    NSMutableArray * args = [[NSMutableArray alloc] init];
+    NSMutableArray * args = [NSMutableArray array];
     for(NSObject * value in values){
         if(value != nil){
             [GPKGUtils addObject:value toArray:args];
@@ -1361,7 +1361,7 @@
 }
 
 -(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) values{
-    NSMutableArray * args = [[NSMutableArray alloc] init];
+    NSMutableArray * args = [NSMutableArray array];
     for(NSString * column in values.columns){
         GPKGColumnValue * value = (GPKGColumnValue *)[values value:column];
         if(value != nil && value.value != nil){
@@ -1378,7 +1378,7 @@
 -(NSArray *) buildWhereArgsWithValue: (NSObject *) value{
     NSMutableArray * args = nil;
     if(value != nil){
-        args = [[NSMutableArray alloc] init];
+        args = [NSMutableArray array];
         [GPKGUtils addObject:value toArray:args];
     }
     return args;
@@ -1566,7 +1566,7 @@
 }
 
 -(void) dropColumnIndexes: (NSArray<NSNumber *> *) indexes{
-    NSMutableArray<NSString *> *columnNames = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *columnNames = [NSMutableArray array];
     for(NSNumber *index in indexes){
         [columnNames addObject:[self columnNameWithIndex:[index intValue]]];
     }

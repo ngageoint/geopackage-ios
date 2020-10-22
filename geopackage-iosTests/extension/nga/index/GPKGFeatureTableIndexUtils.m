@@ -153,15 +153,14 @@
         [GPKGTestUtils assertTrue:resultCount >= 1];
         
         // Update a Geometry and update the index of a single feature row
-        GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
-        SFPoint * point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
-        [geometryData setGeometry:point];
+        SFPoint *point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:featureDao.geometryColumns.srsId andGeometry:point];
         [testFeatureRow setGeometry:geometryData];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];
-        NSDate * lastIndexedBefore = [featureTableIndex lastIndexed];
+        NSDate *lastIndexedBefore = [featureTableIndex lastIndexed];
         [NSThread sleepForTimeInterval:1];
         [GPKGTestUtils assertTrue:[featureTableIndex indexFeatureRow:testFeatureRow]];
-        NSDate * lastIndexedAfter = [featureTableIndex lastIndexed];
+        NSDate *lastIndexedAfter = [featureTableIndex lastIndexed];
         [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
         
         // Verify the index was updated for the feature row
@@ -184,8 +183,8 @@
     }
     
     GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
-    GPKGGeometryIndexDao * geometryIndexDao = [geoPackage geometryIndexDao];
-    GPKGTableIndexDao * tableIndexDao = [geoPackage tableIndexDao];
+    GPKGGeometryIndexDao *geometryIndexDao = [GPKGFeatureTableIndex geometryIndexDaoWithGeoPackage:geoPackage];
+    GPKGTableIndexDao *tableIndexDao = [GPKGFeatureTableIndex tableIndexDaoWithGeoPackage:geoPackage];
     
     // Delete the extensions for the first half of the feature tables
     BOOL everyOther = NO;
@@ -225,7 +224,7 @@
             [featureResults close];
         }
         
-        [GPKGExtensionManager deleteTableExtensionsWithGeoPackage:geoPackage andTable:featureTable];
+        [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensionsForTable:featureTable];
         
         [GPKGTestUtils assertFalse:[featureTableIndex isIndexed]];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[geometryIndexDao countByTableName:featureTable]];
@@ -241,7 +240,7 @@
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
     // Test deleting all NGA extensions
-    [GPKGExtensionManager deleteExtensionsWithGeoPackage:geoPackage];
+    [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
      
     [GPKGTestUtils assertFalse:[geometryIndexDao tableExists]];
     [GPKGTestUtils assertFalse:[tableIndexDao tableExists]];
@@ -275,8 +274,8 @@
     }
     
     GPKGExtensionsDao * extensionsDao = [geoPackage extensionsDao];
-    GPKGGeometryIndexDao * geometryIndexDao = [geoPackage geometryIndexDao];
-    GPKGTableIndexDao * tableIndexDao = [geoPackage tableIndexDao];
+    GPKGGeometryIndexDao *geometryIndexDao = [GPKGFeatureTableIndex geometryIndexDaoWithGeoPackage:geoPackage];
+    GPKGTableIndexDao *tableIndexDao = [GPKGFeatureTableIndex tableIndexDaoWithGeoPackage:geoPackage];
 
     [GPKGTestUtils assertTrue:[geometryIndexDao tableExists]];
     [GPKGTestUtils assertTrue:[tableIndexDao tableExists]];

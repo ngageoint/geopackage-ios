@@ -77,21 +77,21 @@ static NSString *COLUMN_NAME = @"geom";
     
     SFGeometry *geometry = [self createGeometry];
     
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    
     GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:TABLE_NAME];
     [geometryColumns setColumnName:COLUMN_NAME];
     [geometryColumns setGeometryType:geometry.geometryType];
     [geometryColumns setZ:[NSNumber numberWithInt:0]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
+    [geometryColumns setSrs:srs];
     
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:[SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry]];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andBoundingBox:boundingBox]];
     
-    [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
-    
-    GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:srs.srsId];
-    [geometryData setGeometry:geometry];
+    GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:srs.srsId andGeometry:geometry];
     
     GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     

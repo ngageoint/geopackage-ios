@@ -28,7 +28,7 @@
 -(instancetype) init{
     self = [super init];
     if(self != nil){
-        self.styles = [[NSMutableDictionary alloc] init];
+        self.styles = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -36,7 +36,7 @@
 -(instancetype) initAsTableStyles: (BOOL) tableStyles{
     self = [super init];
     if(self != nil){
-        self.styles = [[NSMutableDictionary alloc] init];
+        self.styles = [NSMutableDictionary dictionary];
         self.tableStyles = tableStyles;
     }
     return self;

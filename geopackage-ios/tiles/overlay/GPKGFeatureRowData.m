@@ -57,7 +57,7 @@
 
 -(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints andGeometries: (BOOL) includeGeometries{
     
-    NSMutableDictionary * jsonValues = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary * jsonValues = [NSMutableDictionary dictionary];
     
     for(NSString * key in [self.values allKeys]){
         NSObject * jsonValue = nil;

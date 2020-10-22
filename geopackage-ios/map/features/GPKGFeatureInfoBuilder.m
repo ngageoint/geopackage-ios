@@ -36,7 +36,7 @@
         
         self.geometryType = [featureDao geometryType];
         
-        self.ignoreGeometryTypes = [[NSMutableSet alloc] init];
+        self.ignoreGeometryTypes = [NSMutableSet set];
         
         self.name = [NSString stringWithFormat:@"%@ - %@", featureDao.databaseName, featureDao.tableName];
         
@@ -209,11 +209,11 @@
             
             GPKGDataColumnsDao * dataColumnsDao = [self dataColumnsDao];
             
-            NSMutableArray<GPKGFeatureRowData *> * rows = [[NSMutableArray alloc] init];
+            NSMutableArray<GPKGFeatureRowData *> * rows = [NSMutableArray array];
             
             for(GPKGFeatureRow * featureRow in filteredResults){
                 
-                NSMutableDictionary * values = [[NSMutableDictionary alloc] init];
+                NSMutableDictionary * values = [NSMutableDictionary dictionary];
                 NSString * geometryColumnName = nil;
                 
                 int geometryColumn = [featureRow geometryColumnIndex];

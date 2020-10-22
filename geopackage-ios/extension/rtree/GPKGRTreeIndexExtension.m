@@ -245,7 +245,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
  */
 -(GPKGUserCustomTable *) rTreeTableWithFeatureTable: (GPKGFeatureTable *) featureTable{
 
-    NSMutableArray *columns = [[NSMutableArray alloc] init];
+    NSMutableArray *columns = [NSMutableArray array];
     [columns addObject:[GPKGUserCustomColumn createPrimaryKeyColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID andAutoincrement:NO]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X andDataType:GPKG_DT_FLOAT]];
     [columns addObject:[GPKGUserCustomColumn createColumnWithName:GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X andDataType:GPKG_DT_FLOAT]];
@@ -426,7 +426,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) deleteWithTableName: (NSString *) tableName{
     
     if([self.extensionsDao tableExists]){
-        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [[NSMutableArray alloc] init];
+        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [NSMutableArray array];
         GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName andTable:tableName];
         @try {
             while([extensions moveToNext]){
@@ -446,7 +446,7 @@ void isEmptyFunction (sqlite3_context *context, int argc, sqlite3_value **argv) 
 -(void) deleteAll{
     
     if([self.extensionsDao tableExists]){
-        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [[NSMutableArray alloc] init];
+        NSMutableArray<GPKGExtensions *> *extensionsToDelete = [NSMutableArray array];
         GPKGResultSet *extensions = [self.extensionsDao queryByExtension:self.extensionName];
         @try {
             while([extensions moveToNext]){

@@ -27,9 +27,9 @@
         self.tileMatrices = tileMatrices;
         
         NSInteger count = [tileMatrices count];
-        NSMutableDictionary *tempZoomLevelToTileMatrix = [[NSMutableDictionary alloc] initWithCapacity:count];
-        NSMutableArray *tempWidths = [[NSMutableArray alloc] initWithCapacity:count];
-        NSMutableArray *tempHeights = [[NSMutableArray alloc] initWithCapacity:count];
+        NSMutableDictionary *tempZoomLevelToTileMatrix = [NSMutableDictionary dictionaryWithCapacity:count];
+        NSMutableArray *tempWidths = [NSMutableArray arrayWithCapacity:count];
+        NSMutableArray *tempHeights = [NSMutableArray arrayWithCapacity:count];
         
         GPKGTileMatrixSetDao *dao =  [self tileMatrixSetDao];
         self.projection = [dao projection:tileMatrixSet];
@@ -227,7 +227,7 @@
         [where appendString:@" and "];
         [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxY andOperation:@"<="]];
         
-        NSArray *whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
+        NSArray *whereArgs = [self buildWhereArgsWithValueArray:[NSArray arrayWithObjects:zoom,
                                minX,
                                maxX,
                                minY,
@@ -273,7 +273,7 @@
     [where appendString:@" and "];
     [where appendString:[self buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:rowNumber]];
     
-    NSArray *whereArgs = [self buildWhereArgsWithValueArray:[[NSArray alloc] initWithObjects:zoom,
+    NSArray *whereArgs = [self buildWhereArgsWithValueArray:[NSArray arrayWithObjects:zoom,
                            columnNumber,
                            rowNumber, nil]];
     int deleted = [self deleteWhere:where andWhereArgs:whereArgs];

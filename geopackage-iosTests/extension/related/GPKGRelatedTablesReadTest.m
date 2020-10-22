@@ -36,7 +36,7 @@
     for (GPKGExtendedRelation *extendedRelation in extendedRelations) {
         
         // 9. get mappings by base ID
-        NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *baseIdMappings = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *baseIdMappings = [NSMutableDictionary dictionary];
         GPKGFeatureDao *baseDao = [self.geoPackage featureDaoWithTableName:extendedRelation.baseTableName];
         GPKGFeatureColumn *pkColumn = (GPKGFeatureColumn *)[baseDao.table pkColumn];
         GPKGResultSet *frs = [baseDao queryForAll];
@@ -49,7 +49,7 @@
         [frs close];
         
         // 10. get mappings by related ID
-        NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *relatedIdMappings = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *relatedIdMappings = [NSMutableDictionary dictionary];
         GPKGAttributesDao *relatedDao = [self.geoPackage attributesDaoWithTableName:extendedRelation.relatedTableName];
         GPKGAttributesColumn *pkColumn2 = (GPKGAttributesColumn *)[relatedDao.table pkColumn];
         GPKGResultSet *ars = [relatedDao queryForAll];

@@ -22,7 +22,7 @@
 
 +(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsWithNotNil: (BOOL) notNull{
     
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    NSMutableArray * columns = [NSMutableArray array];
     
     // Add Dublin Core Metadata term columns
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_DATE] andDataType:GPKG_DT_DATETIME andNotNull:notNull] toArray:columns];
@@ -50,7 +50,7 @@
 
 +(NSArray<GPKGUserCustomColumn *> *) createSimpleUserColumnsWithNotNil: (BOOL) notNull{
     
-    NSMutableArray<GPKGUserCustomColumn *> *simpleUserColumns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGUserCustomColumn *> *simpleUserColumns = [NSMutableArray array];
     
     NSArray<GPKGUserCustomColumn *> *allAdditionalColumns = [self createAdditionalUserColumnsWithNotNil:notNull];
     
@@ -65,7 +65,7 @@
 
 +(void) populateUserRowWithTable: (GPKGUserCustomTable *) userTable andRow: (GPKGUserCustomRow *) userRow andSkipColumns: (NSArray<NSString *> *) skipColumns{
     
-    NSSet<NSString *> *skipColumnsSet = [[NSSet alloc] initWithArray:skipColumns];
+    NSSet<NSString *> *skipColumnsSet = [NSSet setWithArray:skipColumns];
     
     for(GPKGUserCustomColumn *column in userTable.columns){
         if(![skipColumnsSet containsObject:column.name]){

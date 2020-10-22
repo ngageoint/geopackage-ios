@@ -140,14 +140,14 @@ static BOOL maintainStackTraces = NO;
         [GPKGConnectionPool initializeDefaults];
         
         self.filename = filename;
-        self.availableConnections = [[NSMutableArray alloc] init];
-        self.usedConnections = [[NSMutableDictionary alloc] init];
+        self.availableConnections = [NSMutableArray array];
+        self.usedConnections = [NSMutableDictionary dictionary];
         self.idCounter = 1;
         self.lastConnectionCheck = [NSDate date];
-        self.resultConnections = [[NSMutableDictionary alloc] init];
+        self.resultConnections = [NSMutableDictionary dictionary];
         self.inTransaction = NO;
-        self.writeFunctions = [[NSMutableDictionary alloc] init];
-        self.connectionExecs = [[NSMutableDictionary alloc] init];
+        self.writeFunctions = [NSMutableDictionary dictionary];
+        self.connectionExecs = [NSMutableDictionary dictionary];
         asl_add_log_file(NULL, STDERR_FILENO);
         
         // Open a database connection

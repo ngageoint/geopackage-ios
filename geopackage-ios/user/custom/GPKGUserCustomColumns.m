@@ -47,8 +47,8 @@
     
     if (!self.custom && self.requiredColumns != nil && self.requiredColumns.count > 0) {
         
-        NSSet<NSString *> *search = [[NSSet alloc] initWithArray:self.requiredColumns];
-        NSMutableDictionary<NSString *, NSNumber *> *found = [[NSMutableDictionary alloc] init];
+        NSSet<NSString *> *search = [NSSet setWithArray:self.requiredColumns];
+        NSMutableDictionary<NSString *, NSNumber *> *found = [NSMutableDictionary dictionary];
         
         // Find the required columns
         for (GPKGUserCustomColumn *column in [self columns]) {

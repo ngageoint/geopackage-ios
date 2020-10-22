@@ -10,6 +10,7 @@
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
 #import "SFPProjectionConstants.h"
+#import "GPKGSchemaExtension.h"
 
 #define ARC4RANDOM_MAX      0x100000000
 
@@ -126,9 +127,10 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void) createConstraints: (GPKGGeoPackage *) geoPackage{
     
-    [geoPackage createDataColumnConstraintsTable];
+    GPKGSchemaExtension *schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage];
+    [schemaExtension createDataColumnConstraintsTable];
     
-    GPKGDataColumnConstraintsDao * dao = [geoPackage dataColumnConstraintsDao];
+    GPKGDataColumnConstraintsDao * dao = [schemaExtension dataColumnConstraintsDao];
     
     GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT];
@@ -184,8 +186,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     srandom((unsigned int)time(NULL));
     int random = [self randomIntLessThan:3];
     
-    GPKGDataColumnsDao * dataColumnsDao = [geoPackage dataColumnsDao];
-    
+    GPKGDataColumnsDao * dataColumnsDao = [GPKGSchemaExtension dataColumnsDaoWithGeoPackage:geoPackage];
     GPKGDataColumns * dataColumns = [[GPKGDataColumns alloc] init];
     [dataColumns setContents:contents];
     [dataColumns setColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
@@ -212,7 +213,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType{
     
-    NSMutableArray * columns = [[NSMutableArray alloc] init];
+    NSMutableArray * columns = [NSMutableArray array];
     
     [GPKGUtils addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:@"id"] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5]] toArray:columns];
@@ -279,8 +280,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             [NSException raise:@"Not implemented" format:@"Not implemented for geometry type: %u", column.geometryType];
                     }
                     
-                    GPKGGeometryData * geometryData = [[GPKGGeometryData alloc] initWithSrsId:geometryColumns.srsId];
-                    [geometryData setGeometry:geometry];
+                    GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:geometryColumns.srsId andGeometry:geometry];
                     
                     [newRow setGeometry:geometryData];
                 }else{
@@ -446,34 +446,42 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void) validateIntegerValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType{
     
-    switch(dataType){
-        case GPKG_DT_BOOLEAN:
-        case GPKG_DT_TINYINT:
-        case GPKG_DT_SMALLINT:
-        case GPKG_DT_MEDIUMINT:
-        case GPKG_DT_INT:
-        case GPKG_DT_INTEGER:
-            [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
-            break;
-        default:
-            [NSException raise:@"Integer Data Type" format:@"Data Type %u is not an integer type", dataType];
+    if((int)dataType != -1){
+    
+        switch(dataType){
+            case GPKG_DT_BOOLEAN:
+            case GPKG_DT_TINYINT:
+            case GPKG_DT_SMALLINT:
+            case GPKG_DT_MEDIUMINT:
+            case GPKG_DT_INT:
+            case GPKG_DT_INTEGER:
+                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
+                break;
+            default:
+                [NSException raise:@"Integer Data Type" format:@"Data Type %u is not an integer type", dataType];
+        }
+        
     }
 }
 
 +(void) validateFloatValue: (NSObject *) value andDataType: (enum GPKGDataType) dataType{
     
-    switch(dataType){
-        case GPKG_DT_FLOAT:
-        case GPKG_DT_DOUBLE:
-        case GPKG_DT_REAL:
-            {
-                [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
-                NSDecimalNumber * decimalNumber = ((NSDecimalNumber *)value);
-                [GPKGTestUtils assertNotNil:decimalNumber];
-            }
-            break;
-        default:
-            [NSException raise:@"Float Data Type" format:@"Data Type %u is not a float type", dataType];
+    if((int)dataType != -1){
+    
+        switch(dataType){
+            case GPKG_DT_FLOAT:
+            case GPKG_DT_DOUBLE:
+            case GPKG_DT_REAL:
+                {
+                    [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
+                    NSDecimalNumber * decimalNumber = ((NSDecimalNumber *)value);
+                    [GPKGTestUtils assertNotNil:decimalNumber];
+                }
+                break;
+            default:
+                [NSException raise:@"Float Data Type" format:@"Data Type %u is not a float type", dataType];
+        }
+        
     }
 }
 

@@ -41,7 +41,7 @@
 }
 
 -(NSArray<GPKGSimpleAttributesRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
-    NSMutableArray<GPKGSimpleAttributesRow *> *simpleAttributesRows = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGSimpleAttributesRow *> *simpleAttributesRows = [NSMutableArray array];
     for(NSNumber *id in ids){
         GPKGSimpleAttributesRow *row = (GPKGSimpleAttributesRow *)[self queryForIdObject:id];
         if(row != nil){

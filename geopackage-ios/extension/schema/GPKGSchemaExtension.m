@@ -27,7 +27,7 @@ NSString * const GPKG_PROP_SCHEMA_EXTENSION_DEFINITION = @"geopackage.extensions
 
 -(NSArray<GPKGExtensions *> *) extensionCreate{
     
-    NSMutableArray<GPKGExtensions *> *extensions = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGExtensions *> *extensions = [NSMutableArray array];
     
     [extensions addObject:[self extensionCreateWithName:self.extensionName andTableName:GPKG_DC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];
     [extensions addObject:[self extensionCreateWithName:self.extensionName andTableName:GPKG_DCC_TABLE_NAME andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE]];

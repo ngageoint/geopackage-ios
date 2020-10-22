@@ -65,8 +65,8 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
     if(self != nil){
         self.tableName = tableName;
         self.columns = [NSMutableArray arrayWithArray:columns];
-        self.namesToColumns = [[NSMutableDictionary alloc] init];
-        self.primaryKeys = [[NSMutableArray alloc] init];
+        self.namesToColumns = [NSMutableDictionary dictionary];
+        self.primaryKeys = [NSMutableArray array];
         for(GPKGTableColumn *column in columns){
             [self.namesToColumns setObject:column forKey:[column name]];
             if([column primaryKey]){
@@ -126,7 +126,7 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
     
     NSArray<NSArray<NSObject *> *> *results = [db queryResultsWithSql:sql andArgs:nil];
     
-    NSMutableArray<GPKGTableColumn *> *tableColumns = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGTableColumn *> *tableColumns = [NSMutableArray array];
     
     for (NSArray<NSObject *> *column in results) {
         

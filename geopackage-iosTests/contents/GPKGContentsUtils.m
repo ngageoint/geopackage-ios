@@ -88,7 +88,7 @@
         // Prepared query, less than equal date
         NSMutableString * where = [[NSMutableString alloc] init];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_LAST_CHANGE andValue:contents.lastChange andOperation:@"<="]];
-        NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+        NSMutableArray * whereArgs = [NSMutableArray array];
         [whereArgs addObject:contents.lastChange];
         queryContentsResults = [dao queryWhere:where andWhereArgs:whereArgs];
         
@@ -108,7 +108,7 @@
         // Prepared query, greater than date
         where = [[NSMutableString alloc] init];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_LAST_CHANGE andValue:contents.lastChange andOperation:@">"]];
-        whereArgs = [[NSMutableArray alloc] init];
+        whereArgs = [NSMutableArray array];
         [whereArgs addObject:contents.lastChange];
         queryContentsResults = [dao queryWhere:where andWhereArgs:whereArgs];
         
@@ -161,7 +161,7 @@
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_X andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
         [where appendString:@" or "];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_Y andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
-        NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+        NSMutableArray * whereArgs = [NSMutableArray array];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         GPKGResultSet *queryResults = [dao queryWhere:where andWhereArgs:whereArgs];
@@ -356,7 +356,7 @@
         [results close];
         
         // Save the ids of geometry columns
-        NSMutableArray *geometryColumnsIds = [[NSMutableArray alloc] init];
+        NSMutableArray *geometryColumnsIds = [NSMutableArray array];
         GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
         if([geometryColumnsDao tableExists]){
             GPKGGeometryColumns *geometryColumns = [dao geometryColumns:contents];
@@ -401,7 +401,7 @@
             // Find which contents to delete and the geometry columns
             GPKGResultSet *queryResults = [dao queryForEqWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType];
             int count = queryResults.count;
-            geometryColumnsIds = [[NSMutableArray alloc] init];
+            geometryColumnsIds = [NSMutableArray array];
             while([queryResults moveToNext]){
                 GPKGContents *queryResultsContenst = (GPKGContents *)[dao object:queryResults];
                 if([geometryColumnsDao tableExists]){
@@ -417,7 +417,7 @@
             int deleted;
             NSMutableString * where = [[NSMutableString alloc] init];
             [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType]];
-            NSMutableArray * whereArgs = [[NSMutableArray alloc] init];
+            NSMutableArray * whereArgs = [NSMutableArray array];
             [whereArgs addObject:contents.dataType];
             if (cascade) {
                 deleted = [dao deleteCascadeWhere:where andWhereArgs:whereArgs];

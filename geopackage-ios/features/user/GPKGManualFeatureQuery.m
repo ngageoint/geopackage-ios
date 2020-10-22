@@ -536,7 +536,7 @@
 
 -(GPKGManualFeatureQueryResults *) queryWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
-    NSMutableArray<NSNumber *> *featureIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *featureIds = [NSMutableArray array];
     
     int offset = 0;
     BOOL hasResults = YES;

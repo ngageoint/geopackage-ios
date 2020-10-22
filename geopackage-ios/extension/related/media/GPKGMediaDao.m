@@ -41,7 +41,7 @@
 }
 
 -(NSArray<GPKGMediaRow *> *) rowsWithIds: (NSArray<NSNumber *> *) ids{
-    NSMutableArray<GPKGMediaRow *> *mediaRows = [[NSMutableArray alloc] init];
+    NSMutableArray<GPKGMediaRow *> *mediaRows = [NSMutableArray array];
     for(NSNumber *id in ids){
         GPKGMediaRow *row = (GPKGMediaRow *)[self queryForIdObject:id];
         if(row != nil){

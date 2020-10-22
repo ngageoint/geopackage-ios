@@ -35,21 +35,21 @@
     
     // Validate nullable non simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumns]];
+        [GPKGSimpleAttributesTable createWithMetadata:[GPKGSimpleAttributesTableMetadata createWithTable:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumns]]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with nullable non simple columns"];
     } @catch (NSException *exception) {
         // pass
     }
     // Validate non nullable non simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumnsWithNotNil:YES]];
+        [GPKGSimpleAttributesTable createWithMetadata:[GPKGSimpleAttributesTableMetadata createWithTable:@"simple_table" andColumns:[GPKGRelatedTablesUtils createAdditionalUserColumnsWithNotNil:YES]]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with non nullable non simple columns"];
     } @catch (NSException *exception) {
         // pass
     }
     // Validate nullable simple columns
     @try {
-        [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:[GPKGRelatedTablesUtils createSimpleUserColumnsWithNotNil:NO]];
+        [GPKGSimpleAttributesTable createWithMetadata:[GPKGSimpleAttributesTableMetadata createWithTable:@"simple_table" andColumns:[GPKGRelatedTablesUtils createSimpleUserColumnsWithNotNil:NO]]];
         [GPKGTestUtils fail:@"Simple Attributes Table created with nullable simple columns"];
     } @catch (NSException *exception) {
         // pass
@@ -57,7 +57,7 @@
     
     // Populate and validate a simple attributes table
     NSArray<GPKGUserCustomColumn *> *simpleUserColumns = [GPKGRelatedTablesUtils createSimpleUserColumns];
-    GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithName:@"simple_table" andColumns:simpleUserColumns];
+    GPKGSimpleAttributesTable *simpleTable = [GPKGSimpleAttributesTable createWithMetadata:[GPKGSimpleAttributesTableMetadata createWithTable:@"simple_table" andColumns:simpleUserColumns]];
     NSArray<NSString *> *simpleColumns = simpleTable.columnNames;
     [GPKGTestUtils assertEqualIntWithValue:[GPKGSimpleAttributesTable numRequiredColumns] + (int)simpleUserColumns.count andValue2:(int)simpleColumns.count];
     GPKGUserCustomColumn *idColumn = [simpleTable idColumn];
@@ -134,7 +134,7 @@
     GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:baseTableName];
     GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
     int attributesCount = attributesResultSet.count;
-    NSMutableArray<NSNumber *> *attributeIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *attributeIds = [NSMutableArray array];
     while([attributesResultSet moveToNext]){
         [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
     }
@@ -143,7 +143,7 @@
     // Build the Simple Attribute ids
     GPKGResultSet *simpleResultSet = [simpleDao queryForAll];
     simpleCount = simpleResultSet.count;
-    NSMutableArray<NSNumber *> *simpleIds = [[NSMutableArray alloc] init];
+    NSMutableArray<NSNumber *> *simpleIds = [NSMutableArray array];
     while([simpleResultSet moveToNext]){
         [simpleIds addObject:[NSNumber numberWithInt:[[simpleDao row:simpleResultSet] idValue]]];
     }
