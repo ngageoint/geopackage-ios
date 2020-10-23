@@ -2736,9 +2736,9 @@
 		042FC8E31B964DA200549A4B /* tiles */ = {
 			isa = PBXGroup;
 			children = (
+				042FC8E41B964DA200549A4B /* features */,
 				049675071D08BDFB00D65851 /* retriever */,
 				045BCA051BFB6D6C0080B967 /* user */,
-				042FC8E41B964DA200549A4B /* features */,
 			);
 			path = tiles;
 			sourceTree = "<group>";

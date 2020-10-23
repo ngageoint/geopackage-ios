@@ -9,6 +9,7 @@
 #import "GPKGFeatureUtils.h"
 #import "GPKGTestUtils.h"
 #import "GPKGGeoPackageGeometryDataUtils.h"
+#import "SFPProjectionConstants.h"
 
 @implementation GPKGFeatureUtils
 
@@ -183,6 +184,86 @@
             }
         }
         [geometryColumnsResults close];
+    }
+    
+}
+
++(void) testPkModifiableAndValueValidationWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+
+    GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:srs.srsId andGeometry:[[SFPoint alloc] initWithXValue:0 andYValue:0]];
+
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
+    [geometryColumns setTableName:@"test_features"];
+    [geometryColumns setColumnName:@"geom"];
+    [geometryColumns setGeometryType:SF_POINT];
+    [geometryColumns setZ:[NSNumber numberWithInt:1]];
+    [geometryColumns setM:[NSNumber numberWithInt:0]];
+    [geometryColumns setSrs:srs];
+
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180 andMinLatitudeDouble:-90 andMaxLongitudeDouble:180 andMaxLatitudeDouble:90];
+
+    NSString *idColumn = @"test_id";
+    NSString *realColumn = @"test_real";
+
+    NSMutableArray<GPKGFeatureColumn *> *additionalColumns = [NSMutableArray array];
+    [additionalColumns addObject:[GPKGFeatureColumn createColumnWithName:realColumn andDataType:GPKG_DT_REAL]];
+    [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:additionalColumns andBoundingBox:boundingBox]];
+
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+    [GPKGTestUtils assertFalse:[featureDao isPkModifiable]];
+    [GPKGTestUtils assertTrue:[featureDao isValueValidation]];
+
+    [featureDao setPkModifiable:YES];
+    [featureDao setValueValidation:NO];
+    [GPKGTestUtils assertTrue:[featureDao isPkModifiable]];
+    [GPKGTestUtils assertFalse:[featureDao isValueValidation]];
+
+    int idValue = 15;
+    int realValue = 20;
+
+    GPKGFeatureRow *featureRow = [featureDao newRow];
+    [featureRow setId:[NSNumber numberWithInt:idValue]];
+    [featureRow setValueWithColumnName:realColumn andValue:[NSNumber numberWithInt:realValue]];
+    [featureRow setGeometry:geometryData];
+
+    [featureDao insert:featureRow];
+    
+    GPKGResultSet *results = [featureDao query];
+    @try {
+        [GPKGTestUtils assertTrue:[results moveToNext]];
+        GPKGFeatureRow *feature = [featureDao featureRow:results];
+        [GPKGTestUtils assertEqualIntWithValue:idValue andValue2:[feature idValue]];
+        [GPKGTestUtils assertNil:[feature geometry]];
+        [GPKGTestUtils assertEqualDoubleWithValue:realValue andValue2:[(NSNumber *)[feature valueWithColumnName:realColumn] doubleValue]];
+    } @finally {
+        [results close];
+    }
+
+    GPKGFeatureDao *featureDao2 = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+    [GPKGTestUtils assertFalse:[featureDao2 isPkModifiable]];
+    [GPKGTestUtils assertTrue:[featureDao2 isValueValidation]];
+
+    GPKGFeatureRow *featureRow2 = [featureDao2 newRow];
+    @try {
+        [featureRow2 setId:[NSNumber numberWithInt:16]];
+        [GPKGTestUtils fail:@"Expected exception did not occur"];
+    } @catch (NSException *exception) {
+        // expected
+    }
+    @try {
+        [featureRow2 setValueWithColumnName:idColumn andValue:[NSNumber numberWithInt:16]];
+        [GPKGTestUtils fail:@"Expected exception did not occur"];
+    } @catch (NSException *exception) {
+        // expected
+    }
+    [featureRow2 setValueWithColumnName:realColumn andValue:[NSNumber numberWithInt:21]];
+    @try {
+        [featureDao2 insert:featureRow2];
+        [GPKGTestUtils fail:@"Expected exception did not occur"];
+    } @catch (NSException *exception) {
+        // expected
     }
     
 }

@@ -12,11 +12,15 @@
 @implementation GPKGFeatureCreateTest
 
 -(void) testCreate{
-    [GPKGFeatureUtils testCreateWithGeoPackage: self.geoPackage];
+    [GPKGFeatureUtils testCreateWithGeoPackage:self.geoPackage];
 }
 
 -(void) testDelete{
-    [GPKGFeatureUtils testDeleteWithGeoPackage: self.geoPackage];
+    [GPKGFeatureUtils testDeleteWithGeoPackage:self.geoPackage];
+}
+
+-(void) testPkModifiableAndValueValidation{
+    [GPKGFeatureUtils testPkModifiableAndValueValidationWithGeoPackage:self.geoPackage];
 }
 
 @end

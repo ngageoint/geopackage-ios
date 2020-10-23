@@ -19,4 +19,8 @@
     [GPKGFeatureUtils testDeleteWithGeoPackage: self.geoPackage];
 }
 
+-(void) testPkModifiableAndValueValidation{
+    [GPKGFeatureUtils testPkModifiableAndValueValidationWithGeoPackage:self.geoPackage];
+}
+
 @end

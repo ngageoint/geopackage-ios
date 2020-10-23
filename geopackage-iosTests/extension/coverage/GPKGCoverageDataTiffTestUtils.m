@@ -107,7 +107,7 @@
         [GPKGTestUtils assertEqualWithValue:coverageData.definition andValue2:tileTableExtension.definition];
         [GPKGTestUtils assertEqualIntWithValue:GPKG_EST_READ_WRITE andValue2:[tileTableExtension extensionScopeType]];
         
-        GPKGGriddedCoverageDao * griddedCoverageDao = [geoPackage griddedCoverageDao];
+        GPKGGriddedCoverageDao *griddedCoverageDao = [GPKGCoverageData griddedCoverageDaoWithGeoPackage:geoPackage];
         
         // Test the Gridded Coverage
         GPKGGriddedCoverage * griddedCoverage = [coverageData griddedCoverage];
@@ -169,7 +169,7 @@
  */
 +(void) testTileRowWithGeoPackage: (GPKGGeoPackage *) geoPackage andValues: (GPKGCoverageDataValues *) coverageDataValues andCoverageData: (GPKGCoverageDataTiff *) coverageData andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andGriddedTile: (GPKGGriddedTile *) griddedTile andTileRow: (GPKGTileRow *) tileRow andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andAllowNils: (BOOL) allowNils{
     
-    GPKGGriddedTileDao * griddedTileDao = [geoPackage griddedTileDao];
+    GPKGGriddedTileDao *griddedTileDao = [GPKGCoverageData griddedTileDaoWithGeoPackage:geoPackage];
     
     [GPKGTestUtils assertNotNil:griddedTile];
     [GPKGTestUtils assertTrue:[griddedTile.id intValue] >= 0];

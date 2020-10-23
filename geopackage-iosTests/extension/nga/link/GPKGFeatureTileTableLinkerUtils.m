@@ -11,6 +11,7 @@
 #import "GPKGTestUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGExtensionManager.h"
+#import "GPKGNGAExtensions.h"
 
 @implementation GPKGFeatureTileTableLinkerUtils
 
@@ -81,8 +82,8 @@
         }
         
         GPKGExtensions * extension  = [linker extension];
-        [GPKGTestUtils assertEqualWithValue:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR] andValue2:extension.extensionName];
-        [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR andValue2:[extension author]];
+        [GPKGTestUtils assertEqualWithValue:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR] andValue2:extension.extensionName];
+        [GPKGTestUtils assertEqualWithValue:GPKG_NGA_EXTENSION_AUTHOR andValue2:[extension author]];
         [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR andValue2:[extension extensionNameNoAuthor]];
         [GPKGTestUtils assertEqualWithValue:[GPKGProperties valueOfProperty:@"geopackage.extensions.feature_tile_link"] andValue2:extension.definition];
         [GPKGTestUtils assertNil:extension.tableName];

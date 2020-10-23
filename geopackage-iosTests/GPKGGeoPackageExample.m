@@ -169,9 +169,9 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
     
-    [GPKGTestUtils assertEqualBoolWithValue:has && GEOMETRY_INDEX andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && GEOMETRY_INDEX andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && FEATURE_TILE_LINK andValue2:[[[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage] has]];
-    [GPKGTestUtils assertEqualBoolWithValue:has && TILE_SCALING andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_TILE_SCALING_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR]] > 0];
+    [GPKGTestUtils assertEqualBoolWithValue:has && TILE_SCALING andValue2:[extensionsDao tableExists] && [extensionsDao countByExtension:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR]] > 0];
     [GPKGTestUtils assertEqualBoolWithValue:has && PROPERTIES andValue2:[[[GPKGPropertiesExtension alloc] initWithGeoPackage:geoPackage] has]];
     [GPKGTestUtils assertEqualBoolWithValue:has && CONTENTS_ID andValue2:[[[GPKGContentsIdExtension alloc] initWithGeoPackage:geoPackage] has]];
     [GPKGTestUtils assertEqualBoolWithValue:has && FEATURE_STYLE andValue2:[[[GPKGFeatureStyleExtension alloc] initWithGeoPackage:geoPackage] has]];

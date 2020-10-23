@@ -390,15 +390,14 @@
         }
         
         // Update a Geometry and update the index of a single feature row
-        GPKGGeometryData *geometryData = [[GPKGGeometryData alloc] initWithSrsId:featureDao.geometryColumns.srsId];
-        SFPoint * point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
-        [geometryData setGeometry:point];
+        SFPoint *point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:featureDao.geometryColumns.srsId andGeometry:point];
         [testFeatureRow setGeometry:geometryData];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];
-        NSDate * lastIndexedBefore = [featureIndexManager lastIndexed];
+        NSDate *lastIndexedBefore = [featureIndexManager lastIndexed];
         [NSThread sleepForTimeInterval:1];
         [GPKGTestUtils assertTrue:[featureIndexManager indexWithFeatureRow:testFeatureRow]];
-        NSDate * lastIndexedAfter = [featureIndexManager lastIndexed];
+        NSDate *lastIndexedAfter = [featureIndexManager lastIndexed];
         [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
         
         // Verify the index was updated for the feature row
@@ -485,18 +484,20 @@
     
     NSString *featureTable = @"large_index";
     
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    
     GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:featureTable];
     [geometryColumns setColumnName:@"geom"];
     [geometryColumns setGeometryType:SF_POLYGON];
     [geometryColumns setZ:[NSNumber numberWithInt:0]];
     [geometryColumns setM:[NSNumber numberWithInt:0]];
+    [geometryColumns setSrs:srs];
     
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-180 andMinLatitudeDouble:-90 andMaxLongitudeDouble:180 andMaxLatitudeDouble:90];
     
-    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     NSArray* additionalColumns = [GPKGGeoPackageTestUtils featureColumns];
-    geometryColumns = [geoPackage createFeatureTableWithGeometryColumns:geometryColumns andAdditionalColumns:additionalColumns andBoundingBox:boundingBox andSrsId:srs.srsId];
+    [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andAdditionalColumns:additionalColumns andBoundingBox:boundingBox]];
     
     GPKGFeatureDao *featureDao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     

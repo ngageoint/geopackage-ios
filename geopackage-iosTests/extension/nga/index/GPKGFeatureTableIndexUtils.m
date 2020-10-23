@@ -15,6 +15,7 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionTransform.h"
 #import "GPKGExtensionManager.h"
+#import "GPKGNGAExtensions.h"
 
 @implementation GPKGFeatureTableIndexUtils
 
@@ -200,7 +201,7 @@
         [GPKGTestUtils assertEqualWithValue:extensions.tableName andValue2:featureTable];
         [GPKGTestUtils assertEqualWithValue:extensions.columnName andValue2:[featureDao geometryColumnName]];
         [GPKGTestUtils assertEqualWithValue:extensions.extensionName andValue2:[featureTableIndex extensionName]];
-        [GPKGTestUtils assertEqualWithValue:[extensions author] andValue2:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR];
+        [GPKGTestUtils assertEqualWithValue:[extensions author] andValue2:GPKG_NGA_EXTENSION_AUTHOR];
         [GPKGTestUtils assertEqualWithValue:[extensions extensionNameNoAuthor] andValue2:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
         [GPKGTestUtils assertEqualWithValue:extensions.definition andValue2:[featureTableIndex extensionDefinition]];
         [GPKGTestUtils assertEqualIntWithValue:[extensions extensionScopeType] andValue2:GPKG_EST_READ_WRITE];
@@ -236,7 +237,7 @@
     
     [GPKGTestUtils assertTrue:[geometryIndexDao tableExists]];
     [GPKGTestUtils assertTrue:[tableIndexDao tableExists]];
-    NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+    NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
     // Test deleting all NGA extensions
@@ -279,7 +280,7 @@
 
     [GPKGTestUtils assertTrue:[geometryIndexDao tableExists]];
     [GPKGTestUtils assertTrue:[tableIndexDao tableExists]];
-    NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
+    NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR];
     [GPKGTestUtils assertTrue:[extensionsDao countByExtension:extensionName] > 0];
 
     [GPKGTestUtils assertTrue:[geometryIndexDao count] > 0];

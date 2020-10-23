@@ -69,7 +69,7 @@
                     
                     // Create a new geometry data from the bytes and compare
                     // with original
-                    GPKGGeometryData * geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
+                    GPKGGeometryData *geometryDataFromBytes = [GPKGGeometryData createWithData:geometryDataToBytes];
                     [self compareGeometryDataWithExpected:geometryData andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
                     
                     // Set the geometry empty flag and verify the geometry
@@ -77,7 +77,7 @@
                     geometryDataAfterToBytes = [featureRow geometry];
                     [geometryDataAfterToBytes setEmpty:YES];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
-                    geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
+                    geometryDataFromBytes = [GPKGGeometryData createWithData:geometryDataToBytes];
                     [GPKGTestUtils assertNil:geometryDataFromBytes.geometry];
                     [self compareByteArrayWithExpected:[geometryDataAfterToBytes headerData] andActual:[geometryDataFromBytes headerData]];
 
@@ -87,10 +87,10 @@
                     geometryDataAfterToBytes = [featureRow geometry];
                     [geometryDataAfterToBytes setByteOrder: (geometryDataAfterToBytes.byteOrder == CFByteOrderBigEndian ? CFByteOrderLittleEndian : CFByteOrderBigEndian)];
                     geometryDataToBytes = [geometryDataAfterToBytes toData];
-                    geometryDataFromBytes = [[GPKGGeometryData alloc] initWithData:geometryDataToBytes];
+                    geometryDataFromBytes = [GPKGGeometryData createWithData:geometryDataToBytes];
                     [self compareGeometryDataWithExpected:geometryDataAfterToBytes andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
                     [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes headerData] isEqualToData:[geometryData headerData]]];
-                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes wkbData] isEqualToData:[geometryData wkbData]]];
+                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes wkb] isEqualToData:[geometryData wkb]]];
                     [GPKGTestUtils assertFalse:[geometryDataAfterToBytes.bytes isEqualToData:geometryData.bytes]];
                     [self compareGeometriesWithExpected:geometryData.geometry andActual:geometryDataAfterToBytes.geometry];
                 }
@@ -144,13 +144,10 @@
                         SFPProjectionTransform * transformTo = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:toEpsg];
                         SFPProjectionTransform * transformFrom = [[SFPProjectionTransform alloc] initWithFromProjection:transformTo.toProjection andToProjection:projection];
 
-                        NSData * bytes = [geometryData wkbData];
+                        NSData * bytes = [geometryData wkb];
                         
                         SFGeometry * projectedGeometry = [transformTo transformWithGeometry:geometry];
-                        GPKGGeometryData * projectedGeometryData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:-1]];
-                        [projectedGeometryData setGeometry:projectedGeometry];
-                        [projectedGeometryData toData];
-                        NSData * projectedBytes = [projectedGeometryData wkbData];
+                        NSData *projectedBytes = [GPKGGeometryData wkbFromGeometry:projectedGeometry];
                         
                         if([srs.organizationCoordsysId intValue] > 0){
                             [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
@@ -190,9 +187,9 @@
     [self compareGeometriesWithExpected:expected.geometry andActual:actual.geometry andDelta:.00000001];
 
     // Compare well-known binary geometries
-    [GPKGTestUtils assertEqualIntWithValue:(int)[expected wkbData].length andValue2:(int)[actual wkbData].length];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[expected wkb].length andValue2:(int)[actual wkb].length];
     if(compareGeometryBytes){
-        [self compareByteArrayWithExpected:[expected wkbData] andActual:[actual wkbData]];
+        [self compareByteArrayWithExpected:[expected wkb] andActual:[actual wkb]];
     }
     
     // Compare all bytes

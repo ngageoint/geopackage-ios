@@ -9,6 +9,7 @@
 #import "GPKGDataColumnsDaoTest.h"
 #import "GPKGTestSetupTeardown.h"
 #import "GPKGTestUtils.h"
+#import "GPKGSchemaExtension.h"
 
 @implementation GPKGDataColumnsDaoTest
 
@@ -29,11 +30,11 @@
 }
 
 - (void)testRetrieveDataColumns {
-    GPKGGeoPackage * geoPackage = [self geoPackage];
-    GPKGDataColumnsDao * dao = [geoPackage dataColumnsDao];
-    GPKGDataColumns * column = [dao dataColumnByTableName:@"point2d" andColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
+    GPKGGeoPackage *geoPackage = [self geoPackage];
+    GPKGDataColumnsDao *dao = [GPKGSchemaExtension dataColumnsDaoWithGeoPackage:geoPackage];
+    GPKGDataColumns *column = [dao dataColumnByTableName:@"point2d" andColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
     [GPKGTestUtils assertNotNil:column];
-    GPKGDataColumns * nilColumn = [dao dataColumnByTableName:@"nope" andColumnName:@"nope"];
+    GPKGDataColumns *nilColumn = [dao dataColumnByTableName:@"nope" andColumnName:@"nope"];
     [GPKGTestUtils assertNil:nilColumn];
 }
 

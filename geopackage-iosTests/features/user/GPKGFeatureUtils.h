@@ -25,4 +25,11 @@
  */
 +(void) testDeleteWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ * Test Feature DAO primary key modifications and disabling value validation
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testPkModifiableAndValueValidationWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end
