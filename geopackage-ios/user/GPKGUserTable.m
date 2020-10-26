@@ -39,7 +39,7 @@
     if(self != nil){
 
         self.userColumns = [userTable.userColumns mutableCopy];
-        self.constraints = [userTable mutableCopy];
+        self.constraints = [userTable.constraints mutableCopy];
         self.contents = userTable.contents;
         
     }

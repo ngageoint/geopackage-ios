@@ -89,7 +89,7 @@ NSString * const GPKG_UNIQUE = @"UNIQUE";
 }
 
 -(NSString *) buildSql{
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [NSMutableString string];
     [sql appendString:[self buildNameSql]];
     [sql appendString:GPKG_UNIQUE];
     [sql appendString:@" ("];

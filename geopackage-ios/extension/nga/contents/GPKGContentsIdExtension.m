@@ -239,9 +239,9 @@ NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION = @"geopackage.exten
     
     GPKGContentsDao *contentDao = [self.geoPackage contentsDao];
     
-    NSMutableString *query = [[NSMutableString alloc] initWithFormat:@"SELECT %@ FROM %@", GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME];
+    NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@", GPKG_CON_COLUMN_TABLE_NAME, GPKG_CON_TABLE_NAME];
     
-    NSMutableString *where = [[NSMutableString alloc] init];
+    NSMutableString *where = [NSMutableString string];
     
     NSMutableArray *queryArgs = nil;
     if(type != nil && type.length > 0){

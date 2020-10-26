@@ -530,7 +530,7 @@
         NSNumber * minYArg  = [NSNumber numberWithInt:tileGrid.minY];
         NSNumber * maxYArg  = [NSNumber numberWithInt:tileGrid.maxY];
         
-        NSMutableString * where = [[NSMutableString alloc] init];
+        NSMutableString * where = [NSMutableString string];
         
         
         [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelArg]];

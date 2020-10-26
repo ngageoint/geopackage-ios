@@ -101,7 +101,7 @@
         }
         
         if(featureCount <= maxFeatureInfo){
-            message = [[NSMutableString alloc] init];
+            message = [NSMutableString string];
             [message appendFormat:@"%@\n", self.name];
             
             int featureNumber = 0;
@@ -155,7 +155,7 @@
                 }
             }
         }else{
-            message = [[NSMutableString alloc] init];
+            message = [NSMutableString string];
             [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
             if(CLLocationCoordinate2DIsValid(locationCoordinate)){
                 [message appendString:@" near location:\n"];

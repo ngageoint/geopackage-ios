@@ -405,7 +405,7 @@
 
 -(NSString *) querySQLWithEnvelope: (SFGeometryEnvelope *) envelope{
     
-    NSMutableString * where = [[NSMutableString alloc] init];
+    NSMutableString * where = [NSMutableString string];
     
     [where appendFormat:@"%@ = ?", [GPKGSqlUtils quoteWrapName:GPKG_GPGM_COLUMN_GEOPACKAGE_ID]];
     [where appendString:@" and "];

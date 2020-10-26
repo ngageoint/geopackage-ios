@@ -74,7 +74,7 @@
 }
 
 -(NSString *) buildSQL{
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [NSMutableString string];
     if(self.queries.count > 1){
         [sql appendString:@"( "];
     }

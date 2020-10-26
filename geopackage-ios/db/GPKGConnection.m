@@ -519,7 +519,7 @@
         if([applicationId intValue] == 0){
             id = GPKG_SQLITE_APPLICATION_ID;
         }else{
-            int idInt = [applicationId intValue];
+            int idInt = CFSwapInt32HostToBig([applicationId intValue]);
             NSData *idData = [NSData dataWithBytes:&idInt length:4];
             id = [[NSString alloc] initWithData:idData encoding:NSUTF8StringEncoding];
         }

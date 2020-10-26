@@ -56,7 +56,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     int result = sqlite3_exec(connection, [statement UTF8String], nil, nil, &errInfo);
     
     if (SQLITE_OK != result) {
-        NSString* err = [[NSString alloc]initWithUTF8String:errInfo];
+        NSString* err = [NSString stringWithUTF8String:errInfo];
         [NSException raise:@"SQL Failed" format:@"Failed to execute SQL: %@, Error: %@", statement, err];
     }
 }
@@ -186,7 +186,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andDistinct: (BOOL) distinct andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
-    NSMutableString *sql = [NSMutableString alloc];
+    NSMutableString *sql = [NSMutableString string];
     [sql appendString:@"SELECT COUNT"];
     [sql appendString:@"("];
     if(column != nil){
@@ -594,7 +594,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     if(whereArgs != nil){
         [args addObjectsFromArray:whereArgs];
     }
-    if(where != nil){
+    if(where != nil && where.length > 0){
         [updateStatement appendString:@" WHERE "];
         [updateStatement appendString:where];
     }
@@ -798,7 +798,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(NSString *) createTableSQL: (GPKGUserTable *) table{
     
     // Build the create table sql
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [NSMutableString string];
     [sql appendFormat:@"CREATE TABLE %@ (", [self quoteWrapName:table.tableName]];
     
     // Add each column to the sql
@@ -831,7 +831,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(NSString *) columnDefinition: (GPKGUserColumn *) column{
     
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [NSMutableString string];
     
     [sql appendString:column.type];
     
@@ -975,13 +975,13 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(NSString *) transferTableContentSQL: (GPKGTableMapping *) tableMapping{
     
-    NSMutableString *insert = [[NSMutableString alloc] initWithString:@"INSERT INTO "];
+    NSMutableString *insert = [NSMutableString stringWithString:@"INSERT INTO "];
     [insert appendString:[self quoteWrapName:tableMapping.toTable]];
     [insert appendString:@" ("];
     
-    NSMutableString *selectColumns = [[NSMutableString alloc] init];
+    NSMutableString *selectColumns = [NSMutableString string];
     
-    NSMutableString *where = [[NSMutableString alloc] init];
+    NSMutableString *where = [NSMutableString string];
     if([tableMapping hasWhere]){
         [where appendString:tableMapping.where];
     }
@@ -1134,7 +1134,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     if([sql containsString:name]){
         
         BOOL updated = NO;
-        NSMutableString *updatedSqlBuilder = [[NSMutableString alloc] init];
+        NSMutableString *updatedSqlBuilder = [NSMutableString string];
         
         // Split the SQL apart by the name
         NSArray<NSString *> *parts = [sql componentsSeparatedByString:name];

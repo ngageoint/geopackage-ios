@@ -130,7 +130,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
     if([self typeAtRow:row] == GPKG_SMT_TABLE){
         NSString *sql = [self sqlAtRow:row];
         if(sql != nil){
-            constraints = [GPKGConstraintParser tableConstraintsForSQL:sql];
+            constraints = [GPKGConstraintParser tableConstraintsForSQL:sql]; // TODO column constraint parsing not working
         }
     }
     return constraints;
@@ -254,7 +254,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 
 +(GPKGSQLiteMaster *) queryWithConnection: (GPKGConnection *) db andColumns: (NSArray<NSNumber *> *) columns andTypes: (NSArray<NSNumber *> *) types andQuery: (GPKGSQLiteMasterQuery *) query{
     
-    NSMutableString *sql = [[NSMutableString alloc] initWithString:@"SELECT "];
+    NSMutableString *sql = [NSMutableString stringWithString:@"SELECT "];
     NSMutableArray<NSString *> *args = [NSMutableArray array];
     
     if(columns != nil && columns.count > 0){

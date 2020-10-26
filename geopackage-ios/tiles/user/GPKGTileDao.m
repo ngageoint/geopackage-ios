@@ -205,7 +205,7 @@
     
     if(tileGrid != nil){
         
-        NSMutableString *where = [[NSMutableString alloc] init];
+        NSMutableString *where = [NSMutableString string];
         
         NSNumber *zoom = [NSNumber numberWithInt:zoomLevel];
         NSNumber *minX = [NSNumber numberWithInt:tileGrid.minX];
@@ -259,7 +259,7 @@
 
 -(int) deleteTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{
     
-    NSMutableString *where = [[NSMutableString alloc] init];
+    NSMutableString *where = [NSMutableString string];
     
     NSNumber *zoom = [NSNumber numberWithInt:zoomLevel];
     NSNumber *columnNumber = [NSNumber numberWithInt:column];

@@ -33,7 +33,7 @@
 	<key>gpkg_metadata</key>
 	<array>
 		<string>CREATE TABLE gpkg_metadata (
-  id INTEGER CONSTRAINT m_pk PRIMARY KEY ASC NOT NULL,
+  id INTEGER CONSTRAINT m_pk PRIMARY KEY AUTOINCREMENT NOT NULL,
   md_scope TEXT NOT NULL DEFAULT &apos;dataset&apos;,
   md_standard_uri TEXT NOT NULL,
   mime_type TEXT NOT NULL DEFAULT &apos;text/xml&apos;,

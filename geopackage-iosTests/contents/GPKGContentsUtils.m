@@ -86,7 +86,7 @@
         [queryContentsResults close];
         
         // Prepared query, less than equal date
-        NSMutableString * where = [[NSMutableString alloc] init];
+        NSMutableString * where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_LAST_CHANGE andValue:contents.lastChange andOperation:@"<="]];
         NSMutableArray * whereArgs = [NSMutableArray array];
         [whereArgs addObject:contents.lastChange];
@@ -106,7 +106,7 @@
         [queryContentsResults close];
         
         // Prepared query, greater than date
-        where = [[NSMutableString alloc] init];
+        where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_LAST_CHANGE andValue:contents.lastChange andOperation:@">"]];
         whereArgs = [NSMutableArray array];
         [whereArgs addObject:contents.lastChange];
@@ -157,7 +157,7 @@
         
         // Find expected results for prepared update
         NSDecimalNumber *updatedMinimum = [[NSDecimalNumber alloc] initWithDouble:-90.0];
-        NSMutableString * where = [[NSMutableString alloc] init];
+        NSMutableString * where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_X andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
         [where appendString:@" or "];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_Y andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
@@ -415,7 +415,7 @@
             
             // Delete
             int deleted;
-            NSMutableString * where = [[NSMutableString alloc] init];
+            NSMutableString * where = [NSMutableString string];
             [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType]];
             NSMutableArray * whereArgs = [NSMutableArray array];
             [whereArgs addObject:contents.dataType];

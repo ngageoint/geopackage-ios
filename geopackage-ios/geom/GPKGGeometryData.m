@@ -659,7 +659,7 @@ static int defaultByteOrder;
 }
 
 -(SFGeometryEnvelope *) envelope{
-    SFGeometryEnvelope *envelope = self.envelope;
+    SFGeometryEnvelope *envelope = _envelope;
     if(envelope == nil){
         envelope = [self buildEnvelope];
     }

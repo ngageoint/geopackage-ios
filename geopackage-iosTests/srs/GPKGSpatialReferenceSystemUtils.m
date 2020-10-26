@@ -114,7 +114,7 @@
         NSString *updatedDescription = @"TEST_DESCRIPTION";
         GPKGContentValues *values = [[GPKGContentValues alloc] init];
         [values putKey:GPKG_SRS_COLUMN_DESCRIPTION withValue:updatedDescription];
-        NSMutableString * where = [[NSMutableString alloc] init];
+        NSMutableString * where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_PK andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
         NSMutableArray * whereArgs = [NSMutableArray array];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
@@ -324,7 +324,7 @@
             
             // Delete
             int deleted;
-            NSMutableString * where = [[NSMutableString alloc] init];
+            NSMutableString * where = [NSMutableString string];
             [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_ORGANIZATION andValue:srs.organization]];
             NSMutableArray * whereArgs = [NSMutableArray array];
             [whereArgs addObject:srs.organization];

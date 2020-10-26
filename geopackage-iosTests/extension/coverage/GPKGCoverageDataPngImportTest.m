@@ -95,7 +95,7 @@ static BOOL allowNulls = NO;
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [dao queryForIdObject:coverageDataTable];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
-        NSMutableString * log = [[NSMutableString alloc] init];
+        NSMutableString * log = [NSMutableString string];
         [log appendFormat:@"\n\nMin Latitude: %f\n", [boundingBox.minLatitude doubleValue]];
         [log appendFormat:@"Max Latitude: %f\n", [boundingBox.maxLatitude doubleValue]];
         [log appendFormat:@"Min Longitude: %f\n", [boundingBox.minLongitude doubleValue]];
@@ -111,7 +111,7 @@ static BOOL allowNulls = NO;
         projectedBoundingBox = [boundingBox transform:coverageToRequest];
     }
     
-    NSMutableString * log = [[NSMutableString alloc] init];
+    NSMutableString * log = [NSMutableString string];
     [log appendFormat:@"\n\nMin Latitude: %f\n", [projectedBoundingBox.minLatitude doubleValue]];
     [log appendFormat:@"Max Latitude: %f\n", [projectedBoundingBox.maxLatitude doubleValue]];
     [log appendFormat:@"Min Longitude: %f\n", [projectedBoundingBox.minLongitude doubleValue]];
@@ -154,7 +154,7 @@ static BOOL allowNulls = NO;
     SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
     
-    NSMutableString * log = [[NSMutableString alloc] init];
+    NSMutableString * log = [NSMutableString string];
     [log appendString:@"\n\nBounds Test\n\n"];
     [log appendString:@"REQUEST\n\n"];
     [log appendFormat:@"   Min Lat: %f\n", [boundingBox.minLatitude doubleValue]];
@@ -186,7 +186,7 @@ static BOOL allowNulls = NO;
     for(int i = GPKG_CDA_NEAREST_NEIGHBOR; i <= GPKG_CDA_BICUBIC; i++){
         enum GPKGCoverageDataAlgorithm algorithm = (enum GPKGCoverageDataAlgorithm)i;
         
-        NSMutableString * log = [[NSMutableString alloc] init];
+        NSMutableString * log = [NSMutableString string];
         [log appendFormat:@"\n\n%@ SINGLE COVERAGE DATA VALUES\n", [GPKGCoverageDataAlgorithms name:algorithm]];
         for (double lat = maxLatitude - (heightPixelDistance * .5); lat >= minLatitude; lat -= heightPixelDistance) {
             [log appendString:@"\n"];
@@ -256,7 +256,7 @@ static BOOL allowNulls = NO;
         double widthPixelDistance = (maxLongitude - minLongitude) / width;
         double heightPixelDistance = (maxLatitude - minLatitude) / height;
         
-        NSMutableString * log = [[NSMutableString alloc] init];
+        NSMutableString * log = [NSMutableString string];
         [log appendString:@"\n\nFull Bounding Box Test\n\n"];
         [log appendString:@"REQUEST\n\n"];
         [log appendFormat:@"   Min Lat: %f\n", [boundingBox.minLatitude doubleValue]];
@@ -297,7 +297,7 @@ static BOOL allowNulls = NO;
         for(int i = GPKG_CDA_NEAREST_NEIGHBOR; i <= GPKG_CDA_BICUBIC; i++){
             enum GPKGCoverageDataAlgorithm algorithm = (enum GPKGCoverageDataAlgorithm)i;
             
-            NSMutableString * log = [[NSMutableString alloc] init];
+            NSMutableString * log = [NSMutableString string];
             [log appendFormat:@"\n\n%@ SINGLE COVERAGE DATA VALUES Full Bounding Box\n", [GPKGCoverageDataAlgorithms name:algorithm]];
             for (double lat = maxLatitude; lat >= minLatitude; lat -= heightPixelDistance) {
                 [log appendString:@"\n"];
@@ -338,7 +338,7 @@ static BOOL allowNulls = NO;
             [log appendString:@"\n\n"];
             NSLog(log, nil);
             
-            log = [[NSMutableString alloc] init];
+            log = [NSMutableString string];
             GPKGCoverageDataResults * results = [GPKGCoverageDataTestUtils valuesWithGeoPackage:self.geoPackage andAlgorithm:algorithm andBoundingBox:boundingBox andWidth:width andHeight:height andEpsg:geoPackageEpsg];
             [log appendFormat:@"\n\n%@ Full Bounding Box\n", [GPKGCoverageDataAlgorithms name:algorithm]];
             NSArray * values = [results values];
@@ -366,7 +366,7 @@ static BOOL allowNulls = NO;
                     double minLatitude2 = [boundingBox2.minLatitude doubleValue];
                     double maxLatitude2 = [boundingBox2.maxLatitude doubleValue];
                     
-                    log = [[NSMutableString alloc] init];
+                    log = [NSMutableString string];
                     [log appendFormat:@"\n\n%@ SINGLE COVERAGE DATA VALUES Tile row = %d, column = %d\n", [GPKGCoverageDataAlgorithms name:algorithm], row, column];
                     
                     value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
@@ -448,7 +448,7 @@ static BOOL allowNulls = NO;
  */
 -(void) testLocationWithLatitude: (double) latitude andLongitude: (double) longitude{
     
-    NSMutableString * log = [[NSMutableString alloc] init];
+    NSMutableString * log = [NSMutableString string];
     
     [log appendFormat:@"\n\nLatitude: %f\n", latitude];
     [log appendFormat:@"Longitude: %f\n", longitude];

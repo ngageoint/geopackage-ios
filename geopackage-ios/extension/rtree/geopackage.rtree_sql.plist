@@ -19,7 +19,7 @@
 	<key>load</key>
 	<array>
 		<string>INSERT OR REPLACE INTO &quot;rtree_&lt;t&gt;_&lt;c&gt;&quot;
-  SELECT &quot;&lt;i&gt;&quot;, ST_MinX(&quot;&lt;c&gt;&quot;), ST_MaxX(&quot;&lt;c&gt;&quot;), ST_MinY(&quot;&lt;c&gt;&quot;), ST_MaxY(&quot;&lt;c&gt;&quot;) FROM &quot;&lt;t&gt;&quot;;</string>
+  SELECT &quot;&lt;i&gt;&quot;, ST_MinX(&quot;&lt;c&gt;&quot;), ST_MaxX(&quot;&lt;c&gt;&quot;), ST_MinY(&quot;&lt;c&gt;&quot;), ST_MaxY(&quot;&lt;c&gt;&quot;) FROM &quot;&lt;t&gt;&quot; WHERE &quot;&lt;c&gt;&quot; NOT NULL AND NOT ST_IsEmpty(&quot;&lt;c&gt;&quot;);</string>
 	</array>
 	<key>drop</key>
 	<array>

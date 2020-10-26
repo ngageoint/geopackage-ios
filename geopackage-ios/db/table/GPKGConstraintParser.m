@@ -186,7 +186,7 @@ static NSRegularExpression *constraintExpression = nil;
  */
 +(GPKGConstraint *) createConstraintWithParts: (NSArray<NSString *> *) parts andStartIndex: (int) startIndex andEndIndex: (int) endIndex andType: (enum GPKGConstraintType) type{
     
-    NSMutableString *sql = [[NSMutableString alloc] init];
+    NSMutableString *sql = [NSMutableString string];
     for (int i = startIndex; i < endIndex; i++) {
         if (sql.length > 0) {
             [sql appendString:@" "];

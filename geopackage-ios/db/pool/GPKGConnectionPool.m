@@ -429,7 +429,7 @@ static BOOL maintainStackTraces = NO;
                 NSTimeInterval time = [dateCheckedOut timeIntervalSinceNow] * -1;
                 if(time >= checkConnectionsWarningTime){
                     NSArray<NSString *> * stackTrace = [connection stackTrace];
-                    NSMutableString * stackTraceMessage = [[NSMutableString alloc] init];
+                    NSMutableString * stackTraceMessage = [NSMutableString string];
                     if(stackTrace != nil){
                         [stackTraceMessage appendString:@"\n\nConnection Check Out Stack Trace:\n"];
                         for(NSString * step in stackTrace){

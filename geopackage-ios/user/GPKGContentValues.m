@@ -45,7 +45,7 @@
 }
 
 - (NSString *)description {
-    NSMutableString * descriptionString = [[NSMutableString alloc]init];
+    NSMutableString * descriptionString = [NSMutableString string];
     for(NSString * name in [self keySet]){
         NSString * value = [self keyAsString:name];
         if([descriptionString length] > 0){

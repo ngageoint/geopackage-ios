@@ -87,6 +87,12 @@
     return value;
 }
 
+-(long long) insert: (NSObject *) object{
+    long long id = [super insert:object];
+    [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
+    return id;
+}
+
 -(int) deleteCascade: (GPKGMetadata *) metadata{
     int count = 0;
     

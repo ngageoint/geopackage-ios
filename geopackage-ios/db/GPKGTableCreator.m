@@ -66,7 +66,8 @@ NSString * const GPKG_RESOURCES_TABLES = @"geopackage.tables";
 }
 
 +(NSArray<NSString *> *) readProperty: (NSString *) propertyName fromFile: (NSString *) propertiesFile{
-    NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:propertiesFile];
+    NSString *propertiesPath = [GPKGIOUtils propertyListPathWithName:propertiesFile];
+    NSDictionary *properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
     NSArray<NSString *> *statements = [properties objectForKey:propertyName];
     if(statements == nil){
         [NSException raise:@"SQL Property" format:@"Failed to find SQL statements for property: %@, in resource: %@", propertyName, propertiesFile];

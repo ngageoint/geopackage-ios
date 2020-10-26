@@ -57,7 +57,7 @@ static NSRegularExpression *hexSingleColorExpression;
     [self validateHexSingle:red];
     [self validateHexSingle:green];
     [self validateHexSingle:blue];
-    NSMutableString *color = [[NSMutableString alloc] initWithString:@"#"];
+    NSMutableString *color = [NSMutableString stringWithString:@"#"];
     if(alpha != nil){
         [color appendString:[self expandShorthandHexSingle:alpha]];
     }
@@ -353,7 +353,7 @@ static NSRegularExpression *hexSingleColorExpression;
 +(NSString *) shorthandHex: (NSString *) color{
     [self validateHex:color];
     if(color.length > 5){
-        NSMutableString *shorthandColor = [[NSMutableString alloc] init];
+        NSMutableString *shorthandColor = [NSMutableString string];
         int startIndex = 0;
         if([color hasPrefix:@"#"]){
             [shorthandColor appendString:@"#"];
@@ -378,7 +378,7 @@ static NSRegularExpression *hexSingleColorExpression;
 +(NSString *) expandShorthandHex: (NSString *) color{
     [self validateHex:color];
     if(color.length < 6){
-        NSMutableString *expandColor = [[NSMutableString alloc] init];
+        NSMutableString *expandColor = [NSMutableString string];
         int startIndex = 0;
         if([color hasPrefix:@"#"]){
             [expandColor appendString:@"#"];

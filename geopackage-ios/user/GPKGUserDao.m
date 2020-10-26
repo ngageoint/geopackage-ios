@@ -90,7 +90,12 @@
 }
 
 -(NSArray<NSString *> *) idColumns{
-    return [NSArray arrayWithObject:[_table pkColumnName]];
+    NSMutableArray<NSString *> *columns = [NSMutableArray array];
+    NSString *idColumn = [_table pkColumnName];
+    if(idColumn != nil){
+        [columns addObject:idColumn];
+    }
+    return columns;
 }
 
 -(GPKGUserRow *) row: (GPKGResultSet *) results{

@@ -310,7 +310,7 @@
     NSArray<NSArray<NSObject *> *> *violations = [GPKGSqlUtils foreignKeyCheckWithConnection:db];
     
     if(violations.count > 0){
-        NSMutableString *violationsMessage = [[NSMutableString alloc] init];
+        NSMutableString *violationsMessage = [NSMutableString string];
         for (int i = 0; i < violations.count; i++) {
             if (i > 0) {
                 [violationsMessage appendString:@"; "];

@@ -194,7 +194,7 @@
 }
 
 -(NSArray<NSString *> *) tablesByTypeNames: (NSArray<NSString *> *) dataTypes{
-    return [self tableNames:[self contentsWithColumn:GPKG_CON_TABLE_NAME andTypeNames:dataTypes]];
+    return [self tableNames:[self contentsWithColumn:GPKG_CON_COLUMN_TABLE_NAME andTypeNames:dataTypes]];
 }
 
 -(GPKGResultSet *) contentsByType: (enum GPKGContentsDataType) dataType{
@@ -214,7 +214,7 @@
 }
 
 -(NSArray<NSString *> *) tables{
-    return [self tableNames:[self contentsWithColumn:GPKG_CON_TABLE_NAME andTypeNames:nil]];
+    return [self tableNames:[self contentsWithColumn:GPKG_CON_COLUMN_TABLE_NAME andTypeNames:nil]];
 }
 
 -(int) deleteCascade: (GPKGContents *) contents{
@@ -505,9 +505,13 @@
 -(NSArray<NSString *> *) tableNames: (GPKGResultSet *) contents{
     NSMutableArray<NSString *> *tableNames = [NSMutableArray array];
     if(contents != nil){
-        while([contents moveToNext]){
-            GPKGContents *content = (GPKGContents *) [self object:contents];
-            [tableNames addObject:content.tableName];
+        @try {
+            while([contents moveToNext]){
+                GPKGContents *content = (GPKGContents *) [self object:contents];
+                [tableNames addObject:content.tableName];
+            }
+        } @finally {
+            [contents close];
         }
     }
     return tableNames;

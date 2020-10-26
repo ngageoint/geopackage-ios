@@ -1238,11 +1238,14 @@
 }
 
 -(NSString *) buildPkWhereWithValues: (NSArray *) idValues{
-    GPKGColumnValues *idColumnValues = [[GPKGColumnValues alloc] init];
-    for(int i = 0; i < [idValues count]; i++){
-        [idColumnValues addColumn:[GPKGUtils objectAtIndex:i inArray:self.idColumns] withValue:[GPKGUtils objectAtIndex:i inArray:idValues]];
+    NSString * whereString = nil;
+    if(idValues != nil && idValues.count > 0){
+        GPKGColumnValues *idColumnValues = [[GPKGColumnValues alloc] init];
+        for(int i = 0; i < [idValues count]; i++){
+            [idColumnValues addColumn:[GPKGUtils objectAtIndex:i inArray:self.idColumns] withValue:[GPKGUtils objectAtIndex:i inArray:idValues]];
+        }
+        whereString = [self buildWhereWithFields:idColumnValues];
     }
-    NSString * whereString = [self buildWhereWithFields:idColumnValues];
     return whereString;
 }
 

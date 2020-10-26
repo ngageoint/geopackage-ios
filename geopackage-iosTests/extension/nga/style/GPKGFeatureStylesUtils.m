@@ -373,7 +373,7 @@
                 typeIconRow = [geometryTypeIcons objectForKey:typeNumber];
                 [GPKGTestUtils assertTrue:[typeIconRow idValue] >= 0];
                 [GPKGTestUtils assertNotNil:[typeIconRow data]];
-                [GPKGTestUtils assertEqualWithValue:[[NSString alloc] initWithFormat:@"image/%@", GPKG_TEST_ICON_POINT_IMAGE_EXTENSION] andValue2:[typeIconRow contentType]];
+                [GPKGTestUtils assertEqualWithValue:[NSString stringWithFormat:@"image/%@", GPKG_TEST_ICON_POINT_IMAGE_EXTENSION] andValue2:[typeIconRow contentType]];
                 UIImage *iconImage = [typeIconRow dataImage];
                 [GPKGTestUtils assertNotNil:iconImage];
                 [GPKGTestUtils assertTrue:iconImage.size.width > 0];
@@ -602,7 +602,7 @@
     UIImage *iconImage = [UIImage imageWithContentsOfFile:iconImagePath];
     
     [iconRow setDataWithImage:iconImage andFormat:GPKG_CF_PNG];
-    [iconRow setContentType:[[NSString alloc] initWithFormat:@"image/%@", GPKG_TEST_ICON_POINT_IMAGE_EXTENSION]];
+    [iconRow setContentType:[NSString stringWithFormat:@"image/%@", GPKG_TEST_ICON_POINT_IMAGE_EXTENSION]];
     if ([GPKGTestUtils randomDouble] < .5) {
         [iconRow setName:@"Icon Name"];
     }

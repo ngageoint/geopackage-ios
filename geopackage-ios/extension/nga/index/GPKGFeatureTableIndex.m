@@ -464,7 +464,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
 
 -(NSString *) whereWithEnvelope: (SFGeometryEnvelope *) envelope{
     
-    NSMutableString *where = [[NSMutableString alloc] init];
+    NSMutableString *where = [NSMutableString string];
     [where appendString:[self.geometryIndexDao buildWhereWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:self.tableName]];
     [where appendString:@" and "];
     
