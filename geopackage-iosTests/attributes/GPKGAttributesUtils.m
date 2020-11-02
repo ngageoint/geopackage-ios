@@ -193,6 +193,7 @@
                     expectedDistinctManualCursorCount++;
                 }
                 [expectedResults close];
+                GPKGResultSet *expectedResultsTODO = [dao rawQuery:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", column, dao.tableName]]; // TODO delete
                 [GPKGTestUtils assertEqualIntWithValue:expectedDistinctManualCursorCount andValue2:expectedDistinctCursorCount];
                 results = [dao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:column]];
                 [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[results columnCount]];

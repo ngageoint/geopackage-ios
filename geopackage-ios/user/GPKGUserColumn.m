@@ -155,7 +155,7 @@
     if(defaultValue != nil){
         [self addDefaultValueConstraint:defaultValue];
     }
-    self.defaultValue = defaultValue;
+    _defaultValue = defaultValue;
 }
 
 -(void) setPrimaryKey: (BOOL) primaryKey{

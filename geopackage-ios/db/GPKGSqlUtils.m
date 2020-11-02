@@ -136,6 +136,8 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     NSString *countStatement = [statement uppercaseString];
     
+    // TODO fix
+    
     if(![countStatement containsString:@" COUNT(*) "]){
         
         NSRange range = [countStatement rangeOfString:@" FROM "];

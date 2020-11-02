@@ -360,7 +360,7 @@
 }
 
 -(GPKGResultSet *) queryForEqWithField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{
-    return [self queryForEqWithDistinct:NO andField:field andValue:value];
+    return [self queryForEqWithDistinct:NO andField:field andColumnValue:value];
 }
 
 -(GPKGResultSet *) queryForEqWithDistinct: (BOOL) distinct andField: (NSString *) field andColumnValue: (GPKGColumnValue *) value{

@@ -26,11 +26,15 @@
 
 -(instancetype) init{
     self = [super init];
+    if(self != nil){
+        self.constraints = [NSMutableArray array];
+        self.typedContraints = [NSMutableDictionary dictionary];
+    }
     return self;
 }
 
 -(instancetype) initWithConstraints: (GPKGConstraints *) constraints{
-    self = [super init];
+    self = [self init];
     if(self != nil){
         for(GPKGConstraint *constraint in constraints.constraints){
             [self add:[constraint mutableCopy]];

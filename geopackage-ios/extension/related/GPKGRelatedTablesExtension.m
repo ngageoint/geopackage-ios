@@ -71,6 +71,9 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 }
 
 -(GPKGExtendedRelationsDao *) extendedRelationsDao{
+    if(_extendedRelationsDao == nil){
+        _extendedRelationsDao = [GPKGRelatedTablesExtension extendedRelationsDaoWithGeoPackage:self.geoPackage];
+    }
     return _extendedRelationsDao;
 }
 

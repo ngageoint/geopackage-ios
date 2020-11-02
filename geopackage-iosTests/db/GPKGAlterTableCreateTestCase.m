@@ -110,7 +110,7 @@
     [GPKGAlterTable alterColumn:booleanColumn inTableName:tableName withConnection:self.geoPackage.database];
     booleanColumn = (GPKGUserCustomColumn *)[[self.geoPackage userCustomDaoWithTableName:tableName].table columnWithIndex:3];
     [GPKGTestUtils assertTrue:[booleanColumn hasDefaultValue]];
-    [GPKGTestUtils assertFalse:[booleanColumn defaultValue]];
+    [GPKGTestUtils assertFalse:[((NSNumber *)[booleanColumn defaultValue]) boolValue]];
 
     // Default boolean value removed
     [booleanColumn setDefaultValue:nil];
