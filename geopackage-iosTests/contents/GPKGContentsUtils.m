@@ -29,7 +29,6 @@
             GPKGContents *result = (GPKGContents *)[dao object:results];
             [GPKGTestUtils assertNotNil:result.tableName];
             [GPKGTestUtils assertNotNil:result.dataType];
-            [GPKGTestUtils assertEqualWithValue:result.dataType andValue2:[GPKGContentsDataTypes name:[result contentsDataType]]];
             [GPKGTestUtils assertNotNil:result.lastChange];
             GPKGSpatialReferenceSystem *srs = [dao srs:result];
             if (srs != nil) {

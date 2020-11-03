@@ -23,6 +23,8 @@
 #import "GPKGFeatureTileLink.h"
 #import "GPKGTileScaling.h"
 #import "GPKGContentsId.h"
+#import "GPKGGeoPackageConstants.h"
+#import "GPKGNGAExtensions.h"
 
 @implementation GPKGConstraintTestCase
 
@@ -37,18 +39,18 @@
     [self testSQLTable:GPKG_TMS_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"fk_gtms_table_name", @"fk_gtms_srs", nil]];
     [self testSQLTable:GPKG_TM_TABLE_NAME withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"pk_ttm", @"fk_tmm_table_name", nil]];
     [self testSQLTable:GPKG_EX_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"ge_tce"]];
-    [self testSQLTable:GPKG_DC_TABLE_NAME withPrimaryKey:1 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObjects:@"pk_gdc", @"gdc_tn", nil]];
-    [self testSQLTable:GPKG_DCC_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"gdcc_ntv"]];
-    [self testSQLTable:GPKG_M_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"m_pk"]];
-    [self testSQLTable:GPKG_MR_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"crmr_mfi_fk", @"crmr_mpi_fk", nil]];
-    [self testSQLTable:GPKG_CDGC_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:1 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtct_name", [NSNull null], nil]];
-    [self testSQLTable:GPKG_CDGT_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtat_name", [NSNull null], nil]];
-    [self testSQLTable:GPKG_ER_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray array]];
-    [self testSQLTable:GPKG_TI_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray array]];
-    [self testSQLTable:GPKG_GI_TABLE_NAME withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"pk_ngi", @"fk_ngi_nti_tn", nil]];
-    [self testSQLTable:GPKG_FTL_TABLE_NAME withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"pk_nftl"]];
-    [self testSQLTable:GPKG_TS_TABLE_NAME withPrimaryKey:0 andUnique:0 andCheck:1 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_nts_gtms_tn", [NSNull null], nil]];
-    [self testSQLTable:GPKG_CI_TABLE_NAME withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"uk_nci_table_name", @"fk_nci_gc_tn", nil]];
+    [self testSQLTable:GPKG_DC_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:1 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObjects:@"pk_gdc", @"gdc_tn", nil]];
+    [self testSQLTable:GPKG_DCC_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"gdcc_ntv"]];
+    [self testSQLTable:GPKG_M_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"m_pk"]];
+    [self testSQLTable:GPKG_MR_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:2 andNames:[NSArray arrayWithObjects:@"crmr_mfi_fk", @"crmr_mpi_fk", nil]];
+    [self testSQLTable:GPKG_CDGC_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:1 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtct_name", [NSNull null], nil]];
+    [self testSQLTable:GPKG_CDGT_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_g2dgtat_name", [NSNull null], nil]];
+    [self testSQLTable:GPKG_ER_TABLE_NAME fromProperties:GPKG_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray array]];
+    [self testSQLTable:GPKG_TI_TABLE_NAME fromProperties:GPKG_NGA_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray array]];
+    [self testSQLTable:GPKG_GI_TABLE_NAME fromProperties:GPKG_NGA_EXTENSION_AUTHOR withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"pk_ngi", @"fk_ngi_nti_tn", nil]];
+    [self testSQLTable:GPKG_FTL_TABLE_NAME fromProperties:GPKG_NGA_EXTENSION_AUTHOR withPrimaryKey:1 andUnique:0 andCheck:0 andForeignKey:0 andNames:[NSArray arrayWithObject:@"pk_nftl"]];
+    [self testSQLTable:GPKG_TS_TABLE_NAME fromProperties:GPKG_NGA_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:0 andCheck:1 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"fk_nts_gtms_tn", [NSNull null], nil]];
+    [self testSQLTable:GPKG_CI_TABLE_NAME fromProperties:GPKG_NGA_EXTENSION_AUTHOR withPrimaryKey:0 andUnique:1 andCheck:0 andForeignKey:1 andNames:[NSArray arrayWithObjects:@"uk_nci_table_name", @"fk_nci_gc_tn", nil]];
     
 }
 
@@ -212,6 +214,8 @@
  *
  * @param tableName
  *            database table name
+ * @param properties
+ *            properties
  * @param primaryKey
  *            expected primary key count
  * @param unique
@@ -224,6 +228,28 @@
  *            expected constraint names
  */
 -(void) testSQLTable: (NSString *) tableName withPrimaryKey: (int) primaryKey andUnique: (int) unique andCheck: (int) check andForeignKey: (int) foreignKey andNames: (NSArray<NSString *> *) names{
+    [self testSQLTable:tableName fromProperties:nil withPrimaryKey:primaryKey andUnique:unique andCheck:check andForeignKey:foreignKey andNames:names];
+}
+
+/**
+ * Test the database script for constraint parsing
+ *
+ * @param tableName
+ *            database table name
+ * @param properties
+ *            properties
+ * @param primaryKey
+ *            expected primary key count
+ * @param unique
+ *            expected unique count
+ * @param check
+ *            expected check count
+ * @param foreignKey
+ *            expected foreign key count
+ * @param names
+ *            expected constraint names
+ */
+-(void) testSQLTable: (NSString *) tableName fromProperties: (NSString *) properties withPrimaryKey: (int) primaryKey andUnique: (int) unique andCheck: (int) check andForeignKey: (int) foreignKey andNames: (NSArray<NSString *> *) names{
     
     int count = 0;
     int primaryKeyCount = 0;
@@ -231,7 +257,7 @@
     int checkCount = 0;
     int foreignKeyCount = 0;
     
-    NSArray<NSString *> *statements = [GPKGTableCreator readProperty:tableName];
+    NSArray<NSString *> *statements = [GPKGTableCreator readProperty:tableName fromProperties:properties];
     for (NSString *sql in statements) {
         
         GPKGConstraintTestResult *constraintResult = [self testConstraintWithSql:sql andNames:names];

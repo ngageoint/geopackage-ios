@@ -134,22 +134,89 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andStatement: (NSString *) statement andArgs: (NSArray *) args{
     
-    NSString *countStatement = [statement uppercaseString];
+    int count = 0;
     
-    // TODO fix
+    NSMutableArray<NSString *> *sqlCommands = [NSMutableArray array];
     
-    if(![countStatement containsString:@" COUNT(*) "]){
+    NSString *upperCaseSQL = [statement uppercaseString];
+    NSRange selectRange = [upperCaseSQL rangeOfString:@"SELECT"];
+    
+    if(selectRange.length > 0){
         
-        NSRange range = [countStatement rangeOfString:@" FROM "];
-        if(range.length == 0){
-            return -1;
+        int afterSelectIndex = (int) selectRange.location + (int) selectRange.length;
+        NSString *upperCaseAfterSelect = [[upperCaseSQL substringFromIndex:afterSelectIndex] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+        if([upperCaseAfterSelect hasPrefix:@"COUNT"]){
+            [sqlCommands addObject:statement];
+        }else{
+            
+            int fromIndex = -1;
+            NSRange fromRange = [upperCaseSQL rangeOfString:@"FROM"];
+            if(fromRange.length > 0){
+                fromIndex = (int) fromRange.location;
+            }
+            
+            if([upperCaseAfterSelect hasPrefix:@"DISTINCT"]){
+                
+                NSRange commaRange = [upperCaseSQL rangeOfString:@","];
+                if(commaRange.length == 0 || commaRange.location >= fromIndex){
+                    
+                    [sqlCommands addObject:[NSString stringWithFormat:@"SELECT COUNT(%@) %@", [statement substringWithRange:NSMakeRange(afterSelectIndex, fromIndex - afterSelectIndex)], [statement substringFromIndex:fromIndex]]];
+                    
+                    NSMutableString *isNull = [NSMutableString stringWithString:@"SELECT COUNT(*) > 0 "];
+                    NSRange distinctRange = [upperCaseSQL rangeOfString:@"DISTINCT"];
+                    int afterDistinctIndex = (int) distinctRange.location + (int) distinctRange.length;
+                    NSString *columnIsNull = [NSString stringWithFormat:@"%@IS NULL", [statement substringWithRange:NSMakeRange(afterDistinctIndex, fromIndex - afterDistinctIndex)]];
+                    NSRange whereRange = [upperCaseSQL rangeOfString:@"WHERE"];
+                    NSRange endRange = [statement rangeOfString:@";"];
+                    int endIndex;
+                    if(endRange.length == 0){
+                        endIndex = (int) statement.length;
+                    }else{
+                        endIndex = (int) endRange.location;
+                    }
+                    if(whereRange.length > 0){
+                        int afterWhereIndex = (int) whereRange.location + (int) whereRange.length;
+                        [isNull appendString:[statement substringWithRange:NSMakeRange(fromIndex, afterWhereIndex - fromIndex)]];
+                        [isNull appendString:columnIsNull];
+                        [isNull appendString:@" AND ( "];
+                        [isNull appendString:[statement substringWithRange:NSMakeRange(afterWhereIndex, endIndex - afterWhereIndex)]];
+                        [isNull appendString:@" )"];
+                    }else{
+                        [isNull appendString:[statement substringWithRange:NSMakeRange(fromIndex, endIndex - fromIndex)]];
+                        [isNull appendString:@" WHERE"];
+                        [isNull appendString:columnIsNull];
+                    }
+                    
+                    [sqlCommands addObject:isNull];
+                    
+                }
+                
+            }else if(fromIndex != -1){
+                [sqlCommands addObject:[NSString stringWithFormat:@"SELECT COUNT(*) %@", [statement substringFromIndex:fromIndex]]];
+            }
         }
-        NSInteger index = range.location;
         
-        countStatement = [NSString stringWithFormat:@"SELECT COUNT(*)%@", [countStatement substringFromIndex:index]];
+        count = -1;
+        if(sqlCommands.count == 0){
+            // Unable to count
+            NSLog(@"Unable to count query without result iteration. SQL: %@, args: %@", statement, args);
+        }else{
+            count = 0;
+            for(NSString *sqlCommand in sqlCommands){
+                @try {
+                    NSObject *value = [self querySingleResultWithDatabase:connection andSql:sqlCommand andArgs:args andColumn:0 andDataType:GPKG_DT_MEDIUMINT];
+                    if(value != nil){
+                        count += [((NSNumber *) value) intValue];
+                    }
+                } @catch (NSException *exception) {
+                    NSLog(@"Unable to count query without result iteration. SQL: %@, args: %@. error: %@", statement, args, exception);
+                    count = -1;
+                }
+            }
+        }
+        
     }
-    
-    int count = [self countWithDatabase: connection andCountStatement:countStatement andArgs:args];
     
     return count;
 }

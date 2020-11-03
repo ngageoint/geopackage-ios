@@ -13,6 +13,7 @@
 #import "GPKGGeoPackageGeometryDataUtils.h"
 #import "GPKGPropertiesExtension.h"
 #import "GPKGMetadataExtension.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGAttributesUtils
 
@@ -193,7 +194,6 @@
                     expectedDistinctManualCursorCount++;
                 }
                 [expectedResults close];
-                GPKGResultSet *expectedResultsTODO = [dao rawQuery:[NSString stringWithFormat:@"SELECT DISTINCT %@ FROM %@", column, dao.tableName]]; // TODO delete
                 [GPKGTestUtils assertEqualIntWithValue:expectedDistinctManualCursorCount andValue2:expectedDistinctCursorCount];
                 results = [dao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:column]];
                 [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[results columnCount]];
@@ -206,7 +206,7 @@
                 NSMutableSet<NSObject *> *distinctValues = [NSMutableSet set];
                 while([results moveToNext]){
                     NSObject *value = [results valueWithColumnName:column];
-                    [distinctValues addObject:value];
+                    [GPKGUtils addObject:value toSet:distinctValues];
                 }
                 [results close];
                 [GPKGTestUtils assertEqualIntWithValue:distinctCount andValue2:(int)distinctValues.count];
@@ -230,12 +230,12 @@
                     while([results moveToNext]){
                         NSObject<NSCopying> *previousValue = (NSObject<NSCopying> *)[results valueWithColumnName:previousColumn];
                         NSObject *value = [results valueWithColumnName:column];
-                        distinctValues = [distinctPairs objectForKey:previousValue];
+                        distinctValues = [GPKGUtils objectForKey:previousValue inDictionary:distinctPairs];
                         if(distinctValues == nil){
                             distinctValues = [NSMutableSet set];
-                            [distinctPairs setObject:distinctValues forKey:previousValue];
+                            [GPKGUtils setObject:distinctValues forKey:previousValue inDictionary:distinctPairs];
                         }
-                        [distinctValues addObject:value];
+                        [GPKGUtils addObject:value toSet:distinctValues];
                     }
                     [results close];
                     int distinctPairsCount = 0;

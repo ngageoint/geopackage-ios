@@ -27,12 +27,20 @@
     return [self objectFromCollection:[array objectAtIndex:index]];
 }
 
++(void) addObject: (id) object toSet: (NSMutableSet *) set{
+    [set addObject:[self objectToCollection:object]];
+}
+
++(BOOL) containsObject: (id) object inSet: (NSMutableSet *) set{
+    return [set containsObject:[self objectToCollection:object]];
+}
+
 +(void) setObject: (id) object forKey: (id<NSCopying>) key inDictionary: (NSMutableDictionary *) dictionary{
-    [dictionary setObject:[self objectToCollection:object] forKey:key];
+    [dictionary setObject:[self objectToCollection:object] forKey:[self objectToCollection:key]];
 }
 
 +(id) objectForKey: (id) key inDictionary: (NSDictionary *) dictionary{
-    return [self objectFromCollection:[dictionary objectForKey:key]];
+    return [self objectFromCollection:[dictionary objectForKey:[self objectToCollection:key]]];
 }
 
 +(id) objectToCollection: (id) object{

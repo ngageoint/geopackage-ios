@@ -51,6 +51,24 @@
 +(id) objectAtIndex: (NSUInteger) index inArray: (NSArray *) array;
 
 /**
+ *  Add an object to a set, supports nil to NSNull translations
+ *
+ *  @param object object
+ *  @param set  set
+ */
++(void) addObject: (id) object toSet: (NSMutableSet *) set;
+
+/**
+ *  Contains object in set, supports NSNull to nil transations
+ *
+ *  @param object object
+ *  @param set set
+ *
+ *  @return YES if contains
+ */
++(BOOL) containsObject: (id) object inSet: (NSMutableSet *) set;
+
+/**
  *  Set object in dictionary with key, supports nil to NSNull translations
  *
  *  @param object     object
