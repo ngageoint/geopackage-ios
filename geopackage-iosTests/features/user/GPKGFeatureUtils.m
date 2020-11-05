@@ -235,7 +235,7 @@
         [GPKGTestUtils assertTrue:[results moveToNext]];
         GPKGFeatureRow *feature = [featureDao featureRow:results];
         [GPKGTestUtils assertEqualIntWithValue:idValue andValue2:[feature idValue]];
-        [GPKGTestUtils assertNil:[feature geometry]];
+        [GPKGTestUtils assertNotNil:[feature geometry]];
         [GPKGTestUtils assertEqualDoubleWithValue:realValue andValue2:[(NSNumber *)[feature valueWithColumnName:realColumn] doubleValue]];
     } @finally {
         [results close];

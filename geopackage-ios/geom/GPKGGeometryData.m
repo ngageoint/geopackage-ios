@@ -401,7 +401,7 @@ static int defaultByteOrder;
     self.srsId = [reader readInt];
     
     // Read the envelope
-    self.envelope = [self readEnvelopeWithIndicator:envelopeIndicator andByteReader:reader];
+    _envelope = [self readEnvelopeWithIndicator:envelopeIndicator andByteReader:reader];
     
     // Save off where the WKB bytes start
     self.wkbGeometryIndex = reader.nextByte;
@@ -501,7 +501,7 @@ static int defaultByteOrder;
     
     // Add the envelope contents indicator code (3-bit unsigned integer to
     // bits 3, 2, and 1)
-    int envelopeIndicator = self.envelope == nil ? 0 : [GPKGGeometryData indicatorWithEnvelope:self.envelope];
+    int envelopeIndicator = _envelope == nil ? 0 : [GPKGGeometryData indicatorWithEnvelope:_envelope];
     flag += (envelopeIndicator << 1);
     
     // Add the byte order to bit 0, 0 for Big Endian and 1 for Little
@@ -570,24 +570,24 @@ static int defaultByteOrder;
 
 -(void) writeEnvelopeWithByteWriter: (SFByteWriter *) writer{
     
-    if (self.envelope != nil) {
+    if (_envelope != nil) {
         
         // Write x and y values
-        [writer writeDouble:self.envelope.minX];
-        [writer writeDouble:self.envelope.maxX];
-        [writer writeDouble:self.envelope.minY];
-        [writer writeDouble:self.envelope.maxY];
+        [writer writeDouble:_envelope.minX];
+        [writer writeDouble:_envelope.maxX];
+        [writer writeDouble:_envelope.minY];
+        [writer writeDouble:_envelope.maxY];
         
         // Write z values
-        if (self.envelope.hasZ) {
-            [writer writeDouble:self.envelope.minZ];
-            [writer writeDouble:self.envelope.maxZ];
+        if (_envelope.hasZ) {
+            [writer writeDouble:_envelope.minZ];
+            [writer writeDouble:_envelope.maxZ];
         }
         
         // Write m values
-        if (self.envelope.hasM) {
-            [writer writeDouble:self.envelope.minM];
-            [writer writeDouble:self.envelope.maxM];
+        if (_envelope.hasM) {
+            [writer writeDouble:_envelope.minM];
+            [writer writeDouble:_envelope.maxM];
         }
     }
 }
@@ -695,7 +695,7 @@ static int defaultByteOrder;
         if(geometry != nil){
             geometry = [transform transformWithGeometry:geometry];
         }
-        SFGeometryEnvelope *envelope = self.envelope;
+        SFGeometryEnvelope *envelope = _envelope;
         if(envelope != nil){
             envelope = [transform transformWithGeometryEnvelope:envelope];
         }

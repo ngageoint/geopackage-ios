@@ -207,16 +207,16 @@
         [GPKGTestUtils assertNotNil:actual];
         
         [GPKGTestUtils assertEqualIntWithValue:[GPKGGeometryData indicatorWithEnvelope:expected] andValue2:[GPKGGeometryData indicatorWithEnvelope:actual]];
-        [GPKGTestUtils assertEqualWithValue:expected.minX andValue2:actual.minX];
-        [GPKGTestUtils assertEqualWithValue:expected.maxX andValue2:actual.maxX];
-        [GPKGTestUtils assertEqualWithValue:expected.minY andValue2:actual.minY];
-        [GPKGTestUtils assertEqualWithValue:expected.maxY andValue2:actual.maxY];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.minX andValue2:actual.minX andDelta:0.0000000000001];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.maxX andValue2:actual.maxX andDelta:0.0000000000001];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.minY andValue2:actual.minY andDelta:0.0000000000001];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.maxY andValue2:actual.maxY andDelta:0.0000000000001];
         [GPKGTestUtils assertEqualBoolWithValue:expected.hasZ andValue2:actual.hasZ];
-        [GPKGTestUtils assertEqualWithValue:expected.minZ andValue2:actual.minZ];
-        [GPKGTestUtils assertEqualWithValue:expected.maxZ andValue2:actual.maxZ];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.minZ andValue2:actual.minZ andDelta:0.0000000000001];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.maxZ andValue2:actual.maxZ andDelta:0.0000000000001];
         [GPKGTestUtils assertEqualBoolWithValue:expected.hasM andValue2:actual.hasM];
-        [GPKGTestUtils assertEqualWithValue:expected.minM andValue2:actual.minM];
-        [GPKGTestUtils assertEqualWithValue:expected.maxM andValue2:actual.maxM];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.minM andValue2:actual.minM andDelta:0.0000000000001];
+        [GPKGTestUtils assertEqualDecimalNumberWithValue:expected.maxM andValue2:actual.maxM andDelta:0.0000000000001];
     }
     
 }

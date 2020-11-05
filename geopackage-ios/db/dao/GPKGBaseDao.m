@@ -105,6 +105,27 @@
     return nil;
 }
 
+-(GPKGContentValues *) contentValuesWithObject: (NSObject *) object{
+    return [self contentValuesWithObject:object andIncludeNils:YES];
+}
+
+-(GPKGContentValues *) contentValuesWithObject: (NSObject *) object andIncludeNils: (BOOL) includeNils{
+    
+    GPKGContentValues *values = [[GPKGContentValues alloc] init];
+    
+    for(NSString *column in self.columnNames){
+            
+        NSObject *value = [self valueFromObject:object withColumnName:column];
+        
+        if(includeNils || value != nil){
+            [values putKey:column withValue:value];
+        }
+        
+    }
+    
+    return values;
+}
+
 -(void) dropTable{
     [self.database dropTable:self.tableName];
 }
@@ -1080,13 +1101,7 @@
 -(int) update: (NSObject *) object{
     [self validateObject:object];
     
-    GPKGContentValues *values = [[GPKGContentValues alloc] init];
-    for(NSString * column in self.columnNames){
-        if(![self.idColumns containsObject:column]){
-            NSObject * value = [self valueFromObject:object withColumnName:column];
-            [values putKey:column withValue:value];
-        }
-    }
+    GPKGContentValues *values = [self contentValuesWithObject:object];
     NSArray* multiId = [self multiId:object];
     NSString *where = [self buildPkWhereWithValues:multiId];
     NSArray *whereArgs = [self buildPkWhereArgsWithValues:multiId];
@@ -1147,15 +1162,7 @@
 -(long long) insert: (NSObject *) object{
     [self validateObject:object];
     
-    GPKGContentValues *values = [[GPKGContentValues alloc]init];
-    for(NSString * column in self.columnNames){
-        if(!self.autoIncrementId || ![self.idColumns containsObject:column]){
-            NSObject * value = [self valueFromObject:object withColumnName:column];
-            if(value != nil){
-                [values putKey:column withValue:value];
-            }
-        }
-    }
+    GPKGContentValues *values = [self contentValuesWithObject:object andIncludeNils:NO];
     if([values size] == 0){
         for(NSString * column in self.columnNames){
             [values putKey:column withValue:[NSNull null]];

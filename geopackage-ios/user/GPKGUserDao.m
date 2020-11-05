@@ -77,6 +77,29 @@
     return _projection;
 }
 
+-(GPKGContentValues *) contentValuesWithObject: (NSObject *) object andIncludeNils: (BOOL) includeNils{
+    
+    GPKGContentValues *values = [[GPKGContentValues alloc] init];
+    
+    for(GPKGUserColumn *column in [self columns]){
+        
+        NSObject *value = [self valueFromObject:object withColumnIndex:column.index];
+        
+        if(!column.primaryKey || (value != nil && [self.table isPkModifiable])){
+            
+            NSString *columnName = column.name;
+            
+            if(includeNils || value != nil){
+                [values putKey:columnName withValue:value];
+            }
+            
+        }
+        
+    }
+    
+    return values;
+}
+
 -(NSArray<GPKGUserColumn *> *) columns{
     return [_table columns];
 }
