@@ -8,10 +8,6 @@
 
 #import "GPKGImportGeoPackageTestCase.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GPKGReadmeTestCase : GPKGImportGeoPackageTestCase
 
 @end
-
-NS_ASSUME_NONNULL_END

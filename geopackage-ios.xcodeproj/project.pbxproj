@@ -170,6 +170,7 @@
 		041A2C522413046E00A5B08A /* GPKGFeaturePreviewCreateTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A2C512413046E00A5B08A /* GPKGFeaturePreviewCreateTestCase.m */; };
 		041A2C552413048900A5B08A /* GPKGFeaturePreviewImportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A2C542413048900A5B08A /* GPKGFeaturePreviewImportTestCase.m */; };
 		041A2C58241304E800A5B08A /* GPKGFeaturePreviewTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A2C57241304E800A5B08A /* GPKGFeaturePreviewTestUtils.m */; };
+		041C701E2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041C701D2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift */; };
 		0422BAE51DD38A38002709B6 /* GPKGCoverageDataRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BAE31DD38A38002709B6 /* GPKGCoverageDataRequest.h */; };
 		0422BAE61DD38A38002709B6 /* GPKGCoverageDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0422BAE41DD38A38002709B6 /* GPKGCoverageDataRequest.m */; };
 		0422BAE91DD3B320002709B6 /* GPKGCoverageDataSourcePixel.h in Headers */ = {isa = PBXBuildFile; fileRef = 0422BAE71DD3B320002709B6 /* GPKGCoverageDataSourcePixel.h */; };
@@ -916,6 +917,8 @@
 		041A2C542413048900A5B08A /* GPKGFeaturePreviewImportTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeaturePreviewImportTestCase.m; sourceTree = "<group>"; };
 		041A2C56241304E800A5B08A /* GPKGFeaturePreviewTestUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeaturePreviewTestUtils.h; sourceTree = "<group>"; };
 		041A2C57241304E800A5B08A /* GPKGFeaturePreviewTestUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeaturePreviewTestUtils.m; sourceTree = "<group>"; };
+		041C701C2555F75C00F7C341 /* geopackage-iosTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "geopackage-iosTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		041C701D2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPKGSwiftReadmeTest.swift; sourceTree = "<group>"; };
 		0422BAE31DD38A38002709B6 /* GPKGCoverageDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataRequest.h; sourceTree = "<group>"; };
 		0422BAE41DD38A38002709B6 /* GPKGCoverageDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGCoverageDataRequest.m; sourceTree = "<group>"; };
 		0422BAE71DD3B320002709B6 /* GPKGCoverageDataSourcePixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGCoverageDataSourcePixel.h; sourceTree = "<group>"; };
@@ -2188,6 +2191,8 @@
 				040D0C3B201FA110000ACD6C /* GPKGGeoPackageExample.m */,
 				041510182540AF0000A97AF9 /* GPKGReadmeTestCase.h */,
 				041510192540AF0000A97AF9 /* GPKGReadmeTestCase.m */,
+				041C701D2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift */,
+				041C701C2555F75C00F7C341 /* geopackage-iosTests-Bridging-Header.h */,
 				042FC8E01B964DA200549A4B /* import_db_corrupt.gpkg */,
 				042FC8E11B964DA200549A4B /* import_db.gpkg */,
 				042B88AA1DFF4AC3006C2A4F /* coverage_data.gpkg */,
@@ -3589,6 +3594,7 @@
 					};
 					042FC6EA1B964BC800549A4B = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 1210;
 					};
 				};
 			};
@@ -4036,6 +4042,7 @@
 				0447FA2B1CDBFADF00418104 /* GPKGZoomOtherExtensionTest.m in Sources */,
 				04711ADD220B99D5007DC3A4 /* GPKGContentsIdCreateTest.m in Sources */,
 				04B285CB23340C3900CBF9DD /* GPKGAlterTableCreateTestCase.m in Sources */,
+				041C701E2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift in Sources */,
 				0422BB471DF0E94D002709B6 /* GPKGCoverageDataTiffImportTest.m in Sources */,
 				0447FA221CDBE8D700418104 /* GPKGCrsWktExtensionTest.m in Sources */,
 				04B285CF23340CB800CBF9DD /* GPKGConstraintTestCase.m in Sources */,
@@ -4300,6 +4307,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 316F133D9F4C3C4631556BC9 /* Pods-geopackage-iosTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -4313,6 +4321,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = geopackage_iosTests;
 				STRIP_PNG_TEXT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "geopackage-iosTests/geopackage-iosTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -4320,6 +4331,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2238D6F65D3DC8F0551140F1 /* Pods-geopackage-iosTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -4329,6 +4341,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = geopackage_iosTests;
 				STRIP_PNG_TEXT = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "geopackage-iosTests/geopackage-iosTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
