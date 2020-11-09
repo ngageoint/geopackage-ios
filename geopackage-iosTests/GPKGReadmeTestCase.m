@@ -96,7 +96,7 @@
     @try {
         while([tileResults moveToNext]){
             GPKGTileRow *tileRow = [tileDao tileRow:tileResults];
-            NSData *tileBytes = [tileRow tileData];
+            NSData *tileData = [tileRow tileData];
             UIImage *tileImage = [tileRow tileDataImage];
             // ...
         }

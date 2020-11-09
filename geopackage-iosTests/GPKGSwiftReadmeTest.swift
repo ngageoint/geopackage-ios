@@ -91,7 +91,7 @@ class SFWTSwiftReadmeTest: XCTestCase{
             defer{tileResults.close()}
             while(tileResults.moveToNext()){
                 let tileRow: GPKGTileRow = tileDao.tileRow(tileResults)
-                let tileBytes: Data = tileRow.tileData()
+                let tileData: Data = tileRow.tileData()
                 let tileImage: UIImage = tileRow.tileDataImage()
                 // ...
             }
@@ -119,10 +119,10 @@ class SFWTSwiftReadmeTest: XCTestCase{
         let featureTileCount: Int32 = featureTileGenerator.generateTiles()
 
         // Close database when done
-        geoPackage.close();
+        geoPackage.close()
 
         // Close manager when done
-        manager.close();
+        manager.close()
         
     }
     
