@@ -6,7 +6,27 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 5.0.0 (TBD)
 
-* TBD
+* GeoPackage spec version 1.3.0
+* sf-wkb-ios version 3.0.0
+* sf-wkt-ios version 1.0.0
+* sf-proj-ios version 3.0.0
+* ogc-api-features-json-ios version 2.0.0
+* tiff-ios version 2.0.0
+* Community extensions decoupling and management, including class repackaging
+* Contents Data Type refactor, core data types and expanded custom data type support
+* Wider support for views in place of tables
+* User table creation refactor with metadata objects
+* GeoPackage application id, user version, contents type, and bounding box enhancements
+* DAO options to enable modifying row ids or disable column value type validation
+* DAO creation methods
+* Distinct select statement queries and counts
+* Aggregate functions (count, max, min) refactor
+* Optional autoincrement support
+* Columns constraints copy fix, resolving alter table schema information losses
+* More lenient checks, logging errors in place of throwing exceptions and continuing
+* Geometry Data build envelope, creation, byte/data, Well-Known Text, and transform methods
+* Tile creation projection fix for different projections in the same unit
+* SRS and Projection shortcut methods
 
 ## [4.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/4.0.1) (04-21-2020)
 
@@ -66,7 +86,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 * sf-wkb-ios version 2.0.2
 * sf-proj-ios version 2.0.2
-* tiff-io version 1.1.2
+* tiff-ios version 1.1.2
 * NGA [Contents Id](http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html) Extension
 * NGA [Feature Style](http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html) Extension
 * OGC [Related Tables](http://www.geopackage.org/18-000.html) Extension improvements
