@@ -10,7 +10,7 @@
 #import "GPKGSqlUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#include <asl.h>
+#import <os/log.h>
 
 @interface GPKGConnectionPool()
 
@@ -148,7 +148,6 @@ static BOOL maintainStackTraces = NO;
         self.inTransaction = NO;
         self.writeFunctions = [NSMutableDictionary dictionary];
         self.connectionExecs = [NSMutableDictionary dictionary];
-        asl_add_log_file(NULL, STDERR_FILENO);
         
         // Open a database connection
         GPKGSqliteConnection * connection = [self openConnection];
@@ -437,7 +436,7 @@ static BOOL maintainStackTraces = NO;
                         }
                     }
                     NSString * warning = [NSString stringWithFormat:@"Connection %@ to %@ has been checked out for %f seconds. Verify connections are being closed.%@", [connection connectionId], self.filename, time, stackTraceMessage];
-                    asl_log(NULL, NULL, ASL_LEVEL_WARNING, "%s", [warning UTF8String]);
+                    os_log(OS_LOG_DEFAULT, "%s", [warning UTF8String]);
                 }
             }
         }

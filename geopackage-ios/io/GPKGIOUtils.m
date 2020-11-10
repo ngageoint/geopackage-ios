@@ -248,7 +248,7 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(NSString *) decodeUrl: (NSString *) url{
     NSString *result = [url stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    result = [result stringByRemovingPercentEncoding];
     return result;
 }
 
