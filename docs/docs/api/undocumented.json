@@ -2290,6 +2290,34 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/filter/SFFiniteFilterTypes.h",
+      "line": 16,
+      "symbol": "SFFiniteFilterType.SF_FF_FINITE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/filter/SFFiniteFilterTypes.h",
+      "line": 17,
+      "symbol": "SFFiniteFilterType.SF_FF_FINITE_AND_INFINITE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/filter/SFFiniteFilterTypes.h",
+      "line": 18,
+      "symbol": "SFFiniteFilterType.SF_FF_FINITE_AND_NAN",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/filter/SFFiniteFilterTypes.h",
+      "line": 21,
+      "symbol": "SFFiniteFilterTypes",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/sf-ios/sf-ios/util/sweep/SFEventTypes.h",
       "line": 15,
       "symbol": "SFEventType.SF_ET_LEFT",
@@ -2565,42 +2593,42 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 29,
-      "symbol": "GPKG_EXTENSION_AUTHOR",
+      "symbol": "GPKG_SQLITE_APPLICATION_ID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 30,
-      "symbol": "GPKG_GEOMETRY_EXTENSION_PREFIX",
+      "symbol": "GPKG_EXTENSION_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 31,
-      "symbol": "GPKG_BUNDLE_NAME",
+      "symbol": "GPKG_GEOMETRY_EXTENSION_PREFIX",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 32,
-      "symbol": "GPKG_PROPERTY_LIST_TYPE",
+      "symbol": "GPKG_BUNDLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 33,
-      "symbol": "GPKG_RESOURCES_PROPERTIES",
+      "symbol": "GPKG_PROPERTY_LIST_TYPE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/GPKGGeoPackageConstants.h",
       "line": 34,
-      "symbol": "GPKG_RESOURCES_TABLES",
+      "symbol": "GPKG_RESOURCES_PROPERTIES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
@@ -2626,192 +2654,129 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/attributes/GPKGAttributesTableMetadata.h",
+      "line": 14,
+      "symbol": "GPKGAttributesTableMetadata",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 17,
       "symbol": "GPKG_CON_COLUMN_PK",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 18,
       "symbol": "GPKG_CON_COLUMN_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 19,
       "symbol": "GPKG_CON_COLUMN_DATA_TYPE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 20,
       "symbol": "GPKG_CON_COLUMN_IDENTIFIER",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 21,
       "symbol": "GPKG_CON_COLUMN_DESCRIPTION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 22,
       "symbol": "GPKG_CON_COLUMN_LAST_CHANGE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 23,
       "symbol": "GPKG_CON_COLUMN_MIN_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 24,
       "symbol": "GPKG_CON_COLUMN_MIN_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 25,
       "symbol": "GPKG_CON_COLUMN_MAX_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 26,
       "symbol": "GPKG_CON_COLUMN_MAX_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContents.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContents.h",
       "line": 27,
       "symbol": "GPKG_CON_COLUMN_SRS_ID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
       "line": 15,
       "symbol": "GPKGContentsDataType.GPKG_CDT_FEATURES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
       "line": 16,
       "symbol": "GPKGContentsDataType.GPKG_CDT_TILES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
       "line": 17,
       "symbol": "GPKGContentsDataType.GPKG_CDT_ATTRIBUTES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
-      "line": 18,
-      "symbol": "GPKGContentsDataType.GPKG_CDT_GRIDDED_COVERAGE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
-      "line": 25,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
+      "line": 24,
       "symbol": "GPKG_CDT_TILES_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
-      "line": 26,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
+      "line": 25,
       "symbol": "GPKG_CDT_ATTRIBUTES_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/contents/GPKGContentsDataTypes.h",
       "line": 27,
-      "symbol": "GPKG_CDT_GRIDDED_COVERAGE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/contents/GPKGContentsDataTypes.h",
-      "line": 29,
       "symbol": "GPKGContentsDataTypes",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 17,
-      "symbol": "GPKG_SRS_COLUMN_PK",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 18,
-      "symbol": "GPKG_SRS_COLUMN_SRS_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 19,
-      "symbol": "GPKG_SRS_COLUMN_SRS_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 20,
-      "symbol": "GPKG_SRS_COLUMN_ORGANIZATION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 21,
-      "symbol": "GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 22,
-      "symbol": "GPKG_SRS_COLUMN_DEFINITION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 23,
-      "symbol": "GPKG_SRS_COLUMN_DESCRIPTION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/core/srs/GPKGSpatialReferenceSystem.h",
-      "line": 24,
-      "symbol": "GPKG_SRS_COLUMN_DEFINITION_12_063",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
@@ -2997,6 +2962,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/GPKGTableCreator.h",
+      "line": 13,
+      "symbol": "GPKG_RESOURCES_TABLES",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/master/GPKGSQLiteMasterColumns.h",
       "line": 15,
       "symbol": "GPKGSQLiteMasterColumn.GPKG_SMC_TYPE",
@@ -3126,6 +3098,13 @@
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/metadata/GPKGGeoPackageMetadata.h",
       "line": 22,
       "symbol": "GPKG_GPM_COLUMN_PATH",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/metadata/GPKGGeoPackageMetadataTableCreator.h",
+      "line": 11,
+      "symbol": "GPKG_METADATA_TABLES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
@@ -3299,42 +3278,49 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 28,
+      "line": 22,
+      "symbol": "GPKGConstraintType.GPKG_CT_AUTOINCREMENT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
+      "line": 29,
       "symbol": "GPKG_CT_UNIQUE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 29,
+      "line": 30,
       "symbol": "GPKG_CT_CHECK_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 30,
+      "line": 31,
       "symbol": "GPKG_CT_FOREIGN_KEY_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 31,
+      "line": 32,
       "symbol": "GPKG_CT_NOT_NULL_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 32,
+      "line": 33,
       "symbol": "GPKG_CT_DEFAULT_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
-      "line": 33,
+      "line": 34,
       "symbol": "GPKG_CT_COLLATE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
@@ -3342,6 +3328,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
       "line": 35,
+      "symbol": "GPKG_CT_AUTOINCREMENT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/db/table/GPKGConstraintTypes.h",
+      "line": 37,
       "symbol": "GPKGConstraintTypes",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
@@ -3417,83 +3410,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGMetadataExtension.h",
-      "line": 11,
-      "symbol": "GPKG_METADATA_EXTENSION_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 14,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 15,
-      "symbol": "GPKG_RTREE_INDEX_PREFIX",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 16,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 17,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 18,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 19,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexExtension.h",
-      "line": 20,
-      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexTableDao.h",
-      "line": 14,
-      "symbol": "GPKGRTreeIndexTableDao",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGRTreeIndexTableRow.h",
-      "line": 13,
-      "symbol": "GPKGRTreeIndexTableRow",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGSchemaExtension.h",
-      "line": 11,
-      "symbol": "GPKG_SCHEMA_EXTENSION_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/GPKGWebPExtension.h",
       "line": 11,
       "symbol": "GPKG_WEBP_EXTENSION_NAME",
@@ -3508,71 +3424,15 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsId.h",
-      "line": 16,
-      "symbol": "GPKG_CI_COLUMN_PK",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsId.h",
-      "line": 17,
-      "symbol": "GPKG_CI_COLUMN_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsId.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/coverage/GPKGCoverageData.h",
       "line": 18,
-      "symbol": "GPKG_CI_COLUMN_TABLE_NAME",
+      "symbol": "GPKG_CD_GRIDDED_COVERAGE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsId.h",
-      "line": 20,
-      "symbol": "GPKGContentsId",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsIdDao.h",
-      "line": 12,
-      "symbol": "GPKGContentsIdDao",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsIdExtension.h",
-      "line": 12,
-      "symbol": "GPKG_EXTENSION_CONTENTS_ID_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsIdExtension.h",
-      "line": 13,
-      "symbol": "GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsIdExtension.h",
-      "line": 14,
-      "symbol": "GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/contents/GPKGContentsIdExtension.h",
-      "line": 16,
-      "symbol": "GPKGContentsIdExtension",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/coverage/GPKGCoverageData.h",
-      "line": 17,
+      "line": 19,
       "symbol": "GPKG_GRIDDED_COVERAGE_EXTENSION_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
@@ -3802,255 +3662,892 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGFeatureTableIndex.h",
-      "line": 15,
-      "symbol": "GPKG_EXTENSION_GEOMETRY_INDEX_AUTHOR",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 16,
+      "symbol": "GPKG_M_COLUMN_PK",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGFeatureTableIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 17,
+      "symbol": "GPKG_M_COLUMN_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 18,
+      "symbol": "GPKG_M_COLUMN_SCOPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 19,
+      "symbol": "GPKG_M_COLUMN_STANDARD_URI",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 20,
+      "symbol": "GPKG_M_COLUMN_MIME_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 21,
+      "symbol": "GPKG_M_COLUMN_METADATA",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 27,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_UNDEFINED",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 28,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_FIELD_SESSION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 29,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_COLLECTION_SESSION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 30,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_SERIES",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 31,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_DATASET",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 32,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_FEATURE_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 33,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_FEATURE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 34,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_ATTRIBUTE_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 35,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_ATTRIBUTE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 36,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_TILE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 37,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_MODEL",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 38,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_CATALOG",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 39,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_SCHEMA",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 40,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_TAXONOMY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 41,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_SOFTWARE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 42,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_SERVICE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 43,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_COLLECTION_HARDWARE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 44,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_NON_GEOGRAPHIC_DATASET",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 45,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_DIMENSION_GROUP",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 46,
+      "symbol": "GPKGMetadataScopeType.GPKG_MST_STYLE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 53,
+      "symbol": "GPKG_MST_FIELD_SESSION_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 54,
+      "symbol": "GPKG_MST_COLLECTION_SESSION_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 55,
+      "symbol": "GPKG_MST_SERIES_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 56,
+      "symbol": "GPKG_MST_DATASET_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 57,
+      "symbol": "GPKG_MST_FEATURE_TYPE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 58,
+      "symbol": "GPKG_MST_FEATURE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 59,
+      "symbol": "GPKG_MST_ATTRIBUTE_TYPE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 60,
+      "symbol": "GPKG_MST_ATTRIBUTE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 61,
+      "symbol": "GPKG_MST_TILE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 62,
+      "symbol": "GPKG_MST_MODEL_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 63,
+      "symbol": "GPKG_MST_CATALOG_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 64,
+      "symbol": "GPKG_MST_SCHEMA_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 65,
+      "symbol": "GPKG_MST_TAXONOMY_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 66,
+      "symbol": "GPKG_MST_SOFTWARE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 67,
+      "symbol": "GPKG_MST_SERVICE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 68,
+      "symbol": "GPKG_MST_COLLECTION_HARDWARE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 69,
+      "symbol": "GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 70,
+      "symbol": "GPKG_MST_DIMENSION_GROUP_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadata.h",
+      "line": 71,
+      "symbol": "GPKG_MST_STYLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/GPKGMetadataExtension.h",
+      "line": 13,
+      "symbol": "GPKG_METADATA_EXTENSION_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
       "line": 16,
+      "symbol": "GPKG_MR_COLUMN_REFERENCE_SCOPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 17,
+      "symbol": "GPKG_MR_COLUMN_TABLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 18,
+      "symbol": "GPKG_MR_COLUMN_COLUMN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 19,
+      "symbol": "GPKG_MR_COLUMN_ROW_ID_VALUE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 20,
+      "symbol": "GPKG_MR_COLUMN_TIMESTAMP",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 21,
+      "symbol": "GPKG_MR_COLUMN_FILE_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 22,
+      "symbol": "GPKG_MR_COLUMN_PARENT_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 28,
+      "symbol": "GPKGReferenceScopeType.GPKG_RST_GEOPACKAGE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 29,
+      "symbol": "GPKGReferenceScopeType.GPKG_RST_TABLE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 30,
+      "symbol": "GPKGReferenceScopeType.GPKG_RST_COLUMN",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 31,
+      "symbol": "GPKGReferenceScopeType.GPKG_RST_ROW",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 32,
+      "symbol": "GPKGReferenceScopeType.GPKG_RST_ROW_COL",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 39,
+      "symbol": "GPKG_RST_TABLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 40,
+      "symbol": "GPKG_RST_COLUMN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 41,
+      "symbol": "GPKG_RST_ROW_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/metadata/reference/GPKGMetadataReference.h",
+      "line": 42,
+      "symbol": "GPKG_RST_ROW_COL_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/GPKGNGATableCreator.h",
+      "line": 11,
+      "symbol": "GPKG_NGA_TABLES",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/contents/GPKGContentsId.h",
+      "line": 16,
+      "symbol": "GPKG_CI_COLUMN_PK",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/contents/GPKGContentsId.h",
+      "line": 17,
+      "symbol": "GPKG_CI_COLUMN_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/contents/GPKGContentsId.h",
+      "line": 18,
+      "symbol": "GPKG_CI_COLUMN_TABLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/contents/GPKGContentsIdExtension.h",
+      "line": 12,
+      "symbol": "GPKG_EXTENSION_CONTENTS_ID_NAME_NO_AUTHOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/contents/GPKGContentsIdExtension.h",
+      "line": 13,
+      "symbol": "GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGFeatureTableIndex.h",
+      "line": 17,
       "symbol": "GPKG_EXTENSION_GEOMETRY_INDEX_NAME_NO_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGFeatureTableIndex.h",
-      "line": 17,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGFeatureTableIndex.h",
+      "line": 18,
       "symbol": "GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 16,
       "symbol": "GPKG_GI_COLUMN_PK1",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 17,
       "symbol": "GPKG_GI_COLUMN_PK2",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 18,
       "symbol": "GPKG_GI_COLUMN_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 19,
       "symbol": "GPKG_GI_COLUMN_GEOM_ID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 20,
       "symbol": "GPKG_GI_COLUMN_MIN_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 21,
       "symbol": "GPKG_GI_COLUMN_MAX_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 22,
       "symbol": "GPKG_GI_COLUMN_MIN_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 23,
       "symbol": "GPKG_GI_COLUMN_MAX_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 24,
       "symbol": "GPKG_GI_COLUMN_MIN_Z",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 25,
       "symbol": "GPKG_GI_COLUMN_MAX_Z",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 26,
       "symbol": "GPKG_GI_COLUMN_MIN_M",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGGeometryIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGGeometryIndex.h",
       "line": 27,
       "symbol": "GPKG_GI_COLUMN_MAX_M",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGTableIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGTableIndex.h",
       "line": 15,
       "symbol": "GPKG_TI_COLUMN_PK",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGTableIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGTableIndex.h",
       "line": 16,
       "symbol": "GPKG_TI_COLUMN_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/index/GPKGTableIndex.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/index/GPKGTableIndex.h",
       "line": 17,
       "symbol": "GPKG_TI_COLUMN_LAST_INDEXED",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLink.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileLink.h",
       "line": 15,
       "symbol": "GPKG_FTL_COLUMN_PK1",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLink.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileLink.h",
       "line": 16,
       "symbol": "GPKG_FTL_COLUMN_PK2",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLink.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileLink.h",
       "line": 17,
       "symbol": "GPKG_FTL_COLUMN_FEATURE_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLink.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileLink.h",
       "line": 18,
       "symbol": "GPKG_FTL_COLUMN_TILE_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLink.h",
-      "line": 20,
-      "symbol": "GPKGFeatureTileLink",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileLinkDao.h",
-      "line": 12,
-      "symbol": "GPKGFeatureTileLinkDao",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileTableLinker.h",
-      "line": 13,
-      "symbol": "GPKG_EXTENSION_FEATURE_TILE_LINK_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileTableLinker.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileTableLinker.h",
       "line": 14,
       "symbol": "GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileTableLinker.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/link/GPKGFeatureTileTableLinker.h",
       "line": 15,
       "symbol": "GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/link/GPKGFeatureTileTableLinker.h",
-      "line": 17,
-      "symbol": "GPKGFeatureTileTableLinker",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesExtension.h",
       "line": 11,
-      "symbol": "GPKG_EXTENSION_PROPERTIES_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
-      "line": 12,
       "symbol": "GPKG_EXTENSION_PROPERTIES_NAME_NO_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
-      "line": 13,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesExtension.h",
+      "line": 12,
       "symbol": "GPKG_PROP_EXTENSION_PROPERTIES_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
-      "line": 14,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesExtension.h",
+      "line": 13,
       "symbol": "GPKG_EXTENSION_PROPERTIES_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
-      "line": 15,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesExtension.h",
+      "line": 14,
       "symbol": "GPKG_EXTENSION_PROPERTIES_COLUMN_PROPERTY",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesExtension.h",
-      "line": 16,
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesExtension.h",
+      "line": 15,
       "symbol": "GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertiesManager.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertiesManager.h",
       "line": 14,
       "symbol": "GPKGPropertiesManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/properties/GPKGPropertyNames.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/properties/GPKGPropertyNames.h",
       "line": 127,
       "symbol": "GPKGPropertyNames",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScaling.h",
+      "line": 17,
+      "symbol": "GPKG_TS_COLUMN_PK",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScaling.h",
+      "line": 18,
+      "symbol": "GPKG_TS_COLUMN_TABLE_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScaling.h",
+      "line": 19,
+      "symbol": "GPKG_TS_COLUMN_SCALING_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScaling.h",
+      "line": 20,
+      "symbol": "GPKG_TS_COLUMN_ZOOM_IN",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScaling.h",
+      "line": 21,
+      "symbol": "GPKG_TS_COLUMN_ZOOM_OUT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 55,
+      "symbol": "GPKG_TSC_OUT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 56,
+      "symbol": "GPKG_TSC_IN_OUT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 57,
+      "symbol": "GPKG_TSC_OUT_IN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 58,
+      "symbol": "GPKG_TSC_CLOSEST_IN_OUT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 59,
+      "symbol": "GPKG_TSC_CLOSEST_OUT_IN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileScalingTypes.h",
+      "line": 61,
+      "symbol": "GPKGTileScalingTypes",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileTableScaling.h",
+      "line": 12,
+      "symbol": "GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/scale/GPKGTileTableScaling.h",
+      "line": 13,
+      "symbol": "GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h",
+      "line": 18,
+      "symbol": "GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h",
+      "line": 19,
+      "symbol": "GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 15,
+      "symbol": "GPKG_IT_COLUMN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 16,
+      "symbol": "GPKG_IT_COLUMN_DESCRIPTION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 17,
+      "symbol": "GPKG_IT_COLUMN_WIDTH",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 18,
+      "symbol": "GPKG_IT_COLUMN_HEIGHT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 19,
+      "symbol": "GPKG_IT_COLUMN_ANCHOR_U",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGIconTable.h",
+      "line": 20,
+      "symbol": "GPKG_IT_COLUMN_ANCHOR_V",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 16,
+      "symbol": "GPKG_ST_COLUMN_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 17,
+      "symbol": "GPKG_ST_COLUMN_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 18,
+      "symbol": "GPKG_ST_COLUMN_DESCRIPTION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 19,
+      "symbol": "GPKG_ST_COLUMN_COLOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 20,
+      "symbol": "GPKG_ST_COLUMN_OPACITY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 21,
+      "symbol": "GPKG_ST_COLUMN_WIDTH",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 22,
+      "symbol": "GPKG_ST_COLUMN_FILL_COLOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGStyleTable.h",
+      "line": 23,
+      "symbol": "GPKG_ST_COLUMN_FILL_OPACITY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
@@ -4111,14 +4608,14 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/related/GPKGRelatedTablesExtension.h",
-      "line": 19,
+      "line": 20,
       "symbol": "GPKG_EXTENSION_RELATED_TABLES_NAME_NO_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/related/GPKGRelatedTablesExtension.h",
-      "line": 20,
+      "line": 21,
       "symbol": "GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
@@ -4216,253 +4713,232 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/related/media/GPKGMediaTable.h",
-      "line": 17,
-      "symbol": "GPKG_RMT_COLUMN_DATA",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/related/media/GPKGMediaTable.h",
       "line": 18,
       "symbol": "GPKG_RMT_COLUMN_CONTENT_TYPE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
+      "line": 14,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
+      "line": 15,
+      "symbol": "GPKG_RTREE_INDEX_PREFIX",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
+      "line": 16,
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_ID",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
       "line": 17,
-      "symbol": "GPKG_TS_COLUMN_PK",
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
       "line": 18,
-      "symbol": "GPKG_TS_COLUMN_TABLE_NAME",
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_X",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
       "line": 19,
-      "symbol": "GPKG_TS_COLUMN_SCALING_TYPE",
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MIN_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexExtension.h",
       "line": 20,
-      "symbol": "GPKG_TS_COLUMN_ZOOM_IN",
+      "symbol": "GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
-      "line": 21,
-      "symbol": "GPKG_TS_COLUMN_ZOOM_OUT",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScaling.h",
-      "line": 23,
-      "symbol": "GPKGTileScaling",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexTableDao.h",
+      "line": 14,
+      "symbol": "GPKGRTreeIndexTableDao",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingDao.h",
-      "line": 12,
-      "symbol": "GPKGTileScalingDao",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 55,
-      "symbol": "GPKG_TSC_OUT_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 56,
-      "symbol": "GPKG_TSC_IN_OUT_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 57,
-      "symbol": "GPKG_TSC_OUT_IN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 58,
-      "symbol": "GPKG_TSC_CLOSEST_IN_OUT_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 59,
-      "symbol": "GPKG_TSC_CLOSEST_OUT_IN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileScalingTypes.h",
-      "line": 61,
-      "symbol": "GPKGTileScalingTypes",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileTableScaling.h",
-      "line": 11,
-      "symbol": "GPKG_EXTENSION_TILE_SCALING_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileTableScaling.h",
-      "line": 12,
-      "symbol": "GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileTableScaling.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/rtree/GPKGRTreeIndexTableRow.h",
       "line": 13,
-      "symbol": "GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/scale/GPKGTileTableScaling.h",
-      "line": 15,
-      "symbol": "GPKGTileTableScaling",
+      "symbol": "GPKGRTreeIndexTableRow",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGFeatureStyleExtension.h",
-      "line": 18,
-      "symbol": "GPKG_EXTENSION_FEATURE_STYLE_AUTHOR",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/GPKGSchemaExtension.h",
+      "line": 13,
+      "symbol": "GPKG_SCHEMA_EXTENSION_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGFeatureStyleExtension.h",
-      "line": 19,
-      "symbol": "GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGFeatureStyleExtension.h",
-      "line": 20,
-      "symbol": "GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
-      "line": 15,
-      "symbol": "GPKG_IT_COLUMN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
-      "line": 16,
-      "symbol": "GPKG_IT_COLUMN_DESCRIPTION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 17,
-      "symbol": "GPKG_IT_COLUMN_WIDTH",
+      "symbol": "GPKG_DC_COLUMN_PK1",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 18,
-      "symbol": "GPKG_IT_COLUMN_HEIGHT",
+      "symbol": "GPKG_DC_COLUMN_PK2",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 19,
-      "symbol": "GPKG_IT_COLUMN_ANCHOR_U",
+      "symbol": "GPKG_DC_COLUMN_TABLE_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGIconTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 20,
-      "symbol": "GPKG_IT_COLUMN_ANCHOR_V",
+      "symbol": "GPKG_DC_COLUMN_COLUMN_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
-      "line": 16,
-      "symbol": "GPKG_ST_COLUMN_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
-      "line": 17,
-      "symbol": "GPKG_ST_COLUMN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
-      "line": 18,
-      "symbol": "GPKG_ST_COLUMN_DESCRIPTION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
-      "line": 19,
-      "symbol": "GPKG_ST_COLUMN_COLOR",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
-      "line": 20,
-      "symbol": "GPKG_ST_COLUMN_OPACITY",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 21,
-      "symbol": "GPKG_ST_COLUMN_WIDTH",
+      "symbol": "GPKG_DC_COLUMN_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 22,
-      "symbol": "GPKG_ST_COLUMN_FILL_COLOR",
+      "symbol": "GPKG_DC_COLUMN_TITLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/style/GPKGStyleTable.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
       "line": 23,
-      "symbol": "GPKG_ST_COLUMN_FILL_OPACITY",
+      "symbol": "GPKG_DC_COLUMN_DESCRIPTION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
+      "line": 24,
+      "symbol": "GPKG_DC_COLUMN_MIME_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/columns/GPKGDataColumns.h",
+      "line": 25,
+      "symbol": "GPKG_DC_COLUMN_CONSTRAINT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 15,
+      "symbol": "GPKG_DCC_COLUMN_CONSTRAINT_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 16,
+      "symbol": "GPKG_DCC_COLUMN_CONSTRAINT_TYPE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 17,
+      "symbol": "GPKG_DCC_COLUMN_VALUE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 18,
+      "symbol": "GPKG_DCC_COLUMN_MIN",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 19,
+      "symbol": "GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 20,
+      "symbol": "GPKG_DCC_COLUMN_MAX",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 21,
+      "symbol": "GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 22,
+      "symbol": "GPKG_DCC_COLUMN_DESCRIPTION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 28,
+      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_RANGE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 29,
+      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_ENUM",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 30,
+      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_GLOB",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 37,
+      "symbol": "GPKG_DCCT_ENUM_NAME",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/schema/constraints/GPKGDataColumnConstraints.h",
+      "line": 38,
+      "symbol": "GPKG_DCCT_GLOB_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
@@ -4838,419 +5314,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 16,
-      "symbol": "GPKG_M_COLUMN_PK",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 17,
-      "symbol": "GPKG_M_COLUMN_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 18,
-      "symbol": "GPKG_M_COLUMN_SCOPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 19,
-      "symbol": "GPKG_M_COLUMN_STANDARD_URI",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 20,
-      "symbol": "GPKG_M_COLUMN_MIME_TYPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 21,
-      "symbol": "GPKG_M_COLUMN_METADATA",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 27,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_UNDEFINED",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 28,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_FIELD_SESSION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 29,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_COLLECTION_SESSION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 30,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_SERIES",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 31,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_DATASET",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 32,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_FEATURE_TYPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 33,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_FEATURE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 34,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_ATTRIBUTE_TYPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 35,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_ATTRIBUTE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 36,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_TILE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 37,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_MODEL",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 38,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_CATALOG",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 39,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_SCHEMA",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 40,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_TAXONOMY",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 41,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_SOFTWARE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 42,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_SERVICE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 43,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_COLLECTION_HARDWARE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 44,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_NON_GEOGRAPHIC_DATASET",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 45,
-      "symbol": "GPKGMetadataScopeType.GPKG_MST_DIMENSION_GROUP",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 52,
-      "symbol": "GPKG_MST_FIELD_SESSION_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 53,
-      "symbol": "GPKG_MST_COLLECTION_SESSION_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 54,
-      "symbol": "GPKG_MST_SERIES_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 55,
-      "symbol": "GPKG_MST_DATASET_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 56,
-      "symbol": "GPKG_MST_FEATURE_TYPE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 57,
-      "symbol": "GPKG_MST_FEATURE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 58,
-      "symbol": "GPKG_MST_ATTRIBUTE_TYPE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 59,
-      "symbol": "GPKG_MST_ATTRIBUTE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 60,
-      "symbol": "GPKG_MST_TILE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 61,
-      "symbol": "GPKG_MST_MODEL_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 62,
-      "symbol": "GPKG_MST_CATALOG_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 63,
-      "symbol": "GPKG_MST_SCHEMA_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 64,
-      "symbol": "GPKG_MST_TAXONOMY_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 65,
-      "symbol": "GPKG_MST_SOFTWARE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 66,
-      "symbol": "GPKG_MST_SERVICE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 67,
-      "symbol": "GPKG_MST_COLLECTION_HARDWARE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 68,
-      "symbol": "GPKG_MST_NON_GEOGRAPHIC_DATASET_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/GPKGMetadata.h",
-      "line": 69,
-      "symbol": "GPKG_MST_DIMENSION_GROUP_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 16,
-      "symbol": "GPKG_MR_COLUMN_REFERENCE_SCOPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 17,
-      "symbol": "GPKG_MR_COLUMN_TABLE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 18,
-      "symbol": "GPKG_MR_COLUMN_COLUMN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 19,
-      "symbol": "GPKG_MR_COLUMN_ROW_ID_VALUE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 20,
-      "symbol": "GPKG_MR_COLUMN_TIMESTAMP",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 21,
-      "symbol": "GPKG_MR_COLUMN_FILE_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 22,
-      "symbol": "GPKG_MR_COLUMN_PARENT_ID",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 28,
-      "symbol": "GPKGReferenceScopeType.GPKG_RST_GEOPACKAGE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 29,
-      "symbol": "GPKGReferenceScopeType.GPKG_RST_TABLE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 30,
-      "symbol": "GPKGReferenceScopeType.GPKG_RST_COLUMN",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 31,
-      "symbol": "GPKGReferenceScopeType.GPKG_RST_ROW",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 32,
-      "symbol": "GPKGReferenceScopeType.GPKG_RST_ROW_COL",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 39,
-      "symbol": "GPKG_RST_TABLE_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 40,
-      "symbol": "GPKG_RST_COLUMN_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 41,
-      "symbol": "GPKG_RST_ROW_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/metadata/reference/GPKGMetadataReference.h",
-      "line": 42,
-      "symbol": "GPKG_RST_ROW_COL_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 15,
       "symbol": "GPKG_PROP_DIR_GEOPACKAGE",
@@ -5526,413 +5589,322 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 54,
-      "symbol": "GPKG_PROP_FEATURE_GENERATOR",
+      "symbol": "GPKG_PROP_CONTENTS_DATA_TYPE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 55,
-      "symbol": "GPKG_PROP_FEATURE_GENERATOR_DOWNLOAD_ATTEMPTS",
+      "symbol": "GPKG_PROP_FEATURE_GENERATOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 56,
-      "symbol": "GPKG_PROP_MAX_ZOOM_LEVEL",
+      "symbol": "GPKG_PROP_FEATURE_GENERATOR_DOWNLOAD_ATTEMPTS",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 57,
-      "symbol": "GPKG_PROP_CONNECTION_POOL",
+      "symbol": "GPKG_PROP_MAX_ZOOM_LEVEL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 58,
-      "symbol": "GPKG_PROP_CONNECTION_POOL_OPEN_CONNECTIONS_PER_POOL",
+      "symbol": "GPKG_PROP_CONNECTION_POOL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 59,
-      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS",
+      "symbol": "GPKG_PROP_CONNECTION_POOL_OPEN_CONNECTIONS_PER_POOL",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 60,
-      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_FREQUENCY",
+      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 61,
-      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_WARNING_TIME",
+      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_FREQUENCY",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 62,
-      "symbol": "GPKG_PROP_CONNECTION_POOL_MAINTAIN_STACK_TRACES",
+      "symbol": "GPKG_PROP_CONNECTION_POOL_CHECK_CONNECTIONS_WARNING_TIME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 63,
-      "symbol": "GPKG_PROP_MANAGER_VALIDATION",
+      "symbol": "GPKG_PROP_CONNECTION_POOL_MAINTAIN_STACK_TRACES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 64,
-      "symbol": "GPKG_PROP_MANAGER_VALIDATION_IMPORT_HEADER",
+      "symbol": "GPKG_PROP_MANAGER_VALIDATION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 65,
-      "symbol": "GPKG_PROP_MANAGER_VALIDATION_IMPORT_INTEGRITY",
+      "symbol": "GPKG_PROP_MANAGER_VALIDATION_IMPORT_HEADER",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 66,
-      "symbol": "GPKG_PROP_MANAGER_VALIDATION_OPEN_HEADER",
+      "symbol": "GPKG_PROP_MANAGER_VALIDATION_IMPORT_INTEGRITY",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 67,
-      "symbol": "GPKG_PROP_MANAGER_VALIDATION_OPEN_INTEGRITY",
+      "symbol": "GPKG_PROP_MANAGER_VALIDATION_OPEN_HEADER",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 68,
-      "symbol": "GPKG_PROP_COLORS_RED",
+      "symbol": "GPKG_PROP_MANAGER_VALIDATION_OPEN_INTEGRITY",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 69,
-      "symbol": "GPKG_PROP_COLORS_GREEN",
+      "symbol": "GPKG_PROP_COLORS_RED",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 70,
-      "symbol": "GPKG_PROP_COLORS_BLUE",
+      "symbol": "GPKG_PROP_COLORS_GREEN",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 71,
-      "symbol": "GPKG_PROP_COLORS_ALPHA",
+      "symbol": "GPKG_PROP_COLORS_BLUE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 72,
-      "symbol": "GPKG_PROP_COLORS_WHITE",
+      "symbol": "GPKG_PROP_COLORS_ALPHA",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 73,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES",
+      "symbol": "GPKG_PROP_COLORS_WHITE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 74,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 75,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 76,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_FONT_SIZE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 77,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TEXT_COLOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 78,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_CIRCLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 79,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_COLOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 80,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_STROKE_WIDTH",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 81,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_FILL_CIRCLE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 82,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_FILL_COLOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 83,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_TILE_BORDER",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 84,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_COLOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 85,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_BORDER_STROKE_WIDTH",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 86,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_FILL_TILE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 87,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_TILE_FILL_COLOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 88,
-      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES",
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_CIRCLE_PADDING_PERCENTAGE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
       "line": 89,
+      "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_DRAW_UNINDEXED_TILES",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
+      "line": 90,
       "symbol": "GPKG_PROP_NUMBER_FEATURE_TILES_UNINDEXED_TEXT",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/property/GPKGPropertyConstants.h",
-      "line": 91,
+      "line": 92,
       "symbol": "GPKGPropertyConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 17,
-      "symbol": "GPKG_DC_COLUMN_PK1",
+      "symbol": "GPKG_SRS_COLUMN_PK",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 18,
-      "symbol": "GPKG_DC_COLUMN_PK2",
+      "symbol": "GPKG_SRS_COLUMN_SRS_NAME",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 19,
-      "symbol": "GPKG_DC_COLUMN_TABLE_NAME",
+      "symbol": "GPKG_SRS_COLUMN_SRS_ID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 20,
-      "symbol": "GPKG_DC_COLUMN_COLUMN_NAME",
+      "symbol": "GPKG_SRS_COLUMN_ORGANIZATION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 21,
-      "symbol": "GPKG_DC_COLUMN_NAME",
+      "symbol": "GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 22,
-      "symbol": "GPKG_DC_COLUMN_TITLE",
+      "symbol": "GPKG_SRS_COLUMN_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 23,
-      "symbol": "GPKG_DC_COLUMN_DESCRIPTION",
+      "symbol": "GPKG_SRS_COLUMN_DESCRIPTION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
+      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/srs/GPKGSpatialReferenceSystem.h",
       "line": 24,
-      "symbol": "GPKG_DC_COLUMN_MIME_TYPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/columns/GPKGDataColumns.h",
-      "line": 25,
-      "symbol": "GPKG_DC_COLUMN_CONSTRAINT_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 15,
-      "symbol": "GPKG_DCC_COLUMN_CONSTRAINT_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 16,
-      "symbol": "GPKG_DCC_COLUMN_CONSTRAINT_TYPE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 17,
-      "symbol": "GPKG_DCC_COLUMN_VALUE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 18,
-      "symbol": "GPKG_DCC_COLUMN_MIN",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 19,
-      "symbol": "GPKG_DCC_COLUMN_MIN_IS_INCLUSIVE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 20,
-      "symbol": "GPKG_DCC_COLUMN_MAX",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 21,
-      "symbol": "GPKG_DCC_COLUMN_MAX_IS_INCLUSIVE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 22,
-      "symbol": "GPKG_DCC_COLUMN_DESCRIPTION",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 28,
-      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_RANGE",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 29,
-      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_ENUM",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 30,
-      "symbol": "GPKGDataColumnConstraintType.GPKG_DCCT_GLOB",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 37,
-      "symbol": "GPKG_DCCT_ENUM_NAME",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/schema/constraints/GPKGDataColumnConstraints.h",
-      "line": 38,
-      "symbol": "GPKG_DCCT_GLOB_NAME",
+      "symbol": "GPKG_SRS_COLUMN_DEFINITION_12_063",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
