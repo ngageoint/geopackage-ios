@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 5.0.0 (TBD)
+## [5.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/5.0.0) (11-13-2020)
 
 * GeoPackage spec version 1.3.0
 * sf-wkb-ios version 3.0.0
