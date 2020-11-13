@@ -3321,8 +3321,6 @@
 /**
  * Get the max result of the column
  *
- * @param <T>
- *            return type
  * @param column
  *            column name
  * @return max or null

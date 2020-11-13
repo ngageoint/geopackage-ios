@@ -112,8 +112,6 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
  * Delete the Properties extension if the deleted table is the properties
  * table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  */
@@ -121,8 +119,6 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 
 /**
  * Delete the properties extension from the GeoPackage
- *
- * @param geoPackage GeoPackage
  */
 -(void) deletePropertiesExtension;
 
@@ -155,8 +151,6 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 /**
  * Delete the Contents Id extensions for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  */
@@ -165,16 +159,12 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 /**
  * Delete the Contents Id extension including the extension entries and
  * custom tables
- *
- * @param geoPackage GeoPackage
  */
 -(void) deleteContentsIdExtension;
 
 /**
  * Copy the Contents Id extensions for the table
  *
- * @param geoPackage
- *            GeoPackage
  * @param table
  *            table name
  * @param newTable

@@ -77,7 +77,7 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
 /**
  * Get a Data Columns DAO
  *
- * @param db
+ * @param database
  *            database connection
  *
  * @return Data Columns DAO
@@ -111,7 +111,7 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
 /**
  * Get a Data Column Constraints DAO
  *
- * @param db
+ * @param database
  *            database connection
  *
  * @return Data Column Constraints DAO

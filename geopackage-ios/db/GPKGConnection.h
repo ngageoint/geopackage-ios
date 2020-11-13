@@ -356,8 +356,6 @@
  *
  *  @param table     table
  *  @param column    column
- *  @param where     where
- *  @param whereArgs where args
  *
  *  @return min or nil
  */

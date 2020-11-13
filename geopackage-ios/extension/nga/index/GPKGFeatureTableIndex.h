@@ -196,7 +196,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Get a Table Index DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return table index dao
  */
@@ -228,7 +228,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 /**
  * Get a Geometry Index DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return geometry index dao
  */

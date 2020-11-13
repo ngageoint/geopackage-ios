@@ -150,7 +150,7 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 /**
  * Get a Feature Tile Link DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return feature tile link dao
  */

@@ -85,7 +85,7 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 /**
  * Get a Extended Relations DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return extended relations dao
  */

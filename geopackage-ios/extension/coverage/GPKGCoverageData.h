@@ -205,7 +205,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 /**
  * Get a 2D Gridded Coverage DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return 2d gridded coverage dao
  */
@@ -230,7 +230,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 /**
  * Get a 2D Gridded Tile DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return 2d gridded tile dao
  */

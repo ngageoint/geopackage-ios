@@ -76,7 +76,7 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
 /**
  * Get a Metadata DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return Metadata DAO
  */
@@ -108,7 +108,7 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
 /**
  * Get a Metadata Reference DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return Metadata Reference DAO
  */

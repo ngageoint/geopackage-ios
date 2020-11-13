@@ -19,7 +19,7 @@
 /**
  * Create the DAO
  *
- * @param db
+ * @param database
  *            database connection
  * @return dao
  */
