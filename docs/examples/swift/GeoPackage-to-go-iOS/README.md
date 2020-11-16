@@ -62,7 +62,7 @@ tileOverlay.canReplaceMapContent = false;
 
 // Add the tile overlay to the map on the main thread, otherwise the tiles wont show up.
 DispatchQueue.main.async { [unowned self] in
-   self.mapView.add(tileOverlay);
+    self.mapView.addOverlay(tileOverlay);
 }
 ```
 
@@ -82,7 +82,7 @@ for case let featureTable as String in features {
         icon = UIImage(named: "pizza")
     }
 
-    while (featureResults.moveToNext()) {
+    while(featureResults.moveToNext()){
         let featureRow: GPKGFeatureRow = featureDao.featureRow(featureResults);
         let geometryData: GPKGGeometryData = featureRow.geometry();
         let shape: GPKGMapShape = converter.toShape(with: geometryData.geometry);
