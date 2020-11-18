@@ -296,5 +296,6 @@
 #import "GPKGFeatureTableMetadata.h"
 #import "GPKGTileTableMetadata.h"
 #import "GPKGNGATableCreator.h"
+#import "GPKGTileReprojection.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

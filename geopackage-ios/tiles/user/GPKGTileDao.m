@@ -9,7 +9,6 @@
 #import "GPKGTileDao.h"
 #import "GPKGTileRow.h"
 #import "GPKGTileMatrix.h"
-#import "GPKGTileMatrixSetDao.h"
 #import "GPKGUtils.h"
 #import "GPKGTileDaoUtils.h"
 #import "SFPProjectionTransform.h"
@@ -349,6 +348,10 @@
 
 -(GPKGTileMatrixSetDao *) tileMatrixSetDao{
     return [[GPKGTileMatrixSetDao alloc] initWithDatabase:self.database];
+}
+
+-(GPKGTileMatrixDao *) tileMatrixDao{
+    return [[GPKGTileMatrixDao alloc] initWithDatabase:self.database];
 }
 
 -(GPKGBoundingBox *) boundingBox{

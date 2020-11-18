@@ -26,7 +26,7 @@
 /**
  *  Image data
  */
-@property (nonatomic, strong) NSData * data;
+@property (nonatomic, strong) NSData *data;
 
 /**
  *  Initialize

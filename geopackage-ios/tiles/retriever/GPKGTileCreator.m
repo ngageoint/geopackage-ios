@@ -129,10 +129,10 @@
 
 -(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
     
-    GPKGGeoPackageTile * tile = nil;
+    GPKGGeoPackageTile *tile = nil;
     
     // Transform to the projection of the tiles
-    SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
+    SFPProjectionTransform *transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
@@ -141,14 +141,14 @@
     
         GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
         
-        GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
+        GPKGResultSet *tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
         if(tileResults != nil){
             
             @try{
                 
                 if(tileResults.count > 0){
                     
-                    GPKGBoundingBox * requestProjectedBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
+                    GPKGBoundingBox *requestProjectedBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
                     
                     // Determine the requested tile dimensions, or use the dimensions of a single tile matrix tile
                     int requestedTileWidth = self.width != nil ? [self.width intValue] : [tileMatrix.tileWidth intValue];
@@ -163,18 +163,18 @@
                     }
                     
                     // Draw the resulting bitmap with the matching tiles
-                    UIImage * tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:requestProjectedBoundingBox andWidth:tileWidth andHeight:tileHeight];
+                    UIImage *tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:requestProjectedBoundingBox andWidth:tileWidth andHeight:tileHeight];
                     
                     // Create the tile
                     if(tileImage != nil){
                         
                         // Project the tile if needed
                         if(!self.sameProjection){
-                            UIImage * reprojectTile = [self reprojectTileWithImage:tileImage andWidth:requestedTileWidth andHeight:requestedTileHeight andBoundingBox:requestBoundingBox andTransform:transformRequestToTiles andBoundingBox:tilesBoundingBox];
+                            UIImage *reprojectTile = [self reprojectTileWithImage:tileImage andWidth:requestedTileWidth andHeight:requestedTileHeight andBoundingBox:requestBoundingBox andTransform:transformRequestToTiles andBoundingBox:tilesBoundingBox];
                             tileImage = reprojectTile;
                         }
                         
-                        NSData * tileData = [GPKGImageConverter toData:tileImage andFormat:GPKG_CF_PNG];
+                        NSData *tileData = [GPKGImageConverter toData:tileImage andFormat:GPKG_CF_PNG];
                         tile = [[GPKGGeoPackageTile alloc] initWithWidth:requestedTileWidth andHeight:requestedTileHeight andData:tileData];
                     }
                     
@@ -196,6 +196,8 @@
     int tileWidth = [tileMatrix.tileWidth intValue];
     int tileHeight = [tileMatrix.tileHeight intValue];
     
+    BOOL drawn = NO;
+    
     // Draw the resulting image with the matching tiles
     UIGraphicsBeginImageContext(CGSizeMake(tileWidth, tileHeight));
     UIGraphicsGetCurrentContext();
@@ -203,14 +205,14 @@
     while([tileResults moveToNext]){
         
         // Get the next tile
-        GPKGTileRow * tileRow = [self.tileDao tileRow:tileResults];
-        UIImage * tileDataImage = [tileRow tileDataImage];
+        GPKGTileRow *tileRow = [self.tileDao tileRow:tileResults];
+        UIImage *tileDataImage = [tileRow tileDataImage];
         
         // Get the bounding box of the tile
-        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
+        GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
         
         // Get the bounding box where the requested image and tile overlap
-        GPKGBoundingBox * overlap = [requestProjectedBoundingBox overlap:tileBoundingBox];
+        GPKGBoundingBox *overlap = [requestProjectedBoundingBox overlap:tileBoundingBox];
         
         // If the tile overlaps with the requested box
         if(overlap != nil){
@@ -231,21 +233,29 @@
 
                 // Draw to the image
                 [srcImage drawInRect:dest];
+                
+                drawn = YES;
             }
         }
     }
     
     // Create the tile
-    UIImage *tileImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *tileImage = nil;
+    if(drawn){
+        tileImage = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    
     UIGraphicsEndImageContext();
     
-    // Scale the image if needed
-    if(width != tileWidth || height != tileHeight){
-        CGSize scaledSize = CGSizeMake(width, height);
-        UIGraphicsBeginImageContext(scaledSize);
-        [tileImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
-        tileImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
+    if(drawn){
+        // Scale the image if needed
+        if(width != tileWidth || height != tileHeight){
+            CGSize scaledSize = CGSizeMake(width, height);
+            UIGraphicsBeginImageContext(scaledSize);
+            [tileImage drawInRect:CGRectMake(0,0,scaledSize.width,scaledSize.height)];
+            tileImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        }
     }
     
     return tileImage;

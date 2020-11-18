@@ -12,6 +12,8 @@
 #import "GPKGTileRow.h"
 #import "GPKGTileMatrix.h"
 #import "GPKGTileGrid.h"
+#import "GPKGTileMatrixSetDao.h"
+#import "GPKGTileMatrixDao.h"
 
 /**
  *  Tile DAO for reading tile user tables
@@ -359,5 +361,19 @@
  * @return map zoom level
  */
 -(int) mapZoomWithZoomLevel: (int) zoomLevel;
+
+/**
+ * Get a tile matrix set DAO
+ *
+ * @return tile matrix set DAO
+ */
+-(GPKGTileMatrixSetDao *) tileMatrixSetDao;
+
+/**
+ * Get a tile matrix DAO
+ *
+ * @return tile matrix DAO
+ */
+-(GPKGTileMatrixDao *) tileMatrixDao;
 
 @end
