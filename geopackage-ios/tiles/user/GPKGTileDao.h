@@ -77,6 +77,16 @@
 -(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel;
 
 /**
+ *  Get the bounding box of tiles at the zoom level
+ *
+ *  @param zoomLevel zoom level
+ *  @param projection desired projection
+ *
+ *  @return bounding box of zoom level, or nil if no tiles
+ */
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (SFPProjection *) projection;
+
+/**
  *  Get the tile grid of the zoom level
  *
  *  @param zoomLevel zoom level
@@ -137,6 +147,13 @@
  * @return srs id
  */
 -(NSNumber *) srsId;
+
+/**
+ * Get the zoom levels
+ *
+ * @return zoom levels
+ */
+-(NSArray *) zoomLevels;
 
 /**
  *  Query for a Tile

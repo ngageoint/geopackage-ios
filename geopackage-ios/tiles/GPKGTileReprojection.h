@@ -20,6 +20,11 @@
 @property (nonatomic) BOOL optimize;
 
 /**
+ *  Overwrite existing tiles at a zoom level when geographic calculations differ
+ */
+@property (nonatomic) BOOL overwrite;
+
+/**
  *  Tile width in pixels
  */
 @property (nonatomic, strong) NSNumber *tileWidth;

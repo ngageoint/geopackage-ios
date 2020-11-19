@@ -85,6 +85,15 @@
     return boundingBox;
 }
 
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (SFPProjection *) projection{
+    GPKGBoundingBox *boundingBox = [self boundingBoxWithZoomLevel:zoomLevel];
+    if(boundingBox != nil){
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:projection];
+        boundingBox = [boundingBox transform:transform];
+    }
+    return boundingBox;
+}
+
 -(GPKGTileGrid *) tileGridWithZoomLevel: (int) zoomLevel{
     GPKGTileGrid *tileGrid = nil;
     GPKGTileMatrix *tileMatrix = [self tileMatrixWithZoomLevel:zoomLevel];
@@ -124,6 +133,10 @@
 
 -(NSNumber *) srsId{
     return self.tileMatrixSet.srsId;
+}
+
+-(NSArray *) zoomLevels{
+    return [self.zoomLevelToTileMatrix allKeys];
 }
 
 -(GPKGTileRow *) queryForTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{

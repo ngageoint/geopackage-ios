@@ -658,6 +658,9 @@
 		04B285D823340EA900CBF9DD /* GPKGAlterTableUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B285D723340EA900CBF9DD /* GPKGAlterTableUtils.m */; };
 		04B285DB23340F2200CBF9DD /* GPKGTransactionTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B285DA23340F2200CBF9DD /* GPKGTransactionTestCase.m */; };
 		04B285DE2334231E00CBF9DD /* GPKGOAPIFeatureGeneratorTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B285DD2334231E00CBF9DD /* GPKGOAPIFeatureGeneratorTestCase.m */; };
+		04B6477D2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */; };
+		04B647872566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */; };
+		04B6478C2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */; };
 		04C5032220113B9600862DA9 /* GPKGRTreeIndexExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C5032020113B9600862DA9 /* GPKGRTreeIndexExtension.h */; };
 		04C5032320113B9600862DA9 /* GPKGRTreeIndexExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */; };
 		04C5032620114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */; };
@@ -1489,6 +1492,12 @@
 		04B285DA23340F2200CBF9DD /* GPKGTransactionTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTransactionTestCase.m; sourceTree = "<group>"; };
 		04B285DC2334231E00CBF9DD /* GPKGOAPIFeatureGeneratorTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGOAPIFeatureGeneratorTestCase.h; sourceTree = "<group>"; };
 		04B285DD2334231E00CBF9DD /* GPKGOAPIFeatureGeneratorTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGOAPIFeatureGeneratorTestCase.m; sourceTree = "<group>"; };
+		04B6477B2566DCC90015F083 /* GPKGTileReprojectionTestUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionTestUtils.h; sourceTree = "<group>"; };
+		04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionTestUtils.m; sourceTree = "<group>"; };
+		04B647852566DE300015F083 /* GPKGTileReprojectionCreateTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionCreateTestCase.h; sourceTree = "<group>"; };
+		04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionCreateTestCase.m; sourceTree = "<group>"; };
+		04B6478A2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionImportTestCase.h; sourceTree = "<group>"; };
+		04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionImportTestCase.m; sourceTree = "<group>"; };
 		04C5032020113B9600862DA9 /* GPKGRTreeIndexExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGRTreeIndexExtension.h; sourceTree = "<group>"; };
 		04C5032120113B9600862DA9 /* GPKGRTreeIndexExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRTreeIndexExtension.m; sourceTree = "<group>"; };
 		04C5032420114C6E00862DA9 /* GPKGGriddedCoverageEncodingTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGGriddedCoverageEncodingTypes.h; sourceTree = "<group>"; };
@@ -2750,6 +2759,12 @@
 				042FC8E41B964DA200549A4B /* features */,
 				049675071D08BDFB00D65851 /* retriever */,
 				045BCA051BFB6D6C0080B967 /* user */,
+				04B647852566DE300015F083 /* GPKGTileReprojectionCreateTestCase.h */,
+				04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */,
+				04B6478A2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.h */,
+				04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */,
+				04B6477B2566DCC90015F083 /* GPKGTileReprojectionTestUtils.h */,
+				04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */,
 			);
 			path = tiles;
 			sourceTree = "<group>";
@@ -4044,17 +4059,20 @@
 				04711AE3220B9D50007DC3A4 /* GPKGContentsIdUtils.m in Sources */,
 				04DCAEB61F28ED0C00FA9B9F /* GPKGSpatialReferenceSystemUtils.m in Sources */,
 				045BC9FE1BFA6F8E0080B967 /* GPKGImportTestCase.m in Sources */,
+				04B6477D2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m in Sources */,
 				0409CCF720E6B0FB0069B797 /* GPKGRelatedTablesUtils.m in Sources */,
 				04DCAEA71F27CD5F00FA9B9F /* GPKGContentsUtils.m in Sources */,
 				0409CCF420E6B0D80069B797 /* GPKGRelatedTablesReadTest.m in Sources */,
 				0447FA2B1CDBFADF00418104 /* GPKGZoomOtherExtensionTest.m in Sources */,
 				04711ADD220B99D5007DC3A4 /* GPKGContentsIdCreateTest.m in Sources */,
+				04B647872566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m in Sources */,
 				04B285CB23340C3900CBF9DD /* GPKGAlterTableCreateTestCase.m in Sources */,
 				041C701E2555F75D00F7C341 /* GPKGSwiftReadmeTest.swift in Sources */,
 				0422BB471DF0E94D002709B6 /* GPKGCoverageDataTiffImportTest.m in Sources */,
 				0447FA221CDBE8D700418104 /* GPKGCrsWktExtensionTest.m in Sources */,
 				04B285CF23340CB800CBF9DD /* GPKGConstraintTestCase.m in Sources */,
 				0422BB531DF0EA29002709B6 /* GPKGAttributesUtils.m in Sources */,
+				04B6478C2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m in Sources */,
 				04B285D523340E6E00CBF9DD /* GPKGAlterTableImportTestCase.m in Sources */,
 				0422BB561DF751F7002709B6 /* GPKGCoverageDataValues.m in Sources */,
 				0422BB3B1DF0E8DC002709B6 /* GPKGCoverageDataPngImportTest.m in Sources */,
