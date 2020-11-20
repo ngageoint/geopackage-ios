@@ -94,8 +94,52 @@
             _table = tempTable;
             _replace = YES;
         }
-        GPKGTileTable *tileTable = [_geoPackage createTileTableWithMetadata:[GPKGTileTableMetadata createWithTable:_table andTileBoundingBox:boundingBox andTileSrsId:srs.srsId]];
-        _reprojectTileDao = [_geoPackage tileDaoWithTable:tileTable];
+        GPKGTileTable *tileTable = nil;
+        if([_geoPackage isTable:_table]){
+            if(![_geoPackage isTileTable:_table]){
+                [NSException raise:@"Existing Table" format:@"Table exists and is not a tile table: %@", _table];
+            }
+            _reprojectTileDao = [_geoPackage tileDaoWithTableName:_table];
+            if(![_reprojectTileDao.projection isEqualToProjection:_projection]){
+                [NSException raise:@"Table Projection" format:@"Existing tile table projection differs from the reprojection. Table: %@, Projection: %@, Reprojection: %@", _table, [_reprojectTileDao.projection description], [_projection description]];
+            }
+            GPKGTileMatrixSet *tileMatrixSet = _reprojectTileDao.tileMatrixSet;
+            if(_reprojectTileDao.tileMatrices.count > 0){
+                GPKGTileMatrix *tileMatrix = [_reprojectTileDao.tileMatrices objectAtIndex:0];
+                if(fabs([[tileMatrixSet.minX decimalNumberBySubtracting:boundingBox.minLongitude] doubleValue]) > [tileMatrix.pixelXSize doubleValue]
+                   || fabs([[tileMatrixSet.minY decimalNumberBySubtracting:boundingBox.minLatitude] doubleValue]) > [tileMatrix.pixelYSize doubleValue]
+                   || fabs([[tileMatrixSet.maxX decimalNumberBySubtracting:boundingBox.maxLongitude] doubleValue]) > [tileMatrix.pixelXSize doubleValue]
+                   || fabs([[tileMatrixSet.maxY decimalNumberBySubtracting:boundingBox.maxLatitude] doubleValue]) > [tileMatrix.pixelYSize doubleValue]){
+                    
+                    if(!_overwrite){
+                        [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Set Geographic Properties differ. Enable 'overwrite' to replace all tiles. GeoPackage: %@, Tile Table: %@", _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
+                    }
+                    
+                    GPKGContents *contents = [_reprojectTileDao contents];
+                    [contents setSrs:srs];
+                    [contents setMinX:boundingBox.minLongitude];
+                    [contents setMinY:boundingBox.minLatitude];
+                    [contents setMaxX:boundingBox.maxLongitude];
+                    [contents setMaxY:boundingBox.maxLatitude];
+                    [[_geoPackage contentsDao] update:contents];
+                    
+                    [tileMatrixSet setSrs:srs];
+                    [tileMatrixSet setMinX:boundingBox.minLongitude];
+                    [tileMatrixSet setMinY:boundingBox.minLatitude];
+                    [tileMatrixSet setMaxX:boundingBox.maxLongitude];
+                    [tileMatrixSet setMaxY:boundingBox.maxLatitude];
+                    [[_reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
+                    
+                    [[_reprojectTileDao tileMatrixDao] deleteById:_table];
+                    [_reprojectTileDao deleteAll];
+                    
+                }
+            }
+
+        }else{
+            tileTable = [_geoPackage createTileTableWithMetadata:[GPKGTileTableMetadata createWithTable:_table andTileBoundingBox:boundingBox andTileSrsId:srs.srsId]];
+            _reprojectTileDao = [_geoPackage tileDaoWithTable:tileTable];
+        }
     }
 }
 
@@ -104,6 +148,9 @@
         [_geoPackage deleteTable:_tileDao.tableName];
         [_geoPackage copyTable:_reprojectTileDao.tableName toTable:_tileDao.tableName];
         [_geoPackage deleteTable:_reprojectTileDao.tableName];
+        _reprojectTileDao = nil;
+        _table = _tileDao.tableName;
+        _replace = NO;
     }
 }
 
@@ -190,7 +237,7 @@
     
     int matrixWidth = [tileMatrix.matrixWidth intValue];
     int matrixHeight = [tileMatrix.matrixHeight intValue];
-    // TODO optimize
+    // TODO optimize for XYZ and wgs84 tiles
     
     GPKGBoundingBox *bbox = [_reprojectTileDao boundingBox];
     
@@ -217,16 +264,16 @@
         || ![toTileMatrix.tileHeight isEqualToNumber:tileHeight]
         || ![toTileMatrix.tileWidth isEqualToNumber:tileWidth]
         || ![toTileMatrix.pixelXSize isEqualToNumber:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]]
-        || ![toTileMatrix.pixelYSize isEqualToNumber:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]]){
+        || ![toTileMatrix.pixelYSize isEqualToNumber:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]]){ // TODO pixel comparisons
         
-        if(_overwrite){
-            // Delete the existing tiles at the zoom level
-            GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
-            [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:toTileMatrix.zoomLevel];
-            [_reprojectTileDao deleteByFieldValues:fieldValues];
-        }else{
+        if(!_overwrite){
             [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Geographic Properties differ. Enable 'overwrite' to replace existing tiles at zoom level %d. GeoPackage: %@, Tile Table: %@", zoom, _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
         }
+        
+        // Delete the existing tiles at the zoom level
+        GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
+        [fieldValues addColumn:GPKG_TC_COLUMN_ZOOM_LEVEL withValue:toTileMatrix.zoomLevel];
+        [_reprojectTileDao deleteByFieldValues:fieldValues];
 
     }else{
         saveTileMatrix = NO;
@@ -264,10 +311,15 @@
             
             if(tile != nil){
                 
-                GPKGTileRow *row = [_reprojectTileDao newRow];
-                [row setTileColumn:tileColumn];
-                [row setTileRow:tileRow];
-                [row setZoomLevel:zoom];
+                GPKGTileRow *row = [_reprojectTileDao queryForTileWithColumn:tileColumn andRow:tileRow andZoomLevel:zoom];
+                
+                if(row == nil){
+                    row = [_reprojectTileDao newRow];
+                    [row setTileColumn:tileColumn];
+                    [row setTileRow:tileRow];
+                    [row setZoomLevel:zoom];
+                }
+                
                 [row setTileData:tile.data];
                 
                 [_reprojectTileDao createOrUpdate:row];

@@ -71,6 +71,79 @@
     
 }
 
++(void) testReprojectZoomLevelsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    for(NSString *table in [geoPackage tileTables]){
+        
+        NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+        SFPProjection *projection = [geoPackage projectionOfTable:table];
+        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+        
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        for(NSNumber *zoom in [counts allKeys]){
+            
+            int tiles = [tileReprojection reprojectWithZoom:[zoom intValue]];
+            [GPKGTestUtils assertEqualBoolWithValue:[[counts objectForKey:zoom] intValue] > 0 andValue2:tiles > 0];
+        }
+        
+        [GPKGTestUtils assertTrue:[projection isEqualToProjection:[geoPackage projectionOfTable:table]]];
+        [GPKGTestUtils assertTrue:[reprojectProjection isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        
+    }
+    
+}
+
++(void) testReprojectZoomOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    for(NSString *table in [geoPackage tileTables]){
+        
+        NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+        SFPProjection *projection = [geoPackage projectionOfTable:table];
+        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+        
+        NSNumber *zoom = [[counts allKeys] objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)counts.count]];
+        GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:[zoom intValue]];
+        
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        int tiles = [tileReprojection reprojectWithZoom:[zoom intValue]];
+        [GPKGTestUtils assertEqualBoolWithValue:[[counts objectForKey:zoom] intValue] > 0 andValue2:tiles > 0];
+        
+        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        int tiles2 = [tileReprojection reprojectWithZoom:[zoom intValue]];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles2];
+        
+        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        tileReprojection.tileWidth = [NSNumber numberWithInt:[tileMatrix.tileWidth intValue] * 2];
+        tileReprojection.tileHeight = [NSNumber numberWithInt:[tileMatrix.tileHeight intValue] * 2];
+        
+        @try {
+            [tileReprojection reprojectWithZoom:[zoom intValue]];
+            [GPKGTestUtils fail:@"Reprojection of existing zoom level with new geographic properties did not fail"];
+        } @catch (NSException *exception) {
+            // expected
+        }
+        
+        [tileReprojection setOverwrite:YES];
+        int tiles3 = [tileReprojection reprojectWithZoom:[zoom intValue]];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
+        
+    }
+    
+}
+
++(void) testReprojectOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    // TODO
+}
+
 +(SFPProjection *) alternateProjection: (SFPProjection *) projection{
     SFPProjection *alternate = nil;
     if([projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){

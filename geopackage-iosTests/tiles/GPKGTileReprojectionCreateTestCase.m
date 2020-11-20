@@ -19,4 +19,16 @@
     [GPKGTileReprojectionTestUtils testReprojectReplaceWithGeoPackage:self.geoPackage];
 }
 
+-(void) testReprojectZoomLevels{
+    [GPKGTileReprojectionTestUtils testReprojectZoomLevelsWithGeoPackage:self.geoPackage];
+}
+
+-(void) testReprojectZoomOverwrite{
+    [GPKGTileReprojectionTestUtils testReprojectZoomOverwriteWithGeoPackage:self.geoPackage];
+}
+
+-(void) testReprojectOverwrite{
+    [GPKGTileReprojectionTestUtils testReprojectOverwriteWithGeoPackage:self.geoPackage];
+}
+
 @end
