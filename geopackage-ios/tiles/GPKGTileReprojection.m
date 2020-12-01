@@ -11,6 +11,7 @@
 #import "GPKGTileCreator.h"
 #import "GPKGSQLiteMaster.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGUtils.h"
 
 @interface GPKGTileReprojection ()
 
@@ -82,8 +83,10 @@
 
 -(void) initialize{
     if(_reprojectTileDao == nil){
+        
         GPKGBoundingBox *boundingBox = [_tileDao boundingBoxInProjection:_projection];
         GPKGSpatialReferenceSystem *srs = [[_geoPackage spatialReferenceSystemDao] srsWithOrganization:_projection.authority andCoordsysId:[NSNumber numberWithInt:[_projection.code intValue]]];
+        
         if([_tileDao.databaseName isEqualToString:_geoPackage.name] && [_tileDao.tableName caseInsensitiveCompare:_table] == NSOrderedSame){
             // Replacing source table, find a temp table name for the reprojections
             int count = 1;
@@ -94,18 +97,26 @@
             _table = tempTable;
             _replace = YES;
         }
+        
         GPKGTileTable *tileTable = nil;
         if([_geoPackage isTable:_table]){
+            
             if(![_geoPackage isTileTable:_table]){
                 [NSException raise:@"Existing Table" format:@"Table exists and is not a tile table: %@", _table];
             }
+            
             _reprojectTileDao = [_geoPackage tileDaoWithTableName:_table];
+            
             if(![_reprojectTileDao.projection isEqualToProjection:_projection]){
                 [NSException raise:@"Table Projection" format:@"Existing tile table projection differs from the reprojection. Table: %@, Projection: %@, Reprojection: %@", _table, [_reprojectTileDao.projection description], [_projection description]];
             }
+            
             GPKGTileMatrixSet *tileMatrixSet = _reprojectTileDao.tileMatrixSet;
+            
             if(_reprojectTileDao.tileMatrices.count > 0){
+                
                 GPKGTileMatrix *tileMatrix = [_reprojectTileDao.tileMatrices objectAtIndex:0];
+                
                 if(fabs([[tileMatrixSet.minX decimalNumberBySubtracting:boundingBox.minLongitude] doubleValue]) > [tileMatrix.pixelXSize doubleValue]
                    || fabs([[tileMatrixSet.minY decimalNumberBySubtracting:boundingBox.minLatitude] doubleValue]) > [tileMatrix.pixelYSize doubleValue]
                    || fabs([[tileMatrixSet.maxX decimalNumberBySubtracting:boundingBox.maxLongitude] doubleValue]) > [tileMatrix.pixelXSize doubleValue]
@@ -115,26 +126,26 @@
                         [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Set Geographic Properties differ. Enable 'overwrite' to replace all tiles. GeoPackage: %@, Tile Table: %@", _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
                     }
                     
-                    GPKGContents *contents = [_reprojectTileDao contents];
-                    [contents setSrs:srs];
-                    [contents setMinX:boundingBox.minLongitude];
-                    [contents setMinY:boundingBox.minLatitude];
-                    [contents setMaxX:boundingBox.maxLongitude];
-                    [contents setMaxY:boundingBox.maxLatitude];
-                    [[_geoPackage contentsDao] update:contents];
-                    
-                    [tileMatrixSet setSrs:srs];
-                    [tileMatrixSet setMinX:boundingBox.minLongitude];
-                    [tileMatrixSet setMinY:boundingBox.minLatitude];
-                    [tileMatrixSet setMaxX:boundingBox.maxLongitude];
-                    [tileMatrixSet setMaxY:boundingBox.maxLatitude];
-                    [[_reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
-                    
                     [[_reprojectTileDao tileMatrixDao] deleteById:_table];
                     [_reprojectTileDao deleteAll];
                     
                 }
             }
+            
+            GPKGContents *contents = [_reprojectTileDao contents];
+            [contents setSrs:srs];
+            [contents setMinX:boundingBox.minLongitude];
+            [contents setMinY:boundingBox.minLatitude];
+            [contents setMaxX:boundingBox.maxLongitude];
+            [contents setMaxY:boundingBox.maxLatitude];
+            [[_geoPackage contentsDao] update:contents];
+            
+            [tileMatrixSet setSrs:srs];
+            [tileMatrixSet setMinX:boundingBox.minLongitude];
+            [tileMatrixSet setMinY:boundingBox.minLatitude];
+            [tileMatrixSet setMaxX:boundingBox.maxLongitude];
+            [tileMatrixSet setMaxY:boundingBox.maxLatitude];
+            [[_reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
 
         }else{
             tileTable = [_geoPackage createTileTableWithMetadata:[GPKGTileTableMetadata createWithTable:_table andTileBoundingBox:boundingBox andTileSrsId:srs.srsId]];
@@ -263,8 +274,8 @@
         || ![toTileMatrix.matrixWidth isEqualToNumber:[NSNumber numberWithInt:matrixWidth]]
         || ![toTileMatrix.tileHeight isEqualToNumber:tileHeight]
         || ![toTileMatrix.tileWidth isEqualToNumber:tileWidth]
-        || ![toTileMatrix.pixelXSize isEqualToNumber:[[NSDecimalNumber alloc] initWithDouble:pixelXSize]]
-        || ![toTileMatrix.pixelYSize isEqualToNumber:[[NSDecimalNumber alloc] initWithDouble:pixelYSize]]){ // TODO pixel comparisons
+        || ![GPKGUtils compareDouble:[toTileMatrix.pixelXSize doubleValue] withDouble:pixelXSize]
+        || ![GPKGUtils compareDouble:[toTileMatrix.pixelYSize doubleValue] withDouble:pixelYSize]){
         
         if(!_overwrite){
             [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Geographic Properties differ. Enable 'overwrite' to replace existing tiles at zoom level %d. GeoPackage: %@, Tile Table: %@", zoom, _reprojectTileDao.databaseName, _reprojectTileDao.tableName];

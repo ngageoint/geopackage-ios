@@ -87,4 +87,12 @@
     return decimalNumber;
 }
 
++(BOOL) compareDouble: (double) value withDouble: (double) value2{
+    return fabs(value - value2) < DBL_EPSILON;
+}
+
++(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2{
+    return [self compareDouble:[value doubleValue] withDouble:[value2 doubleValue]];
+}
+
 @end

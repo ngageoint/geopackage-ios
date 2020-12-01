@@ -109,4 +109,24 @@
  */
 +(NSDecimalNumber *) decimalNumberFromNumber: (NSNumber *) number;
 
+/**
+ *  Compare two doubles
+ *
+ *  @param value first double value
+ *  @param value2 second double value
+ *
+ *  @return true if equal within epsilon
+ */
++(BOOL) compareDouble: (double) value withDouble: (double) value2;
+
+/**
+ *  Compare two number doubles
+ *
+ *  @param value first number double
+ *  @param value2 second number double
+ *
+ *  @return true if equal within epsilon
+ */
++(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2;
+
 @end

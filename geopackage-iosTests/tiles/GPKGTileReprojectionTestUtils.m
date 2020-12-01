@@ -141,7 +141,81 @@
 }
 
 +(void) testReprojectOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
-    // TODO
+
+    for(NSString *table in [geoPackage tileTables]){
+        
+        NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+        SFPProjection *projection = [geoPackage projectionOfTable:table];
+        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        int count = [tileDao count];
+        NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+        
+        NSNumber *zoom = [[counts allKeys] objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)counts.count]];
+        GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:[zoom intValue]];
+        
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        int tiles = [tileReprojection reproject];
+        
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
+        
+        [GPKGTestUtils assertTrue:[projection isEqualToProjection:[geoPackage projectionOfTable:table]]];
+        [GPKGTestUtils assertTrue:[reprojectProjection isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        
+        tileDao = [geoPackage tileDaoWithTableName:table];
+        [self compareZoomCountsWithCount:count andCounts:counts andDao:tileDao];
+        
+        GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
+        [self checkZoomCountsWithCount:count andCounts:counts andDao:reprojectTileDao andTiles:tiles];
+        
+        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        int tiles2 = [tileReprojection reproject];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles2];
+        
+        GPKGTileMatrixSet *tileMatrixSet = reprojectTileDao.tileMatrixSet;
+        NSDecimalNumber *multiplier = [[NSDecimalNumber alloc] initWithDouble:0.5];
+        [tileMatrixSet setMinX:[tileMatrixSet.minX decimalNumberByMultiplyingBy:multiplier]];
+        [tileMatrixSet setMinY:[tileMatrixSet.minY decimalNumberByMultiplyingBy:multiplier]];
+        [tileMatrixSet setMaxX:[tileMatrixSet.maxX decimalNumberByMultiplyingBy:multiplier]];
+        [tileMatrixSet setMaxY:[tileMatrixSet.maxY decimalNumberByMultiplyingBy:multiplier]];
+        [[reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
+        
+        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        @try {
+            [tileReprojection reproject];
+            [GPKGTestUtils fail:@"Reprojection of existing table with new geographic properties did not fail"];
+        } @catch (NSException *exception) {
+            // expected
+        }
+        
+        [tileReprojection setOverwrite:YES];
+        [tileReprojection reproject];
+        
+        [tileReprojection setOverwrite:NO];
+        [tileMatrixSet setMinX:[tileMatrixSet.minX decimalNumberByDividingBy:multiplier]];
+        [tileMatrixSet setMinY:[tileMatrixSet.minY decimalNumberByDividingBy:multiplier]];
+        [tileMatrixSet setMaxX:[tileMatrixSet.maxX decimalNumberByDividingBy:multiplier]];
+        [tileMatrixSet setMaxY:[tileMatrixSet.maxY decimalNumberByDividingBy:multiplier]];
+        [[reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
+        
+        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        @try {
+            [tileReprojection reproject];
+            [GPKGTestUtils fail:@"Reprojection of existing table with new geographic properties did not fail"];
+        } @catch (NSException *exception) {
+            // expected
+        }
+        
+        [tileReprojection setOverwrite:YES];
+        int tiles3 = [tileReprojection reproject];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
+    }
+    
 }
 
 +(SFPProjection *) alternateProjection: (SFPProjection *) projection{
