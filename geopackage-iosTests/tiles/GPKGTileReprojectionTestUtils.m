@@ -16,7 +16,7 @@
 
 +(void) testReprojectWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    for(NSString *table in [geoPackage tileTables]){
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
         SFPProjection *projection = [geoPackage projectionOfTable:table];
@@ -47,7 +47,7 @@
 
 +(void) testReprojectReplaceWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    for(NSString *table in [geoPackage tileTables]){
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         SFPProjection *projection = [geoPackage projectionOfTable:table];
         SFPProjection *reprojectProjection = [self alternateProjection:projection];
@@ -73,7 +73,7 @@
 
 +(void) testReprojectZoomLevelsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    for(NSString *table in [geoPackage tileTables]){
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
         SFPProjection *projection = [geoPackage projectionOfTable:table];
@@ -99,7 +99,7 @@
 
 +(void) testReprojectZoomOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    for(NSString *table in [geoPackage tileTables]){
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
         SFPProjection *projection = [geoPackage projectionOfTable:table];
@@ -142,7 +142,7 @@
 
 +(void) testReprojectOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    for(NSString *table in [geoPackage tileTables]){
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
         SFPProjection *projection = [geoPackage projectionOfTable:table];
@@ -151,9 +151,6 @@
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
-        
-        NSNumber *zoom = [[counts allKeys] objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)counts.count]];
-        GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:[zoom intValue]];
         
         GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
         
@@ -216,6 +213,25 @@
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
     }
     
+}
+
++(NSArray<NSString *> *) randomTileTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    NSArray<NSString *> *tileTables = nil;
+    NSArray<NSString *> *allTileTables = [geoPackage tileTables];
+    int count = (int) allTileTables.count;
+    if(count <= 2){
+        tileTables = allTileTables;
+    }else{
+        int index1 = [GPKGTestUtils randomIntLessThan:count];
+        int index2 = [GPKGTestUtils randomIntLessThan:count];
+        if(index1 == index2){
+            if(++index2 >= count){
+                index2 = 0;
+            }
+        }
+        tileTables = [NSArray arrayWithObjects:[allTileTables objectAtIndex:index1], [allTileTables objectAtIndex:index2], nil];
+    }
+    return tileTables;
 }
 
 +(SFPProjection *) alternateProjection: (SFPProjection *) projection{
