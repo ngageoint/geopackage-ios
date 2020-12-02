@@ -118,6 +118,36 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
+ *  Get the zoom level mapping between zoom levels and reprojected zoom levels, defaults as empty
+ *
+ *  @return zoom map
+ */
+-(NSDictionary<NSNumber *,NSNumber *> *) zoomMap;
+
+/**
+ *  Set the zoom level mapping between zoom levels and reprojected zoom levels
+ *
+ *  @param zoomMap zoom map
+ */
+-(void) setZoomMap: (NSDictionary<NSNumber *,NSNumber *> *) zoomMap;
+
+/**
+ *  Set a zoom level mapping between a zoom level and a reprojected zoom level
+ *
+ *  @param fromZoom from zoom level
+ *  @param toZoom to reprojected zoom level
+ */
+-(void) mapFromZoom: (int) fromZoom toZoom: (int) toZoom;
+
+/**
+ *  Get a reprojected zoom level from a zoom level, defaults as the zoom level if not mapped
+ *
+ *  @param fromZoom from zoom level
+ *  @return reprojected zoom level
+ */
+-(int) zoomFromZoom: (int) fromZoom;
+
+/**
  *  Reproject the tile table
  *
  *  @return created tiles

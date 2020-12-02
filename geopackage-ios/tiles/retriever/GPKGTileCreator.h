@@ -140,4 +140,14 @@
  */
 -(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox;
 
+/**
+ *  Get the tile from the request bounding box in the request projection, only from the zoom level
+ *
+ *  @param requestBoundingBox request bounding box in the request projection
+ *  @param zoomLevel zoom level
+ *
+ *  @return tile
+ */
+-(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andZoom: (int) zoomLevel;
+
 @end

@@ -128,14 +128,29 @@
 }
 
 -(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox{
+    return [self tileWithBoundingBox:requestBoundingBox andTileMatrices:nil];
+}
+
+-(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andZoom: (int) zoomLevel{
+    GPKGGeoPackageTile *tile = nil;
+    GPKGTileMatrix *tileMatrix = [self.tileDao tileMatrixWithZoomLevel:zoomLevel];
+    if(tileMatrix != nil){
+        tile = [self tileWithBoundingBox:requestBoundingBox andTileMatrices:[NSMutableArray arrayWithObject:tileMatrix]];
+    }
+    return tile;
+}
     
+-(GPKGGeoPackageTile *) tileWithBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices{
+
     GPKGGeoPackageTile *tile = nil;
     
     // Transform to the projection of the tiles
     SFPProjectionTransform *transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
-    GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
+    GPKGBoundingBox *tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
-    NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
+    if(tileMatrices == nil){
+        tileMatrices = [self tileMatrices:tilesBoundingBox];
+    }
     
     for(int i = 0; tile == nil && i < tileMatrices.count; i++){
     
