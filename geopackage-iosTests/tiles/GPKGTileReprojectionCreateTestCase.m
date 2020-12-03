@@ -31,4 +31,8 @@
     [GPKGTileReprojectionTestUtils testReprojectOverwriteWithGeoPackage:self.geoPackage];
 }
 
+-(void) testReprojectZoomMap{
+    [GPKGTileReprojectionTestUtils testReprojectZoomMapWithGeoPackage:self.geoPackage];
+}
+
 @end

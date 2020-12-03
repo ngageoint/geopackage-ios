@@ -26,7 +26,8 @@
         self.tileMatrices = tileMatrices;
         
         NSInteger count = [tileMatrices count];
-        NSMutableDictionary *tempZoomLevelToTileMatrix = [NSMutableDictionary dictionaryWithCapacity:count];
+        NSMutableDictionary<NSNumber *, GPKGTileMatrix *> *tempZoomLevelToTileMatrix = [NSMutableDictionary dictionaryWithCapacity:count];
+        NSMutableArray<NSNumber *> *tempZoomLevels = [NSMutableArray arrayWithCapacity:count];
         NSMutableArray *tempWidths = [NSMutableArray arrayWithCapacity:count];
         NSMutableArray *tempHeights = [NSMutableArray arrayWithCapacity:count];
         
@@ -47,6 +48,7 @@
         for (int i = ((int)count)-1; i >= 0; i--) {
             GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
             [GPKGUtils setObject:tileMatrix forKey:tileMatrix.zoomLevel inDictionary:tempZoomLevelToTileMatrix];
+            [GPKGUtils insertObject:tileMatrix.zoomLevel atIndex:0 inArray:tempZoomLevels];
             double width = [tileMatrix.pixelXSize doubleValue] * [tileMatrix.tileWidth intValue];
             double height = [tileMatrix.pixelYSize doubleValue] * [tileMatrix.tileHeight intValue];
             [GPKGUtils addObject:[[NSDecimalNumber alloc] initWithDouble:width] toArray:tempWidths];
@@ -62,6 +64,7 @@
         }
         
         self.zoomLevelToTileMatrix = tempZoomLevelToTileMatrix;
+        self.zoomLevels = tempZoomLevels;
         self.widths = tempWidths;
         self.heights = tempHeights;
     }
@@ -124,7 +127,7 @@
 }
 
 -(GPKGTileMatrix *) tileMatrixWithZoomLevel: (int) zoomLevel{
-    return (GPKGTileMatrix *)[GPKGUtils objectForKey:[NSNumber numberWithInt:zoomLevel] inDictionary:self.zoomLevelToTileMatrix];
+    return [GPKGUtils objectForKey:[NSNumber numberWithInt:zoomLevel] inDictionary:self.zoomLevelToTileMatrix];
 }
 
 -(GPKGSpatialReferenceSystem *) srs{
@@ -133,10 +136,6 @@
 
 -(NSNumber *) srsId{
     return self.tileMatrixSet.srsId;
-}
-
--(NSArray *) zoomLevels{
-    return [self.zoomLevelToTileMatrix allKeys];
 }
 
 -(GPKGTileRow *) queryForTileWithColumn: (int) column andRow: (int) row andZoomLevel: (int) zoomLevel{

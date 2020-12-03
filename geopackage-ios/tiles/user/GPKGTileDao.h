@@ -33,7 +33,12 @@
 /**
  *  Mapping between zoom levels and the tile matrix
  */
-@property (nonatomic, strong) NSDictionary *zoomLevelToTileMatrix;
+@property (nonatomic, strong) NSDictionary<NSNumber *, GPKGTileMatrix *> *zoomLevelToTileMatrix;
+
+/**
+ *  Zoom levels
+ */
+@property (nonatomic, strong) NSArray<NSNumber *> *zoomLevels;
 
 /**
  *  Min zoom
@@ -147,13 +152,6 @@
  * @return srs id
  */
 -(NSNumber *) srsId;
-
-/**
- * Get the zoom levels
- *
- * @return zoom levels
- */
--(NSArray *) zoomLevels;
 
 /**
  *  Query for a Tile

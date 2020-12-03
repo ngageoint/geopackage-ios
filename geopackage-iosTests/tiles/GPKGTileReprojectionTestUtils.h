@@ -46,4 +46,11 @@
  */
 +(void) testReprojectOverwriteWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ * Test reproject with zoom level mappings
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testReprojectZoomMapWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end
