@@ -51,6 +51,13 @@
  *
  * @param geoPackage GeoPackage
  */
-+(void) testReprojectZoomMapWithGeoPackage: (GPKGGeoPackage *) geoPackage;
++(void) testReprojectToZoomWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test reproject with zoom level matrix and tile length configurations
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testReprojectMatrixAndTileLengthsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 @end

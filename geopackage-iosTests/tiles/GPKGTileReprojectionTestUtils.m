@@ -41,8 +41,8 @@
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
         [self checkZoomCountsWithCount:count andCounts:counts andDao:reprojectTileDao andTiles:tiles];
         
-        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
-        NSArray<NSNumber *> *reprojectZoomLevels = [reprojectTileDao zoomLevels];
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
+        NSArray<NSNumber *> *reprojectZoomLevels = reprojectTileDao.zoomLevels;
         [zoomLevels removeObjectsInArray:reprojectZoomLevels];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)zoomLevels.count];
     }
@@ -57,7 +57,7 @@
         SFPProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
-        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
         int count = [tileDao count];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
         
@@ -72,7 +72,7 @@
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:table];
         [self checkZoomCountsWithCount:count andCounts:counts andDao:reprojectTileDao andTiles:tiles];
         
-        NSArray<NSNumber *> *reprojectZoomLevels = [reprojectTileDao zoomLevels];
+        NSArray<NSNumber *> *reprojectZoomLevels = reprojectTileDao.zoomLevels;
         [zoomLevels removeObjectsInArray:reprojectZoomLevels];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)zoomLevels.count];
     }
@@ -101,9 +101,9 @@
         [GPKGTestUtils assertTrue:[projection isEqualToProjection:[geoPackage projectionOfTable:table]]];
         [GPKGTestUtils assertTrue:[reprojectProjection isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
         
-        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
-        NSArray<NSNumber *> *reprojectZoomLevels = [reprojectTileDao zoomLevels];
+        NSArray<NSNumber *> *reprojectZoomLevels = reprojectTileDao.zoomLevels;
         [zoomLevels removeObjectsInArray:reprojectZoomLevels];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)zoomLevels.count];
     }
@@ -149,9 +149,9 @@
         int tiles3 = [tileReprojection reprojectWithZoom:[zoom intValue]];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
         
-        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
-        NSArray<NSNumber *> *reprojectZoomLevels = [reprojectTileDao zoomLevels];
+        NSArray<NSNumber *> *reprojectZoomLevels = reprojectTileDao.zoomLevels;
         [GPKGTestUtils assertTrue:[zoomLevels containsObject:zoom]];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:(int)reprojectZoomLevels.count];
         [GPKGTestUtils assertTrue:[reprojectZoomLevels containsObject:zoom]];
@@ -246,15 +246,15 @@
         int tiles3 = [tileReprojection reproject];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
         
-        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
-        NSArray<NSNumber *> *reprojectZoomLevels = [reprojectTileDao zoomLevels];
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
+        NSArray<NSNumber *> *reprojectZoomLevels = reprojectTileDao.zoomLevels;
         [zoomLevels removeObjectsInArray:reprojectZoomLevels];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)zoomLevels.count];
     }
     
 }
 
-+(void) testReprojectZoomMapWithGeoPackage: (GPKGGeoPackage *) geoPackage{
++(void) testReprojectToZoomWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
@@ -270,7 +270,7 @@
         
         NSMutableDictionary<NSNumber *, NSNumber *> *zoomMap = [NSMutableDictionary dictionary];
         
-        NSArray<NSNumber *> *zoomLevels = [tileDao zoomLevels];
+        NSArray<NSNumber *> *zoomLevels = tileDao.zoomLevels;
         NSNumber *fromZoom = [zoomLevels objectAtIndex:0];
         int toZoom = MAX([fromZoom intValue] - 2, 0);
         [tileReprojection setToZoom:toZoom forZoom:[fromZoom intValue]];
@@ -298,18 +298,86 @@
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[reprojectTileDao count]];
         NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:reprojectTileDao];
         [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
-        for(NSNumber *zoomLevel in [reprojectTileDao zoomLevels]){
+        for(NSNumber *zoomLevel in reprojectTileDao.zoomLevels){
             NSNumber *toZoomLevel = [zoomMap objectForKey:zoomLevel];
             [GPKGTestUtils assertEqualBoolWithValue:[[counts objectForKey:zoomLevel] intValue] > 0 andValue2:[[countsAfter objectForKey:toZoomLevel] intValue] > 0];
         }
         
-        NSMutableArray<NSNumber *> *fromZoomLevels = [NSMutableArray arrayWithArray:[tileDao zoomLevels]];
-        NSMutableArray<NSNumber *> *reprojectZoomLevels = [NSMutableArray arrayWithArray:[reprojectTileDao zoomLevels]];
+        NSMutableArray<NSNumber *> *fromZoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
+        NSMutableArray<NSNumber *> *reprojectZoomLevels = [NSMutableArray arrayWithArray:reprojectTileDao.zoomLevels];
         [GPKGTestUtils assertEqualIntWithValue:(int)fromZoomLevels.count andValue2:(int)reprojectZoomLevels.count];
         [fromZoomLevels removeObjectsInArray:[zoomMap allKeys]];
         [reprojectZoomLevels removeObjectsInArray:[zoomMap allValues]];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)fromZoomLevels.count];
         [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)reprojectZoomLevels.count];
+    }
+    
+}
+
++(void) testReprojectMatrixAndTileLengthsWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
+        
+        NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+        SFPProjection *projection = [geoPackage projectionOfTable:table];
+        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        int count = [tileDao count];
+        NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+        
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        
+        for(GPKGTileMatrix *tileMatrix in tileDao.tileMatrices){
+            int zoom = [tileMatrix.zoomLevel intValue];
+            [tileReprojection setMatrixWidth:[tileMatrix.matrixWidth intValue] * 2 forZoom:zoom];
+            [tileReprojection setMatrixHeight:[tileMatrix.matrixHeight intValue] * 2 forZoom:zoom];
+            [tileReprojection setTileWidth:[tileMatrix.tileWidth intValue] + zoom forZoom:zoom];
+            [tileReprojection setTileHeight:[tileMatrix.tileHeight intValue] + zoom forZoom:zoom];
+        }
+        
+        int tiles = [tileReprojection reproject];
+        
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
+        
+        [GPKGTestUtils assertTrue:[projection isEqualToProjection:[geoPackage projectionOfTable:table]]];
+        [GPKGTestUtils assertTrue:[reprojectProjection isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        
+        tileDao = [geoPackage tileDaoWithTableName:table];
+        [self compareZoomCountsWithCount:count andCounts:counts andDao:tileDao];
+        
+        GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count]];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[reprojectTileDao count]];
+        NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:reprojectTileDao];
+        [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
+        
+        NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
+        [zoomLevels removeObjectsInArray:reprojectTileDao.zoomLevels];
+        [GPKGTestUtils assertEqualIntWithValue:0 andValue2:(int)zoomLevels.count];
+        
+        for(GPKGTileMatrix *reprojectTileMatrix in reprojectTileDao.tileMatrices){
+            int zoom = [reprojectTileMatrix.zoomLevel intValue];
+            GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:zoom];
+            [GPKGTestUtils assertEqualIntWithValue:[tileMatrix.matrixWidth intValue] * 2 andValue2:[reprojectTileMatrix.matrixWidth intValue]];
+            [GPKGTestUtils assertEqualIntWithValue:[tileMatrix.matrixHeight intValue] * 2 andValue2:[reprojectTileMatrix.matrixHeight intValue]];
+            [GPKGTestUtils assertEqualIntWithValue:[tileMatrix.tileWidth intValue] + zoom andValue2:[reprojectTileMatrix.tileWidth intValue]];
+            [GPKGTestUtils assertEqualIntWithValue:[tileMatrix.tileHeight intValue] + zoom andValue2:[reprojectTileMatrix.tileHeight intValue]];
+            
+            GPKGResultSet *tileResults = [reprojectTileDao queryforTileWithZoomLevel:zoom];
+            [GPKGTestUtils assertTrue:[tileResults moveToNext]];
+            GPKGTileRow *tileRow = [reprojectTileDao tileRow:tileResults];
+            UIImage *tileImage = [tileRow tileDataImage];
+            [GPKGTestUtils assertEqualDoubleWithValue:[reprojectTileMatrix.tileWidth doubleValue] andValue2:tileImage.size.width];
+            [GPKGTestUtils assertEqualDoubleWithValue:[reprojectTileMatrix.tileHeight doubleValue] andValue2:tileImage.size.height];
+            [tileResults close];
+            
+            GPKGTileGrid *tileGrid = [tileDao queryForTileGridWithZoomLevel:zoom];
+            GPKGTileGrid *reprojectTileGrid = [reprojectTileDao queryForTileGridWithZoomLevel:zoom];
+            [GPKGTestUtils assertTrue:tileGrid.maxX < reprojectTileGrid.maxX];
+            [GPKGTestUtils assertTrue:tileGrid.maxY < reprojectTileGrid.maxY];
+        }
+        
     }
     
 }
@@ -345,7 +413,7 @@
 
 +(NSDictionary *) zoomCountsWithDao: (GPKGTileDao *) tileDao{
     NSMutableDictionary<NSNumber *, NSNumber *> *counts = [NSMutableDictionary dictionary];
-    for(NSNumber *zoomLevel in [tileDao zoomLevels]){
+    for(NSNumber *zoomLevel in tileDao.zoomLevels){
         int zoomCount = [tileDao countWithZoomLevel:[zoomLevel intValue]];
         [counts setObject:[NSNumber numberWithInt:zoomCount] forKey:zoomLevel];
     }
@@ -356,7 +424,7 @@
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:[tileDao count]];
     NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:tileDao];
     [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
-    for(NSNumber *zoomLevel in [tileDao zoomLevels]){
+    for(NSNumber *zoomLevel in tileDao.zoomLevels){
         [GPKGTestUtils assertEqualWithValue:[counts objectForKey:zoomLevel] andValue2:[countsAfter objectForKey:zoomLevel]];
     }
 }
@@ -366,7 +434,7 @@
     [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[tileDao count]];
     NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:tileDao];
     [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
-    for(NSNumber *zoomLevel in [tileDao zoomLevels]){
+    for(NSNumber *zoomLevel in tileDao.zoomLevels){
         [GPKGTestUtils assertEqualBoolWithValue:[[counts objectForKey:zoomLevel] intValue] > 0 andValue2:[[countsAfter objectForKey:zoomLevel] intValue] > 0];
     }
 }
