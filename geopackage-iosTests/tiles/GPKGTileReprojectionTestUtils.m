@@ -273,13 +273,13 @@
         NSArray<NSNumber *> *zoomLevels = [tileDao zoomLevels];
         NSNumber *fromZoom = [zoomLevels objectAtIndex:0];
         int toZoom = MAX([fromZoom intValue] - 2, 0);
-        [tileReprojection mapFromZoom:[fromZoom intValue] toZoom:toZoom];
+        [tileReprojection setToZoom:toZoom forZoom:[fromZoom intValue]];
         [zoomMap setObject:[NSNumber numberWithInt:toZoom] forKey:fromZoom];
         
         for(int i = 1; i < zoomLevels.count; i++){
             fromZoom = [zoomLevels objectAtIndex:i];
             toZoom += 2;
-            [tileReprojection mapFromZoom:[fromZoom intValue] toZoom:toZoom];
+            [tileReprojection setToZoom:toZoom forZoom:[fromZoom intValue]];
             [zoomMap setObject:[NSNumber numberWithInt:toZoom] forKey:fromZoom];
         }
         

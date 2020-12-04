@@ -27,7 +27,7 @@
 
 @property (nonatomic) BOOL replace;
 
-@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSNumber *> *zoomMapping;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, GPKGTileReprojectionZoom *> *zoomConfigs;
 
 @end
 
@@ -60,14 +60,14 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
     self = [super init];
     if(self != nil){
-        _optimize = YES;
+        _optimize = NO;
         _overwrite = NO;
         _replace = NO;
         _tileDao = tileDao;
         _geoPackage = geoPackage;
         _table = table;
         _projection = projection;
-        _zoomMapping = [NSMutableDictionary dictionary];
+        _zoomConfigs = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -75,39 +75,100 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao{
     self = [super init];
     if(self != nil){
-        _optimize = YES;
+        _optimize = NO;
         _overwrite = NO;
         _replace = NO;
         _tileDao = tileDao;
         _reprojectTileDao = reprojectTileDao;
-        _zoomMapping = [NSMutableDictionary dictionary];
+        _zoomConfigs = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
--(NSDictionary<NSNumber *,NSNumber *> *) zoomMap{
-    return _zoomMapping;
+-(NSDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs{
+    return _zoomConfigs;
 }
 
--(void) setZoomMap: (NSDictionary<NSNumber *,NSNumber *> *) zoomMap{
-    if(zoomMap != nil){
-        _zoomMapping = [NSMutableDictionary dictionaryWithDictionary:zoomMap];
-    }else{
-        [_zoomMapping removeAllObjects];
+-(GPKGTileReprojectionZoom *) configForZoom: (int) zoom{
+    return [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:_zoomConfigs];
+}
+
+-(GPKGTileReprojectionZoom *) configOrCreateForZoom: (int) zoom{
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config == nil){
+        config = [[GPKGTileReprojectionZoom alloc] initWithZoom:zoom];
+        [self setConfig:config forZoom:zoom];
     }
+    return config;
 }
 
--(void) mapFromZoom: (int) fromZoom toZoom: (int) toZoom{
-    [_zoomMapping setObject:[NSNumber numberWithInt:toZoom] forKey:[NSNumber numberWithInt:fromZoom]];
+-(void) setConfig: (GPKGTileReprojectionZoom *) config forZoom: (int) zoom{
+    [GPKGUtils setObject:config forKey:[NSNumber numberWithInt:zoom] inDictionary:_zoomConfigs];
 }
 
--(int) zoomFromZoom: (int) fromZoom{
-    int zoom = fromZoom;
-    NSNumber *zoomNumber = [_zoomMapping objectForKey:[NSNumber numberWithInt:fromZoom]];
-    if(zoomNumber != nil){
-        zoom = [zoomNumber intValue];
+-(void) setToZoom: (int) toZoom forZoom: (int) zoom{
+    [[self configOrCreateForZoom:zoom] setToZoom:[NSNumber numberWithInt:toZoom]];
+}
+
+-(int) toZoomForZoom: (int) zoom{
+    int toZoom = zoom;
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config != nil && [config hasToZoom]){
+        toZoom = [config.toZoom intValue];
     }
-    return zoom;
+    return toZoom;
+}
+
+-(void) setTileWidth: (int) tileWidth forZoom: (int) zoom{
+    [[self configOrCreateForZoom:zoom] setTileWidth:[NSNumber numberWithInt:tileWidth]];
+}
+
+-(NSNumber *) tileWidthForZoom: (int) zoom{
+    NSNumber *tileWidth = _tileWidth;
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config != nil && [config hasTileWidth]){
+        tileWidth = config.tileWidth;
+    }
+    return tileWidth;
+}
+
+-(void) setTileHeight: (int) tileHeight forZoom: (int) zoom{
+    [[self configOrCreateForZoom:zoom] setTileHeight:[NSNumber numberWithInt:tileHeight]];
+}
+
+-(NSNumber *) tileHeightForZoom: (int) zoom{
+    NSNumber *tileHeight = _tileHeight;
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config != nil && [config hasTileHeight]){
+        tileHeight = config.tileHeight;
+    }
+    return tileHeight;
+}
+
+-(void) setMatrixWidth: (int) matrixWidth forZoom: (int) zoom{
+    [[self configOrCreateForZoom:zoom] setMatrixWidth:[NSNumber numberWithInt:matrixWidth]];
+}
+
+-(NSNumber *) matrixWidthForZoom: (int) zoom{
+    NSNumber *matrixWidth = nil;
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config != nil && [config hasMatrixWidth]){
+        matrixWidth = config.matrixWidth;
+    }
+    return matrixWidth;
+}
+
+-(void) setMatrixHeight: (int) matrixHeight forZoom: (int) zoom{
+    [[self configOrCreateForZoom:zoom] setMatrixHeight:[NSNumber numberWithInt:matrixHeight]];
+}
+
+-(NSNumber *) matrixHeightForZoom: (int) zoom{
+    NSNumber *matrixHeight = nil;
+    GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
+    if(config != nil && [config hasMatrixHeight]){
+        matrixHeight = config.matrixHeight;
+    }
+    return matrixHeight;
 }
 
 -(void) initialize{
@@ -263,22 +324,36 @@
     
     int tiles = 0;
     
-    int fromZoom = [tileMatrix.zoomLevel intValue];
-    int toZoom = [self zoomFromZoom:fromZoom];
+    int zoom = [tileMatrix.zoomLevel intValue];
+    int toZoom = [self toZoomForZoom:zoom];
     
-    NSNumber *tileWidth = _tileWidth;
+    NSNumber *tileWidth = [self tileWidthForZoom:zoom];
     if(tileWidth == nil){
         tileWidth = tileMatrix.tileWidth;
     }
     
-    NSNumber *tileHeight = _tileHeight;
+    NSNumber *tileHeight = [self tileHeightForZoom:zoom];
     if(tileHeight == nil){
         tileHeight = tileMatrix.tileHeight;
     }
     
-    int matrixWidth = [tileMatrix.matrixWidth intValue];
-    int matrixHeight = [tileMatrix.matrixHeight intValue];
+    NSNumber *matrixWidth = [self matrixWidthForZoom:zoom];
+    if(matrixWidth == nil){
+        matrixWidth = tileMatrix.matrixWidth;
+    }
+    
+    NSNumber *matrixHeight = [self matrixHeightForZoom:zoom];
+    if(matrixHeight == nil){
+        matrixHeight = tileMatrix.matrixHeight;
+    }
+    
     // TODO optimize for XYZ and wgs84 tiles
+    if(_optimize){
+        toZoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
+        //[GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:nil andZoom:0];
+        //[GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:nil andZoom:0];
+        // TODO adust the matrix width and height for meters or degrees
+    }
     
     GPKGBoundingBox *bbox = [_reprojectTileDao boundingBox];
     
@@ -288,8 +363,8 @@
     double longitudeRange = [bbox longitudeRangeValue];
     double latitudeRange = [bbox latitudeRangeValue];
     
-    double pixelXSize = longitudeRange / matrixWidth / [tileWidth intValue];
-    double pixelYSize = latitudeRange / matrixHeight / [tileHeight intValue];
+    double pixelXSize = longitudeRange / [matrixWidth intValue] / [tileWidth intValue];
+    double pixelYSize = latitudeRange / [matrixHeight intValue] / [tileHeight intValue];
     
     BOOL saveTileMatrix = YES;
     
@@ -300,8 +375,8 @@
         [toTileMatrix setTableName:_reprojectTileDao.tableName];
         [toTileMatrix setZoomLevel:[NSNumber numberWithInt:toZoom]];
         
-    }else if(![toTileMatrix.matrixHeight isEqualToNumber:[NSNumber numberWithInt:matrixHeight]]
-        || ![toTileMatrix.matrixWidth isEqualToNumber:[NSNumber numberWithInt:matrixWidth]]
+    }else if(![toTileMatrix.matrixHeight isEqualToNumber:matrixHeight]
+        || ![toTileMatrix.matrixWidth isEqualToNumber:matrixWidth]
         || ![toTileMatrix.tileHeight isEqualToNumber:tileHeight]
         || ![toTileMatrix.tileWidth isEqualToNumber:tileWidth]
         || ![GPKGUtils compareDouble:[toTileMatrix.pixelXSize doubleValue] withDouble:pixelXSize]
@@ -322,8 +397,8 @@
     
     if(saveTileMatrix){
         // Create or update the tile matrix
-        [toTileMatrix setMatrixHeight:[NSNumber numberWithInt:matrixHeight]];
-        [toTileMatrix setMatrixWidth:[NSNumber numberWithInt:matrixWidth]];
+        [toTileMatrix setMatrixHeight:matrixHeight];
+        [toTileMatrix setMatrixWidth:matrixWidth];
         [toTileMatrix setTileHeight:tileHeight];
         [toTileMatrix setTileWidth:tileWidth];
         [toTileMatrix setPixelXSizeValue:pixelXSize];
@@ -331,24 +406,24 @@
         [[_reprojectTileDao tileMatrixDao] createOrUpdate:toTileMatrix];
     }
     
-    GPKGBoundingBox *zoomBounds = [_tileDao boundingBoxWithZoomLevel:fromZoom inProjection:_reprojectTileDao.projection];
-    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:bbox andMatrixWidth:matrixWidth andMatrixHeight:matrixHeight andBoundingBox:zoomBounds];
+    GPKGBoundingBox *zoomBounds = [_tileDao boundingBoxWithZoomLevel:zoom inProjection:_reprojectTileDao.projection];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:bbox andMatrixWidth:[matrixWidth intValue] andMatrixHeight:[matrixHeight intValue] andBoundingBox:zoomBounds];
     
     GPKGTileCreator *tileCreator = [[GPKGTileCreator alloc] initWithTileDao:_tileDao andWidth:tileWidth andHeight:tileHeight andProjection:_reprojectTileDao.projection];
     
     for(int tileRow = tileGrid.minY; tileRow <= tileGrid.maxY; tileRow++){
         
-        double tileMaxLatitude = maxLatitude - ((tileRow / (double) matrixHeight) * latitudeRange);
-        double tileMinLatitude = maxLatitude - (((tileRow + 1) / (double) matrixHeight) * latitudeRange);
+        double tileMaxLatitude = maxLatitude - ((tileRow / [matrixHeight doubleValue]) * latitudeRange);
+        double tileMinLatitude = maxLatitude - (((tileRow + 1) / [matrixHeight doubleValue]) * latitudeRange);
         
         for(int tileColumn = tileGrid.minX; tileColumn <= tileGrid.maxX; tileColumn++){
             
-            double tileMinLongitude = minLongitude + ((tileColumn / (double) matrixWidth) * longitudeRange);
-            double tileMaxLongitude = minLongitude + (((tileColumn + 1) / (double) matrixWidth) * longitudeRange);
+            double tileMinLongitude = minLongitude + ((tileColumn / [matrixWidth doubleValue]) * longitudeRange);
+            double tileMaxLongitude = minLongitude + (((tileColumn + 1) / [matrixWidth doubleValue]) * longitudeRange);
             
             GPKGBoundingBox *tileBounds = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:tileMinLongitude andMinLatitudeDouble:tileMinLatitude andMaxLongitudeDouble:tileMaxLongitude andMaxLatitudeDouble:tileMaxLatitude];
             
-            GPKGGeoPackageTile *tile = [tileCreator tileWithBoundingBox:tileBounds andZoom:fromZoom];
+            GPKGGeoPackageTile *tile = [tileCreator tileWithBoundingBox:tileBounds andZoom:zoom];
             
             if(tile != nil){
                 

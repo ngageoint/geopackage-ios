@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
+#import "GPKGTileReprojectionZoom.h"
 
 /**
  *  Tile Reprojection for reprojecting an existing tile table
@@ -118,34 +119,115 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
- *  Get the zoom level mapping between zoom levels and reprojected zoom levels, defaults as empty
+ *  Get the zoom level configurations
  *
- *  @return zoom map
+ *  @return zoom configs
  */
--(NSDictionary<NSNumber *,NSNumber *> *) zoomMap;
+-(NSDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs;
 
 /**
- *  Set the zoom level mapping between zoom levels and reprojected zoom levels
+ *  Get the zoom level configuration for a zoom level
  *
- *  @param zoomMap zoom map
+ *  @param zoom from zoom level
+ *  @return zoom config
  */
--(void) setZoomMap: (NSDictionary<NSNumber *,NSNumber *> *) zoomMap;
+-(GPKGTileReprojectionZoom *) configForZoom: (int) zoom;
 
 /**
- *  Set a zoom level mapping between a zoom level and a reprojected zoom level
+ *  Get the zoom level configuration or create new configuration for a zoom level
  *
- *  @param fromZoom from zoom level
- *  @param toZoom to reprojected zoom level
+ *  @param zoom from zoom level
+ *  @return zoom config
  */
--(void) mapFromZoom: (int) fromZoom toZoom: (int) toZoom;
+-(GPKGTileReprojectionZoom *) configOrCreateForZoom: (int) zoom;
 
 /**
- *  Get a reprojected zoom level from a zoom level, defaults as the zoom level if not mapped
+ *  Set a zoom level configuration for a zoom level
  *
- *  @param fromZoom from zoom level
- *  @return reprojected zoom level
+ *  @param config zoom configuration
+ *  @param zoom zoom level
  */
--(int) zoomFromZoom: (int) fromZoom;
+-(void) setConfig: (GPKGTileReprojectionZoom *) config forZoom: (int) zoom;
+
+/**
+ *  Set a reprojected to zoom level for a zoom level
+ *
+ *  @param toZoom reprojected zoom level
+ *  @param zoom zoom level
+ */
+-(void) setToZoom: (int) toZoom forZoom: (int) zoom;
+
+/**
+ *  Get a reprojected to zoom level from a zoom level, defaults as the zoom level if not set
+ *
+ *  @param zoom zoom level
+ *  @return reprojected to zoom level
+ */
+-(int) toZoomForZoom: (int) zoom;
+
+/**
+ *  Set a reprojected tile width for a zoom level
+ *
+ *  @param tileWidth reprojected tile width
+ *  @param zoom zoom level
+ */
+-(void) setTileWidth: (int) tileWidth forZoom: (int) zoom;
+
+/**
+ *  Get a reprojected tile width from a zoom level
+ *
+ *  @param zoom zoom level
+ *  @return reprojected tile width
+ */
+-(NSNumber *) tileWidthForZoom: (int) zoom;
+
+/**
+ *  Set a reprojected tile height for a zoom level
+ *
+ *  @param tileHeight reprojected tile height
+ *  @param zoom zoom level
+ */
+-(void) setTileHeight: (int) tileHeight forZoom: (int) zoom;
+
+/**
+ *  Get a reprojected tile height from a zoom level
+ *
+ *  @param zoom zoom level
+ *  @return reprojected tile height
+ */
+-(NSNumber *) tileHeightForZoom: (int) zoom;
+
+/**
+ *  Set a reprojected matrix width for a zoom level
+ *
+ *  @param matrixWidth reprojected matrix width
+ *  @param zoom zoom level
+ */
+-(void) setMatrixWidth: (int) matrixWidth forZoom: (int) zoom;
+
+/**
+ *  Get a reprojected matrix width from a zoom level
+ *
+ *  @param zoom zoom level
+ *  @return reprojected matrix width
+ */
+-(NSNumber *) matrixWidthForZoom: (int) zoom;
+
+/**
+ *  Set a reprojected matrix height for a zoom level
+ *
+ *  @param matrixHeight reprojected matrix height
+ *  @param zoom zoom level
+ */
+-(void) setMatrixHeight: (int) matrixHeight forZoom: (int) zoom;
+
+/**
+ *  Get a reprojected matrix height from a zoom level
+ *
+ *  @param zoom zoom level
+ *  @return reprojected matrix height
+ */
+-(NSNumber *) matrixHeightForZoom: (int) zoom;
 
 /**
  *  Reproject the tile table
