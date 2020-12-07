@@ -140,6 +140,13 @@
 -(GPKGTileMatrix *) tileMatrixWithZoomLevel: (int) zoomLevel;
 
 /**
+ *  Get the tile matrix at the min (first) zoom
+ *
+ *  @return tile matrix
+ */
+-(GPKGTileMatrix *) tileMatrixAtMinZoom;
+
+/**
  * Get the Spatial Reference System
  *
  * @return srs

@@ -130,6 +130,10 @@
     return [GPKGUtils objectForKey:[NSNumber numberWithInt:zoomLevel] inDictionary:self.zoomLevelToTileMatrix];
 }
 
+-(GPKGTileMatrix *) tileMatrixAtMinZoom{
+    return [_tileMatrices objectAtIndex:0];
+}
+
 -(GPKGSpatialReferenceSystem *) srs{
     return [[self tileMatrixSetDao] srs:self.tileMatrixSet];
 }

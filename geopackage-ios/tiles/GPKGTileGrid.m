@@ -25,6 +25,14 @@
     return ((self.maxX + 1) - self.minX) * ((self.maxY + 1) - self.minY);
 }
 
+-(int) width{
+    return _maxX + 1 - _minX;
+}
+
+-(int) height{
+    return _maxY + 1 - _minY;
+}
+
 -(BOOL) equals: (GPKGTileGrid *) tileGrid{
     if(self == tileGrid){
         return YES;

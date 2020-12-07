@@ -224,16 +224,16 @@
     // Get the fitting tile grid and determine the bounding box that fits it
     GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
     self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
-    self.matrixWidth = tileGrid.maxX + 1 - tileGrid.minX;
-    self.matrixHeight = tileGrid.maxY + 1 - tileGrid.minY;
+    self.matrixWidth = [tileGrid width];
+    self.matrixHeight = [tileGrid height];
 }
 
 -(void) adjustGeoPackageBoundsWithWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     // Get the fitting tile grid and determine the bounding box that fits it
     GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
     self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
-    self.matrixWidth = tileGrid.maxX + 1 - tileGrid.minX;
-    self.matrixHeight = tileGrid.maxY + 1 - tileGrid.minY;
+    self.matrixWidth = [tileGrid width];
+    self.matrixHeight = [tileGrid height];
 }
 
 -(void) updateTileBoundsWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{

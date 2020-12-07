@@ -12,6 +12,9 @@
 #import "GPKGSQLiteMaster.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGUtils.h"
+#import "SFPProjectionFactory.h"
+#import "SFPProjectionConstants.h"
+#import "GPKGTileGridBoundingBox.h"
 
 @interface GPKGTileReprojection ()
 
@@ -188,6 +191,17 @@
             _replace = YES;
         }
         
+        if(_optimize){
+            
+            GPKGTileMatrix *tileMatrix = [_reprojectTileDao tileMatrixAtMinZoom];
+            GPKGTileGridBoundingBox *tileGridBoundingBox = [self optimizeWithBoundingBox:boundingBox andTileMatrix:tileMatrix];
+            
+            if(tileGridBoundingBox != nil){
+                boundingBox = tileGridBoundingBox.boundingBox;
+            }
+            
+        }
+        
         GPKGTileTable *tileTable = nil;
         if([_geoPackage isTable:_table]){
             
@@ -205,7 +219,7 @@
             
             if(_reprojectTileDao.tileMatrices.count > 0){
                 
-                GPKGTileMatrix *tileMatrix = [_reprojectTileDao.tileMatrices objectAtIndex:0];
+                GPKGTileMatrix *tileMatrix = [_reprojectTileDao tileMatrixAtMinZoom];
                 
                 if(fabs([[tileMatrixSet.minX decimalNumberBySubtracting:boundingBox.minLongitude] doubleValue]) > [tileMatrix.pixelXSize doubleValue]
                    || fabs([[tileMatrixSet.minY decimalNumberBySubtracting:boundingBox.minLatitude] doubleValue]) > [tileMatrix.pixelYSize doubleValue]
@@ -347,21 +361,27 @@
         matrixHeight = tileMatrix.matrixHeight;
     }
     
-    // TODO optimize for XYZ and wgs84 tiles
+    GPKGBoundingBox *boundingBox = [_reprojectTileDao boundingBox];
+    
     if(_optimize){
-        toZoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
-        //[GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:nil andZoom:0];
-        //[GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:nil andZoom:0];
-        // TODO adust the matrix width and height for meters or degrees
+        
+        GPKGTileGridBoundingBox *tileGridBoundingBox = [self optimizeWithBoundingBox:boundingBox andTileMatrix:tileMatrix];
+        
+        if(tileGridBoundingBox != nil){
+            toZoom = [tileGridBoundingBox.zoomLevel intValue];
+            boundingBox = tileGridBoundingBox.boundingBox;
+            GPKGTileGrid *tileGrid = tileGridBoundingBox.tileGrid;
+            matrixWidth = [NSNumber numberWithInt:[tileGrid width]];
+            matrixHeight = [NSNumber numberWithInt:[tileGrid height]];
+        }
+        
     }
     
-    GPKGBoundingBox *bbox = [_reprojectTileDao boundingBox];
+    double minLongitude = [boundingBox.minLongitude doubleValue];
+    double maxLatitude = [boundingBox.maxLatitude doubleValue];
     
-    double minLongitude = [bbox.minLongitude doubleValue];
-    double maxLatitude = [bbox.maxLatitude doubleValue];
-    
-    double longitudeRange = [bbox longitudeRangeValue];
-    double latitudeRange = [bbox latitudeRangeValue];
+    double longitudeRange = [boundingBox longitudeRangeValue];
+    double latitudeRange = [boundingBox latitudeRangeValue];
     
     double pixelXSize = longitudeRange / [matrixWidth intValue] / [tileWidth intValue];
     double pixelYSize = latitudeRange / [matrixHeight intValue] / [tileHeight intValue];
@@ -407,7 +427,7 @@
     }
     
     GPKGBoundingBox *zoomBounds = [_tileDao boundingBoxWithZoomLevel:zoom inProjection:_reprojectTileDao.projection];
-    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:bbox andMatrixWidth:[matrixWidth intValue] andMatrixHeight:[matrixHeight intValue] andBoundingBox:zoomBounds];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:boundingBox andMatrixWidth:[matrixWidth intValue] andMatrixHeight:[matrixHeight intValue] andBoundingBox:zoomBounds];
     
     GPKGTileCreator *tileCreator = [[GPKGTileCreator alloc] initWithTileDao:_tileDao andWidth:tileWidth andHeight:tileHeight andProjection:_reprojectTileDao.projection];
     
@@ -446,6 +466,46 @@
     }
     
     return tiles;
+}
+
+-(GPKGTileGridBoundingBox *) optimizeWithBoundingBox: (GPKGBoundingBox *) boundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
+    
+    GPKGTileGridBoundingBox *tileGridBoundingBox = nil;
+    
+    int zoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
+    
+    GPKGTileGrid *tileGrid = nil;
+    SFPProjection *projection = _reprojectTileDao.projection;
+    switch([projection getUnit]){
+        case SFP_UNIT_METERS:
+            {
+                SFPProjection *webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:webMercator];
+                GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:transform];
+                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:webMercatorBoundingBox andZoom:zoom];
+                webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                boundingBox = [webMercatorBoundingBox transform:[transform inverseTransformation]];
+            }
+            break;
+        case SFP_UNIT_DEGREES:
+            {
+                SFPProjection *wgs84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:wgs84];
+                GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:transform];
+                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:wgs84BoundingBox andZoom:zoom];
+                wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                boundingBox = [wgs84BoundingBox transform:[transform inverseTransformation]];
+            }
+            break;
+        default:
+            break;
+    }
+    
+    if(tileGrid != nil){
+        tileGridBoundingBox = [[GPKGTileGridBoundingBox alloc] initWithZoom:[NSNumber numberWithInt:zoom] andGrid:tileGrid andBoundingBox:boundingBox];
+    }
+    
+    return tileGridBoundingBox;
 }
 
 @end

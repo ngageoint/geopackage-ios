@@ -53,6 +53,20 @@
 -(int) count;
 
 /**
+ *  Get the grid width
+ *
+ *  @return width
+ */
+-(int) width;
+
+/**
+ *  Get the grid height
+ *
+ *  @return height
+ */
+-(int) height;
+
+/**
  *  Determine if equal to the provided tile grid
  *
  *  @param tileGrid tile grid

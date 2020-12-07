@@ -246,9 +246,9 @@
 -(int) reprojectWithMinZoom: (int) minZoom andMaxZoom: (int) maxZoom;
 
 /**
- *  Reproject the tile table for the zoom levels
+ *  Reproject the tile table for the zoom levels, ordered numerically lowest to highest
  *
- *  @param zooms zoom levels
+ *  @param zooms zoom levels, ordered lowest to highest
  *  @return created tiles
  */
 -(int) reprojectWithZooms: (NSArray<NSNumber *> *) zooms;
