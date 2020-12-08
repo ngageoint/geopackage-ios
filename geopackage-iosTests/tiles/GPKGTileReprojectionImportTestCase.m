@@ -39,4 +39,8 @@
     [GPKGTileReprojectionTestUtils testReprojectMatrixAndTileLengthsWithGeoPackage:self.geoPackage];
 }
 
+-(void) testReprojectOptimize{
+    [GPKGTileReprojectionTestUtils testReprojectOptimizeWithGeoPackage:self.geoPackage];
+}
+
 @end

@@ -11,6 +11,7 @@
 #import "GPKGTestUtils.h"
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
+#import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGTileReprojectionTestUtils
 
@@ -380,6 +381,122 @@
         
     }
     
+}
+
++(void) testReprojectOptimizeWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
+        
+        NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+        SFPProjection *projection = [geoPackage projectionOfTable:table];
+        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        
+        GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+        int count = [tileDao count];
+        NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+        
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        [tileReprojection setOptimize:YES];
+        
+        int tiles = [tileReprojection reproject];
+        
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
+        
+        [GPKGTestUtils assertTrue:[projection isEqualToProjection:[geoPackage projectionOfTable:table]]];
+        [GPKGTestUtils assertTrue:[reprojectProjection isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        
+        tileDao = [geoPackage tileDaoWithTableName:table];
+        [self compareZoomCountsWithCount:count andCounts:counts andDao:tileDao];
+        
+        GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
+        
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count]];
+        [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[reprojectTileDao count]];
+        NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:reprojectTileDao];
+        [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
+        [GPKGTestUtils assertEqualIntWithValue:(int)tileDao.zoomLevels.count andValue2:(int)reprojectTileDao.zoomLevels.count];
+        for(int i = 0; i < tileDao.zoomLevels.count; i++){
+            NSNumber *zoomLevel = [tileDao.zoomLevels objectAtIndex:i];
+            NSNumber *toZoomLevel = [reprojectTileDao.zoomLevels objectAtIndex:i];
+            [GPKGTestUtils assertEqualBoolWithValue:[[counts objectForKey:zoomLevel] intValue] > 0 andValue2:[[countsAfter objectForKey:toZoomLevel] intValue] > 0];
+        }
+        
+        for(NSNumber *zoomLevel in reprojectTileDao.zoomLevels){
+            int zoom = [zoomLevel intValue];
+            GPKGTileMatrix *tileMatrix = [reprojectTileDao tileMatrixWithZoomLevel:zoom];
+            GPKGTileGrid *zoomTileGrid = [reprojectTileDao tileGridWithZoomLevel:zoom];
+            GPKGTileGrid *tileGrid = [reprojectTileDao queryForTileGridWithZoomLevel:zoom];
+            [GPKGTestUtils assertTrue:tileGrid.maxX <= zoomTileGrid.maxX];
+            [GPKGTestUtils assertTrue:tileGrid.maxY <= zoomTileGrid.maxY];
+            GPKGResultSet *tileResults = [reprojectTileDao queryforTileWithZoomLevel:zoom];
+            for(int i = 0; i < [GPKGTestUtils randomIntLessThan:tileResults.count]; i++){
+                [GPKGTestUtils assertTrue:[tileResults moveToNext]];
+            }
+            GPKGTileRow *tile = [reprojectTileDao tileRow:tileResults];
+            GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:[reprojectTileDao boundingBox] andTileMatrix:tileMatrix andTileColumn:[tile tileColumn] andTileRow:[tile tileRow]];
+            [tileResults close];
+            
+            GPKGBoundingBox *optimizeBoundingBox = boundingBox;
+            GPKGTileGrid *optimizeTileGrid = nil;
+            SFPProjection *projection = reprojectTileDao.projection;
+            
+            switch([projection getUnit]){
+                case SFP_UNIT_METERS:
+                    {
+                        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+                        if(![transform isSameProjection]){
+                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                        }
+                        double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
+                        double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
+                        GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
+                        optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                        GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
+                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:webMercatorBoundingBox andDelta:.00000000000001];
+                        optimizeBoundingBox = webMercatorBoundingBox;
+                        if(![transform isSameProjection]){
+                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                        }
+                    }
+                    break;
+                case SFP_UNIT_DEGREES:
+                    {
+                        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+                        if(![transform isSameProjection]){
+                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                        }
+                        double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
+                        double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
+                        GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
+                        optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                        GPKGBoundingBox *wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
+                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:wgs84BoundingBox andDelta:.00000000000001];
+                        optimizeBoundingBox = wgs84BoundingBox;
+                        if(![transform isSameProjection]){
+                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                        }
+                    }
+                    break;
+                default:
+                    [GPKGTestUtils fail:@"Unexpected units"];
+                    break;
+            }
+            
+            [GPKGTestUtils assertNotNil:optimizeTileGrid];
+            [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[optimizeTileGrid width]];
+            [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[optimizeTileGrid height]];
+            [self compareBoundingBox:boundingBox withBoundingBox:optimizeBoundingBox andDelta:.00000000000001];
+        }
+        
+    }
+    
+}
+
++(void) compareBoundingBox: (GPKGBoundingBox *) boundingBox1 withBoundingBox: (GPKGBoundingBox *) boundingBox2 andDelta: (double) delta{
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLongitude doubleValue] andValue2:[boundingBox2.minLongitude doubleValue] andDelta:delta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLatitude doubleValue] andValue2:[boundingBox2.minLatitude doubleValue] andDelta:delta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLongitude doubleValue] andValue2:[boundingBox2.maxLongitude doubleValue] andDelta:delta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLatitude doubleValue] andValue2:[boundingBox2.maxLatitude doubleValue] andDelta:delta];
 }
 
 +(NSArray<NSString *> *) randomTileTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage{

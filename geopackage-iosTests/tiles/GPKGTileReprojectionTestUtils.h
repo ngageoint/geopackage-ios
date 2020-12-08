@@ -60,4 +60,11 @@
  */
 +(void) testReprojectMatrixAndTileLengthsWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ * Test reproject with tile optimization
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testReprojectOptimizeWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

@@ -193,7 +193,7 @@
         
         if(_optimize){
             
-            GPKGTileMatrix *tileMatrix = [_reprojectTileDao tileMatrixAtMinZoom];
+            GPKGTileMatrix *tileMatrix = [_tileDao tileMatrixAtMinZoom];
             GPKGTileGridBoundingBox *tileGridBoundingBox = [self optimizeWithBoundingBox:boundingBox andTileMatrix:tileMatrix];
             
             if(tileGridBoundingBox != nil){
@@ -475,26 +475,32 @@
     int zoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
     
     GPKGTileGrid *tileGrid = nil;
-    SFPProjection *projection = _reprojectTileDao.projection;
+    SFPProjection *projection = _projection;
     switch([projection getUnit]){
         case SFP_UNIT_METERS:
             {
-                SFPProjection *webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:webMercator];
-                GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:transform];
-                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:webMercatorBoundingBox andZoom:zoom];
-                webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
-                boundingBox = [webMercatorBoundingBox transform:[transform inverseTransformation]];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+                if(![transform isSameProjection]){
+                    boundingBox = [boundingBox transform:transform];
+                }
+                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
+                boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                if(![transform isSameProjection]){
+                    boundingBox = [boundingBox transform:[transform inverseTransformation]];
+                }
             }
             break;
         case SFP_UNIT_DEGREES:
             {
-                SFPProjection *wgs84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:wgs84];
-                GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:transform];
-                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:wgs84BoundingBox andZoom:zoom];
-                wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
-                boundingBox = [wgs84BoundingBox transform:[transform inverseTransformation]];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+                if(![transform isSameProjection]){
+                    boundingBox = [boundingBox transform:transform];
+                }
+                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
+                boundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                if(![transform isSameProjection]){
+                    boundingBox = [boundingBox transform:[transform inverseTransformation]];
+                }
             }
             break;
         default:
