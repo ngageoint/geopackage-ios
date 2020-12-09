@@ -433,11 +433,14 @@
                 [GPKGTestUtils assertTrue:[tileResults moveToNext]];
             }
             GPKGTileRow *tile = [reprojectTileDao tileRow:tileResults];
-            GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:[reprojectTileDao boundingBox] andTileMatrix:tileMatrix andTileColumn:[tile tileColumn] andTileRow:[tile tileRow]];
+            int tileColumn = [tile tileColumn];
+            int tileRow = [tile tileRow];
+            GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:[reprojectTileDao boundingBox] andTileMatrix:tileMatrix andTileColumn:tileColumn andTileRow:tileRow];
             [tileResults close];
             
             GPKGBoundingBox *optimizeBoundingBox = boundingBox;
             GPKGTileGrid *optimizeTileGrid = nil;
+            GPKGTileGrid *localTileGrid = nil;
             SFPProjection *projection = reprojectTileDao.projection;
             
             switch([projection getUnit]){
@@ -451,8 +454,9 @@
                         double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
                         GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
                         optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                        localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:[reprojectTileDao boundingBox] andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
                         GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
-                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:webMercatorBoundingBox andDelta:.00000000000001];
+                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix];
                         optimizeBoundingBox = webMercatorBoundingBox;
                         if(![transform isSameProjection]){
                             optimizeBoundingBox = [optimizeBoundingBox transform:transform];
@@ -469,8 +473,9 @@
                         double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
                         GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
                         optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                        localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:[reprojectTileDao boundingBox] andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
                         GPKGBoundingBox *wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
-                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:wgs84BoundingBox andDelta:.00000000000001];
+                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:wgs84BoundingBox andTileMatrix:tileMatrix];
                         optimizeBoundingBox = wgs84BoundingBox;
                         if(![transform isSameProjection]){
                             optimizeBoundingBox = [optimizeBoundingBox transform:transform];
@@ -485,18 +490,32 @@
             [GPKGTestUtils assertNotNil:optimizeTileGrid];
             [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[optimizeTileGrid width]];
             [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[optimizeTileGrid height]];
-            [self compareBoundingBox:boundingBox withBoundingBox:optimizeBoundingBox andDelta:.00000000000001];
+            [GPKGTestUtils assertNotNil:localTileGrid];
+            [GPKGTestUtils assertEqualIntWithValue:tileColumn andValue2:localTileGrid.minX];
+            [GPKGTestUtils assertEqualIntWithValue:tileRow andValue2:localTileGrid.minY];
+            [self compareBoundingBox:boundingBox withBoundingBox:optimizeBoundingBox andTileMatrix:tileMatrix];
         }
         
-    }
+   }
+    
+}
+
++(void) compareBoundingBox: (GPKGBoundingBox *) boundingBox1 withBoundingBox: (GPKGBoundingBox *) boundingBox2 andTileMatrix: (GPKGTileMatrix *) tileMatrix{
+    double longitudeDelta = [tileMatrix.pixelXSize doubleValue];
+    double latitudeDelta = [tileMatrix.pixelYSize doubleValue];
+    [self compareBoundingBox:boundingBox1 withBoundingBox:boundingBox2 andLongitudeDelta:longitudeDelta andLatitudeDelta:latitudeDelta];
     
 }
 
 +(void) compareBoundingBox: (GPKGBoundingBox *) boundingBox1 withBoundingBox: (GPKGBoundingBox *) boundingBox2 andDelta: (double) delta{
-    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLongitude doubleValue] andValue2:[boundingBox2.minLongitude doubleValue] andDelta:delta];
-    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLatitude doubleValue] andValue2:[boundingBox2.minLatitude doubleValue] andDelta:delta];
-    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLongitude doubleValue] andValue2:[boundingBox2.maxLongitude doubleValue] andDelta:delta];
-    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLatitude doubleValue] andValue2:[boundingBox2.maxLatitude doubleValue] andDelta:delta];
+    [self compareBoundingBox:boundingBox1 withBoundingBox:boundingBox2 andLongitudeDelta:delta andLatitudeDelta:delta];
+}
+
++(void) compareBoundingBox: (GPKGBoundingBox *) boundingBox1 withBoundingBox: (GPKGBoundingBox *) boundingBox2 andLongitudeDelta: (double) longitudeDelta andLatitudeDelta: (double) latitudeDelta{
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLongitude doubleValue] andValue2:[boundingBox2.minLongitude doubleValue] andDelta:longitudeDelta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.minLatitude doubleValue] andValue2:[boundingBox2.minLatitude doubleValue] andDelta:latitudeDelta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLongitude doubleValue] andValue2:[boundingBox2.maxLongitude doubleValue] andDelta:longitudeDelta];
+    [GPKGTestUtils assertEqualDoubleWithValue:[boundingBox1.maxLatitude doubleValue] andValue2:[boundingBox2.maxLatitude doubleValue] andDelta:latitudeDelta];
 }
 
 +(NSArray<NSString *> *) randomTileTablesWithGeoPackage: (GPKGGeoPackage *) geoPackage{

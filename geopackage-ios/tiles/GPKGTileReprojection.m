@@ -32,6 +32,10 @@
 
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, GPKGTileReprojectionZoom *> *zoomConfigs;
 
+@property (nonatomic, strong) GPKGTileGrid *optimizeTileGrid;
+
+@property (nonatomic) int optimizeZoom;
+
 @end
 
 @implementation GPKGTileReprojection
@@ -192,14 +196,7 @@
         }
         
         if(_optimize){
-            
-            GPKGTileMatrix *tileMatrix = [_tileDao tileMatrixAtMinZoom];
-            GPKGTileGridBoundingBox *tileGridBoundingBox = [self optimizeWithBoundingBox:boundingBox andTileMatrix:tileMatrix];
-            
-            if(tileGridBoundingBox != nil){
-                boundingBox = tileGridBoundingBox.boundingBox;
-            }
-            
+            boundingBox = [self optimizeWithBoundingBox:boundingBox];
         }
         
         GPKGTileTable *tileTable = nil;
@@ -363,17 +360,13 @@
     
     GPKGBoundingBox *boundingBox = [_reprojectTileDao boundingBox];
     
-    if(_optimize){
+    if(_optimizeTileGrid != nil){
         
-        GPKGTileGridBoundingBox *tileGridBoundingBox = [self optimizeWithBoundingBox:boundingBox andTileMatrix:tileMatrix];
+        toZoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
         
-        if(tileGridBoundingBox != nil){
-            toZoom = [tileGridBoundingBox.zoomLevel intValue];
-            boundingBox = tileGridBoundingBox.boundingBox;
-            GPKGTileGrid *tileGrid = tileGridBoundingBox.tileGrid;
-            matrixWidth = [NSNumber numberWithInt:[tileGrid width]];
-            matrixHeight = [NSNumber numberWithInt:[tileGrid height]];
-        }
+        GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGrid:_optimizeTileGrid zoomFrom:_optimizeZoom to:zoom];
+        matrixWidth = [NSNumber numberWithInt:[tileGrid width]];
+        matrixHeight = [NSNumber numberWithInt:[tileGrid height]];
         
     }
     
@@ -468,23 +461,19 @@
     return tiles;
 }
 
--(GPKGTileGridBoundingBox *) optimizeWithBoundingBox: (GPKGBoundingBox *) boundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
+-(GPKGBoundingBox *) optimizeWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     
-    GPKGTileGridBoundingBox *tileGridBoundingBox = nil;
+    _optimizeZoom = [self.tileDao mapZoomWithTileMatrix:[_tileDao tileMatrixAtMinZoom]];
     
-    int zoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
-    
-    GPKGTileGrid *tileGrid = nil;
-    SFPProjection *projection = _projection;
-    switch([projection getUnit]){
+    switch([_projection getUnit]){
         case SFP_UNIT_METERS:
             {
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
                 if(![transform isSameProjection]){
                     boundingBox = [boundingBox transform:transform];
                 }
-                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
-                boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                _optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:_optimizeZoom];
+                boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
                 if(![transform isSameProjection]){
                     boundingBox = [boundingBox transform:[transform inverseTransformation]];
                 }
@@ -492,12 +481,12 @@
             break;
         case SFP_UNIT_DEGREES:
             {
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
                 if(![transform isSameProjection]){
                     boundingBox = [boundingBox transform:transform];
                 }
-                tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
-                boundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+                _optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:_optimizeZoom];
+                boundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
                 if(![transform isSameProjection]){
                     boundingBox = [boundingBox transform:[transform inverseTransformation]];
                 }
@@ -507,11 +496,7 @@
             break;
     }
     
-    if(tileGrid != nil){
-        tileGridBoundingBox = [[GPKGTileGridBoundingBox alloc] initWithZoom:[NSNumber numberWithInt:zoom] andGrid:tileGrid andBoundingBox:boundingBox];
-    }
-    
-    return tileGridBoundingBox;
+    return boundingBox;
 }
 
 @end
