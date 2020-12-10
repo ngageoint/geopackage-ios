@@ -429,7 +429,8 @@
             [GPKGTestUtils assertTrue:tileGrid.maxX <= zoomTileGrid.maxX];
             [GPKGTestUtils assertTrue:tileGrid.maxY <= zoomTileGrid.maxY];
             GPKGResultSet *tileResults = [reprojectTileDao queryforTileWithZoomLevel:zoom];
-            for(int i = 0; i < [GPKGTestUtils randomIntLessThan:tileResults.count]; i++){
+            int tileIndex = [GPKGTestUtils randomIntLessThan:tileResults.count];
+            for(int i = 0; i <= tileIndex; i++){
                 [GPKGTestUtils assertTrue:[tileResults moveToNext]];
             }
             GPKGTileRow *tile = [reprojectTileDao tileRow:tileResults];

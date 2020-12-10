@@ -363,7 +363,7 @@
         
         toZoom = [self.tileDao mapZoomWithTileMatrix:tileMatrix];
         
-        GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGrid:_optimizeTileGrid zoomFrom:_optimizeZoom to:zoom];
+        GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGrid:_optimizeTileGrid zoomFrom:_optimizeZoom to:toZoom];
         matrixWidth = [NSNumber numberWithInt:[tileGrid width]];
         matrixHeight = [NSNumber numberWithInt:[tileGrid height]];
         
