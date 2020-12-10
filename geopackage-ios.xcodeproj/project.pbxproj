@@ -569,8 +569,6 @@
 		04711B2D22204854007DC3A4 /* GPKGStyleUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */; };
 		04770E9B257A60B200DC0594 /* GPKGTileReprojectionZoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 04770E99257A60B200DC0594 /* GPKGTileReprojectionZoom.h */; };
 		04770E9C257A60B200DC0594 /* GPKGTileReprojectionZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */; };
-		04770EA5257E8BA900DC0594 /* GPKGTileGridBoundingBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 04770EA3257E8BA900DC0594 /* GPKGTileGridBoundingBox.h */; };
-		04770EA6257E8BA900DC0594 /* GPKGTileGridBoundingBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770EA4257E8BA900DC0594 /* GPKGTileGridBoundingBox.m */; };
 		0480CD151BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */; };
 		0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD171BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m */; };
 		0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD1A1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m */; };
@@ -1389,8 +1387,6 @@
 		04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGStyleUtilsTest.m; sourceTree = "<group>"; };
 		04770E99257A60B200DC0594 /* GPKGTileReprojectionZoom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionZoom.h; sourceTree = "<group>"; };
 		04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionZoom.m; sourceTree = "<group>"; };
-		04770EA3257E8BA900DC0594 /* GPKGTileGridBoundingBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileGridBoundingBox.h; sourceTree = "<group>"; };
-		04770EA4257E8BA900DC0594 /* GPKGTileGridBoundingBox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileGridBoundingBox.m; sourceTree = "<group>"; };
 		0480CD131BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerCreateTest.h; sourceTree = "<group>"; };
 		0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexManagerCreateTest.m; sourceTree = "<group>"; };
 		0480CD161BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerImportTest.h; sourceTree = "<group>"; };
@@ -2587,8 +2583,6 @@
 				042FC7B81B964D8C00549A4B /* GPKGTileGenerator.m */,
 				042FC7B91B964D8C00549A4B /* GPKGTileGrid.h */,
 				042FC7BA1B964D8C00549A4B /* GPKGTileGrid.m */,
-				04770EA3257E8BA900DC0594 /* GPKGTileGridBoundingBox.h */,
-				04770EA4257E8BA900DC0594 /* GPKGTileGridBoundingBox.m */,
 				0467E0E3256409BA001B4D82 /* GPKGTileReprojection.h */,
 				0467E0E4256409BA001B4D82 /* GPKGTileReprojection.m */,
 				04770E99257A60B200DC0594 /* GPKGTileReprojectionZoom.h */,
@@ -3400,7 +3394,6 @@
 				0447FA0A1CD8F66100418104 /* GPKGCrsWktExtension.h in Headers */,
 				042FC87E1B964D8C00549A4B /* GPKGProperties.h in Headers */,
 				0413B11B1F72D99A0075916A /* GPKGUserRowSync.h in Headers */,
-				04770EA5257E8BA900DC0594 /* GPKGTileGridBoundingBox.h in Headers */,
 				0491561A230D97C100B92B3F /* GPKGAlterTable.h in Headers */,
 				042FC85A1B964D8C00549A4B /* GPKGGeoPackage.h in Headers */,
 				042FC8951B964D8C00549A4B /* GPKGTileGrid.h in Headers */,
@@ -3984,7 +3977,6 @@
 				0488E4BE1CF757DF0026DD1B /* GPKGTileCreator.m in Sources */,
 				042FC82A1B964D8C00549A4B /* GPKGGeometryColumnsDao.m in Sources */,
 				0409CCE820D9AD560069B797 /* GPKGSimpleAttributesRow.m in Sources */,
-				04770EA6257E8BA900DC0594 /* GPKGTileGridBoundingBox.m in Sources */,
 				048EC16D1BCFDEF1008426A7 /* GPKGFeatureIndexResults.m in Sources */,
 				0422BB1F1DDFBE42002709B6 /* GPKGCoverageDataTileMatrixResults.m in Sources */,
 				0422BB0B1DD66D21002709B6 /* GPKGCoverageData.m in Sources */,

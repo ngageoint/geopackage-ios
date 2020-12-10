@@ -298,6 +298,5 @@
 #import "GPKGNGATableCreator.h"
 #import "GPKGTileReprojection.h"
 #import "GPKGTileReprojectionZoom.h"
-#import "GPKGTileGridBoundingBox.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

@@ -14,7 +14,6 @@
 #import "GPKGUtils.h"
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
-#import "GPKGTileGridBoundingBox.h"
 
 @interface GPKGTileReprojection ()
 
