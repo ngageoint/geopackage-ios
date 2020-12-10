@@ -66,7 +66,6 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
     self = [super init];
     if(self != nil){
-        _optimize = NO;
         _overwrite = NO;
         _replace = NO;
         _tileDao = tileDao;
@@ -81,7 +80,6 @@
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao{
     self = [super init];
     if(self != nil){
-        _optimize = NO;
         _overwrite = NO;
         _replace = NO;
         _tileDao = tileDao;
@@ -194,7 +192,7 @@
             _replace = YES;
         }
         
-        if(_optimize){
+        if(_optimize != nil){
             boundingBox = [self optimizeWithBoundingBox:boundingBox];
         }
         
@@ -462,10 +460,12 @@
 
 -(GPKGBoundingBox *) optimizeWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     
+    // TODO handle world bounds optimizations
+    
     _optimizeZoom = [self.tileDao mapZoomWithTileMatrix:[_tileDao tileMatrixAtMinZoom]];
     
-    switch([_projection getUnit]){
-        case SFP_UNIT_METERS:
+    switch(_optimize.type){
+        case GPKG_TRO_WEB_MERCATOR:
             {
                 SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
                 if(![transform isSameProjection]){
@@ -478,7 +478,7 @@
                 }
             }
             break;
-        case SFP_UNIT_DEGREES:
+        case GPKG_TRO_PLATTE_CARRE:
             {
                 SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
                 if(![transform isSameProjection]){

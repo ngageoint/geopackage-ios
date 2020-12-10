@@ -396,7 +396,12 @@
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
         
         GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
-        [tileReprojection setOptimize:YES];
+        // TODO
+        if([reprojectProjection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){
+            [tileReprojection setOptimize:[GPKGTileReprojectionOptimize webMercator]];
+        }else{
+            [tileReprojection setOptimize:[GPKGTileReprojectionOptimize platteCarre]];
+        }
         
         int tiles = [tileReprojection reproject];
         

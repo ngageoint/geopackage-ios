@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
 #import "GPKGTileReprojectionZoom.h"
+#import "GPKGTileReprojectionOptimize.h"
 
 /**
  *  Tile Reprojection for reprojecting an existing tile table
@@ -16,9 +17,9 @@
 @interface GPKGTileReprojection : NSObject
 
 /**
- *  Optimize tile bounds
+ *  Optional optimization
  */
-@property (nonatomic) BOOL optimize;
+@property (nonatomic, strong) GPKGTileReprojectionOptimize *optimize;
 
 /**
  *  Overwrite existing tiles at a zoom level when geographic calculations differ
