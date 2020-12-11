@@ -40,7 +40,11 @@
 }
 
 -(void) testReprojectOptimize{
-    [GPKGTileReprojectionTestUtils testReprojectOptimizeWithGeoPackage:self.geoPackage];
+    [GPKGTileReprojectionTestUtils testReprojectOptimizeWithGeoPackage:self.geoPackage andWorld:NO];
+}
+
+-(void) testReprojectOptimizeWorld{
+    [GPKGTileReprojectionTestUtils testReprojectOptimizeWithGeoPackage:self.geoPackage andWorld:YES];
 }
 
 @end

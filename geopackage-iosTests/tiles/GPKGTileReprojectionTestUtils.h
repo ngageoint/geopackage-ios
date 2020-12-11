@@ -64,7 +64,8 @@
  * Test reproject with tile optimization
  *
  * @param geoPackage GeoPackage
+ * @param world world bounds
  */
-+(void) testReprojectOptimizeWithGeoPackage: (GPKGGeoPackage *) geoPackage;
++(void) testReprojectOptimizeWithGeoPackage: (GPKGGeoPackage *) geoPackage andWorld: (BOOL) world;
 
 @end
