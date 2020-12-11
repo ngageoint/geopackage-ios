@@ -27,9 +27,7 @@
         int count = [tileDao count];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
         
-        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
-        
-        int tiles = [tileReprojection reproject];
+        int tiles = [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
         
         [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
         
@@ -66,9 +64,7 @@
         int count = [tileDao count];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
         
-        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table inProjection:reprojectProjection];
-        
-        int tiles = [tileReprojection reproject];
+        int tiles = [GPKGTileReprojection reprojectGeoPackage:geoPackage andTable:table inProjection:reprojectProjection];
         
         [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
         
@@ -197,9 +193,7 @@
         int count = [tileDao count];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
         
-        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
-        
-        int tiles = [tileReprojection reproject];
+        int tiles = [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
         
         [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
         
@@ -212,9 +206,8 @@
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
         [self checkZoomCountsWithCount:count andCounts:counts andDao:reprojectTileDao andTiles:tiles];
         
-        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        int tiles2 = [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
         
-        int tiles2 = [tileReprojection reproject];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles2];
         
         GPKGTileMatrixSet *tileMatrixSet = reprojectTileDao.tileMatrixSet;
@@ -225,7 +218,7 @@
         [tileMatrixSet setMaxY:[tileMatrixSet.maxY decimalNumberByMultiplyingBy:multiplier]];
         [[reprojectTileDao tileMatrixSetDao] update:tileMatrixSet];
         
-        tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+        GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
         
         @try {
             [tileReprojection reproject];
@@ -237,7 +230,6 @@
         [tileReprojection setOverwrite:YES];
         [tileReprojection reproject];
         
-        [tileReprojection setOverwrite:NO];
         [tileMatrixSet setMinX:[tileMatrixSet.minX decimalNumberByDividingBy:multiplier]];
         [tileMatrixSet setMinY:[tileMatrixSet.minY decimalNumberByDividingBy:multiplier]];
         [tileMatrixSet setMaxX:[tileMatrixSet.maxX decimalNumberByDividingBy:multiplier]];

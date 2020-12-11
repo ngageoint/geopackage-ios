@@ -37,7 +37,7 @@
 @property (nonatomic, strong) NSNumber *tileHeight;
 
 /**
- *  Reproject a GeoPackage tile table, replacing the existing tiles
+ *  Create a Reprojection from a GeoPackage tile table, replacing the existing tiles
  *
  *  @param geoPackage GeoPackage
  *  @param table tile table
@@ -47,7 +47,7 @@
 +(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
 
 /**
- *  Reproject a GeoPackage tile table to a new tile table within the GeoPackage
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table within the GeoPackage
  *
  *  @param geoPackage GeoPackage
  *  @param table tile table
@@ -58,7 +58,7 @@
 +(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
 
 /**
- *  Reproject a GeoPackage tile table to a new tile table in a specified GeoPackage
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table in a specified GeoPackage
  *
  *  @param geoPackage GeoPackage
  *  @param table tile table
@@ -70,7 +70,7 @@
 +(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
 
 /**
- *  Reproject a tile table to a new tile table in a specified GeoPackage
+ *  Create a Reprojection from a tile table to a new tile table in a specified GeoPackage
  *
  *  @param tileDao tile DAO
  *  @param geoPackage GeoPackage for reprojected tile table
@@ -81,7 +81,7 @@
 +(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
 
 /**
- *  Reproject a GeoPackage tile table to a new tile table
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table
  *
  *  @param geoPackage GeoPackage
  *  @param table tile table
@@ -91,13 +91,76 @@
 +(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
- *  Reproject a GeoPackage tile table to a new tile table
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table
  *
  *  @param tileDao tile DAO
  *  @param reprojectTileDao reprojection tile DAO
  *  @return tile reprojection
  */
 +(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
+ *  Reproject a GeoPackage tile table, replacing the existing tiles
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param projection desired projection
+ *  @return created tiles
+ */
++(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ *  Reproject a GeoPackage tile table to a new tile table within the GeoPackage
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param reprojectTable new reprojected tile table
+ *  @param projection desired projection
+ *  @return created tiles
+ */
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
+
+/**
+ *  Reproject a GeoPackage tile table to a new tile table in a specified GeoPackage
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param reprojectGeoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTable new reprojected tile table
+ *  @param projection desired projection
+ *  @return created tiles
+ */
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
+
+/**
+ *  Reproject a tile table to a new tile table in a specified GeoPackage
+ *
+ *  @param tileDao tile DAO
+ *  @param geoPackage GeoPackage for reprojected tile table
+ *  @param table new reprojected tile table
+ *  @param projection desired projection
+ *  @return created tiles
+ */
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
+
+/**
+ *  Reproject a GeoPackage tile table to a new tile table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return created tiles
+ */
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
+ *  Reproject a GeoPackage tile table to a new tile table
+ *
+ *  @param tileDao tile DAO
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return created tiles
+ */
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
  *  Initialize, reproject a tile table to a new tile table in a specified GeoPackage
