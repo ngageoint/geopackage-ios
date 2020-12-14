@@ -12,6 +12,8 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGWebMercatorOptimize.h"
+#import "GPKGPlatteCarreOptimize.h"
 
 @implementation GPKGTileReprojectionTestUtils
 
@@ -408,15 +410,15 @@
         BOOL webMercator = [reprojectProjection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
         if(webMercator){
             if(world){
-                optimize = [GPKGTileReprojectionOptimize webMercatorWorld];
+                optimize = [GPKGWebMercatorOptimize createWorld];
             }else{
-                optimize = [GPKGTileReprojectionOptimize webMercator];
+                optimize = [GPKGWebMercatorOptimize create];
             }
         }else{
             if(world){
-                optimize = [GPKGTileReprojectionOptimize platteCarreWorld];
+                optimize = [GPKGPlatteCarreOptimize createWorld];
             }else{
-                optimize = [GPKGTileReprojectionOptimize platteCarre];
+                optimize = [GPKGPlatteCarreOptimize create];
             }
         }
         [tileReprojection setOptimize:optimize];
@@ -471,72 +473,62 @@
             GPKGTileGrid *localTileGrid = nil;
             SFPProjection *projection = reprojectTileDao.projection;
             
-            switch(optimize.type){
-                case GPKG_TRO_WEB_MERCATOR:
-                    {
-                        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
-                        if(![transform isSameProjection]){
-                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
-                        }
-                        double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
-                        double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
-                        GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
-                        optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
-                        localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:boundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
-                        GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
-                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix];
-                        optimizeBoundingBox = webMercatorBoundingBox;
-                        if(world){
-                            GPKGTileGrid *worldTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minX andValue2:worldTileGrid.minX];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxX andValue2:worldTileGrid.maxX];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minY andValue2:worldTileGrid.minY];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxY andValue2:worldTileGrid.maxY];
-                            GPKGTileGrid *worldTilesTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:tilesBoundingBox andZoom:zoom];
-                            [GPKGTestUtils assertTrue:tileGrid.minX == worldTilesTileGrid.minX || tileGrid.minX - 1 == worldTilesTileGrid.minX];
-                            [GPKGTestUtils assertTrue:tileGrid.maxX == worldTilesTileGrid.maxX || tileGrid.maxX + 1 == worldTilesTileGrid.maxX];
-                            [GPKGTestUtils assertTrue:tileGrid.minY == worldTilesTileGrid.minY || tileGrid.minY - 1 == worldTilesTileGrid.minY];
-                            [GPKGTestUtils assertTrue:tileGrid.maxY == worldTilesTileGrid.maxY || tileGrid.maxY + 1 == worldTilesTileGrid.maxY];
-                        }
-                        if(![transform isSameProjection]){
-                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
-                        }
-                    }
-                    break;
-                case GPKG_TRO_PLATTE_CARRE:
-                    {
-                        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-                        if(![transform isSameProjection]){
-                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
-                        }
-                        double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
-                        double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
-                        GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
-                        optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
-                        localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:boundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
-                        GPKGBoundingBox *wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
-                        [self compareBoundingBox:optimizeBoundingBox withBoundingBox:wgs84BoundingBox andTileMatrix:tileMatrix];
-                        optimizeBoundingBox = wgs84BoundingBox;
-                        if(world){
-                            GPKGTileGrid *worldTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minX andValue2:worldTileGrid.minX];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxX andValue2:worldTileGrid.maxX];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minY andValue2:worldTileGrid.minY];
-                            [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxY andValue2:worldTileGrid.maxY];
-                            GPKGTileGrid *worldTilesTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:tilesBoundingBox andZoom:zoom];
-                            [GPKGTestUtils assertTrue:tileGrid.minX == worldTilesTileGrid.minX || tileGrid.minX - 1 == worldTilesTileGrid.minX];
-                            [GPKGTestUtils assertTrue:tileGrid.maxX == worldTilesTileGrid.maxX || tileGrid.maxX + 1 == worldTilesTileGrid.maxX];
-                            [GPKGTestUtils assertTrue:tileGrid.minY == worldTilesTileGrid.minY || tileGrid.minY - 1 == worldTilesTileGrid.minY];
-                            [GPKGTestUtils assertTrue:tileGrid.maxY == worldTilesTileGrid.maxY || tileGrid.maxY + 1 == worldTilesTileGrid.maxY];
-                        }
-                        if(![transform isSameProjection]){
-                            optimizeBoundingBox = [optimizeBoundingBox transform:transform];
-                        }
-                    }
-                    break;
-                default:
-                    [GPKGTestUtils fail:@"Unexpected optimize type"];
-                    break;
+            if(webMercator){
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+                if(![transform isSameProjection]){
+                    optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                }
+                double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
+                double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
+                GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
+                optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:boundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
+                GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
+                [self compareBoundingBox:optimizeBoundingBox withBoundingBox:webMercatorBoundingBox andTileMatrix:tileMatrix];
+                optimizeBoundingBox = webMercatorBoundingBox;
+                if(world){
+                    GPKGTileGrid *worldTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minX andValue2:worldTileGrid.minX];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxX andValue2:worldTileGrid.maxX];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minY andValue2:worldTileGrid.minY];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxY andValue2:worldTileGrid.maxY];
+                    GPKGTileGrid *worldTilesTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:tilesBoundingBox andZoom:zoom];
+                    [GPKGTestUtils assertTrue:tileGrid.minX == worldTilesTileGrid.minX || tileGrid.minX - 1 == worldTilesTileGrid.minX];
+                    [GPKGTestUtils assertTrue:tileGrid.maxX == worldTilesTileGrid.maxX || tileGrid.maxX + 1 == worldTilesTileGrid.maxX];
+                    [GPKGTestUtils assertTrue:tileGrid.minY == worldTilesTileGrid.minY || tileGrid.minY - 1 == worldTilesTileGrid.minY];
+                    [GPKGTestUtils assertTrue:tileGrid.maxY == worldTilesTileGrid.maxY || tileGrid.maxY + 1 == worldTilesTileGrid.maxY];
+                }
+                if(![transform isSameProjection]){
+                    optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                }
+            }else{
+                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+                if(![transform isSameProjection]){
+                    optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                }
+                double midLongitude = [optimizeBoundingBox.minLongitude doubleValue] + ([optimizeBoundingBox longitudeRangeValue] / 2.0);
+                double midLatitude = [optimizeBoundingBox.minLatitude doubleValue] + ([optimizeBoundingBox latitudeRangeValue] / 2.0);
+                GPKGBoundingBox *optimizeBoundingBoxPoint = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude andMinLatitudeDouble:midLatitude andMaxLongitudeDouble:midLongitude andMaxLatitudeDouble:midLatitude];
+                optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:optimizeBoundingBoxPoint andZoom:zoom];
+                localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:boundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:optimizeBoundingBoxPoint];
+                GPKGBoundingBox *wgs84BoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:optimizeTileGrid andZoom:zoom];
+                [self compareBoundingBox:optimizeBoundingBox withBoundingBox:wgs84BoundingBox andTileMatrix:tileMatrix];
+                optimizeBoundingBox = wgs84BoundingBox;
+                if(world){
+                    GPKGTileGrid *worldTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minX andValue2:worldTileGrid.minX];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxX andValue2:worldTileGrid.maxX];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.minY andValue2:worldTileGrid.minY];
+                    [GPKGTestUtils assertEqualIntWithValue:zoomTileGrid.maxY andValue2:worldTileGrid.maxY];
+                    GPKGTileGrid *worldTilesTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:tilesBoundingBox andZoom:zoom];
+                    [GPKGTestUtils assertTrue:tileGrid.minX == worldTilesTileGrid.minX || tileGrid.minX - 1 == worldTilesTileGrid.minX];
+                    [GPKGTestUtils assertTrue:tileGrid.maxX == worldTilesTileGrid.maxX || tileGrid.maxX + 1 == worldTilesTileGrid.maxX];
+                    [GPKGTestUtils assertTrue:tileGrid.minY == worldTilesTileGrid.minY || tileGrid.minY - 1 == worldTilesTileGrid.minY];
+                    [GPKGTestUtils assertTrue:tileGrid.maxY == worldTilesTileGrid.maxY || tileGrid.maxY + 1 == worldTilesTileGrid.maxY];
+                }
+                if(![transform isSameProjection]){
+                    optimizeBoundingBox = [optimizeBoundingBox transform:transform];
+                }
             }
             
             [GPKGTestUtils assertNotNil:optimizeTileGrid];

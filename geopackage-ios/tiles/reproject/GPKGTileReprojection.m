@@ -12,8 +12,6 @@
 #import "GPKGSQLiteMaster.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGUtils.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
 
 @interface GPKGTileReprojection ()
 
@@ -63,6 +61,24 @@
     return [[GPKGTileReprojection alloc] initWithTileDao:tileDao toTileDao:reprojectTileDao];
 }
 
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [self createWithGeoPackage:geoPackage andTable:table toTable:table andOptimize:optimize];
+}
+
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [self createWithGeoPackage:geoPackage andTable:table toGeoPackage:geoPackage andTable:reprojectTable andOptimize:optimize];
+}
+
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [self createWithTileDao:[geoPackage tileDaoWithTableName:table] toGeoPackage:reprojectGeoPackage andTable:reprojectTable andOptimize:optimize];
+}
+
++(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    GPKGTileReprojection *tileReprojection = [[GPKGTileReprojection alloc] initWithTileDao:tileDao toGeoPackage:geoPackage andTable:table inProjection:[optimize projection]];
+    [tileReprojection setOptimize:optimize];
+    return tileReprojection;
+}
+
 +(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
     return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table inProjection:projection] reproject];
 }
@@ -85,6 +101,22 @@
 
 +(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao{
     return [[GPKGTileReprojection createWithTileDao:tileDao toTileDao:reprojectTileDao] reproject];
+}
+
++(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table andOptimize:optimize] reproject];
+}
+
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable andOptimize:optimize] reproject];
+}
+
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toGeoPackage:reprojectGeoPackage andTable:reprojectTable andOptimize:optimize] reproject];
+}
+
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
+    return [[GPKGTileReprojection createWithTileDao:tileDao toGeoPackage:geoPackage andTable:table andOptimize:optimize] reproject];
 }
 
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
@@ -486,69 +518,24 @@
 -(GPKGBoundingBox *) optimizeWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     
     if(_optimize.world){
-        
         _optimizeZoom = 0;
-        
-        switch(_optimize.type){
-            case GPKG_TRO_WEB_MERCATOR:
-                {
-                    _optimizeTileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMinY:0 andMaxX:0 andMaxY:0];
-                    boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMinLatitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMaxLongitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
-                    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR] andToProjection:_projection];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:transform];
-                    }
-                }
-                break;
-            case GPKG_TRO_PLATTE_CARRE:
-                {
-                    _optimizeTileGrid = [[GPKGTileGrid alloc] initWithMinX:0 andMinY:0 andMaxX:1 andMaxY:0];
-                    boundingBox = [[GPKGBoundingBox alloc] init];
-                    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM] andToProjection:_projection];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:transform];
-                    }
-                }
-                break;
-            default:
-                break;
+        _optimizeTileGrid = [_optimize tileGrid];
+        boundingBox = [_optimize boundingBox];
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[_optimize projection] andToProjection:_projection];
+        if(![transform isSameProjection]){
+            boundingBox = [boundingBox transform:transform];
         }
-        
     }else{
-    
         _optimizeZoom = [self.tileDao mapZoomWithTileMatrix:[_tileDao tileMatrixAtMinZoom]];
-        
-        switch(_optimize.type){
-            case GPKG_TRO_WEB_MERCATOR:
-                {
-                    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:transform];
-                    }
-                    _optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:_optimizeZoom];
-                    boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:[transform inverseTransformation]];
-                    }
-                }
-                break;
-            case GPKG_TRO_PLATTE_CARRE:
-                {
-                    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:transform];
-                    }
-                    _optimizeTileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:_optimizeZoom];
-                    boundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
-                    if(![transform isSameProjection]){
-                        boundingBox = [boundingBox transform:[transform inverseTransformation]];
-                    }
-                }
-                break;
-            default:
-                break;
+        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[_optimize projection]];
+        if(![transform isSameProjection]){
+            boundingBox = [boundingBox transform:transform];
         }
-        
+        _optimizeTileGrid = [_optimize tileGridWithBoundingBox:boundingBox andZoom:_optimizeZoom];
+        boundingBox = [_optimize boundingBoxWithTileGrid:_optimizeTileGrid andZoom:_optimizeZoom];
+        if(![transform isSameProjection]){
+            boundingBox = [boundingBox transform:[transform inverseTransformation]];
+        }
     }
     
     return boundingBox;

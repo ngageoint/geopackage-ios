@@ -299,5 +299,7 @@
 #import "GPKGTileReprojection.h"
 #import "GPKGTileReprojectionZoom.h"
 #import "GPKGTileReprojectionOptimize.h"
+#import "GPKGPlatteCarreOptimize.h"
+#import "GPKGWebMercatorOptimize.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

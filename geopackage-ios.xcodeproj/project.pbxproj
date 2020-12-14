@@ -571,6 +571,10 @@
 		04770E9C257A60B200DC0594 /* GPKGTileReprojectionZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */; };
 		04770FB52582CCC200DC0594 /* GPKGTileReprojectionOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = 04770FB32582CCC200DC0594 /* GPKGTileReprojectionOptimize.h */; };
 		04770FB62582CCC200DC0594 /* GPKGTileReprojectionOptimize.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770FB42582CCC200DC0594 /* GPKGTileReprojectionOptimize.m */; };
+		04770FCC2587B4A700DC0594 /* GPKGWebMercatorOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = 04770FCA2587B4A700DC0594 /* GPKGWebMercatorOptimize.h */; };
+		04770FCD2587B4A700DC0594 /* GPKGWebMercatorOptimize.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770FCB2587B4A700DC0594 /* GPKGWebMercatorOptimize.m */; };
+		04770FD42587C6B500DC0594 /* GPKGPlatteCarreOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = 04770FD22587C6B500DC0594 /* GPKGPlatteCarreOptimize.h */; };
+		04770FD52587C6B500DC0594 /* GPKGPlatteCarreOptimize.m in Sources */ = {isa = PBXBuildFile; fileRef = 04770FD32587C6B500DC0594 /* GPKGPlatteCarreOptimize.m */; };
 		0480CD151BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */; };
 		0480CD181BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD171BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.m */; };
 		0480CD1B1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0480CD1A1BD6DD0100094009 /* GPKGFeatureIndexManagerUtils.m */; };
@@ -1391,6 +1395,10 @@
 		04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionZoom.m; sourceTree = "<group>"; };
 		04770FB32582CCC200DC0594 /* GPKGTileReprojectionOptimize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileReprojectionOptimize.h; sourceTree = "<group>"; };
 		04770FB42582CCC200DC0594 /* GPKGTileReprojectionOptimize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileReprojectionOptimize.m; sourceTree = "<group>"; };
+		04770FCA2587B4A700DC0594 /* GPKGWebMercatorOptimize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGWebMercatorOptimize.h; sourceTree = "<group>"; };
+		04770FCB2587B4A700DC0594 /* GPKGWebMercatorOptimize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGWebMercatorOptimize.m; sourceTree = "<group>"; };
+		04770FD22587C6B500DC0594 /* GPKGPlatteCarreOptimize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPlatteCarreOptimize.h; sourceTree = "<group>"; };
+		04770FD32587C6B500DC0594 /* GPKGPlatteCarreOptimize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPlatteCarreOptimize.m; sourceTree = "<group>"; };
 		0480CD131BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerCreateTest.h; sourceTree = "<group>"; };
 		0480CD141BD6DC6900094009 /* GPKGFeatureIndexManagerCreateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexManagerCreateTest.m; sourceTree = "<group>"; };
 		0480CD161BD6DC9400094009 /* GPKGFeatureIndexManagerImportTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexManagerImportTest.h; sourceTree = "<group>"; };
@@ -2579,6 +2587,7 @@
 				042FC7BD1B964D8C00549A4B /* matrix */,
 				042FC7C21B964D8C00549A4B /* matrixset */,
 				042FC7C71B964D8C00549A4B /* overlay */,
+				04770FC92587B3AF00DC0594 /* reproject */,
 				048A7B8C1C906B23007BCA5D /* retriever */,
 				042FC7D01B964D8C00549A4B /* user */,
 				042FC7B51B964D8C00549A4B /* GPKGTileBoundingBoxUtils.h */,
@@ -2587,12 +2596,6 @@
 				042FC7B81B964D8C00549A4B /* GPKGTileGenerator.m */,
 				042FC7B91B964D8C00549A4B /* GPKGTileGrid.h */,
 				042FC7BA1B964D8C00549A4B /* GPKGTileGrid.m */,
-				0467E0E3256409BA001B4D82 /* GPKGTileReprojection.h */,
-				0467E0E4256409BA001B4D82 /* GPKGTileReprojection.m */,
-				04770FB32582CCC200DC0594 /* GPKGTileReprojectionOptimize.h */,
-				04770FB42582CCC200DC0594 /* GPKGTileReprojectionOptimize.m */,
-				04770E99257A60B200DC0594 /* GPKGTileReprojectionZoom.h */,
-				04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */,
 				042FC7BB1B964D8C00549A4B /* GPKGUrlTileGenerator.h */,
 				042FC7BC1B964D8C00549A4B /* GPKGUrlTileGenerator.m */,
 				049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */,
@@ -2954,6 +2957,23 @@
 				04711B2C22204854007DC3A4 /* GPKGStyleUtilsTest.m */,
 			);
 			path = features;
+			sourceTree = "<group>";
+		};
+		04770FC92587B3AF00DC0594 /* reproject */ = {
+			isa = PBXGroup;
+			children = (
+				04770FD22587C6B500DC0594 /* GPKGPlatteCarreOptimize.h */,
+				04770FD32587C6B500DC0594 /* GPKGPlatteCarreOptimize.m */,
+				0467E0E3256409BA001B4D82 /* GPKGTileReprojection.h */,
+				0467E0E4256409BA001B4D82 /* GPKGTileReprojection.m */,
+				04770FB32582CCC200DC0594 /* GPKGTileReprojectionOptimize.h */,
+				04770FB42582CCC200DC0594 /* GPKGTileReprojectionOptimize.m */,
+				04770E99257A60B200DC0594 /* GPKGTileReprojectionZoom.h */,
+				04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */,
+				04770FCA2587B4A700DC0594 /* GPKGWebMercatorOptimize.h */,
+				04770FCB2587B4A700DC0594 /* GPKGWebMercatorOptimize.m */,
+			);
+			path = reproject;
 			sourceTree = "<group>";
 		};
 		0480CD111BD6DC0600094009 /* features */ = {
@@ -3512,6 +3532,7 @@
 				0407C48821F145FF008ABBF6 /* GPKGFeatureStyle.h in Headers */,
 				04DA344925015EA10005AD20 /* GPKGFeatureTileLinkTableCreator.h in Headers */,
 				0400956323C3D6D000ECC3D2 /* GPKGUserCustomColumns.h in Headers */,
+				04770FCC2587B4A700DC0594 /* GPKGWebMercatorOptimize.h in Headers */,
 				0409CCEB20D9ADBE0069B797 /* GPKGUserMappingDao.h in Headers */,
 				042FC8551B964D8C00549A4B /* GPKGShapeWithChildrenPoints.h in Headers */,
 				042FC8111B964D8C00549A4B /* GPKGGeoPackageMetadata.h in Headers */,
@@ -3555,6 +3576,7 @@
 				042FC84C1B964D8C00549A4B /* GPKGMultiPolylinePoints.h in Headers */,
 				0447FA161CDAA42700418104 /* GPKGSchemaExtension.h in Headers */,
 				0407C49021F14655008ABBF6 /* GPKGFeatureTableStyles.h in Headers */,
+				04770FD42587C6B500DC0594 /* GPKGPlatteCarreOptimize.h in Headers */,
 				04770FB52582CCC200DC0594 /* GPKGTileReprojectionOptimize.h in Headers */,
 				042FC8031B964D8C00549A4B /* GPKGGeoPackageTableCreator.h in Headers */,
 				048A7BA71C988D66007BCA5D /* GPKGFeatureTableData.h in Headers */,
@@ -3876,6 +3898,7 @@
 				042FC80C1B964D8C00549A4B /* GPKGTableCreator.m in Sources */,
 				0407C4A121F146F2008ABBF6 /* GPKGIcons.m in Sources */,
 				042FC8891B964D8C00549A4B /* GPKGDataColumnConstraintsDao.m in Sources */,
+				04770FCD2587B4A700DC0594 /* GPKGWebMercatorOptimize.m in Sources */,
 				0409CCC320D2B4D20069B797 /* GPKGSimpleAttributesTable.m in Sources */,
 				0422BB231DEE22ED002709B6 /* GPKGCoverageDataPng.m in Sources */,
 				042FC8B61B964D8C00549A4B /* GPKGContentValues.m in Sources */,
@@ -4044,6 +4067,7 @@
 				04915613230C1CED00B92B3F /* GPKGTableColumn.m in Sources */,
 				042FC8511B964D8C00549A4B /* GPKGPolygonPoints.m in Sources */,
 				042FC8B41B964D8C00549A4B /* GPKGTileTableReader.m in Sources */,
+				04770FD52587C6B500DC0594 /* GPKGPlatteCarreOptimize.m in Sources */,
 				042FC8021B964D8C00549A4B /* GPKGFeatureIndexer.m in Sources */,
 				0407C49121F14655008ABBF6 /* GPKGFeatureTableStyles.m in Sources */,
 			);
