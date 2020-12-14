@@ -2772,14 +2772,9 @@
 			isa = PBXGroup;
 			children = (
 				042FC8E41B964DA200549A4B /* features */,
+				04770FDA2587E95200DC0594 /* reproject */,
 				049675071D08BDFB00D65851 /* retriever */,
 				045BCA051BFB6D6C0080B967 /* user */,
-				04B647852566DE300015F083 /* GPKGTileReprojectionCreateTestCase.h */,
-				04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */,
-				04B6478A2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.h */,
-				04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */,
-				04B6477B2566DCC90015F083 /* GPKGTileReprojectionTestUtils.h */,
-				04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */,
 			);
 			path = tiles;
 			sourceTree = "<group>";
@@ -2972,6 +2967,19 @@
 				04770E9A257A60B200DC0594 /* GPKGTileReprojectionZoom.m */,
 				04770FCA2587B4A700DC0594 /* GPKGWebMercatorOptimize.h */,
 				04770FCB2587B4A700DC0594 /* GPKGWebMercatorOptimize.m */,
+			);
+			path = reproject;
+			sourceTree = "<group>";
+		};
+		04770FDA2587E95200DC0594 /* reproject */ = {
+			isa = PBXGroup;
+			children = (
+				04B647852566DE300015F083 /* GPKGTileReprojectionCreateTestCase.h */,
+				04B647862566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m */,
+				04B6478A2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.h */,
+				04B6478B2566DEA50015F083 /* GPKGTileReprojectionImportTestCase.m */,
+				04B6477B2566DCC90015F083 /* GPKGTileReprojectionTestUtils.h */,
+				04B6477C2566DCC90015F083 /* GPKGTileReprojectionTestUtils.m */,
 			);
 			path = reproject;
 			sourceTree = "<group>";
