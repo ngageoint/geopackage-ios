@@ -52,6 +52,7 @@
 #import "GPKGFeatureTableStyles.h"
 #import "GPKGFeaturePreview.h"
 #import "GPKGImageConverter.h"
+#import "GPKGTileReprojection.h"
 
 @implementation GPKGGeoPackageExample
 
@@ -689,6 +690,11 @@ static NSString *DATETIME_COLUMN = @"datetime";
     GPKGBoundingBox *ngaBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-8593967.964158937 andMinLatitudeDouble:4685284.085768163 andMaxLongitudeDouble:-8592744.971706374 andMaxLatitudeDouble:4687730.070673289];
     [self createTilesWithGeoPackage:geoPackage andName:@"nga" andBoundingBox:ngaBoundingBox andMinZoom:15 andMaxZoom:16 andExtension:@"png"];
     
+    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_wgs84" inProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"nga" toTable:@"nga_pc" andOptimize:[GPKGTileReprojectionOptimize platteCarre]];
+    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_world" andOptimize:[GPKGTileReprojectionOptimize webMercatorWorld]];
+    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"nga" toTable:@"nga_pc_world" andOptimize:[GPKGTileReprojectionOptimize platteCarreWorld]];
+    
 }
 
 +(void) createTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andName: (NSString *) name andBoundingBox: (GPKGBoundingBox *) boundingBox andMinZoom: (int) minZoomLevel andMaxZoom: (int) maxZoomLevel andExtension: (NSString *) extension{
@@ -783,8 +789,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
             tileHeight = [NSNumber numberWithInt:256];
         }
         
-        long matrixWidth = tileGrid.maxX - tileGrid.minX + 1;
-        long matrixHeight = tileGrid.maxY - tileGrid.minY + 1;
+        long matrixWidth = [tileGrid width];
+        long matrixHeight = [tileGrid height];
         double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidth * [tileWidth intValue]);
         double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixHeight * [tileHeight intValue]);
         
