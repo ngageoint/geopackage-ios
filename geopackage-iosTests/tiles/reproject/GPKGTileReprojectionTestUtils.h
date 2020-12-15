@@ -68,4 +68,20 @@
  */
 +(void) testReprojectOptimizeWithGeoPackage: (GPKGGeoPackage *) geoPackage andWorld: (BOOL) world;
 
+/**
+ * Test reproject with web mercator tile optimization
+ *
+ * @param geoPackage GeoPackage
+ * @param world world bounds
+ */
++(void) testReprojectWebMercatorWithGeoPackage: (GPKGGeoPackage *) geoPackage andWorld: (BOOL) world;
+
+/**
+ * Test reproject with platte carre tile optimization
+ *
+ * @param geoPackage GeoPackage
+ * @param world world bounds
+ */
++(void) testReprojectPlatteCarreWithGeoPackage: (GPKGGeoPackage *) geoPackage andWorld: (BOOL) world;
+
 @end

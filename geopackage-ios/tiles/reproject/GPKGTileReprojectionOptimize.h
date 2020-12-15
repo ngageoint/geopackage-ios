@@ -22,6 +22,34 @@
 @property (nonatomic) BOOL world;
 
 /**
+ *  Create a Web Mercator optimization, minimally tile bounded
+ *
+ *  @return tile reprojection optimize
+ */
++(GPKGTileReprojectionOptimize *) webMercator;
+
+/**
+ *  Create a Platte Carre (WGS84) optimization, minimally tile bounded
+ *
+ *  @return tile reprojection optimize
+ */
++(GPKGTileReprojectionOptimize *) platteCarre;
+
+/**
+ *  Create a Web Mercator optimization, world bounded with XYZ tile coordinates
+ *
+ *  @return tile reprojection optimize
+ */
++(GPKGTileReprojectionOptimize *) webMercatorWorld;
+
+/**
+ *  Create a Platte Carre (WGS84) optimization, world bounded with XYZ tile coordinates
+ *
+ *  @return tile reprojection optimize
+ */
++(GPKGTileReprojectionOptimize *) platteCarreWorld;
+
+/**
  *  Initialize
  *
  *  @return new tile reprojection optimize

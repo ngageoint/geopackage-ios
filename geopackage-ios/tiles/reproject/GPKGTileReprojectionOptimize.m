@@ -10,8 +10,26 @@
 #import "SFPProjectionFactory.h"
 #import "SFPProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
+#import "GPKGWebMercatorOptimize.h"
+#import "GPKGPlatteCarreOptimize.h"
 
 @implementation GPKGTileReprojectionOptimize
+
++(GPKGTileReprojectionOptimize *) webMercator{
+    return [GPKGWebMercatorOptimize create];
+}
+
++(GPKGTileReprojectionOptimize *) platteCarre{
+    return [GPKGPlatteCarreOptimize create];
+}
+
++(GPKGTileReprojectionOptimize *) webMercatorWorld{
+    return [GPKGWebMercatorOptimize createWorld];
+}
+
++(GPKGTileReprojectionOptimize *) platteCarreWorld{
+    return [GPKGPlatteCarreOptimize createWorld];
+}
 
 -(instancetype) init{
     return [self initWithWorld:NO];

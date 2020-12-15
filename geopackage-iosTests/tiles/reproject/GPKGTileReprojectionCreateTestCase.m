@@ -47,4 +47,20 @@
     [GPKGTileReprojectionTestUtils testReprojectOptimizeWithGeoPackage:self.geoPackage andWorld:YES];
 }
 
+-(void) testReprojectWebMercator{
+    [GPKGTileReprojectionTestUtils testReprojectWebMercatorWithGeoPackage:self.geoPackage andWorld:NO];
+}
+
+-(void) testReprojectWebMercatorWorld{
+    [GPKGTileReprojectionTestUtils testReprojectWebMercatorWithGeoPackage:self.geoPackage andWorld:YES];
+}
+
+-(void) testReprojectPlatteCarre{
+    [GPKGTileReprojectionTestUtils testReprojectPlatteCarreWithGeoPackage:self.geoPackage andWorld:NO];
+}
+
+-(void) testReprojectPlatteCarreWorld{
+    [GPKGTileReprojectionTestUtils testReprojectPlatteCarreWithGeoPackage:self.geoPackage andWorld:YES];
+}
+
 @end
