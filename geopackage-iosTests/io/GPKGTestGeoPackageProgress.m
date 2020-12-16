@@ -40,7 +40,7 @@
 }
 
 -(void) failureWithError: (NSString *) error{
-    
+    self.error = error;
 }
 
 -(void) cancel{

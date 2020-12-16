@@ -84,4 +84,11 @@
  */
 +(void) testReprojectPlatteCarreWithGeoPackage: (GPKGGeoPackage *) geoPackage andWorld: (BOOL) world;
 
+/**
+ * Test reproject cancel
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testReprojectCancelWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

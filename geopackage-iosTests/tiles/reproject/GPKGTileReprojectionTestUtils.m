@@ -14,6 +14,7 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGWebMercatorOptimize.h"
 #import "GPKGPlatteCarreOptimize.h"
+#import "GPKGTestGeoPackageProgress.h"
 
 @implementation GPKGTileReprojectionTestUtils
 
@@ -248,7 +249,10 @@
         }
         
         [tileReprojection setOverwrite:YES];
+        GPKGTestGeoPackageProgress *progress = [[GPKGTestGeoPackageProgress alloc] init];
+        [tileReprojection setProgress:progress];
         int tiles3 = [tileReprojection reproject];
+        [GPKGTestUtils assertEqualIntWithValue:tiles3 andValue2:progress.progress];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:tiles3];
         
         NSMutableArray<NSNumber *> *zoomLevels = [NSMutableArray arrayWithArray:tileDao.zoomLevels];
@@ -631,6 +635,32 @@
             }
         }
     }
+}
+
++(void) testReprojectCancelWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    
+    NSString *table = [[self randomTileTablesWithGeoPackage:geoPackage] firstObject];
+    
+    NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
+    SFPProjection *projection = [geoPackage projectionOfTable:table];
+    SFPProjection *reprojectProjection = [self alternateProjection:projection];
+    
+    GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
+    int count = [tileDao count];
+    NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
+    
+    GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
+    
+    GPKGTestGeoPackageProgress *progress = [[GPKGTestGeoPackageProgress alloc] init];
+    [tileReprojection setProgress:progress];
+    [progress cancel];
+
+    int tiles = [tileReprojection reproject];
+    
+    [GPKGTestUtils assertEqualBoolWithValue:0 andValue2:tiles];
+    [GPKGTestUtils assertEqualBoolWithValue:0 andValue2:progress.progress];
+    [GPKGTestUtils assertNotNil:progress.error];
+    
 }
 
 +(void) compareBoundingBox: (GPKGBoundingBox *) boundingBox1 withBoundingBox: (GPKGBoundingBox *) boundingBox2 andTileMatrix: (GPKGTileMatrix *) tileMatrix{

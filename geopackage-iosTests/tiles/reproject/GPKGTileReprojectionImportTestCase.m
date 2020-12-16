@@ -63,4 +63,8 @@
     [GPKGTileReprojectionTestUtils testReprojectPlatteCarreWithGeoPackage:self.geoPackage andWorld:YES];
 }
 
+-(void) testReprojectCancel{
+    [GPKGTileReprojectionTestUtils testReprojectCancelWithGeoPackage:self.geoPackage];
+}
+
 @end

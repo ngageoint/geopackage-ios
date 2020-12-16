@@ -11,9 +11,10 @@
 
 @interface GPKGTestGeoPackageProgress : NSObject<GPKGProgress>
 
-@property (nonatomic, strong) NSNumber * maxValue;
+@property (nonatomic, strong) NSNumber *maxValue;
 @property (nonatomic) int progress;
 @property (nonatomic) BOOL active;
+@property (nonatomic, strong) NSString *error;
 
 -(instancetype) init;
 
