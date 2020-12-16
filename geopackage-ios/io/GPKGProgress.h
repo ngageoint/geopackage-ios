@@ -31,12 +31,12 @@
 /**
  *  Is the process still active?
  *
- *  @return true if active, false if cancelled
+ *  @return true if active, false if canceled
  */
 -(BOOL) isActive;
 
 /**
- *  Should the progress so far be deleted when cancelled (isActive becomes false)
+ *  Should the progress so far be deleted when canceled (isActive becomes false)
  *
  *  @return true to cleanup progress made, false to preserve progress
  */

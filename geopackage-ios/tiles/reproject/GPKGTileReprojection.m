@@ -310,13 +310,26 @@
 }
 
 -(void) finish{
+    BOOL active = [self isActive];
     if(_replace){
-        [_geoPackage deleteTable:_tileDao.tableName];
-        [_geoPackage copyTable:_reprojectTileDao.tableName toTable:_tileDao.tableName];
-        [_geoPackage deleteTable:_reprojectTileDao.tableName];
-        _reprojectTileDao = nil;
+        if(active){
+            [_geoPackage deleteTable:_tileDao.tableName];
+            [_geoPackage copyTable:_reprojectTileDao.tableName toTable:_tileDao.tableName];
+            [_geoPackage deleteTable:_reprojectTileDao.tableName];
+            _reprojectTileDao = nil;
+        }
         _table = _tileDao.tableName;
         _replace = NO;
+    }
+    if(_progress != nil){
+        if(active){
+            [_progress completed];
+        }else{
+            if([_progress cleanupOnCancel]){
+                [_geoPackage deleteTable:_reprojectTileDao.tableName];
+            }
+            [_progress failureWithError:@"Operation was canceled"];
+        }
     }
 }
 
@@ -326,7 +339,13 @@
     int tiles = 0;
     
     for(GPKGTileMatrix *tileMatrix in _tileDao.tileMatrices){
+        
+        if(![self isActive]){
+            break;
+        }
+        
         tiles += [self reprojectIfExistsWithZoom:[tileMatrix.zoomLevel intValue]];
+        
     }
     
     [self finish];
@@ -339,6 +358,10 @@
     int tiles = 0;
     
     for(int zoom = minZoom; zoom <= maxZoom; zoom++){
+        
+        if(![self isActive]){
+            break;
+        }
         
         tiles += [self reprojectIfExistsWithZoom:zoom];
         
@@ -354,6 +377,10 @@
     int tiles = 0;
     
     for(NSNumber *zoom in zooms){
+        
+        if(![self isActive]){
+            break;
+        }
         
         tiles += [self reprojectIfExistsWithZoom:[zoom intValue]];
         
@@ -446,9 +473,9 @@
         || ![toTileMatrix.matrixWidth isEqualToNumber:matrixWidth]
         || ![toTileMatrix.tileHeight isEqualToNumber:tileHeight]
         || ![toTileMatrix.tileWidth isEqualToNumber:tileWidth]
-        || ![GPKGUtils compareDouble:[toTileMatrix.pixelXSize doubleValue] withDouble:pixelXSize]
-        || ![GPKGUtils compareDouble:[toTileMatrix.pixelYSize doubleValue] withDouble:pixelYSize]){
-        
+        || ![GPKGUtils compareDouble:[toTileMatrix.pixelXSize doubleValue] withDouble:pixelXSize andDelta:pixelSizeDelta]
+        || ![GPKGUtils compareDouble:[toTileMatrix.pixelYSize doubleValue] withDouble:pixelYSize andDelta:pixelSizeDelta]){
+
         if(!_overwrite){
             [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Geographic Properties differ. Enable 'overwrite' to replace existing tiles at zoom level %d. GeoPackage: %@, Tile Table: %@", toZoom, _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
         }
@@ -483,7 +510,7 @@
         double tileMaxLatitude = maxLatitude - ((tileRow / [matrixHeight doubleValue]) * latitudeRange);
         double tileMinLatitude = maxLatitude - (((tileRow + 1) / [matrixHeight doubleValue]) * latitudeRange);
         
-        for(int tileColumn = tileGrid.minX; tileColumn <= tileGrid.maxX; tileColumn++){
+        for(int tileColumn = tileGrid.minX; [self isActive] && tileColumn <= tileGrid.maxX; tileColumn++){
             
             double tileMinLongitude = minLongitude + ((tileColumn / [matrixWidth doubleValue]) * longitudeRange);
             double tileMaxLongitude = minLongitude + (((tileColumn + 1) / [matrixWidth doubleValue]) * longitudeRange);
@@ -507,6 +534,10 @@
                 
                 [_reprojectTileDao createOrUpdate:row];
                 tiles++;
+                
+                if(_progress != nil){
+                    [_progress addProgress:1];
+                }
             }
         }
         
@@ -539,6 +570,10 @@
     }
     
     return boundingBox;
+}
+
+-(BOOL) isActive{
+    return _progress == nil || [_progress isActive];
 }
 
 @end

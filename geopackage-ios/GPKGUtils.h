@@ -120,6 +120,17 @@
 +(BOOL) compareDouble: (double) value withDouble: (double) value2;
 
 /**
+ *  Compare two doubles
+ *
+ *  @param value first double value
+ *  @param value2 second double value
+ *  @param delta delta comparison
+ *
+ *  @return true if equal within epsilon
+ */
++(BOOL) compareDouble: (double) value withDouble: (double) value2 andDelta: (double) delta;
+
+/**
  *  Compare two number doubles
  *
  *  @param value first number double
@@ -128,5 +139,16 @@
  *  @return true if equal within epsilon
  */
 +(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2;
+
+/**
+ *  Compare two number doubles
+ *
+ *  @param value first number double
+ *  @param value2 second number double
+ *  @param delta delta comparison
+ *
+ *  @return true if equal within epsilon
+ */
++(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2 andDelta: (double) delta;
 
 @end

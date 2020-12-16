@@ -10,6 +10,12 @@
 #import "GPKGGeoPackage.h"
 #import "GPKGTileReprojectionZoom.h"
 #import "GPKGTileReprojectionOptimize.h"
+#import "GPKGProgress.h"
+
+/**
+ *  Delta for comparisons between same pixel sizes
+ */
+static double pixelSizeDelta = .00000000001;
 
 /**
  *  Tile Reprojection for reprojecting an existing tile table
@@ -35,6 +41,11 @@
  *  Tile height in pixels
  */
 @property (nonatomic, strong) NSNumber *tileHeight;
+
+/**
+ *  Progress callbacks
+ */
+@property (nonatomic, strong) NSObject<GPKGProgress> *progress;
 
 /**
  *  Create a Reprojection from a GeoPackage tile table, replacing the existing tiles

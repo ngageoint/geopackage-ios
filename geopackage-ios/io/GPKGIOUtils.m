@@ -133,7 +133,7 @@ static int COPY_BUFFER_SIZE = 8192;
         [outputStream close];
     }
     
-    // Try to delete the file if progress was cancelled
+    // Try to delete the file if progress was canceled
     if(progress != nil && ![progress isActive] && [progress cleanupOnCancel]){
         NSFileManager * fileManager = [NSFileManager defaultManager];
         NSError *error = nil;

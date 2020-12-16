@@ -88,11 +88,19 @@
 }
 
 +(BOOL) compareDouble: (double) value withDouble: (double) value2{
-    return fabs(value - value2) < DBL_EPSILON;
+    return [self compareDouble:value withDouble:value2 andDelta:DBL_EPSILON];
+}
+
++(BOOL) compareDouble: (double) value withDouble: (double) value2 andDelta: (double) delta{
+    return fabs(value - value2) < delta;
 }
 
 +(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2{
     return [self compareDouble:[value doubleValue] withDouble:[value2 doubleValue]];
+}
+
++(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2 andDelta: (double) delta{
+    return [self compareDouble:[value doubleValue] withDouble:[value2 doubleValue] andDelta:delta];
 }
 
 @end

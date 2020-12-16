@@ -423,7 +423,7 @@
     // Create the tile and each coordinate
     for (int x = tileGrid.minX; x <= tileGrid.maxX; x++) {
 
-        // Check if the progress has been cancelled
+        // Check if the progress has been canceled
         if (self.progress != nil && ![self.progress isActive]) {
             break;
         }
@@ -441,7 +441,7 @@
 
         for (int y = tileGrid.minY; y <= tileGrid.maxY; y++) {
 
-            // Check if the progress has been cancelled
+            // Check if the progress has been canceled
             if (self.progress != nil && ![self.progress isActive]) {
                 break;
             }

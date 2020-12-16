@@ -200,16 +200,16 @@
                 zoomLevel = [dao zoomLevelWithWidth:width andHeight:height];
                 [GPKGTestUtils assertEqualWithValue:tileMatrix.zoomLevel andValue2:zoomLevel];
                 
-                zoomLevel = [dao zoomLevelWithLength:width+1];
+                zoomLevel = [dao zoomLevelWithLength:width+.001];
                 [GPKGTestUtils assertEqualWithValue:tileMatrix.zoomLevel andValue2:zoomLevel];
                 
-                zoomLevel = [dao zoomLevelWithWidth:width+1 andHeight:height+1];
+                zoomLevel = [dao zoomLevelWithWidth:width+.001 andHeight:height+1];
                 [GPKGTestUtils assertEqualWithValue:tileMatrix.zoomLevel andValue2:zoomLevel];
                 
-                zoomLevel = [dao zoomLevelWithLength:width-1];
+                zoomLevel = [dao zoomLevelWithLength:width-.001];
                 [GPKGTestUtils assertEqualWithValue:tileMatrix.zoomLevel andValue2:zoomLevel];
                 
-                zoomLevel = [dao zoomLevelWithWidth:width-1 andHeight:height-1];
+                zoomLevel = [dao zoomLevelWithWidth:width-.001 andHeight:height-.001];
                 [GPKGTestUtils assertEqualWithValue:tileMatrix.zoomLevel andValue2:zoomLevel];
                 
             }
