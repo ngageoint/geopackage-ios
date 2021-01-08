@@ -215,9 +215,9 @@
         }
         
         // 4. Create the new table
-        NSRange tableNameRange = [sql rangeOfString:tableName];
+        NSRange tableNameRange = [sql rangeOfString:[GPKGSqlUtils quoteWrapName:tableName]];
         if (tableNameRange.location != NSNotFound) {
-            sql = [sql stringByReplacingCharactersInRange:tableNameRange withString:transferTable];
+            sql = [sql stringByReplacingCharactersInRange:tableNameRange withString:[GPKGSqlUtils quoteWrapName:transferTable]];
         }
         [db exec:sql];
         

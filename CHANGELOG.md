@@ -6,7 +6,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 5.0.1 (TBD)
 
-* TBD
+* iOS platform and deployment target 12.0
+* Alter Table fix for table names matching SQL prefixes
 
 ## [5.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/5.0.0) (11-13-2020)
 
