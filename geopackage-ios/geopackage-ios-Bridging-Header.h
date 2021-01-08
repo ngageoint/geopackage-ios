@@ -301,5 +301,6 @@
 #import "GPKGTileReprojectionOptimize.h"
 #import "GPKGPlatteCarreOptimize.h"
 #import "GPKGWebMercatorOptimize.h"
+#import "GPKGNetworkUtils.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

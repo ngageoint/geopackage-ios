@@ -15,6 +15,7 @@
 #import "SFGFeature.h"
 #import "OAFCrs.h"
 #import "OAFFeaturesConverter.h"
+#import "GPKGNetworkUtils.h"
 
 /**
  * OGC CRS Version
@@ -447,7 +448,7 @@ static SFPProjections *defaultProjections;
     
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+    NSData *data = [GPKGNetworkUtils sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
     
     if(error){
         [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];
@@ -464,7 +465,7 @@ static SFPProjections *defaultProjections;
         
         urlResponse = nil;
         error = nil;
-        data = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+        data = [GPKGNetworkUtils sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
         
         if(error){
             [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];

@@ -1,8 +1,9 @@
 //
 //  GPKGMapTolerance.h
-//  AFNetworking
+//  geopackage-ios
 //
 //  Created by Brian Osborn on 11/6/17.
+//  Copyright (c) 2017 NGA. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
