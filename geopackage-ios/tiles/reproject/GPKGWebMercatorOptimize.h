@@ -23,8 +23,6 @@
 /**
  *  Create with world bounds
  *
- *  @param world world coordinate bounds
- *
  *  @return web mercator optimize
  */
 +(GPKGWebMercatorOptimize *) createWorld;
