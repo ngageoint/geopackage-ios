@@ -145,7 +145,7 @@
     return self;
 }
 
--(NSDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs{
+-(NSMutableDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs{
     return _zoomConfigs;
 }
 

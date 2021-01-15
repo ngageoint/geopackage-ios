@@ -286,7 +286,7 @@ static double pixelSizeDelta = .00000000001;
  *
  *  @return zoom configs
  */
--(NSDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs;
+-(NSMutableDictionary<NSNumber *,GPKGTileReprojectionZoom *> *) zoomConfigs;
 
 /**
  *  Get the zoom level configuration for a zoom level
