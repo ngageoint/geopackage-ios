@@ -157,13 +157,13 @@
     GPKGTileReprojectionZoom *config = [self configForZoom:zoom];
     if(config == nil){
         config = [[GPKGTileReprojectionZoom alloc] initWithZoom:zoom];
-        [self setConfig:config forZoom:zoom];
+        [self setConfig:config];
     }
     return config;
 }
 
--(void) setConfig: (GPKGTileReprojectionZoom *) config forZoom: (int) zoom{
-    [GPKGUtils setObject:config forKey:[NSNumber numberWithInt:zoom] inDictionary:_zoomConfigs];
+-(void) setConfig: (GPKGTileReprojectionZoom *) config{
+    [GPKGUtils setObject:config forKey:[NSNumber numberWithInt:[config zoom]] inDictionary:_zoomConfigs];
 }
 
 -(void) setToZoom: (int) toZoom forZoom: (int) zoom{

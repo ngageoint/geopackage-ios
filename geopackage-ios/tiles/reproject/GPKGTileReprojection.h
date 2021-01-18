@@ -308,9 +308,8 @@ static double pixelSizeDelta = .00000000001;
  *  Set a zoom level configuration for a zoom level
  *
  *  @param config zoom configuration
- *  @param zoom zoom level
  */
--(void) setConfig: (GPKGTileReprojectionZoom *) config forZoom: (int) zoom;
+-(void) setConfig: (GPKGTileReprojectionZoom *) config;
 
 /**
  *  Set a reprojected to zoom level for a zoom level
