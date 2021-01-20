@@ -61,6 +61,14 @@
     return [[GPKGTileReprojection alloc] initWithTileDao:tileDao toTileDao:reprojectTileDao];
 }
 
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTileDao: (GPKGTileDao *) reprojectTileDao{
+    return [self createWithTileDao:[geoPackage tileDaoWithTableName:table] toGeoPackage:reprojectGeoPackage andTileDao:reprojectTileDao];
+}
+
++(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao{
+    return [[GPKGTileReprojection alloc] initWithTileDao:tileDao toGeoPackage:geoPackage andTileDao:reprojectTileDao];
+}
+
 +(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
     return [self createWithGeoPackage:geoPackage andTable:table toTable:table andOptimize:optimize];
 }
@@ -103,6 +111,14 @@
     return [[GPKGTileReprojection createWithTileDao:tileDao toTileDao:reprojectTileDao] reproject];
 }
 
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTileDao: (GPKGTileDao *) reprojectTileDao{
+    return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toGeoPackage:reprojectGeoPackage andTileDao:reprojectTileDao] reproject];
+}
+
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao{
+    return [[GPKGTileReprojection createWithTileDao:tileDao toGeoPackage:geoPackage andTileDao:reprojectTileDao] reproject];
+}
+
 +(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table andOptimize: (GPKGTileReprojectionOptimize *) optimize{
     return [[GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table andOptimize:optimize] reproject];
 }
@@ -141,6 +157,14 @@
         _tileDao = tileDao;
         _reprojectTileDao = reprojectTileDao;
         _zoomConfigs = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao{
+    self = [self initWithTileDao:tileDao toTileDao:reprojectTileDao];
+    if(self != nil){
+        _geoPackage = geoPackage;
     }
     return self;
 }
@@ -326,6 +350,9 @@
             [_progress completed];
         }else{
             if([_progress cleanupOnCancel]){
+                if(_geoPackage == nil){
+                    [NSException raise:@"Geographic Cleanup" format:@"Reprojeciton cleanup not supported when constructed without the GeoPackage. GeoPackage: %@, Tile Table: %@", _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
+                }
                 [_geoPackage deleteTable:_reprojectTileDao.tableName];
             }
             [_progress failureWithError:@"Operation was canceled"];

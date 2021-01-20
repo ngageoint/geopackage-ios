@@ -111,6 +111,27 @@ static double pixelSizeDelta = .00000000001;
 +(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param reprojectGeoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return tile reprojection
+ */
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
+ *  Create a Reprojection from a GeoPackage tile table to a new tile table
+ *
+ *  @param tileDao tile DAO
+ *  @param geoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return tile reprojection
+ */
++(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
  *  Create a Reprojection from a GeoPackage tile table, replacing the existing tiles
  *
  *  @param geoPackage GeoPackage
@@ -218,6 +239,27 @@ static double pixelSizeDelta = .00000000001;
 +(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
+ *  Reproject a GeoPackage tile table to a new tile table
+ *
+ *  @param geoPackage GeoPackage
+ *  @param table tile table
+ *  @param reprojectGeoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return created tiles
+ */
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
+ *  Reproject a GeoPackage tile table to a new tile table
+ *
+ *  @param tileDao tile DAO
+ *  @param geoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return created tiles
+ */
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
  *  Reproject a GeoPackage tile table, replacing the existing tiles
  *
  *  @param geoPackage GeoPackage
@@ -280,6 +322,16 @@ static double pixelSizeDelta = .00000000001;
  *  @return tile reprojection
  */
 -(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toTileDao: (GPKGTileDao *) reprojectTileDao;
+
+/**
+ *  Initialize, reproject a GeoPackage tile table to a new tile table
+ *
+ *  @param tileDao tile DAO
+ *  @param geoPackage GeoPackage for reprojected tile table
+ *  @param reprojectTileDao reprojection tile DAO
+ *  @return tile reprojection
+ */
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) reprojectTileDao;
 
 /**
  *  Get the zoom level configurations
