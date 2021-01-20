@@ -263,7 +263,7 @@
             _reprojectTileDao = [_geoPackage tileDaoWithTableName:_table];
             
             if(![_reprojectTileDao.projection isEqualToProjection:_projection]){
-                [NSException raise:@"Table Projection" format:@"Existing tile table projection differs from the reprojection. Table: %@, Projection: %@, Reprojection: %@", _table, [_reprojectTileDao.projection description], [_projection description]];
+                [NSException raise:@"Table Projection" format:@"Existing tile table projection differs from the reprojection. Table: %@, Projection: %@, Reprojection: %@", _table, [_projection description], [_reprojectTileDao.projection description]];
             }
             
             GPKGTileMatrixSet *tileMatrixSet = _reprojectTileDao.tileMatrixSet;
