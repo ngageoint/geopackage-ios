@@ -42,4 +42,13 @@
  */
 -(GPKGContents *) contents: (GPKGTileMatrix *) tileMatrix;
 
+/**
+ *  Delete Tile Matrices for a table name
+ *
+ *  @param table table name
+ *
+ *  @return rows deleted
+ */
+-(int) deleteByTableName: (NSString *) table;
+
 @end

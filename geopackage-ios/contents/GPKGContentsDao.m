@@ -247,12 +247,7 @@
                         // Delete Tile Matrix
                         GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
                         if([tileMatrixDao tableExists]){
-                            GPKGResultSet * tileMatrixResults = [self tileMatrix:contents];
-                            while([tileMatrixResults moveToNext]){
-                                GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao object:tileMatrixResults];
-                                [tileMatrixDao delete:tileMatrix];
-                            }
-                            [tileMatrixResults close];
+                            [tileMatrixDao deleteByTableName:contents.tableName];
                         }
                         
                         // Delete Tile Matrix Set

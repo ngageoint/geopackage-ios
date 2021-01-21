@@ -2920,7 +2920,7 @@
  *
  *  @param fieldValues field values
  *
- *  @return result set
+ *  @return rows deleted
  */
 -(int) deleteByFieldValues: (GPKGColumnValues *) fieldValues;
 

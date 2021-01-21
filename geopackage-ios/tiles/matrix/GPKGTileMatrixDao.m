@@ -131,6 +131,12 @@
     return contents;
 }
 
+-(int) deleteByTableName: (NSString *) table{
+    GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
+    [fieldValues addColumn:GPKG_TM_COLUMN_TABLE_NAME withValue:table];
+    return [self deleteByFieldValues:fieldValues];
+}
+
 -(GPKGContentsDao *) contentsDao{
     return [[GPKGContentsDao alloc] initWithDatabase:self.database];
 }

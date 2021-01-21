@@ -305,7 +305,7 @@
                         [NSException raise:@"Geographic Properties" format:@"Existing Tile Matrix Set Geographic Properties differ. Enable 'overwrite' to replace all tiles. GeoPackage: %@, Tile Table: %@", _reprojectTileDao.databaseName, _reprojectTileDao.tableName];
                     }
                     
-                    [[_reprojectTileDao tileMatrixDao] deleteById:_table];
+                    [[_reprojectTileDao tileMatrixDao] deleteByTableName:_table];
                     [_reprojectTileDao deleteAll];
                     
                 }
