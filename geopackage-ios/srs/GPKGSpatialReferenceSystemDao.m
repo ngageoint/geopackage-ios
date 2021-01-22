@@ -323,6 +323,11 @@
     return srs;
 }
 
+-(GPKGSpatialReferenceSystem *) srsWithProjection: (SFPProjection *) projection{
+    NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
+    return [self srsWithOrganization:[projection authority] andCoordsysId:coordsysId];
+}
+
 -(GPKGSpatialReferenceSystem *) queryForOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
     GPKGSpatialReferenceSystem *srs = nil;
     
@@ -340,6 +345,11 @@
     [results close];
     
     return srs;
+}
+
+-(GPKGSpatialReferenceSystem *) queryForProjection: (SFPProjection *) projection{
+    NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
+    return [self queryForOrganization:[projection authority] andCoordsysId:coordsysId];
 }
 
 -(GPKGSpatialReferenceSystem *) createIfNeededWithSrs: (GPKGSpatialReferenceSystem *) srs andOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{

@@ -133,8 +133,7 @@ static SFPProjection *EPSG_WGS84 = nil;
     
     GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
     SFPProjection *srsProjection = [self srsProjection];
-    NSNumber *coordsysId = [NSNumber numberWithInteger:[[srsProjection code] integerValue]];
-    self.srs = [srsDao srsWithOrganization:[srsProjection authority] andCoordsysId:coordsysId];
+    self.srs = [srsDao srsWithProjection:srsProjection];
     
 }
 

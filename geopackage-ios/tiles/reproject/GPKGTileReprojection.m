@@ -260,7 +260,7 @@
         
         GPKGBoundingBox *boundingBox = [_tileDao boundingBoxInProjection:_projection];
         GPKGBoundingBox *contentsBoundingBox = boundingBox;
-        GPKGSpatialReferenceSystem *srs = [[_geoPackage spatialReferenceSystemDao] srsWithOrganization:_projection.authority andCoordsysId:[NSNumber numberWithInt:[_projection.code intValue]]];
+        GPKGSpatialReferenceSystem *srs = [[_geoPackage spatialReferenceSystemDao] srsWithProjection:_projection];
         
         if([_tileDao.databaseName isEqualToString:_geoPackage.name] && [_tileDao.tableName caseInsensitiveCompare:_table] == NSOrderedSame){
             // Replacing source table, find a temp table name for the reprojections

@@ -270,8 +270,7 @@
             
             SFGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
-            NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
-            GPKGSpatialReferenceSystem *projectionSrs = [srsDao srsWithOrganization:[projection authority] andCoordsysId:coordsysId];
+            GPKGSpatialReferenceSystem *projectionSrs = [srsDao srsWithProjection:projection];
             [geometryData setSrsId:projectionSrs.srsId];
         }
         

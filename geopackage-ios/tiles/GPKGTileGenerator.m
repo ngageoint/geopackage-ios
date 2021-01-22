@@ -121,8 +121,7 @@
     if(![tileMatrixSetDao tableExists] || ![tileMatrixSetDao idExists:self.tableName]){
         // Create the srs if needed
         GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage spatialReferenceSystemDao];
-        NSNumber *coordsysId = [NSNumber numberWithInteger:[[self.projection code] integerValue]];
-        GPKGSpatialReferenceSystem * srs = [srsDao srsWithOrganization:[self.projection authority] andCoordsysId:coordsysId];
+        GPKGSpatialReferenceSystem * srs = [srsDao srsWithProjection:self.projection];
         // Create the tile table
         [self.geoPackage createTileTableWithMetadata:[[GPKGTileTableMetadata alloc] initWithTable:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:srs.srsId andTileBoundingBox:self.tileGridBoundingBox andTileSrsId:srs.srsId]];
         tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:self.tableName];

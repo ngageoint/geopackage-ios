@@ -145,9 +145,20 @@
  *            organization
  * @param coordsysId
  *            coordsys id
+ *
  * @return srs
  */
 -(GPKGSpatialReferenceSystem *) srsWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
+
+/**
+ * Get or Create the Spatial Reference System from the projection
+ *
+ * @param projection
+ *            projection
+ *
+ * @return srs
+ */
+-(GPKGSpatialReferenceSystem *) srsWithProjection: (SFPProjection *) projection;
 
 /**
  *  Query for the organization coordsys id
@@ -160,6 +171,16 @@
  *  @return srs
  */
 -(GPKGSpatialReferenceSystem *) queryForOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId;
+
+/**
+ *  Query for the projection
+ *
+ *  @param projection
+ *            projection
+ *
+ *  @return srs
+ */
+-(GPKGSpatialReferenceSystem *) queryForProjection: (SFPProjection *) projection;
 
 /**
  *  Delete the Spatial Reference System, cascading
