@@ -92,7 +92,7 @@
 }
 
 +(BOOL) compareDouble: (double) value withDouble: (double) value2 andDelta: (double) delta{
-    return fabs(value - value2) < delta;
+    return fabs(value - value2) <= delta;
 }
 
 +(BOOL) compareNumberDouble: (NSNumber *) value withNumberDouble: (NSNumber *) value2{
