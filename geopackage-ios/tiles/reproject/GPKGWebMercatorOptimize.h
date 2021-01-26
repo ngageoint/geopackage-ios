@@ -9,7 +9,7 @@
 #import "GPKGTileReprojectionOptimize.h"
 
 /**
- *  Web Meractor XYZ tiling optimizations
+ *  Web Mercator XYZ tiling optimizations
  */
 @interface GPKGWebMercatorOptimize : GPKGTileReprojectionOptimize
 

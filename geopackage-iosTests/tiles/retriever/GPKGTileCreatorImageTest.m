@@ -38,16 +38,16 @@
     
     NSNumber * width = [NSNumber numberWithInt:256];
     NSNumber * height = [NSNumber numberWithInt:256];
-    GPKGTileCreator * webMeractorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
+    GPKGTileCreator * webMercatorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
     GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
     GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84]];
     
-    [GPKGTestUtils assertTrue:[webMeractorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
+    [GPKGTestUtils assertTrue:[webMercatorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];
     
-    GPKGGeoPackageTile * webMercatorTile = [webMeractorTileCreator tileWithBoundingBox:webMercatorBoundingBox];
+    GPKGGeoPackageTile * webMercatorTile = [webMercatorTileCreator tileWithBoundingBox:webMercatorBoundingBox];
     GPKGGeoPackageTile * wgs84Tile = [wgs84TileCreator tileWithBoundingBox:wgs84BoundingBox];
     
     [GPKGTestUtils assertNotNil:webMercatorTile];
@@ -217,7 +217,7 @@
     
     NSNumber *width = [NSNumber numberWithInt:256];
     NSNumber *height = [NSNumber numberWithInt:256];
-    GPKGTileCreator *webMeractorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
+    GPKGTileCreator *webMercatorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
     GPKGTileCreator *wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     double minLongitude = [webMercatorBoundingBox.minLongitude doubleValue];
@@ -244,7 +244,7 @@
                                                                    andMinLatitudeDouble:midWGS84Latitude
                                                                   andMaxLongitudeDouble:midWGS84Longitude
                                                                    andMaxLatitudeDouble:maxWGS84Latitude];
-    [self createTilesWithWebMercatorCreate:webMeractorTileCreator andWebMercator:topLeft andWGS84Create:wgs84TileCreator andWGS84:topLeftWGS84];
+    [self createTilesWithWebMercatorCreate:webMercatorTileCreator andWebMercator:topLeft andWGS84Create:wgs84TileCreator andWGS84:topLeftWGS84];
     
     GPKGBoundingBox *topRight = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude
                                                               andMinLatitudeDouble:midLatitude
@@ -254,7 +254,7 @@
                                                                    andMinLatitudeDouble:midWGS84Latitude
                                                                   andMaxLongitudeDouble:maxWGS84Longitude
                                                                    andMaxLatitudeDouble:maxWGS84Latitude];
-    [self createTilesWithWebMercatorCreate:webMeractorTileCreator andWebMercator:topRight andWGS84Create:wgs84TileCreator andWGS84:topRightWGS84];
+    [self createTilesWithWebMercatorCreate:webMercatorTileCreator andWebMercator:topRight andWGS84Create:wgs84TileCreator andWGS84:topRightWGS84];
     
     GPKGBoundingBox *bottomLeft = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude
                                                               andMinLatitudeDouble:minLatitude
@@ -264,7 +264,7 @@
                                                                    andMinLatitudeDouble:minWGS84Latitude
                                                                   andMaxLongitudeDouble:midWGS84Longitude
                                                                    andMaxLatitudeDouble:midWGS84Latitude];
-    [self createTilesWithWebMercatorCreate:webMeractorTileCreator andWebMercator:bottomLeft andWGS84Create:wgs84TileCreator andWGS84:bottomLeftWGS84];
+    [self createTilesWithWebMercatorCreate:webMercatorTileCreator andWebMercator:bottomLeft andWGS84Create:wgs84TileCreator andWGS84:bottomLeftWGS84];
     
     GPKGBoundingBox *bottomRight = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:midLongitude
                                                               andMinLatitudeDouble:minLatitude
@@ -274,7 +274,7 @@
                                                                    andMinLatitudeDouble:minWGS84Latitude
                                                                   andMaxLongitudeDouble:maxWGS84Longitude
                                                                    andMaxLatitudeDouble:midWGS84Latitude];
-    [self createTilesWithWebMercatorCreate:webMeractorTileCreator andWebMercator:bottomRight andWGS84Create:wgs84TileCreator andWGS84:bottomRightWGS84];
+    [self createTilesWithWebMercatorCreate:webMercatorTileCreator andWebMercator:bottomRight andWGS84Create:wgs84TileCreator andWGS84:bottomRightWGS84];
     
     double pixelXSize = (maxLongitude - minLongitude) / (2 * [width doubleValue]);
     double pixelYSize = (maxLatitude - minLatitude) / (2 * [height doubleValue]);
