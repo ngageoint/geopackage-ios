@@ -729,7 +729,7 @@
 }
 
 +(void) checkZoomCountsWithCount: (int) count andCounts: (NSDictionary<NSNumber *, NSNumber *> *) counts andDao: (GPKGTileDao *) tileDao andTiles: (int) tiles{
-    [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[tileDao count]];
+    [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[tileDao count] > 0];
     [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[tileDao count]];
     NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:tileDao];
     [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
