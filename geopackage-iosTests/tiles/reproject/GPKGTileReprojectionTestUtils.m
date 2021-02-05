@@ -360,7 +360,7 @@
         [self compareZoomCountsWithCount:count andCounts:counts andDao:tileDao];
         
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
-        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count]];
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count] > 0];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[reprojectTileDao count]];
         NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:reprojectTileDao];
         [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
@@ -439,7 +439,7 @@
         
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
         
-        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count]];
+        [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:[reprojectTileDao count] > 0];
         [GPKGTestUtils assertEqualIntWithValue:tiles andValue2:[reprojectTileDao count]];
         NSDictionary<NSNumber *, NSNumber *> *countsAfter = [self zoomCountsWithDao:reprojectTileDao];
         [GPKGTestUtils assertEqualIntWithValue:(int)counts.count andValue2:(int)countsAfter.count];
@@ -644,10 +644,6 @@
     NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
     SFPProjection *projection = [geoPackage projectionOfTable:table];
     SFPProjection *reprojectProjection = [self alternateProjection:projection];
-    
-    GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
-    int count = [tileDao count];
-    NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
     
     GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
     
