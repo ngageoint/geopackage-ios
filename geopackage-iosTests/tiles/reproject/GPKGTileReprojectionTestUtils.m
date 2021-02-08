@@ -387,8 +387,8 @@
             
             GPKGTileGrid *tileGrid = [tileDao queryForTileGridWithZoomLevel:zoom];
             GPKGTileGrid *reprojectTileGrid = [reprojectTileDao queryForTileGridWithZoomLevel:zoom];
-            [GPKGTestUtils assertTrue:tileGrid.maxX < reprojectTileGrid.maxX];
-            [GPKGTestUtils assertTrue:tileGrid.maxY < reprojectTileGrid.maxY];
+            [GPKGTestUtils assertTrue:tileGrid.maxX <= reprojectTileGrid.maxX];
+            [GPKGTestUtils assertTrue:tileGrid.maxY <= reprojectTileGrid.maxY];
         }
         
         [self compareBoundingBox:[geoPackage boundingBoxOfTable:table inProjection:reprojectProjection] withBoundingBox:[geoPackage contentsBoundingBoxOfTable:reprojectTable] andDelta:.0000001];
