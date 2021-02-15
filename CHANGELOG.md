@@ -12,7 +12,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * ogc-api-features-json-ios version 2.0.1
 * tiff-ios version 2.0.1
 * iOS platform and deployment target 12.0
+* Tile table reprojections
 * Alter Table fix for table names matching SQL prefixes
+* st_geometry_columns view single quote fix
 
 ## [5.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/5.0.0) (11-13-2020)
 
