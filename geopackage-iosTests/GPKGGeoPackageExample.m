@@ -789,8 +789,8 @@ static NSString *DATETIME_COLUMN = @"datetime";
             tileHeight = [NSNumber numberWithInt:256];
         }
         
-        long matrixWidth = [tileGrid width];
-        long matrixHeight = [tileGrid height];
+        int matrixWidth = [tileGrid width];
+        int matrixHeight = [tileGrid height];
         double pixelXSize = ([tileMatrixSet.maxX doubleValue] - [tileMatrixSet.minX doubleValue]) / (matrixWidth * [tileWidth intValue]);
         double pixelYSize = ([tileMatrixSet.maxY doubleValue] - [tileMatrixSet.minY doubleValue]) / (matrixHeight * [tileHeight intValue]);
         
