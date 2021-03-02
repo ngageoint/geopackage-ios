@@ -4,13 +4,13 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 5.0.1 (TBD)
+## 6.0.0 (TBD)
 
-* sf-wkb-ios version 3.0.1
-* sf-wkt-ios version 1.0.1
-* sf-proj-ios version 3.0.1
-* ogc-api-features-json-ios version 2.0.1
-* tiff-ios version 2.0.1
+* sf-wkb-ios version 4.0.0
+* sf-wkt-ios version 2.0.0
+* sf-proj-ios version 4.0.0
+* ogc-api-features-json-ios version 3.0.0
+* tiff-ios version 3.0.0
 * iOS platform and deployment target 12.0
 * Tile table reprojections
 * Alter Table fix for table names matching SQL prefixes

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'geopackage-ios'
-  s.version          = '5.0.1'
+  s.version          = '6.0.0'
   s.license          =  {:type => 'MIT', :file => 'LICENSE' }
   s.summary          = 'iOS SDK for GeoPackage'
   s.homepage         = 'https://github.com/ngageoint/geopackage-ios'
@@ -19,9 +19,9 @@ Pod::Spec.new do |s|
 
   s.library = 'sqlite3'
 
-  s.dependency 'sf-wkb-ios', '~> 3.0.1'
-  s.dependency 'sf-wkt-ios', '~> 1.0.1'
-  s.dependency 'sf-proj-ios', '~> 3.0.1'
-  s.dependency 'ogc-api-features-json-ios', '~> 2.0.1'
-  s.dependency 'tiff-ios', '~> 2.0.1'
+  s.dependency 'sf-wkb-ios', '~> 4.0.0'
+  s.dependency 'sf-wkt-ios', '~> 2.0.0'
+  s.dependency 'sf-proj-ios', '~> 4.0.0'
+  s.dependency 'ogc-api-features-json-ios', '~> 3.0.0'
+  s.dependency 'tiff-ios', '~> 3.0.0'
 end

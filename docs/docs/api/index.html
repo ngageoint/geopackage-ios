@@ -16,7 +16,7 @@
     <a title="geopackage-ios  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">geopackage-ios 5.0.0 Docs</a> (88% documented)</p>
+        <p><a href="index.html">geopackage-ios 6.0.0 Docs</a> (88% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="img/gh.png"/>View on GitHub</a></p>
         <p class="header-right">
           <form role="search" action="search.json">
@@ -555,6 +555,9 @@
                 <a href="Classes.html#/c:objc(cs)GPKGNGATableCreator">GPKGNGATableCreator</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/GPKGNetworkUtils.html">GPKGNetworkUtils</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/GPKGNumberFeaturesTile.html">GPKGNumberFeaturesTile</a>
               </li>
               <li class="nav-group-task">
@@ -562,6 +565,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGOverlayFactory.html">GPKGOverlayFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGPolygon.html">GPKGPolygon</a>
@@ -759,6 +765,15 @@
                 <a href="Classes/GPKGTileMatrixSetDao.html">GPKGTileMatrixSetDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/GPKGTileReprojection.html">GPKGTileReprojection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGTileReprojectionOptimize.html">GPKGTileReprojectionOptimize</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGTileReprojectionZoom.html">GPKGTileReprojectionZoom</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/GPKGTileRow.html">GPKGTileRow</a>
               </li>
               <li class="nav-group-task">
@@ -850,6 +865,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGUtils.html">GPKGUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGWebMercatorOptimize.html">GPKGWebMercatorOptimize</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGWebPExtension.html">GPKGWebPExtension</a>
@@ -3176,6 +3194,9 @@
                 <a href="Constants.html#/c:@geopackage_iosVersionString">geopackage_iosVersionString</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:GPKGTileReprojection.h@pixelSizeDelta">pixelSizeDelta</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@pj_errno">pj_errno</a>
               </li>
               <li class="nav-group-task">
@@ -3523,7 +3544,7 @@
             <h1 id='geopackage-ios' class='heading'>GeoPackage iOS</h1>
 <h3 id='geopackage-ios-lib' class='heading'>GeoPackage iOS Lib</h3>
 
-<p>The <a href="http://ngageoint.github.io/GeoPackage/">GeoPackage Libraries</a> were developed at the <a href="http://www.nga.mil/">National Geospatial-Intelligence Agency (NGA)</a> in collaboration with <a href="http://www.bit-sys.com/">BIT Systems</a>. The government has &ldquo;unlimited rights&rdquo; and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the <a href="http://choosealicense.com/licenses/mit/">MIT license</a>.</p>
+<p>The <a href="http://ngageoint.github.io/GeoPackage/">GeoPackage Libraries</a> were developed at the <a href="http://www.nga.mil/">National Geospatial-Intelligence Agency (NGA)</a> in collaboration with <a href="https://www.caci.com/bit-systems/">BIT Systems</a>. The government has &ldquo;unlimited rights&rdquo; and is releasing this software to increase the impact of government investments by providing developers with the opportunity to take things in new directions. The software use, modification, and distribution rights are stipulated within the <a href="http://choosealicense.com/licenses/mit/">MIT license</a>.</p>
 <h3 id='pull-requests' class='heading'>Pull Requests</h3>
 
 <p>If you&rsquo;d like to contribute to this project, please make a pull request. We&rsquo;ll review the pull request and discuss the changes. All pull request contributions to this project will be released under the MIT license.</p>
@@ -3550,12 +3571,12 @@ brew install libtool
 <p>Include this repository by specifying it in a Podfile using a supported option.</p>
 
 <p>Pull from <a href="https://cocoapods.org/pods/geopackage-ios">CocoaPods</a>:</p>
-<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 5.0.0'
+<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 6.0.0'
 </code></pre>
 
 <p>Pull from GitHub via CocoaPods:</p>
 <pre class="highlight plaintext"><code>pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :branch =&gt; 'master'
-pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '5.0.0'
+pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '6.0.0'
 </code></pre>
 
 <p>Include as local project:</p>
@@ -3790,7 +3811,7 @@ pod install
 </code></pre>
 
 <p>Run tests from Xcode or from command line:</p>
-<pre class="highlight plaintext"><code>xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 6s'
+<pre class="highlight plaintext"><code>xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 12'
 </code></pre>
 <h3 id='remote-dependencies' class='heading'>Remote Dependencies</h3>
 
@@ -3805,8 +3826,8 @@ pod install
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2020-11-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2021-03-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

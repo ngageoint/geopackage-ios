@@ -17,7 +17,7 @@
     <a title="GPKGTileDao Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 5.0.0 Docs</a> (88% documented)</p>
+        <p><a href="../index.html">geopackage-ios 6.0.0 Docs</a> (88% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png"/>View on GitHub</a></p>
         <p class="header-right">
           <form role="search" action="../search.json">
@@ -556,6 +556,9 @@
                 <a href="../Classes.html#/c:objc(cs)GPKGNGATableCreator">GPKGNGATableCreator</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGNetworkUtils.html">GPKGNetworkUtils</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGNumberFeaturesTile.html">GPKGNumberFeaturesTile</a>
               </li>
               <li class="nav-group-task">
@@ -563,6 +566,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGOverlayFactory.html">GPKGOverlayFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPolygon.html">GPKGPolygon</a>
@@ -760,6 +766,15 @@
                 <a href="../Classes/GPKGTileMatrixSetDao.html">GPKGTileMatrixSetDao</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGTileReprojection.html">GPKGTileReprojection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGTileReprojectionOptimize.html">GPKGTileReprojectionOptimize</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGTileReprojectionZoom.html">GPKGTileReprojectionZoom</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGTileRow.html">GPKGTileRow</a>
               </li>
               <li class="nav-group-task">
@@ -851,6 +866,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGUtils.html">GPKGUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGWebMercatorOptimize.html">GPKGWebMercatorOptimize</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGWebPExtension.html">GPKGWebPExtension</a>
@@ -3177,6 +3195,9 @@
                 <a href="../Constants.html#/c:@geopackage_iosVersionString">geopackage_iosVersionString</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:GPKGTileReprojection.h@pixelSizeDelta">pixelSizeDelta</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@pj_errno">pj_errno</a>
               </li>
               <li class="nav-group-task">
@@ -3536,7 +3557,7 @@
             <p>Tile DAO for reading tile user tables</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L19-L363">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L21-L401">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -3572,7 +3593,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L24">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L26">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3607,7 +3628,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L29">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3632,17 +3653,52 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">zoomLevelToTileMatrix</span><span class="p">;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">,</span> <span class="n"><a href="../Classes/GPKGTileMatrix.html">GPKGTileMatrix</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">zoomLevelToTileMatrix</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">zoomLevelToTileMatrix</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">zoomLevelToTileMatrix</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSNumber</span> <span class="p">:</span> <span class="kt"><a href="../Classes/GPKGTileMatrix.html">GPKGTileMatrix</a></span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L34">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGTileDao(py)zoomLevels"></a>
+                    <a name="//apple_ref/objc/Property/zoomLevels" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGTileDao(py)zoomLevels">zoomLevels</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Zoom levels</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">zoomLevels</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">zoomLevels</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSNumber</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3677,7 +3733,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L39">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3712,7 +3768,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L44">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3747,7 +3803,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L49">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3782,7 +3838,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L54">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3879,7 +3935,7 @@
                         <p>new tile dao</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L66">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3937,7 +3993,78 @@
                         <p>bounding box of zoom level, or nil if no tiles</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L75">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L82">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGTileDao(im)boundingBoxWithZoomLevel:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-boundingBoxWithZoomLevel:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGTileDao(im)boundingBoxWithZoomLevel:inProjection:">-boundingBoxWithZoomLevel:<wbr>inProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bounding box of tiles at the zoom level</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">boundingBoxWithZoomLevel</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">zoomLevel</span>
+                                 <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/SFPProjection.html">SFPProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">boundingBox</span><span class="p">(</span><span class="n">withZoomLevel</span> <span class="nv">zoomLevel</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFPProjection.html">SFPProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoomLevel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>zoom level</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>desired projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box of zoom level, or nil if no tiles</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L92">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3995,7 +4122,7 @@
                         <p>tile grid at zoom level, nil if no tile matrix at zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L84">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4034,7 +4161,7 @@
                         <p>tile table</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L91">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4092,7 +4219,7 @@
                         <p>tile row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L100">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4131,7 +4258,7 @@
                         <p>tile row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L107">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4168,7 +4295,7 @@ into the tile matrix lengths</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L114">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L131">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4226,7 +4353,46 @@ into the tile matrix lengths</p>
                         <p>tile matrix</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L123">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L140">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGTileDao(im)tileMatrixAtMinZoom"></a>
+                    <a name="//apple_ref/objc/Method/-tileMatrixAtMinZoom" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGTileDao(im)tileMatrixAtMinZoom">-tileMatrixAtMinZoom</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the tile matrix at the min (first) zoom</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGTileMatrix.html">GPKGTileMatrix</a></span> <span class="o">*</span><span class="p">)</span><span class="n">tileMatrixAtMinZoom</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">tileMatrixAtMinZoom</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGTileMatrix.html">GPKGTileMatrix</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tile matrix</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L147">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4265,7 +4431,7 @@ into the tile matrix lengths</p>
                         <p>srs</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L130">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L154">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4304,7 +4470,7 @@ into the tile matrix lengths</p>
                         <p>srs id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L137">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4388,7 +4554,7 @@ into the tile matrix lengths</p>
                         <p>tile row</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L148">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L172">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4446,7 +4612,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L157">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4504,7 +4670,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L166">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4575,7 +4741,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L176">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L200">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4645,7 +4811,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L186">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L210">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4703,7 +4869,7 @@ into the tile matrix lengths</p>
                         <p>zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L195">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L219">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4773,7 +4939,7 @@ into the tile matrix lengths</p>
                         <p>zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L206">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L230">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4832,7 +4998,7 @@ into the tile matrix lengths</p>
                         <p>zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L216">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L240">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4903,7 +5069,7 @@ into the tile matrix lengths</p>
                         <p>zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L228">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4964,7 +5130,7 @@ into the tile matrix lengths</p>
                         <p>approximate zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L239">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L263">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5038,7 +5204,7 @@ into the tile matrix lengths</p>
                         <p>approximate zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L251">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5109,7 +5275,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L261">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L285">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5193,7 +5359,7 @@ into the tile matrix lengths</p>
                         <p>result set</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L272">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L296">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5251,7 +5417,7 @@ into the tile matrix lengths</p>
                         <p>tile grid of tiles at the zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L281">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L305">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5335,7 +5501,7 @@ into the tile matrix lengths</p>
                         <p>number deleted, should be 0 or 1</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L292">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L316">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5393,7 +5559,7 @@ into the tile matrix lengths</p>
                         <p>count</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L301">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L325">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5432,7 +5598,7 @@ into the tile matrix lengths</p>
                         <p>max distance length with tiles</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L308">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L332">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5471,7 +5637,7 @@ into the tile matrix lengths</p>
                         <p>min distance length with tiles</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L315">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L339">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5510,7 +5676,7 @@ into the tile matrix lengths</p>
                         <p>true if XYZ tile format</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L322">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L346">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5549,7 +5715,7 @@ into the tile matrix lengths</p>
                         <p>map zoom level range, min at index 0, max at index 1</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L329">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L353">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5588,7 +5754,7 @@ into the tile matrix lengths</p>
                         <p>map min zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L336">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L360">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5627,7 +5793,7 @@ into the tile matrix lengths</p>
                         <p>map max zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L343">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L367">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5685,7 +5851,7 @@ into the tile matrix lengths</p>
                         <p>map zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L352">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L376">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5743,7 +5909,85 @@ into the tile matrix lengths</p>
                         <p>map zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/5.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L361">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L385">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGTileDao(im)tileMatrixSetDao"></a>
+                    <a name="//apple_ref/objc/Method/-tileMatrixSetDao" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGTileDao(im)tileMatrixSetDao">-tileMatrixSetDao</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get a tile matrix set DAO</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGTileMatrixSetDao.html">GPKGTileMatrixSetDao</a></span> <span class="o">*</span><span class="p">)</span><span class="n">tileMatrixSetDao</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">tileMatrixSetDao</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGTileMatrixSetDao.html">GPKGTileMatrixSetDao</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tile matrix set DAO</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L392">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGTileDao(im)tileMatrixDao"></a>
+                    <a name="//apple_ref/objc/Method/-tileMatrixDao" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGTileDao(im)tileMatrixDao">-tileMatrixDao</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get a tile matrix DAO</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGTileMatrixDao.html">GPKGTileMatrixDao</a></span> <span class="o">*</span><span class="p">)</span><span class="n">tileMatrixDao</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">tileMatrixDao</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGTileMatrixDao.html">GPKGTileMatrixDao</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tile matrix DAO</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/6.0.0/geopackage-ios/tiles/user/GPKGTileDao.h#L399">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5753,8 +5997,8 @@ into the tile matrix lengths</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2020-11-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external">NGA</a>. All rights reserved. (Last updated: 2021-03-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
