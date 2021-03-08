@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## [6.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/6.0.0) (TBD)
+## [6.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/6.0.0) (03-08-2021)
 
 * sf-wkb-ios version 4.0.0
 * sf-wkt-ios version 2.0.0
