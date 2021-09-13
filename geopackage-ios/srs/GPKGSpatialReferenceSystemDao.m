@@ -7,11 +7,11 @@
 //
 
 #import "GPKGSpatialReferenceSystemDao.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGTileMatrixSetDao.h"
 #import "GPKGContentsDao.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGCrsWktExtension.h"
@@ -114,9 +114,9 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    SFPProjection * projection = [projectionObject projection];
+    PROJProjection * projection = [projectionObject projection];
     return projection;
 }
 
@@ -323,7 +323,7 @@
     return srs;
 }
 
--(GPKGSpatialReferenceSystem *) srsWithProjection: (SFPProjection *) projection{
+-(GPKGSpatialReferenceSystem *) srsWithProjection: (PROJProjection *) projection{
     NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
     return [self srsWithOrganization:[projection authority] andCoordsysId:coordsysId];
 }
@@ -347,7 +347,7 @@
     return srs;
 }
 
--(GPKGSpatialReferenceSystem *) queryForProjection: (SFPProjection *) projection{
+-(GPKGSpatialReferenceSystem *) queryForProjection: (PROJProjection *) projection{
     NSNumber *coordsysId = [NSNumber numberWithInteger:[[projection code] integerValue]];
     return [self queryForOrganization:[projection authority] andCoordsysId:coordsysId];
 }

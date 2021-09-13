@@ -8,11 +8,10 @@
 
 #import "GPKGCoverageDataTiffTestUtils.h"
 #import "GPKGCoverageDataTiff.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTestUtils.h"
 #import "GPKGUtils.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGCoverageDataTestUtils.h"
 

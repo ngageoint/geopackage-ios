@@ -55,7 +55,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return tile reprojection
  */
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  *  Create a Reprojection from a GeoPackage tile table to a new tile table within the GeoPackage
@@ -66,7 +66,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return tile reprojection
  */
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection;
 
 /**
  *  Create a Reprojection from a GeoPackage tile table to a new tile table in a specified GeoPackage
@@ -78,7 +78,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return tile reprojection
  */
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection;
 
 /**
  *  Create a Reprojection from a tile table to a new tile table in a specified GeoPackage
@@ -89,7 +89,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return tile reprojection
  */
-+(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
++(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  *  Create a Reprojection from a GeoPackage tile table to a new tile table
@@ -183,7 +183,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return created tiles
  */
-+(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
++(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  *  Reproject a GeoPackage tile table to a new tile table within the GeoPackage
@@ -194,7 +194,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return created tiles
  */
-+(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection;
 
 /**
  *  Reproject a GeoPackage tile table to a new tile table in a specified GeoPackage
@@ -206,7 +206,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return created tiles
  */
-+(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection;
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection;
 
 /**
  *  Reproject a tile table to a new tile table in a specified GeoPackage
@@ -217,7 +217,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return created tiles
  */
-+(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  *  Reproject a GeoPackage tile table to a new tile table
@@ -312,7 +312,7 @@ static double pixelSizeDelta = .00000000001;
  *  @param projection desired projection
  *  @return tile reprojection
  */
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection;
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  *  Initialize, reproject a GeoPackage tile table to a new tile table

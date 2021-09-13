@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 #import "SFGeometryEnvelope.h"
-#import "SFPProjectionTransform.h"
+#import "SFPGeometryTransform.h"
 
 /**
  *  Bounding box width and height struct
@@ -260,10 +260,10 @@ struct GPKGBoundingBoxSize{
  * Transform the bounding box using the provided projection transform
  *
  * @param transform
- *            projection transform
+ *            geometry transform
  * @return transformed bounding box
  */
--(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform;
+-(GPKGBoundingBox *) transform: (SFPGeometryTransform *) transform;
 
 /**
  * Determine if intersects with the provided bounding box

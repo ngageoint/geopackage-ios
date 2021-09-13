@@ -7,7 +7,7 @@
 //
 
 #import "GPKGFeatureTileUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "SFPolygon.h"
 #import "GPKGFeatureTiles.h"
 

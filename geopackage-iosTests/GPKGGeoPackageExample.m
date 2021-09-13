@@ -13,7 +13,7 @@
 #import "GPKGGeoPackageManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGIOUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "SFPoint.h"
 #import "SFLineString.h"
 #import "SFPolygon.h"
@@ -22,8 +22,7 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGFeatureTiles.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGFeatureTileGenerator.h"
 #import "GPKGGeometryExtensions.h"
 #import "SFCircularString.h"
@@ -690,7 +689,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     GPKGBoundingBox *ngaBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-8593967.964158937 andMinLatitudeDouble:4685284.085768163 andMaxLongitudeDouble:-8592744.971706374 andMaxLatitudeDouble:4687730.070673289];
     [self createTilesWithGeoPackage:geoPackage andName:@"nga" andBoundingBox:ngaBoundingBox andMinZoom:15 andMaxZoom:16 andExtension:@"png"];
     
-    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_wgs84" inProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_wgs84" inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"nga" toTable:@"nga_pc" andOptimize:[GPKGTileReprojectionOptimize platteCarre]];
     [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"bit_systems" toTable:@"bit_systems_world" andOptimize:[GPKGTileReprojectionOptimize webMercatorWorld]];
     [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:@"nga" toTable:@"nga_pc_world" andOptimize:[GPKGTileReprojectionOptimize platteCarreWorld]];
@@ -872,10 +871,10 @@ static NSString *DATETIME_COLUMN = @"datetime";
         GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
         
         GPKGBoundingBox *boundingBox = [featureDao boundingBox];
-        SFPProjection *projection = featureDao.projection;
+        PROJProjection *projection = featureDao.projection;
         
-        SFPProjection *requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
         GPKGBoundingBox *requestBoundingBox = [boundingBox transform:transform];
         
         int zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:requestBoundingBox];
@@ -1229,7 +1228,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
     GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
-    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
+    SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
     GPKGBoundingBox *contentsBoundingBox = nil;
     if(![transform isSameProjection]){
         contentsBoundingBox = [bbox transform:transform];
@@ -1320,7 +1319,7 @@ static int dataColumnConstraintIndex = 0;
     GPKGSpatialReferenceSystem *contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:contentsEpsg]];
     GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:tileMatrixSetEpsg]];
     
-    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
+    SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:[tileMatrixSetSrs projection] andToProjection:[contentsSrs projection]];
     GPKGBoundingBox *contentsBoundingBox = nil;
     if(![transform isSameProjection]){
         contentsBoundingBox = [bbox transform:transform];

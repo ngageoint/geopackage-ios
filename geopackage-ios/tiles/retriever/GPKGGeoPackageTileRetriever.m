@@ -8,10 +8,9 @@
 
 #import "GPKGGeoPackageTileRetriever.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTileCreator.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 
 @interface GPKGGeoPackageTileRetriever ()
 
@@ -33,13 +32,13 @@
         
         [tileDao adjustTileMatrixLengths];
         
-        SFPProjection * webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        PROJProjection * webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         
         self.tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
         
-        SFPProjectionTransform * projectionToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:[self.tileCreator tilesProjection] andToProjection:webMercator];
+        SFPGeometryTransform *projectionToWebMercator = [SFPGeometryTransform transformFromProjection:[self.tileCreator tilesProjection] andToProjection:webMercator];
         GPKGBoundingBox * tileSetBoundingBox = [self.tileCreator tileSetBoundingBox];
-        if([[self.tileCreator tilesProjection] isUnit:SFP_UNIT_DEGREES]){
+        if([[self.tileCreator tilesProjection] isUnit:PROJ_UNIT_DEGREES]){
             tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
         self.setWebMercatorBoundingBox = [tileSetBoundingBox transform:projectionToWebMercator];

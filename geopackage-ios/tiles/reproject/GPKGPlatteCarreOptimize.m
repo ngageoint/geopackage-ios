@@ -7,8 +7,8 @@
 //
 
 #import "GPKGPlatteCarreOptimize.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGPlatteCarreOptimize
@@ -29,8 +29,8 @@
     return [super initWithWorld:world];
 }
 
--(SFPProjection *) projection{
-    return [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+-(PROJProjection *) projection{
+    return [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
 }
 
 -(GPKGTileGrid *) tileGrid{

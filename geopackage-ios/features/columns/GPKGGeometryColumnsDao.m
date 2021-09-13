@@ -94,10 +94,10 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     GPKGGeometryColumns *projectionObject = (GPKGGeometryColumns*) object;
     GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
-    SFPProjection *projection = [srs projection];
+    PROJProjection *projection = [srs projection];
     return projection;
 }
 

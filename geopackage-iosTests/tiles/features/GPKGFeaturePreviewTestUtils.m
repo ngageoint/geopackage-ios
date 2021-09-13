@@ -8,7 +8,7 @@
 
 #import "GPKGFeaturePreviewTestUtils.h"
 #import "GPKGSqlUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGFeaturePreview.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTileUtils.h"

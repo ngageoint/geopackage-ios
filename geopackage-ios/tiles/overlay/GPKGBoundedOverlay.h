@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGBoundingBox.h"
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 
 /**
  * Abstract overlay which provides bounding returned tiles by zoom levels and/or a bounding box
@@ -43,7 +43,7 @@
  *  @param boundingBox bounding box
  *  @param projection projection of bounding box
  */
--(void) setBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+-(void) setBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
 
 /**
  *  Get the bounding box as the provided projection
@@ -52,7 +52,7 @@
  *
  *  @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  *  Determine if there is a tile for the x, y, and zoom

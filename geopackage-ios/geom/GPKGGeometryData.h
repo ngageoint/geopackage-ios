@@ -10,7 +10,7 @@
 #import "SFGeometryEnvelope.h"
 #import "SFGeometry.h"
 #import "SFGeometryFilter.h"
-#import "SFPProjectionTransform.h"
+#import "SFPGeometryTransform.h"
 
 /**
  *  GeoPackage Geometry Data
@@ -854,9 +854,9 @@
  * Transform the geometry data using the provided projection transform
  *
  * @param transform
- *            projection transform
+ *            geometry transform
  * @return transformed geometry data
  */
--(GPKGGeometryData *) transform: (SFPProjectionTransform *) transform;
+-(GPKGGeometryData *) transform: (SFPGeometryTransform *) transform;
 
 @end

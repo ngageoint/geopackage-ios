@@ -8,7 +8,7 @@
 
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 
 @implementation GPKGBoundingBox
 
@@ -253,16 +253,16 @@
     return [self expandCoordinatesWithMaxLongitude:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
 }
 
--(GPKGBoundingBox *) transform: (SFPProjectionTransform *) transform{
+-(GPKGBoundingBox *) transform: (SFPGeometryTransform *) transform{
     GPKGBoundingBox *transformed = self;
     if ([transform isSameProjection]) {
         transformed = [[GPKGBoundingBox alloc] initWithBoundingBox:transformed];
     } else {
-        if([transform.fromProjection isUnit:SFP_UNIT_DEGREES]){
+        if([transform.fromProjection isUnit:PROJ_UNIT_DEGREES]){
             transformed = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:transformed];
         }
         SFGeometryEnvelope *envelope = [GPKGBoundingBox buildEnvelopeFromBoundingBox:transformed];
-        SFGeometryEnvelope *transformedEnvelope = [transform transformWithGeometryEnvelope:envelope];
+        SFGeometryEnvelope *transformedEnvelope = [transform transformGeometryEnvelope:envelope];
         transformed = [[GPKGBoundingBox alloc] initWithEnvelope:transformedEnvelope];
     }
     return transformed;

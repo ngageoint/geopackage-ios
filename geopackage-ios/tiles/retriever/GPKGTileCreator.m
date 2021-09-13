@@ -7,9 +7,9 @@
 //
 
 #import "GPKGTileCreator.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTileMatrixSetDao.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionTransform.h"
 #import "GPKGImageConverter.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
@@ -19,8 +19,8 @@
 @property (nonatomic, strong) NSNumber *width;
 @property (nonatomic, strong) NSNumber *height;
 @property (nonatomic, strong) GPKGTileMatrixSet *tileMatrixSet;
-@property (nonatomic, strong) SFPProjection *requestProjection;
-@property (nonatomic, strong) SFPProjection *tilesProjection;
+@property (nonatomic, strong) PROJProjection *requestProjection;
+@property (nonatomic, strong) PROJProjection *tilesProjection;
 @property (nonatomic, strong) GPKGBoundingBox *tileSetBoundingBox;
 @property (nonatomic) BOOL sameProjection;
 @property (nonatomic) BOOL sameUnit;
@@ -32,7 +32,7 @@
  */
 @implementation GPKGTileCreator
 
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection{
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (PROJProjection *) requestProjection{
     self = [super init];
     if(self != nil){
         self.tileDao = tileDao;
@@ -46,7 +46,7 @@
         
         // Check if the projections are the same or have the same units
         self.sameProjection = [self.requestProjection isEqualToProjection:self.tilesProjection];
-        self.sameUnit = [self.requestProjection isUnit:[self.tilesProjection getUnit]];
+        self.sameUnit = [self.requestProjection isUnit:[self.tilesProjection unit]];
     }
     return self;
 }
@@ -59,7 +59,7 @@
     return [self initWithTileDao:tileDao andWidth:width andHeight:height andProjection:tileDao.projection];
 }
 
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (SFPProjection *) requestProjection{
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (PROJProjection *) requestProjection{
     return [self initWithTileDao:tileDao andWidth:nil andHeight:nil andProjection:requestProjection];
 }
 
@@ -79,11 +79,11 @@
     return _tileMatrixSet;
 }
 
--(SFPProjection *) requestProjection{
+-(PROJProjection *) requestProjection{
     return _requestProjection;
 }
 
--(SFPProjection *) tilesProjection{
+-(PROJProjection *) tilesProjection{
     return _tilesProjection;
 }
 
@@ -104,8 +104,8 @@
     BOOL hasTile = NO;
     
     // Transform to the projection of the tiles
-    SFPProjectionTransform * transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
-    GPKGBoundingBox * tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
+    SFPGeometryTransform *transformRequestToTiles = [SFPGeometryTransform transformFromProjection:self.requestProjection andToProjection:self.tilesProjection];
+    GPKGBoundingBox *tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
     NSArray<GPKGTileMatrix *> *tileMatrices = [self tileMatrices:tilesBoundingBox];
 
@@ -145,7 +145,7 @@
     GPKGGeoPackageTile *tile = nil;
     
     // Transform to the projection of the tiles
-    SFPProjectionTransform *transformRequestToTiles = [[SFPProjectionTransform alloc] initWithFromProjection:self.requestProjection andToProjection:self.tilesProjection];
+    SFPGeometryTransform *transformRequestToTiles = [SFPGeometryTransform transformFromProjection:self.requestProjection andToProjection:self.tilesProjection];
     GPKGBoundingBox *tilesBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
     
     if(tileMatrices == nil){
@@ -276,7 +276,7 @@
     return tileImage;
 }
 
--(UIImage *) reprojectTileWithImage: (UIImage *) tile andWidth: (int) requestedTileWidth andHeight: (int) requestedTileHeight andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTransform: (SFPProjectionTransform *) transformRequestToTiles andBoundingBox: (GPKGBoundingBox *) tilesBoundingBox{
+-(UIImage *) reprojectTileWithImage: (UIImage *) tile andWidth: (int) requestedTileWidth andHeight: (int) requestedTileHeight andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTransform: (PROJProjectionTransform *) transformRequestToTiles andBoundingBox: (GPKGBoundingBox *) tilesBoundingBox{
     
     double requestedWidthUnitsPerPixel = ([requestBoundingBox.maxLongitude doubleValue] - [requestBoundingBox.minLongitude doubleValue]) / requestedTileWidth;
     double requestedHeightUnitsPerPixel = ([requestBoundingBox.maxLatitude doubleValue] - [requestBoundingBox.minLatitude doubleValue]) / requestedTileHeight;

@@ -10,11 +10,10 @@
 #import "GPKGFeatureTileUtils.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileGenerator.h"
 #import "GPKGFeatureTileGenerator.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTestUtils.h"
 #import "GPKGNumberFeaturesTile.h"
 
@@ -74,7 +73,7 @@
             [featureTiles setMaxFeaturesTileDraw:numberFeaturesTile];
         }
         
-        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
         [tileGenerator setXyzTiles:NO];
         
         int tiles = [tileGenerator generateTiles];

@@ -9,7 +9,6 @@
 #import "GPKGFeatureDao.h"
 #import "GPKGGeometryColumnsDao.h"
 #import "GPKGContentsDao.h"
-#import "SFPProjectionTransform.h"
 
 @implementation GPKGFeatureDao
 
@@ -91,7 +90,7 @@
     return [ self boundingBoxInProjection:self.projection];
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
     GPKGContents *contents = [geometryColumnsDao contents:self.geometryColumns];
     GPKGContentsDao * contentsDao = [self contentsDao];

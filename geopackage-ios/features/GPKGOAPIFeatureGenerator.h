@@ -92,7 +92,7 @@
  *
  * @return projections
  */
--(SFPProjections *) projections;
+-(PROJProjections *) projections;
 
 /**
  * Get the supported projections
@@ -101,7 +101,7 @@
  *            URL
  * @return projections
  */
--(SFPProjections *) projectionsForURL: (NSString *) url;
+-(PROJProjections *) projectionsForURL: (NSString *) url;
 
 /**
  * Get the supported projections
@@ -110,7 +110,7 @@
  *            collection
  * @return projections
  */
--(SFPProjections *) projectionsForCollection: (OAFCollection *) collection;
+-(PROJProjections *) projectionsForCollection: (OAFCollection *) collection;
 
 /**
  * Determine if the projection should be requested from the server
@@ -119,7 +119,7 @@
  *            projection
  * @return true to request the projection (non null and non default)
  */
--(BOOL) requestProjection: (SFPProjection *) projection;
+-(BOOL) requestProjection: (PROJProjection *) projection;
 
 /**
  * Check if the projection is a default projection
@@ -128,7 +128,7 @@
  *            projection
  * @return true if default projection
  */
--(BOOL) isDefaultProjection: (SFPProjection *) projection;
+-(BOOL) isDefaultProjection: (PROJProjection *) projection;
 
 /**
  * Collection request

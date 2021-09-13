@@ -12,10 +12,9 @@
 #import "SFGeometryPrinter.h"
 #import "GPKGDataColumnsDao.h"
 #import "GPKGSpatialReferenceSystemDao.h"
-#import "SFPProjectionTransform.h"
 #import "GPKGFeatureIndexListResults.h"
 #import "GPKGMapShapeConverter.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGMapUtils.h"
 
 @interface GPKGFeatureInfoBuilder ()
@@ -61,7 +60,7 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (SFPProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andProjection: (PROJProjection *) projection{
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:nil andPoint:nil andProjection:projection];
 }
 
@@ -69,7 +68,7 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (PROJProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -83,7 +82,7 @@
     return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection{
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (PROJProjection *) projection{
     
     NSMutableString * message = nil;
     
@@ -174,7 +173,7 @@
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andPoint:point andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (SFPProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andPoint: (SFPoint *) point andProjection: (PROJProjection *) projection{
     CLLocationCoordinate2D locationCoordinate;
     if(point != nil){
         locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
@@ -188,7 +187,7 @@
     return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:nil];
 }
 
--(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (SFPProjection *) projection{
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (PROJProjection *) projection{
     
     GPKGFeatureTableData * tableData = nil;
     
@@ -255,20 +254,20 @@
     return tableData;
 }
 
--(void) projectGeometry: (GPKGGeometryData *) geometryData inProjection: (SFPProjection *) projection{
+-(void) projectGeometry: (GPKGGeometryData *) geometryData inProjection: (PROJProjection *) projection{
     
     if(geometryData.geometry != nil){
         
-        GPKGSpatialReferenceSystemDao * srsDao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.featureDao.database];
+        GPKGSpatialReferenceSystemDao *srsDao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.featureDao.database];
         NSNumber * srsId = geometryData.srsId;
-        GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:srsId];
+        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:srsId];
         
         if(![projection isEqualToAuthority:srs.organization andNumberCode:srs.organizationCoordsysId]){
             
-            SFPProjection * geomProjection = [srs projection];
-            SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:geomProjection andToProjection:projection];
+            PROJProjection *geomProjection = [srs projection];
+            SFPGeometryTransform * transform = [SFPGeometryTransform transformFromProjection:geomProjection andToProjection:projection];
             
-            SFGeometry * projectedGeometry = [transform transformWithGeometry:geometryData.geometry];
+            SFGeometry *projectedGeometry = [transform transformGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
             GPKGSpatialReferenceSystem *projectionSrs = [srsDao srsWithProjection:projection];
             [geometryData setSrsId:projectionSrs.srsId];

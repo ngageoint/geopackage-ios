@@ -9,7 +9,7 @@
 #import "GPKGMapUtils.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGMapUtils

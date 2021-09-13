@@ -34,7 +34,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  * @param height            coverage data response height
  * @param requestProjection request projection
  */
-+(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection;
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (PROJProjection *) requestProjection;
 
 /**
  * Get a Tiled Gridded Coverage Data, use the coverage data pixel tile size
@@ -53,7 +53,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  * @param tileDao           tile dao
  * @param requestProjection request projection
  */
-+(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (SFPProjection *) requestProjection;
++(GPKGCoverageData *) coverageDataWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andProjection: (PROJProjection *) requestProjection;
 
 /**
  * Create the coverage data tile table with metadata and extension
@@ -128,7 +128,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *
  *  @return new instance
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (PROJProjection *) requestProjection;
 
 /**
  *  Get the tile matrix set
@@ -156,14 +156,14 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
  *
  * @return request projection
  */
--(SFPProjection *) requestProjection;
+-(PROJProjection *) requestProjection;
 
 /**
  * Get the coverage data projection
  *
  * @return coverage data projection
  */
--(SFPProjection *) coverageProjection;
+-(PROJProjection *) coverageProjection;
 
 /**
  * Get the coverage data bounding box

@@ -9,8 +9,8 @@
 #import "GPKGTileDaoUtils.h"
 #import "GPKGTileMatrixSet.h"
 #import "GPKGTileMatrix.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 
 @implementation GPKGTileDaoUtils
 
@@ -298,11 +298,11 @@
 
 +(int) mapZoomWithTileMatrixSetDao: (GPKGTileMatrixSetDao *) tileMatrixSetDao andTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet andTileMatrix: (GPKGTileMatrix *) tileMatrix{
     
-    GPKGBoundingBox *boundingBox = [tileMatrixSetDao boundingBoxOfTileMatrixSet:tileMatrixSet inProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGBoundingBox *boundingBox = [tileMatrixSetDao boundingBoxOfTileMatrixSet:tileMatrixSet inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     int zoom = [self mapZoomWithMin:boundingBox.minLongitude andMax:boundingBox.maxLongitude andMatrixLength:tileMatrix.matrixWidth];
     
-    if(![[tileMatrixSetDao projection:tileMatrixSet] isUnit:SFP_UNIT_DEGREES]){
+    if(![[tileMatrixSetDao projection:tileMatrixSet] isUnit:PROJ_UNIT_DEGREES]){
         zoom = MIN(zoom, [self mapZoomWithMin:boundingBox.minLatitude andMax:boundingBox.maxLatitude andMatrixLength:tileMatrix.matrixHeight]);
     }
     

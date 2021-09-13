@@ -12,9 +12,8 @@
 #import "GPKGTestUtils.h"
 #import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTestGeoPackageProgress.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGFeatureIndexTestEnvelope.h"
 #import "GPKGGeoPackageTestUtils.h"
 
@@ -186,14 +185,14 @@
                                                                        andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
                                                                       andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
                                                                        andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
-        SFPProjection * projection = nil;
+        PROJProjection * projection = nil;
         if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){
-            projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+            projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         }else{
-            projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+            projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         }
-        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromProjection:featureDao.projection andToProjection:projection];
-        GPKGBoundingBox * transformedBoundingBox = [boundingBox transform:transform];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
+        GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
         
         // Test the query by projected bounding box
         resultCount = 0;
@@ -645,10 +644,10 @@
         [timerCount endWithOutput:@"Count Query"];
         [GPKGTestUtils assertTrue:queryCount == geometryFeatureCount || queryCount == totalFeatureCount];
         
-        SFPProjection *projection = featureDao.projection;
-        SFPProjection *webMercatorProjection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WEB_MERCATOR];
-        SFPProjectionTransform *transformToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:webMercatorProjection];
-        SFPProjectionTransform *transformToProjection = [[SFPProjectionTransform alloc] initWithFromProjection:webMercatorProjection andToProjection:projection];
+        PROJProjection *projection = featureDao.projection;
+        PROJProjection *webMercatorProjection = [PROJProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WEB_MERCATOR];
+        SFPGeometryTransform *transformToWebMercator = [SFPGeometryTransform transformFromProjection:projection andToProjection:webMercatorProjection];
+        SFPGeometryTransform *transformToProjection = [SFPGeometryTransform transformFromProjection:webMercatorProjection andToProjection:projection];
         
         [timerCount start];
         GPKGBoundingBox *bounds = [featureIndexManager boundingBox];

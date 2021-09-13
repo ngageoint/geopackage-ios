@@ -10,7 +10,7 @@
 #import "GPKGConnection.h"
 #import "GPKGColumnValue.h"
 #import "GPKGColumnValues.h"
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 
 /**
  *  Base Data Access Object
@@ -129,7 +129,7 @@
  *
  *  @return projection
  */
--(SFPProjection *) projection: (NSObject *) object;
+-(PROJProjection *) projection: (NSObject *) object;
 
 /**
  *  Drop the table

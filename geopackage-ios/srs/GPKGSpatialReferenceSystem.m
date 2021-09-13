@@ -7,8 +7,7 @@
 //
 
 #import "GPKGSpatialReferenceSystem.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 
 NSString * const GPKG_SRS_TABLE_NAME = @"gpkg_spatial_ref_sys";
 NSString * const GPKG_SRS_COLUMN_PK = @"srs_id";
@@ -22,7 +21,7 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
 
 @implementation GPKGSpatialReferenceSystem
 
--(SFPProjection *) projection{
+-(PROJProjection *) projection{
     
     NSString *authority = self.organization;
     NSNumber *code = self.organizationCoordsysId;
@@ -31,14 +30,14 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
         definition = self.definition;
     }
     
-    SFPProjection *projection = [SFPProjectionFactory projectionWithAuthority:authority andNumberCode:code andParams:nil andDefinition:definition];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithAuthority:authority andNumberCode:code andParams:nil andDefinition:definition];
     
     return projection;
 }
 
--(SFPProjectionTransform *) transformationFromProjection: (SFPProjection *) projection{
-    SFPProjection *projectionTo = [self projection];
-    return [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:projectionTo];
+-(SFPGeometryTransform *) transformationFromProjection: (PROJProjection *) projection{
+    PROJProjection *projectionTo = [self projection];
+    return [SFPGeometryTransform transformFromProjection:projection andToProjection:projectionTo];
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone{

@@ -9,7 +9,7 @@
 #import "GPKGTestUtils.h"
 #import "GPKGUtils.h"
 #import "GPKGDateTimeUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGSchemaExtension.h"
 
 #define ARC4RANDOM_MAX      0x100000000

@@ -8,15 +8,14 @@
 
 #import "GPKGTileCreatorImageTest.h"
 #import "GPKGTestConstants.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTileCreator.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGImageConverter.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionFactory.h"
 
 @implementation GPKGTileCreatorImageTest
 
@@ -33,8 +32,8 @@
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    SFPProjection * webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-    SFPProjection * wgs84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection * webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    PROJProjection * wgs84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     NSNumber * width = [NSNumber numberWithInt:256];
     NSNumber * height = [NSNumber numberWithInt:256];
@@ -42,7 +41,7 @@
     GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
     GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
-    GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:wgs84]];
+    GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[SFPGeometryTransform transformFromProjection:webMercator andToProjection:wgs84]];
     
     [GPKGTestUtils assertTrue:[webMercatorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];
@@ -208,10 +207,10 @@
     GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
     GPKGBoundingBox *boudingbox = [self.geoPackage boundingBoxOfTable:GPKG_TEST_TILES2_DB_TABLE_NAME];
     
-    SFPProjection *wgs84 = [self.geoPackage projectionOfTable:GPKG_TEST_TILES2_DB_TABLE_NAME];
-    SFPProjection *webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-    SFPProjectionTransform *toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:wgs84 andToProjection:webMercator];
-    SFPProjectionTransform *toWGS84 = [toWebMercator inverseTransformation];
+    PROJProjection *wgs84 = [self.geoPackage projectionOfTable:GPKG_TEST_TILES2_DB_TABLE_NAME];
+    PROJProjection *webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:wgs84 andToProjection:webMercator];
+    SFPGeometryTransform *toWGS84 = [toWebMercator inverseTransformation];
     
     GPKGBoundingBox *webMercatorBoundingBox = [boudingbox transform:toWebMercator];
     
@@ -286,10 +285,10 @@
 
 -(void) createTilesWithWebMercatorCreate: (GPKGTileCreator *) webMercatorCreator andWebMercator: (GPKGBoundingBox *) webMercator andWGS84Create: (GPKGTileCreator *) wgs84Creator andWGS84: (GPKGBoundingBox *) wgs84{
     
-    SFPProjection *wgs84Projection = [self.geoPackage projectionOfTable:GPKG_TEST_TILES2_DB_TABLE_NAME];
-    SFPProjection *webMercatorProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-    SFPProjectionTransform *toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:wgs84Projection andToProjection:webMercatorProjection];
-    SFPProjectionTransform *toWGS84 = [toWebMercator inverseTransformation];
+    PROJProjection *wgs84Projection = [self.geoPackage projectionOfTable:GPKG_TEST_TILES2_DB_TABLE_NAME];
+    PROJProjection *webMercatorProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:wgs84Projection andToProjection:webMercatorProjection];
+    SFPGeometryTransform *toWGS84 = [toWebMercator inverseTransformation];
     
     GPKGBoundingBox *wgs84WebMercator = [webMercator transform:toWGS84];
     double pixelXSize = ([wgs84WebMercator.maxLongitude doubleValue] - [wgs84WebMercator.minLongitude doubleValue]) / (1.0 * [[wgs84Creator width] doubleValue]);

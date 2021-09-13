@@ -686,18 +686,18 @@ static int defaultByteOrder;
     return indicator;
 }
 
--(GPKGGeometryData *) transform: (SFPProjectionTransform *) transform{
+-(GPKGGeometryData *) transform: (SFPGeometryTransform *) transform{
     GPKGGeometryData *transformed = self;
     if([transform isSameProjection]){
         transformed = [[GPKGGeometryData alloc] initWithGeometryData:transformed];
     }else{
         SFGeometry *geometry = self.geometry;
         if(geometry != nil){
-            geometry = [transform transformWithGeometry:geometry];
+            geometry = [transform transformGeometry:geometry];
         }
         SFGeometryEnvelope *envelope = _envelope;
         if(envelope != nil){
-            envelope = [transform transformWithGeometryEnvelope:envelope];
+            envelope = [transform transformGeometryEnvelope:envelope];
         }
         transformed = [[GPKGGeometryData alloc] initWithSrsId:self.srsId andGeometry:geometry andEnvelope:envelope];
     }

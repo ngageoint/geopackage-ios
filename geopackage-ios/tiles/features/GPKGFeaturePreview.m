@@ -8,9 +8,9 @@
 
 #import "GPKGFeaturePreview.h"
 #import "GPKGSqlUtils.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 
 @interface GPKGFeaturePreview ()
 
@@ -98,7 +98,7 @@
     GPKGFeatureDao *featureDao = [_featureTiles featureDao];
     NSString *table = featureDao.tableName;
 
-    SFPProjection * webMercator = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    PROJProjection * webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
 
     GPKGBoundingBox *boundingBox = [_geoPackage featureBoundingBoxOfTable:table inProjection:webMercator andManual:NO];
     if(boundingBox == nil){

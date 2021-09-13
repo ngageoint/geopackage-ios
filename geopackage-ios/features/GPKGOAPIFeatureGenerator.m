@@ -7,8 +7,8 @@
 //
 
 #import "GPKGOAPIFeatureGenerator.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 #import "GPKGDateTimeUtils.h"
@@ -61,12 +61,12 @@ static NSRegularExpression *limitExpression = nil;
 /**
  * OGC CRS84 Projection
  */
-static SFPProjection *OGC_CRS84 = nil;
+static PROJProjection *OGC_CRS84 = nil;
 
 /**
  * Default projections
  */
-static SFPProjections *defaultProjections;
+static PROJProjections *defaultProjections;
 
 +(void) initialize{
     if(limitExpression == nil){
@@ -77,10 +77,10 @@ static SFPProjections *defaultProjections;
         }
     }
     if(OGC_CRS84 == nil){
-        OGC_CRS84 = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_OGC andCode:PROJ_OGC_CRS84];
+        OGC_CRS84 = [PROJProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_OGC andCode:PROJ_OGC_CRS84];
     }
     if(defaultProjections == nil){
-        defaultProjections = [[SFPProjections alloc] init];
+        defaultProjections = [[PROJProjections alloc] init];
         [defaultProjections addProjection:OGC_CRS84];
         [defaultProjections addProjection:[self epsgWGS84]];
     }
@@ -120,8 +120,8 @@ static SFPProjections *defaultProjections;
     }
 }
 
--(SFPProjection *) srsProjection{
-    SFPProjection *srsProjection = nil;
+-(PROJProjection *) srsProjection{
+    PROJProjection *srsProjection = nil;
     if (self.projection != nil && [OGC_CRS84 isEqualToProjection:self.projection]) {
         srsProjection = [GPKGFeatureGenerator epsgWGS84];
     }else{
@@ -148,7 +148,7 @@ static SFPProjections *defaultProjections;
     
     OAFCollection *collection = [self collectionRequestForURL:url];
     
-    SFPProjections *projections = [self projectionsForCollection:collection];
+    PROJProjections *projections = [self projectionsForCollection:collection];
     if(self.projection != nil && ![projections hasProjection:self.projection]){
         NSLog(@"The projection is not advertised by the server. Authority: %@, Code: %@", self.projection.authority, self.projection.code);
     }
@@ -236,17 +236,17 @@ static SFPProjections *defaultProjections;
     return url;
 }
 
--(SFPProjections *) projections{
+-(PROJProjections *) projections{
     return [self projectionsForURL:[self buildCollectionRequestUrl]];
 }
 
--(SFPProjections *) projectionsForURL: (NSString *) url{
+-(PROJProjections *) projectionsForURL: (NSString *) url{
     return [self projectionsForCollection:[self collectionRequestForURL:url]];
 }
 
--(SFPProjections *) projectionsForCollection: (OAFCollection *) collection{
+-(PROJProjections *) projectionsForCollection: (OAFCollection *) collection{
 
-    SFPProjections *projections = [[SFPProjections alloc] init];
+    PROJProjections *projections = [[PROJProjections alloc] init];
     
     if (collection != nil) {
         
@@ -270,11 +270,11 @@ static SFPProjections *defaultProjections;
     return projections;
 }
 
--(BOOL) requestProjection: (SFPProjection *) projection{
+-(BOOL) requestProjection: (PROJProjection *) projection{
     return projection != nil && ![self isDefaultProjection:projection];
 }
 
--(BOOL) isDefaultProjection: (SFPProjection *) projection{
+-(BOOL) isDefaultProjection: (PROJProjection *) projection{
     return [defaultProjections hasProjection:projection];
 }
 
@@ -562,7 +562,7 @@ static SFPProjections *defaultProjections;
  *            projection
  * @return crs
  */
--(OAFCrs *) crsFromProjection: (SFPProjection *) projection{
+-(OAFCrs *) crsFromProjection: (PROJProjection *) projection{
     NSString *version = nil;
     if([projection.authority isEqualToString:PROJ_AUTHORITY_OGC]){
         version = OGC_VERSION;

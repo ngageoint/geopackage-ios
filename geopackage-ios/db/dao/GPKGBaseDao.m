@@ -100,7 +100,7 @@
     return [GPKGUtils objectAtIndex:0 inArray:self.idColumns];
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }

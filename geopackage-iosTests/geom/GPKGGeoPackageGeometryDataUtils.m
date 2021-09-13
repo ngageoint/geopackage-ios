@@ -22,9 +22,8 @@
 #import "SFPolyhedralSurface.h"
 #import "SFTIN.h"
 #import "SFTriangle.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "SFWBGeometryCodes.h"
 
 @implementation GPKGGeoPackageGeometryDataUtils
@@ -134,26 +133,26 @@
                         NSNumber * srsId = geometryData.srsId;
                         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
-                        SFPProjection * projection = [srs projection];
+                        PROJProjection * projection = [srs projection];
                         int toEpsg = -1;
                         if([srs.organizationCoordsysId intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
                             toEpsg = PROJ_EPSG_WEB_MERCATOR;
                         }else{
                             toEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
                         }
-                        SFPProjectionTransform * transformTo = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:toEpsg];
-                        SFPProjectionTransform * transformFrom = [[SFPProjectionTransform alloc] initWithFromProjection:transformTo.toProjection andToProjection:projection];
+                        SFPGeometryTransform *transformTo = [SFPGeometryTransform transformFromProjection:projection andToEpsg:toEpsg];
+                        SFPGeometryTransform *transformFrom = [SFPGeometryTransform transformFromProjection:transformTo.toProjection andToProjection:projection];
 
                         NSData * bytes = [geometryData wkb];
                         
-                        SFGeometry * projectedGeometry = [transformTo transformWithGeometry:geometry];
+                        SFGeometry * projectedGeometry = [transformTo transformGeometry:geometry];
                         NSData *projectedBytes = [GPKGGeometryData wkbFromGeometry:projectedGeometry];
                         
                         if([srs.organizationCoordsysId intValue] > 0){
                             [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
                         }
                         
-                        SFGeometry * restoredGeometry = [transformFrom transformWithGeometry:projectedGeometry];
+                        SFGeometry * restoredGeometry = [transformFrom transformGeometry:projectedGeometry];
                         [self compareGeometriesWithExpected:geometry andActual:restoredGeometry andDelta:.001];
                     }
                 }

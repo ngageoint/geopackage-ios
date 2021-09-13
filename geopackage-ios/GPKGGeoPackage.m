@@ -225,15 +225,15 @@
     return count;
 }
 
--(GPKGBoundingBox *) contentsBoundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) contentsBoundingBoxInProjection: (PROJProjection *) projection{
     return [[self contentsDao] boundingBoxInProjection:projection];
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     return [self boundingBoxInProjection:projection andManual:NO];
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *boundingBox = [self contentsBoundingBoxInProjection:projection];
     
@@ -250,11 +250,11 @@
     return boundingBox;
 }
 
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (PROJProjection *) projection{
     return [self tableBoundingBoxInProjection:projection andManual:NO];
 }
 
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (PROJProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *boundingBox = nil;
     
@@ -279,7 +279,7 @@
     return boundingBox;
 }
 
--(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection{
     GPKGContentsDao *contentsDao = [self contentsDao];
     GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfTable:table inProjection:projection];
     return boundingBox;
@@ -289,7 +289,7 @@
     return [self boundingBoxOfTable:table inProjection:nil];
 }
 
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [self boundingBoxOfTable:table inProjection:projection andManual:NO];
 }
 
@@ -297,7 +297,7 @@
     return [self boundingBoxOfTable:table inProjection:nil andManual:manual];
 }
 
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *tableBoundingBox = [self tableBoundingBoxOfTable:table inProjection:projection andManual:manual];
     
@@ -322,7 +322,7 @@
     return [self tableBoundingBoxOfTable:table inProjection:nil];
 }
 
--(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [self tableBoundingBoxOfTable:table inProjection:projection andManual:NO];
 }
 
@@ -330,7 +330,7 @@
     return [self tableBoundingBoxOfTable:table inProjection:nil andManual:manual];
 }
 
--(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *boundingBox = nil;
     
@@ -356,7 +356,7 @@
     return boundingBox;
 }
 
--(SFPProjection *) contentsProjectionOfTable: (NSString *) table{
+-(PROJProjection *) contentsProjectionOfTable: (NSString *) table{
     GPKGContents *contents = [self contentsOfTable:table];
     if(contents == nil){
         [NSException raise:@"No Contents" format:@"Failed to retrieve contents for table: %@", table];
@@ -364,9 +364,9 @@
     return [[self contentsDao] projection:contents];
 }
 
--(SFPProjection *) projectionOfTable: (NSString *) table{
+-(PROJProjection *) projectionOfTable: (NSString *) table{
     
-    SFPProjection *projection = nil;
+    PROJProjection *projection = nil;
     
     NSString *tableType = [self typeOfTable:table];
     enum GPKGContentsDataType dataType = [GPKGContentsDataTypes fromName:tableType];
@@ -398,7 +398,7 @@
     return projection;
 }
 
--(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual{
+-(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual{
     
     GPKGBoundingBox *boundingBox = nil;
     

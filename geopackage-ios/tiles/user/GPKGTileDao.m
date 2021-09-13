@@ -11,9 +11,8 @@
 #import "GPKGTileMatrix.h"
 #import "GPKGUtils.h"
 #import "GPKGTileDaoUtils.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGTileDao
@@ -88,10 +87,10 @@
     return boundingBox;
 }
 
--(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (PROJProjection *) projection{
     GPKGBoundingBox *boundingBox = [self boundingBoxWithZoomLevel:zoomLevel];
     if(boundingBox != nil){
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
     }
     return boundingBox;
@@ -315,7 +314,7 @@
     
     // Convert the bounding box to wgs84
     GPKGBoundingBox *boundingBox = [self.tileMatrixSet boundingBox];
-    SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:transform];
 
     BOOL isFormat = NO;
@@ -374,7 +373,7 @@
     return [self.tileMatrixSet boundingBox];
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     return [[self tileMatrixSetDao] boundingBoxOfTileMatrixSet:self.tileMatrixSet inProjection:projection];
 }
 

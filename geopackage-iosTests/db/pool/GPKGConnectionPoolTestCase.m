@@ -8,36 +8,36 @@
 
 #import "GPKGConnectionPoolTestCase.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 
 @implementation GPKGConnectionPoolTestCase
 
 - (void)testNestedQuery {
     
-    NSArray * featureTables = [self.geoPackage featureTables];
-    for(NSString * featureTable in featureTables){
+    NSArray *featureTables = [self.geoPackage featureTables];
+    for(NSString *featureTable in featureTables){
         
-        GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
-        GPKGResultSet * featureResults = [featureDao queryForAll];
-        NSNumber * connectionId1 = [featureResults.connection connectionId];
+        GPKGFeatureDao *featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
+        GPKGResultSet *featureResults = [featureDao queryForAll];
+        NSNumber *connectionId1 = [featureResults.connection connectionId];
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+            GPKGFeatureRow *featureRow = [featureDao featureRow:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             NSArray * tileTables = [self.geoPackage tileTables];
-            for(NSString * tileTable in tileTables){
+            for(NSString *tileTable in tileTables){
                 
-                GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
-                GPKGResultSet * tileResults = [tileDao queryForAll];
+                GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
+                GPKGResultSet *tileResults = [tileDao queryForAll];
                 NSNumber * connectionId2 = [tileResults.connection connectionId];
                 
                 [GPKGTestUtils assertFalse:[connectionId1 intValue] == [connectionId2 intValue]];
                 
                 while([tileResults moveToNext]){
                     
-                    GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+                    GPKGTileRow *tileRow = [tileDao tileRow:tileResults];
                     [GPKGTestUtils assertNotNil:tileRow];
                     
                 }

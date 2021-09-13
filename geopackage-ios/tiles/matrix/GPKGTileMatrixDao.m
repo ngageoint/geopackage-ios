@@ -107,11 +107,11 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     GPKGTileMatrix *projectionObject = (GPKGTileMatrix*) object;
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
     GPKGTileMatrixSet * tileMatrixSet = [self tileMatrixSet:projectionObject];
-    SFPProjection * projection = [tileMatrixSetDao projection:tileMatrixSet];
+    PROJProjection * projection = [tileMatrixSetDao projection:tileMatrixSet];
     return projection;
 }
 

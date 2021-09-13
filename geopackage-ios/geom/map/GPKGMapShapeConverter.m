@@ -8,8 +8,7 @@
 
 #import "GPKGMapShapeConverter.h"
 #import "GPKGMapPoint.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGUtils.h"
 #import "GPKGPolygonOrientations.h"
 #import "GPKGGeometryUtils.h"
@@ -17,10 +16,10 @@
 
 @interface GPKGMapShapeConverter ()
 
-@property (nonatomic, strong) SFPProjectionTransform *toWebMercator;
-@property (nonatomic, strong) SFPProjectionTransform *toWgs84;
-@property (nonatomic, strong) SFPProjectionTransform *fromWgs84;
-@property (nonatomic, strong) SFPProjectionTransform *fromWebMercator;
+@property (nonatomic, strong) SFPGeometryTransform *toWebMercator;
+@property (nonatomic, strong) SFPGeometryTransform *toWgs84;
+@property (nonatomic, strong) SFPGeometryTransform *fromWgs84;
+@property (nonatomic, strong) SFPGeometryTransform *fromWebMercator;
 
 @end
 
@@ -30,17 +29,17 @@
     return [self initWithProjection:nil];
 }
 
--(instancetype) initWithProjection: (SFPProjection *) projection{
+-(instancetype) initWithProjection: (PROJProjection *) projection{
     self = [super init];
     if(self != nil){
         self.projection = projection;
         if(projection != nil){
-            self.toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-            SFPProjection * webMercator = self.toWebMercator.toProjection;
-            self.toWgs84 =[[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-            SFPProjection * wgs84 = self.toWgs84.toProjection;
-            self.fromWgs84 = [[SFPProjectionTransform alloc] initWithFromProjection:wgs84 andToProjection:webMercator];
-            self.fromWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:webMercator andToProjection:projection];
+            self.toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+            PROJProjection * webMercator = self.toWebMercator.toProjection;
+            self.toWgs84 =[SFPGeometryTransform transformFromProjection:webMercator andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+            PROJProjection * wgs84 = self.toWgs84.toProjection;
+            self.fromWgs84 = [SFPGeometryTransform transformFromProjection:wgs84 andToProjection:webMercator];
+            self.fromWebMercator = [SFPGeometryTransform transformFromProjection:webMercator andToProjection:projection];
         }
         self.exteriorOrientation = GPKG_PO_COUNTERCLOCKWISE;
         self.holeOrientation = GPKG_PO_CLOCKWISE;
@@ -55,16 +54,16 @@
 
 -(SFPoint *) toWgs84WithPoint: (SFPoint *) point{
     if(self.projection != nil){
-        point = [self.toWebMercator transformWithPoint:point];
-        point = [self.toWgs84 transformWithPoint:point];
+        point = [self.toWebMercator transformPoint:point];
+        point = [self.toWgs84 transformPoint:point];
     }
     return point;
 }
 
 -(SFPoint *) toProjectionWithPoint: (SFPoint *) point{
     if(self.projection != nil){
-        point = [self.fromWgs84 transformWithPoint:point];
-        point = [self.fromWebMercator transformWithPoint:point];
+        point = [self.fromWgs84 transformPoint:point];
+        point = [self.fromWebMercator transformPoint:point];
     }
     return point;
 }
@@ -436,16 +435,16 @@
     if(self.simplifyTolerance != nil){
         
         // Reproject to web mercator if not in meters
-        if(self.projection != nil && ![self.projection isUnit:SFP_UNIT_METERS]){
-            points = [self.toWebMercator transformWithPoints:points];
+        if(self.projection != nil && ![self.projection isUnit:PROJ_UNIT_METERS]){
+            points = [self.toWebMercator transformPoints:points];
         }
         
         // Simplify the points
         simplifiedPoints = [SFGeometryUtils simplifyPoints:points withTolerance:[self.simplifyTolerance doubleValue]];
         
         // Reproject back to the original projection
-        if(self.projection != nil && ![self.projection isUnit:SFP_UNIT_METERS]){
-            simplifiedPoints = [self.fromWebMercator transformWithPoints:simplifiedPoints];
+        if(self.projection != nil && ![self.projection isUnit:PROJ_UNIT_METERS]){
+            simplifiedPoints = [self.fromWebMercator transformPoints:simplifiedPoints];
         }
     }else{
         simplifiedPoints = points;

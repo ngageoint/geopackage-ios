@@ -124,8 +124,8 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
-    SFPProjection *projection = nil;
+-(PROJProjection *) projection: (NSObject *) object{
+    PROJProjection *projection = nil;
     GPKGContents *projectionObject = (GPKGContents*) object;
     GPKGSpatialReferenceSystem *srs = [self srs:projectionObject];
     if(srs != nil){
@@ -394,7 +394,7 @@
     return results;
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     
     GPKGBoundingBox *boundingBox = nil;
     
@@ -418,7 +418,7 @@
     return [self boundingBoxOfTable:table inProjection:nil];
 }
 
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection{
 
     GPKGContents *contents = (GPKGContents *)[self queryForIdObject:table];
     if(contents == nil){
@@ -429,10 +429,10 @@
     return boundingBox;
 }
 
--(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (PROJProjection *) projection{
     GPKGBoundingBox *boundingBox = [contents boundingBox];
     if (boundingBox != nil && projection != nil) {
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self projection:contents] andToProjection:projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:[self projection:contents] andToProjection:projection];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }

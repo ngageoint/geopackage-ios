@@ -15,7 +15,7 @@
 #import "GPKGMultiPolylinePoints.h"
 #import "GPKGMultiPolygonPoints.h"
 #import "GPKGMapPoint.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 
 @implementation GPKGMapShape
 

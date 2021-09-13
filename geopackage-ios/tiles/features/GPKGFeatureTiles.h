@@ -375,7 +375,7 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
  * @param projection bounding box projection
  * @return bounding box
  */
--(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
 
 /**
  * Create an expanded bounding box to handle features outside the tile that

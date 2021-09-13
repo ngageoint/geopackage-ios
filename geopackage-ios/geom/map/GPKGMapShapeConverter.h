@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 #import "SFPoint.h"
 #import "GPKGMapPoint.h"
 #import "SFLineString.h"
@@ -42,7 +42,7 @@
 /**
  *  Geometry shape projection
  */
-@property (nonatomic, strong) SFPProjection *projection;
+@property (nonatomic, strong) PROJProjection *projection;
 
 /**
  * Convert polygon exteriors to specified orientation
@@ -80,7 +80,7 @@
  *
  *  @return new map shape converter
  */
--(instancetype) initWithProjection: (SFPProjection *) projection;
+-(instancetype) initWithProjection: (PROJProjection *) projection;
 
 /**
  *  Set the simplify tolerance in meters to simplify lines and polygons to similar curves with fewer points

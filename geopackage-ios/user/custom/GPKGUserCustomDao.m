@@ -65,7 +65,7 @@
     return nil;
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     [NSException raise:@"Not Supported" format:@"Bounding Box not supported for User Custom"];
     return nil;
 }

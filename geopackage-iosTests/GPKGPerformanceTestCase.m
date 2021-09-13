@@ -11,7 +11,7 @@
 #import "SFPolygon.h"
 #import "GPKGGeoPackageFactory.h"
 #import "SFGeometryEnvelopeBuilder.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTestUtils.h"
 
 @implementation GPKGPerformanceTestCase

@@ -9,8 +9,8 @@
 #import "GPKGRTreeIndexExtensionUtils.h"
 #import "GPKGRTreeIndexExtension.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionConstants.h"
+#import "PROJProjectionFactory.h"
 
 @implementation GPKGRTreeIndexExtensionUtils
 
@@ -99,15 +99,15 @@
         [results close];
         [GPKGTestUtils assertEqualIntWithValue:envelopeCount andValue2:bboxCount];
         
-        SFPProjection *projection = featureDao.projection;
+        PROJProjection *projection = featureDao.projection;
         if(![[projection authority] isEqualToString:PROJ_AUTHORITY_NONE]){
-            SFPProjection *queryProjection = nil;
+            PROJProjection *queryProjection = nil;
             if([projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){
-                queryProjection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+                queryProjection = [PROJProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
             }else{
-                queryProjection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WEB_MERCATOR];
+                queryProjection = [PROJProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WEB_MERCATOR];
             }
-            SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:queryProjection];
+            SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:queryProjection];
             
             GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:transform];
             [tableDao setTolerance:.0000000000001];

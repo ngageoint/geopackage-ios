@@ -389,7 +389,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) contentsBoundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) contentsBoundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for all tables in the provided projection, including
@@ -400,7 +400,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for all tables in the provided projection, including
@@ -413,7 +413,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection andManual: (BOOL) manual;
 
 /**
  * Get the bounding box for all tables in the provided projection, using
@@ -424,7 +424,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for all tables in the provided projection, using
@@ -437,7 +437,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) tableBoundingBoxInProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+-(GPKGBoundingBox *) tableBoundingBoxInProjection: (PROJProjection *) projection andManual: (BOOL) manual;
 
 /**
  * Get the bounding box from the contents for the table in the table's
@@ -461,7 +461,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) contentsBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for the table in the table's projection, including
@@ -485,7 +485,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for the table in the table's projection, including
@@ -513,7 +513,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual;
 
 /**
  * Get the bounding box for the table in the table's projection, using only
@@ -537,7 +537,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for the table in the table's projection, using only
@@ -565,7 +565,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+-(GPKGBoundingBox *) tableBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual;
 
 /**
  * Get the projection of the table contents
@@ -574,7 +574,7 @@
  *            table name
  * @return projection
  */
--(SFPProjection *) contentsProjectionOfTable: (NSString *) table;
+-(PROJProjection *) contentsProjectionOfTable: (NSString *) table;
 
 /**
  * Get the projection of the table
@@ -583,7 +583,7 @@
  *            table name
  * @return projection
  */
--(SFPProjection *) projectionOfTable: (NSString *) table;
+-(PROJProjection *) projectionOfTable: (NSString *) table;
 
 /**
  * Get the feature table bounding box
@@ -596,7 +596,7 @@
  *            true to manually query if not indexed
  * @return bounding box
  */
--(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection andManual: (BOOL) manual;
+-(GPKGBoundingBox *) featureBoundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection andManual: (BOOL) manual;
 
 /**
  *  Get a Spatial Reference System DAO

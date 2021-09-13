@@ -158,7 +158,7 @@
  *
  * @return srs
  */
--(GPKGSpatialReferenceSystem *) srsWithProjection: (SFPProjection *) projection;
+-(GPKGSpatialReferenceSystem *) srsWithProjection: (PROJProjection *) projection;
 
 /**
  *  Query for the organization coordsys id
@@ -180,7 +180,7 @@
  *
  *  @return srs
  */
--(GPKGSpatialReferenceSystem *) queryForProjection: (SFPProjection *) projection;
+-(GPKGSpatialReferenceSystem *) queryForProjection: (PROJProjection *) projection;
 
 /**
  *  Delete the Spatial Reference System, cascading

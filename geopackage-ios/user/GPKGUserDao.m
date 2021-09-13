@@ -8,8 +8,7 @@
 
 #import "GPKGUserDao.h"
 #import "GPKGUserRow.h"
-#import "SFPProjectionTransform.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGSqlUtils.h"
 #import "GPKGAlterTable.h"
@@ -73,7 +72,7 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     return _projection;
 }
 
@@ -160,13 +159,13 @@
     return nil;
 }
 
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
--(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
-    SFPProjectionTransform *projectionTransform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:self.projection];
+-(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
+    SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:self.projection];
     GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:projectionTransform];
     return projectedBoundingBox;
 }
@@ -183,10 +182,10 @@
     GPKGBoundingBox * boundingBox = [self boundingBox];
     if(boundingBox != nil){
         
-        if([self.projection isUnit:SFP_UNIT_DEGREES]){
+        if([self.projection isUnit:PROJ_UNIT_DEGREES]){
             boundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:boundingBox];
         }
-        SFPProjectionTransform * webMercatorTransform = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        SFPGeometryTransform * webMercatorTransform = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         GPKGBoundingBox * webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
         zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }

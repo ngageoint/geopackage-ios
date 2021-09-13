@@ -106,11 +106,11 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     GPKGDataColumnConstraints *projectionObject = (GPKGDataColumnConstraints*) object;
     GPKGResultSet *dataColumnResults = [self dataColumns:projectionObject];
     GPKGDataColumnsDao *dataColumnsDao = [self dataColumnsDao];
-    SFPProjection * projection = nil;
+    PROJProjection * projection = nil;
     if([dataColumnResults moveToNext]){
         GPKGDataColumns *dataColumns = (GPKGDataColumns *)[dataColumnsDao object:dataColumnResults];
         projection = [dataColumnsDao projection:dataColumns];

@@ -7,11 +7,10 @@
 //
 
 #import "GPKGCoverageDataTestUtils.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGTestUtils.h"
 #import "GPKGUtils.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGCoverageDataTestUtils
@@ -34,16 +33,16 @@
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
     
     NSNumber * epsg = srs.organizationCoordsysId;
-    SFPProjection * projection = [srs projection];
+    PROJProjection * projection = [srs projection];
     int requestEpsg = -1;
     if ([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM) {
         requestEpsg = PROJ_EPSG_WEB_MERCATOR;
     } else {
         requestEpsg = PROJ_EPSG_WORLD_GEODETIC_SYSTEM;
     }
-    SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:requestEpsg];
-    SFPProjectionTransform * coverageToRequest = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
-    GPKGBoundingBox * projectedBoundingBox = [boundingBox transform:coverageToRequest];
+    PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:requestEpsg];
+    SFPGeometryTransform *coverageToRequest = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
+    GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:coverageToRequest];
     
     // Get a random coordinate
     double latDistance = [projectedBoundingBox.maxLatitude doubleValue] - [projectedBoundingBox.minLatitude doubleValue];
@@ -222,7 +221,7 @@
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
-        SFPProjection * requestProjection = [SFPProjectionFactory  projectionWithEpsgInt:epsg];
+        PROJProjection * requestProjection = [PROJProjectionFactory  projectionWithEpsgInt:epsg];
         
         // Test getting the coverage data value of a single coordinate
         GPKGCoverageData * coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];
@@ -245,7 +244,7 @@
         GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:coverageDataTable];
         GPKGTileDao * tileDao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
-        SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:epsg];
+        PROJProjection * requestProjection = [PROJProjectionFactory projectionWithEpsgInt:epsg];
         
         // Test getting the coverage data value of a single coordinate
         GPKGCoverageData * coverageData = [GPKGCoverageData coverageDataWithGeoPackage:geoPackage andTileDao:tileDao andProjection:requestProjection];

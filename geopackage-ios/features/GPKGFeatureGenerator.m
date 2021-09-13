@@ -7,8 +7,8 @@
 //
 
 #import "GPKGFeatureGenerator.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGFeatureTableReader.h"
 #import "GPKGFeatureTableMetadata.h"
 
@@ -48,15 +48,15 @@
 
 @implementation GPKGFeatureGenerator
 
-static SFPProjection *EPSG_WGS84 = nil;
+static PROJProjection *EPSG_WGS84 = nil;
 
 +(void) initialize{
     if(EPSG_WGS84 == nil){
-        EPSG_WGS84 = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        EPSG_WGS84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     }
 }
 
-+(SFPProjection *) epsgWGS84{
++(PROJProjection *) epsgWGS84{
     return EPSG_WGS84;
 }
 
@@ -132,13 +132,13 @@ static SFPProjection *EPSG_WGS84 = nil;
 -(void) createSrs{
     
     GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
-    SFPProjection *srsProjection = [self srsProjection];
+    PROJProjection *srsProjection = [self srsProjection];
     self.srs = [srsDao srsWithProjection:srsProjection];
     
 }
 
--(SFPProjection *) srsProjection{
-    SFPProjection *srsProjection = self.projection;
+-(PROJProjection *) srsProjection{
+    PROJProjection *srsProjection = self.projection;
     if (srsProjection == nil) {
         srsProjection = EPSG_WGS84;
     }
@@ -339,21 +339,21 @@ static SFPProjection *EPSG_WGS84 = nil;
     return value;
 }
 
--(void) addProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code toProjections: (SFPProjections *) projections{
+-(void) addProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code toProjections: (PROJProjections *) projections{
     
-    SFPProjection *projection = [self createProjectionWithAuthority:authority andCode:code];
+    PROJProjection *projection = [self createProjectionWithAuthority:authority andCode:code];
     
     if (projection != nil) {
         [projections addProjection:projection];
     }
 }
 
--(SFPProjection *) createProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code{
+-(PROJProjection *) createProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code{
     
-    SFPProjection *projection = nil;
+    PROJProjection *projection = nil;
     
     @try {
-        projection = [SFPProjectionFactory projectionWithAuthority:authority andCode:code];
+        projection = [PROJProjectionFactory projectionWithAuthority:authority andCode:code];
     } @catch (NSException *exception) {
         NSLog(@"Unable to create projection. Authority: %@, Code: %@", authority, code);
     }

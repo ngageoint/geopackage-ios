@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGTileGrid.h"
 
@@ -70,7 +70,7 @@
  *
  *  @return projection
  */
--(SFPProjection *) projection;
+-(PROJProjection *) projection;
 
 /**
  *  Get the world tile grid of the optimization projection

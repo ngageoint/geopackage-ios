@@ -28,7 +28,7 @@
  *
  *  @return new instance
  */
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (SFPProjection *) requestProjection;
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andWidth: (NSNumber *) width andHeight: (NSNumber *) height andProjection: (PROJProjection *) requestProjection;
 
 /**
  *  Initializer, tile tables tile size and projection
@@ -58,7 +58,7 @@
  *
  *  @return new instance
  */
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (SFPProjection *) requestProjection;
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao andProjection: (PROJProjection *) requestProjection;
 
 /**
  *  Get the tile DAO
@@ -93,14 +93,14 @@
  *
  *  @return request projection
  */
--(SFPProjection *) requestProjection;
+-(PROJProjection *) requestProjection;
 
 /**
  *  Get the tiles projection
  *
  *  @return tiles projection
  */
--(SFPProjection *) tilesProjection;
+-(PROJProjection *) tilesProjection;
 
 /**
  *  Get the tile set bounding box

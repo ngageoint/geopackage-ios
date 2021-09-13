@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) NSString *table;
 
-@property (nonatomic, strong) SFPProjection *projection;
+@property (nonatomic, strong) PROJProjection *projection;
 
 @property (nonatomic, strong) GPKGTileDao *reprojectTileDao;
 
@@ -37,19 +37,19 @@
 
 @implementation GPKGTileReprojection
 
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [self createWithGeoPackage:geoPackage andTable:table toTable:table inProjection:projection];
 }
 
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection{
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection{
     return [self createWithGeoPackage:geoPackage andTable:table toGeoPackage:geoPackage andTable:reprojectTable inProjection:projection];
 }
 
-+(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection{
++(GPKGTileReprojection *) createWithGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection{
     return [self createWithTileDao:[geoPackage tileDaoWithTableName:table] toGeoPackage:reprojectGeoPackage andTable:reprojectTable inProjection:projection];
 }
 
-+(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
++(GPKGTileReprojection *) createWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [[GPKGTileReprojection alloc] initWithTileDao:tileDao toGeoPackage:geoPackage andTable:table inProjection:projection];
 }
 
@@ -87,19 +87,19 @@
     return tileReprojection;
 }
 
-+(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
++(int) reprojectGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [[self createWithGeoPackage:geoPackage andTable:table inProjection:projection] reproject];
 }
 
-+(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection{
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection{
     return [[self createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:projection] reproject];
 }
 
-+(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (SFPProjection *) projection{
++(int) reprojectFromGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table toGeoPackage: (GPKGGeoPackage *) reprojectGeoPackage andTable: (NSString *) reprojectTable inProjection: (PROJProjection *) projection{
     return [[self createWithGeoPackage:geoPackage andTable:table toGeoPackage:reprojectGeoPackage andTable:reprojectTable inProjection:projection] reproject];
 }
 
-+(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
++(int) reprojectFromTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection{
     return [[self createWithTileDao:tileDao toGeoPackage:geoPackage andTable:table inProjection:projection] reproject];
 }
 
@@ -135,7 +135,7 @@
     return [[self createWithTileDao:tileDao toGeoPackage:geoPackage andTable:table andOptimize:optimize] reproject];
 }
 
--(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (SFPProjection *) projection{
+-(instancetype) initWithTileDao: (GPKGTileDao *) tileDao toGeoPackage: (GPKGGeoPackage *) geoPackage andTable: (NSString *) table inProjection: (PROJProjection *) projection{
     self = [super init];
     if(self != nil){
         _overwrite = NO;
@@ -579,13 +579,13 @@
         _optimizeZoom = 0;
         _optimizeTileGrid = [_optimize tileGrid];
         boundingBox = [_optimize boundingBox];
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[_optimize projection] andToProjection:_projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:[_optimize projection] andToProjection:_projection];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }
     }else{
         _optimizeZoom = [self.tileDao mapZoomWithTileMatrix:[_tileDao tileMatrixAtMinZoom]];
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:_projection andToProjection:[_optimize projection]];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:_projection andToProjection:[_optimize projection]];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }

@@ -14,10 +14,10 @@
 #import "GPKGMapShapeConverter.h"
 #import "GPKGOverlayFactory.h"
 #import "GPKGFeatureOverlay.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "GPKGUrlTileGenerator.h"
 #import "GPKGFeatureTileGenerator.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGManagerTestCase.h"
 
 @implementation GPKGReadmeTestCase
@@ -115,7 +115,7 @@
     [mapView addOverlay:featureOverlay];
 
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] init];
-    SFPProjection *projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
 
     // URL Tile Generator (generate tiles from a URL)
     GPKGTileGenerator *urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];

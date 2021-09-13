@@ -9,8 +9,8 @@
 #import "GPKGTileReprojectionTestUtils.h"
 #import "GPKGTileReprojection.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGWebMercatorOptimize.h"
 #import "GPKGPlatteCarreOptimize.h"
@@ -23,8 +23,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
@@ -57,8 +57,8 @@
     
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGBoundingBox *boundingBox = [geoPackage boundingBoxOfTable:table inProjection:reprojectProjection];
         
@@ -90,8 +90,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
@@ -123,8 +123,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         NSDictionary<NSNumber *, NSNumber *> *counts = [self zoomCountsWithDao:tileDao];
@@ -189,8 +189,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
@@ -270,8 +270,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
@@ -332,8 +332,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
@@ -401,8 +401,8 @@
     for(NSString *table in [self randomTileTablesWithGeoPackage:geoPackage]){
         
         NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-        SFPProjection *projection = [geoPackage projectionOfTable:table];
-        SFPProjection *reprojectProjection = [self alternateProjection:projection];
+        PROJProjection *projection = [geoPackage projectionOfTable:table];
+        PROJProjection *reprojectProjection = [self alternateProjection:projection];
         
         GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:table];
         int count = [tileDao count];
@@ -475,10 +475,10 @@
             GPKGBoundingBox *optimizeBoundingBox = tileBoundingBox;
             GPKGTileGrid *optimizeTileGrid = nil;
             GPKGTileGrid *localTileGrid = nil;
-            SFPProjection *projection = reprojectTileDao.projection;
+            PROJProjection *projection = reprojectTileDao.projection;
             
             if(webMercator){
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+                SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
                 if(![transform isSameProjection]){
                     optimizeBoundingBox = [optimizeBoundingBox transform:transform];
                 }
@@ -506,7 +506,7 @@
                     optimizeBoundingBox = [optimizeBoundingBox transform:transform];
                 }
             }else{
-                SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+                SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
                 if(![transform isSameProjection]){
                     optimizeBoundingBox = [optimizeBoundingBox transform:transform];
                 }
@@ -562,7 +562,7 @@
         }
         int tiles = [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:table toTable:reprojectTable andOptimize:optimize];
         [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
-        [GPKGTestUtils assertTrue:[[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR] isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        [GPKGTestUtils assertTrue:[[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR] isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
         for(NSNumber *zoomLevel in reprojectTileDao.zoomLevels){
             int zoom = [zoomLevel intValue];
@@ -606,7 +606,7 @@
         }
         int tiles = [GPKGTileReprojection reprojectFromGeoPackage:geoPackage andTable:table toTable:reprojectTable andOptimize:optimize];
         [GPKGTestUtils assertEqualBoolWithValue:count > 0 andValue2:tiles > 0];
-        [GPKGTestUtils assertTrue:[[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM] isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
+        [GPKGTestUtils assertTrue:[[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM] isEqualToProjection:[geoPackage projectionOfTable:reprojectTable]]];
         GPKGTileDao *reprojectTileDao = [geoPackage tileDaoWithTableName:reprojectTable];
         for(NSNumber *zoomLevel in reprojectTileDao.zoomLevels){
             int zoom = [zoomLevel intValue];
@@ -642,8 +642,8 @@
     NSString *table = [[self randomTileTablesWithGeoPackage:geoPackage] firstObject];
     
     NSString *reprojectTable = [NSString stringWithFormat:@"%@_reproject", table];
-    SFPProjection *projection = [geoPackage projectionOfTable:table];
-    SFPProjection *reprojectProjection = [self alternateProjection:projection];
+    PROJProjection *projection = [geoPackage projectionOfTable:table];
+    PROJProjection *reprojectProjection = [self alternateProjection:projection];
     
     GPKGTileReprojection *tileReprojection = [GPKGTileReprojection createWithGeoPackage:geoPackage andTable:table toTable:reprojectTable inProjection:reprojectProjection];
     
@@ -696,12 +696,12 @@
     return tileTables;
 }
 
-+(SFPProjection *) alternateProjection: (SFPProjection *) projection{
-    SFPProjection *alternate = nil;
++(PROJProjection *) alternateProjection: (PROJProjection *) projection{
+    PROJProjection *alternate = nil;
     if([projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){
-        alternate = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        alternate = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     }else{
-        alternate = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        alternate = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
     }
     return alternate;
 }

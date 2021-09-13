@@ -9,8 +9,8 @@
 #import "GPKGGeoPackageTestUtils.h"
 #import "GPKGUtils.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGGeoPackageFactory.h"
 #import "GPKGCoverageData.h"
@@ -213,7 +213,7 @@
 
 +(void)testBounds: (GPKGGeoPackage *) geoPackage{
     
-    SFPProjection *projection = [SFPProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithAuthority:PROJ_AUTHORITY_EPSG andIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] queryForOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     

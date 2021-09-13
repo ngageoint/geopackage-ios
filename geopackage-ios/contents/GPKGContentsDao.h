@@ -263,7 +263,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box for the table in the table's projection
@@ -285,7 +285,7 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxOfTable: (NSString *) table inProjection: (PROJProjection *) projection;
 
 /**
  * Get a bounding box in the provided projection
@@ -297,6 +297,6 @@
  *
  * @return bounding box
  */
--(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxOfContents: (GPKGContents *) contents inProjection: (PROJProjection *) projection;
 
 @end

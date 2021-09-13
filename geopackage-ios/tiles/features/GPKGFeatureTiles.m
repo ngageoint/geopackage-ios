@@ -11,15 +11,14 @@
 #import "GPKGTileBoundingBoxUtils.h"
 @import MapKit;
 #import "SFPoint.h"
-#import "SFPProjectionTransform.h"
 #import "GPKGMapPoint.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGMapShapeConverter.h"
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
-#import "SFPProjectionFactory.h"
+#import "PROJProjectionFactory.h"
 #import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
@@ -28,7 +27,7 @@
 @interface GPKGFeatureTiles ()
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
-@property (nonatomic, strong) SFPProjectionTransform *wgs84ToWebMercatorTransform;
+@property (nonatomic, strong) SFPGeometryTransform *wgs84ToWebMercatorTransform;
 @property (nonatomic) GPKGIconCache *iconCache;
 @property (nonatomic, strong) NSCache<NSNumber *, GPKGBoundingBox *> *boundingBoxCache;
 @property (nonatomic, strong) NSCache<NSString *, GPKGMapShape *> *mapShapeCache;
@@ -97,7 +96,7 @@
         
         self.fillPolygon = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_TILES andProperty:GPKG_PROP_FEATURE_POLYGON_FILL];
         
-        self.wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        self.wgs84ToWebMercatorTransform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         
         if (geoPackage != nil) {
             
@@ -354,16 +353,16 @@
     GPKGBoundingBox *expandedQueryBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox inProjection:[SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     return results;
 }
 
--(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) expandBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
     
     GPKGBoundingBox *expandedBoundingBox = boundingBox;
     
-    SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     if(![toWebMercator isSameProjection]){
         expandedBoundingBox = [expandedBoundingBox transform:toWebMercator];
     }
@@ -371,7 +370,7 @@
     expandedBoundingBox = [self expandBoundingBox:expandedBoundingBox];
     
     if(![toWebMercator isSameProjection]){
-        SFPProjectionTransform *fromWebMercator = [toWebMercator inverseTransformation];
+        SFPGeometryTransform *fromWebMercator = [toWebMercator inverseTransformation];
         expandedBoundingBox = [expandedBoundingBox transform:fromWebMercator];
     }
     
@@ -922,7 +921,7 @@
 }
 
 -(SFPoint *) transformPointWithMapPoint: (GPKGMapPoint *) point{
-    NSArray * lonLat = [self.wgs84ToWebMercatorTransform transformWithX:point.coordinate.longitude andY:point.coordinate.latitude];
+    NSArray *lonLat = [self.wgs84ToWebMercatorTransform transformX:point.coordinate.longitude andY:point.coordinate.latitude];
     return [[SFPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
 }
 

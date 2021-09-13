@@ -40,7 +40,7 @@
 /**
  *  Tiles projection
  */
-@property (nonatomic, strong) SFPProjection * projection;
+@property (nonatomic, strong) PROJProjection * projection;
 
 /**
  *  Total tile count
@@ -126,7 +126,7 @@
  *
  *  @return new tile generator
  */
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection;
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
 
 /**
  * Get the bounding box, possibly expanded for the zoom level

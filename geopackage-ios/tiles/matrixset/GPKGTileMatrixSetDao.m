@@ -95,10 +95,10 @@
     return value;
 }
 
--(SFPProjection *) projection: (NSObject *) object{
+-(PROJProjection *) projection: (NSObject *) object{
     GPKGTileMatrixSet *projectionObject = (GPKGTileMatrixSet*) object;
     GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
-    SFPProjection *projection = [srs projection];
+    PROJProjection *projection = [srs projection];
     return projection;
 }
 
@@ -125,10 +125,10 @@
     return contents;
 }
 
--(GPKGBoundingBox *) boundingBoxOfTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet inProjection: (SFPProjection *) projection{
+-(GPKGBoundingBox *) boundingBoxOfTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet inProjection: (PROJProjection *) projection{
     GPKGBoundingBox *boundingBox = [tileMatrixSet boundingBox];
     if (projection != nil) {
-        SFPProjectionTransform *transform = [[SFPProjectionTransform alloc] initWithFromProjection:[self projection:tileMatrixSet] andToProjection:projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:[self projection:tileMatrixSet] andToProjection:projection];
         if(![transform isSameProjection]){
             boundingBox = [boundingBox transform:transform];
         }

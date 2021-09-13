@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SFPProjection.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjection.h"
+#import "SFPGeometryTransform.h"
 
 /**
  *  Spatial Reference System table constants
@@ -71,16 +71,16 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
  *
  * @return projection
  */
--(SFPProjection *) projection;
+-(PROJProjection *) projection;
 
 /**
- * Get the projection transform from the provided projection to the Spatial
+ * Get the geometry transform from the provided projection to the Spatial
  * Reference System projection
  *
  * @param projection
  *            from projection
  * @return projection transform
  */
--(SFPProjectionTransform *) transformationFromProjection: (SFPProjection *) projection;
+-(SFPGeometryTransform *) transformationFromProjection: (PROJProjection *) projection;
 
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GPKGBoundingBox.h"
 #import "GPKGTileGrid.h"
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 #import "GPKGTileMatrix.h"
 #import "SFPoint.h"
 
@@ -230,7 +230,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
  * Get the Projected tile bounding box from the XYZ tile tileGrid and zoom level
@@ -264,7 +264,7 @@
  *
  *  @return bounding box
  */
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
  *  Get the tile grid for the location specified as WGS84
@@ -285,7 +285,7 @@
  *
  *  @return tile grid
  */
-+(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection;
++(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection;
 
 /**
  *  Get the tile grid that includes the entire tile bounding box

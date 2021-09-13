@@ -7,9 +7,9 @@
 //
 
 #import "GPKGTileBoundingBoxUtils.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "SFPGeometryTransform.h"
 #import "GPKGGeoPackageConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
@@ -180,19 +180,19 @@
     GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(code != nil){
-        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;
 }
 
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(projection != nil){
-        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
     }
     
@@ -208,19 +208,19 @@
     GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(code != nil){
-        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
         boundingBox = [boundingBox transform:transform];
     }
     
     return boundingBox;
 }
 
-+(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (SFPProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
++(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
     GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(projection != nil){
-        SFPProjectionTransform * transform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
+        SFPGeometryTransform* transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
     }
     
@@ -228,13 +228,13 @@
 }
 
 +(GPKGTileGrid *) tileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom{
-    SFPProjection * projection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection * projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     return [GPKGTileBoundingBoxUtils tileGridFromPoint:point andZoom:zoom andProjection:projection];
 }
 
-+(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (SFPProjection *) projection{
-    SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    SFPoint * webMercatorPoint = [toWebMercator transformWithPoint:point];
++(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
+    SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    SFPoint * webMercatorPoint = [toWebMercator transformPoint:point];
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:webMercatorPoint.x andMinLatitude:webMercatorPoint.y andMaxLongitude:webMercatorPoint.x andMaxLatitude:webMercatorPoint.y];
     return [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
 }
@@ -273,9 +273,9 @@
     SFPoint * lowerLeftPoint = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:boundingBox.minLongitude andY:[[NSDecimalNumber alloc] initWithDouble:minLatitude]];
     SFPoint * upperRightPoint = [[SFPoint alloc] initWithHasZ:NO andHasM:NO andX:boundingBox.maxLongitude andY:[[NSDecimalNumber alloc] initWithDouble:maxLatitude]];
     
-    SFPProjectionTransform * toWebMercator = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    lowerLeftPoint = [toWebMercator transformWithPoint:lowerLeftPoint];
-    upperRightPoint = [toWebMercator transformWithPoint:upperRightPoint];
+    SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    lowerLeftPoint = [toWebMercator transformPoint:lowerLeftPoint];
+    upperRightPoint = [toWebMercator transformPoint:upperRightPoint];
     
     GPKGBoundingBox * mercatorBox = [[GPKGBoundingBox alloc] initWithMinLongitude:lowerLeftPoint.x andMinLatitude:lowerLeftPoint.y andMaxLongitude:upperRightPoint.x andMaxLatitude:upperRightPoint.y];
     

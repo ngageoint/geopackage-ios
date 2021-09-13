@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "GPKGGeoPackage.h"
-#import "SFPProjection.h"
+#import "PROJProjection.h"
 #import "GPKGProgress.h"
-#import "SFPProjections.h"
+#import "PROJProjections.h"
 
 /**
  * Feature Generator
@@ -25,12 +25,12 @@
 /**
  * Bounding Box projection
  */
-@property (nonatomic, strong) SFPProjection *boundingBoxProjection;
+@property (nonatomic, strong) PROJProjection *boundingBoxProjection;
 
 /**
  * Features projection
  */
-@property (nonatomic, strong) SFPProjection *projection;
+@property (nonatomic, strong) PROJProjection *projection;
 
 /**
  * Number of rows to save in a single transaction
@@ -47,7 +47,7 @@
  *
  *  @return projection
  */
-+(SFPProjection *) epsgWGS84;
++(PROJProjection *) epsgWGS84;
 
 /**
  *  Initialize with number range
@@ -141,7 +141,7 @@
  *
  * @return projection
  */
--(SFPProjection *) srsProjection;
+-(PROJProjection *) srsProjection;
 
 /**
  * Create the geometry data
@@ -162,7 +162,7 @@
  * @param code
  *            code
  */
--(void) addProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code toProjections: (SFPProjections *) projections;
+-(void) addProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code toProjections: (PROJProjections *) projections;
 
 /**
  * Create a projection
@@ -173,6 +173,6 @@
  *            code
  * @return projection
  */
--(SFPProjection *) createProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code;
+-(PROJProjection *) createProjectionWithAuthority: (NSString *) authority andCode: (NSString *) code;
 
 @end

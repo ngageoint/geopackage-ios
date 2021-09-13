@@ -8,9 +8,8 @@
 
 #import "GPKGCoverageDataTiffImportTest.h"
 #import "GPKGCoverageDataTiffTestUtils.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
-#import "SFPProjectionTransform.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTestUtils.h"
 #import "GPKGCoverageDataTiff.h"
 #import "GPKGTileBoundingBoxUtils.h"
@@ -102,12 +101,12 @@ static BOOL allowNulls = YES;
         [log appendFormat:@"Max Longitude: %f\n\n", [boundingBox.maxLongitude doubleValue]];
         NSLog(log, nil);
         
-        GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage spatialReferenceSystemDao];
-        NSNumber * srsId = tileMatrixSet.srsId;
+        GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
+        NSNumber *srsId = tileMatrixSet.srsId;
         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
-        SFPProjection * projection = [srs projection];
-        SFPProjection * requestProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        SFPProjectionTransform * coverageToRequest = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:requestProjection];
+        PROJProjection *projection = [srs projection];
+        PROJProjection *requestProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        SFPGeometryTransform *coverageToRequest = [SFPGeometryTransform transformFromProjection:projection andToProjection:requestProjection];
         projectedBoundingBox = [boundingBox transform:coverageToRequest];
     }
     
@@ -152,11 +151,11 @@ static BOOL allowNulls = YES;
     
     GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
-    SFPProjection * projection = [SFPProjectionFactory projectionWithEpsgInt:requestEpsg];
-    SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:requestEpsg];
+    PROJProjection *printProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPGeometryTransform *wgs84Transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:printProjection];
     
-    NSMutableString * log = [NSMutableString string];
+    NSMutableString *log = [NSMutableString string];
     [log appendString:@"\n\nBounds Test\n\n"];
     [log appendString:@"REQUEST\n\n"];
     [log appendFormat:@"   Min Lat: %f\n", [boundingBox.minLatitude doubleValue]];
@@ -167,7 +166,7 @@ static BOOL allowNulls = YES;
     [log appendFormat:@"   Result Height: %d\n", height];
     
     [log appendString:@"\n\nWGS84 REQUEST\n\n"];
-    GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:wgs84Transform];
+    GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:wgs84Transform];
     [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
     [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
     [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];
@@ -178,7 +177,7 @@ static BOOL allowNulls = YES;
     for (double lat = maxLatitude - (heightPixelDistance * .5); lat >= minLatitude; lat -= heightPixelDistance) {
         [log appendString:@"\n"];
         for (double lon = minLongitude + (widthPixelDistance * .5); lon <= maxLongitude; lon += widthPixelDistance) {
-            NSArray * point = [wgs84Transform transformWithX:lon andY:lat];
+            NSArray * point = [wgs84Transform transformX:lon andY:lat];
             [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
         }
     }
@@ -244,9 +243,9 @@ static BOOL allowNulls = YES;
         GPKGSpatialReferenceSystem *srs = [dao srs:tileMatrixSet];
         int geoPackageEpsg = [srs.organizationCoordsysId intValue];
         
-        SFPProjection * projection = [srs projection];
-        SFPProjection * printProjection = [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-        SFPProjectionTransform * wgs84Transform = [[SFPProjectionTransform alloc] initWithFromProjection:projection andToProjection:printProjection];
+        PROJProjection * projection = [srs projection];
+        PROJProjection * printProjection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        SFPGeometryTransform *wgs84Transform = [SFPGeometryTransform transformFromProjection:projection andToProjection:printProjection];
         
         GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
         
@@ -269,7 +268,7 @@ static BOOL allowNulls = YES;
         [log appendFormat:@"   Result Height: %d\n", height];
         
         [log appendString:@"\n\nWGS84 REQUEST\n\n"];
-        GPKGBoundingBox * wgs84BoundingBox = [boundingBox transform:wgs84Transform];
+        GPKGBoundingBox *wgs84BoundingBox = [boundingBox transform:wgs84Transform];
         [log appendFormat:@"   Min Lat: %f\n", [wgs84BoundingBox.minLatitude doubleValue]];
         [log appendFormat:@"   Max Lat: %f\n", [wgs84BoundingBox.maxLatitude doubleValue]];
         [log appendFormat:@"   Min Lon: %f\n", [wgs84BoundingBox.minLongitude doubleValue]];
@@ -280,18 +279,18 @@ static BOOL allowNulls = YES;
         for (double lat = maxLatitude; lat >= minLatitude; lat -= heightPixelDistance) {
             [log appendString:@"\n"];
             for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
-                NSArray * point = [wgs84Transform transformWithX:lon andY:lat];
+                NSArray * point = [wgs84Transform transformX:lon andY:lat];
                 [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
             }
-            NSArray * point = [wgs84Transform transformWithX:maxLongitude andY:lat];
+            NSArray * point = [wgs84Transform transformX:maxLongitude andY:lat];
             [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
         }
         [log appendString:@"\n"];
         for (double lon = minLongitude; lon <= maxLongitude; lon += widthPixelDistance) {
-            NSArray * point = [wgs84Transform transformWithX:lon andY:minLatitude];
+            NSArray * point = [wgs84Transform transformX:lon andY:minLatitude];
             [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
         }
-        NSArray * point = [wgs84Transform transformWithX:maxLongitude andY:minLatitude];
+        NSArray * point = [wgs84Transform transformX:maxLongitude andY:minLatitude];
         [log appendFormat:@"   (%f,%f)", [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
         [log appendString:@"\n\n"];
         NSLog(log, nil);
@@ -372,7 +371,7 @@ static BOOL allowNulls = YES;
                     [log appendFormat:@"\n\n%@ SINGLE COVERAGE DATA VALUES Tile row = %d, column = %d\n", [GPKGCoverageDataAlgorithms name:algorithm], row, column];
                     
                     value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
-                    NSArray * point = [wgs84Transform transformWithX:minLongitude2 andY:maxLatitude2];
+                    NSArray * point = [wgs84Transform transformX:minLongitude2 andY:maxLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
                     if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == 0 || column == 0)) {
                         [GPKGTestUtils assertNil:value];
@@ -383,7 +382,7 @@ static BOOL allowNulls = YES;
                     }
                     
                     value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:maxLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
-                    point = [wgs84Transform transformWithX:maxLongitude2 andY:maxLatitude2];
+                    point = [wgs84Transform transformX:maxLongitude2 andY:maxLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)\n", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
                     if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == 0 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:value];
@@ -394,7 +393,7 @@ static BOOL allowNulls = YES;
                     }
                     
                     value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:minLongitude2 andEpsg:geoPackageEpsg];
-                    point = [wgs84Transform transformWithX:minLongitude2 andY:minLatitude2];
+                    point = [wgs84Transform transformX:minLongitude2 andY:minLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
                     if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == 0)) {
                         [GPKGTestUtils assertNil:value];
@@ -405,7 +404,7 @@ static BOOL allowNulls = YES;
                     }
                     
                     value = [GPKGCoverageDataTestUtils valueWithGeoPackage:self.geoPackage andAlgorithm:algorithm andLatitude:minLatitude2 andLongitude:maxLongitude2 andEpsg:geoPackageEpsg];
-                    point = [wgs84Transform transformWithX:maxLongitude2 andY:minLatitude2];
+                    point = [wgs84Transform transformX:maxLongitude2 andY:minLatitude2];
                     [log appendFormat:@"   %@ (%f,%f)\n", value, [((NSDecimalNumber *)[point objectAtIndex:1]) doubleValue], [((NSDecimalNumber *)[point objectAtIndex:0]) doubleValue]];
                     if (algorithm != GPKG_CDA_NEAREST_NEIGHBOR && (row == [tileMatrix.matrixHeight intValue] - 1 || column == [tileMatrix.matrixWidth intValue] - 1)) {
                         [GPKGTestUtils assertNil:value];

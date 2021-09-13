@@ -24,7 +24,7 @@
 /**
  *  Projection
  */
-@property (nonatomic, strong) SFPProjection *projection;
+@property (nonatomic, strong) PROJProjection *projection;
 
 /**
  *  Initialize
@@ -77,7 +77,7 @@
  *
  * @return bounding box of user table data
  */
--(GPKGBoundingBox *) boundingBoxInProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection;
 
 /**
  * Project the provided bounding box in the declared projection to the user
@@ -89,7 +89,7 @@
  *            projection
  * @return projected bounding box
  */
--(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
 
 /**
  * Get the contents

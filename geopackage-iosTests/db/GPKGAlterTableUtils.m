@@ -22,7 +22,7 @@
 #import "GPKGAttributesUtils.h"
 #import "GPKGUniqueConstraint.h"
 #import "GPKGRawConstraint.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGMetadataExtension.h"
 #import "GPKGSchemaExtension.h"
 

@@ -9,7 +9,7 @@
 #import "GPKGCrsWktExtensionTest.h"
 #import "GPKGCrsWktExtension.h"
 #import "GPKGTestUtils.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
 

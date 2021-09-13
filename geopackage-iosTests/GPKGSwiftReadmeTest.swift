@@ -108,7 +108,7 @@ class SFWTSwiftReadmeTest: XCTestCase{
         mapView.addOverlay(featureOverlay!)
 
         let boundingBox: GPKGBoundingBox = GPKGBoundingBox()
-        let projection: SFPProjection = SFPProjectionFactory.projection(withEpsgInt: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
+        let projection: PROJProjection = PROJProjectionFactory.projection(withEpsgInt: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
 
         // URL Tile Generator (generate tiles from a URL)
         let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 1, andMaxZoom: 2, andBoundingBox:boundingBox, andProjection:projection)

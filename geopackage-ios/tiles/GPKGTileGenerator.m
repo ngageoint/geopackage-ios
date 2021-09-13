@@ -7,16 +7,15 @@
 //
 
 #import "GPKGTileGenerator.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGUtils.h"
-#import "SFPProjectionTransform.h"
 #import "GPKGImageConverter.h"
 #import "GPKGTileTableScaling.h"
 
 @implementation GPKGTileGenerator
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (SFPProjection *) projection{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
     self = [super init];
     if(self != nil){
         [geoPackage verifyWritable];
@@ -70,10 +69,10 @@
     if(self.totalCount == nil){
         int count = 0;
         
-        BOOL degrees = [self.projection isUnit:SFP_UNIT_DEGREES];
-        SFPProjectionTransform *transformToWebMercator = nil;
+        BOOL degrees = [self.projection isUnit:PROJ_UNIT_DEGREES];
+        SFPGeometryTransform *transformToWebMercator = nil;
         if(!degrees){
-            transformToWebMercator = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+            transformToWebMercator = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         }
         
         for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
@@ -205,7 +204,7 @@
     
     if(self.xyzTiles){
         [self adjustXYZBounds];
-    } else if([self.projection isUnit:SFP_UNIT_DEGREES]){
+    } else if([self.projection isUnit:PROJ_UNIT_DEGREES]){
         [self adjustGeoPackageBoundsWithWgs84BoundingBox:boundingBox andZoom:zoom];
     } else{
         [self adjustGeoPackageBoundsWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
@@ -214,8 +213,8 @@
 
 -(void) adjustXYZBounds{
     // Set the tile matrix set bounding box to be the world
-    GPKGBoundingBox * standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
-    SFPProjectionTransform * wgs84ToWebMercatorTransform = [[SFPProjectionTransform alloc] initWithFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+    GPKGBoundingBox *standardWgs84Box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH andMinLatitudeDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_MAX_LAT_RANGE];
+    SFPGeometryTransform *wgs84ToWebMercatorTransform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     self.tileGridBoundingBox = [standardWgs84Box transform:wgs84ToWebMercatorTransform];
 }
 
@@ -251,7 +250,7 @@
     }
     
     GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage tileMatrixSetDao];
-    SFPProjection * tileMatrixProjection = [tileMatrixSetDao projection:tileMatrixSet];
+    PROJProjection * tileMatrixProjection = [tileMatrixSetDao projection:tileMatrixSet];
     if(![tileMatrixProjection isEqual:self.projection]){
         [NSException raise:@"Projection Mismatch" format:@"Can not update tiles projected at %@:%@ with tiles projected at %@:%@", [tileMatrixProjection authority], [tileMatrixProjection code], [self.projection authority], [self.projection code]];
     }
@@ -262,7 +261,7 @@
     
     GPKGBoundingBox * previousContentsBoundingBox = [contents boundingBox];
     if(previousContentsBoundingBox != nil){
-        SFPProjectionTransform * transformProjectionToContents = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:[contentsDao projection:contents]];
+        SFPGeometryTransform *transformProjectionToContents = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:[contentsDao projection:contents]];
         GPKGBoundingBox * contentsBoundingBox = self.boundingBox;
         if(![transformProjectionToContents isSameProjection]){
             contentsBoundingBox = [contentsBoundingBox transform:transformProjectionToContents];
@@ -283,7 +282,7 @@
         GPKGBoundingBox * previousTileMatrixSetBoundingBox = [tileMatrixSet boundingBox];
         
         // Adjust the bounds to include the request and existing bounds
-        SFPProjectionTransform * transformProjectionToTileMatrixSet = [[SFPProjectionTransform alloc] initWithFromProjection:self.projection andToProjection:tileMatrixProjection];
+        SFPGeometryTransform *transformProjectionToTileMatrixSet = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:tileMatrixProjection];
         BOOL sameProjection = [transformProjectionToTileMatrixSet isSameProjection];
         GPKGBoundingBox * updateBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
         if(!sameProjection){

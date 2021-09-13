@@ -7,8 +7,8 @@
 //
 
 #import "GPKGWebMercatorOptimize.h"
-#import "SFPProjectionFactory.h"
-#import "SFPProjectionConstants.h"
+#import "PROJProjectionFactory.h"
+#import "PROJProjectionConstants.h"
 #import "GPKGTileBoundingBoxUtils.h"
 
 @implementation GPKGWebMercatorOptimize
@@ -29,8 +29,8 @@
     return [super initWithWorld:world];
 }
 
--(SFPProjection *) projection{
-    return [SFPProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+-(PROJProjection *) projection{
+    return [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
 }
 
 -(GPKGTileGrid *) tileGrid{

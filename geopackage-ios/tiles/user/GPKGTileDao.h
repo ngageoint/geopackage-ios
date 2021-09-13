@@ -89,7 +89,7 @@
  *
  *  @return bounding box of zoom level, or nil if no tiles
  */
--(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (SFPProjection *) projection;
+-(GPKGBoundingBox *) boundingBoxWithZoomLevel: (int) zoomLevel inProjection: (PROJProjection *) projection;
 
 /**
  *  Get the tile grid of the zoom level
