@@ -7,7 +7,7 @@
     <meta charset='utf-8'>
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
-    
+
     <script src="js/lunr.min.js" defer></script>
     <script src="js/typeahead.jquery.js" defer></script>
     <script src="js/jazzy.search.js" defer></script>
@@ -4683,7 +4683,7 @@
       <article class="main-content">
         <section>
           <section class="section">
-            
+
             <h1 id='geopackage-ios' class='heading'>GeoPackage iOS</h1>
 <h3 id='geopackage-ios-lib' class='heading'>GeoPackage iOS Lib</h3>
 
@@ -4821,7 +4821,7 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="p">[</span><span class="n">mapView</span> <span class="nf">addOverlay</span><span class="p">:</span><span class="n">featureOverlay</span><span class="p">];</span>
 
 <span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="n">boundingBox</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGBoundingBox</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-<span class="n">SFPProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">SFPProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">];</span>
+<span class="n">PROJProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">];</span>
 
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
 <span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">urlTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGUrlTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:</span><span class="s">@"url_tile_table"</span> <span class="n">andTileUrl</span><span class="o">:</span><span class="s">@"http://url/{z}/{x}/{y}.png"</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">1</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">2</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
@@ -4921,7 +4921,7 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="n">mapView</span><span class="o">.</span><span class="nf">addOverlay</span><span class="p">(</span><span class="n">featureOverlay</span><span class="o">!</span><span class="p">)</span>
 
 <span class="k">let</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span> <span class="o">=</span> <span class="kt">GPKGBoundingBox</span><span class="p">()</span>
-<span class="k">let</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt">SFPProjection</span> <span class="o">=</span> <span class="kt">SFPProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt">PROJProjection</span> <span class="o">=</span> <span class="kt">PROJProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">)</span>
 
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
 <span class="k">let</span> <span class="nv">urlTileGenerator</span><span class="p">:</span> <span class="kt">GPKGTileGenerator</span> <span class="o">=</span> <span class="kt">GPKGUrlTileGenerator</span><span class="p">(</span><span class="nv">geoPackage</span><span class="p">:</span> <span class="n">geoPackage</span><span class="p">,</span> <span class="nv">andTableName</span><span class="p">:</span> <span class="s">"url_tile_table"</span><span class="p">,</span> <span class="nv">andTileUrl</span><span class="p">:</span> <span class="s">"http://url/{z}/{x}/{y}.png"</span><span class="p">,</span> <span class="nv">andMinZoom</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">andMaxZoom</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">andBoundingBox</span><span class="p">:</span><span class="n">boundingBox</span><span class="p">,</span> <span class="nv">andProjection</span><span class="p">:</span><span class="n">projection</span><span class="p">)</span>
