@@ -4,9 +4,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 6.0.1 (TBD)
+## [7.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.0.0) (09-17-2021)
 
-* TBD
+* sf-proj-ios version 5.0.0
+* Class and constant prefixes changed from SFP to PROJ
+* SFPProjectionTransform divided into PROJProjectionTransform (coordinates) and SFPGeometryTransform (geometries)
 
 ## [6.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/6.0.0) (03-08-2021)
 
