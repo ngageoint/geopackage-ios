@@ -6,7 +6,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.0.1 (TBD)
 
-* TBD
+* GPKGUrlTileGenerator URL bounds generation fix for degree projections (WGS84 WMS)
+* GPKGTileBoundingBoxUtils bounding box from WGS84 tile grid methods
 
 ## [7.0.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.0.0) (09-17-2021)
 

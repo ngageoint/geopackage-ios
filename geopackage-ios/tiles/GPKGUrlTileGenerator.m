@@ -71,7 +71,13 @@
 
 -(NSString *) replaceBoundingBoxWithUrl: (NSString *) url andZ: (int) z andX: (int) x andY: (int) y{
     
-    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils projectedBoundingBoxWithProjection:self.projection andX:x andY:y andZoom:z];
+    GPKGBoundingBox *boundingBox = nil;
+    
+    if([self.projection isUnit:PROJ_UNIT_DEGREES]){
+        boundingBox = [GPKGTileBoundingBoxUtils projectedBoundingBoxFromWGS84WithProjection:self.projection andX:x andY:y andZoom:z];
+    } else{
+        boundingBox = [GPKGTileBoundingBoxUtils projectedBoundingBoxWithProjection:self.projection andX:x andY:y andZoom:z];
+    }
     
     url = [self replaceBoundingBoxWithUrl:url andBoundingBox:boundingBox];
     

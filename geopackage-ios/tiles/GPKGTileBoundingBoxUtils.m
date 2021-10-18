@@ -136,21 +136,7 @@
 }
 
 +(GPKGBoundingBox *) webMercatorBoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
-    
-    double tileSize = [self tileSizeWithZoom:zoom];
-    
-    double minLon = (-1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH)
-				+ (x * tileSize);
-    double maxLon = (-1 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH)
-				+ ((x + 1) * tileSize);
-    double minLat = PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
-				- ((y + 1) * tileSize);
-    double maxLat = PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
-				- (y * tileSize);
-    
-    GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
-    
-    return box;
+    return [self webMercatorBoundingBoxWithTileGrid:[[GPKGTileGrid alloc] initWithMinX:x andMinY:y andMaxX:x andMaxY:y] andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) webMercatorBoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
@@ -177,7 +163,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom{
     
-    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
@@ -189,7 +175,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *boundingBox = [self webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     if(projection != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
@@ -205,7 +191,7 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    GPKGBoundingBox *boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(code != nil){
         SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WEB_MERCATOR andToAuthority:authority andToIntCode:[code intValue]];
@@ -217,10 +203,66 @@
 
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    GPKGBoundingBox *boundingBox = [self webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     
     if(projection != nil){
-        SFPGeometryTransform* transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToProjection:projection];
+        boundingBox = [boundingBox transform:transform];
+    }
+    
+    return boundingBox;
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithEpsg: (NSNumber *) epsg andX: (int) x andY: (int) y andZoom: (int) zoom{
+    return [self projectedBoundingBoxFromWGS84WithAuthority:PROJ_AUTHORITY_EPSG andCode:epsg andX:x andY:y andZoom:zoom];
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom{
+    
+    GPKGBoundingBox *boundingBox = [self wgs84BoundingBoxWithX:x andY:y andZoom:zoom];
+    
+    if(code != nil){
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToAuthority:authority andToIntCode:[code intValue]];
+        boundingBox = [boundingBox transform:transform];
+    }
+    
+    return boundingBox;
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithProjection: (PROJProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom{
+    
+    GPKGBoundingBox *boundingBox = [self wgs84BoundingBoxWithX:x andY:y andZoom:zoom];
+    
+    if(projection != nil){
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
+        boundingBox = [boundingBox transform:transform];
+    }
+    
+    return boundingBox;
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithEpsg: (NSNumber *) epsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    return [self projectedBoundingBoxFromWGS84WithAuthority:PROJ_AUTHORITY_EPSG andCode:epsg andTileGrid:tileGrid andZoom:zoom];
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    
+    GPKGBoundingBox *boundingBox = [self wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    
+    if(code != nil){
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromAuthority:PROJ_AUTHORITY_EPSG andFromIntCode:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToAuthority:authority andToIntCode:[code intValue]];
+        boundingBox = [boundingBox transform:transform];
+    }
+    
+    return boundingBox;
+}
+
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    
+    GPKGBoundingBox *boundingBox = [self wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
+    
+    if(projection != nil){
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM andToProjection:projection];
         boundingBox = [boundingBox transform:transform];
     }
     
@@ -615,6 +657,10 @@
     GPKGTileGrid * grid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
     
     return grid;
+}
+
++(GPKGBoundingBox *) wgs84BoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom{
+    return [self wgs84BoundingBoxWithTileGrid:[[GPKGTileGrid alloc] initWithMinX:x andMinY:y andMaxX:x andMaxY:y] andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) wgs84BoundingBoxWithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{

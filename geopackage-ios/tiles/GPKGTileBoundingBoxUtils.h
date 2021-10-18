@@ -267,6 +267,77 @@
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile coordinates and zoom level
+ *
+ *  @param epsg epsg code
+ *  @param x    x
+ *  @param y    y
+ *  @param zoom zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithEpsg: (NSNumber *) epsg andX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile coordinates and zoom level
+ *
+ *  @param authority projection authority
+ *  @param code      authority code
+ *  @param x         x
+ *  @param y         y
+ *  @param zoom      zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithAuthority: (NSString *) authority andCode: (NSNumber *) code andX:(int)x andY:(int)y andZoom:(int)zoom;
+
+/**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile coordinates and zoom level
+ *
+ *  @param projection     projection
+ *  @param x              x
+ *  @param y              y
+ *  @param zoom           zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithProjection: (PROJProjection *) projection andX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile tileGrid and zoom level
+ *
+ *  @param epsg     epsg code
+ *  @param tileGrid tile grid
+ *  @param zoom     zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithEpsg: (NSNumber *) epsg andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile tileGrid and zoom level
+ *
+ *  @param authority projection authority
+ *  @param code      authority code
+ *  @param tileGrid tile grid
+ *  @param zoom     zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithAuthority: (NSString *) authority andCode: (NSNumber *) code andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
+ * Get the Projected tile bounding box from the WGS84 XYZ tile tileGrid and zoom level
+ *
+ *  @param projection projection
+ *  @param tileGrid   tile grid
+ *  @param zoom       zoom level
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
  *  Get the tile grid for the location specified as WGS84
  *
  *  @param point  WGS84 point
@@ -602,7 +673,18 @@
 +(GPKGTileGrid *) tileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom;
 
 /**
- * Get the WGS84 tile bounding box from the tile grid and zoom level
+ * Get the WGS84 tile bounding box from the WGS84 XYZ tile coordinates and zoom level
+ *
+ *  @param x    x
+ *  @param y    y
+ *  @param zoom zoom level
+ *
+ *  @return web mercator bounding box
+ */
++(GPKGBoundingBox *) wgs84BoundingBoxWithX: (int) x andY: (int) y andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 tile bounding box from the WGS84 tile grid and zoom level
  *
  *  @param tileGrid tile grid
  *  @param zoom     zoom
