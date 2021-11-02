@@ -285,7 +285,7 @@ Open geopackage-ios.xcworkspace in Xcode or build from command line:
 
 Run tests from Xcode or from command line:
 
-    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 12'
+    xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 13'
 
 ### Remote Dependencies ###
 
