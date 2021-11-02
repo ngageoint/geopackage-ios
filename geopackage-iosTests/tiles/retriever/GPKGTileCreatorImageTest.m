@@ -22,7 +22,7 @@
 - (void)setUp {
     self.dbName = GPKG_TEST_TILES2_DB_NAME;
     self.file = GPKG_TEST_TILES2_DB_FILE_NAME;
-    self.colorTolerance = 0;
+    self.colorTolerance = 1;
     [super setUp];
 }
 

@@ -45,6 +45,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/proj_api.h",
       "line": 86,
+      "symbol": "projFileAPI",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/proj_api.h",
+      "line": 86,
       "symbol": "projFileAPI.projFileAPI_t",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -124,13 +131,6 @@
       "line": 91,
       "symbol": "projFileAPI_t.FClose",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/proj_api.h",
-      "line": 92,
-      "symbol": "projFileAPI",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -570,6 +570,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 141,
+      "symbol": "projCtx_t",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
+      "line": 141,
       "symbol": "projCtx_t.",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -642,13 +649,6 @@
       "line": 146,
       "symbol": "projCtx_t..fileapi",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 147,
-      "symbol": "projCtx_t",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -816,7 +816,7 @@
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 180,
       "symbol": "",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.union",
       "warning": "undocumented"
     },
     {
@@ -851,7 +851,7 @@
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 180,
       "symbol": "PROJVALUE.",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.union",
       "warning": "undocumented"
     },
     {
@@ -1060,6 +1060,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 219,
+      "symbol": "PJ_Region",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
+      "line": 219,
       "symbol": "PJ_Region.",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -1118,13 +1125,6 @@
       "line": 223,
       "symbol": "PJ_Region..ur_lat",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 224,
-      "symbol": "PJ_Region",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -1249,6 +1249,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 247,
+      "symbol": "paralist",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
+      "line": 247,
       "symbol": "paralist.ARG_list",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -1291,15 +1298,15 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 250,
-      "symbol": "paralist",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "symbol": "paralist.ARG_list.param",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 250,
-      "symbol": "paralist.ARG_list.param",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
+      "line": 259,
+      "symbol": "PJ",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -2046,13 +2053,6 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 323,
-      "symbol": "PJ",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 332,
       "symbol": "pj_list",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
@@ -2243,6 +2243,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 430,
+      "symbol": "PJ_GRIDINFO",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
+      "line": 430,
       "symbol": "PJ_GRIDINFO._pj_gi",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -2368,16 +2375,16 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 444,
-      "symbol": "PJ_GRIDINFO",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "line": 446,
+      "symbol": "",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 446,
-      "symbol": "",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
+      "symbol": "PJ_GridCatalogEntry",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -2473,8 +2480,8 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 454,
-      "symbol": "PJ_GridCatalogEntry",
+      "line": 456,
+      "symbol": "PJ_GridCatalog",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
@@ -2560,13 +2567,6 @@
       "line": 464,
       "symbol": "_PJ_GridCatalog.next",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 465,
-      "symbol": "PJ_GridCatalog",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -2831,6 +2831,13 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
       "line": 509,
+      "symbol": "Tseries",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
+      "line": 509,
       "symbol": "Tseries.",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
       "warning": "undocumented"
@@ -2931,13 +2938,6 @@
       "line": 514,
       "symbol": "Tseries..power",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/proj4-ios/projects.h",
-      "line": 515,
-      "symbol": "Tseries",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
@@ -3267,6 +3267,62 @@
       "line": 594,
       "symbol": "pj_strtod",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.function",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 16,
+      "symbol": "SFGGeometryType.SFG_GEOMETRY",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 17,
+      "symbol": "SFGGeometryType.SFG_POINT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 18,
+      "symbol": "SFGGeometryType.SFG_LINESTRING",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 19,
+      "symbol": "SFGGeometryType.SFG_POLYGON",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 20,
+      "symbol": "SFGGeometryType.SFG_MULTIPOINT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 21,
+      "symbol": "SFGGeometryType.SFG_MULTILINESTRING",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 22,
+      "symbol": "SFGGeometryType.SFG_MULTIPOLYGON",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/Headers/Public/sf-geojson-ios/SFGGeometryTypes.h",
+      "line": 23,
+      "symbol": "SFGGeometryType.SFG_GEOMETRYCOLLECTION",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
@@ -6422,7 +6478,7 @@
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/geo/CRSGeoDatums.h",
       "line": 25,
-      "symbol": "CRSGeoDatumType.CRS_DATUM_OSEB36",
+      "symbol": "CRSGeoDatumType.CRS_DATUM_OSGB36",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
@@ -7408,22 +7464,64 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
-      "line": 69,
-      "symbol": "CRS_PROJ_UNITS_METRE",
+      "line": 68,
+      "symbol": "CRS_PROJ_AXIS_WEST_SOUTH_UP",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
       "line": 70,
-      "symbol": "CRS_PROJ_UNITS_US_SURVEY_FOOT",
+      "symbol": "CRS_PROJ_UNITS_METRE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
       "line": 71,
+      "symbol": "CRS_PROJ_UNITS_US_SURVEY_FOOT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 72,
       "symbol": "CRS_PROJ_UNITS_FOOT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 73,
+      "symbol": "CRS_PROJ_UNITS_DEGREE",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 75,
+      "symbol": "CRS_PROJ_PSEUDO_MERCATOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 76,
+      "symbol": "CRS_PROJ_SWISS_OBLIQUE_MERCATOR",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 77,
+      "symbol": "CRS_PROJ_SWISS_OBLIQUE_MERCATOR_COMPAT",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/osbornb/git/geopackage-ios/Pods/crs-ios/crs-ios/util/proj/CRSProjConstants.h",
+      "line": 78,
+      "symbol": "CRS_PROJ_UTM_ZONE",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },

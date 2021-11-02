@@ -4,8 +4,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.0.1 (TBD)
+## [7.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.0.1) (11-02-2021)
 
+* sf-proj-ios version 5.0.1
+* ogc-api-features-json-ios version 4.0.0
+* tiff-ios version 3.0.1
 * GPKGUrlTileGenerator URL bounds generation fix for degree projections (WGS84 WMS)
 * GPKGTileBoundingBoxUtils bounding box from WGS84 tile grid methods
 

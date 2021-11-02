@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'sf-wkb-ios', '~> 4.0.0'
   s.dependency 'sf-wkt-ios', '~> 2.0.0'
-  s.dependency 'sf-proj-ios', '~> 5.0.0'
-  s.dependency 'ogc-api-features-json-ios', '~> 3.0.0'
-  s.dependency 'tiff-ios', '~> 3.0.0'
+  s.dependency 'sf-proj-ios', '~> 5.0.1'
+  s.dependency 'ogc-api-features-json-ios', '~> 4.0.0'
+  s.dependency 'tiff-ios', '~> 3.0.1'
 end
