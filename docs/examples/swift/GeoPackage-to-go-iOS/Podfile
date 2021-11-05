@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '12.0'
 
 target 'GeoPackage-iOS-example' do
@@ -6,5 +6,5 @@ target 'GeoPackage-iOS-example' do
   use_frameworks!
 
   # Pods for GeoPackage-iOS-example
-  pod 'geopackage-ios', '~> 6.0.0'
+  pod 'geopackage-ios', '~> 7.0.1'
 end

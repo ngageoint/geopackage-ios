@@ -64,7 +64,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         // Find the data and set the bounds
         let boundingBox: GPKGBoundingBox = tileDao.boundingBox(withZoomLevel: 12)
-        let transform: SFPProjectionTransform = SFPProjectionTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
+        let transform: SFPGeometryTransform = SFPGeometryTransform.init(fromEpsg: PROJ_EPSG_WEB_MERCATOR, andToEpsg: PROJ_EPSG_WORLD_GEODETIC_SYSTEM)
         let transformedBoundingBox: GPKGBoundingBox = boundingBox.transform(transform)
         let region:MKCoordinateRegion = MKCoordinateRegion.init(center: transformedBoundingBox.center(), span: transformedBoundingBox.span())
         mapView.setRegion(region, animated: true)
