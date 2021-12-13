@@ -41,7 +41,7 @@
     NSNumber * height = [NSNumber numberWithInt:140];
     GPKGTileCreator * tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:wgs84];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
+    GPKGBoundingBox * boundingBox = [GPKGBoundingBox worldWGS84];
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertFalse:[tileCreator hasTileWithBoundingBox:boundingBox]];
     

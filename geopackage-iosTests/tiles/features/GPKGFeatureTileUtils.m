@@ -15,7 +15,7 @@
 
 +(GPKGFeatureDao *) createFeatureDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] init];
+    GPKGBoundingBox * boundingBox = [GPKGBoundingBox worldWGS84];
     
     GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_tiles"];

@@ -37,6 +37,20 @@ struct GPKGBoundingBoxSize{
 @property (nonatomic, strong) NSDecimalNumber *maxLatitude;
 
 /**
+ *  Create a new WGS84 bounding box with world bounds (degrees)
+ *
+ *  @return new bounding box
+ */
++(GPKGBoundingBox *) worldWGS84;
+
+/**
+ *  Create a new Web Mercator bounding box with world bounds (meters)
+ *
+ *  @return new bounding box
+ */
++(GPKGBoundingBox *) worldWebMercator;
+
+/**
  *  Initialize with degrees representing the entire world
  *
  *  @return new bounding box

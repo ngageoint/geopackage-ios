@@ -12,11 +12,22 @@
 
 @implementation GPKGBoundingBox
 
++(GPKGBoundingBox *) worldWGS84{
+    return [[GPKGBoundingBox alloc] init];
+}
+
++(GPKGBoundingBox *) worldWebMercator{
+    return [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
+                                          andMinLatitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
+                                         andMaxLongitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
+                                          andMaxLatitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
 -(instancetype) init{
-    self = [self initWithMinLongitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LON_WIDTH]
-                       andMinLatitude:[[NSDecimalNumber alloc] initWithFloat:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]
-                      andMaxLongitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LON_WIDTH]
-                       andMaxLatitude:[[NSDecimalNumber alloc] initWithFloat:PROJ_WGS84_HALF_WORLD_LAT_HEIGHT]];
+    self = [self initWithMinLongitudeDouble:-PROJ_WGS84_HALF_WORLD_LON_WIDTH
+                       andMinLatitudeDouble:-PROJ_WGS84_HALF_WORLD_LAT_HEIGHT
+                      andMaxLongitudeDouble:PROJ_WGS84_HALF_WORLD_LON_WIDTH
+                       andMaxLatitudeDouble:PROJ_WGS84_HALF_WORLD_LAT_HEIGHT];
     return self;
 }
 

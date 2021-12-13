@@ -38,7 +38,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    return [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMinLatitudeDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMaxLongitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH andMaxLatitudeDouble:PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+    return [GPKGBoundingBox worldWebMercator];
 }
 
 -(GPKGTileGrid *) tileGridWithBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{

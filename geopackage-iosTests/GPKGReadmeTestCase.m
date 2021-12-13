@@ -114,8 +114,8 @@
     GPKGFeatureOverlay *featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
     [mapView addOverlay:featureOverlay];
 
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] init];
-    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    GPKGBoundingBox *boundingBox = [GPKGBoundingBox worldWebMercator];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
 
     // URL Tile Generator (generate tiles from a URL)
     GPKGTileGenerator *urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];

@@ -38,7 +38,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    return [[GPKGBoundingBox alloc] init];
+    return [GPKGBoundingBox worldWGS84];
 }
 
 -(GPKGTileGrid *) tileGridWithBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
