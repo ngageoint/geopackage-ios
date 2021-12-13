@@ -12,12 +12,14 @@
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGIOUtils.h"
 #import "PROJProjectionFactory.h"
+#import "GPKGNetworkUtils.h"
 
 @interface GPKGUrlTileGenerator ()
 
 @property (nonatomic, strong) NSString *tileUrl;
 @property (nonatomic) BOOL urlHasXYZ;
 @property (nonatomic) BOOL urlHasBoundingBox;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *httpHeader;
 
 @end
 
@@ -39,9 +41,39 @@
     return self;
 }
 
+-(NSDictionary<NSString *, NSArray<NSString *> *> *) httpHeader{
+    return _httpHeader;
+}
+
+-(NSArray<NSString *> *) httpHeaderValuesforField: (NSString *) field{
+    NSArray<NSString *> *fieldValues = nil;
+    if(_httpHeader != nil){
+        fieldValues = [_httpHeader objectForKey:field];
+    }
+    return fieldValues;
+}
+
+-(void) addValue: (NSString *) value forHTTPHeaderField: (NSString *) field{
+    if(_httpHeader == nil){
+        _httpHeader = [NSMutableDictionary dictionary];
+    }
+    NSMutableArray<NSString *> *values = [_httpHeader objectForKey:field];
+    if(values == nil){
+        values = [NSMutableArray array];
+        [_httpHeader setObject:values forKey:field];
+    }
+    [values addObject:value];
+}
+
+-(void) addValues: (NSArray<NSString *> *) values forHTTPHeaderField: (NSString *) field{
+    for(NSString *value in values){
+        [self addValue:value forHTTPHeaderField:field];
+    }
+}
+
 -(BOOL) hasXYZ: (NSString *) url{
     
-    NSString * replacedUrl = [self replaceXYZWithUrl:url andZ:0 andX:0 andY:0];
+    NSString *replacedUrl = [self replaceXYZWithUrl:url andZ:0 andX:0 andY:0];
     BOOL hasXYZ = ![replacedUrl isEqualToString:url];
     
     return hasXYZ;
@@ -63,7 +95,7 @@
 
 -(BOOL) hasBoundingBox: (NSString *) url{
     
-    NSString * replacedUrl = [self replaceBoundingBoxWithUrl:url andBoundingBox:self.boundingBox];
+    NSString *replacedUrl = [self replaceBoundingBoxWithUrl:url andBoundingBox:self.boundingBox];
     BOOL hasBoundingBox = ![replacedUrl isEqualToString:url];
     
     return hasBoundingBox;
@@ -108,7 +140,7 @@
 
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     
-    NSString * zoomUrl = self.tileUrl;
+    NSString *zoomUrl = self.tileUrl;
     
     // Replace x, y, and z
     if(self.urlHasXYZ){
@@ -127,9 +159,20 @@
         zoomUrl = [self replaceBoundingBoxWithUrl:zoomUrl andZ:z andX:x andY:y];
     }
     
-    NSURL * url =  [NSURL URLWithString:zoomUrl];
+    NSURL *url =  [NSURL URLWithString:zoomUrl];
     
-    NSData * data = [NSData dataWithContentsOfURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    if(_httpHeader != nil){
+        for(NSString *field in [_httpHeader allKeys]){
+            NSArray<NSString *> *values = [_httpHeader objectForKey:field];
+            for(NSString *value in values){
+                [request addValue:value forHTTPHeaderField:field];
+            }
+        }
+    }
+    
+    NSData *data = [GPKGNetworkUtils sendSynchronousWithRedirectsRequest:request withUrl:zoomUrl];
     
     return data;
 }

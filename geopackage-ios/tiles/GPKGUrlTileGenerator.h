@@ -33,4 +33,36 @@
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
 
+/**
+ *  Get the HTTP Header fields and field values
+ *
+ *  @return header map
+ */
+-(NSDictionary<NSString *, NSArray<NSString *> *> *) httpHeader;
+
+/**
+ *  Get the HTTP Header field values
+ *
+ *  @param field    field name
+ *
+ *  @return field values
+ */
+-(NSArray<NSString *> *) httpHeaderValuesforField: (NSString *) field;
+
+/**
+ *  Add a HTTP Header field value, appending to any existing values for the field
+ *
+ *  @param value    field value
+ *  @param field    field name
+ */
+-(void) addValue: (NSString *) value forHTTPHeaderField: (NSString *) field;
+
+/**
+ *  Add HTTP Header field values, appending to any existing values for the field
+ *
+ *  @param values    field values
+ *  @param field    field name
+ */
+-(void) addValues: (NSArray<NSString *> *) values forHTTPHeaderField: (NSString *) field;
+
 @end
