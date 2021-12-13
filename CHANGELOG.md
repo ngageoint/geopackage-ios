@@ -6,7 +6,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.0.2 (TBD)
 
-* TBD
+* GPKGUrlTileGenerator HTTP Header field values support
+* Bounding Box world bounds shortcuts for WGS84 and Web Mercator
+* GPKGNetworkUtils send synchronous request with follow-up redirect request
 
 ## [7.0.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.0.1) (11-02-2021)
 

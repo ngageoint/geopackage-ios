@@ -48,11 +48,6 @@ NSString * const LIMIT_PATTERN = @"limit=\\d+";
 
 @implementation GPKGOAPIFeatureGenerator
 
-static int HTTP_OK = 200;
-static int HTTP_MOVED_PERM = 301;
-static int HTTP_MOVED_TEMP = 302;
-static int HTTP_SEE_OTHER = 303;
-
 /**
  * Limit expression
  */
@@ -439,46 +434,14 @@ static PROJProjections *defaultProjections;
  * @return features response
  */
 -(NSString *) urlRequestForURLValue: (NSString *) urlValue andURL: (NSURL *) url{
-
-    NSString *response = nil;
     
     NSLog(@"%@", urlValue);
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request addValue:@"application/json,application/geo+json" forHTTPHeaderField:@"Accept"];
     
-    NSHTTPURLResponse *urlResponse = nil;
-    NSError *error = nil;
-    NSData *data = [GPKGNetworkUtils sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
+    NSData *data = [GPKGNetworkUtils sendSynchronousWithRedirectsRequest:request withUrl:urlValue];
     
-    if(error){
-        [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];
-    }
-    
-    int responseCode = (int) urlResponse.statusCode;
-    
-    if(responseCode == HTTP_MOVED_PERM
-       || responseCode == HTTP_MOVED_TEMP
-       || responseCode == HTTP_SEE_OTHER){
-        
-        NSString *redirect = [urlResponse.allHeaderFields objectForKey:@"Location"];
-        url =  [NSURL URLWithString:redirect];
-        
-        urlResponse = nil;
-        error = nil;
-        data = [GPKGNetworkUtils sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
-        
-        if(error){
-            [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, error: %@", urlValue, error];
-        }
-        
-        responseCode = (int) urlResponse.statusCode;
-    }
-    
-    if(responseCode != HTTP_OK){
-        [NSException raise:@"Failed Request" format:@"Failed request. URL: %@, Response Code: %d, Response Message: %@, error: %@", urlValue, responseCode, [NSHTTPURLResponse localizedStringForStatusCode:responseCode], error];
-    }
-    
-    response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     return response;
 }
@@ -494,7 +457,7 @@ static PROJProjections *defaultProjections;
  */
 -(OAFFeatureCollection *) createFeaturesWithJSON: (NSString *) features{
     
-    OAFFeatureCollection * featureCollection = [OAFFeaturesConverter jsonToFeatureCollection:features];
+    OAFFeatureCollection *featureCollection = [OAFFeaturesConverter jsonToFeatureCollection:features];
     
     [self createFeaturesWithCollection:featureCollection];
     

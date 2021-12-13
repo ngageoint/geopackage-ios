@@ -24,4 +24,14 @@
  */
 +(NSData *) sendSynchronousRequest: (NSURLRequest *) request returningResponse: (NSURLResponse **) response error: (NSError **) error;
 
+/**
+ *  Send a synchronous network request with attempted redirect response updated request
+ *
+ *  @param request url request
+ *  @param url url value
+ *
+ *  @return response data
+ */
++(NSData *) sendSynchronousWithRedirectsRequest: (NSMutableURLRequest *) request withUrl: (NSString *) url;
+
 @end
