@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.0.2 (TBD)
 
-* GPKGUrlTileGenerator HTTP Header field values support
+* GPKGUrlTileGenerator HTTP Method and Header field values support
 * Bounding Box world bounds shortcuts for WGS84 and Web Mercator
 * GPKGNetworkUtils send synchronous request with follow-up redirect request
 

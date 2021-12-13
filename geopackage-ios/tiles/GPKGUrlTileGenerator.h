@@ -19,6 +19,11 @@
 @property (nonatomic) BOOL tms;
 
 /**
+ *  The HTTP request method, when nil default is "GET"
+ */
+@property (nonatomic) NSString *httpMethod;
+
+/**
  *  Initialize
  *
  *  @param geoPackage GeoPackage

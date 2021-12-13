@@ -163,6 +163,10 @@
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
+    if(_httpMethod != nil){
+        request.HTTPMethod = _httpMethod;
+    }
+    
     if(_httpHeader != nil){
         for(NSString *field in [_httpHeader allKeys]){
             NSArray<NSString *> *values = [_httpHeader objectForKey:field];
