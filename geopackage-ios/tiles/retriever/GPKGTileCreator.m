@@ -163,22 +163,21 @@
                 
                 if(tileResults.count > 0){
                     
-                    GPKGBoundingBox *requestProjectedBoundingBox = [requestBoundingBox transform:transformRequestToTiles];
-                    
-                    // Determine the requested tile dimensions, or use the dimensions of a single tile matrix tile
-                    int requestedTileWidth = self.width != nil ? [self.width intValue] : [tileMatrix.tileWidth intValue];
-                    int requestedTileHeight = self.height != nil ? [self.height intValue] : [tileMatrix.tileHeight intValue];
+                    // Determine the tile dimensions
+                    NSArray<NSNumber *> *tileDimensions = [self tileDimensionsWithRequestBoundingBox:requestBoundingBox andTilesBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
+                    int requestedTileWidth = [[tileDimensions objectAtIndex:0] intValue];
+                    int requestedTileHeight = [[tileDimensions objectAtIndex:1] intValue];
                     
                     // Determine the size of the tile to initially draw
                     int tileWidth = requestedTileWidth;
                     int tileHeight = requestedTileHeight;
                     if (!self.sameUnit) {
-                        tileWidth = round(([requestProjectedBoundingBox.maxLongitude doubleValue] - [requestProjectedBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
-                        tileHeight = round(([requestProjectedBoundingBox.maxLatitude doubleValue] - [requestProjectedBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
+                        tileWidth = round(([tilesBoundingBox.maxLongitude doubleValue] - [tilesBoundingBox.minLongitude doubleValue]) / [tileMatrix.pixelXSize doubleValue]);
+                        tileHeight = round(([tilesBoundingBox.maxLatitude doubleValue] - [tilesBoundingBox.minLatitude doubleValue]) / [tileMatrix.pixelYSize doubleValue]);
                     }
                     
                     // Draw the resulting bitmap with the matching tiles
-                    UIImage *tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:requestProjectedBoundingBox andWidth:tileWidth andHeight:tileHeight];
+                    UIImage *tileImage = [self drawTileWithTileMatrix:tileMatrix andResults:tileResults andBoundingBox:tilesBoundingBox andWidth:tileWidth andHeight:tileHeight];
                     
                     // Create the tile
                     if(tileImage != nil){
@@ -205,7 +204,82 @@
     return tile;
 }
 
--(UIImage *) drawTileWithTileMatrix: (GPKGTileMatrix *) tileMatrix andResults: (GPKGResultSet *) tileResults andBoundingBox: (GPKGBoundingBox *) requestProjectedBoundingBox andWidth: (int) width andHeight: (int) height{
+/**
+ * Determine the tile dimensions. Specified width and/or height values are
+ * used. When only one of width or height is specified, other is determined
+ * as a request ratio. When neither width or height is specified, determine
+ * from the tile matrix as a request ratio.
+ *
+ * @param requestBoundingBox
+ *            request bounding box
+ * @param tilesBoundingBox
+ *            tiles bounding box
+ * @param tileMatrix
+ *            tile matrix
+ * @return tile dimensions array of size 2 [width, height]
+ */
+-(NSArray<NSNumber *> *) tileDimensionsWithRequestBoundingBox: (GPKGBoundingBox *) requestBoundingBox andTilesBoundingBox: (GPKGBoundingBox *) tilesBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
+    
+    // Determine the tile dimensions
+    int requestedTileWidth;
+    int requestedTileHeight;
+    if (self.width != nil && self.height != nil) {
+
+        // Requested dimensions
+        requestedTileWidth = [self.width intValue];
+        requestedTileHeight = [self.height intValue];
+
+    } else if (self.width == nil && self.height == nil) {
+
+        // Determine dimensions from a single tile matrix
+        // tile as a ratio to the requested bounds
+        double requestLonRange = [requestBoundingBox longitudeRangeValue];
+        double requestLatRange = [requestBoundingBox latitudeRangeValue];
+        double pixelXSize = [tileMatrix.pixelXSize doubleValue];
+        double pixelYSize = [tileMatrix.pixelYSize doubleValue];
+        if([self.requestProjection isUnit:[self.tilesProjection unit]]){
+            // Same unit, use the pixel x and y size
+            requestedTileWidth = round(requestLonRange / pixelXSize);
+            requestedTileHeight = round(requestLatRange / pixelYSize);
+        } else {
+            // Use the max tile pixel length and adjust to
+            // the sides to the requested bounds ratio
+            double maxLength = MAX([tilesBoundingBox longitudeRangeValue] / pixelXSize,
+                                   [tilesBoundingBox latitudeRangeValue] / pixelYSize);
+            if (requestLonRange < requestLatRange) {
+                requestedTileWidth = round(maxLength * (requestLonRange / requestLatRange));
+                requestedTileHeight = round(maxLength);
+            } else if (requestLatRange < requestLonRange) {
+                requestedTileWidth = round(maxLength);
+                requestedTileHeight = round(maxLength * (requestLatRange / requestLonRange));
+            } else {
+                requestedTileWidth = round(maxLength);
+                requestedTileHeight = requestedTileWidth;
+            }
+        }
+
+    } else if (self.width == nil) {
+
+        // Requested height, determine width as a ratio from
+        // the requested bounds
+        requestedTileHeight = [self.height intValue];
+        requestedTileWidth = round([self.height intValue] * ([requestBoundingBox longitudeRangeValue] / [requestBoundingBox latitudeRangeValue]));
+
+    } else {
+
+        // Requested width, determine height as a ratio from
+        // the requested bounds
+        requestedTileWidth = [self.width intValue];
+        requestedTileHeight = round([self.width intValue] * ([requestBoundingBox latitudeRangeValue] / [requestBoundingBox longitudeRangeValue]));
+
+    }
+    
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithInt:requestedTileWidth],
+            [NSNumber numberWithInt:requestedTileHeight], nil];
+}
+
+-(UIImage *) drawTileWithTileMatrix: (GPKGTileMatrix *) tileMatrix andResults: (GPKGResultSet *) tileResults andBoundingBox: (GPKGBoundingBox *) requestBoundingBox andWidth: (int) width andHeight: (int) height{
     
     // Get the GeoPackage tile dimensions
     int tileWidth = [tileMatrix.tileWidth intValue];
@@ -227,7 +301,7 @@
         GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:self.tileSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
         
         // Get the bounding box where the requested image and tile overlap
-        GPKGBoundingBox *overlap = [requestProjectedBoundingBox overlap:tileBoundingBox];
+        GPKGBoundingBox *overlap = [requestBoundingBox overlap:tileBoundingBox];
         
         // If the tile overlaps with the requested box
         if(overlap != nil){
@@ -244,7 +318,7 @@
             
                 // Get the rectangle of where to draw the tile in
                 // the resulting image
-                CGRect dest = [GPKGTileBoundingBoxUtils roundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestProjectedBoundingBox andSection:overlap];
+                CGRect dest = [GPKGTileBoundingBoxUtils roundedRectangleWithWidth:tileWidth andHeight:tileHeight andBoundingBox:requestBoundingBox andSection:overlap];
 
                 // Draw to the image
                 [srcImage drawInRect:dest];
