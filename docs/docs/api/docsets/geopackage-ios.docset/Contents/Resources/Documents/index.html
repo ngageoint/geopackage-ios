@@ -16,7 +16,7 @@
     <a title="geopackage-ios  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">geopackage-ios 7.0.1 Docs</a> (81% documented)</p>
+        <p><a href="index.html">geopackage-ios 7.0.2 Docs</a> (81% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -4714,12 +4714,12 @@ brew install libtool
 <p>Include this repository by specifying it in a Podfile using a supported option.</p>
 
 <p>Pull from <a href="https://cocoapods.org/pods/geopackage-ios">CocoaPods</a>:</p>
-<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 7.0.1'
+<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 7.0.2'
 </code></pre>
 
 <p>Pull from GitHub via CocoaPods:</p>
 <pre class="highlight plaintext"><code>pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :branch =&gt; 'master'
-pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '7.0.1'
+pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '7.0.2'
 </code></pre>
 
 <p>Include as local project:</p>
@@ -4820,8 +4820,8 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="n">GPKGFeatureOverlay</span> <span class="o">*</span><span class="n">featureOverlay</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureOverlay</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureTiles</span><span class="p">:</span><span class="n">featureTiles</span><span class="p">];</span>
 <span class="p">[</span><span class="n">mapView</span> <span class="nf">addOverlay</span><span class="p">:</span><span class="n">featureOverlay</span><span class="p">];</span>
 
-<span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="n">boundingBox</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGBoundingBox</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-<span class="n">PROJProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">];</span>
+<span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="n">boundingBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">GPKGBoundingBox</span> <span class="nf">worldWebMercator</span><span class="p">];</span>
+<span class="n">PROJProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WEB_MERCATOR</span><span class="p">];</span>
 
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
 <span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">urlTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGUrlTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:</span><span class="s">@"url_tile_table"</span> <span class="n">andTileUrl</span><span class="o">:</span><span class="s">@"http://url/{z}/{x}/{y}.png"</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">1</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">2</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
@@ -4920,8 +4920,8 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="k">let</span> <span class="nv">featureOverlay</span> <span class="o">=</span> <span class="kt">GPKGFeatureOverlay</span><span class="p">(</span><span class="nv">featureTiles</span><span class="p">:</span> <span class="n">featureTiles</span><span class="p">)</span>
 <span class="n">mapView</span><span class="o">.</span><span class="nf">addOverlay</span><span class="p">(</span><span class="n">featureOverlay</span><span class="o">!</span><span class="p">)</span>
 
-<span class="k">let</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span> <span class="o">=</span> <span class="kt">GPKGBoundingBox</span><span class="p">()</span>
-<span class="k">let</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt">PROJProjection</span> <span class="o">=</span> <span class="kt">PROJProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span> <span class="o">=</span> <span class="kt">GPKGBoundingBox</span><span class="o">.</span><span class="nf">worldWebMercator</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt">PROJProjection</span> <span class="o">=</span> <span class="kt">PROJProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WEB_MERCATOR</span><span class="p">)</span>
 
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
 <span class="k">let</span> <span class="nv">urlTileGenerator</span><span class="p">:</span> <span class="kt">GPKGTileGenerator</span> <span class="o">=</span> <span class="kt">GPKGUrlTileGenerator</span><span class="p">(</span><span class="nv">geoPackage</span><span class="p">:</span> <span class="n">geoPackage</span><span class="p">,</span> <span class="nv">andTableName</span><span class="p">:</span> <span class="s">"url_tile_table"</span><span class="p">,</span> <span class="nv">andTileUrl</span><span class="p">:</span> <span class="s">"http://url/{z}/{x}/{y}.png"</span><span class="p">,</span> <span class="nv">andMinZoom</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">andMaxZoom</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">andBoundingBox</span><span class="p">:</span><span class="n">boundingBox</span><span class="p">,</span> <span class="nv">andProjection</span><span class="p">:</span><span class="n">projection</span><span class="p">)</span>
@@ -4954,7 +4954,7 @@ pod install
 </code></pre>
 
 <p>Run tests from Xcode or from command line:</p>
-<pre class="highlight plaintext"><code>xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 12'
+<pre class="highlight plaintext"><code>xcodebuild test -workspace 'geopackage-ios.xcworkspace' -scheme geopackage-ios -destination 'platform=iOS Simulator,name=iPhone 13'
 </code></pre>
 <h3 id='remote-dependencies' class='heading'>Remote Dependencies</h3>
 
@@ -4969,7 +4969,7 @@ pod install
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2021-11-02)</p>
+          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2021-12-16)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
