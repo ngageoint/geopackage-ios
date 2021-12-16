@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 7.0.3 (TBD)
+
+* TBD
+
 ## [7.0.2](https://github.com/ngageoint/geopackage-ios/releases/tag/7.0.2) (12-16-2021)
 
 * GPKGUrlTileGenerator HTTP Method and Header field values support
