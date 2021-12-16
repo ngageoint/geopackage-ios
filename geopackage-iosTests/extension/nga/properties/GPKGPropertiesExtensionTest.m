@@ -150,7 +150,8 @@
     [GPKGTestUtils assertEqualIntWithValue:22 andValue2:[extension numProperties]];
     [GPKGTestUtils assertEqualIntWithValue:count andValue2:[extension numValues]];
     
-    [GPKGTestUtils assertEqualIntWithValue:count andValue2:[extension deleteAll]];
+    int deleted = [extension deleteAll];
+    [GPKGTestUtils assertTrue:deleted >= count && deleted <= count + 1];
     
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numProperties]];
     [GPKGTestUtils assertEqualIntWithValue:0 andValue2:[extension numValues]];
