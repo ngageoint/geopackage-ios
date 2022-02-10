@@ -19,9 +19,9 @@ Pod::Spec.new do |s|
 
   s.library = 'sqlite3'
 
-  s.dependency 'sf-wkb-ios', '~> 4.0.0'
-  s.dependency 'sf-wkt-ios', '~> 2.0.0'
-  s.dependency 'sf-proj-ios', '~> 5.0.1'
-  s.dependency 'ogc-api-features-json-ios', '~> 4.0.0'
-  s.dependency 'tiff-ios', '~> 3.0.1'
+  s.dependency 'sf-wkb-ios', '~> 4.0.1'
+  s.dependency 'sf-wkt-ios', '~> 2.0.1'
+  s.dependency 'sf-proj-ios', '~> 5.0.2'
+  s.dependency 'ogc-api-features-json-ios', '~> 4.0.1'
+  s.dependency 'tiff-ios', '~> 4.0.0'
 end
