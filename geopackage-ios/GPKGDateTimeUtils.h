@@ -69,6 +69,16 @@ extern NSString * const GPKG_DTU_FUNCTION_STRFTIME;
 +(NSDate *) convertToDateWithString: (NSString *) dateTimeString;
 
 /**
+ *  Convert a datetime string to a date
+ *
+ *  @param dateTimeString datetime string
+ *  @param expected if a parsed date is  expected
+ *
+ *  @return date, or nil if the dateTimeString is nil or empty
+ */
++(NSDate *) convertToDateWithString: (NSString *) dateTimeString andExpected: (BOOL) expected;
+
+/**
  *  Convert a date to the provided string format
  *
  *  @param date date

@@ -9,6 +9,8 @@
 #import "GPKGBoundingBox.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "PROJProjectionConstants.h"
+#import "SFGeometryUtils.h"
+#import "SFGeometryEnvelopeBuilder.h"
 
 @implementation GPKGBoundingBox
 
@@ -63,6 +65,10 @@
     return [self initWithMinLongitude:envelope.minX andMinLatitude:envelope.minY andMaxLongitude:envelope.maxX andMaxLatitude:envelope.maxY];
 }
 
+-(instancetype) initWithGeometry: (SFGeometry *) geometry{
+    return [self initWithEnvelope:[geometry envelope]];
+}
+
 -(NSDecimalNumber *) longitudeRange{
     return [self.maxLongitude decimalNumberBySubtracting:self.minLongitude];
 }
@@ -79,6 +85,38 @@
     return [[self latitudeRange] doubleValue];
 }
 
+-(SFPoint *) centroid{
+    return [GPKGBoundingBox centroidOfBoundingBox:self];
+}
+
++(SFPoint *) centroidOfBoundingBox: (GPKGBoundingBox *) boundingBox{
+    double x = ([boundingBox.minLongitude doubleValue] + [boundingBox.maxLongitude doubleValue]) / 2.0;
+    double y = ([boundingBox.minLatitude doubleValue] + [boundingBox.maxLatitude doubleValue]) / 2.0;
+    return [[SFPoint alloc] initWithXValue:x andYValue:y];
+}
+
+-(SFPoint *) centroidInProjection: (PROJProjection *) projection{
+    return [GPKGBoundingBox centroidOfBoundingBox:self inProjection:projection];
+}
+
++(SFPoint *) centroidOfBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
+    SFPoint *centroid = nil;
+    if([projection isUnit:PROJ_UNIT_DEGREES]){
+        centroid = [self degreesCentroidOfBoundingBox:boundingBox];
+    }else{
+        centroid = [self centroidOfBoundingBox:boundingBox];
+    }
+    return centroid;
+}
+
+-(SFPoint *) degreesCentroid{
+    return [GPKGBoundingBox degreesCentroidOfBoundingBox:self];
+}
+
++(SFPoint *) degreesCentroidOfBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [SFGeometryUtils degreesCentroidOfGeometry:[GPKGBoundingBox buildGeometryFromBoundingBox:boundingBox]];
+}
+
 -(SFGeometryEnvelope *) buildEnvelope{
     return [GPKGBoundingBox buildEnvelopeFromBoundingBox:self];
 }
@@ -90,6 +128,14 @@
     [envelope setMinY:boundingBox.minLatitude];
     [envelope setMaxY:boundingBox.maxLatitude];
     return envelope;
+}
+
+-(SFGeometry *) buildGeometry{
+    return [GPKGBoundingBox buildGeometryFromBoundingBox:self];
+}
+
++(SFGeometry *) buildGeometryFromBoundingBox: (GPKGBoundingBox *) boundingBox{
+    return [SFGeometryEnvelopeBuilder buildGeometryWithEnvelope:[self buildEnvelopeFromBoundingBox:boundingBox]];
 }
 
 -(BOOL) equals: (GPKGBoundingBox *) boundingBox{
@@ -201,7 +247,7 @@
     }
     
     if(adjust != nil){
-        complementary = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+        complementary = [self mutableCopy];
         [complementary setMinLongitude:[complementary.minLongitude decimalNumberByAdding:adjust]];
         [complementary setMaxLongitude:[complementary.maxLongitude decimalNumberByAdding:adjust]];
     }
@@ -219,7 +265,7 @@
 
 -(GPKGBoundingBox *) boundCoordinatesWithMaxLongitude: (double) maxProjectionLongitude{
 
-    GPKGBoundingBox *bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+    GPKGBoundingBox *bounded = [self mutableCopy];
     
     double minLongitude = fmod([self.minLongitude doubleValue] + maxProjectionLongitude, 2 * maxProjectionLongitude)
         - maxProjectionLongitude;
@@ -242,7 +288,7 @@
 
 -(GPKGBoundingBox *) expandCoordinatesWithMaxLongitude: (double) maxProjectionLongitude{
     
-    GPKGBoundingBox *expanded = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+    GPKGBoundingBox *expanded = [self mutableCopy];
     
     double minLongitude = [self.minLongitude doubleValue];
     double maxLongitude = [self.maxLongitude doubleValue];
@@ -267,9 +313,10 @@
 -(GPKGBoundingBox *) transform: (SFPGeometryTransform *) transform{
     GPKGBoundingBox *transformed = self;
     if ([transform isSameProjection]) {
-        transformed = [[GPKGBoundingBox alloc] initWithBoundingBox:transformed];
+        transformed = [transformed mutableCopy];
     } else {
-        if([transform.fromProjection isUnit:PROJ_UNIT_DEGREES]){
+        if([transform.fromProjection isUnit:PROJ_UNIT_DEGREES]
+           && [transform.toProjection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){
             transformed = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:transformed];
         }
         SFGeometryEnvelope *envelope = [GPKGBoundingBox buildEnvelopeFromBoundingBox:transformed];
@@ -336,7 +383,7 @@
 
 -(GPKGBoundingBox *) squareExpandWithBuffer: (double) bufferPercentage{
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithBoundingBox:self];
+    GPKGBoundingBox *boundingBox = [self mutableCopy];
 
     if([boundingBox isPoint] && bufferPercentage > 0.0){
 
@@ -383,6 +430,10 @@
 -(BOOL) isPoint{
     return [self.minLongitude compare:self.maxLongitude] == NSOrderedSame
         && [self.minLatitude compare:self.maxLatitude] == NSOrderedSame;
+}
+
+-(id) mutableCopyWithZone: (NSZone *) zone{
+    return [[GPKGBoundingBox alloc] initWithBoundingBox:self];
 }
 
 @end

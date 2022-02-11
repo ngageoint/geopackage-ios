@@ -22,7 +22,7 @@ struct GPKGBoundingBoxSize{
 /**
  *  Bounding box with longitude and latitude range
  */
-@interface GPKGBoundingBox : NSObject
+@interface GPKGBoundingBox : NSObject <NSMutableCopying>
 
 /**
  *  Longitude range
@@ -106,6 +106,15 @@ struct GPKGBoundingBoxSize{
 -(instancetype) initWithEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
+ *  Initialize with geometry
+ *
+ *  @param geometry geometry
+ *
+ *  @return new bounding box
+ */
+-(instancetype) initWithGeometry: (SFGeometry *) geometry;
+
+/**
  * Get the longitude range
  *
  * @return longitude range
@@ -134,6 +143,59 @@ struct GPKGBoundingBoxSize{
 -(double) latitudeRangeValue;
 
 /**
+ * Get the bounding box centroid point
+ *
+ * @return centroid point
+ */
+-(SFPoint *) centroid;
+
+/**
+ * Get the bounding box centroid point
+ *
+ * @param boundingBox
+ *            bounding box
+ *
+ * @return centroid point
+ */
++(SFPoint *) centroidOfBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Get the centroid for the bounding box and projection
+ *
+ * @param projection
+ *            projection of the bounding box
+ * @return centroid point
+ */
+-(SFPoint *) centroidInProjection: (PROJProjection *) projection;
+
+/**
+ * Get the centroid for the bounding box and projection
+ *
+ * @param boundingBox
+ *            bounding box
+ * @param projection
+ *            projection of the bounding box
+ * @return centroid point
+ */
++(SFPoint *) centroidOfBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
+
+/**
+ * Get the centroid for the bounding box in degrees
+ *
+ * @return centroid point
+ */
+-(SFPoint *) degreesCentroid;
+
+/**
+ * Get the centroid for a bounding box in degrees
+ *
+ * @param boundingBox
+ *            bounding box in degrees
+ * @return centroid point
+ */
++(SFPoint *) degreesCentroidOfBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
  * Build a Geometry Envelope from the bounding box
  *
  * @return geometry envelope
@@ -148,6 +210,23 @@ struct GPKGBoundingBoxSize{
  * @return geometry envelope
  */
 +(SFGeometryEnvelope *) buildEnvelopeFromBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Build a geometry representation of the bounding box
+ *
+ * @return geometry, polygon or point
+ */
+-(SFGeometry *) buildGeometry;
+
+/**
+ * Build a geometry representation of the bounding box
+ *
+ * @param boundingBox
+ *            bounding box
+ *
+ * @return geometry, polygon or point
+ */
++(SFGeometry *) buildGeometryFromBoundingBox: (GPKGBoundingBox *) boundingBox;
 
 /**
  *  Determine if equal to the provided bounding box

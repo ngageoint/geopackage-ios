@@ -13,7 +13,6 @@
 #import "SFWBGeometryReader.h"
 #import "SFByteWriter.h"
 #import "SFWBGeometryWriter.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "SFPointFiniteFilter.h"
 #import "GPKGProperties.h"
 #import "GPKGPropertyConstants.h"
@@ -592,6 +591,14 @@ static int defaultByteOrder;
     }
 }
 
+-(GPKGBoundingBox *) boundingBox{
+    GPKGBoundingBox *boundingBox = nil;
+    if(_envelope != nil){
+        boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:_envelope];
+    }
+    return boundingBox;
+}
+
 -(void) setGeometry:(SFGeometry *) geometry{
     _geometry = geometry;
     self.empty = geometry == nil;
@@ -669,10 +676,19 @@ static int defaultByteOrder;
 -(SFGeometryEnvelope *) buildEnvelope{
     SFGeometryEnvelope *envelope = nil;
     if(self.geometry != nil){
-        envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:self.geometry];
+        envelope = [self.geometry envelope];
     }
     [self setEnvelope:envelope];
     return envelope;
+}
+
+-(GPKGBoundingBox *) buildBoundingBox{
+    GPKGBoundingBox *boundingBox = nil;
+    SFGeometryEnvelope *envelope = [self envelope];
+    if(envelope != nil){
+        boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
+    }
+    return boundingBox;
 }
 
 +(int) indicatorWithEnvelope: (SFGeometryEnvelope *) envelope{

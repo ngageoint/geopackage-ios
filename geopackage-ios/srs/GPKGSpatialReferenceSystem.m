@@ -25,14 +25,21 @@ NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063 = @"definition_12_063";
     
     NSString *authority = self.organization;
     NSNumber *code = self.organizationCoordsysId;
+    NSString *definition = [self projectionDefinition];
+    
+    PROJProjection *projection = [PROJProjectionFactory projectionWithAuthority:authority andNumberCode:code andParams:nil andDefinition:definition];
+    
+    return projection;
+}
+
+-(NSString *) projectionDefinition{
+    
     NSString *definition = self.definition_12_063;
     if(definition == nil){
         definition = self.definition;
     }
     
-    PROJProjection *projection = [PROJProjectionFactory projectionWithAuthority:authority andNumberCode:code andParams:nil andDefinition:definition];
-    
-    return projection;
+    return definition;
 }
 
 -(SFPGeometryTransform *) transformationFromProjection: (PROJProjection *) projection{

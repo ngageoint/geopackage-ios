@@ -74,6 +74,13 @@ extern NSString * const GPKG_SRS_COLUMN_DEFINITION_12_063;
 -(PROJProjection *) projection;
 
 /**
+ * Get the projection definition
+ *
+ * @return definition
+ */
+-(NSString *) projectionDefinition;
+
+/**
  * Get the geometry transform from the provided projection to the Spatial
  * Reference System projection
  *

@@ -11,6 +11,7 @@
 #import "SFGeometry.h"
 #import "SFGeometryFilter.h"
 #import "SFPGeometryTransform.h"
+#import "GPKGBoundingBox.h"
 
 /**
  *  GeoPackage Geometry Data
@@ -758,6 +759,13 @@
 -(NSData *) toData;
 
 /**
+ * Get the bounding box of the geometry envelope
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) boundingBox;
+
+/**
  * Set the geometry. Updates the empty flag and if the geometry is not null,
  * the extended flag. Following invoking this method and upon setting the
  * SRS id, call {@link #toData} to convert the geometry to bytes.
@@ -838,6 +846,13 @@
  * @return geometry envelope
  */
 -(SFGeometryEnvelope *) buildEnvelope;
+
+/**
+ * Get the bounding box of the geometry envelope
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) buildBoundingBox;
 
 /**
  * Get the envelope flag indicator

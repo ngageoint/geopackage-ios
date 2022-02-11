@@ -38,6 +38,10 @@ static NSArray * dateFormatters;
 }
 
 +(NSDate *) convertToDateWithString: (NSString *) dateTimeString{
+    return [self convertToDateWithString:dateTimeString andExpected:YES];
+}
+
++(NSDate *) convertToDateWithString: (NSString *) dateTimeString andExpected: (BOOL) expected{
 
     NSDate * date = nil;
     
@@ -52,7 +56,7 @@ static NSArray * dateFormatters;
             }
         }
         
-        if(date == nil){
+        if(date == nil && expected){
             [NSException raise:@"No Date Formatter" format:@"No Date Formatter configured to convert date time string '%@' to a date", dateTimeString];
         }
     }

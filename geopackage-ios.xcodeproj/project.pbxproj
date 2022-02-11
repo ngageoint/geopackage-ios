@@ -635,6 +635,8 @@
 		0499468023F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499467E23F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m */; };
 		0499468323F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0499468123F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h */; };
 		0499468423F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */; };
+		049D95A327B6DDC2003C8046 /* GPKGPagination.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95A127B6DDC2003C8046 /* GPKGPagination.h */; };
+		049D95A427B6DDC2003C8046 /* GPKGPagination.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95A227B6DDC2003C8046 /* GPKGPagination.m */; };
 		049FDF0E222F18F3003399A3 /* GPKGTileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */; };
 		049FDF0F222F18F3003399A3 /* GPKGTileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */; };
 		04A1CE2E1D1059D500731963 /* GPKGTileCreatorImageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */; };
@@ -1470,6 +1472,8 @@
 		0499467E23F3255900200DC4 /* GPKGFeatureIndexerIdQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexerIdQuery.m; sourceTree = "<group>"; };
 		0499468123F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureIndexerIdResultSet.h; sourceTree = "<group>"; };
 		0499468223F58BC700200DC4 /* GPKGFeatureIndexerIdResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureIndexerIdResultSet.m; sourceTree = "<group>"; };
+		049D95A127B6DDC2003C8046 /* GPKGPagination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGPagination.h; sourceTree = "<group>"; };
+		049D95A227B6DDC2003C8046 /* GPKGPagination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGPagination.m; sourceTree = "<group>"; };
 		049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileUtils.h; sourceTree = "<group>"; };
 		049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileUtils.m; sourceTree = "<group>"; };
 		04A1CE2C1D1059D500731963 /* GPKGTileCreatorImageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTileCreatorImageTest.h; sourceTree = "<group>"; };
@@ -2317,6 +2321,8 @@
 				0491561D230DCF7400B92B3F /* GPKGTableMapping.m */,
 				04915620230F114D00B92B3F /* GPKGMappedColumn.h */,
 				04915621230F114D00B92B3F /* GPKGMappedColumn.m */,
+				049D95A127B6DDC2003C8046 /* GPKGPagination.h */,
+				049D95A227B6DDC2003C8046 /* GPKGPagination.m */,
 			);
 			path = db;
 			sourceTree = "<group>";
@@ -3431,6 +3437,7 @@
 				04329B9A2056ABC100F3EBBE /* GPKGTileScaling.h in Headers */,
 				041695401DC93DEC008476AB /* GPKGAttributesColumn.h in Headers */,
 				04B285A02314742B00CBF9DD /* GPKGSQLiteMaster.h in Headers */,
+				049D95A327B6DDC2003C8046 /* GPKGPagination.h in Headers */,
 				042FC88B1B964D8C00549A4B /* GPKGFeatureTileGenerator.h in Headers */,
 				0447FA0A1CD8F66100418104 /* GPKGCrsWktExtension.h in Headers */,
 				042FC87E1B964D8C00549A4B /* GPKGProperties.h in Headers */,
@@ -3835,6 +3842,7 @@
 				042FC8961B964D8C00549A4B /* GPKGTileGrid.m in Sources */,
 				042FC8451B964D8C00549A4B /* GPKGMultiPoint.m in Sources */,
 				0407C48D21F1463A008ABBF6 /* GPKGFeatureStyles.m in Sources */,
+				049D95A427B6DDC2003C8046 /* GPKGPagination.m in Sources */,
 				041A2C4F2412A31C00A5B08A /* GPKGFeaturePreview.m in Sources */,
 				040FC0A021496B89001EAA8E /* GPKGRTreeIndexTableRow.m in Sources */,
 				042FC8AA1B964D8C00549A4B /* GPKGTileColumn.m in Sources */,
