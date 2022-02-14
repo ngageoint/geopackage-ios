@@ -37,6 +37,34 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table;
 
 /**
+ * Check if the table has a primary key column
+ *
+ * @return true if has a primary key
+ */
+-(BOOL) hasPkColumn;
+
+/**
+ * Get the primary key column index
+ *
+ * @return primary key column index
+ */
+-(int) pkIndex;
+
+/**
+ * Get the primary key column
+ *
+ * @return primary key column
+ */
+-(GPKGUserColumn *) pkColumn;
+
+/**
+ * Get the primary key column name
+ *
+ * @return primary key column name
+ */
+-(NSString *) pkColumnName;
+
+/**
  * Get the table columns
  *
  * @return columns

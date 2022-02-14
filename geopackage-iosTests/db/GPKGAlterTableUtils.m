@@ -448,7 +448,7 @@
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyGeometryColumns.tableName];
             [GPKGTestUtils assertEqualWithValue:newTableName andValue2:copyTable.tableName];
             [GPKGTestUtils assertEqualWithValue:pk andValue2:[table pkColumn]];
-            [GPKGTestUtils assertEqualWithValue:pk.name andValue2:[copyTable pkColumn].name];
+            [GPKGTestUtils assertEqualWithValue:pk.name andValue2:[copyTable pkColumnName]];
             [GPKGTestUtils assertEqualIntWithValue:pk.index andValue2:[copyTable pkColumn].index];
             [GPKGTestUtils assertEqualWithValue:geometry andValue2:[table geometryColumn]];
             [GPKGTestUtils assertEqualWithValue:geometry.name andValue2:[copyTable geometryColumnName]];

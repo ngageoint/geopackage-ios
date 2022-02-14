@@ -18,10 +18,12 @@
 
 @implementation GPKGResultSet
 
--(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection{
+-(instancetype) initWithStatement: (sqlite3_stmt *) statement andSql: (NSString *) sql andArgs: (NSArray *) args andCount: (int) count andConnection: (GPKGDbConnection *) connection{
     self = [super init];
     if(self){
         self.statement = statement;
+        self.sql = sql;
+        self.args = args;
         self.count = count;
         self.connection = connection;
     
@@ -32,7 +34,7 @@
         
         for (int i=0; i<totalColumns; i++){
             char *columnName = (char *)sqlite3_column_name(statement, i);
-            NSString * column = [NSString stringWithUTF8String:columnName];
+            NSString *column = [NSString stringWithUTF8String:columnName];
             [GPKGUtils addObject:column toArray:statementColumns];
             [statementColumnIndex setValue:[NSNumber numberWithInt:i] forKey:column];
         }
@@ -106,7 +108,7 @@
     NSUInteger totalColumns = [self.columnNames count];
     
     for (int i=0; i<totalColumns; i++){
-        NSObject * value = [self valueWithIndex:i];
+        NSObject *value = [self valueWithIndex:i];
         [GPKGUtils addObject:value toArray:values];
     }
 
@@ -114,7 +116,7 @@
 
 -(NSObject *) valueWithIndex: (int) index{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     int type = [self type:index];
     
@@ -150,7 +152,7 @@
 }
 
 -(int) columnIndexWithName: (NSString *) columnName{
-    NSNumber * index = [self.columnIndex valueForKey: columnName];
+    NSNumber *index = [self.columnIndex valueForKey: columnName];
     if(index == nil){
         [NSException raise:@"No Column" format:@"Failed to find column index for column name: %@", columnName];
     }
@@ -162,10 +164,10 @@
 }
 
 -(NSString *) stringWithIndex: (int) columnIndex{
-    NSString * value = nil;
+    NSString *value = nil;
     char *dbDataAsChars = (char *)sqlite3_column_text(self.statement, columnIndex);
     if (dbDataAsChars != NULL) {
-        value = [NSString  stringWithUTF8String:dbDataAsChars];
+        value = [NSString stringWithUTF8String:dbDataAsChars];
     }
     return value;
 }

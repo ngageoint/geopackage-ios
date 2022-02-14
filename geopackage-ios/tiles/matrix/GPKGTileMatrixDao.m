@@ -131,6 +131,26 @@
     return contents;
 }
 
+-(GPKGResultSet *) queryForTableName: (NSString *) table{
+    GPKGResultSet * results = [self queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:table andGroupBy:nil andHaving:nil
+                  andOrderBy:[NSString stringWithFormat:@"%@ ASC, %@ DESC, %@ DESC", GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE]];
+    return results;
+}
+
+-(NSArray<GPKGTileMatrix *> *) tileMatricesForTableName: (NSString *) table{
+    NSMutableArray<GPKGTileMatrix *> *tileMatrices = [NSMutableArray array];
+    GPKGResultSet *results = [self queryForTableName:table];
+    @try{
+        while([results moveToNext]){
+            GPKGTileMatrix *tileMatrix = (GPKGTileMatrix *)[self object:results];
+            [GPKGUtils addObject:tileMatrix toArray:tileMatrices];
+        }
+    }@finally{
+        [results close];
+    }
+    return tileMatrices;
+}
+
 -(int) deleteByTableName: (NSString *) table{
     GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
     [fieldValues addColumn:GPKG_TM_COLUMN_TABLE_NAME withValue:table];

@@ -84,7 +84,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     int prepareStatementResult = sqlite3_prepare_v2([connection connection], [statement UTF8String], -1, &compiledStatement, NULL);
     if(prepareStatementResult == SQLITE_OK) {
         [self setArguments:args inStatement:compiledStatement];
-        resultSet = [[GPKGResultSet alloc] initWithStatement: compiledStatement andCount:count andConnection:connection];
+        resultSet = [[GPKGResultSet alloc] initWithStatement:compiledStatement andSql:statement andArgs:args andCount:count andConnection:connection];
     } else{
         [NSException raise:@"SQL Failed" format:@"Failed to execute query SQL: %@, Error: %s", statement, sqlite3_errmsg([connection connection])];
     }

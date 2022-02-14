@@ -99,6 +99,22 @@
     return values;
 }
 
+-(BOOL) hasPkColumn{
+    return [_table hasPkColumn];
+}
+
+-(int) pkIndex{
+    return [_table pkIndex];
+}
+
+-(GPKGUserColumn *) pkColumn{
+    return [_table pkColumn];
+}
+
+-(NSString *) pkColumnName{
+    return [_table pkColumnName];
+}
+
 -(NSArray<GPKGUserColumn *> *) columns{
     return [_table columns];
 }

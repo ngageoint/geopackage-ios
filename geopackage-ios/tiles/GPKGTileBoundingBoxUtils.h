@@ -267,6 +267,17 @@
 +(GPKGBoundingBox *) projectedBoundingBoxWithProjection: (PROJProjection *) projection andTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
 
 /**
+ * Get the WGS84 tile bounding box from the XYZ tile tileGrid and zoom level
+ *
+ * @param tileGrid
+ *            tile grid
+ * @param zoom
+ *            zoom level
+ * @return bounding box
+ */
++(GPKGBoundingBox *) boundingBoxAsWGS84WithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom;
+
+/**
  * Get the Projected tile bounding box from the WGS84 XYZ tile coordinates and zoom level
  *
  *  @param epsg epsg code
@@ -359,6 +370,17 @@
 +(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection;
 
 /**
+ * Get the tile grid for the location specified as web mercator
+ *
+ * @param point
+ *            point
+ * @param zoom
+ *            zoom level
+ * @return tile grid
+ */
++(GPKGTileGrid *) tileGridFromWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
  *  Get the tile grid that includes the entire tile bounding box
  *
  *  @param webMercatorBoundingBox web mercator bounding box
@@ -367,6 +389,78 @@
  *  @return tile grid
  */
 +(GPKGTileGrid *) tileGridWithWebMercatorBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andZoom: (int) zoom;
+
+/**
+ * Get the bounds of the XYZ tile at the point and zoom level
+ *
+ * @param projection
+ *            point and bounding box projection
+ * @param point
+ *            point location
+ * @param zoom
+ *            zoom level
+ * @return bounding box
+ */
++(GPKGBoundingBox *) tileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the XYZ tile at the WGS84 point and zoom level
+ *
+ * @param point
+ *            WGS84 point
+ * @param zoom
+ *            zoom level
+ * @return WGS84 bounding box
+ */
++(GPKGBoundingBox *) tileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the web mercator bounds of the XYZ tile at the web mercator point and
+ * zoom level
+ *
+ * @param point
+ *            web mercator point
+ * @param zoom
+ *            zoom level
+ * @return web mercator bounding box
+ */
++(GPKGBoundingBox *) tileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the bounds of the WGS84 tile at the point and zoom level
+ *
+ * @param projection
+ *            point and bounding box projection
+ * @param point
+ *            point location
+ * @param zoom
+ *            zoom level
+ * @return bounding box
+ */
++(GPKGBoundingBox *) wgs84TileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the WGS84 tile at the WGS84 point and zoom level
+ *
+ * @param point
+ *            WGS84 point
+ * @param zoom
+ *            zoom level
+ * @return WGS84 bounding box
+ */
++(GPKGBoundingBox *) wgs84TileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the web mercator bounds of the WGS84 tile at the web mercator point
+ * and zoom level
+ *
+ * @param point
+ *            web mercator point
+ * @param zoom
+ *            zoom level
+ * @return web mercator bounding box
+ */
++(GPKGBoundingBox *) wgs84TileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  *  Convert the bounding box coordinates to a new web mercator bounding box
@@ -394,6 +488,39 @@
  *  @return zoom level
  */
 +(double) zoomLevelOfTileSize: (double) tileSize;
+
+/**
+ * Get the tile size in length units
+ *
+ * @param tilesPerSide
+ *            tiles per side
+ * @param totalLength
+ *            total length
+ * @return tile size
+ */
++(double) tileSizeWithTilesPerSide: (int) tilesPerSide andTotalLength: (double) totalLength;
+
+/**
+ * Get the zoom level from the tile size in length units
+ *
+ * @param tileSize
+ *            tile size in units
+ * @param totalLength
+ *            total length
+ * @return zoom level
+ */
++(double) zoomLevelOfTileSize: (double) tileSize andTotalLength: (double) totalLength;
+
+/**
+ * Get the tile size in length units at the zoom level
+ *
+ * @param zoom
+ *            zoom level
+ * @param totalLength
+ *            total length
+ * @return tile size in units
+ */
++(double) tileSizeWithZoom: (int) zoom andTotalLength: (double) totalLength;
 
 /**
  *  Get the tile width in degrees
@@ -663,7 +790,42 @@
 +(CGRect) roundedRectangleWithWidth: (int) width andHeight: (int) height andBoundingBox: (GPKGBoundingBox *) boundingBox andSection: (GPKGBoundingBox *) boundingBoxSection;
 
 /**
- *  Get the tile grid that includes the entire tile bounding box
+ * Get the WGS84 tile grid for the point specified as WGS84
+ *
+ * @param point
+ *            point
+ * @param zoom
+ *            zoom level
+ * @return tile grid
+ */
++(GPKGTileGrid *) tileGridWGS84FromWGS84Point: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 tile grid for the point specified as the projection
+ *
+ * @param point
+ *            point
+ * @param zoom
+ *            zoom level
+ * @param projection
+ *            projection
+ * @return tile grid
+ */
++(GPKGTileGrid *) tileGridWGS84FromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection;
+
+/**
+ * Get the WGS84 tile grid for the point specified as web mercator
+ *
+ * @param point
+ *            point
+ * @param zoom
+ *            zoom level
+ * @return tile grid
+ */
++(GPKGTileGrid *) tileGridWGS84FromWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ *  Get the WGS84 tile grid that includes the entire tile bounding box
  *
  *  @param wgs84BoundingBox    wgs84 bounding box
  *  @param zoom                zoom level

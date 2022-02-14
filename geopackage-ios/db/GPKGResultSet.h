@@ -23,6 +23,16 @@
 @property (nonatomic) sqlite3_stmt *statement;
 
 /**
+ * SQL string statement
+ */
+@property (nonatomic, strong) NSString *sql;
+
+/**
+ * SQL arguments
+ */
+@property (nonatomic, strong) NSArray *args;
+
+/**
  *  Result count
  */
 @property (nonatomic) int count;
@@ -51,11 +61,14 @@
  *  Initialize
  *
  *  @param statement statement
- *  @param count     result count
+ *  @param sql SQL statement
+ *  @param args SQL arguments
+ *  @param count  result count
+ *  @param connection db connection
  *
  *  @return new result set
  */
--(instancetype) initWithStatement:(sqlite3_stmt *) statement andCount: (int) count andConnection: (GPKGDbConnection *) connection;
+-(instancetype) initWithStatement: (sqlite3_stmt *) statement andSql: (NSString *) sql andArgs: (NSArray *) args andCount: (int) count andConnection: (GPKGDbConnection *) connection;
 
 /**
  *  Initialize reusing existing result set statement and connection

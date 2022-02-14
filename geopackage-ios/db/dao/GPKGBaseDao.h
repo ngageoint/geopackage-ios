@@ -1259,7 +1259,7 @@
 -(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column forColumnValueFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1268,7 +1268,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1279,7 +1279,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1290,7 +1290,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1336,7 +1336,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1347,7 +1347,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1360,7 +1360,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1373,7 +1373,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1427,7 +1427,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1438,7 +1438,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1451,7 +1451,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1464,7 +1464,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1518,7 +1518,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1531,7 +1531,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1546,7 +1546,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1561,7 +1561,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1623,7 +1623,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1636,7 +1636,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1651,7 +1651,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1666,7 +1666,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1728,7 +1728,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1739,7 +1739,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1752,7 +1752,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1765,7 +1765,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1819,7 +1819,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1832,7 +1832,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1847,7 +1847,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1862,7 +1862,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1924,7 +1924,7 @@
 -(int) countInWithDistinct: (BOOL) distinct andColumn: (NSString *) column andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param nestedSQL
  *            nested SQL
@@ -1939,7 +1939,7 @@
 -(GPKGResultSet *) queryInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows
@@ -1956,7 +1956,7 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param columns
  *            columns
@@ -1973,7 +1973,7 @@
 -(GPKGResultSet *) queryInWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Query for ids in the nested SQL query
+ * Query for rows by ids in the nested SQL query
  *
  * @param distinct
  *            distinct rows

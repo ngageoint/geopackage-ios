@@ -46,7 +46,7 @@
     }
     
     if(adjustment != 0.0){
-        bbox2 = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox2];
+        bbox2 = [boundingBox2 mutableCopy];
         NSDecimalNumber *adjustmentDecimal = [[NSDecimalNumber alloc] initWithDouble:adjustment];
         [bbox2 setMinLongitude:[bbox2.minLongitude decimalNumberByAdding:adjustmentDecimal]];
         [bbox2 setMaxLongitude:[bbox2.maxLongitude decimalNumberByAdding:adjustmentDecimal]];
@@ -213,6 +213,10 @@
     return boundingBox;
 }
 
++(GPKGBoundingBox *) boundingBoxAsWGS84WithTileGrid: (GPKGTileGrid *) tileGrid andZoom: (int) zoom{
+    return [self projectedBoundingBoxWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM] andTileGrid:tileGrid andZoom:zoom];
+}
+
 +(GPKGBoundingBox *) projectedBoundingBoxFromWGS84WithEpsg: (NSNumber *) epsg andX: (int) x andY: (int) y andZoom: (int) zoom{
     return [self projectedBoundingBoxFromWGS84WithAuthority:PROJ_AUTHORITY_EPSG andCode:epsg andX:x andY:y andZoom:zoom];
 }
@@ -277,7 +281,11 @@
 +(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
     SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
     SFPoint * webMercatorPoint = [toWebMercator transformPoint:point];
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:webMercatorPoint.x andMinLatitude:webMercatorPoint.y andMaxLongitude:webMercatorPoint.x andMaxLatitude:webMercatorPoint.y];
+    return [self tileGridFromWebMercatorPoint:webMercatorPoint andZoom:zoom];
+}
+
++(GPKGTileGrid *) tileGridFromWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
+    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMinLatitude:point.y andMaxLongitude:point.x andMaxLatitude:point.y];
     return [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
 }
 
@@ -307,6 +315,36 @@
     return grid;
 }
 
++(GPKGBoundingBox *) tileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
+    GPKGTileGrid *tileGrid = [self tileGridFromPoint:point andZoom:zoom andProjection:projection];
+    return [self projectedBoundingBoxWithProjection:projection andTileGrid:tileGrid andZoom:zoom];
+}
+
++(GPKGBoundingBox *) tileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom{
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    return [self tileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+}
+
++(GPKGBoundingBox *) tileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    return [self tileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+}
+
++(GPKGBoundingBox *) wgs84TileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
+    GPKGTileGrid *tileGrid = [self tileGridWGS84FromPoint:point andZoom:zoom andProjection:projection];
+    return [self projectedBoundingBoxFromWGS84WithProjection:projection andTileGrid:tileGrid andZoom:zoom];
+}
+
++(GPKGBoundingBox *) wgs84TileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom{
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    return [self wgs84TileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+}
+
++(GPKGBoundingBox *) wgs84TileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    return [self wgs84TileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+}
+
 +(GPKGBoundingBox *) toWebMercatorWithBoundingBox: (GPKGBoundingBox *) boundingBox{
     
     double minLatitude = MAX([boundingBox.minLatitude doubleValue], PROJ_WEB_MERCATOR_MIN_LAT_RANGE);
@@ -325,14 +363,27 @@
 }
 
 +(double) tileSizeWithTilesPerSide: (int) tilesPerSide{
-    return (2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH)
-				/ tilesPerSide;
+    return [self tileSizeWithTilesPerSide:tilesPerSide andTotalLength:2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
 }
 
 +(double) zoomLevelOfTileSize: (double) tileSize{
-    double tilesPerSide = (2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH) / tileSize;
+    return [self zoomLevelOfTileSize:tileSize andTotalLength:2 * PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH];
+}
+
++(double) tileSizeWithTilesPerSide: (int) tilesPerSide andTotalLength: (double) totalLength{
+    return totalLength / tilesPerSide;
+}
+
++(double) zoomLevelOfTileSize: (double) tileSize andTotalLength: (double) totalLength{
+    double tilesPerSide = totalLength / tileSize;
     double zoom = log(tilesPerSide) / log(2);
     return zoom;
+}
+
++(double) tileSizeWithZoom: (int) zoom andTotalLength: (double) totalLength{
+    int tilesPerSide = [self tilesPerSideWithZoom:zoom];
+    double tileSize = [self tileSizeWithTilesPerSide:tilesPerSide andTotalLength:totalLength];
+    return tileSize;
 }
 
 +(double) tileWidthDegreesWithTilesPerSide: (int) tilesPerSide{
@@ -564,7 +615,7 @@
 }
 
 +(GPKGBoundingBox *) boundWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox *bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox];
+    GPKGBoundingBox *bounded = [boundingBox mutableCopy];
     if([bounded.minLongitude doubleValue] < -PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH){
         [bounded setMinLongitude:[[NSDecimalNumber alloc] initWithDouble:-PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH]];
     }
@@ -585,7 +636,7 @@
 }
 
 +(GPKGBoundingBox *) boundDegreesBoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * bounded = [[GPKGBoundingBox alloc] initWithBoundingBox:boundingBox];
+    GPKGBoundingBox * bounded = [boundingBox mutableCopy];
     if([bounded.minLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
         [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];
     }
@@ -628,6 +679,22 @@
     CGRect rect = CGRectMake(leftRounded, topRounded, rightRounded - leftRounded, bottomRounded - topRounded);
     
     return rect;
+}
+
++(GPKGTileGrid *) tileGridWGS84FromWGS84Point: (SFPoint *) point andZoom: (int) zoom{
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMinLatitude:point.y andMaxLongitude:point.x andMaxLatitude:point.y];
+    return [self tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
+}
+
++(GPKGTileGrid *) tileGridWGS84FromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
+    SFPGeometryTransform *toWGS84 = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    SFPoint *wgs84Point = [toWGS84 transformPoint:point];
+    return [self tileGridWGS84FromWGS84Point:wgs84Point andZoom:zoom];
+}
+
++(GPKGTileGrid *) tileGridWGS84FromWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    return [self tileGridWGS84FromPoint:point andZoom:zoom andProjection:projection];
 }
 
 +(GPKGTileGrid *) tileGridWithWgs84BoundingBox: (GPKGBoundingBox *) wgs84BoundingBox andZoom: (int) zoom{

@@ -205,9 +205,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[featureRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featureRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:featureRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:featureRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:featureRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumn].name andValue2:featureRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumnName] andValue2:featureRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:featureRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featureRelation.mappingTableName];
         
@@ -283,9 +283,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[mediaRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:mediaRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:mediaRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:mediaRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:mediaRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumn].name andValue2:mediaRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumnName] andValue2:mediaRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:mediaRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:mediaRelation.mappingTableName];
         

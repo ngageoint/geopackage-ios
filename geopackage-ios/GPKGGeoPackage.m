@@ -717,21 +717,11 @@
     
     // Get the Tile Matrix collection, order by zoom level ascending & pixel
     // size descending per requirement 51
-    NSMutableArray * tileMatrices = [NSMutableArray array];
-    GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
-    GPKGResultSet * results = [tileMatrixDao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:tileMatrixSet.tableName andGroupBy:nil andHaving:nil
-                  andOrderBy:[NSString stringWithFormat:@"%@ ASC, %@ DESC, %@ DESC", GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE]];
-    @try{
-        while([results moveToNext]){
-            GPKGTileMatrix * tileMatrix = (GPKGTileMatrix *)[tileMatrixDao object:results];
-            [GPKGUtils addObject:tileMatrix toArray:tileMatrices];
-        }
-    }@finally{
-        [results close];
-    }
+    NSString *tableName = tileMatrixSet.tableName;
+    NSArray<GPKGTileMatrix *> *tileMatrices = [[self tileMatrixDao] tileMatricesForTableName:tableName];
     
     // Read the existing table and create the dao
-    GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTable:tileMatrixSet.tableName];
+    GPKGTileTableReader * tableReader = [[GPKGTileTableReader alloc] initWithTable:tableName];
     GPKGTileTable * tileTable = [tableReader readTileTableWithConnection:self.database];
     [tileTable setContents:[[self tileMatrixSetDao] contents:tileMatrixSet]];
     GPKGTileDao * dao = [[GPKGTileDao alloc] initWithDatabase:self.database andTable:tileTable andTileMatrixSet:tileMatrixSet andTileMatrices:tileMatrices];

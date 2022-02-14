@@ -43,6 +43,24 @@
 -(GPKGContents *) contents: (GPKGTileMatrix *) tileMatrix;
 
 /**
+ * Query tile matrices for a table name
+ *
+ * @param tableName
+ *            table name
+ * @return result set
+ */
+-(GPKGResultSet *) queryForTableName: (NSString *) table;
+
+/**
+ * Query tile matrices for a table name
+ *
+ * @param tableName
+ *            table name
+ * @return tile matrices
+ */
+-(NSArray<GPKGTileMatrix *> *) tileMatricesForTableName: (NSString *) table;
+
+/**
  *  Delete Tile Matrices for a table name
  *
  *  @param table table name

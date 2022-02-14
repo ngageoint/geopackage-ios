@@ -143,9 +143,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:attributesRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:attributesRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumnName] andValue2:attributesRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:attributesDao2.tableName andValue2:attributesRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumn].name andValue2:attributesRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumnName] andValue2:attributesRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_ATTRIBUTES] andValue2:attributesRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:attributesRelation.mappingTableName];
         
@@ -189,9 +189,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[relation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:relation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumn].name andValue2:relation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumnName] andValue2:relation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:attributesDao2.tableName andValue2:relation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumn].name andValue2:relation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao2.table pkColumnName] andValue2:relation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_ATTRIBUTES] andValue2:relation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:relation.mappingTableName];
         

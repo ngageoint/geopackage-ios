@@ -149,9 +149,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[featuresRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featuresRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:featuresRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:featuresRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:tileDao.tableName andValue2:featuresRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumn].name andValue2:featuresRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumnName] andValue2:featuresRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_TILES] andValue2:featuresRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featuresRelation.mappingTableName];
         
@@ -195,9 +195,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[relation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:relation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumn].name andValue2:relation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:relation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:tileDao.tableName andValue2:relation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumn].name andValue2:relation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[tileDao.table pkColumnName] andValue2:relation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:GPKG_RT_TILES] andValue2:relation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:relation.mappingTableName];
         
