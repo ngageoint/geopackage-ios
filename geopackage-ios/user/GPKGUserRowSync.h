@@ -12,8 +12,6 @@
 /**
  * User Row Sync to support sharing a single user row read copy when multiple
  * near simultaneous asynchronous requests are made
- *
- * @author osbornb
  */
 @interface GPKGUserRowSync : NSObject
 

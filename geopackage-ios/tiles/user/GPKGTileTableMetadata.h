@@ -13,8 +13,6 @@
 
 /**
  * Tile Table Metadata for defining table creation information
- *
- * @author osbornb
  */
 @interface GPKGTileTableMetadata : GPKGUserTableMetadata
 

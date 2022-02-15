@@ -320,9 +320,9 @@ static NSRegularExpression *constraintExpression = nil;
 
 +(NSString *) nameForSQL: (NSString *) constraintSql{
     NSString *name = nil;
-    NSArray *matches = [nameExpression matchesInString:constraintSql options:0 range:NSMakeRange(0, [constraintSql length])];
+    NSArray<NSTextCheckingResult *> *matches = [nameExpression matchesInString:constraintSql options:0 range:NSMakeRange(0, [constraintSql length])];
     if([matches count] > 0){
-        NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
+        NSTextCheckingResult* match = [matches objectAtIndex:0];
         NSRange nameRange = [match rangeAtIndex:NAME_EXPRESSION_NAME_GROUP];
         if(nameRange.length > 0){
             name = [GPKGSqlUtils quoteUnwrapName:[constraintSql substringWithRange:nameRange]];
@@ -334,9 +334,9 @@ static NSRegularExpression *constraintExpression = nil;
 +(NSArray<NSString *> *) nameAndDefinitionForSQL: (NSString *) constraintSql{
     NSArray<NSString *> *parts = nil;
     NSString *constraintSqlTrimmed = [constraintSql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray *matches = [constraintExpression matchesInString:constraintSqlTrimmed options:0 range:NSMakeRange(0, [constraintSqlTrimmed length])];
+    NSArray<NSTextCheckingResult *> *matches = [constraintExpression matchesInString:constraintSqlTrimmed options:0 range:NSMakeRange(0, [constraintSqlTrimmed length])];
     if([matches count] > 0){
-        NSTextCheckingResult* match = (NSTextCheckingResult*) [matches objectAtIndex:0];
+        NSTextCheckingResult* match = [matches objectAtIndex:0];
         NSString *name = nil;
         NSRange nameRange = [match rangeAtIndex:CONSTRAINT_EXPRESSION_NAME_GROUP];
         if(nameRange.length > 0){
