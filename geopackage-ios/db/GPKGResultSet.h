@@ -82,7 +82,7 @@
 /**
  *  Move to the next result if one exists
  *
- *  @return true a result found, false if no more results
+ *  @return true if a result found, false if no more results
  */
 -(BOOL) moveToNext;
 
