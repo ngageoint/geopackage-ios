@@ -1992,6 +1992,4115 @@
 -(GPKGResultSet *) queryInWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for rows by ids in the nested SQL query
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param fieldValues
+ *            field values
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows by ids in the nested SQL query, starting at the
+ * offset and returning no more than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param nestedSQL
+ *            nested SQL
+ * @param nestedArgs
+ *            nested SQL args
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
  * Get the count in the nested SQL query
  *
  * @param nestedSQL
@@ -2422,6 +6531,100 @@
                             andLimit: (NSString *) limit;
 
 /**
+ * Query for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            limit
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
+/**
+ * Query for rows
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            limit
+ * @return result
+ */
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andLimit: (NSString *) limit;
+
+/**
+ * Query for rows
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            limit
+ * @return result
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit;
+
+/**
+ * Query for rows
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            limit
+ * @return result
+ */
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andLimit: (NSString *) limit;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit;
+
+/**
  * Query for id ordered rows starting at the offset and returning no more
  * than the limit.
  *
@@ -2441,11 +6644,35 @@
  *            distinct rows
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more
@@ -2471,11 +6698,39 @@
  *            columns
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more
@@ -2505,11 +6760,43 @@
  *            where arguments
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more
@@ -2543,11 +6830,41 @@
  *            where arguments
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for id ordered rows starting at the offset and returning no more
+ * than the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2573,11 +6890,39 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2607,11 +6952,43 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2645,11 +7022,47 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2687,11 +7100,203 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @param offset
+ *            chunk query offset
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2733,11 +7338,55 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
 
 /**
  * Query for ordered rows starting at the offset and returning no more than
@@ -2783,11 +7432,153 @@
  *            order by
  * @param limit
  *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
  * @param offset
  *            chunk query offset
  * @return result
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
+
+/**
+ * Query for ordered rows starting at the offset and returning no more than
+ * the limit.
+ *
+ * @param distinct
+ *            distinct rows
+ * @param columns
+ *            columns
+ * @param where
+ *            where clause
+ * @param whereArgs
+ *            where arguments
+ * @param groupBy
+ *            group by
+ * @param having
+ *            having
+ * @param orderBy
+ *            order by
+ * @param limit
+ *            chunk limit
+ * @return result
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit;
 
 /**
  * Build a limit String with the limit and offset

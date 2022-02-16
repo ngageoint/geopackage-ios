@@ -826,6 +826,808 @@
     return [self queryWithDistinct:distinct andColumns:columns andWhere:whereString andWhereArgs:args];
 }
 
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:nil andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:nil andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andFieldValues:fieldValues andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andFieldValues: (GPKGColumnValues *) fieldValues andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:fieldValues];
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:nil andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nil andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:self.columnNames andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *whereClause = [self buildWhereInWithNestedSQL:nestedSQL andWhere:where];
+    NSArray *args = [self buildWhereInArgsWithNestedArgs:nestedArgs andWhereArgs:whereArgs];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:whereClause andWhereArgs:args andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *whereClause = [self buildWhereInWithNestedSQL:nestedSQL andWhere:where];
+    NSArray *args = [self buildWhereInArgsWithNestedArgs:nestedArgs andWhereArgs:whereArgs];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:whereClause andWhereArgs:args andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryInForChunkWithDistinct:NO andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andOrderBy:nil andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryInForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    NSString *whereClause = [self buildWhereInWithNestedSQL:nestedSQL andWhere:where];
+    NSArray *args = [self buildWhereInArgsWithNestedArgs:nestedArgs andWhereArgs:whereArgs];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:whereClause andWhereArgs:args andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimitValue:limit];
+}
+
 -(int) countInWithNestedSQL: (NSString *) nestedSQL andNestedArgs: (NSArray<NSString *> *) nestedArgs andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     return [self countInWithDistinct:NO andColumn:nil andNestedSQL:nestedSQL andNestedArgs:nestedArgs andWhere:where andWhereArgs:whereArgs];
 }
@@ -980,84 +1782,252 @@
     return [self.database queryWithDistinct:distinct andTable:self.tableName andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andLimit: (NSString *) limit{
+    return [self queryWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andOrderBy: (NSString *) orderBy
+                            andLimit: (NSString *) limit{
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryWithDistinct: (BOOL) distinct
+                            andColumns: (NSArray<NSString *> *) columns
+                            andWhere: (NSString *) where
+                            andWhereArgs: (NSArray *) whereArgs
+                            andLimit: (NSString *) limit{
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:nil andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andColumns:columns andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumnName] andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:self.columnNames andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:self.columnNames andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:self.columnNames andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:[NSString stringWithFormat:@"%d", limit]];
+}
+
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimit:[self buildLimitWithLimit:limit andOffset:offset]];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:nil andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:orderBy andLimitValue:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andGroupBy: (NSString *) groupBy andHaving: (NSString *) having andOrderBy: (NSString *) orderBy andLimitValue: (NSString *) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andGroupBy:groupBy andHaving:having andOrderBy:orderBy andLimitValue:limit];
 }
 
 -(NSString *) buildLimitWithLimit: (int) limit andOffset: (int) offset{
