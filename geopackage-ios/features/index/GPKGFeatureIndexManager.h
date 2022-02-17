@@ -14,6 +14,7 @@
 #import "GPKGFeatureIndexResults.h"
 #import "GPKGRTreeIndexTableDao.h"
 #import "GPKGFeatureIndexLocation.h"
+#import "GPKGPaginatedResults.h"
 
 @class GPKGFeatureIndexLocation;
 
@@ -350,6 +351,27 @@
  *  @return last indexed date or null
  */
 -(NSDate *) lastIndexedWithFeatureIndexType: (enum GPKGFeatureIndexType) type;
+
+/**
+ * Get a feature index location to iterate over indexed types
+ *
+ * @return feature index location
+ */
+-(GPKGFeatureIndexLocation *) location;
+
+/**
+ * Get the first ordered indexed type
+ *
+ * @return feature index type
+ */
+-(enum GPKGFeatureIndexType) indexedType;
+
+/**
+ * Get the feature table id column name, the default column ordering
+ *
+ * @return feature table id column name
+ */
+-(NSString *) idColumn;
 
 /**
  *  Query for all feature index results
@@ -1537,17 +1559,21 @@
 -(int) countWithDistinct: (BOOL) distinct andColumn: (NSString *) column andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
- * Get a feature index location to iterate over indexed types
+ * Determine if the results are paginated
  *
- * @return feature index location
+ * @param results
+ *            query results
+ * @return true if paginated
  */
--(GPKGFeatureIndexLocation *) location;
++(BOOL) isPaginated: (GPKGFeatureIndexResults *) results;
 
 /**
- * Get the first ordered indexed type
+ * Paginate the results
  *
- * @return feature index type
+ * @param results
+ *            feature index results
+ * @return feature paginated results
  */
--(enum GPKGFeatureIndexType) indexedType;
++(GPKGPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results;
 
 @end

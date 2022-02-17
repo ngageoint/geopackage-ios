@@ -81,6 +81,15 @@
 -(GPKGUserRow *) row: (GPKGResultSet *) results;
 
 /**
+ *  Get a user row from the row
+ *
+ *  @param row result row
+ *
+ *  @return user row
+ */
+-(GPKGUserRow *) rowWithRow: (GPKGRow *) row;
+
+/**
  *  Create a user row
  *
  *  @param columns      columns

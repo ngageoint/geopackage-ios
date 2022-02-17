@@ -38,7 +38,25 @@
  *
  *  @return attributes row
  */
+-(GPKGAttributesRow *) row: (GPKGResultSet *) results;
+
+/**
+ *  Get the attributes row for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return attributes row
+ */
 -(GPKGAttributesRow *) attributesRow: (GPKGResultSet *) results;
+
+/**
+ *  Get the attributes row for the row
+ *
+ *  @param row result row
+ *
+ *  @return attributes row
+ */
+-(GPKGAttributesRow *) rowWithRow: (GPKGRow *) row;
 
 /**
  *  Create a new attributes row

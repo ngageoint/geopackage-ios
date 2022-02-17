@@ -38,7 +38,7 @@
         // 9. get mappings by base ID
         NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *baseIdMappings = [NSMutableDictionary dictionary];
         GPKGFeatureDao *baseDao = [self.geoPackage featureDaoWithTableName:extendedRelation.baseTableName];
-        GPKGFeatureColumn *pkColumn = (GPKGFeatureColumn *)[baseDao.table pkColumn];
+        GPKGFeatureColumn *pkColumn = (GPKGFeatureColumn *)[baseDao pkColumn];
         GPKGResultSet *frs = [baseDao queryForAll];
         while([frs moveToNext]){
             NSNumber *baseId = [frs longWithIndex:pkColumn.index];
@@ -51,7 +51,7 @@
         // 10. get mappings by related ID
         NSMutableDictionary<NSNumber *, NSArray<NSNumber *> *> *relatedIdMappings = [NSMutableDictionary dictionary];
         GPKGAttributesDao *relatedDao = [self.geoPackage attributesDaoWithTableName:extendedRelation.relatedTableName];
-        GPKGAttributesColumn *pkColumn2 = (GPKGAttributesColumn *)[relatedDao.table pkColumn];
+        GPKGAttributesColumn *pkColumn2 = (GPKGAttributesColumn *)[relatedDao pkColumn];
         GPKGResultSet *ars = [relatedDao queryForAll];
         while([ars moveToNext]){
             NSNumber *relatedId = [ars longWithIndex:pkColumn2.index];

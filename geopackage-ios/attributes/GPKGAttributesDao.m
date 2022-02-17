@@ -28,8 +28,16 @@
     return (GPKGAttributesTable *) self.table;
 }
 
+-(GPKGAttributesRow *) row: (GPKGResultSet *) results{
+    return (GPKGAttributesRow *) [super row:results];
+}
+
 -(GPKGAttributesRow *) attributesRow: (GPKGResultSet *) results{
     return (GPKGAttributesRow *) [super row:results];
+}
+
+-(GPKGAttributesRow *) rowWithRow: (GPKGRow *) row{
+    return (GPKGAttributesRow *) [super rowWithRow:row];
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{

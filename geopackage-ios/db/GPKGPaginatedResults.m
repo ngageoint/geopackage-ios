@@ -26,9 +26,26 @@
  */
 @property (nonatomic, strong) NSArray *args;
 
+/**
+ *  Strong reference of the last enumerated rows to prevent garbage collection
+ */
+@property (nonatomic, strong) NSMutableArray<GPKGRow *> *rows;
+
 @end
 
 @implementation GPKGPaginatedResults
+
++(BOOL) isPaginated: (GPKGResultSet *) resultSet{
+    return [self pagination:resultSet] != nil;
+}
+
++(GPKGPagination *) pagination: (GPKGResultSet *) resultSet{
+    return [GPKGPagination findInSQL:resultSet.sql];
+}
+
++(GPKGPaginatedResults *) create: (GPKGResultSet *) resultSet{
+    return [[GPKGPaginatedResults alloc] initWithResultSet:resultSet];
+}
 
 -(instancetype) initWithResultSet: (GPKGResultSet *) resultSet{
     self = [super init];
@@ -36,7 +53,7 @@
         _resultSet = resultSet;
         _sql = resultSet.sql;
         _args = resultSet.args;
-        _pagination = [GPKGPagination findInSQL:_sql];
+        _pagination = [GPKGPaginatedResults pagination:resultSet];
         if(_pagination == nil){
             [NSException raise:@"Not Paginated" format:@"Results are not paginated. SQL: %@", _sql];
         }
@@ -75,12 +92,42 @@
     return hasNext;
 }
 
--(NSArray<NSObject *> *) row{
+-(GPKGRow *) row{
     return [_resultSet row];
+}
+
+-(NSArray<NSObject *> *) rowValues{
+    return [_resultSet rowValues];
 }
 
 -(void) close{
     [_resultSet close];
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len{
+    self.rows = [NSMutableArray arrayWithCapacity:len];
+    
+    // First call
+    if(state->state == 0){
+        state->mutationsPtr = &state->extra[0];
+        state->state = 1;
+    }
+    
+    state->itemsPtr = stackbuf;
+    
+    NSUInteger count = 0;
+    while (count < len) {
+        if(![self moveToNext]){
+            break;
+        }
+        
+        GPKGRow *row = [self row];
+        [self.rows addObject:row];
+        stackbuf[count] = row;
+        count += 1;
+    }
+    
+    return count;
 }
 
 @end

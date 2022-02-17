@@ -96,6 +96,13 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
 -(NSString *) columnName;
 
 /**
+ * Get the primary key column name
+ *
+ * @return primary key column name
+ */
+-(NSString *) pkColumnName;
+
+/**
  * Close the table index
  */
 -(void) close;

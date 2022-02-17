@@ -61,6 +61,10 @@
     return [self rowFromUserCustomRow:(GPKGUserCustomRow *)[super row:resultSet]];
 }
 
+-(GPKGRTreeIndexTableRow *) rowWithRow: (GPKGRow *) row{
+    return [self rowFromUserCustomRow:(GPKGUserCustomRow *)[super rowWithRow:row]];
+}
+
 -(GPKGRTreeIndexTableRow *) rowFromUserCustomRow: (GPKGUserCustomRow *) row{
     return [[GPKGRTreeIndexTableRow alloc] initWithUserCustomRow:row];
 }
@@ -72,6 +76,11 @@
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) resultSet{
     GPKGRTreeIndexTableRow *row = [self row:resultSet];
     return [self featureRowFromRTreeRow:row];
+}
+
+-(GPKGFeatureRow *) featureRowWithRow: (GPKGRow *) row{
+    GPKGRTreeIndexTableRow *rtreeRow = [self rowWithRow:row];
+    return [self featureRowFromRTreeRow:rtreeRow];
 }
 
 -(GPKGFeatureRow *) featureRowFromUserCustomRow: (GPKGUserCustomRow *) row{

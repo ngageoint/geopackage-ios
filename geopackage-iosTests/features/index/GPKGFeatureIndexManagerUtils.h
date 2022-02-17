@@ -19,6 +19,20 @@
 +(void) testIndexWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
 /**
+ * Test index chunk
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testIndexChunkWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
+ * Test index pagination
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testIndexPaginationWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
+/**
  * Test large index
  *
  * @param geoPackage  GeoPackage

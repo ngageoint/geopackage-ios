@@ -14,6 +14,11 @@
 
 @property (nonatomic) BOOL hasNext;
 
+/**
+ *  Strong reference of the last enumerated rows to prevent garbage collection
+ */
+@property (nonatomic, strong) NSMutableArray<GPKGRow *> *rows;
+
 @end
 
 @implementation GPKGResultSet
@@ -97,7 +102,11 @@
     return (int) _columnNames.count;
 }
 
--(NSArray<NSObject *> *) row{
+-(GPKGRow *) row{
+    return [GPKGRow createWithColumns:_columnNames andValues:[self rowValues]];
+}
+
+-(NSArray<NSObject *> *) rowValues{
     NSMutableArray *rowValues = [NSMutableArray array];
     [self rowPopulateValues:rowValues];
     return rowValues;
@@ -235,6 +244,32 @@
     }
     
     return id;
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len{
+    self.rows = [NSMutableArray arrayWithCapacity:len];
+    
+    // First call
+    if(state->state == 0){
+        state->mutationsPtr = &state->extra[0];
+        state->state = 1;
+    }
+    
+    state->itemsPtr = stackbuf;
+    
+    NSUInteger count = 0;
+    while (count < len) {
+        if(![self moveToNext]){
+            break;
+        }
+        
+        GPKGRow *row = [self row];
+        [self.rows addObject:row];
+        stackbuf[count] = row;
+        count += 1;
+    }
+    
+    return count;
 }
 
 @end

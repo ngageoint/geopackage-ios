@@ -38,8 +38,16 @@
     return (GPKGFeatureTable *) self.table;
 }
 
+-(GPKGFeatureRow *) row: (GPKGResultSet *) results{
+    return (GPKGFeatureRow *) [super row:results];
+}
+
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) results{
     return (GPKGFeatureRow *) [super row:results];
+}
+
+-(GPKGFeatureRow *) rowWithRow: (GPKGRow *) row{
+    return (GPKGFeatureRow *) [super rowWithRow:row];
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
@@ -67,11 +75,11 @@
 }
 
 -(GPKGFeatureColumn *) idColumn{
-    return (GPKGFeatureColumn *) [[self featureTable] pkColumn];
+    return (GPKGFeatureColumn *) [self pkColumn];
 }
 
 -(NSString *) idColumnName{
-    return [[self featureTable] pkColumnName];
+    return [self pkColumnName];
 }
 
 -(NSArray<NSString *> *) idAndGeometryColumnNames{

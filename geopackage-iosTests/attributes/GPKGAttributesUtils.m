@@ -45,7 +45,7 @@
             int manualCount = 0;
             while ([results moveToNext]) {
                 
-                GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao row:results];
+                GPKGAttributesRow *attributesRow = [dao row:results];
                 [self validateAttributesRowWithColumns:columns andRow:attributesRow];
                 
                 manualCount++;
@@ -69,7 +69,7 @@
             int random = (int) ([GPKGTestUtils randomDouble] * count);
             [results moveToFirst];
             [results moveToPosition:random];
-            GPKGAttributesRow * attributesRow = (GPKGAttributesRow *)[dao row:results];
+            GPKGAttributesRow *attributesRow = [dao row:results];
             
             [results close];
             
@@ -109,7 +109,7 @@
                 [GPKGTestUtils assertTrue:results.count > 0];
                 BOOL found = NO;
                 while([results moveToNext]){
-                    queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
+                    queryAttributesRow = [dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if(!found){
                         found = [attributesRow idValue] == [queryAttributesRow idValue];
@@ -139,7 +139,7 @@
                 [GPKGTestUtils assertTrue:results.count > 0];
                 found = NO;
                 while ([results moveToNext]) {
-                    queryAttributesRow = (GPKGAttributesRow *)[dao row:results];
+                    queryAttributesRow = [dao row:results];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if (column2 != nil) {
                         [GPKGTestUtils assertEqualWithValue:column2Value andValue2:[queryAttributesRow valueWithColumnName:column2.name]];
@@ -453,8 +453,8 @@
         NSData * updatedBytes = nil;
         NSData * updatedLimitedBytes = nil;
         
-        GPKGAttributesRow * originalRow = [dao attributesRow:results];
-        GPKGAttributesRow * attributesRow = [dao attributesRow:results];
+        GPKGAttributesRow * originalRow = [dao row:results];
+        GPKGAttributesRow * attributesRow = [dao row:results];
         
         @try {
             [attributesRow setValueWithIndex:[attributesRow pkIndex] andValue:[NSNumber numberWithInt:9]];
@@ -625,7 +625,7 @@
         NSNumber * id = [attributesRow id];
         GPKGResultSet * readRowResults = [dao queryForId:id];
         [readRowResults moveToNext];
-        GPKGAttributesRow * readRow = [dao attributesRow:readRowResults];
+        GPKGAttributesRow * readRow = [dao row:readRowResults];
         [readRowResults close];
         [GPKGTestUtils assertNotNil:readRow];
         [GPKGTestUtils assertEqualWithValue:[originalRow id] andValue2:[readRow id]];
@@ -765,7 +765,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [results moveToPosition:random];
                 
-                GPKGAttributesRow * attributesRow = [dao attributesRow:results];
+                GPKGAttributesRow * attributesRow = [dao row:results];
                 [results close];
                 
                 // Create new row from existing
@@ -778,13 +778,13 @@
                 // Verify original still exists and new was created
                 GPKGResultSet * attributesRowResults = [dao queryForId:id];
                 [attributesRowResults moveToNext];
-                attributesRow = [dao attributesRow:attributesRowResults];
+                attributesRow = [dao row:attributesRowResults];
                 [attributesRowResults close];
                 [GPKGTestUtils assertNotNil:attributesRow];
                 
                 GPKGResultSet * queryAttributesRowResults = [dao queryForId:[NSNumber numberWithInt:newRowId]];
                 [queryAttributesRowResults moveToNext];
-                GPKGAttributesRow * queryAttributesRow = [dao attributesRow:queryAttributesRowResults];
+                GPKGAttributesRow * queryAttributesRow = [dao row:queryAttributesRowResults];
                 [queryAttributesRowResults close];
                 [GPKGTestUtils assertNotNil:queryAttributesRow];
                 
@@ -815,7 +815,7 @@
                 // Verify new was created
                 GPKGResultSet * queryAttributesRow2Results = [dao queryForId:[NSNumber numberWithInt:newRowId2]];
                 [queryAttributesRow2Results moveToNext];
-                GPKGAttributesRow * queryAttributesRow2 = [dao attributesRow:queryAttributesRow2Results];
+                GPKGAttributesRow * queryAttributesRow2 = [dao row:queryAttributesRow2Results];
                 [queryAttributesRow2Results close];
                 [GPKGTestUtils assertNotNil:queryAttributesRow2];
                 
@@ -894,7 +894,7 @@
                 int random = (int) ([GPKGTestUtils randomDouble] * count);
                 [results moveToPosition:random];
                 
-                GPKGAttributesRow * attributesRow = [dao attributesRow:results];
+                GPKGAttributesRow * attributesRow = [dao row:results];
                 [results close];
                 
                 // Delete row

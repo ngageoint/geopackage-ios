@@ -109,8 +109,16 @@
     return (GPKGTileTable *) self.table;
 }
 
+-(GPKGTileRow *) row: (GPKGResultSet *) results{
+    return (GPKGTileRow *) [super row:results];
+}
+
 -(GPKGTileRow *) tileRow: (GPKGResultSet *) results{
     return (GPKGTileRow *) [super row:results];
+}
+
+-(GPKGTileRow *) rowWithRow: (GPKGRow *) row{
+    return (GPKGTileRow *) [super rowWithRow:row];
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
@@ -152,7 +160,7 @@
     GPKGTileRow *tileRow = nil;
     @try{
         if([results moveToNext]){
-            tileRow = [self tileRow:results];
+            tileRow = [self row:results];
         }
     }@finally{
         [results close];

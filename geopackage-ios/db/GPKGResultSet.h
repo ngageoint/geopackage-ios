@@ -11,11 +11,12 @@
 #import "GPKGDbConnection.h"
 #import "GPKGUserColumns.h"
 #import "GPKGUserTable.h"
+#import "GPKGRow.h"
 
 /**
  *  Result set from a database query
  */
-@interface GPKGResultSet : NSObject
+@interface GPKGResultSet : NSObject <NSFastEnumeration>
 
 /**
  *  SQL statement
@@ -122,9 +123,16 @@
 /**
  *  Get the row value
  *
+ *  @return row value
+ */
+-(GPKGRow *) row;
+
+/**
+ *  Get the row values
+ *
  *  @return row value array
  */
--(NSArray<NSObject *> *) row;
+-(NSArray<NSObject *> *) rowValues;
 
 /**
  *  Get a row and populate with values

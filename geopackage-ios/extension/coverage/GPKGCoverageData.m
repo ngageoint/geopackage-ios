@@ -1547,7 +1547,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     while ([tileResults moveToNext]) {
         
         // Get the next coverage data tile
-        GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+        GPKGTileRow * tileRow = [tileDao row:tileResults];
         
         int currentRow = [tileRow tileRow];
         int currentColumn = [tileRow tileColumn];
@@ -2067,7 +2067,7 @@ NSString * const GPKG_PROP_GRIDDED_COVERAGE_EXTENSION_DEFINITION = @"geopackage.
     while([tileResults moveToNext]){
         
         // Get the next coverage data tile
-        GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+        GPKGTileRow * tileRow = [tileDao row:tileResults];
         
         // Get the bounding box of the coverage data
         GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:self.coverageBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];

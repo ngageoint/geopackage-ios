@@ -143,7 +143,7 @@
         [GPKGTestUtils assertNotNil:tileResultSet];
         [GPKGTestUtils assertTrue:tileResultSet.count > 0];
         while ([tileResultSet moveToNext]) {
-            GPKGTileRow * tileRow = [tileDao tileRow:tileResultSet];
+            GPKGTileRow * tileRow = [tileDao row:tileResultSet];
             GPKGGriddedTile * griddedTile = [coverageData griddedTileWithTileId:[tileRow idValue]];
             [self testTileRowWithGeoPackage:geoPackage andValues:coverageDataValues andCoverageData:coverageData andTileMatrixSet:tileMatrixSet andGriddedTile:griddedTile andTileRow:tileRow andAlgorithm:algorithm andAllowNils:allowNils];
         }

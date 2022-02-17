@@ -69,7 +69,7 @@
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [NSMutableArray array];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
+        [attributeIds addObject:[[attributesDao row:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
@@ -79,7 +79,7 @@
     int attributesCount2 = attributesResultSet2.count;
     NSMutableArray<NSNumber *> *attributeIds2 = [NSMutableArray array];
     while([attributesResultSet2 moveToNext]){
-        [attributeIds2 addObject:[[attributesDao2 attributesRow:attributesResultSet2] id]];
+        [attributeIds2 addObject:[[attributesDao2 row:attributesResultSet2] id]];
     }
     [attributesResultSet2 close];
 
@@ -224,7 +224,7 @@
         attributesResultSet2 = [attributesDao2 queryForAll];
         int totalMapped = 0;
         while([attributesResultSet2 moveToNext]){
-            GPKGAttributesRow *attributes2Row = [attributesDao2 attributesRow:attributesResultSet2];
+            GPKGAttributesRow *attributes2Row = [attributesDao2 row:attributesResultSet2];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:relation withRelatedId:[attributes2Row idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGAttributesRow *attributesRow = (GPKGAttributesRow *)[attributesDao queryForIdObject:mappedId];

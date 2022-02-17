@@ -10,7 +10,6 @@
 #import "GPKGFeatureIndexTypes.h"
 #import "GPKGFeatureIndexManager.h"
 #import "GPKGTestUtils.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTestGeoPackageProgress.h"
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
@@ -57,7 +56,7 @@
         GPKGFeatureRow * testFeatureRow = nil;
         GPKGResultSet * featureResultSet = [featureDao query];
         while([featureResultSet moveToNext]){
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResultSet];
+            GPKGFeatureRow * featureRow = [featureDao row:featureResultSet];
             if([featureRow geometryEnvelope] != nil){
                 expectedCount++;
                 // Randomly choose a feature row with Geometry for testing
@@ -400,7 +399,7 @@
         [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
         
         // Verify the index was updated for the feature row
-        envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
+        envelope = [point envelope];
         resultCount = 0;
         featureFound = NO;
         [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
@@ -431,7 +430,7 @@
         if (everyOther) {
             GPKGResultSet * featureResults = [featureDao query];
             while([featureResults moveToNext]){
-                GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+                GPKGFeatureRow * featureRow = [featureDao row:featureResults];
                 if([featureRow geometryEnvelope] != nil){
                     [featureResults close];
                     [GPKGTestUtils assertTrue:[featureIndexManager deleteIndexWithFeatureRow:featureRow]];
@@ -449,6 +448,419 @@
         [featureIndexManager close];
     }
     
+}
+
++(void) testIndexChunkWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    [self testIndexChunkWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_GEOPACKAGE andIncludeEmpty:NO];
+    [self testIndexChunkWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_METADATA andIncludeEmpty:NO];
+    [self testIndexChunkWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_RTREE andIncludeEmpty:YES];
+}
+
++(void) testIndexChunkWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureIndexType: (enum GPKGFeatureIndexType) type andIncludeEmpty: (BOOL) includeEmpty{
+    
+    // Test indexing each feature table
+    NSArray * featureTables = [geoPackage featureTables];
+    for(NSString * featureTable in featureTables){
+     
+        GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager * featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setContinueOnError:NO];
+        [featureIndexManager setIndexLocation:type];
+        [featureIndexManager deleteAllIndexes];
+        
+        // Determine how many features have geometry envelopes or geometries
+        int expectedCount = 0;
+        GPKGFeatureRow *testFeatureRow = nil;
+        GPKGResultSet *featureResultSet = [featureDao query];
+        while([featureResultSet moveToNext]){
+            GPKGFeatureRow * featureRow = [featureDao row:featureResultSet];
+            if([featureRow geometryEnvelope] != nil){
+                expectedCount++;
+                // Randomly choose a feature row with Geometry for testing
+                // queries later
+                if(testFeatureRow == nil){
+                    testFeatureRow = featureRow;
+                }else if([GPKGTestUtils randomDouble] < (1.0 / featureResultSet.count)){
+                    testFeatureRow = featureRow;
+                }
+            }else if(includeEmpty){
+                expectedCount++;
+            }
+        }
+        [featureResultSet close];
+
+        [GPKGTestUtils assertFalse:[featureIndexManager isIndexed]];
+        
+        // Test indexing
+        int indexCount = [featureIndexManager index];
+        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:indexCount];
+        
+        [GPKGTestUtils assertTrue:[featureIndexManager isIndexed]];
+        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:featureIndexManager.count];
+        
+        // TODO start converting to chunked queries
+        
+        // Query for all indexed geometries
+        int resultCount = 0;
+        GPKGFeatureIndexResults *featureIndexResults = [featureIndexManager query];
+        for(GPKGFeatureRow *featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:nil andIncludeEmpty:includeEmpty];
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:resultCount];
+        
+        // Query for all indexed geometries with columns
+        resultCount = 0;
+        featureIndexResults = [featureIndexManager queryWithColumns:[featureDao idAndGeometryColumnNames]];
+        for(GPKGFeatureRow *featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:nil andIncludeEmpty:includeEmpty];
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertEqualIntWithValue:expectedCount andValue2:resultCount];
+        
+        // Test the query by envelope
+        SFGeometryEnvelope * envelope = [testFeatureRow geometryEnvelope];
+        double difference = .000001;
+        [envelope setMinX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minX doubleValue] - difference)]];
+        [envelope setMaxX:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxX doubleValue] + difference)]];
+        [envelope setMinY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minY doubleValue] - difference)]];
+        [envelope setMaxY:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxY doubleValue] + difference)]];
+        if(envelope.hasZ){
+            [envelope setMinZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minZ doubleValue] - difference)]];
+            [envelope setMaxZ:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxZ doubleValue] + difference)]];
+        }
+        if(envelope.hasM){
+            [envelope setMinM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.minM doubleValue] - difference)]];
+            [envelope setMaxM:[[NSDecimalNumber alloc ] initWithDouble:([envelope.maxM doubleValue] + difference)]];
+        }
+        resultCount = 0;
+        BOOL featureFound = NO;
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
+        for(GPKGFeatureRow * featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
+            if([featureRow idValue] == [testFeatureRow idValue]){
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        resultCount = 0;
+        featureFound = NO;
+        featureIndexResults = [featureIndexManager queryWithColumns:[featureDao idAndGeometryColumnNames] andEnvelope:envelope];
+        for(GPKGFeatureRow *featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
+            if([featureRow idValue] == [testFeatureRow idValue]){
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        
+        // Test the query by envelope with id iteration
+        resultCount = 0;
+        featureFound = NO;
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
+        featureIndexResults.ids = YES;
+        for(NSNumber *featureRowId in featureIndexResults){
+            GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:featureRowId];
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
+            if ([featureRowId intValue] == [testFeatureRow idValue]) {
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        
+        // Pick a projection different from the feature dao and project the
+        // bounding box
+        GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:[envelope.minX doubleValue] - 1.0
+                                                                       andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
+                                                                      andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
+                                                                       andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
+        PROJProjection * projection = nil;
+        if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){
+            projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+        }else{
+            projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        }
+        SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:featureDao.projection andToProjection:projection];
+        GPKGBoundingBox *transformedBoundingBox = [boundingBox transform:transform];
+        
+        // Test the query by projected bounding box
+        resultCount = 0;
+        featureFound = NO;
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithBoundingBox:transformedBoundingBox inProjection:projection] >= 1];
+        featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection];
+        for(GPKGFeatureRow * featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+            if([featureRow idValue] == [testFeatureRow idValue]){
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        resultCount = 0;
+        featureFound = NO;
+        featureIndexResults = [featureIndexManager queryWithColumns:[featureDao idAndGeometryColumnNames] andBoundingBox:transformedBoundingBox inProjection:projection];
+        for(GPKGFeatureRow * featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+            if([featureRow idValue] == [testFeatureRow idValue]){
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        
+        // Test query by criteria
+        GPKGFeatureTable *table = [featureDao featureTable];
+        NSArray<GPKGUserColumn *> *columns = [table columns];
+        
+        NSMutableDictionary *numbers = [NSMutableDictionary dictionary];
+        NSMutableDictionary *strings = [NSMutableDictionary dictionary];
+        
+        for(GPKGFeatureColumn *column in columns){
+            if(column.primaryKey || column.isGeometry){
+                continue;
+            }
+            enum GPKGDataType dataType = column.dataType;
+            switch (dataType) {
+                case GPKG_DT_DOUBLE:
+                case GPKG_DT_FLOAT:
+                case GPKG_DT_INT:
+                case GPKG_DT_INTEGER:
+                case GPKG_DT_TINYINT:
+                case GPKG_DT_SMALLINT:
+                case GPKG_DT_MEDIUMINT:
+                case GPKG_DT_REAL:
+                    [numbers setObject:[NSNull null] forKey:column.name];
+                    break;
+                case GPKG_DT_TEXT:
+                    [strings setObject:[NSNull null] forKey:column.name];
+                break;
+            default:
+                break;
+            }
+        }
+
+        for(NSString *number in [numbers allKeys]){
+            NSObject *value = [testFeatureRow valueWithColumnName:number];
+            [numbers setObject:value forKey:number];
+        }
+        
+        for(NSString *string in [strings allKeys]){
+            NSString *value = [testFeatureRow valueStringWithColumnName:string];
+            [strings setObject:value forKey:string];
+        }
+
+        for(NSString *column in [numbers allKeys]){
+            
+            double value = [((NSNumber *)[numbers objectForKey:column]) doubleValue];
+            
+            NSString *where = [NSString stringWithFormat:@"%@ >= ? AND %@ <= ?", column, column];
+            NSArray *whereArgs = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%f", value - 0.001],
+                                  [NSString stringWithFormat:@"%f", value + 0.001], nil];
+
+            int count = [featureIndexManager countWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertTrue:count >= 1];
+            featureIndexResults = [featureIndexManager queryWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualDoubleWithValue:value andValue2:[((NSNumber *)[featureRow valueWithColumnName:column]) doubleValue]];
+            }
+            [featureIndexResults close];
+            featureIndexResults = [featureIndexManager queryWithColumns:[NSArray arrayWithObject:column] andWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualDoubleWithValue:value andValue2:[((NSNumber *)[featureRow valueWithColumnName:column]) doubleValue]];
+            }
+            [featureIndexResults close];
+
+            resultCount = 0;
+            featureFound = NO;
+
+            count = [featureIndexManager countWithBoundingBox:transformedBoundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertTrue:count >= 1];
+            featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualDoubleWithValue:value andValue2:[((NSNumber *)[featureRow valueWithColumnName:column]) doubleValue]];
+                [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+                if([featureRow idValue] == [testFeatureRow idValue]){
+                    featureFound = YES;
+                }
+                resultCount++;
+            }
+            [featureIndexResults close];
+            [GPKGTestUtils assertTrue:featureFound];
+            [GPKGTestUtils assertTrue:resultCount >= 1];
+
+            resultCount = 0;
+            featureFound = NO;
+
+            featureIndexResults = [featureIndexManager queryWithColumns:
+                                   [NSArray arrayWithObjects:[featureDao geometryColumnName], column, [featureDao idColumnName], nil]
+                                 andBoundingBox:transformedBoundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualDoubleWithValue:value andValue2:[((NSNumber *)[featureRow valueWithColumnName:column]) doubleValue]];
+                [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+                if([featureRow idValue] == [testFeatureRow idValue]){
+                    featureFound = YES;
+                }
+                resultCount++;
+            }
+            [featureIndexResults close];
+            [GPKGTestUtils assertTrue:featureFound];
+            [GPKGTestUtils assertTrue:resultCount >= 1];
+        }
+
+        for(NSString *column in [strings allKeys]){
+            
+            NSString *value = (NSString *)[strings objectForKey:column];
+
+            GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
+            [fieldValues addColumn:column withValue:value];
+
+            int count = [featureIndexManager countWithFieldValues:fieldValues];
+            [GPKGTestUtils assertTrue:count >= 1];
+            featureIndexResults = [featureIndexManager queryWithFieldValues:fieldValues];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualWithValue:value andValue2:[featureRow valueStringWithColumnName:column]];
+            }
+            [featureIndexResults close];
+            featureIndexResults = [featureIndexManager queryWithColumns:[NSArray arrayWithObject:column] andFieldValues:fieldValues];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualWithValue:value andValue2:[featureRow valueStringWithColumnName:column]];
+            }
+            [featureIndexResults close];
+
+            resultCount = 0;
+            featureFound = NO;
+
+            count = [featureIndexManager countWithBoundingBox:transformedBoundingBox inProjection:projection andFieldValues:fieldValues];
+            [GPKGTestUtils assertTrue:count >= 1];
+            featureIndexResults = [featureIndexManager queryWithBoundingBox:transformedBoundingBox inProjection:projection andFieldValues:fieldValues];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualWithValue:value andValue2:[featureRow valueStringWithColumnName:column]];
+                [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+                if([featureRow idValue] == [testFeatureRow idValue]){
+                    featureFound = YES;
+                }
+                resultCount++;
+            }
+            [featureIndexResults close];
+            [GPKGTestUtils assertTrue:featureFound];
+            [GPKGTestUtils assertTrue:resultCount >= 1];
+
+            resultCount = 0;
+            featureFound = NO;
+
+            featureIndexResults = [featureIndexManager queryWithColumns:
+                                     [NSArray arrayWithObjects:column, [featureDao idColumnName], [featureDao geometryColumnName], nil]
+                                     andBoundingBox:transformedBoundingBox inProjection:projection andFieldValues:fieldValues];
+            [GPKGTestUtils assertEqualIntWithValue:count andValue2:[featureIndexResults count]];
+            for(GPKGFeatureRow *featureRow in featureIndexResults){
+                [GPKGTestUtils assertEqualWithValue:value andValue2:[featureRow valueStringWithColumnName:column]];
+                [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:[boundingBox buildEnvelope] andIncludeEmpty:includeEmpty];
+                if([featureRow idValue] == [testFeatureRow idValue]){
+                    featureFound = YES;
+                }
+                resultCount++;
+            }
+            [featureIndexResults close];
+            [GPKGTestUtils assertTrue:featureFound];
+            [GPKGTestUtils assertTrue:resultCount >= 1];
+
+        }
+        
+        // Update a Geometry and update the index of a single feature row
+        SFPoint *point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:featureDao.geometryColumns.srsId andGeometry:point];
+        [testFeatureRow setGeometry:geometryData];
+        [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];
+        NSDate *lastIndexedBefore = [featureIndexManager lastIndexed];
+        [NSThread sleepForTimeInterval:1];
+        [GPKGTestUtils assertTrue:[featureIndexManager indexWithFeatureRow:testFeatureRow]];
+        NSDate *lastIndexedAfter = [featureIndexManager lastIndexed];
+        [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
+        
+        // Verify the index was updated for the feature row
+        envelope = [point envelope];
+        resultCount = 0;
+        featureFound = NO;
+        [GPKGTestUtils assertTrue:[featureIndexManager countWithEnvelope:envelope] >= 1];
+        featureIndexResults = [featureIndexManager queryWithEnvelope:envelope];
+        for(GPKGFeatureRow * featureRow in featureIndexResults){
+            [self validateFeatureRow:featureRow withFeatureIndexManager:featureIndexManager andEnvelope:envelope andIncludeEmpty:includeEmpty];
+            if([featureRow idValue] == [testFeatureRow idValue]){
+                featureFound = YES;
+            }
+            resultCount++;
+        }
+        [featureIndexResults close];
+        [GPKGTestUtils assertTrue:featureFound];
+        [GPKGTestUtils assertTrue:resultCount >= 1];
+        
+        [featureIndexManager close];
+    }
+    
+    // Delete the extensions
+    BOOL everyOther = NO;
+    for(NSString * featureTable in featureTables){
+        GPKGFeatureDao * featureDao = [geoPackage featureDaoWithTableName:featureTable];
+        GPKGFeatureIndexManager * featureIndexManager = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+        [featureIndexManager setIndexLocation:type];
+        [GPKGTestUtils assertTrue:[featureIndexManager isIndexed]];
+        
+        // Test deleting a single geometry index
+        if (everyOther) {
+            GPKGResultSet * featureResults = [featureDao query];
+            while([featureResults moveToNext]){
+                GPKGFeatureRow * featureRow = [featureDao row:featureResults];
+                if([featureRow geometryEnvelope] != nil){
+                    [featureResults close];
+                    [GPKGTestUtils assertTrue:[featureIndexManager deleteIndexWithFeatureRow:featureRow]];
+                    break;
+                }
+            }
+            [featureResults close];
+        }
+        
+        [featureIndexManager deleteIndex];
+        
+        [GPKGTestUtils assertFalse:[featureIndexManager isIndexed]];
+        everyOther = !everyOther;
+        
+        [featureIndexManager close];
+    }
+    
+}
+
++(void) testIndexPaginationWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+    [self testIndexPaginationWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_GEOPACKAGE andIncludeEmpty:NO];
+    [self testIndexPaginationWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_METADATA andIncludeEmpty:NO];
+    [self testIndexPaginationWithGeoPackage:geoPackage andFeatureIndexType:GPKG_FIT_RTREE andIncludeEmpty:YES];
+}
+
++(void) testIndexPaginationWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureIndexType: (enum GPKGFeatureIndexType) type andIncludeEmpty: (BOOL) includeEmpty{
+    // TODO
 }
 
 +(void) validateFeatureRow: (GPKGFeatureRow *) featureRow withFeatureIndexManager: (GPKGFeatureIndexManager *) featureIndexManager andEnvelope: (SFGeometryEnvelope *) queryEnvelope andIncludeEmpty: (BOOL) includeEmpty{
@@ -524,7 +936,7 @@
     SFGeometryEnvelope *envelope = nil;
     GPKGResultSet *resultSet = [featureDao query];
     while([resultSet moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao featureRow:resultSet];
+        GPKGFeatureRow *featureRow = [featureDao row:resultSet];
         SFGeometryEnvelope *rowEnvelope = [featureRow geometryEnvelope];
         if(envelope == nil){
             envelope = rowEnvelope;
@@ -538,7 +950,7 @@
 
     resultSet = [featureDao query];
     while([resultSet moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao featureRow:resultSet];
+        GPKGFeatureRow *featureRow = [featureDao row:resultSet];
         SFGeometryEnvelope *rowEnvelope = [featureRow geometryEnvelope];
         if(rowEnvelope != nil){
             GPKGBoundingBox *rowBoundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:rowEnvelope];

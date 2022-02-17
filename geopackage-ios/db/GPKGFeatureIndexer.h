@@ -42,6 +42,13 @@
 -(instancetype)initWithFeatureDao:(GPKGFeatureDao *) featureDao;
 
 /**
+ * Get the primary key column name
+ *
+ * @return primary key column name
+ */
+-(NSString *) pkColumnName;
+
+/**
  *  Close the database connection in the feature indexer
  */
 -(void) close;
@@ -106,6 +113,20 @@
  * @return last indexed date or null
  */
 -(NSDate *) lastIndexed;
+
+/**
+ * Get the query range tolerance
+ *
+ * @return tolerance
+ */
+-(double) tolerance;
+
+/**
+ * Set the query range tolerance
+ *
+ * @param tolerance query range tolerance
+ */
+-(void) setTolerance: (double) tolerance;
 
 /**
  * Query for all Geometry Metadata
@@ -1413,19 +1434,5 @@
  * @return feature row
  */
 -(GPKGFeatureRow *) featureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;
-
-/**
- * Get the query range tolerance
- *
- * @return tolerance
- */
--(double) tolerance;
-
-/**
- * Set the query range tolerance
- *
- * @param tolerance query range tolerance
- */
--(void) setTolerance: (double) tolerance;
 
 @end

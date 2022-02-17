@@ -410,6 +410,30 @@
     return lastIndexed;
 }
 
+-(GPKGFeatureIndexLocation *) location{
+    return [[GPKGFeatureIndexLocation alloc] initWithFeatureIndexManager:self];
+}
+
+-(enum GPKGFeatureIndexType) indexedType{
+    
+    enum GPKGFeatureIndexType indexType = GPKG_FIT_NONE;
+    
+    // Check for an indexed type
+    for (NSString *typeName in self.indexLocationQueryOrder) {
+        enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName: typeName];
+        if([self isIndexedWithFeatureIndexType:type]){
+            indexType = type;
+            break;
+        }
+    }
+    
+    return indexType;
+}
+
+-(NSString *) idColumn{
+    return [_featureDao pkColumnName];
+}
+
 -(GPKGFeatureIndexResults *) query{
     return [self queryWithDistinct:NO];
 }
@@ -1292,24 +1316,23 @@
     return [self countWithDistinct:distinct andColumn:column andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs];
 }
 
--(GPKGFeatureIndexLocation *) location{
-    return [[GPKGFeatureIndexLocation alloc] initWithFeatureIndexManager:self];
++(BOOL) isPaginated: (GPKGFeatureIndexResults *) results{
+    BOOL paginated = NO;
+    if([results isKindOfClass:[GPKGFeatureIndexResultSetResults class]]){
+        paginated = [self isPaginatedResultSet:(GPKGFeatureIndexResultSetResults *) results];
+    }
+    return paginated;
 }
 
--(enum GPKGFeatureIndexType) indexedType{
-    
-    enum GPKGFeatureIndexType indexType = GPKG_FIT_NONE;
-    
-    // Check for an indexed type
-    for (NSString *typeName in self.indexLocationQueryOrder) {
-        enum GPKGFeatureIndexType type = [GPKGFeatureIndexTypes fromName: typeName];
-        if([self isIndexedWithFeatureIndexType:type]){
-            indexType = type;
-            break;
-        }
++(BOOL) isPaginatedResultSet: (GPKGFeatureIndexResultSetResults *) results{
+    return [GPKGPaginatedResults isPaginated:[results results]];
+}
+
++(GPKGPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results{
+    if(![results isKindOfClass:[GPKGFeatureIndexResultSetResults class]]){
+        [NSException raise:@"Results Type" format:@"Results do not contain a result set. Expected: %@, Received: %@", NSStringFromClass([GPKGFeatureIndexResultSetResults class]), NSStringFromClass([results class])];
     }
-    
-    return indexType;
+    return [GPKGPaginatedResults create:[((GPKGFeatureIndexResultSetResults *)results) results]];
 }
 
 /**

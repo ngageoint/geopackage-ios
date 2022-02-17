@@ -10,7 +10,6 @@
 #import "GPKGFeatureTableIndex.h"
 #import "GPKGTestUtils.h"
 #import "GPKGTestGeoPackageProgress.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "PROJProjectionConstants.h"
 #import "PROJProjectionFactory.h"
 #import "GPKGExtensionManager.h"
@@ -32,7 +31,7 @@
         GPKGFeatureRow * testFeatureRow = nil;
         GPKGResultSet * featureResultSet = [featureDao queryForAll];
         while([featureResultSet moveToNext]){
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResultSet];
+            GPKGFeatureRow * featureRow = [featureDao row:featureResultSet];
             if([featureRow geometryEnvelope] != nil){
                 expectedCount++;
                 // Randomly choose a feature row with Geometry for testing
@@ -164,7 +163,7 @@
         [GPKGTestUtils assertTrue:([lastIndexedAfter compare:lastIndexedBefore] == NSOrderedDescending)];
         
         // Verify the index was updated for the feature row
-        envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:point];
+        envelope = [point envelope];
         resultCount = 0;
         featureFound = NO;
         [GPKGTestUtils assertTrue:[featureTableIndex countWithEnvelope:envelope] >= 1];
@@ -211,7 +210,7 @@
         if(everyOther){
             GPKGResultSet * featureResults = [featureDao queryForAll];
             while([featureResults moveToNext]){
-                GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+                GPKGFeatureRow * featureRow = [featureDao row:featureResults];
                 GPKGGeometryData * geometryData = [featureRow geometry];
                 if(geometryData != nil
                    && (geometryData.envelope != nil || geometryData.geometry != nil)){

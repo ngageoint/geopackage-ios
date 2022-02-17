@@ -304,5 +304,6 @@
 #import "GPKGNetworkUtils.h"
 #import "GPKGPagination.h"
 #import "GPKGPaginatedResults.h"
+#import "GPKGRow.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

@@ -173,7 +173,7 @@
         
         GPKGResultSet *tileResults = [reprojectTileDao queryForAll];
         [GPKGTestUtils assertTrue:[tileResults moveToNext]];
-        GPKGTileRow *tileRow = [reprojectTileDao tileRow:tileResults];
+        GPKGTileRow *tileRow = [reprojectTileDao row:tileResults];
         UIImage *tileImage = [tileRow tileDataImage];
         [GPKGTestUtils assertEqualDoubleWithValue:[tileReprojection.tileWidth doubleValue] andValue2:tileImage.size.width];
         [GPKGTestUtils assertEqualDoubleWithValue:[tileReprojection.tileHeight doubleValue] andValue2:tileImage.size.height];
@@ -379,7 +379,7 @@
             
             GPKGResultSet *tileResults = [reprojectTileDao queryforTileWithZoomLevel:zoom];
             [GPKGTestUtils assertTrue:[tileResults moveToNext]];
-            GPKGTileRow *tileRow = [reprojectTileDao tileRow:tileResults];
+            GPKGTileRow *tileRow = [reprojectTileDao row:tileResults];
             UIImage *tileImage = [tileRow tileDataImage];
             [GPKGTestUtils assertEqualDoubleWithValue:[reprojectTileMatrix.tileWidth doubleValue] andValue2:tileImage.size.width];
             [GPKGTestUtils assertEqualDoubleWithValue:[reprojectTileMatrix.tileHeight doubleValue] andValue2:tileImage.size.height];
@@ -466,7 +466,7 @@
             for(int i = 0; i <= tileIndex; i++){
                 [GPKGTestUtils assertTrue:[tileResults moveToNext]];
             }
-            GPKGTileRow *tile = [reprojectTileDao tileRow:tileResults];
+            GPKGTileRow *tile = [reprojectTileDao row:tileResults];
             int tileColumn = [tile tileColumn];
             int tileRow = [tile tileRow];
             GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:boundingBox andTileMatrix:tileMatrix andTileColumn:tileColumn andTileRow:tileRow];

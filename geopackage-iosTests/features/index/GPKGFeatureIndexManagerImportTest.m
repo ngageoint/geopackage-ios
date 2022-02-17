@@ -15,6 +15,14 @@
     [GPKGFeatureIndexManagerUtils testIndexWithGeoPackage:self.geoPackage];
 }
 
+- (void)testIndexChunk {
+    [GPKGFeatureIndexManagerUtils testIndexChunkWithGeoPackage:self.geoPackage];
+}
+
+- (void)testIndexPagination {
+    [GPKGFeatureIndexManagerUtils testIndexPaginationWithGeoPackage:self.geoPackage];
+}
+
 - (void) testLargeIndex{
     [GPKGFeatureIndexManagerUtils testLargeIndexWithGeoPackage:self.geoPackage andNumFeatures:10000 andVerbose:NO];
 }

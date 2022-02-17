@@ -10,7 +10,6 @@
 #import "SFGeometry.h"
 #import "SFPolygon.h"
 #import "GPKGGeoPackageFactory.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "PROJProjectionConstants.h"
 #import "GPKGTestUtils.h"
 
@@ -87,7 +86,7 @@ static NSString *COLUMN_NAME = @"geom";
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumns setSrs:srs];
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:[SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry]];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithGeometry:geometry];
     
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andBoundingBox:boundingBox]];
     

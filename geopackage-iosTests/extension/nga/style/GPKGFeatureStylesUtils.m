@@ -64,7 +64,7 @@
             
             GPKGResultSet *featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
-                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
                 
                 [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureTableStyles featureStylesWithIdNumber:[featureRow id]]];
@@ -209,7 +209,7 @@
                     continue;
                 }
                 
-                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
                 
                 if (randomFeatureOption < .75) {
                     
@@ -263,7 +263,7 @@
             featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
                 
-                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
                 
                 NSNumber *featureRowId = [featureRow id];
                 NSMutableDictionary<NSNumber *, GPKGStyleRow *> *featureRowStyles = [featureResultsStyles objectForKey:featureRowId];
@@ -312,7 +312,7 @@
             GPKGResultSet *featureResultSet = [featureDao queryForAll];
             while([featureResultSet moveToNext]){
                 
-                GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+                GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
                 
                 [GPKGTestUtils assertNil:[featureStyleExtension stylesWithFeature:featureRow]];
                 [GPKGTestUtils assertNil:[featureStyleExtension iconsWithFeature:featureRow]];

@@ -171,7 +171,7 @@
             while ([resultSet moveToNext]) {
                 hasResults = YES;
                 
-                GPKGFeatureRow *featureRow = [self.featureDao featureRow:resultSet];
+                GPKGFeatureRow *featureRow = [self.featureDao row:resultSet];
                 SFGeometryEnvelope *featureEnvelope = [featureRow geometryEnvelope];
                 if (featureEnvelope != nil) {
                     
@@ -557,7 +557,7 @@
             while ([resultSet moveToNext]) {
                 hasResults = YES;
                 
-                GPKGFeatureRow *featureRow = [self.featureDao featureRow:resultSet];
+                GPKGFeatureRow *featureRow = [self.featureDao row:resultSet];
                 SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
                 if (envelope != nil) {
                     

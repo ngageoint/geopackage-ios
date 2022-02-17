@@ -13,7 +13,35 @@
 /**
  * Paginated Results for iterating and querying through chunks
  */
-@interface GPKGPaginatedResults : NSObject
+@interface GPKGPaginatedResults : NSObject <NSFastEnumeration>
+
+/**
+ * Determine if the result set is paginated
+ *
+ * @param resultSet
+ *            feature result set
+ * @return true if paginated
+ */
++(BOOL) isPaginated: (GPKGResultSet *) resultSet;
+
+/**
+ * Get the pagination offset and limit
+ *
+ * @param resultSet
+ *            feature result set
+ * @return pagination or nil if not paginated
+ */
++(GPKGPagination *) pagination: (GPKGResultSet *) resultSet;
+
+/**
+ * Create
+ *
+ * @param resultSet
+ *            result set
+ *
+ * @return new paginated results
+ */
++(GPKGPaginatedResults *) create: (GPKGResultSet *) resultSet;
 
 /**
  * Paginated query settings
@@ -68,9 +96,16 @@
 /**
  *  Get the row value
  *
+ *  @return row value
+ */
+-(GPKGRow *) row;
+
+/**
+ *  Get the row values
+ *
  *  @return row value array
  */
--(NSArray<NSObject *> *) row;
+-(NSArray<NSObject *> *) rowValues;
 
 /**
  * Close the current results

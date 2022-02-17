@@ -242,7 +242,7 @@
 
 -(NSObject *) object: (GPKGResultSet *) results{
     
-    NSArray *result = [results row];
+    NSArray *result = [results rowValues];
     
     NSObject *objectResult = [self createObject];
     
@@ -278,7 +278,7 @@
 -(NSArray *) singleColumnResults: (GPKGResultSet *) results{
     NSMutableArray *singleColumnResults = [NSMutableArray array];
     while([results moveToNext]){
-        NSArray *result = [results row];
+        NSArray *result = [results rowValues];
         [GPKGUtils addObject:[GPKGUtils objectAtIndex:0 inArray:result] toArray:singleColumnResults];
     }
     return singleColumnResults;

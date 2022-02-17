@@ -76,14 +76,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [NSMutableArray array];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao row:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedFrs = [relatedDao queryForAll];
     int relatedCount = relatedFrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [NSMutableArray array];
     while([relatedFrs moveToNext]){
-        [relatedIds addObject:[[relatedDao featureRow:relatedFrs] id]];
+        [relatedIds addObject:[[relatedDao row:relatedFrs] id]];
     }
     [relatedFrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -189,14 +189,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [NSMutableArray array];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao row:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedArs = [relatedDao queryForAll];
     int relatedCount = relatedArs.count;
     NSMutableArray<NSNumber *> *relatedIds = [NSMutableArray array];
     while([relatedArs moveToNext]){
-        [relatedIds addObject:[[relatedDao attributesRow:relatedArs] id]];
+        [relatedIds addObject:[[relatedDao row:relatedArs] id]];
     }
     [relatedArs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];
@@ -302,14 +302,14 @@
     int baseCount = baseFrs.count;
     NSMutableArray<NSNumber *> *baseIds = [NSMutableArray array];
     while([baseFrs moveToNext]){
-        [baseIds addObject:[[baseDao featureRow:baseFrs] id]];
+        [baseIds addObject:[[baseDao row:baseFrs] id]];
     }
     [baseFrs close];
     GPKGResultSet *relatedTrs = [relatedDao queryForAll];
     int relatedCount = relatedTrs.count;
     NSMutableArray<NSNumber *> *relatedIds = [NSMutableArray array];
     while([relatedTrs moveToNext]){
-        [relatedIds addObject:[[relatedDao tileRow:relatedTrs] id]];
+        [relatedIds addObject:[[relatedDao row:relatedTrs] id]];
     }
     [relatedTrs close];
     GPKGUserMappingDao *dao = [rte mappingDaoForTableName:mappingTableName];

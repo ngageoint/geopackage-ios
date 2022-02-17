@@ -327,7 +327,7 @@
                 @try {
                     // Update each tile row at this zoom level
                     while([tileResults moveToNext]){
-                        GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+                        GPKGTileRow * tileRow = [tileDao row:tileResults];
                         
                         // Get the bounding box of the existing tile
                         GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:previousTileMatrixSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];

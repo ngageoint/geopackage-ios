@@ -12,7 +12,6 @@
 #import "GPKGPropertyConstants.h"
 #import "GPKGIOUtils.h"
 #import "GPKGSqlUtils.h"
-#import "SFGeometryEnvelopeBuilder.h"
 
 NSString * const GPKG_RTREE_INDEX_EXTENSION_NAME = @"rtree_index";
 NSString * const GPKG_RTREE_INDEX_PREFIX = @"rtree_";

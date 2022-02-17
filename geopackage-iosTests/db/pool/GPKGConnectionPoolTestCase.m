@@ -23,7 +23,7 @@
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow *featureRow = [featureDao featureRow:featureResults];
+            GPKGFeatureRow *featureRow = [featureDao row:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             NSArray * tileTables = [self.geoPackage tileTables];
@@ -37,7 +37,7 @@
                 
                 while([tileResults moveToNext]){
                     
-                    GPKGTileRow *tileRow = [tileDao tileRow:tileResults];
+                    GPKGTileRow *tileRow = [tileDao row:tileResults];
                     [GPKGTestUtils assertNotNil:tileRow];
                     
                 }
@@ -65,7 +65,7 @@
             
             while([tileResults moveToNext]){
                 
-                GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+                GPKGTileRow * tileRow = [tileDao row:tileResults];
                 [GPKGTestUtils assertNotNil:tileRow];
                 
                 [NSThread sleepForTimeInterval:.1];
@@ -84,7 +84,7 @@
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao row:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             [NSThread sleepForTimeInterval:.1];
@@ -107,7 +107,7 @@
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao row:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
@@ -138,7 +138,7 @@
         
         while([featureResults moveToNext]){
             
-            GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+            GPKGFeatureRow * featureRow = [featureDao row:featureResults];
             [GPKGTestUtils assertNotNil:featureRow];
             
             NSArray * tileTables = [self.geoPackage tileTables];
@@ -152,7 +152,7 @@
                 
                 while([tileResults moveToNext]){
                     
-                    GPKGTileRow * tileRow = [tileDao tileRow:tileResults];
+                    GPKGTileRow * tileRow = [tileDao row:tileResults];
                     [GPKGTestUtils assertNotNil:tileRow];
                     
                     NSString* string = @"garbage";
@@ -312,7 +312,7 @@
     GPKGResultSet * featureResults = [featureDao queryForAll];
     
     while([featureResults moveToNext]){
-        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao row:featureResults];
         totalUpdated += [self transactionUpdateHelperWithFeatureDao:featureDao andFeatureRow:featureRow];
     }
     
@@ -338,7 +338,7 @@
         if(count == 0){
             [featureDao beginTransaction];
         }
-        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao row:featureResults];
         count = [self transactionUpdateHelperWithFeatureDao:featureDao andFeatureRow:featureRow];
         totalUpdated += count;
         if(count >= 2){
@@ -387,7 +387,7 @@
     
     while([featureResults moveToNext]){
         
-        GPKGFeatureRow * featureRow = [featureDao featureRow:featureResults];
+        GPKGFeatureRow * featureRow = [featureDao row:featureResults];
         [self transactionUpdateValidatorWithFeatureDao:featureDao andUpdated:updated andFeatureRow:featureRow];
         totalChecked++;
     }

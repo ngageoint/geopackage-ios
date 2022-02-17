@@ -138,7 +138,7 @@
     int featureCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [NSMutableArray array];
     while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao featureRow:featureResultSet] id]];
+        [featureIds addObject:[[featureDao row:featureResultSet] id]];
     }
     [featureResultSet close];
     
@@ -205,9 +205,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[featureRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:featureRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:featureRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao pkColumnName] andValue2:featureRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:featureRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumnName] andValue2:featureRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[mediaDao pkColumnName] andValue2:featureRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:featureRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:featureRelation.mappingTableName];
         
@@ -235,7 +235,7 @@
         featureResultSet = [featureDao queryForAll];
         int totalMapped = 0;
         while([featureResultSet moveToNext]){
-            GPKGFeatureRow *featureRow = [featureDao featureRow:featureResultSet];
+            GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[featureRow idValue]];
             NSArray<GPKGMediaRow *> *mediaRows = [mediaDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)mediaRows.count];
@@ -283,9 +283,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[mediaRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:featureDao.tableName andValue2:mediaRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[featureDao.table pkColumnName] andValue2:mediaRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[featureDao pkColumnName] andValue2:mediaRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:mediaDao.tableName andValue2:mediaRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[mediaDao table] pkColumnName] andValue2:mediaRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[mediaDao pkColumnName] andValue2:mediaRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGMediaTable relationType]] andValue2:mediaRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:mediaRelation.mappingTableName];
         

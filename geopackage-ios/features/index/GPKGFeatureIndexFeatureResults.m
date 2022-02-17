@@ -26,7 +26,7 @@
 }
 
 -(GPKGFeatureRow *) featureRow{
-    return [self.featureDao featureRow:[self results]];
+    return [self.featureDao row:[self results]];
 }
 
 -(NSNumber *) featureId{

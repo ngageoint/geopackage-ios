@@ -53,7 +53,25 @@
  *
  *  @return feature row
  */
+-(GPKGFeatureRow *) row: (GPKGResultSet *) results;
+
+/**
+ *  Get the feature row for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return feature row
+ */
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) results;
+
+/**
+ *  Get the feature row for the row
+ *
+ *  @param row result row
+ *
+ *  @return feature row
+ */
+-(GPKGFeatureRow *) rowWithRow: (GPKGRow *) row;
 
 /**
  *  Create a new feature row

@@ -74,6 +74,14 @@
 -(GPKGRTreeIndexTableRow *) row: (GPKGResultSet *) resultSet;
 
 /**
+ * Get the RTree Index Table row from the row
+ *
+ * @param row result row
+ * @return RTree Index Table row
+ */
+-(GPKGRTreeIndexTableRow *) rowWithRow: (GPKGRow *) row;
+
+/**
  * Get the RTree Index Table row from the user custom row
  *
  * @param row custom row
@@ -90,12 +98,20 @@
 -(GPKGFeatureRow *) featureRowFromRTreeRow: (GPKGRTreeIndexTableRow *) row;
 
 /**
- * Get the feature row from the RTree Index Table row
+ * Get the feature row from the result set
  *
  * @param resultSet result set
  * @return feature row
  */
 -(GPKGFeatureRow *) featureRow: (GPKGResultSet *) resultSet;
+
+/**
+ * Get the feature row from the row
+ *
+ * @param row result row
+ * @return feature row
+ */
+-(GPKGFeatureRow *) featureRowWithRow: (GPKGRow *) row;
 
 /**
  * Get the feature row from the user custom row

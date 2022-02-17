@@ -136,7 +136,7 @@
     int attributesCount = attributesResultSet.count;
     NSMutableArray<NSNumber *> *attributeIds = [NSMutableArray array];
     while([attributesResultSet moveToNext]){
-        [attributeIds addObject:[[attributesDao attributesRow:attributesResultSet] id]];
+        [attributeIds addObject:[[attributesDao row:attributesResultSet] id]];
     }
     [attributesResultSet close];
     
@@ -205,9 +205,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[attributesRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:attributesRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumnName] andValue2:attributesRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao pkColumnName] andValue2:attributesRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:attributesRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] pkColumnName] andValue2:attributesRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[simpleDao pkColumnName] andValue2:attributesRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:attributesRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:attributesRelation.mappingTableName];
         
@@ -236,7 +236,7 @@
         attributesResultSet = [attributesDao queryForAll];
         int totalMapped = 0;
         while([attributesResultSet moveToNext]){
-            GPKGAttributesRow *attributesRow = [attributesDao attributesRow:attributesResultSet];
+            GPKGAttributesRow *attributesRow = [attributesDao row:attributesResultSet];
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:attributesRelation withBaseId:[attributesRow idValue]];
             NSArray<GPKGSimpleAttributesRow *> *simpleRows = [simpleDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)simpleRows.count];
@@ -277,9 +277,9 @@
         // Test the relation
         [GPKGTestUtils assertTrue:[simpleRelation.id intValue] >= 0];
         [GPKGTestUtils assertEqualWithValue:attributesDao.tableName andValue2:simpleRelation.baseTableName];
-        [GPKGTestUtils assertEqualWithValue:[attributesDao.table pkColumnName] andValue2:simpleRelation.basePrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[attributesDao pkColumnName] andValue2:simpleRelation.basePrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:simpleDao.tableName andValue2:simpleRelation.relatedTableName];
-        [GPKGTestUtils assertEqualWithValue:[[simpleDao table] pkColumnName] andValue2:simpleRelation.relatedPrimaryColumn];
+        [GPKGTestUtils assertEqualWithValue:[simpleDao pkColumnName] andValue2:simpleRelation.relatedPrimaryColumn];
         [GPKGTestUtils assertEqualWithValue:[GPKGRelationTypes name:[GPKGSimpleAttributesTable relationType]] andValue2:simpleRelation.relationName];
         [GPKGTestUtils assertEqualWithValue:mappingTableName andValue2:simpleRelation.mappingTableName];
         

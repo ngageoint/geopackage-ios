@@ -9,7 +9,6 @@
 #import "GPKGFeatureIndexer.h"
 #import "GPKGMetadataDb.h"
 #import "GPKGGeometryColumnsDao.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "SFPGeometryTransform.h"
 #import "GPKGUserRowSync.h"
 #import "GPKGFeatureIndexerIdQuery.h"
@@ -36,6 +35,10 @@
         self.chunkLimit = 1000;
     }
     return self;
+}
+
+-(NSString *) pkColumnName{
+    return [_featureDao pkColumnName];
 }
 
 -(void) close{
@@ -156,7 +159,7 @@
         if(envelope == nil){
             SFGeometry * geometry = geomData.geometry;
             if(geometry != nil){
-                envelope = [SFGeometryEnvelopeBuilder buildEnvelopeWithGeometry:geometry];
+                envelope = [geometry envelope];
             }
         }
         
@@ -224,6 +227,14 @@
         date = metadata.lastIndexed;
     }
     return date;
+}
+
+-(double) tolerance{
+    return _geometryMetadataDataSource.tolerance;
+}
+
+-(void) setTolerance: (double) tolerance{
+    [self.geometryMetadataDataSource setTolerance:tolerance];
 }
 
 -(GPKGResultSet *) query{
@@ -828,14 +839,6 @@
     return row;
 }
 
--(double) tolerance{
-    return _geometryMetadataDataSource.tolerance;
-}
-
--(void) setTolerance: (double) tolerance{
-    [self.geometryMetadataDataSource setTolerance:tolerance];
-}
-
 /**
  * Build a feature indexer nested id query from the results
  *
@@ -947,7 +950,7 @@
         GPKGResultSet *results = [self.featureDao queryWhere:where andWhereArgs:whereArgs];
         @try {
             while([results moveToNext]){
-                GPKGFeatureRow *featureRow = [self.featureDao featureRow:results];
+                GPKGFeatureRow *featureRow = [self.featureDao row:results];
                 if([idQuery hasId:[featureRow id]]){
                     count++;
                 }

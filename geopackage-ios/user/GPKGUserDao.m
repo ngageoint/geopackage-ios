@@ -18,9 +18,9 @@
 -(instancetype) initWithDatabase: (GPKGConnection *) database andTable: (GPKGUserTable *) table{
     self = [super initWithDatabase:database];
     if(self != nil){
-        self.table = table;
+        _table = table;
         self.tableName = [table tableName];
-        GPKGUserColumn * pkColumn = [table pkColumn];
+        GPKGUserColumn *pkColumn = [table pkColumn];
         if(pkColumn != nil){
             self.idColumns = @[pkColumn.name];
         }else{
@@ -38,7 +38,7 @@
 }
 
 -(NSString *) idColumnName{
-    return [self.table pkColumnName];
+    return [_table pkColumnName];
 }
 
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
@@ -46,7 +46,7 @@
 }
 
 -(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forIdObject: (NSObject *) idValue{
-    NSObject * objectResult = nil;
+    NSObject *objectResult = nil;
     GPKGResultSet *results = [self queryWithColumns:columns forId:idValue];
     @try{
         if([results moveToNext]){
@@ -67,7 +67,7 @@
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
     GPKGUserRow *row = (GPKGUserRow*) object;
-    NSObject * value = [row databaseValueWithIndex:columnIndex];
+    NSObject *value = [row databaseValueWithIndex:columnIndex];
 
     return value;
 }
@@ -84,7 +84,7 @@
         
         NSObject *value = [self valueFromObject:object withColumnIndex:column.index];
         
-        if(!column.primaryKey || (value != nil && [self.table isPkModifiable])){
+        if(!column.primaryKey || (value != nil && [_table isPkModifiable])){
             
             NSString *columnName = column.name;
             
@@ -138,12 +138,12 @@
 
 -(GPKGUserRow *) row: (GPKGResultSet *) results{
     
-    GPKGUserRow * row = nil;
+    GPKGUserRow *row = nil;
     
-    if(self.table != nil){
+    if(_table != nil){
         
         if(results.columns == nil){
-            [results setColumnsFromTable:self.table];
+            [results setColumnsFromTable:_table];
         }
         
         NSUInteger columns = [results.columnNames count];
@@ -158,16 +158,39 @@
     return row;
 }
 
+-(GPKGUserRow *) rowWithRow: (GPKGRow *) row{
+    
+    GPKGUserRow *userRow = nil;
+    
+    if(_table != nil){
+
+        NSArray<NSString *> *columnNames = row.columns;
+        
+        GPKGUserColumns *columns = nil;
+        if(columnNames == nil || [[_table columnNames] isEqualToArray:columnNames]){
+            columns = [_table userColumns];
+        }else{
+            columns = [_table createUserColumnsWithNames:columnNames];
+        }
+        
+        NSMutableArray *values = [NSMutableArray arrayWithArray:row.values];
+        
+        userRow = [self newRowWithColumns:columns andValues:values];
+    }
+    
+    return userRow;
+}
+
 -(long long) insert: (NSObject *) object{
     long long id = [super insert:object];
-    if([self.table hasPkColumn]){
+    if([_table hasPkColumn]){
         [self setId:object withIdValue:[NSNumber numberWithLongLong:id]];
     }
     return id;
 }
 
 -(GPKGUserRow *) newRowWithColumns: (GPKGUserColumns *) columns andValues: (NSMutableArray *) values{
-    return [[GPKGUserRow alloc] initWithTable:self.table andColumns:columns andValues:values];
+    return [[GPKGUserRow alloc] initWithTable:_table andColumns:columns andValues:values];
 }
 
 -(GPKGBoundingBox *) boundingBox{
@@ -181,7 +204,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
-    SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:self.projection];
+    SFPGeometryTransform *projectionTransform = [SFPGeometryTransform transformFromProjection:projection andToProjection:_projection];
     GPKGBoundingBox *projectedBoundingBox = [boundingBox transform:projectionTransform];
     return projectedBoundingBox;
 }
@@ -191,18 +214,18 @@
 }
 
 -(int) zoomLevel{
-    if(self.projection == nil){
+    if(_projection == nil){
         [NSException raise:@"No Projection" format:@"No projection was set which is required to determine the zoom level"];
     }
     int zoomLevel = 0;
-    GPKGBoundingBox * boundingBox = [self boundingBox];
+    GPKGBoundingBox *boundingBox = [self boundingBox];
     if(boundingBox != nil){
         
-        if([self.projection isUnit:PROJ_UNIT_DEGREES]){
+        if([_projection isUnit:PROJ_UNIT_DEGREES]){
             boundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:boundingBox];
         }
-        SFPGeometryTransform * webMercatorTransform = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-        GPKGBoundingBox * webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
+        SFPGeometryTransform *webMercatorTransform = [SFPGeometryTransform transformFromProjection:_projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
+        GPKGBoundingBox *webMercatorBoundingBox = [boundingBox transform:webMercatorTransform];
         zoomLevel = [GPKGTileBoundingBoxUtils zoomLevelWithWebMercatorBoundingBox:webMercatorBoundingBox];
     }
     return zoomLevel;
@@ -223,42 +246,42 @@
 }
 
 -(BOOL) isPkModifiable{
-    return [self.table isPkModifiable];
+    return [_table isPkModifiable];
 }
 
 -(void) setPkModifiable: (BOOL) pkModifiable{
-    [self.table setPkModifiable:pkModifiable];
+    [_table setPkModifiable:pkModifiable];
 }
 
 -(BOOL) isValueValidation{
-    return [self.table isValueValidation];
+    return [_table isValueValidation];
 }
 
 -(void) setValueValidation: (BOOL) valueValidation{
-    [self.table setValueValidation:valueValidation];
+    [_table setValueValidation:valueValidation];
 }
 
 -(void) addColumn: (GPKGUserColumn *) column{
     [GPKGSqlUtils addColumn:column toTable:self.tableName withConnection:self.database];
-    [self.table addColumn:column];
+    [_table addColumn:column];
     [self updateColumns];
 }
 
 -(void) renameColumn: (GPKGUserColumn *) column toColumn: (NSString *) newColumnName{
     [self renameTableColumnWithName:column.name toColumn:newColumnName];
-    [self.table renameColumn:column toColumn:newColumnName];
+    [_table renameColumn:column toColumn:newColumnName];
     [self updateColumns];
 }
 
 -(void) renameColumnWithName: (NSString *) columnName toColumn: (NSString *) newColumnName{
     [self renameTableColumnWithName:columnName toColumn:newColumnName];
-    [self.table renameColumnWithName:columnName toColumn:newColumnName];
+    [_table renameColumnWithName:columnName toColumn:newColumnName];
     [self updateColumns];
 }
 
 -(void) renameColumnWithIndex: (int) index toColumn: (NSString *) newColumnName{
-    [self renameTableColumnWithName:[self.table columnNameWithIndex:index] toColumn:newColumnName];
-    [self.table renameColumnWithIndex:index toColumn:newColumnName];
+    [self renameTableColumnWithName:[_table columnNameWithIndex:index] toColumn:newColumnName];
+    [_table renameColumnWithIndex:index toColumn:newColumnName];
     [self updateColumns];
 }
 
@@ -268,7 +291,7 @@
     // Once iOS sqlite3 supports column rename alter table statements, this method can be modified to call:
     // [super renameColumnWithName:columnName toColumn:newColumnName];
     
-    GPKGUserTable *newTable = [self.table mutableCopy];
+    GPKGUserTable *newTable = [_table mutableCopy];
     
     [newTable renameColumnWithName:columnName toColumn:newColumnName];
     
@@ -283,11 +306,11 @@
 }
 
 -(void) dropColumnWithIndex: (int) index{
-    [self dropColumnWithName:[self.table columnNameWithIndex:index]];
+    [self dropColumnWithName:[_table columnNameWithIndex:index]];
 }
 
 -(void) dropColumnWithName: (NSString *) columnName{
-    [GPKGAlterTable dropColumn:columnName fromTable:self.table withConnection:self.database];
+    [GPKGAlterTable dropColumn:columnName fromTable:_table withConnection:self.database];
     [self updateColumns];
 }
 
@@ -308,22 +331,22 @@
 }
 
 -(void) dropColumnNames: (NSArray<NSString *> *) columnNames{
-    [GPKGAlterTable dropColumns:columnNames fromTable:self.table withConnection:self.database];
+    [GPKGAlterTable dropColumns:columnNames fromTable:_table withConnection:self.database];
     [self updateColumns];
 }
 
 -(void) alterColumn: (GPKGUserColumn *) column{
-    [GPKGAlterTable alterColumn:column inTable:self.table withConnection:self.database];
+    [GPKGAlterTable alterColumn:column inTable:_table withConnection:self.database];
     [self updateColumns];
 }
 
 -(void) alterColumns: (NSArray<GPKGUserColumn *> *) columns{
-    [GPKGAlterTable alterColumns:columns inTable:self.table withConnection:self.database];
+    [GPKGAlterTable alterColumns:columns inTable:_table withConnection:self.database];
     [self updateColumns];
 }
 
 -(void) updateColumns{
-    self.columnNames = [self.table columnNames];
+    self.columnNames = [_table columnNames];
     [self initializeColumnIndex];
 }
 

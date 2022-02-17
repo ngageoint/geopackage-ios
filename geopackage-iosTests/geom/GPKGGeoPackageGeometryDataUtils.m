@@ -46,7 +46,7 @@
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao featureRow:featureResults];
+                GPKGFeatureRow * featureRow = [dao row:featureResults];
                 GPKGGeometryData * geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){
@@ -120,7 +120,7 @@
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao featureRow:featureResults];
+                GPKGFeatureRow * featureRow = [dao row:featureResults];
                 GPKGGeometryData * geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){

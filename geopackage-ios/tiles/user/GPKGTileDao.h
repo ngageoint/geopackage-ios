@@ -114,7 +114,25 @@
  *
  *  @return tile row
  */
+-(GPKGTileRow *) row: (GPKGResultSet *) results;
+
+/**
+ *  Get the tile row for the current result in the result set
+ *
+ *  @param results result set
+ *
+ *  @return tile row
+ */
 -(GPKGTileRow *) tileRow: (GPKGResultSet *) results;
+
+/**
+ *  Get the tile row for the row
+ *
+ *  @param row result row
+ *
+ *  @return tile row
+ */
+-(GPKGTileRow *) rowWithRow: (GPKGRow *) row;
 
 /**
  *  Create a new tile row

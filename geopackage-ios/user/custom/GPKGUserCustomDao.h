@@ -58,6 +58,15 @@
 -(GPKGUserCustomRow *) row: (GPKGResultSet *) results;
 
 /**
+ *  Get a user custom row from the row
+ *
+ *  @param row result row
+ *
+ *  @return user custom row
+ */
+-(GPKGUserCustomRow *) rowWithRow: (GPKGRow *) row;
+
+/**
  *  Create a new user custom row
  *
  *  @return user custom row

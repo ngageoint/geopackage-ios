@@ -19,7 +19,6 @@
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
 #import "PROJProjectionFactory.h"
-#import "SFGeometryEnvelopeBuilder.h"
 #import "GPKGTileBoundingBoxUtils.h"
 #import "GPKGFeatureTileContext.h"
 #import "GPKGTileUtils.h"
@@ -486,7 +485,7 @@
         
         BOOL drawn = NO;
         while([results moveToNext]){
-            GPKGFeatureRow *row = [self.featureDao featureRow:results];
+            GPKGFeatureRow *row = [self.featureDao row:results];
             if([self drawFeatureWithZoom:zoom andBoundingBox:webMercatorBoundingBox andExpandedBoundingBox:expandedBoundingBox andContext:context andRow:row andShapeConverter:converter]){
                 drawn = YES;
             }
@@ -618,8 +617,7 @@
         SFGeometry * geometry = geomData.geometry;
         if(geometry != nil){
             
-            SFGeometryEnvelope *envelope = [geomData envelope];
-            GPKGBoundingBox *geometryBoundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
+            GPKGBoundingBox *geometryBoundingBox = [geomData buildBoundingBox];
             boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
             
         }

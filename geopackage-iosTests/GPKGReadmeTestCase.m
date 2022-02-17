@@ -75,8 +75,8 @@
     GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:featureDao.projection];
     GPKGResultSet *featureResults = [featureDao queryForAll];
     @try {
-        while([featureResults moveToNext]){
-            GPKGFeatureRow *featureRow = [featureDao featureRow:featureResults];
+        for(GPKGRow *row in featureResults){
+            GPKGFeatureRow *featureRow = [featureDao rowWithRow:row];
             GPKGGeometryData *geometryData = [featureRow geometry];
             if(geometryData != nil && !geometryData.empty){
                 SFGeometry *geometry = geometryData.geometry;
@@ -94,8 +94,8 @@
     GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:tileTable];
     GPKGResultSet *tileResults = [tileDao queryForAll];
     @try {
-        while([tileResults moveToNext]){
-            GPKGTileRow *tileRow = [tileDao tileRow:tileResults];
+        for(GPKGRow *row in tileResults){
+            GPKGTileRow *tileRow = [tileDao rowWithRow:row];
             NSData *tileData = [tileRow tileData];
             UIImage *tileImage = [tileRow tileDataImage];
             // ...

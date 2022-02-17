@@ -319,7 +319,7 @@
            && [transform.toProjection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]]){
             transformed = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:transformed];
         }
-        SFGeometryEnvelope *envelope = [GPKGBoundingBox buildEnvelopeFromBoundingBox:transformed];
+        SFGeometryEnvelope *envelope = [transformed buildEnvelope];
         SFGeometryEnvelope *transformedEnvelope = [transform transformGeometryEnvelope:envelope];
         transformed = [[GPKGBoundingBox alloc] initWithEnvelope:transformedEnvelope];
     }

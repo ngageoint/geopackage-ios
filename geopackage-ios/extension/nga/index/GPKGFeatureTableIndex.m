@@ -72,6 +72,10 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     return _columnName;
 }
 
+-(NSString *) pkColumnName{
+    return [_featureDao pkColumnName];
+}
+
 -(void) close{
     // Don't close anything, leave the GeoPackage connection open
 }

@@ -294,7 +294,7 @@
     while([tileResults moveToNext]){
         
         // Get the next tile
-        GPKGTileRow *tileRow = [self.tileDao tileRow:tileResults];
+        GPKGTileRow *tileRow = [self.tileDao row:tileResults];
         UIImage *tileDataImage = [tileRow tileDataImage];
         
         // Get the bounding box of the tile

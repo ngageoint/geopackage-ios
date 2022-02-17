@@ -281,7 +281,7 @@
         @try{
             [GPKGTestUtils assertTrue:tileResultSet.count > 0];
             while([tileResultSet moveToNext]){
-                GPKGTileRow * tileRow = [tileDao tileRow:tileResultSet];
+                GPKGTileRow * tileRow = [tileDao row:tileResultSet];
                 
                 GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:[tileRow zoomLevel]];
                 [GPKGTestUtils assertNotNil:tileMatrix];
