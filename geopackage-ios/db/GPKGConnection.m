@@ -260,17 +260,17 @@
 -(BOOL) enableForeignKeys{
     BOOL enabled = [self foreignKeys];
     if (!enabled) {
-        NSArray<NSArray<NSObject *> *> *violations = [self foreignKeyCheck];
+        NSArray<GPKGRow *> *violations = [self foreignKeyCheck];
         if(violations.count == 0){
             [self foreignKeysAsOn:YES];
             enabled = YES;
         }else{
-            for(NSArray<NSObject *> *violation in violations){
+            for(GPKGRow *violation in violations){
                 NSLog(@"Foreign Key violation. Table: %@, Row Id: %@, Referred Table: %@, FK Index: %@",
-                      [violation objectAtIndex:0],
-                      [violation objectAtIndex:1],
-                      [violation objectAtIndex:2],
-                      [violation objectAtIndex:3]);
+                      [violation valueAtIndex:0],
+                      [violation valueAtIndex:1],
+                      [violation valueAtIndex:2],
+                      [violation valueAtIndex:3]);
             }
         }
     }
@@ -285,11 +285,11 @@
     return [GPKGSqlUtils foreignKeysAsOn:on withConnection:self];
 }
 
--(NSArray<NSArray<NSObject *> *> *) foreignKeyCheck{
+-(NSArray<GPKGRow *> *) foreignKeyCheck{
     return [GPKGSqlUtils foreignKeyCheckWithConnection:self];
 }
 
--(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName{
+-(NSArray<GPKGRow *> *) foreignKeyCheckOnTable: (NSString *) tableName{
     return [GPKGSqlUtils foreignKeyCheckOnTable:tableName withConnection:self];
 }
 
@@ -450,34 +450,34 @@
     return result;
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
     return [self queryResultsWithSql:sql andArgs:args andDataTypes:nil andLimit:nil];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
     return [self queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:nil];
 }
 
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
     return [self querySingleRowResultsWithSql:sql andArgs:args andDataTypes:nil];
 }
 
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
-    NSArray<NSArray<NSObject *> *> *results = [self queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:[NSNumber numberWithInt:1]];
-    NSArray<NSObject *> *singleRow = nil;
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+    NSArray<GPKGRow *> *results = [self queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:[NSNumber numberWithInt:1]];
+    GPKGRow *singleRow = nil;
     if(results.count > 0){
         singleRow = [results objectAtIndex:0];
     }
     return singleRow;
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit{
     return [self queryResultsWithSql:sql andArgs:args andDataTypes:nil andLimit:limit];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
     GPKGDbConnection *connection = [self.connectionPool connection];
-    NSArray<NSArray<NSObject *> *> *result = [GPKGSqlUtils queryResultsWithDatabase:connection andSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
+    NSArray<GPKGRow *> *result = [GPKGSqlUtils queryResultsWithDatabase:connection andSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
     [self.connectionPool releaseConnection:connection];
     return result;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "GPKGRow.h"
+#import "GPKGUtils.h"
 
 @implementation GPKGRow
 
@@ -41,16 +42,25 @@
     return self;
 }
 
--(int) columnCount{
-    return (int) _columns.count;
+-(int) count{
+    return (int) _values.count;
 }
 
--(NSObject *) columnAtIndex: (int) index{
-    return [_columns objectAtIndex:index];
+-(NSString *) columnAtIndex: (int) index{
+    return [GPKGUtils objectAtIndex:index inArray:_columns];
 }
 
 -(NSObject *) valueAtIndex: (int) index{
-    return [_values objectAtIndex:index];
+    return [GPKGUtils objectAtIndex:index inArray:_values];
+}
+
+-(NSObject *) valueWithColumn: (NSString *) column{
+    NSObject *value = nil;
+    NSUInteger index = [_columns indexOfObject:column];
+    if(index != NSNotFound){
+        value = [self valueAtIndex:(int)index];
+    }
+    return value;
 }
 
 @end

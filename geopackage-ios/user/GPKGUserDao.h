@@ -10,6 +10,9 @@
 #import "GPKGUserTable.h"
 #import "GPKGUserRow.h"
 #import "GPKGBoundingBox.h"
+#import "GPKGRowResultSet.h"
+
+@class GPKGRowResultSet;
 
 /**
  *  Abstract User DAO for reading user tables
@@ -88,6 +91,15 @@
  *  @return user row
  */
 -(GPKGUserRow *) rowWithRow: (GPKGRow *) row;
+
+/**
+ *  Wrap the result set
+ *
+ *  @param results result set
+ *
+ *  @return row result set
+ */
+-(GPKGRowResultSet *) results: (GPKGResultSet *) results;
 
 /**
  *  Create a user row

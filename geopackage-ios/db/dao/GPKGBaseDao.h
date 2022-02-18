@@ -11,6 +11,9 @@
 #import "GPKGColumnValue.h"
 #import "GPKGColumnValues.h"
 #import "PROJProjection.h"
+#import "GPKGObjectResultSet.h"
+
+@class GPKGObjectResultSet;
 
 /**
  *  Base Data Access Object
@@ -372,6 +375,24 @@
  *  @return object
  */
 -(NSObject *) object: (GPKGResultSet *) results;
+
+/**
+ *  Get the object from the row
+ *
+ *  @param row result row
+ *
+ *  @return object
+ */
+-(NSObject *) objectWithRow: (GPKGRow *) row;
+
+/**
+ *  Wrap the result set
+ *
+ *  @param results result set
+ *
+ *  @return object result set
+ */
+-(GPKGObjectResultSet *) results: (GPKGResultSet *) results;
 
 /**
  *  Get the first object from the result set
@@ -8273,7 +8294,7 @@
  *            arguments
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 /**
  * Query for values
@@ -8286,7 +8307,7 @@
  *            column data types
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
 
 /**
  * Query for values in a single (first) row
@@ -8297,7 +8318,7 @@
  *            arguments
  * @return single row results
  */
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 /**
  * Query for values in a single (first) row
@@ -8310,7 +8331,7 @@
  *            column data types
  * @return single row results
  */
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
 
 /**
  * Query for values
@@ -8323,7 +8344,7 @@
  *            result row limit
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit;
 
 /**
  * Query for values up to the limit
@@ -8338,7 +8359,7 @@
  *            result row limit
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
 
 /**
  * Rename column

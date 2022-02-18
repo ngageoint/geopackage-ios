@@ -14,7 +14,7 @@
 +(void) testReadWithGeoPackage: (GPKGGeoPackage *) geoPackage andExpectedResults: (NSNumber *) expectedResults{
     
     GPKGSpatialReferenceSystemDao *dao = [geoPackage spatialReferenceSystemDao];
-    GPKGResultSet *results = [dao queryForAll];
+    GPKGObjectResultSet *results = [dao results:[dao queryForAll]];
     if (expectedResults != nil) {
         [GPKGTestUtils assertEqualIntWithValue:[expectedResults intValue] andValue2:results.count];
     }
@@ -22,8 +22,7 @@
     if (results.count > 0) {
         
         // Verify non nulls
-        while([results moveToNext]){
-            GPKGSpatialReferenceSystem *result = (GPKGSpatialReferenceSystem *)[dao object:results];
+        for(GPKGSpatialReferenceSystem *result in results){
             [GPKGTestUtils assertNotNil:result.srsName];
             [GPKGTestUtils assertNotNil:result.srsId];
             [GPKGTestUtils assertNotNil:result.organization];
@@ -35,7 +34,7 @@
         int random = (int) ([GPKGTestUtils randomDouble] * results.count);
         [results moveToFirst];
         [results moveToPosition:random];
-        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao object:results];
+        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[results object];
         [results close];
 
         // Query by id

@@ -849,7 +849,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createGeometryIndexExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *featureTables = [geoPackage featureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
@@ -863,7 +863,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
 
 +(void) createFeatureTileLinkExtensionWithGeoPackage: (GPKGGeoPackage *) geoPackage{
 
-    NSArray *featureTables = [geoPackage featureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for(NSString *featureTable in featureTables){
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
@@ -956,7 +956,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGDataColumnsDao *dataColumnsDao = [schemaExtension dataColumnsDao];
     
-    NSArray *featureTables = [geoPackage featureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for (NSString *featureTable in featureTables) {
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
@@ -1024,8 +1024,8 @@ static int dataColumnConstraintIndex = 0;
     
     NSString *tableName = @"non_linear_geometries";
     
-    NSMutableArray *geometries = [NSMutableArray array];
-    NSMutableArray *geometryNames = [NSMutableArray array];
+    NSMutableArray<SFGeometry *> *geometries = [NSMutableArray array];
+    NSMutableArray<NSString *> *geometryNames = [NSMutableArray array];
     
     SFCircularString *circularString = [[SFCircularString alloc] init];
     [circularString addPoint:[[SFPoint alloc] initWithXValue:-122.358 andYValue:47.653]];
@@ -1182,7 +1182,7 @@ static int dataColumnConstraintIndex = 0;
     [reference1 setMetadata:metadata1];
     [metadataReferenceDao create:reference1];
     
-    NSArray *tileTables = [geoPackage tileTables];
+    NSArray<NSString *> *tileTables = [geoPackage tileTables];
     if(tileTables.count > 0){
         NSString *table = [tileTables objectAtIndex:0];
         GPKGMetadataReference *reference2 = [[GPKGMetadataReference alloc] init];
@@ -1193,7 +1193,7 @@ static int dataColumnConstraintIndex = 0;
         [metadataReferenceDao create:reference2];
     }
     
-    NSArray *featureTables = [geoPackage featureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     if (featureTables.count > 0) {
         NSString *table = [featureTables objectAtIndex:0];
         GPKGMetadataReference *reference3 = [[GPKGMetadataReference alloc] init];
@@ -1410,7 +1410,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGRTreeIndexExtension *extension = [[GPKGRTreeIndexExtension alloc] initWithGeoPackage:geoPackage];
     
-    NSArray *featureTables = [geoPackage featureTables];
+    NSArray<NSString *> *featureTables = [geoPackage featureTables];
     for (NSString *tableName in featureTables) {
         
         GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:tableName];
@@ -1468,9 +1468,8 @@ static int dataColumnConstraintIndex = 0;
     [GPKGDublinCoreMetadata setValue:source asColumn:GPKG_DCM_SOURCE inRow:mediaRow];
     int mediaRowId = (int)[mediaDao create:mediaRow];
     
-    GPKGResultSet *featureResultSet = [featureDao queryForLikeWithField:TEXT_COLUMN andValue:query];
-    for(GPKGRow *row in featureResultSet){
-        GPKGFeatureRow *featureRow = [featureDao rowWithRow:row];
+    GPKGRowResultSet *featureResultSet = [featureDao results:[featureDao queryForLikeWithField:TEXT_COLUMN andValue:query]];
+    for(GPKGFeatureRow *featureRow in featureResultSet){
         GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
         [userMappingRow setBaseId:[featureRow idValue]];
         [userMappingRow setRelatedId:mediaRowId];
@@ -1556,17 +1555,14 @@ static int dataColumnConstraintIndex = 0;
     
     NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [NSMutableArray array];
     
-    GPKGResultSet *featureResultSet1 = [featureDao1 queryForAll];
+    GPKGRowResultSet *featureResultSet1 = [featureDao1 results:[featureDao1 queryForAll]];
     
-    for(GPKGRow *row in featureResultSet1){
+    for(GPKGFeatureRow *featureRow1 in featureResultSet1){
         
-        GPKGFeatureRow *featureRow1 = [featureDao1 rowWithRow:row];
         NSString *featureName = (NSString *)[featureRow1 valueWithColumnName:TEXT_COLUMN];
         
-        GPKGResultSet *featureResultSet2 = [featureDao2 queryForEqWithField:TEXT_COLUMN andValue:featureName];
-        for(GPKGRow *row2 in featureResultSet2){
-            
-            GPKGFeatureRow *featureRow2 = [featureDao2 rowWithRow:row2];
+        GPKGRowResultSet *featureResultSet2 = [featureDao2 results:[featureDao2 queryForEqWithField:TEXT_COLUMN andValue:featureName]];
+        for(GPKGFeatureRow *featureRow2 in featureResultSet2){
             
             GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
             [userMappingRow setBaseId:[featureRow1 idValue]];
@@ -1616,9 +1612,8 @@ static int dataColumnConstraintIndex = 0;
     GPKGUserMappingDao *userMappingDao = [relatedTables mappingDaoForRelation:relation];
     GPKGAttributesDao *attributesDao = [geoPackage attributesDaoWithTableName:tableName];
     
-    GPKGResultSet *attributesResultSet = [attributesDao queryForAll];
-    for(GPKGRow *row in attributesResultSet){
-        GPKGAttributesRow *attributesRow = [attributesDao rowWithRow:row];
+    GPKGRowResultSet *attributesResultSet = [attributesDao results:[attributesDao queryForAll]];
+    for(GPKGAttributesRow *attributesRow in attributesResultSet){
         NSNumber *randomSimpleRowId = [simpleAttributesIds objectAtIndex:[GPKGTestUtils randomIntLessThan:(int)simpleAttributesIds.count]];
         GPKGSimpleAttributesRow *simpleAttributesRow = (GPKGSimpleAttributesRow *)[simpleAttributesDao queryForIdObject:randomSimpleRowId];
         
@@ -1653,18 +1648,15 @@ static int dataColumnConstraintIndex = 0;
     GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:relation.baseTableName];
     GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:relation.relatedTableName];
 
-    GPKGResultSet *featureResultSet = [featureDao query];
-    for(GPKGRow *row in featureResultSet){
+    GPKGRowResultSet *featureResultSet = [featureDao results:[featureDao query]];
+    for(GPKGFeatureRow *featureRow in featureResultSet){
         
-        GPKGFeatureRow *featureRow = [featureDao rowWithRow:row];
         NSString *featureName = [featureRow valueStringWithColumnName:TEXT_COLUMN];
 
         NSMutableArray<GPKGUserMappingRow *> *userMappingRows = [NSMutableArray array];
         
-        GPKGResultSet *tileResultSet = [tileDao queryforTileWithZoomLevel:tileDao.minZoom];
-        for(GPKGRow *row2 in tileResultSet){
-
-            GPKGTileRow *tileRow = [tileDao rowWithRow:row2];
+        GPKGRowResultSet *tileResultSet = [tileDao results:[tileDao queryforTileWithZoomLevel:tileDao.minZoom]];
+        for(GPKGTileRow *tileRow in tileResultSet){
 
             GPKGUserMappingRow *userMappingRow = [userMappingDao newRow];
             [userMappingRow setBaseId:[featureRow idValue]];
@@ -1826,9 +1818,8 @@ static int dataColumnConstraintIndex = 0;
     int lineCount = 0;
     int polygonCount = 0;
     
-    GPKGResultSet *features = [featureDao queryForAll];
-    for(GPKGRow *row in features){
-        GPKGFeatureRow *featureRow = [featureDao rowWithRow:row];
+    GPKGRowResultSet *features = [featureDao results:[featureDao queryForAll]];
+    for(GPKGFeatureRow *featureRow in features){
         switch ([featureRow geometryType]) {
             case SF_POINT:
                 pointCount++;
@@ -1887,9 +1878,8 @@ static int dataColumnConstraintIndex = 0;
     [geometry2Styles createStyleRelationship];
     [geometry2Styles createIconRelationship];
     
-    GPKGResultSet *features = [featureDao queryForAll];
-    for(GPKGRow *row in features){
-        GPKGFeatureRow *featureRow = [featureDao rowWithRow:row];
+    GPKGRowResultSet *features = [featureDao results:[featureDao queryForAll]];
+    for(GPKGFeatureRow *featureRow in features){
         switch ([featureRow geometryType]) {
             case SF_POINT:
                 [geometry2Styles setIcon:[icons objectAtIndex:0] withFeature:featureRow];

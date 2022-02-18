@@ -109,7 +109,7 @@ extern NSString * const GPKG_SM_TABLE_NAME;
  *            row index
  * @return row column values
  */
--(NSArray<NSObject *> *) row: (int) row;
+-(GPKGRow *) row: (int) row;
 
 /**
  * Get the value in the row at the column index
@@ -120,7 +120,7 @@ extern NSString * const GPKG_SM_TABLE_NAME;
  *            column type
  * @return value
  */
--(NSObject *) valueInRow: (NSArray<NSObject *> *) row forColumn: (enum GPKGSQLiteMasterColumn) column;
+-(NSObject *) valueInRow: (GPKGRow *) row forColumn: (enum GPKGSQLiteMasterColumn) column;
 
 /**
  * Get the column index of the column type

@@ -17,7 +17,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
 /**
  * SQLiteMaster query results
  */
-@property (nonatomic, strong) NSArray<NSArray<NSObject *> *> *results;
+@property (nonatomic, strong) NSArray<GPKGRow *> *results;
 
 /**
  * Mapping between result columns and indices
@@ -41,7 +41,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
  * @param columns
  *            query columns
  */
--(instancetype) initWithResults: (NSArray<NSArray<NSObject *> *> *) results andColumns: (NSArray<NSNumber *> *) columns{
+-(instancetype) initWithResults: (NSArray<GPKGRow *> *) results andColumns: (NSArray<NSNumber *> *) columns{
     self = [super init];
     if(self != nil){
         self.columnIndices = [NSMutableDictionary dictionary];
@@ -58,7 +58,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
         }else{
             // Count only result
             self.results = [NSArray array];
-            self.count = [((NSNumber *)[[results objectAtIndex:0] objectAtIndex:0]) intValue];
+            self.count = [((NSNumber *)[[results objectAtIndex:0] valueAtIndex:0]) intValue];
         }
     }
     return self;
@@ -100,7 +100,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
     return [self valueInRow:[self row:row] forColumn:column];
 }
 
--(NSArray<NSObject *> *) row: (int) row{
+-(GPKGRow *) row: (int) row{
     if(row < 0 || row >= self.results.count){
         NSString *message = nil;
         if(self.results.count == 0){
@@ -113,8 +113,8 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
     return [self.results objectAtIndex:row];
 }
 
--(NSObject *) valueInRow: (NSArray<NSObject *> *) row forColumn: (enum GPKGSQLiteMasterColumn) column{
-    return [GPKGUtils objectAtIndex:[self columnIndex:column] inArray:row];
+-(NSObject *) valueInRow: (GPKGRow *) row forColumn: (enum GPKGSQLiteMasterColumn) column{
+    return [row valueAtIndex:[self columnIndex:column]];
 }
 
 -(int) columnIndex: (enum GPKGSQLiteMasterColumn) column{
@@ -305,7 +305,7 @@ NSString * const GPKG_SM_TABLE_NAME = @"sqlite_master";
         }
     }
     
-    NSArray<NSArray<NSObject *> *> *results = [db queryResultsWithSql:sql andArgs:args];
+    NSArray<GPKGRow *> *results = [db queryResultsWithSql:sql andArgs:args];
     
     GPKGSQLiteMaster *sqliteMaster = [[GPKGSQLiteMaster alloc] initWithResults:results andColumns:columns];
     

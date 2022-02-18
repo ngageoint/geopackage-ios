@@ -181,6 +181,10 @@
     return userRow;
 }
 
+-(GPKGRowResultSet *) results: (GPKGResultSet *) results{
+    return [GPKGRowResultSet createWithDao:self andResults:results];
+}
+
 -(long long) insert: (NSObject *) object{
     long long id = [super insert:object];
     if([_table hasPkColumn]){

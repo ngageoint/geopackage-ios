@@ -76,11 +76,11 @@
 -(instancetype) initWithColumns: (NSArray<NSString *> *) columns andValues: (NSArray<NSObject *> *) values;
 
 /**
- *  Get the column count
+ *  Get the count of values / columns
  *
  *  @return count
  */
--(int) columnCount;
+-(int) count;
 
 /**
  * Get the column name at the column index
@@ -89,7 +89,7 @@
  *
  * @return column name
  */
--(NSObject *) columnAtIndex: (int) index;
+-(NSString *) columnAtIndex: (int) index;
 
 /**
  * Get the value at the column index
@@ -99,5 +99,14 @@
  * @return value
  */
 -(NSObject *) valueAtIndex: (int) index;
+
+/**
+ * Get the value for the column name
+ *
+ * @param column
+ *            column name
+ * @return value
+ */
+-(NSObject *) valueWithColumn: (NSString *) column;
 
 @end

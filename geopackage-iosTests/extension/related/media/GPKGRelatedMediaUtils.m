@@ -134,20 +134,20 @@
     
     // Build the Feature ids
     GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:baseTableName];
-    GPKGResultSet *featureResultSet = [featureDao queryForAll];
+    GPKGRowResultSet *featureResultSet = [featureDao results:[featureDao queryForAll]];
     int featureCount = featureResultSet.count;
     NSMutableArray<NSNumber *> *featureIds = [NSMutableArray array];
-    while([featureResultSet moveToNext]){
-        [featureIds addObject:[[featureDao row:featureResultSet] id]];
+    for(GPKGFeatureRow *featureRow in featureResultSet){
+        [featureIds addObject:[featureRow id]];
     }
     [featureResultSet close];
     
     // Build the Media ids
-    GPKGResultSet *mediaResultSet = [mediaDao queryForAll];
+    GPKGRowResultSet *mediaResultSet = [mediaDao results:[mediaDao queryForAll]];
     mediaCount = mediaResultSet.count;
     NSMutableArray<NSNumber *> *mediaIds = [NSMutableArray array];
-    while([mediaResultSet moveToNext]){
-        [mediaIds addObject:[[mediaDao row:mediaResultSet] id]];
+    for(GPKGMediaRow *mediaRow in mediaResultSet){
+        [mediaIds addObject:[mediaRow id]];
     }
     [mediaResultSet close];
     
@@ -166,13 +166,12 @@
     // Validate the user mapping rows
     userMappingTable = [dao userMappingTable];
     NSArray<NSString *> *mappingColumns = userMappingTable.columnNames;
-    GPKGResultSet *resultSet = [dao queryForAll];
+    GPKGRowResultSet *resultSet = [dao results:[dao queryForAll]];
     int count = resultSet.count;
     [GPKGTestUtils assertEqualIntWithValue:10 andValue2:count];
     int manualCount = 0;
-    while([resultSet moveToNext]){
+    for(GPKGUserMappingRow *resultRow in resultSet){
         
-        GPKGUserMappingRow *resultRow = [dao row:resultSet];
         [GPKGTestUtils assertFalse:[resultRow hasId]];
         [GPKGTestUtils assertTrue:[featureIds containsObject:[NSNumber numberWithInt:[resultRow baseId]]]];
         [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:[resultRow relatedId]]]];
@@ -214,9 +213,8 @@
         // Test the user mappings from the relation
         GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:featureRelation];
         int totalMappedCount = userMappingDao.count;
-        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
-        while([mappingResultSet moveToNext]){
-            userMappingRow = [userMappingDao row:mappingResultSet];
+        GPKGRowResultSet *mappingResultSet = [userMappingDao results:[userMappingDao queryForAll]];
+        for(userMappingRow in mappingResultSet){
             [GPKGTestUtils assertTrue:[featureIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
             [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
             [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
@@ -232,10 +230,9 @@
         [self validateContents:mediaTable.contents withTable:mediaTable];
         
         // Get and test the Media Rows mapped to each Feature Row
-        featureResultSet = [featureDao queryForAll];
+        featureResultSet = [featureDao results:[featureDao queryForAll]];
         int totalMapped = 0;
-        while([featureResultSet moveToNext]){
-            GPKGFeatureRow *featureRow = [featureDao row:featureResultSet];
+        for(GPKGFeatureRow *featureRow in featureResultSet){
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:featureRelation withBaseId:[featureRow idValue]];
             NSArray<GPKGMediaRow *> *mediaRows = [mediaDao rowsWithIds:mappedIds];
             [GPKGTestUtils assertEqualIntWithValue:(int)mappedIds.count andValue2:(int)mediaRows.count];
@@ -292,9 +289,8 @@
         // Test the user mappings from the relation
         GPKGUserMappingDao *userMappingDao = [rte mappingDaoForRelation:mediaRelation];
         int totalMappedCount = userMappingDao.count;
-        GPKGResultSet *mappingResultSet = [userMappingDao queryForAll];
-        while([mappingResultSet moveToNext]){
-            userMappingRow = [userMappingDao row:mappingResultSet];
+        GPKGRowResultSet *mappingResultSet = [userMappingDao results:[userMappingDao queryForAll]];
+        for(userMappingRow in mappingResultSet){
             [GPKGTestUtils assertTrue:[featureIds containsObject:[NSNumber numberWithInt:userMappingRow.baseId]]];
             [GPKGTestUtils assertTrue:[mediaIds containsObject:[NSNumber numberWithInt:userMappingRow.relatedId]]];
             [GPKGRelatedTablesUtils validateUserRow:userMappingRow withColumns:mappingColumns];
@@ -315,10 +311,9 @@
         [GPKGTestUtils assertNotNil:featureContents.lastChange];
         
         // Get and test the Feature Rows mapped to each Media Row
-        mediaResultSet = [mediaDao queryForAll];
+        mediaResultSet = [mediaDao results:[mediaDao queryForAll]];
         int totalMapped = 0;
-        while([mediaResultSet moveToNext]){
-            GPKGMediaRow *mediaRow = [mediaDao row:mediaResultSet];
+        for(GPKGMediaRow *mediaRow in mediaResultSet){
             NSArray<NSNumber *> *mappedIds = [rte mappingsForRelation:mediaRelation withRelatedId:[mediaRow idValue]];
             for(NSNumber *mappedId in mappedIds){
                 GPKGFeatureRow *featureRow = (GPKGFeatureRow *)[featureDao queryForIdObject:mappedId];

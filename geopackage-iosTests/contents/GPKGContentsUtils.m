@@ -25,8 +25,8 @@
         int count = results.count;
         
         // Verify non nulls
-        while([results moveToNext]){
-            GPKGContents *result = (GPKGContents *)[dao object:results];
+        for(GPKGRow *row in results){
+            GPKGContents *result = (GPKGContents *)[dao objectWithRow:row];
             [GPKGTestUtils assertNotNil:result.tableName];
             [GPKGTestUtils assertNotNil:result.dataType];
             [GPKGTestUtils assertNotNil:result.lastChange];
@@ -67,12 +67,11 @@
         if(contents.srsId != nil){
             [fieldValues addColumn:GPKG_CON_COLUMN_SRS_ID withValue:contents.srsId];
         }
-        queryContentsResults = [dao queryForFieldValues:fieldValues];
-        [GPKGTestUtils assertNotNil:queryContentsResults];
-        [GPKGTestUtils assertTrue:queryContentsResults.count > 0];
+        GPKGObjectResultSet *queryContentsBaseResults = [dao results:[dao queryForFieldValues:fieldValues]];
+        [GPKGTestUtils assertNotNil:queryContentsBaseResults];
+        [GPKGTestUtils assertTrue:queryContentsBaseResults.count > 0];
         BOOL found = NO;
-        while ([queryContentsResults moveToNext]) {
-            GPKGContents *queryContentsValue = (GPKGContents *)[dao object:queryContentsResults];
+        for(GPKGContents *queryContentsValue in queryContentsBaseResults){
             [GPKGTestUtils assertEqualWithValue:contents.dataType andValue2:queryContentsValue.dataType];
             if(contents.srsId != nil){
                 [GPKGTestUtils assertEqualWithValue:contents.srsId andValue2:queryContentsValue.srsId];
@@ -82,7 +81,7 @@
             }
         }
         [GPKGTestUtils assertTrue:found];
-        [queryContentsResults close];
+        [queryContentsBaseResults close];
         
         // Prepared query, less than equal date
         NSMutableString * where = [NSMutableString string];

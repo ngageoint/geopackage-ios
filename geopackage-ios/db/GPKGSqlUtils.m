@@ -331,11 +331,11 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return results;
 }
 
-+(NSArray<NSArray<NSObject *> *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
++(NSArray<GPKGRow *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
     
     GPKGResultSet *result = [self queryWithDatabase:connection andStatement:sql andArgs:args];
     
-    NSMutableArray<NSArray<NSObject *> *> *results = [NSMutableArray array];
+    NSMutableArray<GPKGRow *> *results = [NSMutableArray array];
     @try {
         int columns = (int)result.columnNames.count;
         while([result moveToNext]) {
@@ -347,7 +347,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                 }
                 [GPKGUtils addObject:[self valueInResult:result atIndex:i withDataType:dataType] toArray:row];
             }
-            [results addObject:row];
+            [results addObject:[GPKGRow createWithColumns:result.columnNames andValues:row]];
             if(limit != nil && results.count >= [limit intValue]){
                 break;
             }
@@ -993,12 +993,12 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     return [NSString stringWithFormat:@"PRAGMA foreign_keys = %@", (on ? @"true" : @"false")];
 }
 
-+(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
++(NSArray<GPKGRow *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db{
     NSString *sql = [self foreignKeyCheckSQL];
     return [db queryResultsWithSql:sql andArgs:nil];
 }
 
-+(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
++(NSArray<GPKGRow *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db{
     NSString *sql = [self foreignKeyCheckSQLOnTable:tableName];
     return [db queryResultsWithSql:sql andArgs:nil];
 }

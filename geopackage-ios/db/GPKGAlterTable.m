@@ -307,7 +307,7 @@
  */
 +(void) foreignKeyCheck: (GPKGConnection *) db{
     
-    NSArray<NSArray<NSObject *> *> *violations = [GPKGSqlUtils foreignKeyCheckWithConnection:db];
+    NSArray<GPKGRow *> *violations = [GPKGSqlUtils foreignKeyCheckWithConnection:db];
     
     if(violations.count > 0){
         NSMutableString *violationsMessage = [NSMutableString string];
@@ -316,12 +316,12 @@
                 [violationsMessage appendString:@"; "];
             }
             [violationsMessage appendFormat:@"%d: ", i + 1];
-            NSArray<NSObject *> *violation = [violations objectAtIndex:i];
-            for (int j = 0; j < violation.count; j++) {
+            GPKGRow *violation = [violations objectAtIndex:i];
+            for (int j = 0; j < [violation count]; j++) {
                 if (j > 0) {
                     [violationsMessage appendString:@", "];
                 }
-                [violationsMessage appendString:[[violation objectAtIndex:j] description]];
+                [violationsMessage appendString:[[violation valueAtIndex:j] description]];
             }
         }
         [NSException raise:@"Foreign Key Check" format:@"Foreign Key Check Violations: %@", violationsMessage];

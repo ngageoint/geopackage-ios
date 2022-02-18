@@ -124,18 +124,18 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
     
     NSString *sql = [NSString stringWithFormat:@"PRAGMA table_info(%@)", [GPKGSqlUtils quoteWrapName:tableName]];
     
-    NSArray<NSArray<NSObject *> *> *results = [db queryResultsWithSql:sql andArgs:nil];
+    NSArray<GPKGRow *> *results = [db queryResultsWithSql:sql andArgs:nil];
     
     NSMutableArray<GPKGTableColumn *> *tableColumns = [NSMutableArray array];
     
-    for (NSArray<NSObject *> *column in results) {
+    for (GPKGRow *column in results) {
         
-        int index = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_CID_INDEX inArray:column]) intValue];
-        NSString *name = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_NAME_INDEX inArray:column];
-        NSString *type = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_TYPE_INDEX inArray:column];
-        BOOL notNull = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_NOT_NULL_INDEX inArray:column]) intValue] == 1;
-        NSString *defaultValueString = (NSString *)[GPKGUtils objectAtIndex:GPKG_TI_DFLT_VALUE_INDEX inArray:column];
-        BOOL primaryKey = [((NSNumber *)[GPKGUtils objectAtIndex:GPKG_TI_PK_INDEX inArray:column]) intValue] == 1;
+        int index = [((NSNumber *)[column valueAtIndex:GPKG_TI_CID_INDEX]) intValue];
+        NSString *name = (NSString *)[column valueAtIndex:GPKG_TI_NAME_INDEX];
+        NSString *type = (NSString *)[column valueAtIndex:GPKG_TI_TYPE_INDEX];
+        BOOL notNull = [((NSNumber *)[column valueAtIndex:GPKG_TI_NOT_NULL_INDEX]) intValue] == 1;
+        NSString *defaultValueString = (NSString *)[column valueAtIndex:GPKG_TI_DFLT_VALUE_INDEX];
+        BOOL primaryKey = [((NSNumber *)[column valueAtIndex:GPKG_TI_PK_INDEX]) intValue] == 1;
 
         // If the type has a max limit on it, pull it off
         NSNumber *max = nil;

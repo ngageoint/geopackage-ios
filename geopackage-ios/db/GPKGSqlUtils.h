@@ -279,7 +279,7 @@
  *            result row limit
  * @return results
  */
-+(NSArray<NSArray<NSObject *> *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
++(NSArray<GPKGRow *> *) queryResultsWithDatabase: (GPKGDbConnection *) connection andSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
 
 /**
  * Get the value from the result set from the provided column
@@ -687,7 +687,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
-+(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db;
++(NSArray<GPKGRow *> *) foreignKeyCheckWithConnection: (GPKGConnection *) db;
 
 /**
  * Perform a foreign key check
@@ -699,7 +699,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
-+(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
++(NSArray<GPKGRow *> *) foreignKeyCheckOnTable: (NSString *) tableName withConnection: (GPKGConnection *) db;
 
 /**
  * Create the foreign key check SQL

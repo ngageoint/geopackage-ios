@@ -254,6 +254,22 @@
     return objectResult;
 }
 
+-(NSObject *) objectWithRow: (GPKGRow *) row{
+    
+    NSObject *objectResult = [self createObject];
+    
+    int count = [row count];
+    for(int i = 0; i < count; i++){
+        [self setValueInObject:objectResult withColumnName:[row columnAtIndex:i] withValue:[row valueAtIndex:i]];
+    }
+    
+    return objectResult;
+}
+
+-(GPKGObjectResultSet *) results: (GPKGResultSet *) results{
+    return [GPKGObjectResultSet createWithDao:self andResults:results];
+}
+
 -(NSObject *) firstObject: (GPKGResultSet *)results{
     NSObject *objectResult = nil;
     @try{
@@ -2499,27 +2515,27 @@
     return [self.database querySingleColumnResultsWithSql:sql andArgs:args andColumn:column andDataType:dataType andLimit:limit];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
     return [self.database queryResultsWithSql:sql andArgs:args];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
     return [self.database queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes];
 }
 
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args{
     return [self.database querySingleRowResultsWithSql:sql andArgs:args];
 }
 
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes{
     return [self.database querySingleRowResultsWithSql:sql andArgs:args andDataTypes:dataTypes];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit{
     return [self.database queryResultsWithSql:sql andArgs:args andLimit:limit];
 }
 
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit{
     return [self.database queryResultsWithSql:sql andArgs:args andDataTypes:dataTypes andLimit:limit];
 }
 

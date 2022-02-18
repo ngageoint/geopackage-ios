@@ -453,7 +453,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
--(NSArray<NSArray<NSObject *> *> *) foreignKeyCheck;
+-(NSArray<GPKGRow *> *) foreignKeyCheck;
 
 /**
  * Perform a foreign key check
@@ -463,7 +463,7 @@
  * @return empty list if valid or violation errors, 4 column values for each
  *         violation. see SQLite PRAGMA foreign_key_check
  */
--(NSArray<NSArray<NSObject *> *> *) foreignKeyCheckOnTable: (NSString *) tableName;
+-(NSArray<GPKGRow *> *) foreignKeyCheckOnTable: (NSString *) tableName;
 
 /**
  *  Insert statement
@@ -774,7 +774,7 @@
  *            arguments
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 /**
  * Query for values
@@ -787,7 +787,7 @@
  *            column data types
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
 
 /**
  * Query for values in a single (first) row
@@ -798,7 +798,7 @@
  *            arguments
  * @return single row results
  */
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args;
 
 /**
  * Query for values in a single (first) row
@@ -811,7 +811,7 @@
  *            column data types
  * @return single row results
  */
--(NSArray<NSObject *> *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
+-(GPKGRow *) querySingleRowResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes;
 
 /**
  * Query for values
@@ -824,7 +824,7 @@
  *            result row limit
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andLimit: (NSNumber *) limit;
 
 /**
  * Query for values up to the limit
@@ -839,7 +839,7 @@
  *            result row limit
  * @return results
  */
--(NSArray<NSArray<NSObject *> *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
+-(NSArray<GPKGRow *> *) queryResultsWithSql: (NSString *) sql andArgs: (NSArray *) args andDataTypes: (NSArray *) dataTypes andLimit: (NSNumber *) limit;
 
 /**
  *  Set the GeoPackage application id

@@ -403,12 +403,12 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     NSString *sql = [NSString stringWithFormat:@"SELECT MIN(%@), MIN(%@), MAX(%@), MAX(%@) FROM %@ WHERE %@ = ?", GPKG_GI_COLUMN_MIN_X, GPKG_GI_COLUMN_MIN_Y, GPKG_GI_COLUMN_MAX_X, GPKG_GI_COLUMN_MAX_Y, GPKG_GI_TABLE_NAME, GPKG_GI_COLUMN_TABLE_NAME];
     NSArray *dataTypes = [NSArray arrayWithObjects:[[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], [[NSNumber alloc] initWithInt:GPKG_DT_DOUBLE], nil];
     
-    NSArray<NSNumber *> *results = (NSArray<NSNumber *> *)[self.geometryIndexDao querySingleRowResultsWithSql:sql andArgs:[NSArray arrayWithObjects:self.tableName, nil] andDataTypes:dataTypes];
+    GPKGRow *row = [self.geometryIndexDao querySingleRowResultsWithSql:sql andArgs:[NSArray arrayWithObjects:self.tableName, nil] andDataTypes:dataTypes];
     
-    double minLongitude = [[results objectAtIndex:0] doubleValue];
-    double minLatitude = [[results objectAtIndex:1] doubleValue];
-    double maxLongitude = [[results objectAtIndex:2] doubleValue];
-    double maxLatitude = [[results objectAtIndex:3] doubleValue];
+    double minLongitude = [((NSNumber *)[row valueAtIndex:0]) doubleValue];
+    double minLatitude = [((NSNumber *)[row valueAtIndex:1]) doubleValue];
+    double maxLongitude = [((NSNumber *)[row valueAtIndex:2]) doubleValue];
+    double maxLatitude = [((NSNumber *)[row valueAtIndex:3]) doubleValue];
     
     GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     

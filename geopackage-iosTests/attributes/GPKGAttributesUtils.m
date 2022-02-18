@@ -40,21 +40,20 @@
             NSArray * columns = attributesTable.columnNames;
             
             // Query for all
-            GPKGResultSet * results = [dao queryForAll];
-            int count = results.count;
+            GPKGRowResultSet *attributesResults = [dao results:[dao queryForAll]];
+            int count = attributesResults.count;
             int manualCount = 0;
-            while ([results moveToNext]) {
+            for(GPKGAttributesRow *attributesRow in attributesResults){
                 
-                GPKGAttributesRow *attributesRow = [dao row:results];
                 [self validateAttributesRowWithColumns:columns andRow:attributesRow];
                 
                 manualCount++;
             }
             [GPKGTestUtils assertEqualIntWithValue:count andValue2:manualCount];
-            [results close];
+            [attributesResults close];
             
             // Manually query for all and compare
-            results = [dao.database queryWithTable:dao.tableName andColumns:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
+            GPKGResultSet *results = [dao.database queryWithTable:dao.tableName andColumns:nil andWhere:nil andWhereArgs:nil andGroupBy:nil andHaving:nil andOrderBy:nil];
 
             count = results.count;
             manualCount = 0;
@@ -108,8 +107,8 @@
                 
                 [GPKGTestUtils assertTrue:results.count > 0];
                 BOOL found = NO;
-                while([results moveToNext]){
-                    queryAttributesRow = [dao row:results];
+                for(GPKGRow *row in results){
+                    queryAttributesRow = [dao rowWithRow:row];
                     [GPKGTestUtils assertEqualWithValue:column1Value andValue2:[queryAttributesRow valueWithColumnName:column1.name]];
                     if(!found){
                         found = [attributesRow idValue] == [queryAttributesRow idValue];
