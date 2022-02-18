@@ -11,8 +11,10 @@
 #import "GPKGUserRow.h"
 #import "GPKGBoundingBox.h"
 #import "GPKGRowResultSet.h"
+#import "GPKGRowPaginatedResults.h"
 
 @class GPKGRowResultSet;
+@class GPKGRowPaginatedResults;
 
 /**
  *  Abstract User DAO for reading user tables
@@ -173,6 +175,26 @@
  * @return row
  */
 -(GPKGUserRow *) queryWithColumns: (NSArray<NSString *> *) columns forIdRow: (int) id;
+
+/**
+ * Paginate the results
+ *
+ * @param results
+ *            result set
+ * @return row paginated results
+ */
+-(GPKGRowPaginatedResults *) paginate: (GPKGResultSet *) results;
+
+/**
+ * Paginate the results
+ *
+ * @param results
+ *            result set
+ * @param dao
+ *            base DAO
+ * @return row paginated results
+ */
++(GPKGRowPaginatedResults *) paginate: (GPKGResultSet *) results withDao: (GPKGUserDao *) dao;
 
 /**
  * Is the primary key modifiable

@@ -140,7 +140,7 @@
     // Query Indexed Features in paginated chunks
     GPKGFeatureIndexResults *indexResults = [indexer queryWithBoundingBox:boundingBox inProjection:projection]; // TODO queryForChunk limit 50
     // TODO paginated results
-    GPKGPaginatedResults *paginatedResults = [GPKGFeatureIndexManager paginate:indexResults];
+    GPKGRowPaginatedResults *paginatedResults = [indexer paginate:indexResults];
     for(GPKGFeatureRow *featureRow in paginatedResults){
         GPKGGeometryData *geometryData = [featureRow geometry];
         if(geometryData != nil && !geometryData.empty){

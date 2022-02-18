@@ -1328,11 +1328,15 @@
     return [GPKGPaginatedResults isPaginated:[results results]];
 }
 
-+(GPKGPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results{
+-(GPKGRowPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results{
+    return [GPKGFeatureIndexManager paginate:results withDao:_featureDao];
+}
+
++(GPKGRowPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results withDao: (GPKGFeatureDao *) dao{
     if(![results isKindOfClass:[GPKGFeatureIndexResultSetResults class]]){
         [NSException raise:@"Results Type" format:@"Results do not contain a result set. Expected: %@, Received: %@", NSStringFromClass([GPKGFeatureIndexResultSetResults class]), NSStringFromClass([results class])];
     }
-    return [GPKGPaginatedResults create:[((GPKGFeatureIndexResultSetResults *)results) results]];
+    return [GPKGRowPaginatedResults createWithDao:dao andResultSet:[((GPKGFeatureIndexResultSetResults *)results) results]];
 }
 
 /**

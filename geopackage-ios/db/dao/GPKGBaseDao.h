@@ -12,8 +12,10 @@
 #import "GPKGColumnValues.h"
 #import "PROJProjection.h"
 #import "GPKGObjectResultSet.h"
+#import "GPKGObjectPaginatedResults.h"
 
 @class GPKGObjectResultSet;
+@class GPKGObjectPaginatedResults;
 
 /**
  *  Base Data Access Object
@@ -6634,6 +6636,35 @@
                             andWhere: (NSString *) where
                             andWhereArgs: (NSArray *) whereArgs
                             andLimit: (NSString *) limit;
+
+/**
+ * Determine if the results are paginated
+ *
+ * @param results
+ *            query results
+ * @return true if paginated
+ */
++(BOOL) isPaginated: (GPKGResultSet *) results;
+
+/**
+ * Paginate the results
+ *
+ * @param results
+ *            result set
+ * @return object paginated results
+ */
+-(GPKGObjectPaginatedResults *) paginate: (GPKGResultSet *) results;
+
+/**
+ * Paginate the results
+ *
+ * @param results
+ *            result set
+ * @param dao
+ *            base DAO
+ * @return object paginated results
+ */
++(GPKGObjectPaginatedResults *) paginate: (GPKGResultSet *) results withDao: (GPKGBaseDao *) dao;
 
 /**
  * Query for id ordered rows starting at the offset and returning no more

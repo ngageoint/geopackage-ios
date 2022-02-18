@@ -302,10 +302,12 @@
 #import "GPKGPlatteCarreOptimize.h"
 #import "GPKGWebMercatorOptimize.h"
 #import "GPKGNetworkUtils.h"
-#import "GPKGPagination.h"
-#import "GPKGPaginatedResults.h"
 #import "GPKGRow.h"
 #import "GPKGObjectResultSet.h"
 #import "GPKGRowResultSet.h"
+#import "GPKGPagination.h"
+#import "GPKGPaginatedResults.h"
+#import "GPKGObjectPaginatedResults.h"
+#import "GPKGRowPaginatedResults.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

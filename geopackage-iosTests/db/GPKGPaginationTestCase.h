@@ -6,8 +6,8 @@
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import "GPKGCreateGeoPackageTestCase.h"
 
-@interface GPKGPaginationTestCase : XCTestCase
+@interface GPKGPaginationTestCase : GPKGCreateGeoPackageTestCase
 
 @end

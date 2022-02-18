@@ -1,14 +1,14 @@
 //
-//  GPKGRowResultSet.m
+//  GPKGRowPaginatedResults.m
 //  geopackage-ios
 //
 //  Created by Brian Osborn on 2/18/22.
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import "GPKGRowResultSet.h"
+#import "GPKGRowPaginatedResults.h"
 
-@interface GPKGRowResultSet ()
+@interface GPKGRowPaginatedResults ()
 
 /**
  *  Strong reference of the last enumerated rows to prevent garbage collection
@@ -17,14 +17,14 @@
 
 @end
 
-@implementation GPKGRowResultSet
+@implementation GPKGRowPaginatedResults
 
-+(GPKGRowResultSet *) createWithDao: (GPKGUserDao *) dao andResults: (GPKGResultSet *) resultSet{
-    return [[GPKGRowResultSet alloc] initWithDao:dao andResults:resultSet];
++(GPKGRowPaginatedResults *) createWithDao: (GPKGUserDao *) dao andResultSet: (GPKGResultSet *) resultSet{
+    return [[GPKGRowPaginatedResults alloc] initWithDao:dao andResultSet:resultSet];
 }
 
--(instancetype) initWithDao: (GPKGUserDao *) dao andResults: (GPKGResultSet *) resultSet{
-    self = [super initWithDao:dao andResults:resultSet];
+-(instancetype) initWithDao: (GPKGUserDao *) dao andResultSet: (GPKGResultSet *) resultSet{
+    self = [super initWithDao:dao andResultSet:resultSet];
     return self;
 }
 
@@ -32,7 +32,7 @@
     return (GPKGUserDao *) [super dao];
 }
 
--(GPKGUserRow *) row{
+-(GPKGUserRow *) userRow{
     return [[self dao] row:[self resultSet]];
 }
 
@@ -53,7 +53,7 @@
             break;
         }
         
-        GPKGUserRow *row = [self row];
+        GPKGUserRow *row = [self userRow];
         [self.rows addObject:row];
         stackbuf[count] = row;
         count += 1;

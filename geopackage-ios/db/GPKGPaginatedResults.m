@@ -17,6 +17,11 @@
 @property (nonatomic, strong) GPKGResultSet *resultSet;
 
 /**
+ * Result Count
+ */
+@property (nonatomic) int count;
+
+/**
  * SQL statement
  */
 @property (nonatomic, strong) NSString *sql;
@@ -51,6 +56,7 @@
     self = [super init];
     if(self != nil){
         _resultSet = resultSet;
+        _count = resultSet.count;
         _sql = resultSet.sql;
         _args = resultSet.args;
         _pagination = [GPKGPaginatedResults pagination:resultSet];
@@ -69,6 +75,10 @@
     return _resultSet;
 }
 
+-(int) count{
+    return _count;
+}
+
 -(NSString *) sql{
     return _sql;
 }
@@ -82,22 +92,27 @@
     if(!hasNext){
         GPKGDbConnection *connection = _resultSet.connection;
         [self close];
-        NSString *query = [_pagination replaceSQL:_sql];
-        _resultSet = [GPKGSqlUtils queryWithDatabase:connection andStatement:query andArgs:_args];
-        hasNext = [_resultSet moveToNext];
-        if(!hasNext){
-            [self close];
+        if([_pagination hasLimit]){
+            [_pagination incrementOffset];
+            if(_pagination.offset != nil && [_pagination.offset intValue] < _count){
+                NSString *query = [_pagination replaceSQL:_sql];
+                _resultSet = [GPKGSqlUtils queryWithDatabase:connection andStatement:query andArgs:_args];
+                hasNext = [_resultSet moveToNext];
+                if(!hasNext){
+                    [self close];
+                }
+            }
         }
     }
     return hasNext;
 }
 
--(GPKGRow *) row{
-    return [_resultSet row];
-}
-
 -(NSArray<NSObject *> *) rowValues{
     return [_resultSet rowValues];
+}
+
+-(GPKGRow *) row{
+    return [_resultSet row];
 }
 
 -(void) close{

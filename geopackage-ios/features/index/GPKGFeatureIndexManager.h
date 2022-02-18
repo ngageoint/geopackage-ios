@@ -14,7 +14,7 @@
 #import "GPKGFeatureIndexResults.h"
 #import "GPKGRTreeIndexTableDao.h"
 #import "GPKGFeatureIndexLocation.h"
-#import "GPKGPaginatedResults.h"
+#import "GPKGRowPaginatedResults.h"
 
 @class GPKGFeatureIndexLocation;
 
@@ -1574,6 +1574,17 @@
  *            feature index results
  * @return feature paginated results
  */
-+(GPKGPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results;
+-(GPKGRowPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results;
+
+/**
+ * Paginate the results
+ *
+ * @param results
+ *            feature index results
+ * @param dao
+ *            feature DAO
+ * @return feature paginated results
+ */
++(GPKGRowPaginatedResults *) paginate: (GPKGFeatureIndexResults *) results withDao: (GPKGFeatureDao *) dao;
 
 @end

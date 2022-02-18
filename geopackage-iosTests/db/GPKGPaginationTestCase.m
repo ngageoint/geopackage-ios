@@ -9,8 +9,74 @@
 #import "GPKGPaginationTestCase.h"
 #import "GPKGTestUtils.h"
 #import "GPKGPagination.h"
+#import "GPKGObjectPaginatedResults.h"
 
 @implementation GPKGPaginationTestCase
+
+-(void) testResultSet{
+    
+    GPKGContentsDao *dao = [self.geoPackage contentsDao];
+    int count = [dao count];
+    
+    for(int limit = 1; limit <= count + 1; limit++){
+        [self testResultSetWithCount:count andLimit:limit];
+    }
+    
+}
+
+-(void) testResultSetWithCount: (int) count andLimit: (int) limit{
+    
+    GPKGContentsDao *dao = [self.geoPackage contentsDao];
+    
+    GPKGPaginatedResults *results = [GPKGPaginatedResults create:[dao queryForChunkWithLimit:limit]];
+    int chunkCount = 0;
+    @try {
+        
+        for(GPKGRow *row in results){
+            GPKGContents *contents = (GPKGContents *) [dao objectWithRow:row];
+            [GPKGTestUtils assertNotNil:contents];
+            chunkCount++;
+        }
+        
+    } @finally {
+        [results close];
+    }
+    
+    [GPKGTestUtils assertEqualIntWithValue:count andValue2:chunkCount];
+    
+}
+
+-(void) testObject{
+    
+    GPKGContentsDao *dao = [self.geoPackage contentsDao];
+    int count = [dao count];
+    
+    for(int limit = 1; limit <= count + 1; limit++){
+        [self testObjectWithCount:count andLimit:limit];
+    }
+    
+}
+
+-(void) testObjectWithCount: (int) count andLimit: (int) limit{
+    
+    GPKGContentsDao *dao = [self.geoPackage contentsDao];
+    
+    GPKGObjectPaginatedResults *results = [dao paginate:[dao queryForChunkWithLimit:limit]];
+    int chunkCount = 0;
+    @try {
+        
+        for(GPKGContents *contents in results){
+            [GPKGTestUtils assertNotNil:contents];
+            chunkCount++;
+        }
+        
+    } @finally {
+        [results close];
+    }
+    
+    [GPKGTestUtils assertEqualIntWithValue:count andValue2:chunkCount];
+    
+}
 
 /**
  * Test pagination find

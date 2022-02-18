@@ -1830,6 +1830,18 @@
     return [self queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:nil andLimit:limit];
 }
 
++(BOOL) isPaginated: (GPKGResultSet *) results{
+    return [GPKGPaginatedResults isPaginated:results];
+}
+
+-(GPKGObjectPaginatedResults *) paginate: (GPKGResultSet *) results{
+    return [GPKGBaseDao paginate:results withDao:self];
+}
+
++(GPKGObjectPaginatedResults *) paginate: (GPKGResultSet *) results withDao: (GPKGBaseDao *) dao{
+    return [GPKGObjectPaginatedResults createWithDao:dao andResultSet:results];
+}
+
 -(GPKGResultSet *) queryForChunkWithLimit: (int) limit{
     return [self queryForChunkWithDistinct:NO andLimit:limit];
 }

@@ -73,6 +73,13 @@
 -(GPKGResultSet *) resultSet;
 
 /**
+ * Get the result count
+ *
+ * @return count
+ */
+-(int) count;
+
+/**
  * Get the initial SQL statement
  *
  * @return SQL statement
@@ -94,18 +101,18 @@
 -(BOOL) moveToNext;
 
 /**
- *  Get the row value
- *
- *  @return row value
- */
--(GPKGRow *) row;
-
-/**
  *  Get the row values
  *
  *  @return row value array
  */
 -(NSArray<NSObject *> *) rowValues;
+
+/**
+ *  Get the row value
+ *
+ *  @return row value
+ */
+-(GPKGRow *) row;
 
 /**
  * Close the current results

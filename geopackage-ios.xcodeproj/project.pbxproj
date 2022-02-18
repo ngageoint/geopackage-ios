@@ -648,6 +648,10 @@
 		049D95B927BFC1F0003C8046 /* GPKGRowResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95B727BFC1F0003C8046 /* GPKGRowResultSet.m */; };
 		049D95CC27BFED7A003C8046 /* GPKGObjectResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95CA27BFED7A003C8046 /* GPKGObjectResultSet.h */; };
 		049D95CD27BFED7A003C8046 /* GPKGObjectResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95CB27BFED7A003C8046 /* GPKGObjectResultSet.m */; };
+		049D95D027C0312B003C8046 /* GPKGObjectPaginatedResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95CE27C0312B003C8046 /* GPKGObjectPaginatedResults.h */; };
+		049D95D127C0312B003C8046 /* GPKGObjectPaginatedResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95CF27C0312B003C8046 /* GPKGObjectPaginatedResults.m */; };
+		049D95D427C03194003C8046 /* GPKGRowPaginatedResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95D227C03194003C8046 /* GPKGRowPaginatedResults.h */; };
+		049D95D527C03194003C8046 /* GPKGRowPaginatedResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95D327C03194003C8046 /* GPKGRowPaginatedResults.m */; };
 		049FDF0E222F18F3003399A3 /* GPKGTileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */; };
 		049FDF0F222F18F3003399A3 /* GPKGTileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */; };
 		04A1CE2E1D1059D500731963 /* GPKGTileCreatorImageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */; };
@@ -1499,6 +1503,10 @@
 		049D95B727BFC1F0003C8046 /* GPKGRowResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRowResultSet.m; sourceTree = "<group>"; };
 		049D95CA27BFED7A003C8046 /* GPKGObjectResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGObjectResultSet.h; sourceTree = "<group>"; };
 		049D95CB27BFED7A003C8046 /* GPKGObjectResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGObjectResultSet.m; sourceTree = "<group>"; };
+		049D95CE27C0312B003C8046 /* GPKGObjectPaginatedResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGObjectPaginatedResults.h; sourceTree = "<group>"; };
+		049D95CF27C0312B003C8046 /* GPKGObjectPaginatedResults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGObjectPaginatedResults.m; sourceTree = "<group>"; };
+		049D95D227C03194003C8046 /* GPKGRowPaginatedResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGRowPaginatedResults.h; sourceTree = "<group>"; };
+		049D95D327C03194003C8046 /* GPKGRowPaginatedResults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRowPaginatedResults.m; sourceTree = "<group>"; };
 		049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileUtils.h; sourceTree = "<group>"; };
 		049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileUtils.m; sourceTree = "<group>"; };
 		04A1CE2C1D1059D500731963 /* GPKGTileCreatorImageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTileCreatorImageTest.h; sourceTree = "<group>"; };
@@ -2367,6 +2375,8 @@
 				042FC70C1B964D8C00549A4B /* GPKGColumnValue.m */,
 				042FC70D1B964D8C00549A4B /* GPKGColumnValues.h */,
 				042FC70E1B964D8C00549A4B /* GPKGColumnValues.m */,
+				049D95CE27C0312B003C8046 /* GPKGObjectPaginatedResults.h */,
+				049D95CF27C0312B003C8046 /* GPKGObjectPaginatedResults.m */,
 				049D95CA27BFED7A003C8046 /* GPKGObjectResultSet.h */,
 				049D95CB27BFED7A003C8046 /* GPKGObjectResultSet.m */,
 			);
@@ -2744,6 +2754,8 @@
 				0409CCC420D2B62B0069B797 /* custom */,
 				042FC7DE1B964D8C00549A4B /* GPKGContentValues.h */,
 				042FC7DF1B964D8C00549A4B /* GPKGContentValues.m */,
+				049D95D227C03194003C8046 /* GPKGRowPaginatedResults.h */,
+				049D95D327C03194003C8046 /* GPKGRowPaginatedResults.m */,
 				049D95B627BFC1F0003C8046 /* GPKGRowResultSet.h */,
 				049D95B727BFC1F0003C8046 /* GPKGRowResultSet.m */,
 				042FC7E01B964D8C00549A4B /* GPKGUserColumn.h */,
@@ -3468,6 +3480,7 @@
 				041A2C4E2412A31C00A5B08A /* GPKGFeaturePreview.h in Headers */,
 				0409CC9B20D1C8190069B797 /* GPKGExtendedRelationsDao.h in Headers */,
 				0422BAF91DD51023002709B6 /* GPKGGriddedCoverage.h in Headers */,
+				049D95D027C0312B003C8046 /* GPKGObjectPaginatedResults.h in Headers */,
 				042FC83E1B964D8C00549A4B /* GPKGMapShapeConverter.h in Headers */,
 				049D95CC27BFED7A003C8046 /* GPKGObjectResultSet.h in Headers */,
 				042FC86B1B964D8C00549A4B /* GPKGMetadataScope.h in Headers */,
@@ -3598,6 +3611,7 @@
 				04DA344925015EA10005AD20 /* GPKGFeatureTileLinkTableCreator.h in Headers */,
 				0400956323C3D6D000ECC3D2 /* GPKGUserCustomColumns.h in Headers */,
 				04770FCC2587B4A700DC0594 /* GPKGWebMercatorOptimize.h in Headers */,
+				049D95D427C03194003C8046 /* GPKGRowPaginatedResults.h in Headers */,
 				0409CCEB20D9ADBE0069B797 /* GPKGUserMappingDao.h in Headers */,
 				042FC8551B964D8C00549A4B /* GPKGShapeWithChildrenPoints.h in Headers */,
 				042FC8111B964D8C00549A4B /* GPKGGeoPackageMetadata.h in Headers */,
@@ -3971,6 +3985,7 @@
 				042FC8B61B964D8C00549A4B /* GPKGContentValues.m in Sources */,
 				042FC83F1B964D8C00549A4B /* GPKGMapShapeConverter.m in Sources */,
 				042FC7F21B964D8C00549A4B /* GPKGContentsDao.m in Sources */,
+				049D95D527C03194003C8046 /* GPKGRowPaginatedResults.m in Sources */,
 				0407C49521F1467E008ABBF6 /* GPKGIconCache.m in Sources */,
 				042FC8851B964D8C00549A4B /* GPKGDataColumnsDao.m in Sources */,
 				04AFE2F425A8E73700B6CE41 /* GPKGNetworkUtils.m in Sources */,
@@ -4053,6 +4068,7 @@
 				04711B1C221C626E007DC3A4 /* GPKGPolyline.m in Sources */,
 				042FC7FA1B964D8C00549A4B /* GPKGColumnValue.m in Sources */,
 				0407C47921F14441008ABBF6 /* GPKGFeatureStyleExtension.m in Sources */,
+				049D95D127C0312B003C8046 /* GPKGObjectPaginatedResults.m in Sources */,
 				0413B11C1F72D99A0075916A /* GPKGUserRowSync.m in Sources */,
 				042FC8161B964D8C00549A4B /* GPKGGeoPackageMetadataTableCreator.m in Sources */,
 				042FC82E1B964D8C00549A4B /* GPKGFeatureDao.m in Sources */,

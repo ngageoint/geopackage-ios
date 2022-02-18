@@ -249,6 +249,14 @@
     return row;
 }
 
+-(GPKGRowPaginatedResults *) paginate: (GPKGResultSet *) results{
+    return [GPKGUserDao paginate:results withDao:self];
+}
+
++(GPKGRowPaginatedResults *) paginate: (GPKGResultSet *) results withDao: (GPKGUserDao *) dao{
+    return [GPKGRowPaginatedResults createWithDao:dao andResultSet:results];
+}
+
 -(BOOL) isPkModifiable{
     return [_table isPkModifiable];
 }
