@@ -1775,4 +1775,48 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  */
 -(int) countFeaturesWithDistinct: (BOOL) distinct andColumn: (NSString *) column andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
+/**
+ * Query for all features, starting at the offset and returning no more than
+ * the limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features within the geometry envelope, starting at the offset
+ * and returning no more than the limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
 @end

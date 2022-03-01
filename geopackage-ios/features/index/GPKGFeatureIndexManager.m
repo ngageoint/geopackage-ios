@@ -1339,6 +1339,1180 @@
     return [GPKGRowPaginatedResults createWithDao:dao andResultSet:[((GPKGFeatureIndexResultSetResults *)results) results]];
 }
 
+-(GPKGFeatureIndexResults *) queryForChunkWithLimit: (int) limit{
+    return [self queryForChunkWithOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:0];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexResults *results = nil;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            break;
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (results == nil) {
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
+    }
+    return results;
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:0];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexResults *results = nil;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            break;
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (results == nil) {
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset]];
+        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
+    }
+    return results;
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox andWhere:where andWhereArgs:nil andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:[boundingBox buildEnvelope] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit{
+    return [self queryForChunkWithEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:[self.featureDao columnNames] andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:0];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexResults *results = nil;
+    for(NSNumber *typeNumber in [self location]){
+        enum GPKGFeatureIndexType type = (enum GPKGFeatureIndexType)[typeNumber intValue];
+        @try {
+            switch(type){
+                case GPKG_FIT_GEOPACKAGE:
+                    {
+                        GPKGResultSet *geoPackageResults = [self.featureTableIndex queryFeaturesForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geoPackageResults];
+                    }
+                    break;
+                case GPKG_FIT_METADATA:
+                    {
+                        GPKGResultSet *geometryMetadataResults = [self.featureIndexer queryFeaturesForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:geometryMetadataResults];
+                    }
+                    break;
+                case GPKG_FIT_RTREE:
+                    {
+                        GPKGResultSet *rTreeResults = [self.rTreeIndexTableDao queryFeaturesForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+                        results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:rTreeResults];
+                    }
+                    break;
+                default:
+                    {
+                        [NSException raise:@"Unsupported Type" format:@"Unsupported feature index type: %@", [GPKGFeatureIndexTypes name:type]];
+                    }
+            }
+            break;
+        } @catch (NSException *exception) {
+            if (self.continueOnError) {
+                NSLog(@"Failed to query from feature index: %@. error: %@", [GPKGFeatureIndexTypes name:type], exception);
+            } else {
+                [exception raise];
+            }
+        }
+    }
+    if (results == nil) {
+        results = [self.manualFeatureQuery queryForChunkWithDistinct:distinct andColumns:columns andEnvelope:envelope andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+    }
+    return results;
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andFieldValues:fieldValues andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:boundingBox inProjection:projection andWhere:where andWhereArgs:whereArgs andOrderBy:[self idColumn] andLimit:limit andOffset:offset];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGFeatureIndexResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGBoundingBox *featureBoundingBox = [self.featureDao boundingBox:boundingBox inProjection:projection];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andBoundingBox:featureBoundingBox andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
 /**
  * Verify the index location is set
  *

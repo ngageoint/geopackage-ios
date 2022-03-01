@@ -839,6 +839,21 @@
     return row;
 }
 
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexerIdQuery *idQuery = [self buildIdQueryWithResults:[self queryIds]];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andOrderBy:orderBy andLimit:limit andOffsetValue:offset];
+}
+
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexerIdQuery *idQuery = [self buildIdQueryWithResults:[self queryIds]];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffsetValue:offset];
+}
+
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    GPKGFeatureIndexerIdQuery *idQuery = [self buildIdQueryWithResults:[self queryIdsWithEnvelope:envelope]];
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffsetValue:offset];
+}
+
 /**
  * Build a feature indexer nested id query from the results
  *
@@ -927,6 +942,88 @@
         results = [[GPKGFeatureIndexerIdResultSet alloc] initWithResults:[self.featureDao queryWithDistinct:distinct andWhere:where andWhereArgs:whereArgs] andIdQuery:idQuery];
     } else {
         results = [self.featureDao queryInWithDistinct:distinct andColumns:columns andNestedSQL:[idQuery sql] andNestedArgs:[idQuery args] andWhere:where andWhereArgs:whereArgs];
+    }
+    return results;
+}
+
+/**
+ * Query using the id query
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param idQuery  id query
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffsetValue: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andOrderBy:orderBy andLimit:limit andOffset:[NSNumber numberWithInt:offset]];
+}
+
+/**
+ * Query using the id query
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param idQuery  id query
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (NSNumber *) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+/**
+ * Query using the id query and criteria
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param idQuery   id query
+ * @param where     where statement
+ * @param whereArgs where args
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffsetValue: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:[NSNumber numberWithInt:offset]];
+}
+
+/**
+ * Query using the id query and criteria
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param idQuery   id query
+ * @param where     where statement
+ * @param whereArgs where args
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature cursor
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (NSNumber *) offset{
+    GPKGResultSet *results = nil;
+    if(columns == nil){
+        columns = [self.featureDao columnNames];
+    }
+    if(orderBy == nil){
+        orderBy = [self.featureDao pkColumnName];
+    }
+    NSString *limitValue = nil;
+    if(offset == nil){
+        limitValue = [NSString stringWithFormat:@"%d", limit];
+    }else{
+        limitValue = [self.featureDao buildLimitWithLimit:limit andOffset:[offset intValue]];
+    }
+    if([idQuery aboveMaxArgumentsWithAdditionalArgs:whereArgs]){
+        results = [[GPKGFeatureIndexerIdResultSet alloc] initWithResults:[self.featureDao queryWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limitValue] andIdQuery:idQuery];
+    }else{
+        results = [self.featureDao queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:[idQuery sql] andNestedArgs:[idQuery args] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimitValue:limitValue];
     }
     return results;
 }
