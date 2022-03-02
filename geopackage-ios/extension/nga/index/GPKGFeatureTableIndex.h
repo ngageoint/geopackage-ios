@@ -1784,7 +1784,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param orderBy  order by
  * @param limit    chunk limit
  * @param offset   chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
@@ -1799,7 +1799,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
@@ -1815,7 +1815,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 

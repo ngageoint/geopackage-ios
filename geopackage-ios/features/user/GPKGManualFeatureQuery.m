@@ -588,4 +588,73 @@
     return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:whereArgs] count];
 }
 
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGManualFeatureQueryResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:distinct andColumns:columns andMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGManualFeatureQueryResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+
+    int index = 0;
+    NSMutableArray<NSNumber *> *featureIds = [NSMutableArray array];
+
+    int localOffset = 0;
+    BOOL hasResults = YES;
+
+    minX -= self.tolerance;
+    maxX += self.tolerance;
+    minY -= self.tolerance;
+    maxY += self.tolerance;
+
+    NSArray<NSString *> *queryColumns = [self.featureDao idAndGeometryColumnNames];
+
+    while(hasResults){
+
+        hasResults = NO;
+
+        GPKGResultSet *resultSet = [self.featureDao queryForChunkWithDistinct:distinct andColumns:queryColumns andWhere:where andWhereArgs:whereArgs andLimit:self.chunkLimit andOffset:localOffset];
+        @try {
+            while ([resultSet moveToNext]) {
+                hasResults = YES;
+
+                GPKGFeatureRow *featureRow = [self.featureDao row:resultSet];
+                SFGeometryEnvelope *envelope = [featureRow geometryEnvelope];
+                if (envelope != nil) {
+
+                    double minXMax = MAX(minX, [envelope.minX doubleValue]);
+                    double maxXMin = MIN(maxX, [envelope.maxX doubleValue]);
+                    double minYMax = MAX(minY, [envelope.minY doubleValue]);
+                    double maxYMin = MIN(maxY, [envelope.maxY doubleValue]);
+
+                    if (minXMax <= maxXMin && minYMax <= maxYMin) {
+                        if (offset <= index) {
+                            [featureIds addObject:[featureRow id]];
+                            if (featureIds.count >= limit) {
+                                break;
+                            }
+                        }
+                        index++;
+                    }
+
+                }
+            }
+        } @finally {
+            [resultSet close];
+        }
+
+        localOffset += self.chunkLimit;
+    }
+
+    GPKGManualFeatureQueryResults *results = [[GPKGManualFeatureQueryResults alloc] initWithFeatureDao:self.featureDao andColumns:columns andIds:featureIds];
+
+    return results;
+}
+
 @end

@@ -1215,4 +1215,73 @@
  */
 -(int) countWithMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Manually query for rows within the geometry envelope, starting at the
+ * offset and returning no more than the limit
+ * <p>
+ * WARNING: This method must iterate from the 0 offset each time, is
+ * extremely inefficient, and not recommended for use
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param envelope  geometry envelope
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Manually query for rows within the bounds, starting at the offset and
+ * returning no more than the limit
+ * <p>
+ * WARNING: This method must iterate from the 0 offset each time, is
+ * extremely inefficient, and not recommended for use
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param minX      min x
+ * @param minY      min y
+ * @param maxX      max x
+ * @param maxY      max y
+ * @param where     where clause
+ * @param whereArgs where args
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return results
+ */
+-(GPKGManualFeatureQueryResults *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
 @end

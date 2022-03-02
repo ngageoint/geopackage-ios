@@ -877,6 +877,27 @@
     return [self.featureDao countInWithDistinct:distinct andColumn:column andNestedSQL:[self queryIdsSQLWhere:whereBounds] andNestedArgs:whereBoundsArgs andWhere:where andWhereArgs:whereArgs];
 }
 
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    [self validateRTree];
+    return [self.featureDao queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQL] andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    [self validateRTree];
+    return [self.featureDao queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQL] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryFeaturesForChunkWithDistinct:distinct andColumns:columns andMinX:[envelope.minX doubleValue] andMinY:[envelope.minY doubleValue] andMaxX:[envelope.maxX doubleValue] andMaxY:[envelope.maxY doubleValue] andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andMinX: (double) minX andMinY: (double) minY andMaxX: (double) maxX andMaxY: (double) maxY andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    [self validateRTree];
+    NSString *whereBounds = [self buildWhereWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    NSArray *whereBoundsArgs = [self buildWhereArgsWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    return [self.featureDao queryInForChunkWithDistinct:distinct andColumns:columns andNestedSQL:[self queryIdsSQLWhere:whereBounds] andNestedArgs:whereBoundsArgs andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
 /**
  * Validate that the RTree extension exists for the table and column
  */

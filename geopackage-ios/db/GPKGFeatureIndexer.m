@@ -955,7 +955,7 @@
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffsetValue: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andOrderBy:orderBy andLimit:limit andOffset:[NSNumber numberWithInt:offset]];
@@ -970,7 +970,7 @@
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (NSNumber *) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:nil andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
@@ -987,7 +987,7 @@
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffsetValue: (int) offset{
     return [self queryForChunkWithDistinct:distinct andColumns:columns andIdQuery:idQuery andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:[NSNumber numberWithInt:offset]];
@@ -1004,7 +1004,7 @@
  * @param orderBy   order by
  * @param limit     chunk limit
  * @param offset    chunk query offset
- * @return feature cursor
+ * @return feature results
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andIdQuery: (GPKGFeatureIndexerIdQuery *) idQuery andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (NSNumber *) offset{
     GPKGResultSet *results = nil;

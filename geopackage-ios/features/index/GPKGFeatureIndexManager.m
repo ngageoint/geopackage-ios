@@ -1679,7 +1679,7 @@
         }
     }
     if (results == nil) {
-        GPKGResultSet *resultSet = [self.manualFeatureQuery queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset]];
+        GPKGResultSet *resultSet = [self.manualFeatureQuery queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
         results = [[GPKGFeatureIndexFeatureResults alloc] initWithDao:self.featureDao andResults:resultSet];
     }
     return results;
