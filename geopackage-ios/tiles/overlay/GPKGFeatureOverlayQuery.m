@@ -116,71 +116,71 @@
     return [self.featureTiles queryIndexedFeaturesCountWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
     return [self tileBoundsWithMapPoint:mapPoint andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
     return [self tileBoundsWithLocationCoordinate:mapPoint.coordinate andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
     return [self tileBoundsWithMKMapPoint:mapPoint andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
     CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
     return [self tileBoundsWithLocationCoordinate:coord andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
     return [self tileBoundsWithLocationCoordinate:location andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
     SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
     return [self tileBoundsWithPoint:point andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
     return [self tileBoundsWithPoint:point andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andZoom: (int) zoom{
     return [GPKGTileBoundingBoxUtils tileBoundsForWGS84Point:point andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
     return [self tileBoundsInProjection:projection withMapPoint:mapPoint andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
     return [self tileBoundsInProjection:projection withLocationCoordinate:mapPoint.coordinate andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
     return [self tileBoundsInProjection:projection withMKMapPoint:mapPoint andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
     CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
     return [self tileBoundsInProjection:projection withLocationCoordinate:coord andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
     return [self tileBoundsInProjection:projection withLocationCoordinate:location andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
     SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
     return [self tileBoundsInProjection:projection withPoint:point andZoom:zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
     return [self tileBoundsInProjection:projection withPoint:point andZoom:(int) zoom];
 }
 
--(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andZoom: (int) zoom{
     return [GPKGTileBoundingBoxUtils tileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 

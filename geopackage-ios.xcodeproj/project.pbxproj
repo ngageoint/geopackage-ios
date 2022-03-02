@@ -652,6 +652,7 @@
 		049D95D127C0312B003C8046 /* GPKGObjectPaginatedResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95CF27C0312B003C8046 /* GPKGObjectPaginatedResults.m */; };
 		049D95D427C03194003C8046 /* GPKGRowPaginatedResults.h in Headers */ = {isa = PBXBuildFile; fileRef = 049D95D227C03194003C8046 /* GPKGRowPaginatedResults.h */; };
 		049D95D527C03194003C8046 /* GPKGRowPaginatedResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95D327C03194003C8046 /* GPKGRowPaginatedResults.m */; };
+		049D95D927CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 049D95D827CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.m */; };
 		049FDF0E222F18F3003399A3 /* GPKGTileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */; };
 		049FDF0F222F18F3003399A3 /* GPKGTileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */; };
 		04A1CE2E1D1059D500731963 /* GPKGTileCreatorImageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */; };
@@ -1507,6 +1508,8 @@
 		049D95CF27C0312B003C8046 /* GPKGObjectPaginatedResults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGObjectPaginatedResults.m; sourceTree = "<group>"; };
 		049D95D227C03194003C8046 /* GPKGRowPaginatedResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGRowPaginatedResults.h; sourceTree = "<group>"; };
 		049D95D327C03194003C8046 /* GPKGRowPaginatedResults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGRowPaginatedResults.m; sourceTree = "<group>"; };
+		049D95D727CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGFeatureOverlayQueryTest.h; sourceTree = "<group>"; };
+		049D95D827CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGFeatureOverlayQueryTest.m; sourceTree = "<group>"; };
 		049FDF0C222F18F3003399A3 /* GPKGTileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPKGTileUtils.h; sourceTree = "<group>"; };
 		049FDF0D222F18F3003399A3 /* GPKGTileUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPKGTileUtils.m; sourceTree = "<group>"; };
 		04A1CE2C1D1059D500731963 /* GPKGTileCreatorImageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPKGTileCreatorImageTest.h; sourceTree = "<group>"; };
@@ -2833,6 +2836,7 @@
 			isa = PBXGroup;
 			children = (
 				042FC8E41B964DA200549A4B /* features */,
+				049D95D627CFD6CD003C8046 /* overlay */,
 				04770FDA2587E95200DC0594 /* reproject */,
 				049675071D08BDFB00D65851 /* retriever */,
 				045BCA051BFB6D6C0080B967 /* user */,
@@ -3225,6 +3229,15 @@
 				04A1CE2D1D1059D500731963 /* GPKGTileCreatorImageTest.m */,
 			);
 			path = retriever;
+			sourceTree = "<group>";
+		};
+		049D95D627CFD6CD003C8046 /* overlay */ = {
+			isa = PBXGroup;
+			children = (
+				049D95D727CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.h */,
+				049D95D827CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.m */,
+			);
+			path = overlay;
 			sourceTree = "<group>";
 		};
 		04B2859D23146CE900CBF9DD /* master */ = {
@@ -4191,6 +4204,7 @@
 				04DCAEA71F27CD5F00FA9B9F /* GPKGContentsUtils.m in Sources */,
 				0409CCF420E6B0D80069B797 /* GPKGRelatedTablesReadTest.m in Sources */,
 				0447FA2B1CDBFADF00418104 /* GPKGZoomOtherExtensionTest.m in Sources */,
+				049D95D927CFD74C003C8046 /* GPKGFeatureOverlayQueryTest.m in Sources */,
 				04711ADD220B99D5007DC3A4 /* GPKGContentsIdCreateTest.m in Sources */,
 				04B647872566DE300015F083 /* GPKGTileReprojectionCreateTestCase.m in Sources */,
 				04B285CB23340C3900CBF9DD /* GPKGAlterTableCreateTestCase.m in Sources */,
