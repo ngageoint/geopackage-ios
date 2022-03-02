@@ -315,34 +315,34 @@
     return grid;
 }
 
-+(GPKGBoundingBox *) tileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
     GPKGTileGrid *tileGrid = [self tileGridFromPoint:point andZoom:zoom andProjection:projection];
     return [self projectedBoundingBoxWithProjection:projection andTileGrid:tileGrid andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) tileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom{
     PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    return [self tileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+    return [self tileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) tileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
     PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
-    return [self tileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+    return [self tileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 
-+(GPKGBoundingBox *) wgs84TileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
++(GPKGBoundingBox *) wgs84TileBoundsInProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom{
     GPKGTileGrid *tileGrid = [self tileGridWGS84FromPoint:point andZoom:zoom andProjection:projection];
     return [self projectedBoundingBoxFromWGS84WithProjection:projection andTileGrid:tileGrid andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) wgs84TileBoundsForWGS84Point: (SFPoint *) point andZoom: (int) zoom{
     PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    return [self wgs84TileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+    return [self wgs84TileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) wgs84TileBoundsForWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
     PROJProjection *projection = [PROJProjectionFactory projectionWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
-    return [self wgs84TileBoundsWithProjection:projection andPoint:point andZoom:zoom];
+    return [self wgs84TileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 
 +(GPKGBoundingBox *) toWebMercatorWithBoundingBox: (GPKGBoundingBox *) boundingBox{

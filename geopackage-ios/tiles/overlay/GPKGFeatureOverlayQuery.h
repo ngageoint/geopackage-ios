@@ -173,6 +173,159 @@
 -(int) tileFeatureCountWithPoint: (SFPoint *) point andZoom: (int) zoom;
 
 /**
+ * Get the WGS84 bounds of the tile at the map point and zoom level
+ *
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the map point and zoom level
+ *
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the mapkit map point and zoom level
+ *
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the mapkit map point and zoom level
+ *
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the location coordinate and zoom level
+ *
+ * @param location location coordinate
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the location coordinate and zoom level
+ *
+ * @param location location coordinate
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the point and zoom level
+ *
+ * @param point   point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the point and zoom level
+ *
+ * @param point   point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the map point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the map point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the mapkit map point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the mapkit map point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param mapPoint map point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the location coordinate and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param location location coordinate
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the location coordinate and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param projection desired bounding box projection
+ * @param location location coordinate
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param point   point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andDoubleZoom: (double) zoom;
+
+/**
+ * Get the WGS84 bounds of the tile at the point and zoom level
+ *
+ * @param projection desired bounding box projection
+ * @param point   point
+ * @param zoom   zoom level
+ * @return WGS84 bounding box
+ */
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andZoom: (int) zoom;
+
+/**
  *  Determine if the provided count of features in the tile is more than the configured max features per tile
  *
  *  @param tileFeaturesCount tile feature count

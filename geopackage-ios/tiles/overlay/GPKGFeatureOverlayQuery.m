@@ -40,7 +40,7 @@
         self.maxFeaturesInfo = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_MAX_FEATURES_INFO];
         self.featuresInfo = [GPKGProperties boolValueOfBaseProperty:GPKG_PROP_FEATURE_OVERLAY_QUERY andProperty:GPKG_PROP_FEATURE_QUERY_FEATURES_INFO];
         
-        GPKGFeatureDao * featureDao = [self.featureTiles featureDao];
+        GPKGFeatureDao *featureDao = [self.featureTiles featureDao];
         self.featureInfoBuilder = [[GPKGFeatureInfoBuilder alloc] initWithFeatureDao:featureDao];
     }
     return self;
@@ -67,19 +67,17 @@
 
 -(BOOL) onAtCurrentZoomWithMapView: (MKMapView *) mapView andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
     double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
-    BOOL on = [self onAtZoom:zoom andLocationCoordinate:locationCoordinate];
-    return on;
+    return [self onAtZoom:zoom andLocationCoordinate:locationCoordinate];
 }
 
 -(BOOL) onAtZoom: (double) zoom andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate{
     
-    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
-    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
-    SFPoint * point = [[SFPoint alloc] initWithX:x andY:y];
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
+    NSDecimalNumber *x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
+    NSDecimalNumber *y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
+    SFPoint *point = [[SFPoint alloc] initWithX:x andY:y];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
     
-    BOOL on = [self.boundedOverlay hasTileWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
-    return on;
+    return [self.boundedOverlay hasTileWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
 }
 
 -(int) tileFeatureCountWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
@@ -101,28 +99,89 @@
 }
 
 -(int) tileFeatureCountWithLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
-    int zoomValue = (int) zoom;
-    int tileFeaturesCount = [self tileFeatureCountWithLocationCoordinate:location andZoom:zoomValue];
-    return tileFeaturesCount;
+    return [self tileFeatureCountWithLocationCoordinate:location andZoom:(int) zoom];
 }
 
 -(int) tileFeatureCountWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
-    NSDecimalNumber * x = [[NSDecimalNumber alloc] initWithDouble:location.longitude];
-    NSDecimalNumber * y = [[NSDecimalNumber alloc] initWithDouble:location.latitude];
-    SFPoint * point = [[SFPoint alloc] initWithX:x andY:y];
-    int tileFeaturesCount = [self tileFeatureCountWithPoint:point andZoom:zoom];
-    return tileFeaturesCount;
+    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    return [self tileFeatureCountWithPoint:point andZoom:zoom];
 }
 
 -(int) tileFeatureCountWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
-    int zoomValue = (int) zoom;
-    int tileFeaturesCount = [self tileFeatureCountWithPoint:point andZoom:zoomValue];
-    return tileFeaturesCount;
+    return [self tileFeatureCountWithPoint:point andZoom:(int) zoom];
 }
 
 -(int) tileFeatureCountWithPoint: (SFPoint *) point andZoom: (int) zoom{
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
     return [self.featureTiles queryIndexedFeaturesCountWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
+    return [self tileBoundsWithMapPoint:mapPoint andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
+    return [self tileBoundsWithLocationCoordinate:mapPoint.coordinate andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
+    return [self tileBoundsWithMKMapPoint:mapPoint andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
+    return [self tileBoundsWithLocationCoordinate:coord andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
+    return [self tileBoundsWithLocationCoordinate:location andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
+    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    return [self tileBoundsWithPoint:point andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
+    return [self tileBoundsWithPoint:point andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsWithPoint: (SFPoint *) point andZoom: (int) zoom{
+    return [GPKGTileBoundingBoxUtils tileBoundsForWGS84Point:point andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andDoubleZoom: (double) zoom{
+    return [self tileBoundsInProjection:projection withMapPoint:mapPoint andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMapPoint: (GPKGMapPoint *) mapPoint andZoom: (int) zoom{
+    return [self tileBoundsInProjection:projection withLocationCoordinate:mapPoint.coordinate andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andDoubleZoom: (double) zoom{
+    return [self tileBoundsInProjection:projection withMKMapPoint:mapPoint andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withMKMapPoint: (MKMapPoint) mapPoint andZoom: (int) zoom{
+    CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
+    return [self tileBoundsInProjection:projection withLocationCoordinate:coord andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andDoubleZoom: (double) zoom{
+    return [self tileBoundsInProjection:projection withLocationCoordinate:location andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
+    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    return [self tileBoundsInProjection:projection withPoint:point andZoom:zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andDoubleZoom: (double) zoom{
+    return [self tileBoundsInProjection:projection withPoint:point andZoom:(int) zoom];
+}
+
+-(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withPoint: (SFPoint *) point andZoom: (int) zoom{
+    return [GPKGTileBoundingBoxUtils tileBoundsInProjection:projection andPoint:point andZoom:zoom];
 }
 
 -(BOOL) moreThanMaxFeatures: (int) tileFeaturesCount{
@@ -148,11 +207,11 @@
     }
     
     // Query for features
-    GPKGFeatureIndexManager * indexManager = self.featureTiles.indexManager;
+    GPKGFeatureIndexManager *indexManager = self.featureTiles.indexManager;
     if(indexManager == nil){
         [NSException raise:@"Index Manager" format:@"Index Manager is not set on the Feature Tiles and is required to query indexed features"];
     }
-    GPKGFeatureIndexResults * results = [indexManager queryWithColumns:columns andBoundingBox:boundingBox inProjection:projection];
+    GPKGFeatureIndexResults *results = [indexManager queryWithColumns:columns andBoundingBox:boundingBox inProjection:projection];
     return results;
 }
 
@@ -179,12 +238,12 @@
     double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
-    GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
+    GPKGBoundingBox *boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     // Get the map click distance tolerance
     GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
-    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
+    NSString *message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return message;
 }
@@ -196,16 +255,16 @@
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (PROJProjection *) projection{
     
     // Build a bounding box to represent the click location
-    GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
+    GPKGBoundingBox *boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
     
-    NSString * message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
+    NSString *message = [self buildMapClickMessageWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return message;
 }
 
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (GPKGMapTolerance *) tolerance andProjection: (PROJProjection *) projection{
     
-    NSString * message = nil;
+    NSString *message = nil;
     
     // Verify the features are indexed and we are getting information
     if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
@@ -230,7 +289,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
+                    GPKGFeatureIndexResults *results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
                     message = [self.featureInfoBuilder buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }
@@ -254,12 +313,12 @@
     double zoom = [GPKGMapUtils currentZoomWithMapView:mapView];
     
     // Build a bounding box to represent the click location
-    GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
+    GPKGBoundingBox *boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
     // Get the map click distance tolerance
     GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:self.screenClickPercentage];
     
-    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
+    GPKGFeatureTableData *tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return tableData;
 }
@@ -271,16 +330,16 @@
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (PROJProjection *) projection{
     
     // Build a bounding box to represent the click location
-    GPKGBoundingBox * boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
+    GPKGBoundingBox *boundingBox = [GPKGMapUtils buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapBounds:mapBounds andScreenPercentage:self.screenClickPercentage];
     
-    GPKGFeatureTableData * tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
+    GPKGFeatureTableData *tableData = [self buildMapClickTableDataWithLocationCoordinate:locationCoordinate andZoom:zoom andClickBoundingBox:boundingBox andTolerance:tolerance andProjection:projection];
     
     return tableData;
 }
 
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andClickBoundingBox: (GPKGBoundingBox *) boundingBox andTolerance: (GPKGMapTolerance *) tolerance andProjection: (PROJProjection *) projection{
     
-    GPKGFeatureTableData * tableData = nil;
+    GPKGFeatureTableData *tableData = nil;
     
     // Verify the features are indexed and we are getting information
     if([self isIndexed] && (self.maxFeaturesInfo || self.featuresInfo)){
@@ -305,7 +364,7 @@
                 else if(self.featuresInfo){
                     
                     // Query for results and build the message
-                    GPKGFeatureIndexResults * results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
+                    GPKGFeatureIndexResults *results = [self queryFeaturesWithBoundingBox:boundingBox inProjection:projection];
                     tableData = [self.featureInfoBuilder buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andProjection:projection];
                 }
             }

@@ -401,7 +401,7 @@
  *            zoom level
  * @return bounding box
  */
-+(GPKGBoundingBox *) tileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
++(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  * Get the WGS84 bounds of the XYZ tile at the WGS84 point and zoom level
@@ -437,7 +437,7 @@
  *            zoom level
  * @return bounding box
  */
-+(GPKGBoundingBox *) wgs84TileBoundsWithProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
++(GPKGBoundingBox *) wgs84TileBoundsInProjection: (PROJProjection *) projection andPoint: (SFPoint *) point andZoom: (int) zoom;
 
 /**
  * Get the WGS84 bounds of the WGS84 tile at the WGS84 point and zoom level
