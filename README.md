@@ -98,17 +98,16 @@ GPKGMetadataReferenceDao *metadataReferenceDao = [metadataExtension metadataRefe
 GPKGExtensionsDao *extensionsDao = [geoPackage extensionsDao];
 
 // Feature and tile tables
-NSArray *features = [geoPackage featureTables];
-NSArray *tiles = [geoPackage tileTables];
+NSArray<NSString *> *features = [geoPackage featureTables];
+NSArray<NSString *> *tiles = [geoPackage tileTables];
 
 // Query Features
 NSString *featureTable = [features objectAtIndex:0];
 GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:featureTable];
 GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:featureDao.projection];
-GPKGResultSet *featureResults = [featureDao queryForAll];
+GPKGRowResultSet *featureResults = [featureDao results:[featureDao queryForAll]];
 @try {
-    while([featureResults moveToNext]){
-        GPKGFeatureRow *featureRow = [featureDao featureRow:featureResults];
+    for(GPKGFeatureRow *featureRow in featureResults){
         GPKGGeometryData *geometryData = [featureRow geometry];
         if(geometryData != nil && !geometryData.empty){
             SFGeometry *geometry = geometryData.geometry;
@@ -124,10 +123,9 @@ GPKGResultSet *featureResults = [featureDao queryForAll];
 // Query Tiles
 NSString *tileTable = [tiles objectAtIndex:0];
 GPKGTileDao *tileDao = [geoPackage tileDaoWithTableName:tileTable];
-GPKGResultSet *tileResults = [tileDao queryForAll];
+GPKGRowResultSet *tileResults = [tileDao results:[tileDao queryForAll]];
 @try {
-    while([tileResults moveToNext]){
-        GPKGTileRow *tileRow = [tileDao tileRow:tileResults];
+    for(GPKGTileRow *tileRow in tileResults){
         NSData *tileData = [tileRow tileData];
         UIImage *tileImage = [tileRow tileDataImage];
         // ...
@@ -136,25 +134,64 @@ GPKGResultSet *tileResults = [tileDao queryForAll];
     [tileResults close];
 }
 
+// Retrieve Tiles by XYZ
+NSObject<GPKGTileRetriever> *retriever = [[GPKGGeoPackageTileRetriever alloc] initWithTileDao:tileDao];
+GPKGGeoPackageTile *geoPackageTile = [retriever tileWithX:2 andY:2 andZoom:2];
+if(geoPackageTile != nil){
+    NSData *tileData = geoPackageTile.data;
+    UIImage *tileImage = [GPKGImageConverter toImage:tileData];
+    // ...
+}
+
+// Retrieve Tiles by Bounding Box
+GPKGTileCreator *tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+GPKGGeoPackageTile *geoPackageTile2 = [tileCreator tileWithBoundingBox:[[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90.0 andMinLatitudeDouble:0.0 andMaxLongitudeDouble:0.0 andMaxLatitudeDouble:66.513260]];
+if(geoPackageTile2 != nil){
+    NSData *tileData = geoPackageTile2.data;
+    UIImage *tileImage = [GPKGImageConverter toImage:tileData];
+    // ...
+}
+
 // Tile Overlay (GeoPackage or Standard API)
 MKTileOverlay *tileOverlay = [GPKGOverlayFactory tileOverlayWithTileDao:tileDao];
 tileOverlay.canReplaceMapContent = false;
 [mapView addOverlay:tileOverlay];
 
-// Feature Tile Overlay (dynamically draw tiles from features)
-GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
-GPKGFeatureOverlay *featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
-[mapView addOverlay:featureOverlay];
-
 GPKGBoundingBox *boundingBox = [GPKGBoundingBox worldWebMercator];
 PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
 
+// Index Features
+GPKGFeatureIndexManager *indexer = [[GPKGFeatureIndexManager alloc] initWithGeoPackage:geoPackage andFeatureDao:featureDao];
+[indexer setIndexLocation:GPKG_FIT_RTREE];
+int indexedCount = [indexer index];
+
+// Query Indexed Features in paginated chunks
+GPKGFeatureIndexResults *indexResults = [indexer queryForChunkWithBoundingBox:boundingBox inProjection:projection andLimit:50];
+GPKGRowPaginatedResults *paginatedResults = [indexer paginate:indexResults];
+for(GPKGFeatureRow *featureRow in paginatedResults){
+    GPKGGeometryData *geometryData = [featureRow geometry];
+    if(geometryData != nil && !geometryData.empty){
+        SFGeometry *geometry = geometryData.geometry;
+        // ...
+    }
+}
+
+// Feature Tile Overlay (dynamically draw tiles from features)
+GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+[featureTiles setMaxFeaturesPerTile:[NSNumber numberWithInt:1000]];
+GPKGNumberFeaturesTile *numberFeaturesTile = [[GPKGNumberFeaturesTile alloc] init];
+[featureTiles setMaxFeaturesTileDraw:numberFeaturesTile];
+[featureTiles setIndexManager:indexer];
+GPKGFeatureOverlay *featureOverlay = [[GPKGFeatureOverlay alloc] initWithFeatureTiles:featureTiles];
+[featureOverlay setMinZoom:[NSNumber numberWithInt:[featureDao zoomLevel]]];
+[mapView addOverlay:featureOverlay];
+
 // URL Tile Generator (generate tiles from a URL)
-GPKGTileGenerator *urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];
+GPKGTileGenerator *urlTileGenerator = [[GPKGUrlTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:@"url_tile_table" andTileUrl:@"http://url/{z}/{x}/{y}.png" andMinZoom:0 andMaxZoom:0 andBoundingBox:boundingBox andProjection:projection];
 int urlTileCount = [urlTileGenerator generateTiles];
 
 // Feature Tile Generator (generate tiles from features)
-GPKGTileGenerator *featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"%@_tiles", featureTable] andFeatureTiles:featureTiles andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];
+GPKGTileGenerator *featureTileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:geoPackage andTableName:[NSString stringWithFormat:@"tiles_%@", featureTable] andFeatureTiles:featureTiles andMinZoom:1 andMaxZoom:2 andBoundingBox:boundingBox andProjection:projection];
 int featureTileCount = [featureTileGenerator generateTiles];
 
 // Close database when done
