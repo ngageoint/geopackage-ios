@@ -61,9 +61,14 @@
             break;
         }
         
-        NSObject *object = [self object];
-        [self.objects addObject:object];
-        stackbuf[count] = object;
+        NSObject *value = nil;
+        if(self.ids){
+            value = [self id];
+        }else{
+            value = [self object];
+        }
+        [self.objects addObject:value];
+        stackbuf[count] = value;
         count += 1;
     }
     

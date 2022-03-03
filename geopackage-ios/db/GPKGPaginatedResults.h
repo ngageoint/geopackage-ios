@@ -49,6 +49,11 @@
 @property (nonatomic, strong) GPKGPagination *pagination;
 
 /**
+ * Flag for iterating over result ids
+ */
+@property (nonatomic) BOOL ids;
+
+/**
  * Initialize
  *
  * @param resultSet
@@ -113,6 +118,13 @@
  *  @return row value
  */
 -(GPKGRow *) row;
+
+/**
+ *  Get the id value
+ *
+ *  @return id value
+ */
+-(NSNumber *) id;
 
 /**
  * Close the current results

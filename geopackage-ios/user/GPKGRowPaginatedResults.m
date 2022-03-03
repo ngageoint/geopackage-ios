@@ -13,7 +13,7 @@
 /**
  *  Strong reference of the last enumerated rows to prevent garbage collection
  */
-@property (nonatomic, strong) NSMutableArray<GPKGUserRow *> *rows;
+@property (nonatomic, strong) NSMutableArray<NSObject *> *rows;
 
 @end
 
@@ -53,9 +53,14 @@
             break;
         }
         
-        GPKGUserRow *row = [self userRow];
-        [self.rows addObject:row];
-        stackbuf[count] = row;
+        NSObject *value = nil;
+        if(self.ids){
+            value = [self id];
+        }else{
+            value = [self userRow];
+        }
+        [self.rows addObject:value];
+        stackbuf[count] = value;
         count += 1;
     }
     
