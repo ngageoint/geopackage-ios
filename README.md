@@ -276,18 +276,61 @@ do{
     }
 }
 
+// Retrieve Tiles by XYZ
+let retriever = GPKGGeoPackageTileRetriever()
+let geoPackageTile: GPKGGeoPackageTile! = retriever.tileWith(x: 2, andY: 2, andZoom: 2)
+if(geoPackageTile != nil){
+    let tileData: Data = geoPackageTile.data
+    let tileImage: UIImage = GPKGImageConverter.toImage(tileData)
+    // ...
+}
+
+// Retrieve Tiles by Bounding Box
+let tileCreator: GPKGTileCreator = GPKGTileCreator(tileDao: tileDao, andProjection: PROJProjectionFactory.projection(withEpsgInt: PROJ_EPSG_WORLD_GEODETIC_SYSTEM))
+let geoPackageTile2: GPKGGeoPackageTile! = tileCreator.tile(with: GPKGBoundingBox(minLongitudeDouble: -90.0, andMinLatitudeDouble: 0.0, andMaxLongitudeDouble: 0.0, andMaxLatitudeDouble: 66.513260))
+if(geoPackageTile2 != nil){
+    let tileData: Data = geoPackageTile2.data
+    let tileImage: UIImage = GPKGImageConverter.toImage(tileData)
+    // ...
+}
+
 // Tile Overlay (GeoPackage or Standard API)
 let tileOverlay: MKTileOverlay = GPKGOverlayFactory.tileOverlay(with: tileDao)
 tileOverlay.canReplaceMapContent = false
 mapView.addOverlay(tileOverlay)
 
-// Feature Tile Overlay (dynamically draw tiles from features)
-let featureTiles: GPKGFeatureTiles = GPKGFeatureTiles(featureDao: featureDao)
-let featureOverlay = GPKGFeatureOverlay(featureTiles: featureTiles)
-mapView.addOverlay(featureOverlay!)
-
 let boundingBox: GPKGBoundingBox = GPKGBoundingBox.worldWebMercator()
 let projection: PROJProjection = PROJProjectionFactory.projection(withEpsgInt: PROJ_EPSG_WEB_MERCATOR)
+
+// Index Features
+let indexer: GPKGFeatureIndexManager = GPKGFeatureIndexManager(geoPackage: geoPackage, andFeatureDao: featureDao)
+indexer.indexLocation = GPKG_FIT_RTREE
+let indexedCount = indexer.index()
+
+// Query Indexed Features in paginated chunks
+let indexResults: GPKGFeatureIndexResults = indexer.queryForChunk(with: boundingBox, in: projection, andLimit: 50)
+let paginatedResults: GPKGRowPaginatedResults = indexer.paginate(indexResults)
+do{
+    defer{paginatedResults.close()}
+    while(paginatedResults.moveToNext()){
+        let featureRow: GPKGFeatureRow = paginatedResults.userRow() as! GPKGFeatureRow
+        let geometryData: GPKGGeometryData! = featureRow.geometry()
+        if(geometryData != nil && !geometryData.empty){
+            let geometry: SFGeometry = geometryData.geometry
+            // ...
+        }
+    }
+}
+
+// Feature Tile Overlay (dynamically draw tiles from features)
+let featureTiles: GPKGFeatureTiles = GPKGFeatureTiles(featureDao: featureDao)
+featureTiles.maxFeaturesPerTile = 1000
+let numberFeaturesTile: GPKGNumberFeaturesTile = GPKGNumberFeaturesTile()
+featureTiles.maxFeaturesTileDraw = numberFeaturesTile
+featureTiles.indexManager = indexer
+let featureOverlay: GPKGFeatureOverlay! = GPKGFeatureOverlay(featureTiles: featureTiles)
+featureOverlay.minZoom = NSNumber(value:featureDao.zoomLevel())
+mapView.addOverlay(featureOverlay!)
 
 // URL Tile Generator (generate tiles from a URL)
 let urlTileGenerator: GPKGTileGenerator = GPKGUrlTileGenerator(geoPackage: geoPackage, andTableName: "url_tile_table", andTileUrl: "http://url/{z}/{x}/{y}.png", andMinZoom: 1, andMaxZoom: 2, andBoundingBox:boundingBox, andProjection:projection)
