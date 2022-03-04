@@ -15,26 +15,43 @@
 
 @implementation GPKGTileGenerator
 
--(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
     self = [super init];
     if(self != nil){
         [geoPackage verifyWritable];
-        self.geoPackage = geoPackage;
-        self.tableName = tableName;
-        self.minZoom = minZoom;
-        self.maxZoom = maxZoom;
-        self.boundingBox = boundingBox;
-        self.projection = projection;
-        self.tileGrids = [NSMutableDictionary dictionary];
-        self.tileBounds = [NSMutableDictionary dictionary];
-        self.compressFormat = GPKG_CF_NONE;
-        self.compressQuality = 1.0;
-        self.compressScale = 1.0;
-        self.xyzTiles = NO;
-        self.matrixHeight = 0;
-        self.matrixWidth = 0;
-        self.skipExisting = NO;
+        _geoPackage = geoPackage;
+        _tableName = tableName;
+        _zoomLevels = [NSMutableOrderedSet orderedSet];
+        _boundingBox = boundingBox;
+        _projection = projection;
+        _tileGrids = [NSMutableDictionary dictionary];
+        _tileBounds = [NSMutableDictionary dictionary];
+        _compressFormat = GPKG_CF_NONE;
+        _compressQuality = 1.0;
+        _compressScale = 1.0;
+        _xyzTiles = NO;
+        _matrixHeight = 0;
+        _matrixWidth = 0;
+        _skipExisting = NO;
     }
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andZoom: (int) zoomLevel andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andBoundingBox:boundingBox andProjection:projection];
+    [self addZoomLevel:zoomLevel];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andBoundingBox:boundingBox andProjection:projection];
+    [self addZoomLevelsFromMinZoom:minZoom toMaxZoom:maxZoom];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [self initWithGeoPackage:geoPackage andTableName:tableName andBoundingBox:boundingBox andProjection:projection];
+    [self addZoomLevels:zoomLevels];
     return self;
 }
 
@@ -45,6 +62,36 @@
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     [self doesNotRecognizeSelector:_cmd];
     return nil;
+}
+
+-(int) minZoom{
+    [self validateZoomLevels];
+    return [[_zoomLevels firstObject] intValue];
+}
+
+-(int) maxZoom{
+    [self validateZoomLevels];
+    return [[_zoomLevels lastObject] intValue];
+}
+
+-(BOOL) addZoomLevel: (int) zoomLevel{
+    NSUInteger count = _zoomLevels.count;
+    [_zoomLevels addObject:[NSNumber numberWithInt:zoomLevel]];
+    return _zoomLevels.count > count;
+}
+
+-(BOOL) addZoomLevelsFromMinZoom: (int) minZoom toMaxZoom: (int) maxZoom{
+    BOOL added = NO;
+    for(int zoomLevel = minZoom; zoomLevel <= maxZoom; zoomLevel++){
+        added = [self addZoomLevel:zoomLevel] || added;
+    }
+    return added;
+}
+
+-(BOOL) addZoomLevels: (NSArray<NSNumber *> *) zoomLevels{
+    NSUInteger count = _zoomLevels.count;
+    [_zoomLevels addObjectsFromArray:zoomLevels];
+    return _zoomLevels.count > count;
 }
 
 -(GPKGBoundingBox *) boundingBoxAtZoom: (int) zoom{
@@ -67,6 +114,9 @@
 
 -(int) tileCount{
     if(self.totalCount == nil){
+        
+        [self validateZoomLevels];
+        
         int count = 0;
         
         BOOL degrees = [self.projection isUnit:PROJ_UNIT_DEGREES];
@@ -75,12 +125,13 @@
             transformToWebMercator = [SFPGeometryTransform transformFromProjection:self.projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
         }
         
-        for(int zoom = self.minZoom; zoom <= self.maxZoom; zoom++){
+        for(NSNumber *zoomNumber in _zoomLevels){
+            int zoom = [zoomNumber intValue];
             
             GPKGBoundingBox *expandedBoundingBox = [self boundingBoxAtZoom:zoom];
             
             // Get the tile grid that includes the entire bounding box
-            GPKGTileGrid * tileGrid = nil;
+            GPKGTileGrid *tileGrid = nil;
             if(degrees){
                 tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:expandedBoundingBox andZoom:zoom];
             }else{
@@ -100,6 +151,8 @@
 
 -(int) generateTiles{
     
+    [self validateZoomLevels];
+    
     int totalCount = [self tileCount];
     
     // Set the max progress count
@@ -111,16 +164,18 @@
     BOOL update = NO;
     
     // Adjust the tile matrix set and  bounds
-    GPKGBoundingBox *minZoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
-    [self adjustBoundsWithBoundingBox:minZoomBoundingBox andZoom:self.minZoom];
+    int minZoom = [self minZoom];
+    int maxZoom = [self maxZoom];
+    GPKGBoundingBox *minZoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:minZoom] inDictionary:self.tileBounds];
+    [self adjustBoundsWithBoundingBox:minZoomBoundingBox andZoom:minZoom];
     
     // Create a new tile matrix or update an existing
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage tileMatrixSetDao];
-    GPKGTileMatrixSet * tileMatrixSet = nil;
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [self.geoPackage tileMatrixSetDao];
+    GPKGTileMatrixSet *tileMatrixSet = nil;
     if(![tileMatrixSetDao tableExists] || ![tileMatrixSetDao idExists:self.tableName]){
         // Create the srs if needed
-        GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage spatialReferenceSystemDao];
-        GPKGSpatialReferenceSystem * srs = [srsDao srsWithProjection:self.projection];
+        GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
+        GPKGSpatialReferenceSystem *srs = [srsDao srsWithProjection:self.projection];
         // Create the tile table
         [self.geoPackage createTileTableWithMetadata:[[GPKGTileTableMetadata alloc] initWithTable:self.tableName andContentsBoundingBox:self.boundingBox andContentsSrsId:srs.srsId andTileBoundingBox:self.tileGridBoundingBox andTileSrsId:srs.srsId]];
         tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao queryForIdObject:self.tableName];
@@ -143,30 +198,34 @@
     
     // Create the tiles
     @try {
-        GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
-        GPKGTileMatrixDao * tileMatrixDao = [self.geoPackage tileMatrixDao];
-        GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
+        GPKGContents *contents = [tileMatrixSetDao contents:tileMatrixSet];
+        GPKGTileMatrixDao *tileMatrixDao = [self.geoPackage tileMatrixDao];
+        GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
         
         // Create the new matrix tiles
-        for(int zoom = self.minZoom; zoom <= self.maxZoom && (self.progress == nil || [self.progress isActive]); zoom++){
+        for(int zoom = minZoom; zoom <= maxZoom && (self.progress == nil || [self.progress isActive]); zoom++){
             
-            GPKGTileGrid * localTileGrid = nil;
+            if([_zoomLevels containsObject:[NSNumber numberWithInt:zoom]]){
             
-            // Determine the matrix width and height for standard web mercator format
-            if(self.xyzTiles){
-                self.matrixWidth = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:zoom];
-                self.matrixHeight = self.matrixWidth;
+                GPKGTileGrid *localTileGrid = nil;
+                
+                // Determine the matrix width and height for standard web mercator format
+                if(self.xyzTiles){
+                    self.matrixWidth = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:zoom];
+                    self.matrixHeight = self.matrixWidth;
+                }
+                // Get the local tile grid for GeoPackage format of where the tiles belong
+                else{
+                    GPKGBoundingBox *zoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileBounds];
+                    localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:zoomBoundingBox];
+                }
+                
+                // Generate the tiles for the zoom level
+                GPKGTileGrid *tileGrid = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileGrids];
+                count += [self generateTilesWithTileMatrixDao:tileMatrixDao andTileDao:tileDao andContents:contents andZoomLevel:zoom andTileGrid:tileGrid andLocalTileGrid:localTileGrid andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andUpdate:update];
+            
             }
-            // Get the local tile grid for GeoPackage format of where the tiles belong
-            else{
-                GPKGBoundingBox *zoomBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileBounds];
-                localTileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:self.tileGridBoundingBox andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andBoundingBox:zoomBoundingBox];
-            }
-            
-            // Generate the tiles for the zoom level
-            GPKGTileGrid * tileGrid = [GPKGUtils objectForKey:[NSNumber numberWithInt:zoom] inDictionary:self.tileGrids];
-            count += [self generateTilesWithTileMatrixDao:tileMatrixDao andTileDao:tileDao andContents:contents andZoomLevel:zoom andTileGrid:tileGrid andLocalTileGrid:localTileGrid andMatrixWidth:self.matrixWidth andMatrixHeight:self.matrixHeight andUpdate:update];
-            
+                
             if(!self.xyzTiles){
                 // Double the matrix width and height for the next level
                 self.matrixWidth *= 2;
@@ -181,7 +240,7 @@
         } else{
             // Update the contents last modified date
             [contents setLastChange:[NSDate date]];
-            GPKGContentsDao * contentsDao = [self.geoPackage contentsDao];
+            GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];
             [contentsDao update:contents];
         }
         
@@ -198,6 +257,12 @@
     }
     
     return count;
+}
+
+-(void) validateZoomLevels{
+    if(_zoomLevels.count == 0){
+        [NSException raise:@"Empty Zoom Levels" format:@"At least one zoom level must be specified"];
+    }
 }
 
 -(void) adjustBoundsWithBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
@@ -220,7 +285,7 @@
 
 -(void) adjustGeoPackageBoundsWithWgs84BoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     // Get the fitting tile grid and determine the bounding box that fits it
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWgs84BoundingBox:boundingBox andZoom:zoom];
     self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils wgs84BoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     self.matrixWidth = [tileGrid width];
     self.matrixHeight = [tileGrid height];
@@ -228,7 +293,7 @@
 
 -(void) adjustGeoPackageBoundsWithWebMercatorBoundingBox: (GPKGBoundingBox *) boundingBox andZoom: (int) zoom{
     // Get the fitting tile grid and determine the bounding box that fits it
-    GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
+    GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
     self.tileGridBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithTileGrid:tileGrid andZoom:zoom];
     self.matrixWidth = [tileGrid width];
     self.matrixHeight = [tileGrid height];
@@ -236,7 +301,7 @@
 
 -(void) updateTileBoundsWithTileMatrixSet: (GPKGTileMatrixSet *) tileMatrixSet{
     
-    GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
+    GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
     
     if([tileDao isXYZTiles]){
         if(!self.xyzTiles){
@@ -249,20 +314,20 @@
         [NSException raise:@"Not Supported" format:@"Can not add Standard Web Mercator Formatted tiles to %@ which already contains GeoPackage formatted tiles", self.tableName];
     }
     
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self.geoPackage tileMatrixSetDao];
-    PROJProjection * tileMatrixProjection = [tileMatrixSetDao projection:tileMatrixSet];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [self.geoPackage tileMatrixSetDao];
+    PROJProjection *tileMatrixProjection = [tileMatrixSetDao projection:tileMatrixSet];
     if(![tileMatrixProjection isEqual:self.projection]){
         [NSException raise:@"Projection Mismatch" format:@"Can not update tiles projected at %@:%@ with tiles projected at %@:%@", [tileMatrixProjection authority], [tileMatrixProjection code], [self.projection authority], [self.projection code]];
     }
     
-    GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
+    GPKGContents *contents = [tileMatrixSetDao contents:tileMatrixSet];
     
-    GPKGContentsDao * contentsDao = [self.geoPackage contentsDao];
+    GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];
     
-    GPKGBoundingBox * previousContentsBoundingBox = [contents boundingBox];
+    GPKGBoundingBox *previousContentsBoundingBox = [contents boundingBox];
     if(previousContentsBoundingBox != nil){
         SFPGeometryTransform *transformProjectionToContents = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:[contentsDao projection:contents]];
-        GPKGBoundingBox * contentsBoundingBox = self.boundingBox;
+        GPKGBoundingBox *contentsBoundingBox = self.boundingBox;
         if(![transformProjectionToContents isSameProjection]){
             contentsBoundingBox = [contentsBoundingBox transform:transformProjectionToContents];
         }
@@ -279,20 +344,21 @@
     // rows needs to be adjusted
     if(!self.xyzTiles){
         
-        GPKGBoundingBox * previousTileMatrixSetBoundingBox = [tileMatrixSet boundingBox];
+        GPKGBoundingBox *previousTileMatrixSetBoundingBox = [tileMatrixSet boundingBox];
         
         // Adjust the bounds to include the request and existing bounds
         SFPGeometryTransform *transformProjectionToTileMatrixSet = [SFPGeometryTransform transformFromProjection:self.projection andToProjection:tileMatrixProjection];
         BOOL sameProjection = [transformProjectionToTileMatrixSet isSameProjection];
-        GPKGBoundingBox * updateBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:self.minZoom] inDictionary:self.tileBounds];
+        int minZoom = [self minZoom];
+        GPKGBoundingBox *updateBoundingBox = [GPKGUtils objectForKey:[NSNumber numberWithInt:minZoom] inDictionary:self.tileBounds];
         if(!sameProjection){
             updateBoundingBox = [updateBoundingBox transform:transformProjectionToTileMatrixSet];
         }
-        int minNewOrUpdateZoom = MIN(self.minZoom, tileDao.minZoom);
+        int minNewOrUpdateZoom = MIN(minZoom, tileDao.minZoom);
         [self adjustBoundsWithBoundingBox:updateBoundingBox andZoom:minNewOrUpdateZoom];
         
         // Update the tile matrix set if modified
-        GPKGBoundingBox * updateTileGridBoundingBox = self.tileGridBoundingBox;
+        GPKGBoundingBox *updateTileGridBoundingBox = self.tileGridBoundingBox;
         if(!sameProjection){
             updateTileGridBoundingBox = [updateTileGridBoundingBox transform:transformProjectionToTileMatrixSet];
         }
@@ -307,12 +373,12 @@
             [tileMatrixSetDao update:tileMatrixSet];
         }
         
-        GPKGTileMatrixDao * tileMatrixDao = [self.geoPackage tileMatrixDao];
+        GPKGTileMatrixDao *tileMatrixDao = [self.geoPackage tileMatrixDao];
         
         // Adjust the tile matrix metadata and tile rows at each existing
         // zoom level
         for (int zoom = tileDao.minZoom; zoom <= tileDao.maxZoom; zoom++) {
-            GPKGTileMatrix * tileMatrix = [tileDao tileMatrixWithZoomLevel:zoom];
+            GPKGTileMatrix *tileMatrix = [tileDao tileMatrixWithZoomLevel:zoom];
             if(tileMatrix != nil){
                 
                 // Determine the new width and height at this level
@@ -323,14 +389,14 @@
                 // Get the zoom level tile rows, starting with highest rows
                 // and columns so when updating we avoid constraint
                 // violations
-                GPKGResultSet * tileResults = [tileDao queryForTileDescending:zoom];
+                GPKGResultSet *tileResults = [tileDao queryForTileDescending:zoom];
                 @try {
                     // Update each tile row at this zoom level
                     while([tileResults moveToNext]){
-                        GPKGTileRow * tileRow = [tileDao row:tileResults];
+                        GPKGTileRow *tileRow = [tileDao row:tileResults];
                         
                         // Get the bounding box of the existing tile
-                        GPKGBoundingBox * tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:previousTileMatrixSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
+                        GPKGBoundingBox *tileBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:previousTileMatrixSetBoundingBox andTileMatrix:tileMatrix andTileColumn:[tileRow tileColumn] andTileRow:[tileRow tileRow]];
                         
                         // Get the mid lat and lon to find the new tile row
                         // and column
@@ -374,8 +440,8 @@
         
         // Adjust the width and height to the min zoom level of the
         // request
-        if(minNewOrUpdateZoom < self.minZoom){
-            int adjustment = pow(2, self.minZoom - minNewOrUpdateZoom);
+        if(minNewOrUpdateZoom < minZoom){
+            int adjustment = pow(2, minZoom - minNewOrUpdateZoom);
             self.matrixWidth *= adjustment;
             self.matrixHeight *= adjustment;
         }
@@ -392,8 +458,8 @@
     
     int count = 0;
     
-    NSNumber * tileWidth = nil;
-    NSNumber * tileHeight = nil;
+    NSNumber *tileWidth = nil;
+    NSNumber *tileHeight = nil;
     
     NSMutableDictionary<NSNumber *, NSMutableSet<NSNumber *> *> *existingTiles = nil;
     if(update && self.skipExisting){
@@ -459,11 +525,11 @@
                 @try {
 
                     // Create the tile
-                    NSData * tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
+                    NSData *tileData = [self createTileWithZ:zoomLevel andX:x andY:y];
                     
                     if(tileData != nil){
 
-                        UIImage * image = nil;
+                        UIImage *image = nil;
                         
                         // Compress the image
                         if(self.compressFormat != GPKG_CF_NONE){
@@ -474,7 +540,7 @@
                         }
 
                         // Create a new tile row
-                        GPKGTileRow * newRow = [tileDao newRow];
+                        GPKGTileRow *newRow = [tileDao newRow];
                         [newRow setZoomLevel:zoomLevel];
                         
                         // If an update, delete an existing row
@@ -523,12 +589,12 @@
             && existingTiles == nil) {
         count = 0;
         
-        NSNumber * minXArg  = [NSNumber numberWithInt:tileGrid.minX];
-        NSNumber * maxXArg  = [NSNumber numberWithInt:tileGrid.maxX];
-        NSNumber * minYArg  = [NSNumber numberWithInt:tileGrid.minY];
-        NSNumber * maxYArg  = [NSNumber numberWithInt:tileGrid.maxY];
+        NSNumber *minXArg  = [NSNumber numberWithInt:tileGrid.minX];
+        NSNumber *maxXArg  = [NSNumber numberWithInt:tileGrid.maxX];
+        NSNumber *minYArg  = [NSNumber numberWithInt:tileGrid.minY];
+        NSNumber *maxYArg  = [NSNumber numberWithInt:tileGrid.maxY];
         
-        NSMutableString * where = [NSMutableString string];
+        NSMutableString *where = [NSMutableString string];
         
         
         [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_ZOOM_LEVEL andValue:zoomLevelArg]];
@@ -546,7 +612,7 @@
         [where appendString:[tileDao buildWhereWithField:GPKG_TC_COLUMN_TILE_ROW andValue:maxYArg andOperation:@"<="]];
         
 
-        NSArray * whereArgs =[tileDao buildWhereArgsWithValueArray:[NSArray arrayWithObjects:zoomLevelArg, minXArg, maxXArg, minYArg, maxYArg, nil]];
+        NSArray *whereArgs =[tileDao buildWhereArgsWithValueArray:[NSArray arrayWithObjects:zoomLevelArg, minXArg, maxXArg, minYArg, maxYArg, nil]];
         
         [tileDao deleteWhere:where andWhereArgs:whereArgs];
     }else{
@@ -565,7 +631,7 @@
             double pixelYSize = ([self.tileGridBoundingBox.maxLatitude doubleValue] - [self.tileGridBoundingBox.minLatitude doubleValue]) / matrixHeight / [tileHeight intValue];
             
             // Create the tile matrix for this zoom level
-            GPKGTileMatrix * tileMatrix = [[GPKGTileMatrix alloc] init];
+            GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
             [tileMatrix setContents:contents];
             [tileMatrix setZoomLevel:zoomLevelArg];
             [tileMatrix setMatrixWidth:[NSNumber numberWithInt:matrixWidth]];

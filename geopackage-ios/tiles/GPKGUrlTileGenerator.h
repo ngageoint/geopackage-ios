@@ -29,6 +29,33 @@
  *  @param geoPackage GeoPackage
  *  @param tableName  table name
  *  @param tileUrl    tile URL
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new url tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param tileUrl    tile URL
+ *  @param zoomLevel   zoom level
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new url tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andZoom: (int) zoomLevel andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param tileUrl    tile URL
  *  @param minZoom    min zoom
  *  @param maxZoom    max zoom
  *  @param boundingBox tiles bounding box
@@ -37,6 +64,20 @@
  *  @return new url tile generator
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param tileUrl    tile URL
+ *  @param zoomLevels  zoom levels
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new url tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
 
 /**
  *  Get the HTTP Header fields and field values

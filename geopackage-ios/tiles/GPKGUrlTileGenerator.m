@@ -25,8 +25,32 @@
 
 @implementation GPKGUrlTileGenerator
 
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andBoundingBox:boundingBox andProjection:projection];
+    [self initializeWithTileUrl:tileUrl];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andZoom: (int) zoomLevel andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andZoom:zoomLevel andBoundingBox:boundingBox andProjection:projection];
+    [self initializeWithTileUrl:tileUrl];
+    return self;
+}
+
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
     self = [super initWithGeoPackage:geoPackage andTableName:tableName andMinZoom:minZoom andMaxZoom:maxZoom andBoundingBox:boundingBox andProjection:projection];
+    [self initializeWithTileUrl:tileUrl];
+    return self;
+}
+
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andTileUrl: (NSString *) tileUrl andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection{
+    self = [super initWithGeoPackage:geoPackage andTableName:tableName andZoomLevels:zoomLevels andBoundingBox:boundingBox andProjection:projection];
+    [self initializeWithTileUrl:tileUrl];
+    return self;
+}
+
+-(instancetype) initializeWithTileUrl: (NSString *) tileUrl{
+
     if(self != nil){
         
         self.tileUrl = [GPKGIOUtils decodeUrl:tileUrl];

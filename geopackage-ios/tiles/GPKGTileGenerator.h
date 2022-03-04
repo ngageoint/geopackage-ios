@@ -20,47 +20,42 @@
 /**
  *  GeoPackage
  */
-@property (nonatomic, strong) GPKGGeoPackage * geoPackage;
+@property (nonatomic, strong) GPKGGeoPackage  *geoPackage;
 
 /**
  *  Table Name
  */
-@property (nonatomic, strong) NSString * tableName;
+@property (nonatomic, strong) NSString  *tableName;
 
 /**
- *  Min zoom level
+ *  Zoom levels
  */
-@property (nonatomic) int minZoom;
-
-/**
- *  Max zoom level
- */
-@property (nonatomic) int maxZoom;
+@property (nonatomic, strong) NSMutableOrderedSet<NSNumber *> *zoomLevels;
 
 /**
  *  Tiles projection
  */
-@property (nonatomic, strong) PROJProjection * projection;
+@property (nonatomic, strong) PROJProjection  *projection;
 
 /**
  *  Total tile count
  */
-@property (nonatomic, strong) NSNumber * totalCount;
+@property (nonatomic, strong) NSNumber  *totalCount;
 
 /**
  *  Tile grids by zoom level
  */
-@property (nonatomic, strong) NSMutableDictionary * tileGrids;
+@property (nonatomic, strong) NSMutableDictionary  *tileGrids;
 
 /**
  *  Tile bounding boxes by zoom level
  */
-@property (nonatomic, strong) NSMutableDictionary * tileBounds;
+@property (nonatomic, strong) NSMutableDictionary  *tileBounds;
 
 /**
  *  Tile bounding box
  */
-@property (nonatomic, strong) GPKGBoundingBox * boundingBox;
+@property (nonatomic, strong) GPKGBoundingBox  *boundingBox;
 
 /**
  *  Compress format
@@ -75,7 +70,7 @@
 /**
  *  GeoPackage progress for callbacks
  */
-@property (nonatomic, strong)  NSObject<GPKGProgress> * progress;
+@property (nonatomic, strong)  NSObject<GPKGProgress> *progress;
 
 /**
  * True when generating tiles in standard z,x,y tile format, false when generating
@@ -92,7 +87,7 @@
 /**
  *  Tile grid bounding box
  */
-@property (nonatomic, strong) GPKGBoundingBox * tileGridBoundingBox;
+@property (nonatomic, strong) GPKGBoundingBox *tileGridBoundingBox;
 
 /**
  *  Matrix height when GeoPackage tile format
@@ -119,6 +114,31 @@
  *
  *  @param geoPackage GeoPackage
  *  @param tableName  table name
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param zoomLevel   zoom level
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andZoom: (int) zoomLevel andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
  *  @param minZoom    min zoom
  *  @param maxZoom    max zoom
  *  @param boundingBox tiles bounding box
@@ -127,6 +147,59 @@
  *  @return new tile generator
  */
 -(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andMinZoom: (int) minZoom andMaxZoom: (int) maxZoom andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ *  Initialize
+ *
+ *  @param geoPackage GeoPackage
+ *  @param tableName  table name
+ *  @param zoomLevels  zoom levels
+ *  @param boundingBox tiles bounding box
+ *  @param projection tiles projection
+ *
+ *  @return new tile generator
+ */
+-(instancetype) initWithGeoPackage: (GPKGGeoPackage *) geoPackage andTableName: (NSString *) tableName andZoomLevels: (NSArray<NSNumber *> *) zoomLevels andBoundingBox: (GPKGBoundingBox *) boundingBox andProjection: (PROJProjection *) projection;
+
+/**
+ * Get the min zoom
+ *
+ * @return min zoom
+ */
+-(int) minZoom;
+
+/**
+ * Get the max zoom
+ *
+ * @return max zoom
+ */
+-(int) maxZoom;
+
+/**
+ * Add a zoom level
+ *
+ * @param zoomLevel zoom level
+ * @return true if zoom level added
+ */
+-(BOOL) addZoomLevel: (int) zoomLevel;
+
+/**
+ * Add a range of zoom levels
+ *
+ * @param minZoom min zoom level
+ * @param maxZoom max zoom level
+ * @return true if at least one zoom level added
+ */
+-(BOOL) addZoomLevelsFromMinZoom: (int) minZoom toMaxZoom: (int) maxZoom;
+
+/**
+ * Add a range of zoom levels
+ *
+ * @param minZoom min zoom level
+ * @param maxZoom max zoom level
+ * @return true if at least one zoom level added
+ */
+-(BOOL) addZoomLevels: (NSArray<NSNumber *> *) zoomLevels;
 
 /**
  * Get the bounding box, possibly expanded for the zoom level
