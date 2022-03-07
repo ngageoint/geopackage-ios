@@ -435,6 +435,20 @@
 -(int) countByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
 
 /**
+ * Query for all table geometry metadata matching the envelope
+ *
+ * @param geoPackage GeoPackage name
+ * @param tableName  table name
+ * @param distinct   distinct flag
+ * @param columns    queried columns
+ * @param envelope   geometry envelope
+ * @param orderBy    order by
+ * @param limit      limit
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageName: (NSString *) geoPackageName andTableName: (NSString *) tableName andDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (NSString *) limit;
+
+/**
  *  Query for all geometry metadata matching the envelope
  *
  *  @param geoPackageId GeoPackage id
@@ -475,6 +489,20 @@
  * @return count
  */
 -(int) countByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andEnvelope: (SFGeometryEnvelope *) envelope;
+
+/**
+ * Query for all table geometry metadata matching the envelope
+ *
+ * @param geoPackageId GeoPackage id
+ * @param tableName    table name
+ * @param distinct     distinct flag
+ * @param columns      queried columns
+ * @param envelope     geometry envelope
+ * @param orderBy      order by
+ * @param limit        limit
+ * @return result set
+ */
+-(GPKGResultSet *) queryByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName andDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (NSString *) limit;
 
 /**
  * Get the query SQL for an envelope, GeoPackage id, and table name

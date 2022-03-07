@@ -1436,6 +1436,169 @@
 -(GPKGFeatureRow *) featureRowWithGeometryMetadata: (GPKGGeometryMetadata *) geometryMetadata;
 
 /**
+ * Query for all features ordered by id, starting at the offset and
+ * returning no more than the limit
+ *
+ * @param limit chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithLimit: (int) limit;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param limit  chunk limit
+  * @param offset chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param orderBy order by
+  * @param limit   chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param orderBy order by
+  * @param limit   chunk limit
+  * @param offset  chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param distinct distinct rows
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param distinct distinct rows
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns columns
+  * @param limit   chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns columns
+  * @param limit   chunk limit
+  * @param offset  chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param columns columns
+  * @param orderBy order by
+  * @param limit   chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param columns columns
+  * @param orderBy order by
+  * @param limit   chunk limit
+  * @param offset  chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
+
+ /**
+  * Query for all features ordered by id, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for all features, starting at the offset and returning no more than
+  * the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
  * Query for all features, starting at the offset and returning no more than
  * the limit
  *
@@ -1448,6 +1611,583 @@
  */
 -(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param where where clause
+ * @param limit chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param where  where clause
+ * @param limit  chunk limit
+ * @param offset chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features ordered by id, starting at the offset and returning no
+ * more than the limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+                                         
 /**
  * Query for features, starting at the offset and returning no more than the
  * limit
@@ -1462,7 +2202,3175 @@
  * @return feature results
  */
 -(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+                                         
+/**
+ * Query for rows within the bounding box ordered by id, starting at the
+ * offset and returning no more than the limit
+ *
+ * @param boundingBox bounding box
+ * @param limit       chunk limit
+ * @return cursor
+ */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
 
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box ordered by id, starting at the
+  * offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection ordered
+  * by id, starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection
+  * ordered by id, starting at the offset and returning no more than the
+  * limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the bounding box in the provided projection,
+  * starting at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param boundingBox bounding box
+  * @param projection  projection
+  * @param where       where clause
+  * @param whereArgs   where arguments
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope ordered by id, starting at
+  * the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for rows within the geometry envelope, starting at the offset and
+  * returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return cursor
+  */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct    distinct rows
+  * @param columns     columns
+  * @param envelope    geometry envelope
+  * @param fieldValues field values
+  * @param orderBy     order by
+  * @param limit       chunk limit
+  * @param offset      chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct distinct rows
+  * @param columns  columns
+  * @param envelope geometry envelope
+  * @param where    where clause
+  * @param orderBy  order by
+  * @param limit    chunk limit
+  * @param offset   chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+ /**
+  * Query for features within the geometry envelope ordered by id, starting
+  * at the offset and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param limit     chunk limit
+  * @param offset    chunk query offset
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+ /**
+  * Query for features within the geometry envelope, starting at the offset
+  * and returning no more than the limit
+  *
+  * @param distinct  distinct rows
+  * @param columns   columns
+  * @param envelope  geometry envelope
+  * @param where     where clause
+  * @param whereArgs where arguments
+  * @param orderBy   order by
+  * @param limit     chunk limit
+  * @return feature results
+  */
+-(GPKGResultSet *) queryFeaturesForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andEnvelope: (SFGeometryEnvelope *) envelope andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+                                         
 /**
  * Query for features within the geometry envelope, starting at the offset
  * and returning no more than the limit
