@@ -1219,6 +1219,169 @@
  * Query for features, starting at the offset and returning no more than the
  * limit
  *
+ * @param limit chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param limit  chunk limit
+ * @param offset chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
  * @param distinct distinct rows
  * @param columns  columns
  * @param orderBy  order by
@@ -1227,6 +1390,542 @@
  * @return feature results
  */
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct    distinct rows
+ * @param columns     columns
+ * @param fieldValues field values
+ * @param orderBy     order by
+ * @param limit       chunk limit
+ * @param offset      chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where where clause
+ * @param limit chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where  where clause
+ * @param limit  chunk limit
+ * @param offset chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns columns
+ * @param where   where clause
+ * @param orderBy order by
+ * @param limit   chunk limit
+ * @param offset  chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct distinct rows
+ * @param columns  columns
+ * @param where    where clause
+ * @param orderBy  order by
+ * @param limit    chunk limit
+ * @param offset   chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param distinct  distinct rows
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit;
+
+/**
+ * Query for features, starting at the offset and returning no more than the
+ * limit
+ *
+ * @param columns   columns
+ * @param where     where clause
+ * @param whereArgs where arguments
+ * @param orderBy   order by
+ * @param limit     chunk limit
+ * @param offset    chunk query offset
+ * @return feature results
+ */
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset;
 
 /**
  * Query for features, starting at the offset and returning no more than the

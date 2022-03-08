@@ -588,8 +588,260 @@
     return [[self queryWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY andWhere:where andWhereArgs:whereArgs] count];
 }
 
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit{
+    return [self.featureDao queryForChunkWithLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit];
+}
+
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
     return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self queryForChunkWithDistinct:NO andColumns:columns andFieldValues:fieldValues andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andFieldValues: (GPKGColumnValues *) fieldValues andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    NSString *where = [self.featureDao buildWhereWithFields:fieldValues];
+    NSArray *whereArgs = [self.featureDao buildWhereArgsWithValues:fieldValues];
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:nil andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:nil andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:nil andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:nil andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andColumns:columns andWhere:where andWhereArgs:nil andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithDistinct:distinct andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andLimit:limit andOffset:offset];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit];
+}
+
+-(GPKGResultSet *) queryForChunkWithColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
+    return [self.featureDao queryForChunkWithColumns:columns andWhere:where andWhereArgs:whereArgs andOrderBy:orderBy andLimit:limit andOffset:offset];
 }
 
 -(GPKGResultSet *) queryForChunkWithDistinct: (BOOL) distinct andColumns: (NSArray<NSString *> *) columns andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs andOrderBy: (NSString *) orderBy andLimit: (int) limit andOffset: (int) offset{
