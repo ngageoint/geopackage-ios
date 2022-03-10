@@ -298,7 +298,6 @@
  * Get the WGS84 bounds of the tile at the location coordinate and zoom level
  *
  * @param projection desired bounding box projection
- * @param projection desired bounding box projection
  * @param location location coordinate
  * @param zoom   zoom level
  * @return WGS84 bounding box

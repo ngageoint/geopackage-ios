@@ -437,7 +437,7 @@
 /**
  * Query for all table geometry metadata matching the envelope
  *
- * @param geoPackage GeoPackage name
+ * @param geoPackageName GeoPackage name
  * @param tableName  table name
  * @param distinct   distinct flag
  * @param columns    queried columns

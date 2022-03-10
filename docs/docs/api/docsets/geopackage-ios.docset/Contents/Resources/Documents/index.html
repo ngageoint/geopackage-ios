@@ -16,7 +16,7 @@
     <a title="geopackage-ios  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">geopackage-ios 7.0.2 Docs</a> (81% documented)</p>
+        <p><a href="index.html">geopackage-ios 7.1.0 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -774,7 +774,19 @@
                 <a href="Classes/GPKGOAPIFeatureGenerator.html">GPKGOAPIFeatureGenerator</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/GPKGObjectPaginatedResults.html">GPKGObjectPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGObjectResultSet.html">GPKGObjectResultSet</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/GPKGOverlayFactory.html">GPKGOverlayFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGPaginatedResults.html">GPKGPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGPagination.html">GPKGPagination</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
@@ -838,6 +850,15 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGResultSet.html">GPKGResultSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGRow.html">GPKGRow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGRowPaginatedResults.html">GPKGRowPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GPKGRowResultSet.html">GPKGRowResultSet</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/GPKGSQLiteMaster.html">GPKGSQLiteMaster</a>
@@ -1188,6 +1209,9 @@
                 <a href="Classes/SFCurvePolygon.html">SFCurvePolygon</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/SFDegreesCentroid.html">SFDegreesCentroid</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/SFEvent.html">SFEvent</a>
               </li>
               <li class="nav-group-task">
@@ -1378,6 +1402,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes.html#/c:objc(cs)TIFFPackbitsCompression">TIFFPackbitsCompression</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TIFFPredictor.html">TIFFPredictor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/TIFFRasters.html">TIFFRasters</a>
@@ -3896,6 +3923,15 @@
                 <a href="Constants.html#/c:@TIFF_PLANAR_CONFIGURATION_PLANAR">TIFF_PLANAR_CONFIGURATION_PLANAR</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@TIFF_PREDICTOR_FLOATINGPOINT">TIFF_PREDICTOR_FLOATINGPOINT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@TIFF_PREDICTOR_HORIZONTAL">TIFF_PREDICTOR_HORIZONTAL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@TIFF_PREDICTOR_NO">TIFF_PREDICTOR_NO</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@TIFF_RESOLUTION_UNIT_CENTIMETER">TIFF_RESOLUTION_UNIT_CENTIMETER</a>
               </li>
               <li class="nav-group-task">
@@ -4714,12 +4750,12 @@ brew install libtool
 <p>Include this repository by specifying it in a Podfile using a supported option.</p>
 
 <p>Pull from <a href="https://cocoapods.org/pods/geopackage-ios">CocoaPods</a>:</p>
-<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 7.0.2'
+<pre class="highlight plaintext"><code>pod 'geopackage-ios', '~&gt; 7.1.0'
 </code></pre>
 
 <p>Pull from GitHub via CocoaPods:</p>
 <pre class="highlight plaintext"><code>pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :branch =&gt; 'master'
-pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '7.0.2'
+pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.git', :tag =&gt; '7.1.0'
 </code></pre>
 
 <p>Include as local project:</p>
@@ -4772,17 +4808,16 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="n">GPKGExtensionsDao</span> <span class="o">*</span><span class="n">extensionsDao</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">extensionsDao</span><span class="p">];</span>
 
 <span class="c1">// Feature and tile tables</span>
-<span class="n">NSArray</span> <span class="o">*</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">featureTables</span><span class="p">];</span>
-<span class="n">NSArray</span> <span class="o">*</span><span class="n">tiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">tileTables</span><span class="p">];</span>
+<span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">featureTables</span><span class="p">];</span>
+<span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">tiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">tileTables</span><span class="p">];</span>
 
 <span class="c1">// Query Features</span>
 <span class="n">NSString</span> <span class="o">*</span><span class="n">featureTable</span> <span class="o">=</span> <span class="p">[</span><span class="n">features</span> <span class="nf">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 <span class="n">GPKGFeatureDao</span> <span class="o">*</span><span class="n">featureDao</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">featureDaoWithTableName</span><span class="p">:</span><span class="n">featureTable</span><span class="p">];</span>
 <span class="n">GPKGMapShapeConverter</span> <span class="o">*</span><span class="n">converter</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGMapShapeConverter</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithProjection</span><span class="p">:</span><span class="n">featureDao</span><span class="p">.</span><span class="n">projection</span><span class="p">];</span>
-<span class="n">GPKGResultSet</span> <span class="o">*</span><span class="n">featureResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureDao</span> <span class="nf">queryForAll</span><span class="p">];</span>
+<span class="n">GPKGRowResultSet</span> <span class="o">*</span><span class="n">featureResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureDao</span> <span class="nf">results</span><span class="p">:[</span><span class="n">featureDao</span> <span class="nf">queryForAll</span><span class="p">]];</span>
 <span class="k">@try</span> <span class="p">{</span>
-    <span class="k">while</span><span class="p">([</span><span class="n">featureResults</span> <span class="nf">moveToNext</span><span class="p">]){</span>
-        <span class="n">GPKGFeatureRow</span> <span class="o">*</span><span class="n">featureRow</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureDao</span> <span class="nf">featureRow</span><span class="p">:</span><span class="n">featureResults</span><span class="p">];</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">GPKGFeatureRow</span> <span class="o">*</span><span class="n">featureRow</span> <span class="k">in</span> <span class="n">featureResults</span><span class="p">){</span>
         <span class="n">GPKGGeometryData</span> <span class="o">*</span><span class="n">geometryData</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureRow</span> <span class="nf">geometry</span><span class="p">];</span>
         <span class="k">if</span><span class="p">(</span><span class="n">geometryData</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">geometryData</span><span class="p">.</span><span class="n">empty</span><span class="p">){</span>
             <span class="n">SFGeometry</span> <span class="o">*</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometryData</span><span class="p">.</span><span class="n">geometry</span><span class="p">;</span>
@@ -4798,10 +4833,9 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
 <span class="c1">// Query Tiles</span>
 <span class="n">NSString</span> <span class="o">*</span><span class="n">tileTable</span> <span class="o">=</span> <span class="p">[</span><span class="n">tiles</span> <span class="nf">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
 <span class="n">GPKGTileDao</span> <span class="o">*</span><span class="n">tileDao</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoPackage</span> <span class="nf">tileDaoWithTableName</span><span class="p">:</span><span class="n">tileTable</span><span class="p">];</span>
-<span class="n">GPKGResultSet</span> <span class="o">*</span><span class="n">tileResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileDao</span> <span class="nf">queryForAll</span><span class="p">];</span>
+<span class="n">GPKGRowResultSet</span> <span class="o">*</span><span class="n">tileResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileDao</span> <span class="nf">results</span><span class="p">:[</span><span class="n">tileDao</span> <span class="nf">queryForAll</span><span class="p">]];</span>
 <span class="k">@try</span> <span class="p">{</span>
-    <span class="k">while</span><span class="p">([</span><span class="n">tileResults</span> <span class="nf">moveToNext</span><span class="p">]){</span>
-        <span class="n">GPKGTileRow</span> <span class="o">*</span><span class="n">tileRow</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileDao</span> <span class="nf">tileRow</span><span class="p">:</span><span class="n">tileResults</span><span class="p">];</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">GPKGTileRow</span> <span class="o">*</span><span class="n">tileRow</span> <span class="k">in</span> <span class="n">tileResults</span><span class="p">){</span>
         <span class="n">NSData</span> <span class="o">*</span><span class="n">tileData</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileRow</span> <span class="nf">tileData</span><span class="p">];</span>
         <span class="n">UIImage</span> <span class="o">*</span><span class="n">tileImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileRow</span> <span class="nf">tileDataImage</span><span class="p">];</span>
         <span class="c1">// ...</span>
@@ -4810,25 +4844,64 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
     <span class="p">[</span><span class="n">tileResults</span> <span class="nf">close</span><span class="p">];</span>
 <span class="p">}</span>
 
+<span class="c1">// Retrieve Tiles by XYZ</span>
+<span class="n">NSObject</span><span class="o">&lt;</span><span class="n">GPKGTileRetriever</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">retriever</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGGeoPackageTileRetriever</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTileDao</span><span class="p">:</span><span class="n">tileDao</span><span class="p">];</span>
+<span class="n">GPKGGeoPackageTile</span> <span class="o">*</span><span class="n">geoPackageTile</span> <span class="o">=</span> <span class="p">[</span><span class="n">retriever</span> <span class="nf">tileWithX</span><span class="p">:</span><span class="mi">2</span> <span class="nf">andY</span><span class="p">:</span><span class="mi">2</span> <span class="n">andZoom</span><span class="o">:</span><span class="mi">2</span><span class="p">];</span>
+<span class="k">if</span><span class="p">(</span><span class="n">geoPackageTile</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">){</span>
+    <span class="n">NSData</span> <span class="o">*</span><span class="n">tileData</span> <span class="o">=</span> <span class="n">geoPackageTile</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">tileImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">GPKGImageConverter</span> <span class="nf">toImage</span><span class="p">:</span><span class="n">tileData</span><span class="p">];</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// Retrieve Tiles by Bounding Box</span>
+<span class="n">GPKGTileCreator</span> <span class="o">*</span><span class="n">tileCreator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGTileCreator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTileDao</span><span class="p">:</span><span class="n">tileDao</span> <span class="nf">andProjection</span><span class="p">:[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">]];</span>
+<span class="n">GPKGGeoPackageTile</span> <span class="o">*</span><span class="n">geoPackageTile2</span> <span class="o">=</span> <span class="p">[</span><span class="n">tileCreator</span> <span class="nf">tileWithBoundingBox</span><span class="p">:[[</span><span class="n">GPKGBoundingBox</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithMinLongitudeDouble</span><span class="p">:</span><span class="o">-</span><span class="mi">90</span><span class="p">.</span><span class="mi">0</span> <span class="nf">andMinLatitudeDouble</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="nf">andMaxLongitudeDouble</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span> <span class="n">andMaxLatitudeDouble</span><span class="o">:</span><span class="mi">66</span><span class="p">.</span><span class="mi">513260</span><span class="p">]];</span>
+<span class="k">if</span><span class="p">(</span><span class="n">geoPackageTile2</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">){</span>
+    <span class="n">NSData</span> <span class="o">*</span><span class="n">tileData</span> <span class="o">=</span> <span class="n">geoPackageTile2</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">tileImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">GPKGImageConverter</span> <span class="nf">toImage</span><span class="p">:</span><span class="n">tileData</span><span class="p">];</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
 <span class="c1">// Tile Overlay (GeoPackage or Standard API)</span>
 <span class="n">MKTileOverlay</span> <span class="o">*</span><span class="n">tileOverlay</span> <span class="o">=</span> <span class="p">[</span><span class="n">GPKGOverlayFactory</span> <span class="nf">tileOverlayWithTileDao</span><span class="p">:</span><span class="n">tileDao</span><span class="p">];</span>
 <span class="n">tileOverlay</span><span class="p">.</span><span class="n">canReplaceMapContent</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
 <span class="p">[</span><span class="n">mapView</span> <span class="nf">addOverlay</span><span class="p">:</span><span class="n">tileOverlay</span><span class="p">];</span>
 
-<span class="c1">// Feature Tile Overlay (dynamically draw tiles from features)</span>
-<span class="n">GPKGFeatureTiles</span> <span class="o">*</span><span class="n">featureTiles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTiles</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span><span class="n">featureDao</span><span class="p">];</span>
-<span class="n">GPKGFeatureOverlay</span> <span class="o">*</span><span class="n">featureOverlay</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureOverlay</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureTiles</span><span class="p">:</span><span class="n">featureTiles</span><span class="p">];</span>
-<span class="p">[</span><span class="n">mapView</span> <span class="nf">addOverlay</span><span class="p">:</span><span class="n">featureOverlay</span><span class="p">];</span>
-
 <span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="n">boundingBox</span> <span class="o">=</span> <span class="p">[</span><span class="n">GPKGBoundingBox</span> <span class="nf">worldWebMercator</span><span class="p">];</span>
 <span class="n">PROJProjection</span> <span class="o">*</span><span class="n">projection</span> <span class="o">=</span> <span class="p">[</span><span class="n">PROJProjectionFactory</span> <span class="nf">projectionWithEpsgInt</span><span class="p">:</span><span class="n">PROJ_EPSG_WEB_MERCATOR</span><span class="p">];</span>
 
+<span class="c1">// Index Features</span>
+<span class="n">GPKGFeatureIndexManager</span> <span class="o">*</span><span class="n">indexer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureIndexManager</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andFeatureDao</span><span class="p">:</span><span class="n">featureDao</span><span class="p">];</span>
+<span class="p">[</span><span class="n">indexer</span> <span class="nf">setIndexLocation</span><span class="p">:</span><span class="n">GPKG_FIT_RTREE</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">indexedCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span> <span class="nf">index</span><span class="p">];</span>
+
+<span class="c1">// Query Indexed Features in paginated chunks</span>
+<span class="n">GPKGFeatureIndexResults</span> <span class="o">*</span><span class="n">indexResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span> <span class="nf">queryForChunkWithBoundingBox</span><span class="p">:</span><span class="n">boundingBox</span> <span class="nf">inProjection</span><span class="p">:</span><span class="n">projection</span> <span class="n">andLimit</span><span class="o">:</span><span class="mi">50</span><span class="p">];</span>
+<span class="n">GPKGRowPaginatedResults</span> <span class="o">*</span><span class="n">paginatedResults</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span> <span class="nf">paginate</span><span class="p">:</span><span class="n">indexResults</span><span class="p">];</span>
+<span class="k">for</span><span class="p">(</span><span class="n">GPKGFeatureRow</span> <span class="o">*</span><span class="n">featureRow</span> <span class="k">in</span> <span class="n">paginatedResults</span><span class="p">){</span>
+    <span class="n">GPKGGeometryData</span> <span class="o">*</span><span class="n">geometryData</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureRow</span> <span class="nf">geometry</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">geometryData</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">geometryData</span><span class="p">.</span><span class="n">empty</span><span class="p">){</span>
+        <span class="n">SFGeometry</span> <span class="o">*</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">geometryData</span><span class="p">.</span><span class="n">geometry</span><span class="p">;</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Feature Tile Overlay (dynamically draw tiles from features)</span>
+<span class="n">GPKGFeatureTiles</span> <span class="o">*</span><span class="n">featureTiles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTiles</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span><span class="n">featureDao</span><span class="p">];</span>
+<span class="p">[</span><span class="n">featureTiles</span> <span class="nf">setMaxFeaturesPerTile</span><span class="p">:[</span><span class="n">NSNumber</span> <span class="nf">numberWithInt</span><span class="p">:</span><span class="mi">1000</span><span class="p">]];</span>
+<span class="n">GPKGNumberFeaturesTile</span> <span class="o">*</span><span class="n">numberFeaturesTile</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGNumberFeaturesTile</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">[</span><span class="n">featureTiles</span> <span class="nf">setMaxFeaturesTileDraw</span><span class="p">:</span><span class="n">numberFeaturesTile</span><span class="p">];</span>
+<span class="p">[</span><span class="n">featureTiles</span> <span class="nf">setIndexManager</span><span class="p">:</span><span class="n">indexer</span><span class="p">];</span>
+<span class="n">GPKGFeatureOverlay</span> <span class="o">*</span><span class="n">featureOverlay</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureOverlay</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFeatureTiles</span><span class="p">:</span><span class="n">featureTiles</span><span class="p">];</span>
+<span class="p">[</span><span class="n">featureOverlay</span> <span class="nf">setMinZoom</span><span class="p">:[</span><span class="n">NSNumber</span> <span class="nf">numberWithInt</span><span class="p">:[</span><span class="n">featureDao</span> <span class="nf">zoomLevel</span><span class="p">]]];</span>
+<span class="p">[</span><span class="n">mapView</span> <span class="nf">addOverlay</span><span class="p">:</span><span class="n">featureOverlay</span><span class="p">];</span>
+
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
-<span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">urlTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGUrlTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:</span><span class="s">@"url_tile_table"</span> <span class="n">andTileUrl</span><span class="o">:</span><span class="s">@"http://url/{z}/{x}/{y}.png"</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">1</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">2</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
+<span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">urlTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGUrlTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:</span><span class="s">@"url_tile_table"</span> <span class="n">andTileUrl</span><span class="o">:</span><span class="s">@"http://url/{z}/{x}/{y}.png"</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">0</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">0</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">urlTileCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">urlTileGenerator</span> <span class="nf">generateTiles</span><span class="p">];</span>
 
 <span class="c1">// Feature Tile Generator (generate tiles from features)</span>
-<span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">featureTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@_tiles"</span><span class="p">,</span> <span class="n">featureTable</span><span class="p">]</span> <span class="n">andFeatureTiles</span><span class="o">:</span><span class="n">featureTiles</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">1</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">2</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
+<span class="n">GPKGTileGenerator</span> <span class="o">*</span><span class="n">featureTileGenerator</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GPKGFeatureTileGenerator</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithGeoPackage</span><span class="p">:</span><span class="n">geoPackage</span> <span class="nf">andTableName</span><span class="p">:[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"tiles_%@"</span><span class="p">,</span> <span class="n">featureTable</span><span class="p">]</span> <span class="n">andFeatureTiles</span><span class="o">:</span><span class="n">featureTiles</span> <span class="n">andMinZoom</span><span class="o">:</span><span class="mi">1</span> <span class="n">andMaxZoom</span><span class="o">:</span><span class="mi">2</span> <span class="n">andBoundingBox</span><span class="o">:</span><span class="n">boundingBox</span> <span class="n">andProjection</span><span class="o">:</span><span class="n">projection</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">featureTileCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">featureTileGenerator</span> <span class="nf">generateTiles</span><span class="p">];</span>
 
 <span class="c1">// Close database when done</span>
@@ -4910,18 +4983,61 @@ pod 'geopackage-ios', :git =&gt; 'https://github.com/ngageoint/geopackage-ios.gi
     <span class="p">}</span>
 <span class="p">}</span>
 
+<span class="c1">// Retrieve Tiles by XYZ</span>
+<span class="k">let</span> <span class="nv">retriever</span> <span class="o">=</span> <span class="kt">GPKGGeoPackageTileRetriever</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">geoPackageTile</span><span class="p">:</span> <span class="kt">GPKGGeoPackageTile</span><span class="o">!</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="nf">tileWith</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">andY</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">andZoom</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">if</span><span class="p">(</span><span class="n">geoPackageTile</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">){</span>
+    <span class="k">let</span> <span class="nv">tileData</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="n">geoPackageTile</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">let</span> <span class="nv">tileImage</span><span class="p">:</span> <span class="kt">UIImage</span> <span class="o">=</span> <span class="kt">GPKGImageConverter</span><span class="o">.</span><span class="nf">toImage</span><span class="p">(</span><span class="n">tileData</span><span class="p">)</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// Retrieve Tiles by Bounding Box</span>
+<span class="k">let</span> <span class="nv">tileCreator</span><span class="p">:</span> <span class="kt">GPKGTileCreator</span> <span class="o">=</span> <span class="kt">GPKGTileCreator</span><span class="p">(</span><span class="nv">tileDao</span><span class="p">:</span> <span class="n">tileDao</span><span class="p">,</span> <span class="nv">andProjection</span><span class="p">:</span> <span class="kt">PROJProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WORLD_GEODETIC_SYSTEM</span><span class="p">))</span>
+<span class="k">let</span> <span class="nv">geoPackageTile2</span><span class="p">:</span> <span class="kt">GPKGGeoPackageTile</span><span class="o">!</span> <span class="o">=</span> <span class="n">tileCreator</span><span class="o">.</span><span class="nf">tile</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span><span class="p">(</span><span class="nv">minLongitudeDouble</span><span class="p">:</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="nv">andMinLatitudeDouble</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">andMaxLongitudeDouble</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">andMaxLatitudeDouble</span><span class="p">:</span> <span class="mf">66.513260</span><span class="p">))</span>
+<span class="k">if</span><span class="p">(</span><span class="n">geoPackageTile2</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">){</span>
+    <span class="k">let</span> <span class="nv">tileData</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="n">geoPackageTile2</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">let</span> <span class="nv">tileImage</span><span class="p">:</span> <span class="kt">UIImage</span> <span class="o">=</span> <span class="kt">GPKGImageConverter</span><span class="o">.</span><span class="nf">toImage</span><span class="p">(</span><span class="n">tileData</span><span class="p">)</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
 <span class="c1">// Tile Overlay (GeoPackage or Standard API)</span>
 <span class="k">let</span> <span class="nv">tileOverlay</span><span class="p">:</span> <span class="kt">MKTileOverlay</span> <span class="o">=</span> <span class="kt">GPKGOverlayFactory</span><span class="o">.</span><span class="nf">tileOverlay</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">tileDao</span><span class="p">)</span>
 <span class="n">tileOverlay</span><span class="o">.</span><span class="n">canReplaceMapContent</span> <span class="o">=</span> <span class="kc">false</span>
 <span class="n">mapView</span><span class="o">.</span><span class="nf">addOverlay</span><span class="p">(</span><span class="n">tileOverlay</span><span class="p">)</span>
 
-<span class="c1">// Feature Tile Overlay (dynamically draw tiles from features)</span>
-<span class="k">let</span> <span class="nv">featureTiles</span><span class="p">:</span> <span class="kt">GPKGFeatureTiles</span> <span class="o">=</span> <span class="kt">GPKGFeatureTiles</span><span class="p">(</span><span class="nv">featureDao</span><span class="p">:</span> <span class="n">featureDao</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">featureOverlay</span> <span class="o">=</span> <span class="kt">GPKGFeatureOverlay</span><span class="p">(</span><span class="nv">featureTiles</span><span class="p">:</span> <span class="n">featureTiles</span><span class="p">)</span>
-<span class="n">mapView</span><span class="o">.</span><span class="nf">addOverlay</span><span class="p">(</span><span class="n">featureOverlay</span><span class="o">!</span><span class="p">)</span>
-
 <span class="k">let</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span> <span class="o">=</span> <span class="kt">GPKGBoundingBox</span><span class="o">.</span><span class="nf">worldWebMercator</span><span class="p">()</span>
 <span class="k">let</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt">PROJProjection</span> <span class="o">=</span> <span class="kt">PROJProjectionFactory</span><span class="o">.</span><span class="nf">projection</span><span class="p">(</span><span class="nv">withEpsgInt</span><span class="p">:</span> <span class="kt">PROJ_EPSG_WEB_MERCATOR</span><span class="p">)</span>
+
+<span class="c1">// Index Features</span>
+<span class="k">let</span> <span class="nv">indexer</span><span class="p">:</span> <span class="kt">GPKGFeatureIndexManager</span> <span class="o">=</span> <span class="kt">GPKGFeatureIndexManager</span><span class="p">(</span><span class="nv">geoPackage</span><span class="p">:</span> <span class="n">geoPackage</span><span class="p">,</span> <span class="nv">andFeatureDao</span><span class="p">:</span> <span class="n">featureDao</span><span class="p">)</span>
+<span class="n">indexer</span><span class="o">.</span><span class="n">indexLocation</span> <span class="o">=</span> <span class="kt">GPKG_FIT_RTREE</span>
+<span class="k">let</span> <span class="nv">indexedCount</span> <span class="o">=</span> <span class="n">indexer</span><span class="o">.</span><span class="nf">index</span><span class="p">()</span>
+
+<span class="c1">// Query Indexed Features in paginated chunks</span>
+<span class="k">let</span> <span class="nv">indexResults</span><span class="p">:</span> <span class="kt">GPKGFeatureIndexResults</span> <span class="o">=</span> <span class="n">indexer</span><span class="o">.</span><span class="nf">queryForChunk</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">boundingBox</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="n">projection</span><span class="p">,</span> <span class="nv">andLimit</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">paginatedResults</span><span class="p">:</span> <span class="kt">GPKGRowPaginatedResults</span> <span class="o">=</span> <span class="n">indexer</span><span class="o">.</span><span class="nf">paginate</span><span class="p">(</span><span class="n">indexResults</span><span class="p">)</span>
+<span class="k">do</span><span class="p">{</span>
+    <span class="k">defer</span><span class="p">{</span><span class="n">paginatedResults</span><span class="o">.</span><span class="nf">close</span><span class="p">()}</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">paginatedResults</span><span class="o">.</span><span class="nf">moveToNext</span><span class="p">()){</span>
+        <span class="k">let</span> <span class="nv">featureRow</span><span class="p">:</span> <span class="kt">GPKGFeatureRow</span> <span class="o">=</span> <span class="n">paginatedResults</span><span class="o">.</span><span class="nf">userRow</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">GPKGFeatureRow</span>
+        <span class="k">let</span> <span class="nv">geometryData</span><span class="p">:</span> <span class="kt">GPKGGeometryData</span><span class="o">!</span> <span class="o">=</span> <span class="n">featureRow</span><span class="o">.</span><span class="nf">geometry</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">geometryData</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">geometryData</span><span class="o">.</span><span class="n">empty</span><span class="p">){</span>
+            <span class="k">let</span> <span class="nv">geometry</span><span class="p">:</span> <span class="kt">SFGeometry</span> <span class="o">=</span> <span class="n">geometryData</span><span class="o">.</span><span class="n">geometry</span>
+            <span class="c1">// ...</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Feature Tile Overlay (dynamically draw tiles from features)</span>
+<span class="k">let</span> <span class="nv">featureTiles</span><span class="p">:</span> <span class="kt">GPKGFeatureTiles</span> <span class="o">=</span> <span class="kt">GPKGFeatureTiles</span><span class="p">(</span><span class="nv">featureDao</span><span class="p">:</span> <span class="n">featureDao</span><span class="p">)</span>
+<span class="n">featureTiles</span><span class="o">.</span><span class="n">maxFeaturesPerTile</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">let</span> <span class="nv">numberFeaturesTile</span><span class="p">:</span> <span class="kt">GPKGNumberFeaturesTile</span> <span class="o">=</span> <span class="kt">GPKGNumberFeaturesTile</span><span class="p">()</span>
+<span class="n">featureTiles</span><span class="o">.</span><span class="n">maxFeaturesTileDraw</span> <span class="o">=</span> <span class="n">numberFeaturesTile</span>
+<span class="n">featureTiles</span><span class="o">.</span><span class="n">indexManager</span> <span class="o">=</span> <span class="n">indexer</span>
+<span class="k">let</span> <span class="nv">featureOverlay</span><span class="p">:</span> <span class="kt">GPKGFeatureOverlay</span><span class="o">!</span> <span class="o">=</span> <span class="kt">GPKGFeatureOverlay</span><span class="p">(</span><span class="nv">featureTiles</span><span class="p">:</span> <span class="n">featureTiles</span><span class="p">)</span>
+<span class="n">featureOverlay</span><span class="o">.</span><span class="n">minZoom</span> <span class="o">=</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span><span class="n">featureDao</span><span class="o">.</span><span class="nf">zoomLevel</span><span class="p">())</span>
+<span class="n">mapView</span><span class="o">.</span><span class="nf">addOverlay</span><span class="p">(</span><span class="n">featureOverlay</span><span class="o">!</span><span class="p">)</span>
 
 <span class="c1">// URL Tile Generator (generate tiles from a URL)</span>
 <span class="k">let</span> <span class="nv">urlTileGenerator</span><span class="p">:</span> <span class="kt">GPKGTileGenerator</span> <span class="o">=</span> <span class="kt">GPKGUrlTileGenerator</span><span class="p">(</span><span class="nv">geoPackage</span><span class="p">:</span> <span class="n">geoPackage</span><span class="p">,</span> <span class="nv">andTableName</span><span class="p">:</span> <span class="s">"url_tile_table"</span><span class="p">,</span> <span class="nv">andTileUrl</span><span class="p">:</span> <span class="s">"http://url/{z}/{x}/{y}.png"</span><span class="p">,</span> <span class="nv">andMinZoom</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">andMaxZoom</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">andBoundingBox</span><span class="p">:</span><span class="n">boundingBox</span><span class="p">,</span> <span class="nv">andProjection</span><span class="p">:</span><span class="n">projection</span><span class="p">)</span>
@@ -4969,7 +5085,7 @@ pod install
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2021-12-16)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-03-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

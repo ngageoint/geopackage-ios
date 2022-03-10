@@ -17,7 +17,7 @@
     <a title="GPKGBoundingBox Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.0.2 Docs</a> (81% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.1.0 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -775,7 +775,19 @@
                 <a href="../Classes/GPKGOAPIFeatureGenerator.html">GPKGOAPIFeatureGenerator</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GPKGObjectPaginatedResults.html">GPKGObjectPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGObjectResultSet.html">GPKGObjectResultSet</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GPKGOverlayFactory.html">GPKGOverlayFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGPaginatedResults.html">GPKGPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGPagination.html">GPKGPagination</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
@@ -839,6 +851,15 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGResultSet.html">GPKGResultSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRow.html">GPKGRow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRowPaginatedResults.html">GPKGRowPaginatedResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGRowResultSet.html">GPKGRowResultSet</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGSQLiteMaster.html">GPKGSQLiteMaster</a>
@@ -1189,6 +1210,9 @@
                 <a href="../Classes/SFCurvePolygon.html">SFCurvePolygon</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/SFDegreesCentroid.html">SFDegreesCentroid</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/SFEvent.html">SFEvent</a>
               </li>
               <li class="nav-group-task">
@@ -1379,6 +1403,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes.html#/c:objc(cs)TIFFPackbitsCompression">TIFFPackbitsCompression</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TIFFPredictor.html">TIFFPredictor</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/TIFFRasters.html">TIFFRasters</a>
@@ -3897,6 +3924,15 @@
                 <a href="../Constants.html#/c:@TIFF_PLANAR_CONFIGURATION_PLANAR">TIFF_PLANAR_CONFIGURATION_PLANAR</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@TIFF_PREDICTOR_FLOATINGPOINT">TIFF_PREDICTOR_FLOATINGPOINT</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@TIFF_PREDICTOR_HORIZONTAL">TIFF_PREDICTOR_HORIZONTAL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@TIFF_PREDICTOR_NO">TIFF_PREDICTOR_NO</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@TIFF_RESOLUTION_UNIT_CENTIMETER">TIFF_RESOLUTION_UNIT_CENTIMETER</a>
               </li>
               <li class="nav-group-task">
@@ -4688,19 +4724,19 @@
               <div class="declaration">
                 <div class="language">
                   <p class="aside-title">Objective-C</p>
-                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">GPKGBoundingBox</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">GPKGBoundingBox</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSMutableCopying</span><span class="o">&gt;</span></code></pre>
 
                 </div>
                 <div class="language">
                   <p class="aside-title">Swift</p>
-                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">GPKGBoundingBox</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">GPKGBoundingBox</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSMutableCopying</span></code></pre>
 
                 </div>
               </div>
             <p>Bounding box with longitude and latitude range</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L25-L367">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L25-L446">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4736,7 +4772,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L30">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4771,7 +4807,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L31">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4806,7 +4842,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L36">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4841,7 +4877,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L37">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4880,7 +4916,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L44">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L44">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4919,7 +4955,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L51">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4958,7 +4994,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L58">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L58">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5055,7 +5091,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L70-L73">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L70-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5152,7 +5188,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L85-L88">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L85-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5210,7 +5246,7 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L97">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L97">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5268,7 +5304,65 @@
                         <p>new bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L106">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L106">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(im)initWithGeometry:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithGeometry:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(im)initWithGeometry:">-initWithGeometry:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize with geometry</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithGeometry</span><span class="p">:(</span><span class="n"><a href="../Classes/SFGeometry.html">SFGeometry</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">geometry</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">geometry</span><span class="p">:</span> <span class="kt"><a href="../Classes/SFGeometry.html">SFGeometry</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geometry</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L115">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5307,7 +5401,7 @@
                         <p>longitude range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L113">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5346,7 +5440,7 @@
                         <p>longitude range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L120">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L129">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5385,7 +5479,7 @@
                         <p>latitude range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L127">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5424,7 +5518,330 @@
                         <p>latitude range</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L134">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L143">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(im)centroid"></a>
+                    <a name="//apple_ref/objc/Method/-centroid" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(im)centroid">-centroid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bounding box centroid point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">centroid</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">centroid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L150">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(cm)centroidOfBoundingBox:"></a>
+                    <a name="//apple_ref/objc/Method/+centroidOfBoundingBox:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(cm)centroidOfBoundingBox:">+centroidOfBoundingBox:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the bounding box centroid point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">centroidOfBoundingBox</span><span class="p">:(</span><span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">centroid</span><span class="p">(</span><span class="n">of</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L160">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(im)centroidInProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-centroidInProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(im)centroidInProjection:">-centroidInProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the centroid for the bounding box and projection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">centroidInProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">centroid</span><span class="p">(</span><span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>projection of the bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L169">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(cm)centroidOfBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/+centroidOfBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(cm)centroidOfBoundingBox:inProjection:">+centroidOfBoundingBox:<wbr>inProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the centroid for the bounding box and projection</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">centroidOfBoundingBox</span><span class="p">:(</span><span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
+                      <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">centroid</span><span class="p">(</span><span class="n">of</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>projection of the bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L180">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(im)degreesCentroid"></a>
+                    <a name="//apple_ref/objc/Method/-degreesCentroid" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(im)degreesCentroid">-degreesCentroid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the centroid for the bounding box in degrees</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="n">degreesCentroid</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">degreesCentroid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L187">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(cm)degreesCentroidOfBoundingBox:"></a>
+                    <a name="//apple_ref/objc/Method/+degreesCentroidOfBoundingBox:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(cm)degreesCentroidOfBoundingBox:">+degreesCentroidOfBoundingBox:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the centroid for a bounding box in degrees</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">degreesCentroidOfBoundingBox</span><span class="p">:(</span><span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">degreesCentroid</span><span class="p">(</span><span class="n">of</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFPoint.html">SFPoint</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box in degrees</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>centroid point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L196">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5463,7 +5880,7 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L141">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L203">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5522,7 +5939,104 @@
                         <p>geometry envelope</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L150">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L212">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(im)buildGeometry"></a>
+                    <a name="//apple_ref/objc/Method/-buildGeometry" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(im)buildGeometry">-buildGeometry</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a geometry representation of the bounding box</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFGeometry.html">SFGeometry</a></span> <span class="o">*</span><span class="p">)</span><span class="n">buildGeometry</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildGeometry</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFGeometry.html">SFGeometry</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry, polygon or point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L219">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGBoundingBox(cm)buildGeometryFromBoundingBox:"></a>
+                    <a name="//apple_ref/objc/Method/+buildGeometryFromBoundingBox:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGBoundingBox(cm)buildGeometryFromBoundingBox:">+buildGeometryFromBoundingBox:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a geometry representation of the bounding box</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/SFGeometry.html">SFGeometry</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">buildGeometryFromBoundingBox</span><span class="p">:(</span><span class="n">GPKGBoundingBox</span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">buildGeometry</span><span class="p">(</span><span class="n">from</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt">GPKGBoundingBox</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFGeometry.html">SFGeometry</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry, polygon or point</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L229">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5580,7 +6094,7 @@
                         <p>true if equal, false if not</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L159">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L238">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5619,7 +6133,7 @@
                         <p>map rectangle</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L166">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5658,7 +6172,7 @@
                         <p>Coordinate Region</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L173">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L252">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5697,7 +6211,7 @@
                         <p>Span</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L180">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L259">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5736,7 +6250,7 @@
                         <p>center location</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L187">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L266">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5775,7 +6289,7 @@
                         <p>bounding box size</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L194">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L273">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5834,7 +6348,7 @@
                         <p>complementary bounding box or nil if none</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L203">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L282">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5873,7 +6387,7 @@
                         <p>complementary bounding box or nil if none</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L210">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L289">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5912,7 +6426,7 @@
                         <p>complementary bounding box or nil if none</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L217">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L296">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5973,7 +6487,7 @@
                         <p>bounded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L228">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6012,7 +6526,7 @@
                         <p>bounded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L235">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L314">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6051,7 +6565,7 @@
                         <p>bounded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L242">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L321">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6112,7 +6626,7 @@
                         <p>expanded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L253">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L332">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6153,7 +6667,7 @@
                         <p>expanded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L262">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L341">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6194,7 +6708,7 @@
                         <p>expanded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L271">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L350">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6252,7 +6766,7 @@
                         <p>transformed bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L280">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L359">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6310,7 +6824,7 @@
                         <p>true if intersects</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L289">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L368">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6381,7 +6895,7 @@
                         <p>true if intersects</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L301">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L380">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6439,7 +6953,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L310">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L389">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6510,7 +7024,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L322">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L401">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6568,7 +7082,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L331">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L410">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6626,7 +7140,7 @@
                         <p>true if contains</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L340">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L419">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6665,7 +7179,7 @@
                         <p>new square expanded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L347">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L426">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6725,7 +7239,7 @@
                         <p>new square expanded bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L358">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L437">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6764,7 +7278,7 @@
                         <p>true if a single point bounds</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.0.2/geopackage-ios/GPKGBoundingBox.h#L365">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/GPKGBoundingBox.h#L444">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6774,7 +7288,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2021-12-16)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-03-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

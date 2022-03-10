@@ -45,7 +45,7 @@
 /**
  * Query tile matrices for a table name
  *
- * @param tableName
+ * @param table
  *            table name
  * @return result set
  */
@@ -54,7 +54,7 @@
 /**
  * Query tile matrices for a table name
  *
- * @param tableName
+ * @param table
  *            table name
  * @return tile matrices
  */

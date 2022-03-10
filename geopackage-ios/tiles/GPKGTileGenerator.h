@@ -193,10 +193,9 @@
 -(BOOL) addZoomLevelsFromMinZoom: (int) minZoom toMaxZoom: (int) maxZoom;
 
 /**
- * Add a range of zoom levels
+ * Add zoom levels
  *
- * @param minZoom min zoom level
- * @param maxZoom max zoom level
+ * @param zoomLevels zoom levels
  * @return true if at least one zoom level added
  */
 -(BOOL) addZoomLevels: (NSArray<NSNumber *> *) zoomLevels;
