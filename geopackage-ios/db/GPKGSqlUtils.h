@@ -371,14 +371,14 @@
 +(NSObject *) value: (NSObject *) value asDataType: (enum GPKGDataType) dataType;
 
 /**
-*  Min on the database table column where
-*
-*  @param connection  connection
-*  @param table     table
-*  @param column    column
-*
-*  @return min or nil
-*/
+ *  Min on the database table column where
+ *
+ *  @param connection  connection
+ *  @param table     table
+ *  @param column    column
+ *
+ *  @return min or nil
+ */
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column;
 
 /**
@@ -395,14 +395,14 @@
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
 
 /**
-*  Max on the database table column where
-*
-*  @param connection  connection
-*  @param table     table
-*  @param column    column
-*
-*  @return max or nil
-*/
+ *  Max on the database table column where
+ *
+ *  @param connection  connection
+ *  @param table     table
+ *  @param column    column
+ *
+ *  @return max or nil
+ */
 +(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column;
 
 /**
@@ -597,7 +597,7 @@
 
 /**
  * Create the column SQL in the format:
- *
+ * <p>
  * "column_name" column_type[(max)] [NOT NULL] [PRIMARY KEY AUTOINCREMENT]
  *
  * @param column
@@ -608,7 +608,7 @@
 
 /**
  * Create the column definition SQL in the format:
- *
+ * <p>
  * column_type[(max)] [NOT NULL] [PRIMARY KEY AUTOINCREMENT]
  *
  * @param column

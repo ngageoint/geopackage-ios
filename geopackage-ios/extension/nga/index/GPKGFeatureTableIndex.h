@@ -23,8 +23,9 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * bounding box queries. This extension is required to provide an index
  * implementation when a SQLite version is used before SpatialLite support
  * (iOS).
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html
+ * <p>
+ * <a href=
+ * "http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html">http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</a>
  */
 @interface GPKGFeatureTableIndex : GPKGBaseExtension
 

@@ -253,15 +253,17 @@
 
 /**
  * Alter a table with a new table schema assuming a default table mapping.
- *
+ * <p>
  * This removes views on the table, creates a new table, transfers the old
  * table data to the new, drops the old table, and renames the new table to
  * the old. Indexes, triggers, and views that reference deleted columns are
  * not recreated. An attempt is made to recreate the others including any
  * modifications for renamed columns.
- *
+ * <p>
  * Making Other Kinds Of Table Schema Changes:
- * https://www.sqlite.org/lang_altertable.html
+ * <p>
+ * <a href=
+ * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection
@@ -272,20 +274,22 @@
 
 /**
  * Alter a table with a new table schema and table mapping.
- *
+ * <p>
  * Altering a table: Removes views on the table, creates a new table,
  * transfers the old table data to the new, drops the old table, and renames
  * the new table to the old. Indexes, triggers, and views that reference
  * deleted columns are not recreated. An attempt is made to recreate the
  * others including any modifications for renamed columns.
- *
+ * <p>
  * Creating a new table: Creates a new table and transfers the table data to
  * the new. Triggers are not created on the new table. Indexes and views
  * that reference deleted columns are not recreated. An attempt is made to
  * create the others on the new table.
- *
+ * <p>
  * Making Other Kinds Of Table Schema Changes:
- * https://www.sqlite.org/lang_altertable.html
+ * <p>
+ * <a href=
+ * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection
@@ -298,20 +302,22 @@
 
 /**
  * Alter a table with a new table SQL creation statement and table mapping.
- *
+ * <p>
  * Altering a table: Removes views on the table, creates a new table,
  * transfers the old table data to the new, drops the old table, and renames
  * the new table to the old. Indexes, triggers, and views that reference
  * deleted columns are not recreated. An attempt is made to recreate the
  * others including any modifications for renamed columns.
- *
+ * <p>
  * Creating a new table: Creates a new table and transfers the table data to
  * the new. Triggers are not created on the new table. Indexes and views
  * that reference deleted columns are not recreated. An attempt is made to
  * create the others on the new table.
- *
+ * <p>
  * Making Other Kinds Of Table Schema Changes:
- * https://www.sqlite.org/lang_altertable.html
+ * <p>
+ * <a href=
+ * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection

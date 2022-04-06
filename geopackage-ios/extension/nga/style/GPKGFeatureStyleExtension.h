@@ -40,8 +40,9 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 
 /**
  * Feature Style extension
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html
+ * <p>
+ * <a href=
+ * "http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</a>
  */
 @interface GPKGFeatureStyleExtension : GPKGBaseExtension
 

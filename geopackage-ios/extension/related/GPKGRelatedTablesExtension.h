@@ -22,8 +22,9 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 
 /**
  * Related Tables extension
- *
- * http://docs.opengeospatial.org/is/18-000/18-000.html
+ * <p>
+ * <a href=
+ * "http://docs.opengeospatial.org/is/18-000/18-000.html">http://docs.opengeospatial.org/is/18-000/18-000.html</a>
  */
 @interface GPKGRelatedTablesExtension : GPKGBaseExtension
 
