@@ -262,8 +262,7 @@
  * <p>
  * Making Other Kinds Of Table Schema Changes:
  * <p>
- * <a href=
- * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
+ * <a href="https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection
@@ -288,8 +287,7 @@
  * <p>
  * Making Other Kinds Of Table Schema Changes:
  * <p>
- * <a href=
- * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
+ * <a href="https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection
@@ -316,8 +314,7 @@
  * <p>
  * Making Other Kinds Of Table Schema Changes:
  * <p>
- * <a href=
- * "https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
+ * <a href="https://www.sqlite.org/lang_altertable.html">https://www.sqlite.org/lang_altertable.html</a>
  *
  * @param db
  *            connection

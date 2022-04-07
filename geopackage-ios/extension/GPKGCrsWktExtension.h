@@ -14,8 +14,7 @@ extern NSString * const GPKG_CRS_WKT_EXTENSION_NAME;
 /**
  *  OGC Well known text representation of Coordinate Reference Systems extension
  *  <p>
- * <a href=
- * "http://www.geopackage.org/spec/#extension_crs_wkt">http://www.geopackage.org/spec/#extension_crs_wkt</a>
+ * <a href="http://www.geopackage.org/spec/#extension_crs_wkt">http://www.geopackage.org/spec/#extension_crs_wkt</a>
  */
 @interface GPKGCrsWktExtension : GPKGBaseExtension
 

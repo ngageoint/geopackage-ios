@@ -243,9 +243,6 @@ static int defaultByteOrder;
 }
 
 +(NSData *) wkbFromGeometryData: (GPKGGeometryData *) geometryData{
-    if(geometryData.bytes == nil){
-        [geometryData toData];
-    }
     return [geometryData wkb];
 }
 
@@ -299,9 +296,10 @@ static int defaultByteOrder;
 -(instancetype) initWithSrsId: (NSNumber *) srsId{
     self = [super init];
     if(self != nil){
-        self.srsId = srsId;
-        self.empty = YES;
-        self.byteOrder = defaultByteOrder;
+        _srsId = srsId;
+        _empty = YES;
+        _byteOrder = defaultByteOrder;
+        _wkbGeometryIndex = -1;
     }
     return self;
 }
@@ -342,24 +340,24 @@ static int defaultByteOrder;
 -(instancetype) initWithGeometryData: (GPKGGeometryData *) geometryData{
     self = [self init];
     if(self != nil){
-        [self setSrsId:geometryData.srsId];
-        SFGeometry *geometry = geometryData.geometry;
+        _srsId = geometryData.srsId;
+        SFGeometry *geometry = geometryData.geometry; // TODO
         if(geometry != nil){
             geometry = [geometry mutableCopy];
         }
         [self setGeometry:geometry];
-        SFGeometryEnvelope *envelope = geometryData.envelope;
+        SFGeometryEnvelope *envelope = geometryData.envelope; // TODO
         if(envelope != nil){
             envelope = [envelope mutableCopy];
         }
-        [self setEnvelope:envelope];
-        NSData *bytes = geometryData.bytes;
+        _envelope = envelope;
+        NSData *bytes = geometryData.bytes; // TODO?
         if(bytes != nil){
             bytes = [NSData dataWithData:bytes];
         }
-        self.bytes = bytes;
-        self.wkbGeometryIndex = geometryData.wkbGeometryIndex;
-        [self setByteOrder:geometryData.byteOrder];
+        _bytes = bytes;
+        _wkbGeometryIndex = geometryData.wkbGeometryIndex;
+        _byteOrder = geometryData.byteOrder; // TODO?
     }
     return self;
 }
@@ -367,15 +365,15 @@ static int defaultByteOrder;
 -(instancetype) initWithData: (NSData *) bytes{
     self = [super init];
     if(self != nil){
-        self.empty = YES;
-        self.byteOrder = defaultByteOrder;
+        _empty = YES;
+        _byteOrder = defaultByteOrder;
+        _wkbGeometryIndex = -1;
         [self fromData:bytes];
     }
     return self;
 }
 
 -(void) fromData: (NSData *) bytes{
-    self.bytes = bytes;
     
     SFByteReader *reader = [[SFByteReader alloc] initWithData:bytes];
     
@@ -394,59 +392,76 @@ static int defaultByteOrder;
     // Get a flags byte and then read the flag values
     NSNumber *flags = [reader readByte];
     int envelopeIndicator = [self readFlags: flags];
-    [reader setByteOrder:self.byteOrder];
+    [reader setByteOrder:_byteOrder];
     
     // Read the 5th - 8th bytes as the srs id
-    self.srsId = [reader readInt];
+    _srsId = [reader readInt];
     
     // Read the envelope
     _envelope = [self readEnvelopeWithIndicator:envelopeIndicator andByteReader:reader];
     
     // Save off where the WKB bytes start
-    self.wkbGeometryIndex = reader.nextByte;
+    _wkbGeometryIndex = reader.nextByte;
     
     // Read the Well-Known Binary Geometry if not marked as empty
-    if(!self.empty){
-        self.geometry = [SFWBGeometryReader readGeometryWithReader:reader andFilter:geometryFilter];
+    if(!_empty){
+        _geometry = [SFWBGeometryReader readGeometryWithReader:reader andFilter:geometryFilter];
     }
     
 }
 
 -(NSData *) toData{
-    SFByteWriter * writer = [[SFByteWriter alloc] init];
     
-    // Write GP as the 2 byte magic number
-    [writer writeString:GPKG_GEOMETRY_MAGIC_NUMBER];
+    if(_bytes == nil){
     
-    // Write a byte as the version, value of 0 = version 1
-    [writer writeByte:[NSNumber numberWithInteger:GPKG_GEOMETRY_VERSION_1]];
+        SFByteWriter *writer = [[SFByteWriter alloc] init];
+        
+        if(_headerBytes != nil){
+            [writer.os write:[_headerBytes bytes] maxLength:_headerBytes.length];
+        }else{
+        
+            // Write GP as the 2 byte magic number
+            [writer writeString:GPKG_GEOMETRY_MAGIC_NUMBER];
+            
+            // Write a byte as the version, value of 0 = version 1
+            [writer writeByte:[NSNumber numberWithInteger:GPKG_GEOMETRY_VERSION_1]];
+            
+            // Build and write a flags byte
+            NSNumber *flags = [self buildFlagsByte];
+            [writer writeByte:flags];
+            [writer setByteOrder:_byteOrder];
+            
+            // Write the 4 byte srs id int
+            [writer writeInt:_srsId];
+            
+            // Write the envelope
+            [self writeEnvelopeWithByteWriter:writer];
+            
+        }
+        
+        // Save off where the WKB bytes start
+        _wkbGeometryIndex = [writer size];
+        
+        // Write the Well-Known Binary Geometry if not marked as empty
+        if (!_empty) {
+            
+            if(_geometryBytes != nil){
+                [writer.os write:[_geometryBytes bytes] maxLength:_geometryBytes.length];
+            }else if(_geometry != nil){
+                [SFWBGeometryWriter writeGeometry:_geometry withWriter:writer];
+            }
+            
+        }
+        
+        // Get the bytes
+        _bytes = [writer data];
+        
+        // Close the writer
+        [writer close];
     
-    // Build and write a flags byte
-    NSNumber * flags = [self buildFlagsByte];
-    [writer writeByte:flags];
-    [writer setByteOrder:self.byteOrder];
-    
-    // Write the 4 byte srs id int
-    [writer writeInt:self.srsId];
-    
-    // Write the envelope
-    [self writeEnvelopeWithByteWriter:writer];
-    
-    // Save off where the WKB bytes start
-    self.wkbGeometryIndex = [writer size];
-    
-    // Write the Well-Known Binary Geometry if not marked as empty
-    if (!self.empty) {
-        [SFWBGeometryWriter writeGeometry:self.geometry withWriter:writer];
     }
-    
-    // Get the bytes
-    self.bytes = [writer data];
-    
-    // Close the writer
-    [writer close];
-    
-    return self.bytes;
+        
+    return _bytes;
 }
 
 -(int) readFlags: (NSNumber *) flags {
@@ -462,12 +477,12 @@ static int defaultByteOrder;
     
     // Get the binary type from bit 5, 0 for standard and 1 for extended
     int binaryType = (flagsInt >> 5) & 1;
-    self.extended = binaryType == 1;
+    _extended = binaryType == 1;
     
     // Get the empty geometry flag from bit 4, 0 for non-empty and 1 for
     // empty
     int emptyValue = (flagsInt >> 4) & 1;
-    self.empty = emptyValue == 1;
+    _empty = emptyValue == 1;
     
     // Get the envelope contents indicator code (3-bit unsigned integer from
     // bits 3, 2, and 1)
@@ -479,7 +494,7 @@ static int defaultByteOrder;
     // Get the byte order from bit 0, 0 for Big Endian and 1 for Little
     // Endian
     int byteOrderValue = flagsInt & 1;
-    self.byteOrder = byteOrderValue == 0 ? CFByteOrderBigEndian
+    _byteOrder = byteOrderValue == 0 ? CFByteOrderBigEndian
 				: CFByteOrderLittleEndian;
     
     return envelopeIndicator;
@@ -490,12 +505,12 @@ static int defaultByteOrder;
     int flag = 0;
     
     // Add the binary type to bit 5, 0 for standard and 1 for extended
-    int binaryType = self.extended ? 1 : 0;
+    int binaryType = _extended ? 1 : 0;
     flag += (binaryType << 5);
     
     // Add the empty geometry flag to bit 4, 0 for non-empty and 1 for
     // empty
-    int emptyValue = self.empty ? 1 : 0;
+    int emptyValue = _empty ? 1 : 0;
     flag += (emptyValue << 4);
     
     // Add the envelope contents indicator code (3-bit unsigned integer to
@@ -505,7 +520,7 @@ static int defaultByteOrder;
     
     // Add the byte order to bit 0, 0 for Big Endian and 1 for Little
     // Endian
-    int byteOrderValue = (self.byteOrder == CFByteOrderBigEndian) ? 0 : 1;
+    int byteOrderValue = (_byteOrder == CFByteOrderBigEndian) ? 0 : 1;
     flag += byteOrderValue;
     
     return [NSNumber numberWithInt:flag];
@@ -513,23 +528,23 @@ static int defaultByteOrder;
 
 -(SFGeometryEnvelope *) readEnvelopeWithIndicator: (int) envelopeIndicator andByteReader: (SFByteReader *) reader{
     
-    SFGeometryEnvelope * envelope = nil;
+    SFGeometryEnvelope *envelope = nil;
     
     if(envelopeIndicator > 0){
         
         // Read x and y values and create envelope
-        NSDecimalNumber * minX = [reader readDouble];
-        NSDecimalNumber * maxX = [reader readDouble];
-        NSDecimalNumber * minY = [reader readDouble];
-        NSDecimalNumber * maxY = [reader readDouble];
+        NSDecimalNumber *minX = [reader readDouble];
+        NSDecimalNumber *maxX = [reader readDouble];
+        NSDecimalNumber *minY = [reader readDouble];
+        NSDecimalNumber *maxY = [reader readDouble];
         
         BOOL hasZ = NO;
-        NSDecimalNumber *  minZ = nil;
-        NSDecimalNumber *  maxZ = nil;
+        NSDecimalNumber *minZ = nil;
+        NSDecimalNumber *maxZ = nil;
         
         BOOL hasM = NO;
-        NSDecimalNumber *  minM = nil;
-        NSDecimalNumber *  maxM = nil;
+        NSDecimalNumber *minM = nil;
+        NSDecimalNumber *maxM = nil;
         
         // Read z values
         if (envelopeIndicator == 2 || envelopeIndicator == 4) {
@@ -599,15 +614,81 @@ static int defaultByteOrder;
     return boundingBox;
 }
 
--(void) setGeometry:(SFGeometry *) geometry{
-    _geometry = geometry;
-    self.empty = geometry == nil;
-    if(geometry != nil){
-        self.extended = [GPKGGeometryExtensions isNonStandard:geometry.geometryType];
+-(SFGeometry *) getOrReadGeometry{
+    if(_geometry == nil && _geometryBytes != nil){
+        _geometry = [SFWBGeometryReader readGeometryWithData:_geometryBytes andFilter:geometryFilter];
+    }
+    return _geometry;
+}
+
+-(void) setExtended: (BOOL) extended{
+    if(_extended != extended){
+        [self clearHeaderBytes];
+        _extended = extended;
     }
 }
 
--(NSData *) setDataWithGeometry:(SFGeometry *) geometry{
+-(void) setEmpty: (BOOL) empty{
+    if(_empty != empty){
+        [self clearHeaderBytes];
+        _empty = empty;
+    }
+}
+
+-(void) setByteOrder: (CFByteOrder) byteOrder{
+    if(_byteOrder != byteOrder){
+        [self clearHeaderBytes];
+        _byteOrder = byteOrder;
+    }
+}
+
+-(void) setSrsId: (NSNumber *) srsId{
+    if(_srsId != srsId){
+        [self clearHeaderBytes];
+        _srsId = srsId;
+    }
+}
+
+-(void) setEnvelope: (SFGeometryEnvelope *) envelope{
+    if(envelope != nil ? ![envelope isEqual:_envelope] : _envelope != nil){
+        [self clearHeaderBytes];
+        _envelope = envelope;
+    }
+}
+
+-(void) setBytes: (NSData *) bytes{
+    [self setBytes:bytes andGeometryIndex:-1];
+}
+
+-(void) setBytes: (NSData *) bytes andGeometryIndex: (int) wkbGeometryIndex{
+    [self clearHeaderBytes];
+    [self clearGeometryBytes];
+    _bytes = bytes;
+    _wkbGeometryIndex = wkbGeometryIndex;
+}
+
+-(void) setHeaderBytes: (NSData *) headerBytes{
+    [self clearBytes];
+    _headerBytes = headerBytes;
+}
+
+-(void) setGeometry: (SFGeometry *) geometry{
+    [self clearGeometryBytes];
+    _geometry = geometry;
+    _empty = geometry == nil;
+    if(geometry != nil){
+        _extended = [GPKGGeometryExtensions isNonStandard:geometry.geometryType];
+    }
+}
+
+-(void) setGeometryBytes: (NSData *) geometryBytes{
+    [self clearBytes];
+    _geometry = nil;
+    _geometryBytes = geometryBytes;
+    _empty = geometryBytes == nil;
+}
+
+-(NSData *) setDataWithGeometry: (SFGeometry *) geometry{
     return [self setDataWithGeometry:geometry andBuildEnvelope:NO];
 }
 
@@ -640,33 +721,51 @@ static int defaultByteOrder;
     [self setGeometry:[GPKGGeometryData createGeometryFromWkt:text]];
 }
 
+-(void) clearBytes{
+    _bytes = nil;
+    _wkbGeometryIndex = -1;
+}
+
+-(void) clearHeaderBytes{
+    [self clearBytes];
+    _headerBytes = nil;
+}
+
+-(void) clearGeometryBytes{
+    [self clearBytes];
+    _geometryBytes = nil;
+}
+
+-(NSData *) data{
+    return [self toData];
+}
+
 -(NSData *) headerData{
-    NSData *headerData = nil;
-    if(self.bytes != nil){
-        headerData = [self.bytes subdataWithRange:NSMakeRange(0, self.wkbGeometryIndex)];
+    if(_headerBytes == nil && [self toData] != nil){
+        _headerBytes = [_bytes subdataWithRange:NSMakeRange(0, _wkbGeometryIndex)];
     }
-    return headerData;
+    return _headerBytes;
 }
 
 -(NSData *) wkb{
-    NSData *wkbData = nil;
-    if(self.bytes != nil){
-        int wkbByteCount = (int)[self.bytes length] - self.wkbGeometryIndex;
-        wkbData = [self.bytes subdataWithRange:NSMakeRange(self.wkbGeometryIndex, wkbByteCount)];
+    if(_geometryBytes == nil && [self toData] != nil){
+        int wkbByteCount = (int)[_bytes length] - _wkbGeometryIndex;
+        _geometryBytes = [_bytes subdataWithRange:NSMakeRange(_wkbGeometryIndex, wkbByteCount)];
     }
-    return wkbData;
+    return _geometryBytes;
 }
 
 -(NSString *) wkt{
     NSString *wkt = nil;
-    if(self.geometry != nil){
-        wkt = [SFWTGeometryWriter writeGeometry:self.geometry];
+    SFGeometry *geometry = [self getOrReadGeometry];
+    if(geometry != nil){
+        wkt = [SFWTGeometryWriter writeGeometry:geometry];
     }
     return wkt;
 }
 
--(SFGeometryEnvelope *) envelope{
-    SFGeometryEnvelope *envelope = _envelope;
+-(SFGeometryEnvelope *) getOrBuildEnvelope{
+    SFGeometryEnvelope *envelope = [self envelope];
     if(envelope == nil){
         envelope = [self buildEnvelope];
     }
@@ -675,16 +774,26 @@ static int defaultByteOrder;
 
 -(SFGeometryEnvelope *) buildEnvelope{
     SFGeometryEnvelope *envelope = nil;
-    if(self.geometry != nil){
-        envelope = [self.geometry envelope];
+    SFGeometry *geometry = [self geometry];
+    if(geometry != nil){
+        envelope = [geometry envelope];
     }
     [self setEnvelope:envelope];
     return envelope;
 }
 
+-(GPKGBoundingBox *) getOrBuildBoundingBox{
+    GPKGBoundingBox *boundingBox = nil;
+    SFGeometryEnvelope *envelope = [self getOrBuildEnvelope];
+    if(envelope != nil){
+        boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
+    }
+    return boundingBox;
+}
+
 -(GPKGBoundingBox *) buildBoundingBox{
     GPKGBoundingBox *boundingBox = nil;
-    SFGeometryEnvelope *envelope = [self envelope];
+    SFGeometryEnvelope *envelope = [self buildEnvelope];
     if(envelope != nil){
         boundingBox = [[GPKGBoundingBox alloc] initWithEnvelope:envelope];
     }
@@ -707,7 +816,7 @@ static int defaultByteOrder;
     if([transform isSameProjection]){
         transformed = [[GPKGGeometryData alloc] initWithGeometryData:transformed];
     }else{
-        SFGeometry *geometry = self.geometry;
+        SFGeometry *geometry = [self geometry];
         if(geometry != nil){
             geometry = [transform transformGeometry:geometry];
         }
@@ -715,7 +824,7 @@ static int defaultByteOrder;
         if(envelope != nil){
             envelope = [transform transformGeometryEnvelope:envelope];
         }
-        transformed = [[GPKGGeometryData alloc] initWithSrsId:self.srsId andGeometry:geometry andEnvelope:envelope];
+        transformed = [[GPKGGeometryData alloc] initWithSrsId:_srsId andGeometry:geometry andEnvelope:envelope];
     }
     return transformed;
 }

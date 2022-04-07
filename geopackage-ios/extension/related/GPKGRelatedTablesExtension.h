@@ -23,8 +23,7 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 /**
  * Related Tables extension
  * <p>
- * <a href=
- * "http://docs.opengeospatial.org/is/18-000/18-000.html">http://docs.opengeospatial.org/is/18-000/18-000.html</a>
+ * <a href="http://docs.opengeospatial.org/is/18-000/18-000.html">http://docs.opengeospatial.org/is/18-000/18-000.html</a>
  */
 @interface GPKGRelatedTablesExtension : GPKGBaseExtension
 
@@ -742,6 +741,60 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  * @return custom relation name
  */
 -(NSString *) buildRelationNameWithAuthor: (NSString *) author andName: (NSString *) name;
+
+/**
+ * Get the relations to the base table
+ *
+ * @param baseTable
+ *            base table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable;
+
+/**
+ * Determine if there are relations to the base table
+ *
+ * @param baseTable
+ *            base table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToBaseTable: (NSString *) baseTable;
+
+/**
+ * Get the relations to the related table
+ *
+ * @param relatedTable
+ *            related table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Determine if there are relations to the related table
+ *
+ * @param relatedTable
+ *            related table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Get the relations to the table
+ *
+ * @param table
+ *            table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToTable: (NSString *) table;
+
+/**
+ * Determine if there are relations to the table
+ *
+ * @param table
+ *            table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToTable: (NSString *) table;
 
 /**
  * Get a User Custom DAO from a table name

@@ -506,6 +506,72 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return [NSString stringWithFormat:@"x-%@_%@", author, name];
 }
 
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToBaseTable:baseTable];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToBaseTable: (NSString *) baseTable{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToBaseTable:baseTable];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
+-(GPKGResultSet *) relationsToRelatedTable: (NSString *) relatedTable{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToRelatedTable:relatedTable];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToRelatedTable: (NSString *) relatedTable{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToRelatedTable:relatedTable];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
+-(GPKGResultSet *) relationsToTable: (NSString *) table{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToTable:table];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToTable: (NSString *) table{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToTable:table];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
 -(GPKGUserCustomDao *) userDaoForTableName: (NSString *) tableName{
     return [GPKGUserCustomDao readTableWithDatabase:self.geoPackage.name andConnection:self.geoPackage.database andTable:tableName];
 }

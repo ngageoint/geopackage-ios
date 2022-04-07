@@ -41,8 +41,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 /**
  * Feature Style extension
  * <p>
- * <a href=
- * "http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</a>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</a>
  */
 @interface GPKGFeatureStyleExtension : GPKGBaseExtension
 
@@ -107,6 +106,20 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return contents id extension
  */
 -(GPKGContentsIdExtension *) contentsId;
+
+/**
+ * Create style table
+ *
+ * @return true if created, false if the table already existed
+ */
+-(BOOL) createStyleTable;
+
+/**
+ * Create icon table
+ *
+ * @return true if created, false if the table already existed
+ */
+-(BOOL) createIconTable;
 
 /**
  * Create style, icon, table style, and table icon relationships for the
@@ -205,6 +218,34 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return mapping table name
  */
 -(NSString *) mappingTableNameWithPrefix: (NSString *) tablePrefix andTable: (NSString *) featureTable;
+
+/**
+ * Get style table relations
+ *
+ * @return extended relations
+ */
+-(GPKGResultSet *) styleTableRelations;
+
+/**
+ * Determine if there are style table relations
+ *
+ * @return true if has style table relations
+ */
+-(BOOL) hasStyleTableRelations;
+
+/**
+ * Get icon table relations
+ *
+ * @return extended relations
+ */
+-(GPKGResultSet *) iconTableRelations;
+
+/**
+ * Determine if there are icon table relations
+ *
+ * @return true if has icon table relations
+ */
+-(BOOL) hasIconTableRelations;
 
 /**
  * Delete the style and icon table and row relationships for all feature

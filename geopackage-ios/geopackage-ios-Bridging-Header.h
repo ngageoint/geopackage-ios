@@ -309,5 +309,6 @@
 #import "GPKGPaginatedResults.h"
 #import "GPKGObjectPaginatedResults.h"
 #import "GPKGRowPaginatedResults.h"
+#import "GPKGPixelBounds.h"
 
 #endif /* geopackage_ios_Bridging_Header_h */

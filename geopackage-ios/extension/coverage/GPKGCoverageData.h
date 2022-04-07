@@ -21,8 +21,7 @@ extern NSString * const GPKG_GRIDDED_COVERAGE_EXTENSION_NAME;
 /**
  *  Tiled Gridded Coverage Data, Common Encoding, Extension
  * <p>
- * <a href=
- * "http://docs.opengeospatial.org/is/17-066r1/17-066r1.html">http://docs.opengeospatial.org/is/17-066r1/17-066r1.html</a>
+ * <a href="http://docs.opengeospatial.org/is/17-066r1/17-066r1.html">http://docs.opengeospatial.org/is/17-066r1/17-066r1.html</a>
  */
 @interface GPKGCoverageData : GPKGBaseExtension
 

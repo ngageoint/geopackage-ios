@@ -15,8 +15,7 @@ extern NSString * const GPKG_SCHEMA_EXTENSION_NAME;
 /**
  *  Schema extension
  * <p>
- * <a href=
- * "https://www.geopackage.org/spec/#extension_schema">https://www.geopackage.org/spec/#extension_schema</a>
+ * <a href="https://www.geopackage.org/spec/#extension_schema">https://www.geopackage.org/spec/#extension_schema</a>
  */
 @interface GPKGSchemaExtension : GPKGBaseExtension
 

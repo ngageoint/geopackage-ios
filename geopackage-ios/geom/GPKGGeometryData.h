@@ -24,6 +24,16 @@
 @property (nonatomic, strong) NSData *bytes;
 
 /**
+ *  Geometry header data
+ */
+@property (nonatomic, strong) NSData *headerBytes;
+
+/**
+ *  Geometry well-known data
+ */
+@property (nonatomic, strong) NSData *geometryBytes;
+
+/**
  *  True if an extended geometry, false if standard
  */
 @property (nonatomic) BOOL extended;
@@ -39,14 +49,14 @@
 @property (nonatomic) CFByteOrder byteOrder;
 
 /**
- *  Spatial Reference System Id
- */
-@property (nonatomic, strong) NSNumber *srsId;
-
-/**
  *  Geometry envelope
  */
 @property (nonatomic, strong) SFGeometryEnvelope *envelope;
+
+/**
+ *  Spatial Reference System Id
+ */
+@property (nonatomic, strong) NSNumber *srsId;
 
 /**
  *  Well-Known Binary Geometry index of where the bytes start
@@ -766,16 +776,21 @@
 -(GPKGBoundingBox *) boundingBox;
 
 /**
- * Set the geometry. Updates the empty flag and if the geometry is not null,
- * the extended flag. Following invoking this method and upon setting the
- * SRS id, call {@link #toData} to convert the geometry to bytes.
- * Alternatively call {@link #setGeometryToData(Geometry)} or
- * {@link #setGeometryAndBuildEnvelopeToData(Geometry)} to perform both
- * operations.
+ * Get the geometry or read it from geometry bytes
  *
- *  @param geometry geometry
+ * @return geometry
  */
--(void) setGeometry:(SFGeometry *) geometry;
+-(SFGeometry *) getOrReadGeometry;
+
+/**
+ * Set the bytes
+ *
+ * @param bytes
+ *            bytes
+ * @param wkbGeometryIndex
+ *            well-known geometry bytes start index
+ */
+-(void) setBytes: (NSData *) bytes andGeometryIndex: (int) wkbGeometryIndex;
 
 /**
  * Set the geometry and write to bytes
@@ -812,6 +827,29 @@
 -(void) setGeometryFromWkt: (NSString *) text;
 
 /**
+ * Clear the bytes
+ */
+-(void) clearBytes;
+
+/**
+ * Clear the header bytes and overall bytes
+ */
+-(void) clearHeaderBytes;
+
+/**
+ * Clear the geometry bytes and overall bytes
+ */
+-(void) clearGeometryBytes;
+
+/**
+ * Get the bytes data of the entire GeoPackage geometry including GeoPackage
+ * header and WKB bytes
+ *
+ * @return byte data
+ */
+-(NSData *) data;
+
+/**
  *  Get the GeoPackage header byte data
  *
  *  @return header byte data
@@ -838,7 +876,7 @@
  *
  * @return geometry envelope
  */
--(SFGeometryEnvelope *) envelope;
+-(SFGeometryEnvelope *) getOrBuildEnvelope;
 
 /**
  * Build, set, and retrieve the envelope from the geometry
@@ -848,7 +886,15 @@
 -(SFGeometryEnvelope *) buildEnvelope;
 
 /**
- * Get the bounding box of the geometry envelope
+ * Get the bounding box of the geometry envelope if it exists or build, set
+ * and retrieve it from the geometry
+ *
+ * @return bounding box
+ */
+-(GPKGBoundingBox *) getOrBuildBoundingBox;
+
+/**
+ * Build, set, and retrieve the bounding box from the geometry
  *
  * @return bounding box
  */

@@ -17,8 +17,7 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  * contents. Allows foreign key referencing to a contents (text based primary
  * key) by an integer identifier.
  * <p>
- * <a href=
- * "http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html">http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html</a>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html">http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html</a>
  */
 @interface GPKGContentsIdExtension : GPKGBaseExtension
 

@@ -24,8 +24,7 @@ extern NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION;
  * implementation when a SQLite version is used before SpatialLite support
  * (iOS).
  * <p>
- * <a href=
- * "http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html">http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</a>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html">http://ngageoint.github.io/GeoPackage/docs/extensions/geometry-index.html</a>
  */
 @interface GPKGFeatureTableIndex : GPKGBaseExtension
 

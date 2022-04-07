@@ -98,6 +98,14 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     return _contentsId;
 }
 
+-(BOOL) createStyleTable{
+    return [_relatedTables createRelatedTable:[[GPKGStyleTable alloc] init]];
+}
+
+-(BOOL) createIconTable{
+    return [_relatedTables createRelatedTable:[[GPKGIconTable alloc] init]];
+}
+
 -(void) createRelationshipsWithTable: (NSString *) featureTable{
     [self createStyleRelationshipWithTable:featureTable];
     [self createTableStyleRelationshipWithTable:featureTable];
@@ -200,6 +208,22 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
     }
     
+}
+
+-(GPKGResultSet *) styleTableRelations{
+    return [_relatedTables relationsToRelatedTable:GPKG_ST_TABLE_NAME];
+}
+
+-(BOOL) hasStyleTableRelations{
+    return [_relatedTables hasRelationsToRelatedTable:GPKG_ST_TABLE_NAME];
+}
+
+-(GPKGResultSet *) iconTableRelations{
+    return [_relatedTables relationsToRelatedTable:GPKG_IT_TABLE_NAME];
+}
+
+-(BOOL) hasIconTableRelations{
+    return [_relatedTables hasRelationsToRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(void) deleteRelationships{

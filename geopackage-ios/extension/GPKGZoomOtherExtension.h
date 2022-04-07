@@ -13,8 +13,7 @@ extern NSString * const GPKG_ZOOM_OTHER_EXTENSION_NAME;
 /**
  *  Zoom Other Intervals extension
  * <p>
- * <a href=
- * "https://www.geopackage.org/spec/#extension_zoom_other_intervals">https://www.geopackage.org/spec/#extension_zoom_other_intervals</a>
+ * <a href="https://www.geopackage.org/spec/#extension_zoom_other_intervals">https://www.geopackage.org/spec/#extension_zoom_other_intervals</a>
  */
 @interface GPKGZoomOtherExtension : GPKGBaseExtension
 

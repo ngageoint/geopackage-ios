@@ -16,8 +16,7 @@ extern NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION;
  * Abstract Tile Table Scaling, for scaling tiles from nearby zoom levels for
  * missing tiles
  * <p>
- * <a href=
- * "http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html">http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html</a>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html">http://ngageoint.github.io/GeoPackage/docs/extensions/tile-scaling.html</a>
  */
 @interface GPKGTileTableScaling : GPKGBaseExtension
 

@@ -617,7 +617,7 @@
         SFGeometry * geometry = geomData.geometry;
         if(geometry != nil){
             
-            GPKGBoundingBox *geometryBoundingBox = [geomData buildBoundingBox];
+            GPKGBoundingBox *geometryBoundingBox = [geomData getOrBuildBoundingBox];
             boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
             
         }

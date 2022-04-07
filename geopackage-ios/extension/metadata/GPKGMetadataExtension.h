@@ -15,8 +15,7 @@ extern NSString * const GPKG_METADATA_EXTENSION_NAME;
 /**
  *  Metadata extension
  * <p>
- * <a href=
- * "https://www.geopackage.org/spec/#extension_metadata">https://www.geopackage.org/spec/#extension_metadata</a>
+ * <a href="https://www.geopackage.org/spec/#extension_metadata">https://www.geopackage.org/spec/#extension_metadata</a>
  */
 @interface GPKGMetadataExtension : GPKGBaseExtension
 

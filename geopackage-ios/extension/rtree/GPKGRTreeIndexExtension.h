@@ -22,8 +22,7 @@ extern NSString * const GPKG_RTREE_INDEX_EXTENSION_COLUMN_MAX_Y;
 /**
  * RTree Index Extension
  * <p>
- * <a href=
- * "https://www.geopackage.org/spec/#extension_rtree">https://www.geopackage.org/spec/#extension_rtree</a>
+ * <a href="https://www.geopackage.org/spec/#extension_rtree">https://www.geopackage.org/spec/#extension_rtree</a>
  */
 @interface GPKGRTreeIndexExtension : GPKGBaseExtension
 
