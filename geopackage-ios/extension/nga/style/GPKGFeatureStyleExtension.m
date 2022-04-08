@@ -438,6 +438,98 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     return iconRow;
 }
 
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) stylesWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *styles = [NSMutableDictionary dictionary];
+    
+    GPKGStyles *tableStyles = [self tableStylesWithTableName:featureTable];
+    if(tableStyles != nil){
+        GPKGStyleRow *defaultStyleRow = [tableStyles defaultStyle];
+        if(defaultStyleRow != nil){
+            [styles setObject:defaultStyleRow forKey:[defaultStyleRow id]];
+        }
+        for(GPKGStyleRow *styleRow in [[tableStyles allStyles] allValues]){
+            [styles setObject:styleRow forKey:[styleRow id]];
+        }
+    }
+    
+    [styles addEntriesFromDictionary:[self featureStylesWithTableName:featureTable]];
+    
+    return styles;
+}
+
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStylesWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *styles = [NSMutableDictionary dictionary];
+    
+    GPKGStyleMappingDao *mappingDao = [self styleMappingDaoWithTable:featureTable];
+    GPKGStyleDao *styleDao = [self styleDao];
+    
+    if(mappingDao != nil && styleDao != nil){
+        
+        GPKGResultSet *resultSet = [mappingDao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:GPKG_UMT_COLUMN_RELATED_ID]];
+        
+        @try {
+            while([resultSet moveToNext]){
+                GPKGStyleMappingRow *styleMappingRow = [mappingDao row:resultSet];
+                GPKGStyleRow *styleRow = [styleDao queryForRow:styleMappingRow];
+                [styles setObject:styleRow forKey:[styleRow id]];
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+    }
+    
+    return styles;
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) iconsWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *icons = [NSMutableDictionary dictionary];
+    
+    GPKGIcons *tableIcons = [self tableIconsWithTableName:featureTable];
+    if(tableIcons != nil){
+        GPKGIconRow *defaultIconRow = [tableIcons defaultIcon];
+        if(defaultIconRow != nil){
+            [icons setObject:defaultIconRow forKey:[defaultIconRow id]];
+        }
+        for(GPKGIconRow *iconRow in [[tableIcons allIcons] allValues]){
+            [icons setObject:iconRow forKey:[iconRow id]];
+        }
+    }
+    
+    [icons addEntriesFromDictionary:[self featureIconsWithTableName:featureTable]];
+    
+    return icons;
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIconsWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *icons = [NSMutableDictionary dictionary];
+    
+    GPKGStyleMappingDao *mappingDao = [self iconMappingDaoWithTable:featureTable];
+    GPKGIconDao *iconDao = [self iconDao];
+    
+    if(mappingDao != nil && iconDao != nil){
+        
+        GPKGResultSet *resultSet = [mappingDao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:GPKG_UMT_COLUMN_RELATED_ID]];
+        
+        @try {
+            while([resultSet moveToNext]){
+                GPKGStyleMappingRow *styleMappingRow = [mappingDao row:resultSet];
+                GPKGIconRow *iconRow = [iconDao queryForRow:styleMappingRow];
+                [icons setObject:iconRow forKey:[iconRow id]];
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+    }
+    
+    return icons;
+}
+
 -(GPKGFeatureStyles *) featureStylesWithFeature: (GPKGFeatureRow *) featureRow{
     return [self featureStylesWithTableName:featureRow.table.tableName andId:[featureRow idValue]];
 }

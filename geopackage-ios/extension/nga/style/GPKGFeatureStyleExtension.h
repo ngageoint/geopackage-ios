@@ -428,6 +428,38 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 -(GPKGIconRow *) tableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Get all styles used by the feature table
+ *
+ * @param featureTable feature table
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) stylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all styles used by feature rows in the table
+ *
+ * @param featureTable feature table
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all icons used by the feature table
+ *
+ * @param featureTable feature table
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) iconsWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all icons used by feature rows in the table
+ *
+ * @param featureTable feature table
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIconsWithTableName: (NSString *) featureTable;
+
+/**
  * Get the feature styles for the feature row
  *
  * @param featureRow feature row
