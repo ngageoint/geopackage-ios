@@ -22,4 +22,12 @@
 
 +(void) compareByteArrayWithExpected: (NSData *) expected andActual: (NSData *) actual;
 
++(void) testInsertGeometryBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
++(void) testInsertHeaderBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
++(void) testInsertHeaderAndGeometryBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
++(void) testInsertBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end

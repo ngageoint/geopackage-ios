@@ -19,21 +19,6 @@
 @interface GPKGGeometryData : NSObject
 
 /**
- *  Byte data
- */
-@property (nonatomic, strong) NSData *bytes;
-
-/**
- *  Geometry header data
- */
-@property (nonatomic, strong) NSData *headerBytes;
-
-/**
- *  Geometry well-known data
- */
-@property (nonatomic, strong) NSData *geometryBytes;
-
-/**
  *  True if an extended geometry, false if standard
  */
 @property (nonatomic) BOOL extended;
@@ -216,11 +201,11 @@
 /**
  * Create the geometry data from GeoPackage geometry bytes
  *
- * @param bytes
- *            GeoPackage geometry bytes
+ * @param data
+ *            GeoPackage geometry byte data
  * @return geometry data
  */
-+(GPKGGeometryData *) createWithData: (NSData *) bytes;
++(GPKGGeometryData *) createWithData: (NSData *) data;
 
 /**
  * Create the geometry data, default SRS Id of {@link #defaultSrsId()}
@@ -259,97 +244,97 @@
  * Create the geometry data from Well-Known Bytes, default SRS Id of
  * {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return geometry data
  */
-+(GPKGGeometryData *) createFromWkb: (NSData *) bytes;
++(GPKGGeometryData *) createFromWkb: (NSData *) data;
 
 /**
  * Create the geometry data from Well-Known Bytes and build the envelope,
  * default SRS Id of {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return geometry data
  */
-+(GPKGGeometryData *) createAndBuildEnvelopeFromWkb: (NSData *) bytes;
++(GPKGGeometryData *) createAndBuildEnvelopeFromWkb: (NSData *) data;
 
 /**
  * Create the geometry data from Well-Known Bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
  * @return geometry data
  */
-+(GPKGGeometryData *) createFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(GPKGGeometryData *) createFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * Create the geometry data from Well-Known Bytes and build the envelope
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
  * @return geometry data
  */
-+(GPKGGeometryData *) createAndBuildEnvelopeFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(GPKGGeometryData *) createAndBuildEnvelopeFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * Create the geometry data from Well-Known Bytes and write the GeoPackage
  * geometry bytes, default SRS Id of {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return geometry data
  */
-+(GPKGGeometryData *) createAndWriteFromWkb: (NSData *) bytes;
++(GPKGGeometryData *) createAndWriteFromWkb: (NSData *) data;
 
 /**
  * Create the geometry data from Well-Known Bytes, build the envelope, and
  * write the GeoPackage geometry bytes, default SRS Id of
  * {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return geometry data
  */
-+(GPKGGeometryData *) createBuildEnvelopeAndWriteFromWkb: (NSData *) bytes;
++(GPKGGeometryData *) createBuildEnvelopeAndWriteFromWkb: (NSData *) data;
 
 /**
  * Create the geometry data from Well-Known Bytes and write the GeoPackage
  * geometry bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
  * @return geometry data
  */
-+(GPKGGeometryData *) createAndWriteFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(GPKGGeometryData *) createAndWriteFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * Create the geometry data from Well-Known Bytes, build the envelope, and
  * write the GeoPackage geometry bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
  * @return geometry data
  */
-+(GPKGGeometryData *) createBuildEnvelopeAndWriteFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(GPKGGeometryData *) createBuildEnvelopeAndWriteFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * Create a geometry from Well-Known Bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return geometry
  */
-+(SFGeometry *) createGeometryFromWkb: (NSData *) bytes;
++(SFGeometry *) createGeometryFromWkb: (NSData *) data;
 
 /**
  * Create the geometry data from Well-Known Text, default SRS Id of
@@ -453,7 +438,7 @@
  *
  * @param geometry
  *            geometry
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataFromGeometry: (SFGeometry *) geometry;
 
@@ -463,7 +448,7 @@
  *
  * @param geometry
  *            geometry
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataAndBuildEnvelopeFromGeometry: (SFGeometry *) geometry;
 
@@ -474,7 +459,7 @@
  *            SRS id
  * @param geometry
  *            geometry
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataFromGeometry: (SFGeometry *) geometry withSrsId: (NSNumber *) srsId;
 
@@ -485,7 +470,7 @@
  *            SRS id
  * @param geometry
  *            geometry
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataAndBuildEnvelopeFromGeometry: (SFGeometry *) geometry withSrsId: (NSNumber *) srsId;
 
@@ -493,43 +478,43 @@
  * GeoPackage geometry bytes from Well-Known bytes, default SRS Id of
  * {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
- * @return GeoPackage geometry bytes
+ * @param data
+ *            well-known byte data
+ * @return GeoPackage geometry byte data
  */
-+(NSData *) dataFromWkb: (NSData *) bytes;
++(NSData *) dataFromWkb: (NSData *) data;
 
 /**
  * GeoPackage geometry bytes from Well-Known bytes with built envelope,
  * default SRS Id of {@link #defaultSrsId}
  *
- * @param bytes
- *            well-known bytes
- * @return GeoPackage geometry bytes
+ * @param data
+ *            well-known byte data
+ * @return GeoPackage geometry byte data
  */
-+(NSData *) dataAndBuildEnvelopeFromWkb: (NSData *) bytes;
++(NSData *) dataAndBuildEnvelopeFromWkb: (NSData *) data;
 
 /**
  * GeoPackage geometry bytes from Well-Known bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
-+(NSData *) dataFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(NSData *) dataFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * GeoPackage geometry bytes from Well-Known bytes with built envelope
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @param srsId
  *            SRS id
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
-+(NSData *) dataAndBuildEnvelopeFromWkb: (NSData *) bytes withSrsId: (NSNumber *) srsId;
++(NSData *) dataAndBuildEnvelopeFromWkb: (NSData *) data withSrsId: (NSNumber *) srsId;
 
 /**
  * GeoPackage geometry bytes from Well-Known text, default SRS Id of
@@ -537,7 +522,7 @@
  *
  * @param text
  *            well-known text
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataFromWkt: (NSString *) text;
 
@@ -547,7 +532,7 @@
  *
  * @param text
  *            well-known text
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataAndBuildEnvelopeFromWkt: (NSString *) text;
 
@@ -558,7 +543,7 @@
  *            well-known text
  * @param srsId
  *            SRS id
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataFromWkt: (NSString *) text withSrsId: (NSNumber *) srsId;
 
@@ -569,7 +554,7 @@
  *            well-known text
  * @param srsId
  *            SRS id
- * @return GeoPackage geometry bytes
+ * @return GeoPackage geometry byte data
  */
 +(NSData *) dataAndBuildEnvelopeFromWkt: (NSString *) text withSrsId: (NSNumber *) srsId;
 
@@ -578,7 +563,7 @@
  *
  * @param geometryData
  *            geometry data
- * @return well-known bytes
+ * @return well-known byte data
  */
 +(NSData *) wkbFromGeometryData: (GPKGGeometryData *) geometryData;
 
@@ -587,25 +572,25 @@
  *
  * @param geometry
  *            geometry
- * @return well-known bytes
+ * @return well-known byte data
  */
 +(NSData *) wkbFromGeometry: (SFGeometry *) geometry;
 
 /**
  * Well-Known Bytes from GeoPackage geometry bytes
  *
- * @param bytes
- *            GeoPackage geometry bytes
- * @return well-known bytes
+ * @param data
+ *            GeoPackage geometry byte data
+ * @return well-known byte data
  */
-+(NSData *) wkbFromData: (NSData *) bytes;
++(NSData *) wkbFromData: (NSData *) data;
 
 /**
  * Well-Known Bytes from Well-Known Text
  *
  * @param text
  *            well-known text
- * @return well-known bytes
+ * @return well-known byte data
  */
 +(NSData *) wkbFromWkt: (NSString *) text;
 
@@ -630,20 +615,20 @@
 /**
  * Well-Known Text from GeoPackage Geometry Bytes
  *
- * @param bytes
- *            GeoPackage geometry bytes
+ * @param data
+ *            GeoPackage geometry byte data
  * @return well-known text
  */
-+(NSString *) wktFromData: (NSData *) bytes;
++(NSString *) wktFromData: (NSData *) data;
 
 /**
  * Well-Known Text from Well-Known Bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  * @return well-known text
  */
-+(NSString *) wktFromWkb: (NSData *) bytes;
++(NSString *) wktFromWkb: (NSData *) data;
 
 /**
  * Default Initialize, default SRS Id of {@link #defaultSrsId}
@@ -748,18 +733,18 @@
 /**
  * Initialize
  *
- * @param bytes byte data
+ * @param data byte data
  *
  * @return new geometry data
  */
--(instancetype) initWithData: (NSData *) bytes;
+-(instancetype) initWithData: (NSData *) data;
 
 /**
  *  Populate the geometry data from the byte data
  *
- *  @param bytes byte data
+ *  @param data byte data
  */
--(void) fromData: (NSData *) bytes;
+-(void) fromData: (NSData *) data;
 
 /**
  *  Write the geometry to byte data
@@ -783,21 +768,46 @@
 -(SFGeometry *) getOrReadGeometry;
 
 /**
- * Set the bytes
+ * Set the byte data
  *
- * @param bytes
- *            bytes
- * @param wkbGeometryIndex
- *            well-known geometry bytes start index
+ * @param data
+ *            byte data
  */
--(void) setBytes: (NSData *) bytes andGeometryIndex: (int) wkbGeometryIndex;
+-(void) setData: (NSData *) data;
+
+/**
+ * Set the byte data
+ *
+ * @param data
+ *            byte data
+ * @param wkbGeometryIndex
+ *            well-known geometry byte data start index
+ */
+-(void) setData: (NSData *) data andGeometryIndex: (int) wkbGeometryIndex;
+
+/**
+ * Set the geometry header byte data
+ *
+ * @param headerData
+ *            header byte data
+ */
+-(void) setHeaderData: (NSData *) headerData;
+
+/**
+ * Set the geometry byte data. Updates the empty flag. Extended flag should be
+ * manually set with {@link #setExtended(boolean)} as needed.
+ *
+ * @param geometryData
+ *            geometry byte data
+ */
+-(void) setGeometryData: (NSData *) geometryData;
 
 /**
  * Set the geometry and write to bytes
  *
  * @param geometry
  *            geometry
- * @return geometry bytes
+ * @return geometry byte data
  */
 -(NSData *) setDataWithGeometry:(SFGeometry *) geometry;
 
@@ -806,17 +816,17 @@
  *
  * @param geometry
  *            geometry
- * @return geometry bytes
+ * @return geometry byte data
  */
 -(NSData *) setDataAndBuildEnvelopeWithGeometry: (SFGeometry *) geometry;
 
 /**
  * Set the geometry from Well-Known bytes
  *
- * @param bytes
- *            well-known bytes
+ * @param data
+ *            well-known byte data
  */
--(void) setGeometryFromWkb: (NSData *) bytes;
+-(void) setGeometryFromWkb: (NSData *) data;
 
 /**
  * Set the geometry from Well-Known text
@@ -827,22 +837,22 @@
 -(void) setGeometryFromWkt: (NSString *) text;
 
 /**
- * Clear the bytes
+ * Clear the byte data
  */
--(void) clearBytes;
+-(void) clearData;
 
 /**
- * Clear the header bytes and overall bytes
+ * Clear the header byte data and overall byte data
  */
--(void) clearHeaderBytes;
+-(void) clearHeaderData;
 
 /**
- * Clear the geometry bytes and overall bytes
+ * Clear the geometry byte data and overall byte data
  */
--(void) clearGeometryBytes;
+-(void) clearGeometryData;
 
 /**
- * Get the bytes data of the entire GeoPackage geometry including GeoPackage
+ * Get the byte data of the entire GeoPackage geometry including GeoPackage
  * header and WKB bytes
  *
  * @return byte data

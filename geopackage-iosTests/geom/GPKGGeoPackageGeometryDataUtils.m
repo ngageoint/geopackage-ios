@@ -25,8 +25,13 @@
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
 #import "SFWBGeometryCodes.h"
+#import "SFWBGeometryWriter.h"
+#import "SFWBGeometryReader.h"
 
 @implementation GPKGGeoPackageGeometryDataUtils
+
+static NSString *TABLE_NAME = @"features";
+static NSString *COLUMN_NAME = @"geom";
 
 +(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareGeometryBytes: (BOOL) compareGeometryBytes{
     
@@ -51,11 +56,10 @@
                 
                 if(geometryData != nil){
                     
-                    NSData * geometryBytes = geometryData.bytes;
                     NSData * geometryDataToBytes = [geometryData toData];
-                    [GPKGTestUtils assertEqualIntWithValue:(int)geometryBytes.length andValue2:(int)geometryDataToBytes.length];
+                    [GPKGTestUtils assertEqualIntWithValue:(int)[geometryData data].length andValue2:(int)geometryDataToBytes.length];
                     if(compareGeometryBytes){
-                        [self compareByteArrayWithExpected:geometryBytes andActual:geometryDataToBytes];
+                        [self compareByteArrayWithExpected:[geometryData data] andActual:geometryDataToBytes];
                     }
                     
                     GPKGGeometryData * geometryDataAfterToBytes = geometryData;
@@ -90,7 +94,7 @@
                     [self compareGeometryDataWithExpected:geometryDataAfterToBytes andActual:geometryDataFromBytes andCompareGeometryBytes:compareGeometryBytes];
                     [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes headerData] isEqualToData:[geometryData headerData]]];
                     [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes wkb] isEqualToData:[geometryData wkb]]];
-                    [GPKGTestUtils assertFalse:[geometryDataAfterToBytes.bytes isEqualToData:geometryData.bytes]];
+                    [GPKGTestUtils assertFalse:[[geometryDataAfterToBytes data] isEqualToData:[geometryData data]]];
                     [self compareGeometriesWithExpected:geometryData.geometry andActual:geometryDataAfterToBytes.geometry];
                 }
             }
@@ -192,9 +196,9 @@
     }
     
     // Compare all bytes
-    [GPKGTestUtils assertEqualIntWithValue:(int)expected.bytes.length andValue2:(int)actual.bytes.length];
+    [GPKGTestUtils assertEqualIntWithValue:(int)[expected data].length andValue2:(int)[actual data].length];
     if(compareGeometryBytes){
-        [self compareByteArrayWithExpected:expected.bytes andActual:actual.bytes];
+        [self compareByteArrayWithExpected:[expected data] andActual:[actual data]];
     }
 }
 
@@ -416,6 +420,282 @@
     
     [GPKGTestUtils assertTrue: [expected isEqualToData:actual]];
     
+}
+
++(void) testInsertGeometryBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    int geometryCount = 100;
+    int commitChunk = 10;
+
+    NSMutableArray<NSData *> *geometries = [NSMutableArray array];
+
+    for (int i = 0; i < geometryCount; i++) {
+        [geometries addObject:[SFWBGeometryWriter writeGeometry:[GPKGTestUtils createPointWithHasZ:NO andHasM:NO]]];
+    }
+
+    GPKGFeatureDao *dao = [self createFeatureTableWithGeoPackage:geoPackage];
+
+    [dao beginTransaction];
+    
+    @try {
+
+        for (int count = 0; count < geometries.count; count++) {
+
+            NSData *geometry = [geometries objectAtIndex:count];
+
+            GPKGFeatureRow *row = [dao newRow];
+
+            GPKGGeometryData *geometryData = [GPKGGeometryData create];
+            [geometryData setGeometryData:geometry];
+
+            [row setGeometry:geometryData];
+
+            [dao insert:row];
+
+            if (count % commitChunk == 0) {
+                [dao commitTransaction];
+                [dao beginTransaction];
+            }
+        }
+
+        [dao commitTransaction];
+    } @catch (NSException *exception) {
+        [dao rollbackTransaction];
+        @throw exception;
+    }
+
+    [GPKGTestUtils assertEqualIntWithValue:geometryCount andValue2:[dao count]];
+
+    int count = 0;
+    
+    GPKGRowResultSet *features = [dao results:[dao query]];
+    @try {
+        for(GPKGFeatureRow *row in features){
+            GPKGGeometryData *geometryData = [row geometry];
+            NSData *geometryBytes = [geometries objectAtIndex:count++];
+            SFGeometry *geometry = [SFWBGeometryReader readGeometryWithData:geometryBytes];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[SFWBGeometryWriter writeGeometry:geometry] andActual:[geometryData wkb]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:geometryData.geometry];
+        }
+    } @finally {
+        [features close];
+    }
+
+}
+
++(void) testInsertHeaderBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    int geometryCount = 100;
+    int commitChunk = 7;
+
+    NSMutableArray<SFGeometry *> *geometries = [NSMutableArray array];
+
+    for (int i = 0; i < geometryCount; i++) {
+        [geometries addObject:[GPKGTestUtils createLineStringWithHasZ:NO andHasM:NO andRing:NO]];
+    }
+
+    GPKGGeometryData *geomData = [GPKGGeometryData createWithSrsId:[NSNumber numberWithInt:1234]];
+    [geomData setByteOrder:CFByteOrderBigEndian];
+    [geomData setEmpty:NO];
+    [geomData setExtended:NO];
+    
+    NSData *header = [geomData headerData];
+    
+    GPKGFeatureDao *dao = [self createFeatureTableWithGeoPackage:geoPackage];
+
+    [dao beginTransaction];
+    
+    @try {
+
+        for (int count = 0; count < geometries.count; count++) {
+
+            SFGeometry *geometry = [geometries objectAtIndex:count];
+
+            GPKGFeatureRow *row = [dao newRow];
+
+            GPKGGeometryData *geometryData = [GPKGGeometryData createWithGeometry:geometry];
+            [geometryData setHeaderData:header];
+
+            [row setGeometry:geometryData];
+
+            [dao insert:row];
+
+            if (count % commitChunk == 0) {
+                [dao commitTransaction];
+                [dao beginTransaction];
+            }
+        }
+
+        [dao commitTransaction];
+    } @catch (NSException *exception) {
+        [dao rollbackTransaction];
+        @throw exception;
+    }
+
+    [GPKGTestUtils assertEqualIntWithValue:geometryCount andValue2:[dao count]];
+
+    int count = 0;
+    
+    GPKGRowResultSet *features = [dao results:[dao query]];
+    @try {
+        for(GPKGFeatureRow *row in features){
+            GPKGGeometryData *geometryData = [row geometry];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:header andActual:[geometryData headerData]];
+            SFGeometry *geometry = [SFWBGeometryReader readGeometryWithData:[SFWBGeometryWriter writeGeometry:[geometries objectAtIndex:count++]]];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[SFWBGeometryWriter writeGeometry:geometry] andActual:[geometryData wkb]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:geometryData.geometry];
+        }
+    } @finally {
+        [features close];
+    }
+
+}
+
++(void) testInsertHeaderAndGeometryBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    int geometryCount = 100;
+    int commitChunk = 13;
+
+    NSMutableArray<NSData *> *geometries = [NSMutableArray array];
+
+    for (int i = 0; i < geometryCount; i++) {
+        [geometries addObject:[SFWBGeometryWriter writeGeometry:[GPKGTestUtils createPolygonWithHasZ:NO andHasM:NO]]];
+    }
+
+    GPKGGeometryData *geomData = [GPKGGeometryData createWithSrsId:[NSNumber numberWithInt:1234]];
+    [geomData setByteOrder:CFByteOrderBigEndian];
+    [geomData setEmpty:NO];
+    [geomData setExtended:NO];
+    
+    NSData *header = [geomData headerData];
+    
+    GPKGFeatureDao *dao = [self createFeatureTableWithGeoPackage:geoPackage];
+
+    [dao beginTransaction];
+    
+    @try {
+
+        for (int count = 0; count < geometries.count; count++) {
+
+            NSData *geometry = [geometries objectAtIndex:count];
+
+            GPKGFeatureRow *row = [dao newRow];
+
+            GPKGGeometryData *geometryData = [GPKGGeometryData create];
+            [geometryData setHeaderData:header];
+            [geometryData setGeometryData:geometry];
+
+            [row setGeometry:geometryData];
+
+            [dao insert:row];
+
+            if (count % commitChunk == 0) {
+                [dao commitTransaction];
+                [dao beginTransaction];
+            }
+        }
+
+        [dao commitTransaction];
+    } @catch (NSException *exception) {
+        [dao rollbackTransaction];
+        @throw exception;
+    }
+
+    [GPKGTestUtils assertEqualIntWithValue:geometryCount andValue2:[dao count]];
+
+    int count = 0;
+    
+    GPKGRowResultSet *features = [dao results:[dao query]];
+    @try {
+        for(GPKGFeatureRow *row in features){
+            GPKGGeometryData *geometryData = [row geometry];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:header andActual:[geometryData headerData]];
+            NSData *geometryBytes = [geometries objectAtIndex:count++];
+            SFGeometry *geometry = [SFWBGeometryReader readGeometryWithData:geometryBytes];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[SFWBGeometryWriter writeGeometry:geometry] andActual:[geometryData wkb]];
+            [GPKGTestUtils assertEqualWithValue:geometry andValue2:geometryData.geometry];
+        }
+    } @finally {
+        [features close];
+    }
+
+}
+
++(void) testInsertBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    int geometryCount = 100;
+    int commitChunk = 15;
+
+    NSMutableArray<NSData *> *geometries = [NSMutableArray array];
+
+    for (int i = 0; i < geometryCount; i++) {
+        [geometries addObject:[[GPKGGeometryData createWithGeometry:[GPKGTestUtils createPolygonWithHasZ:NO andHasM:NO]] toData]];
+    }
+    
+    GPKGFeatureDao *dao = [self createFeatureTableWithGeoPackage:geoPackage];
+
+    [dao beginTransaction];
+    
+    @try {
+
+        for (int count = 0; count < geometries.count; count++) {
+
+            NSData *geometry = [geometries objectAtIndex:count];
+
+            GPKGFeatureRow *row = [dao newRow];
+
+            GPKGGeometryData *geometryData = [GPKGGeometryData create];
+            [geometryData setData:geometry];
+
+            [row setGeometry:geometryData];
+
+            [dao insert:row];
+
+            if (count % commitChunk == 0) {
+                [dao commitTransaction];
+                [dao beginTransaction];
+            }
+        }
+
+        [dao commitTransaction];
+    } @catch (NSException *exception) {
+        [dao rollbackTransaction];
+        @throw exception;
+    }
+
+    [GPKGTestUtils assertEqualIntWithValue:geometryCount andValue2:[dao count]];
+
+    int count = 0;
+    
+    GPKGRowResultSet *features = [dao results:[dao query]];
+    @try {
+        for(GPKGFeatureRow *row in features){
+            GPKGGeometryData *geometryData = [row geometry];
+            GPKGGeometryData *geometryData2 = [GPKGGeometryData createWithData:[geometries objectAtIndex:count++]];
+            [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:[geometryData2 data] andActual:[geometryData data]];
+            [GPKGTestUtils assertEqualWithValue:geometryData2.geometry andValue2:geometryData.geometry];
+        }
+    } @finally {
+        [features close];
+    }
+
+}
+
++(GPKGFeatureDao *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage{
+
+    GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
+    [geometryColumns setTableName:TABLE_NAME];
+    [geometryColumns setColumnName:COLUMN_NAME];
+    [geometryColumns setGeometryType:SF_POLYGON];
+    [geometryColumns setZ:[NSNumber numberWithInt:0]];
+    [geometryColumns setM:[NSNumber numberWithInt:0]];
+    [geometryColumns setSrs:srs];
+
+    GPKGFeatureTable *table = [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andBoundingBox:[GPKGBoundingBox worldWGS84]]];
+    
+    return [geoPackage featureDaoWithTable:table];
 }
 
 @end
