@@ -18,4 +18,11 @@
     [GPKGFeatureStylesUtils testFeatureStylesWithGeoPackage:self.geoPackage];
 }
 
+/**
+ * Test shared feature styles
+ */
+- (void)testSharedFeatureStyles {
+    [GPKGFeatureStylesUtils testSharedFeatureStylesWithGeoPackage:self.geoPackage];
+}
+
 @end

@@ -271,6 +271,34 @@
 -(GPKGIconRow *) tableIconDefault;
 
 /**
+ * Get all styles used by the feature table
+ *
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) styles;
+
+/**
+ * Get all styles used by feature rows in the table
+ *
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStyles;
+
+/**
+ * Get all icons used by the feature table
+ *
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) icons;
+
+/**
+ * Get all icons used by feature rows in the table
+ *
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIcons;
+
+/**
  * Get the feature styles for the feature row
  *
  * @param featureRow feature row
@@ -1115,5 +1143,20 @@
  * @return icon row ids
  */
 -(NSArray<NSNumber *> *) allIconIds;
+
+/**
+ * Calculate style pixel bounds
+ *
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculatePixelBounds;
+
+/**
+ * Calculate style pixel bounds
+ *
+ * @param scale scale factor
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculatePixelBoundsWithScale: (float) scale;
 
 @end
