@@ -20,6 +20,7 @@
 @interface GPKGFeatureInfoBuilder ()
 
 @property (nonatomic, strong) GPKGFeatureDao *featureDao;
+@property (nonatomic, strong) GPKGFeatureTableStyles *featureStyles;
 @property (nonatomic) enum SFGeometryType geometryType;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *ignoreGeometryTypes;
 
@@ -28,10 +29,16 @@
 @implementation GPKGFeatureInfoBuilder
 
 -(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao{
+    self = [self initWithFeatureDao:featureDao andStyles:nil];
+    return self;
+}
+
+-(instancetype) initWithFeatureDao: (GPKGFeatureDao *) featureDao andStyles: (GPKGFeatureTableStyles *) featureStyles{
     self = [super init];
     if(self != nil){
         
         self.featureDao = featureDao;
+        self.featureStyles = featureStyles;
         
         self.geometryType = [featureDao geometryType];
         
@@ -83,11 +90,19 @@
 }
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (PROJProjection *) projection{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andScale:1.0f andZoom:0.0 andMapView:nil andScreenPercentage:0.0 andProjection:projection];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildResultsInfoMessageAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage andProjection:nil];
+}
+
+-(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage andProjection: (PROJProjection *) projection{
     
     NSMutableString * message = nil;
     
     // Fine filter results so that the click location is within the tolerance of each feature row result
-    GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate];
+    GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
     
     int featureCount = filteredResults.count;
     if(featureCount > 0){
@@ -188,11 +203,19 @@
 }
 
 -(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andProjection: (PROJProjection *) projection{
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andScale:1.0f andZoom:0.0 andMapView:nil andScreenPercentage:0.0f andProjection:projection];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildTableDataAndCloseWithFeatureIndexResults:results andTolerance:tolerance andLocationCoordinate:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage andProjection:nil];
+}
+
+-(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage andProjection: (PROJProjection *) projection{
     
     GPKGFeatureTableData * tableData = nil;
     
     // Fine filter results so that the click location is within the tolerance of each feature row result
-    GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate];
+    GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
     
     int featureCount = filteredResults.count;
     if(featureCount > 0){
@@ -301,7 +324,19 @@
     return newColumnName;
 }
 
--(GPKGFeatureIndexResults *) fineFilterResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocation: (CLLocationCoordinate2D) clickLocation{
+/**
+ * Fine filter the index results verifying the click location is within the tolerance of each feature row
+ *
+ * @param results               feature index results
+ * @param tolerance             distance tolerance
+ * @param clickLocation         click location
+ * @param scale              scale factor
+ * @param zoom                  current zoom level
+ * @param mapView                  map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ * @return filtered feature index results
+ */
+-(GPKGFeatureIndexResults *) fineFilterResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocation: (CLLocationCoordinate2D) clickLocation andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     
     GPKGFeatureIndexResults *filteredResults = nil;
     
@@ -324,15 +359,21 @@
                     
                     if(![self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:geometry.geometryType]]){
                     
+                        BOOL addRow = YES;
+                        
                         if(CLLocationCoordinate2DIsValid(clickLocation)){
                         
                             GPKGMapShape *mapShape = [converter toShapeWithGeometry:geometry];
-                            if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
-                                
-                                [filteredListResults addRow:featureRow];
-                                
+                            NSNumber *styleFiltered = [self fineFilterStyleWithRow:featureRow andGeometry:geometry andShape:mapShape andLocation:clickLocation andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
+                            if(styleFiltered == nil){
+                                addRow = [GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance];
+                            }else{
+                                addRow = [styleFiltered intValue] == 1;
                             }
-                        }else{
+
+                        }
+                        
+                        if(addRow){
                             [filteredListResults addRow:featureRow];
                         }
                         
@@ -346,6 +387,72 @@
     }
     
     return filteredResults;
+}
+
+/**
+ * Fine filter the feature row with feature styles
+ *
+ * @param featureRow            feature row
+ * @param geometry              geometry
+ * @param mapShape              Map Shape
+ * @param clickLocation         click location
+ * @param scale               scale factor
+ * @param zoom                  current zoom level
+ * @param mapView                  map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ * @return true if passes fine filter
+ */
+-(NSNumber *) fineFilterStyleWithRow: (GPKGFeatureRow *) featureRow andGeometry: (SFGeometry *) geometry andShape: (GPKGMapShape *) mapShape andLocation: (CLLocationCoordinate2D) clickLocation andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    NSNumber *passes = nil;
+    
+    if(_featureStyles != nil && mapView != nil){
+        
+        GPKGPixelBounds *pixelBounds = nil;
+        
+        GPKGIconRow *iconRow = [_featureStyles iconWithFeature:featureRow];
+        if(iconRow != nil){
+            
+            pixelBounds = [GPKGFeatureStyleExtension calculatePixelBoundsWithIconRow:iconRow andScale:scale];
+            
+        }else{
+            GPKGStyleRow *styleRow = [_featureStyles styleWithFeature:featureRow];
+            if(styleRow != nil){
+                pixelBounds = [GPKGFeatureStyleExtension calculatePixelBoundsWithStyleRow:styleRow andScale:scale];
+            }
+        }
+        
+        if(pixelBounds != nil){
+            
+            // Clear expanded pixel bounds in the click direction opposite of a point
+            if(geometry.geometryType == SF_POINT){
+                SFPoint *point = (SFPoint *) geometry;
+                if([point.x doubleValue] < clickLocation.longitude){
+                    [pixelBounds setRight:0];
+                }else if([point.x doubleValue] > clickLocation.longitude){
+                    [pixelBounds setLeft:0];
+                }
+                if([point.y doubleValue] < clickLocation.latitude){
+                    [pixelBounds setUp:0];
+                }else if([point.y doubleValue] > clickLocation.latitude){
+                    [pixelBounds setDown:0];
+                }
+            }
+            
+            // Get the map click distance tolerance
+            GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:clickLocation andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+            
+            if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
+                passes = [NSNumber numberWithInt:1];
+            }else{
+                passes = [NSNumber numberWithInt:0];
+            }
+            
+        }
+        
+    }
+    
+    return passes;
 }
 
 @end

@@ -16,6 +16,7 @@
 #import "GPKGMultiPolyline.h"
 #import "GPKGMultiPolygon.h"
 #import "GPKGMapTolerance.h"
+#import "GPKGPixelBounds.h"
 
 /**
  *  Map utility methods
@@ -55,12 +56,54 @@
  * The bounding box can be used to query for features that were clicked
  *
  * @param point                 click point
- * @param mapView               map view
+ * @param mapView             map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
  *                              on the screen must be to be included in a click query
  * @return bounding box
  */
 +(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param point                 click point
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param point                 click point
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, scale factor, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param point                 click point
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  *  Build a bounding box using the map point click location and map view that can be used to query for features
@@ -148,6 +191,45 @@
 /**
  * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
  *
+ * @param point                 click point
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithPoint: (SFPoint *) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithPoint: (SFPoint *) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithPoint: (SFPoint *) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
  * @param location              click location
  * @param mapView               map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
@@ -159,6 +241,45 @@
 /**
  * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
  *
+ * @param location              click location
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
  * @param point                 click point
  * @param mapView               map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
@@ -166,6 +287,45 @@
  * @return tolerance distance in meters and screen pixels
  */
 +(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
@@ -181,6 +341,45 @@
 /**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
  *
+ * @param point                 click point
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithPoint: (SFPoint *) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithPoint: (SFPoint *) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithPoint: (SFPoint *) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
  * @param location              click location
  * @param mapView               map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
@@ -192,6 +391,45 @@
 /**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
  *
+ * @param location              click location
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param location              click location
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
  * @param point                 click point
  * @param mapView               map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
@@ -199,6 +437,63 @@
  * @return tolerance distance in meters
  */
 +(double) toleranceDistanceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance in meters from the click bounding box
+ *
+ * @param point                 click point
+ * @param boundingBox click bounding box
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithCGPoint: (CGPoint) point andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView;
+
+/**
+ * Get the allowable tolerance distance in meters from the click bounding box
+ *
+ * @param location              click location
+ * @param boundingBox click bounding box
+ * @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithLocationCoordinate: (CLLocationCoordinate2D) location andBoundingBox: (GPKGLocationBoundingBox *) boundingBox;
 
 /**
  * Get the allowable tolerance screen pixels from the click location on the map view and map with the screen percentage tolerance.
