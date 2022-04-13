@@ -33,6 +33,15 @@
 +(double) currentZoomWithMapView: (MKMapView *) mapView;
 
 /**
+ *  Get the current rounded zoom level of the map view
+ *
+ *  @param mapView map view
+ *
+ *  @return current zoom level
+ */
++(int) currentRoundedZoomWithMapView: (MKMapView *) mapView;
+
+/**
  *  Get the tolerance distance meters in the current region of the map view
  *
  *  @param mapView map view
@@ -106,6 +115,60 @@
 +(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
+ * Build a location bounding box using the click location, scale factor, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param location                 click location
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, scale factor, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param location                 click location
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, scale factor, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param location                 click location
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a location bounding box using the click location, scale factor, zoom level, pixel bounds, map view, and screen percentage tolerance.
+ * The bounding box can be used to query for features that were clicked
+ *
+ * @param location                 click location
+ * @param scale                 scale factor
+ * @param zoom                   current zoom level
+ * @param pixelBounds    click pixel bounds
+ * @param mapView              map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
  *  Build a bounding box using the map point click location and map view that can be used to query for features
  *
  *  @param mapPoint map point
@@ -116,6 +179,48 @@
  *  @return bounding box
  */
 +(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the map point click location and map view that can be used to query for features
+ *
+ *  @param mapPoint map point
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the map point click location and map view that can be used to query for features
+ *
+ *  @param mapPoint map point
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the map point click location and map view that can be used to query for features
+ *
+ *  @param mapPoint map point
+ *  @param scale                 scale factor
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  *  Build a bounding box using the mapkit map point click location and map view that can be used to query for features
@@ -142,6 +247,48 @@
 +(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
+ *  Build a bounding box using the point click location and map view that can be used to query for features
+ *
+ *  @param point   point
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the point click location and map view that can be used to query for features
+ *
+ *  @param point   point
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the point click location and map view that can be used to query for features
+ *
+ *  @param point   point
+ *  @param scale                 scale factor
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
  *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
  *
  *  @param location location coordinate
@@ -154,6 +301,48 @@
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
+ *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
+ *
+ *  @param location location coordinate
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
+ *
+ *  @param location location coordinate
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the location coordinate click location and map view that can be used to query for features
+ *
+ *  @param location location coordinate
+ *  @param scale                 scale factor
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
  *  Build a bounding box using the cg point click location and map view that can be used to query for features
  *
  *  @param point   cg point
@@ -164,6 +353,56 @@
  *  @return bounding box
  */
 +(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the cg point click location and map view that can be used to query for features
+ *
+ *  @param point   cg point
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the cg point click location and map view that can be used to query for features
+ *
+ *  @param point   cg point
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ *  Build a bounding box using the cg point click location and map view that can be used to query for features
+ *
+ *  @param point   cg point
+ *  @param scale                 scale factor
+ *  @param zoom                   current zoom level
+ *  @param pixelBounds    click pixel bounds
+ *  @param mapView map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Build a bounding box using the click location
+ *
+ * @param boundingBox click bounding box
+ * @return bounding box
+ */
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationBoundingBox: (GPKGLocationBoundingBox *) locationBoundingBox;
 
 /**
  *  Build a bounding box using the location coordinate click location and map view bounds
@@ -280,6 +519,18 @@
 /**
  * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
  *
+ * @param location              click location
+ * @param boundingBox   click bounding box
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
  * @param point                 click point
  * @param mapView               map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
@@ -326,6 +577,18 @@
  * @return tolerance distance in meters and screen pixels
  */
 +(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
+
+/**
+ * Get the allowable tolerance distance meters and screen pixels from the click location on the map view and map with the screen percentage tolerance.
+ *
+ * @param point                 click point
+ * @param boundingBox   click bounding box
+ * @param mapView               map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.

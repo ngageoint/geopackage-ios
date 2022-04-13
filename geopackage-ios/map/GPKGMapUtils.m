@@ -20,12 +20,16 @@
     CLLocationDegrees longitudeDelta = mapView.region.span.longitudeDelta;
     CGFloat width = mapView.bounds.size.width;
     double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);
-    double zoom = maxZoom - round(log2(scale));
+    double zoom = maxZoom - log2(scale);
     if (maxZoom < 0){
         zoom = 0;
     }
 
     return zoom;
+}
+
++(int) currentRoundedZoomWithMapView: (MKMapView *) mapView{
+    return (int) round([self currentZoomWithMapView:mapView]);
 }
 
 +(double) toleranceDistanceInMapView: (MKMapView *) mapView{
@@ -89,7 +93,7 @@
     
     // Get the pixels a click occurs from a feature
     CGSize mapViewSize = mapView.frame.size;
-    double pixels = MAX(mapViewSize.width, mapViewSize.height) * screenClickPercentage;
+    double pixels = scale * MAX(mapViewSize.width, mapViewSize.height) * screenClickPercentage;
     double leftPixels = pixels;
     double upPixels = pixels;
     double rightPixels = pixels;
@@ -97,17 +101,16 @@
     
     if(pixelBounds != nil){
         double adjust = 1.0 + zoom - (int) zoom;
-        adjust *= scale;
         leftPixels += (pixelBounds.left * adjust);
         upPixels += (pixelBounds.up * adjust);
         rightPixels += (pixelBounds.right * adjust);
         downPixels += (pixelBounds.down * adjust);
     }
     
-    int leftOffset = (int) ceil(leftPixels);
-    int upOffset = (int) ceil(upPixels);
-    int rightOffset = (int) ceil(rightPixels);
-    int downOffset = (int) ceil(downPixels);
+    int leftOffset = (int) ceil(leftPixels / scale);
+    int upOffset = (int) ceil(upPixels / scale);
+    int rightOffset = (int) ceil(rightPixels / scale);
+    int downOffset = (int) ceil(downPixels / scale);
     
     // Get the screen click locations in each width or height direction
     CGPoint left = CGPointMake(point.x - leftOffset, point.y);
@@ -129,35 +132,116 @@
     return locationBoundingBox;
 }
 
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickLocationBoundingBoxWithLocationCoordinate:location andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickLocationBoundingBoxWithLocationCoordinate:location andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickLocationBoundingBoxWithLocationCoordinate:location andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
+    return [self buildClickLocationBoundingBoxWithCGPoint:point andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
 +(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMapPoint:mapPoint andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMapPoint:mapPoint andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMapPoint:mapPoint andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMapPoint: (GPKGMapPoint *) mapPoint andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     return [self buildClickBoundingBoxWithLocationCoordinate:mapPoint.coordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
 
 +(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMKMapPoint:mapPoint andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMKMapPoint:mapPoint andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithMKMapPoint:mapPoint andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithMKMapPoint: (MKMapPoint) mapPoint andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     CLLocationCoordinate2D locationCoordinate = MKCoordinateForMapPoint(mapPoint);
     return [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
 
 +(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithPoint:point andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithPoint:point andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithPoint:point andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithPoint: (SFPoint *) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     CLLocationCoordinate2D locationCoordinate = CLLocationCoordinate2DMake([point.y doubleValue], [point.x doubleValue]);
-    return [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andMapView:mapView andScreenPercentage:screenClickPercentage];
+    return [self buildClickBoundingBoxWithLocationCoordinate:locationCoordinate andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
 
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithLocationCoordinate:location andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithLocationCoordinate:location andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithLocationCoordinate:location andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
-    return [self buildClickBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+    return [self buildClickBoundingBoxWithCGPoint:point andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
 
 +(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithCGPoint:point andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithCGPoint:point andZoom:0.0 andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    return [self buildClickBoundingBoxWithCGPoint:point andScale:1.0f andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     
-    GPKGLocationBoundingBox *locationBoundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andMapView:mapView andScreenPercentage:screenClickPercentage];
+    GPKGLocationBoundingBox *locationBoundingBox = [self buildClickLocationBoundingBoxWithCGPoint:point andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
     
-    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:locationBoundingBox.leftCoordinate.longitude
-                                                                  andMinLatitudeDouble:locationBoundingBox.downCoordinate.latitude
-                                                                 andMaxLongitudeDouble:locationBoundingBox.rightCoordinate.longitude
-                                                                  andMaxLatitudeDouble:locationBoundingBox.upCoordinate.latitude];
+    GPKGBoundingBox *boundingBox = [self buildClickBoundingBoxWithLocationBoundingBox:locationBoundingBox];
     
     return boundingBox;
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationBoundingBox: (GPKGLocationBoundingBox *) locationBoundingBox{
+    return [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:locationBoundingBox.leftCoordinate.longitude
+                                          andMinLatitudeDouble:locationBoundingBox.downCoordinate.latitude
+                                         andMaxLongitudeDouble:locationBoundingBox.rightCoordinate.longitude
+                                          andMaxLatitudeDouble:locationBoundingBox.upCoordinate.latitude];
 }
 
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage{
@@ -214,6 +298,11 @@
     return [self toleranceWithCGPoint:point andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
 
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    CGPoint point = [mapView convertCoordinate:location toPointToView:mapView];
+    return [self toleranceWithCGPoint:point andBoundingBox:boundingBox andMapView:mapView andScreenPercentage:screenClickPercentage];
+}
+
 +(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     return [self toleranceWithCGPoint:point andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
 }
@@ -229,6 +318,16 @@
 +(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andScale: (float) scale andZoom: (double) zoom andPixelBounds: (GPKGPixelBounds *) pixelBounds andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     
     double distance = [self toleranceDistanceWithCGPoint:point andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
+    double screen = [self toleranceScreenWithMapView:mapView andScreenPercentage:screenClickPercentage];
+    
+    GPKGMapTolerance *tolerance = [[GPKGMapTolerance alloc] initWithDistance:distance andScreen:screen];
+    
+    return tolerance;
+}
+
++(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+    
+    double distance = [self toleranceDistanceWithCGPoint:point andBoundingBox:boundingBox andMapView:mapView];
     double screen = [self toleranceScreenWithMapView:mapView andScreenPercentage:screenClickPercentage];
     
     GPKGMapTolerance *tolerance = [[GPKGMapTolerance alloc] initWithDistance:distance andScreen:screen];

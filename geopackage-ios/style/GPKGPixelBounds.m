@@ -27,7 +27,7 @@
 }
 
 -(instancetype) init{
-    self = [self init];
+    self = [super init];
     return self;
 }
 
