@@ -6,7 +6,14 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.2.0 (TBD)
 
-* TBD
+* GPKGGeometryData non parsed raw byte support for faster inserts
+* OGC Related Tables Extension relation and mapping methods
+* NGA Feature Style Extension create table, relation, style, and icon methods
+* Feature Style expanded pixel bounds
+* GPKGLocationBoundingBox coordinate initializer and directional methods
+* GPKGMapUtils build click and tolerance method enhancements (scale, zoom, pixel bounds)
+* GPKGFeatureInfoBuilder feature styles fine filter support
+* GPKGFeatureOverlayQuery style pixel bounds support for querying visualized geometry styles and icons
 
 ## [7.1.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.1.0) (03-10-2022)
 
