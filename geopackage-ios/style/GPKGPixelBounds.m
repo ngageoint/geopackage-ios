@@ -83,4 +83,16 @@
     [self expandHeight:length];
 }
 
+-(double) width{
+    return _left + _right;
+}
+
+-(double) height{
+    return _up + _down;
+}
+
+-(double) area{
+    return [self width] * [self height];
+}
+
 @end

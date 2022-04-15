@@ -180,4 +180,25 @@
  */
 -(void) expandLength: (double) length;
 
+/**
+ * Get the total pixel width
+ *
+ * @return pixel width
+ */
+-(double) width;
+
+/**
+ * Get the total pixel height
+ *
+ * @return pixel height
+ */
+-(double) height;
+
+/**
+ * Get the pixel area
+ *
+ * @return pixel area
+ */
+-(double) area;
+
 @end

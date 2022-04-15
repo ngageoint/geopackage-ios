@@ -437,6 +437,9 @@
                 }else if([point.y doubleValue] > clickLocation.latitude){
                     [pixelBounds setDown:0];
                 }
+                if([pixelBounds area] == 0){
+                    pixelBounds = nil;
+                }
             }
             
             // Get the map click distance tolerance
