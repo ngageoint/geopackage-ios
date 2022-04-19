@@ -399,7 +399,7 @@
 /**
  * Build a bounding box using the click location
  *
- * @param boundingBox click bounding box
+ * @param locationBoundingBox click bounding box
  * @return bounding box
  */
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationBoundingBox: (GPKGLocationBoundingBox *) locationBoundingBox;

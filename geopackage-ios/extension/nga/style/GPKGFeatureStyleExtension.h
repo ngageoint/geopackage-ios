@@ -1681,7 +1681,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 /**
  * Delete style rows matching the where clause and mappings to them
  *
- * @param whereClause where clause
+ * @param where where clause
  * @param whereArgs   where arguments
  * @return deleted count
  */
@@ -1690,7 +1690,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 /**
  * Delete style rows matching the where clause if they have no mappings
  *
- * @param whereClause where clause
+ * @param where where clause
  * @param whereArgs   where arguments
  * @return deleted count
  */
@@ -1809,7 +1809,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 /**
  * Delete icon rows matching the where clause and mappings to them
  *
- * @param whereClause where clause
+ * @param where where clause
  * @param whereArgs   where arguments
  * @return deleted count
  */
@@ -1818,7 +1818,7 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 /**
  * Delete icon rows matching the where clause if they have no mappings
  *
- * @param whereClause where clause
+ * @param where where clause
  * @param whereArgs   where arguments
  * @return deleted count
  */
