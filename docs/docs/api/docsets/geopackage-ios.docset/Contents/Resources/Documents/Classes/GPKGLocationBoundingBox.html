@@ -17,7 +17,7 @@
     <a title="GPKGLocationBoundingBox Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.1.0 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.2.0 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -788,6 +788,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPagination.html">GPKGPagination</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGPixelBounds.html">GPKGPixelBounds</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
@@ -4736,7 +4739,7 @@
             <p>Location Bounding Box, contains left, up, right, and down coordinates</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L15-L44">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L15-L112">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4772,7 +4775,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L20">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L20">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4807,7 +4810,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4842,7 +4845,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L30">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4877,7 +4880,65 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L35">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)initWithCoordinate:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithCoordinate:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)initWithCoordinate:">-initWithCoordinate:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCoordinate</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">coordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">coordinate</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>coordinate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new location boundingbox</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4915,11 +4976,378 @@
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>left</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>left coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>up</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>up coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>right</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>right coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>down</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>down coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
                         <p>new location boundingbox</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L42">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L54">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)westCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-westCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)westCoordinate">-westCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the west coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">westCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">westCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>west coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)northwestCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-northwestCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)northwestCoordinate">-northwestCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the northwest coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">northwestCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">northwestCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>northwest coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L68">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)northCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-northCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)northCoordinate">-northCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the north coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">northCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">northCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>north coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L75">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)northeastCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-northeastCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)northeastCoordinate">-northeastCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the northeast coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">northeastCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">northeastCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>northeast coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L82">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)eastCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-eastCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)eastCoordinate">-eastCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the east coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">eastCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">eastCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>east coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L89">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)southeastCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-southeastCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)southeastCoordinate">-southeastCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the southeast coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">southeastCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">southeastCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>southeast coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L96">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)southCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-southCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)southCoordinate">-southCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the south coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">southCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">southCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>south coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L103">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGLocationBoundingBox(im)southwestCoordinate"></a>
+                    <a name="//apple_ref/objc/Method/-southwestCoordinate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGLocationBoundingBox(im)southwestCoordinate">-southwestCoordinate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the southwest coordinate</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="n">southwestCoordinate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">southwestCoordinate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CLLocationCoordinate2D</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>southwest coordinate</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/geom/map/GPKGLocationBoundingBox.h#L110">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4929,8 +5357,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-03-10)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-04-19)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

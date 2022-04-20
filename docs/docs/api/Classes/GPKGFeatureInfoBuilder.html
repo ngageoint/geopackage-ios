@@ -17,7 +17,7 @@
     <a title="GPKGFeatureInfoBuilder Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.1.0 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.2.0 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -788,6 +788,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPagination.html">GPKGPagination</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GPKGPixelBounds.html">GPKGPixelBounds</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/GPKGPlatteCarreOptimize.html">GPKGPlatteCarreOptimize</a>
@@ -4759,6 +4762,14 @@
 <span class="k">-</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">featureDao</span><span class="p">;</span>
 
 <span class="cm">/**
+ * Initializer
+ *
+ * @param featureDao feature dao
+ * @param featureStyles feature table styles
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span> <span class="nf">initWithFeatureDao</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">featureDao</span> <span class="n">andStyles</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableStyles.html">GPKGFeatureTableStyles</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">featureStyles</span><span class="p">;</span>
+
+<span class="cm">/**
  *  Get the geometry type
  *
  *  @return geometry type
@@ -4838,13 +4849,44 @@
 <span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildResultsInfoMessageAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andProjection</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">projection</span><span class="p">;</span>
 
 <span class="cm">/**
+ *  Build a feature results information message
+ *
+ *  @param results            feature index results
+ *  @param tolerance          distance and screen tolerance
+ *  @param locationCoordinate location coordinate
+ *  @param scale               scale factor
+ *  @param zoom                  current zoom level
+ *  @param mapView                  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ *
+ *  @return results message or null if no results
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildResultsInfoMessageAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andScale</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">scale</span> <span class="n">andZoom</span><span class="o">:</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">zoom</span> <span class="n">andMapView</span><span class="o">:</span> <span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span> <span class="n">mapView</span> <span class="n">andScreenPercentage</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">screenClickPercentage</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Build a feature results information message
+ *
+ *  @param results            feature index results
+ *  @param tolerance          distance and screen tolerance
+ *  @param locationCoordinate location coordinate
+ *  @param scale               scale factor
+ *  @param zoom                  current zoom level
+ *  @param mapView                  map view
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ *  @param projection         desired geometry projection
+ *
+ *  @return results message or null if no results
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildResultsInfoMessageAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andScale</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">scale</span> <span class="n">andZoom</span><span class="o">:</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">zoom</span> <span class="n">andMapView</span><span class="o">:</span> <span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span> <span class="n">mapView</span> <span class="n">andScreenPercentage</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">screenClickPercentage</span> <span class="n">andProjection</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">projection</span><span class="p">;</span>
+
+<span class="cm">/**
  *  Build feature table data results
  *
  *  @param results   feature index results
  *  @param tolerance distance and screen tolerance
  *  @param point   point
  *
- *  @return feature table data or nil if not results
+ *  @return feature table data or nil if no results
  */</span>
 <span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andPoint</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">point</span><span class="p">;</span>
 
@@ -4856,7 +4898,7 @@
  *  @param point      point
  *  @param projection desired geometry projection
  *
- *  @return feature table data or nil if not results
+ *  @return feature table data or nil if notresults
  */</span>
 <span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andPoint</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/SFPoint.html">SFPoint</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">point</span> <span class="n">andProjection</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">projection</span><span class="p">;</span>
 
@@ -4867,7 +4909,7 @@
  *  @param tolerance          distance and screen tolerance
  *  @param locationCoordinate location coordinate
  *
- *  @return table data or nil if not results
+ *  @return table data or nil if no results
  */</span>
 <span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span><span class="p">;</span>
 
@@ -4879,9 +4921,38 @@
  *  @param locationCoordinate location coordinate
  *  @param projection         desired geometry projection
  *
- *  @return table data or nil if not results
+ *  @return table data or nil if no results
  */</span>
 <span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andProjection</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">projection</span><span class="p">;</span>
+
+<span class="cm">/**
+ * Build a feature table data results
+ *
+ * @param results               feature index results
+ * @param tolerance          distance and screen tolerance
+ * @param locationCoordinate location coordinate
+ * @param scale               scale factor
+ * @param zoom                  current zoom level
+ * @param mapView                  map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ * @return feature table data or null if no results
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andScale</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">scale</span> <span class="n">andZoom</span><span class="o">:</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">zoom</span> <span class="n">andMapView</span><span class="o">:</span> <span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span> <span class="n">mapView</span> <span class="n">andScreenPercentage</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">screenClickPercentage</span><span class="p">;</span>
+
+<span class="cm">/**
+ * Build a feature table data results
+ *
+ * @param results               feature index results
+ * @param tolerance          distance and screen tolerance
+ * @param locationCoordinate location coordinate
+ * @param scale               scale factor
+ * @param zoom                  current zoom level
+ * @param mapView                  map view
+ * @param screenClickPercentage screen click percentage between 0.0 and 1.0
+ * @param projection            desired geometry projection
+ * @return feature table data or null if no results
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span> <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">results</span> <span class="n">andTolerance</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">tolerance</span> <span class="n">andLocationCoordinate</span><span class="o">:</span> <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span> <span class="n">locationCoordinate</span> <span class="n">andScale</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">scale</span> <span class="n">andZoom</span><span class="o">:</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">zoom</span> <span class="n">andMapView</span><span class="o">:</span> <span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span> <span class="n">mapView</span> <span class="n">andScreenPercentage</span><span class="o">:</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">screenClickPercentage</span> <span class="n">andProjection</span><span class="o">:</span> <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span> <span class="n">projection</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -4895,7 +4966,7 @@
             <p>Undocumented</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L16-L175">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L17-L244">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4931,7 +5002,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L21">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4966,7 +5037,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L26">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5001,7 +5072,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L31">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5036,7 +5107,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L36">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5071,7 +5142,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L41">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5125,7 +5196,74 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L48">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L49">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureInfoBuilder(im)initWithFeatureDao:andStyles:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithFeatureDao:andStyles:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureInfoBuilder(im)initWithFeatureDao:andStyles:">-initWithFeatureDao:<wbr>andStyles:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializer</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFeatureDao</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">featureDao</span>
+                         <span class="nf">andStyles</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGFeatureTableStyles.html">GPKGFeatureTableStyles</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">featureStyles</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">featureDao</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureDao.html">GPKGFeatureDao</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andStyles</span> <span class="nv">featureStyles</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureTableStyles.html">GPKGFeatureTableStyles</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>featureDao</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature dao</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>featureStyles</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature table styles</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5164,7 +5302,7 @@
                         <p>geometry type</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L55">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L64">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5218,7 +5356,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L62">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L71">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5277,7 +5415,7 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L71">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5351,7 +5489,7 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L81">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L90">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5438,7 +5576,7 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L92">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5539,7 +5677,7 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L104">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L113">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5628,7 +5766,7 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L115">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5731,7 +5869,305 @@
                         <p>results message or null if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L127">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L136">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureInfoBuilder(im)buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/-buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureInfoBuilder(im)buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:">-buildResultsInfoMessageAndCloseWithFeatureIndexResults:<wbr>andTolerance:<wbr>andLocationCoordinate:<wbr>andScale:<wbr>andZoom:<wbr>andMapView:<wbr>andScreenPercentage:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a feature results information message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">buildResultsInfoMessageAndCloseWithFeatureIndexResults</span><span class="p">:</span>
+        <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">results</span>
+                                              <span class="nf">andTolerance</span><span class="p">:</span>
+                                                  <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span>
+                                     <span class="nf">andLocationCoordinate</span><span class="p">:</span>
+                                         <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span>
+                                             <span class="n">locationCoordinate</span>
+                                                  <span class="n">andScale</span><span class="o">:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">scale</span>
+                                                   <span class="n">andZoom</span><span class="o">:</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">zoom</span>
+                                                <span class="n">andMapView</span><span class="o">:</span><span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="n">mapView</span>
+                                       <span class="n">andScreenPercentage</span><span class="o">:</span>
+                                           <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">screenClickPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildResultsInfoMessageAndClose</span><span class="p">(</span><span class="n">with</span> <span class="nv">results</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andTolerance</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andLocationCoordinate</span> <span class="nv">locationCoordinate</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andZoom</span> <span class="nv">zoom</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMapView</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="o">!</span><span class="p">,</span> <span class="n">andScreenPercentage</span> <span class="nv">screenClickPercentage</span><span class="p">:</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>results</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index results</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>locationCoordinate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scale</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>scale factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoom</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>current zoom level</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map view</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenClickPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>screen click percentage between 0.0 and 1.0</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>results message or null if no results</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L151">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureInfoBuilder(im)buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureInfoBuilder(im)buildResultsInfoMessageAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:">-buildResultsInfoMessageAndCloseWithFeatureIndexResults:<wbr>andTolerance:<wbr>andLocationCoordinate:<wbr>andScale:<wbr>andZoom:<wbr>andMapView:<wbr>andScreenPercentage:<wbr>andProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a feature results information message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">buildResultsInfoMessageAndCloseWithFeatureIndexResults</span><span class="p">:</span>
+        <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">results</span>
+                                              <span class="nf">andTolerance</span><span class="p">:</span>
+                                                  <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span>
+                                     <span class="nf">andLocationCoordinate</span><span class="p">:</span>
+                                         <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span>
+                                             <span class="n">locationCoordinate</span>
+                                                  <span class="n">andScale</span><span class="o">:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">scale</span>
+                                                   <span class="n">andZoom</span><span class="o">:</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">zoom</span>
+                                                <span class="n">andMapView</span><span class="o">:</span><span class="p">(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="n">mapView</span>
+                                       <span class="n">andScreenPercentage</span><span class="o">:</span>
+                                           <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">screenClickPercentage</span>
+                                             <span class="n">andProjection</span><span class="o">:</span>
+                                                 <span class="p">(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="n">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildResultsInfoMessageAndClose</span><span class="p">(</span><span class="n">with</span> <span class="nv">results</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andTolerance</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andLocationCoordinate</span> <span class="nv">locationCoordinate</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andZoom</span> <span class="nv">zoom</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMapView</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="o">!</span><span class="p">,</span> <span class="n">andScreenPercentage</span> <span class="nv">screenClickPercentage</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>results</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index results</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>locationCoordinate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scale</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>scale factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoom</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>current zoom level</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map view</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenClickPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>screen click percentage between 0.0 and 1.0</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>desired geometry projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>results message or null if no results</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L167">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5814,10 +6250,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>feature table data or nil if not results</p>
+                        <p>feature table data or nil if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L138">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5913,10 +6349,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>feature table data or nil if not results</p>
+                        <p>feature table data or nil if notresults</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L150">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L190">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6000,10 +6436,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>table data or nil if not results</p>
+                        <p>table data or nil if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L161">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L201">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6100,10 +6536,301 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>table data or nil if not results</p>
+                        <p>table data or nil if no results</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.1.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L173">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L213">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureInfoBuilder(im)buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/-buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureInfoBuilder(im)buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:">-buildTableDataAndCloseWithFeatureIndexResults:<wbr>andTolerance:<wbr>andLocationCoordinate:<wbr>andScale:<wbr>andZoom:<wbr>andMapView:<wbr>andScreenPercentage:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a feature table data results</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span>
+        <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">results</span>
+                                     <span class="nf">andTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span>
+                            <span class="nf">andLocationCoordinate</span><span class="p">:</span>
+                                <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">locationCoordinate</span>
+                                         <span class="nf">andScale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">scale</span>
+                                          <span class="nf">andZoom</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">zoom</span>
+                                       <span class="nf">andMapView</span><span class="p">:(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="nv">mapView</span>
+                              <span class="nf">andScreenPercentage</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">screenClickPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildTableDataAndClose</span><span class="p">(</span><span class="n">with</span> <span class="nv">results</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andTolerance</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andLocationCoordinate</span> <span class="nv">locationCoordinate</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andZoom</span> <span class="nv">zoom</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMapView</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="o">!</span><span class="p">,</span> <span class="n">andScreenPercentage</span> <span class="nv">screenClickPercentage</span><span class="p">:</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>results</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index results</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>locationCoordinate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scale</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>scale factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoom</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>current zoom level</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map view</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenClickPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>screen click percentage between 0.0 and 1.0</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>feature table data or null if no results</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L227">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureInfoBuilder(im)buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:"></a>
+                    <a name="//apple_ref/objc/Method/-buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureInfoBuilder(im)buildTableDataAndCloseWithFeatureIndexResults:andTolerance:andLocationCoordinate:andScale:andZoom:andMapView:andScreenPercentage:andProjection:">-buildTableDataAndCloseWithFeatureIndexResults:<wbr>andTolerance:<wbr>andLocationCoordinate:<wbr>andScale:<wbr>andZoom:<wbr>andMapView:<wbr>andScreenPercentage:<wbr>andProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a feature table data results</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">buildTableDataAndCloseWithFeatureIndexResults</span><span class="p">:</span>
+        <span class="p">(</span><span class="n"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">results</span>
+                                     <span class="nf">andTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span>
+                            <span class="nf">andLocationCoordinate</span><span class="p">:</span>
+                                <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">locationCoordinate</span>
+                                         <span class="nf">andScale</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">scale</span>
+                                          <span class="nf">andZoom</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">zoom</span>
+                                       <span class="nf">andMapView</span><span class="p">:(</span><span class="n">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="nv">mapView</span>
+                              <span class="nf">andScreenPercentage</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">screenClickPercentage</span>
+                                    <span class="nf">andProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildTableDataAndClose</span><span class="p">(</span><span class="n">with</span> <span class="nv">results</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGFeatureIndexResults.html">GPKGFeatureIndexResults</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andTolerance</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andLocationCoordinate</span> <span class="nv">locationCoordinate</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andZoom</span> <span class="nv">zoom</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">andMapView</span> <span class="nv">mapView</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="o">!</span><span class="p">,</span> <span class="n">andScreenPercentage</span> <span class="nv">screenClickPercentage</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andProjection</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGFeatureTableData.html">GPKGFeatureTableData</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>results</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>feature index results</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>locationCoordinate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scale</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>scale factor</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>zoom</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>current zoom level</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapView</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map view</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenClickPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>screen click percentage between 0.0 and 1.0</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>desired geometry projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>feature table data or null if no results</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h#L242">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6113,8 +6840,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-03-10)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-04-19)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -10908,14 +10908,14 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h",
-      "line": 18,
+      "line": 19,
       "symbol": "GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/extension/nga/style/GPKGFeatureStyleExtension.h",
-      "line": 19,
+      "line": 20,
       "symbol": "GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
@@ -11776,7 +11776,7 @@
     },
     {
       "file": "/Users/osbornb/git/geopackage-ios/geopackage-ios/map/features/GPKGFeatureInfoBuilder.h",
-      "line": 16,
+      "line": 17,
       "symbol": "GPKGFeatureInfoBuilder",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
