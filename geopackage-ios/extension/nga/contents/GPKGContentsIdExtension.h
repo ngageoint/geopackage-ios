@@ -16,8 +16,8 @@ extern NSString * const GPKG_PROP_EXTENSION_CONTENTS_ID_DEFINITION;
  * This extension assigns a unique integer identifier to tables defined in the
  * contents. Allows foreign key referencing to a contents (text based primary
  * key) by an integer identifier.
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html
+ * <p>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html">http://ngageoint.github.io/GeoPackage/docs/extensions/contents-id.html</a>
  */
 @interface GPKGContentsIdExtension : GPKGBaseExtension
 

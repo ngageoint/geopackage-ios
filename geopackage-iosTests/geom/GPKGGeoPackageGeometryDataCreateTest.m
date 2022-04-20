@@ -19,4 +19,20 @@
     [GPKGGeoPackageGeometryDataUtils testGeometryProjectionTransform:self.geoPackage];
 }
 
+-(void) testInsertGeometryBytes {
+    [GPKGGeoPackageGeometryDataUtils testInsertGeometryBytesWithGeoPackage:self.geoPackage];
+}
+
+-(void) testInsertHeaderBytes {
+    [GPKGGeoPackageGeometryDataUtils testInsertHeaderBytesWithGeoPackage:self.geoPackage];
+}
+
+-(void) testInsertHeaderAndGeometryBytes {
+    [GPKGGeoPackageGeometryDataUtils testInsertHeaderAndGeometryBytesWithGeoPackage:self.geoPackage];
+}
+
+-(void) testInsertBytes {
+    [GPKGGeoPackageGeometryDataUtils testInsertBytesWithGeoPackage:self.geoPackage];
+}
+
 @end

@@ -33,6 +33,11 @@
 @property (nonatomic) BOOL featuresInfo;
 
 /**
+ * Pixel bounds
+ */
+@property (nonatomic, strong) GPKGPixelBounds *stylePixelBounds;
+
+/**
  *  Initialize
  *
  *  @param featureOverlay feature overlay
@@ -71,6 +76,11 @@
  *  @return feature info builder
  */
 -(GPKGFeatureInfoBuilder *) featureInfoBuilder;
+
+/**
+ * Calculate and set the style pixel bounds to enable queries on visible feature styles
+ */
+-(void) calculateStylePixelBounds;
 
 /**
  *  Determine if the the feature overlay is on for the current zoom level of the map view at the location coordinate

@@ -168,7 +168,7 @@ NSString * const GPKG_PROP_EXTENSION_GEOMETRY_INDEX_DEFINITION = @"geopackage.ex
     if(geomData != nil){
         
         // Get or build the envelope
-        SFGeometryEnvelope *envelope = [geomData envelope];
+        SFGeometryEnvelope *envelope = [geomData getOrBuildEnvelope];
         
         // Create the new index row
         if(envelope != nil){

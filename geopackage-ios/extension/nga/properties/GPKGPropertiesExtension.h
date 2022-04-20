@@ -17,8 +17,8 @@ extern NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE;
 /**
  * GeoPackage properties extension for defining GeoPackage specific
  * properties, attributes, and metadata
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html
+ * <p>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html">http://ngageoint.github.io/GeoPackage/docs/extensions/properties.html</a>
  */
 @interface GPKGPropertiesExtension : GPKGBaseExtension
 

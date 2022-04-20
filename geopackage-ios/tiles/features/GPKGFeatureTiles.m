@@ -441,6 +441,18 @@
     return image;
 }
 
+-(GPKGPixelBounds *) calculateStylePixelBounds{
+    return [self calculateStylePixelBoundsWithScale:_scale];
+}
+
+-(GPKGPixelBounds *) calculateStylePixelBoundsWithScale: (float) scale{
+    GPKGPixelBounds *pixelBounds = nil;
+    if(_featureTableStyles != nil){
+        pixelBounds = [_featureTableStyles calculatePixelBoundsWithScale:scale];
+    }
+    return pixelBounds;
+}
+
 -(UIImage *) drawTileWithZoom: (int) zoom andBoundingBox: (GPKGBoundingBox *) webMercatorBoundingBox andIndexResults: (GPKGFeatureIndexResults *) results{
     
     UIImage *image = nil;
@@ -617,7 +629,7 @@
         SFGeometry * geometry = geomData.geometry;
         if(geometry != nil){
             
-            GPKGBoundingBox *geometryBoundingBox = [geomData buildBoundingBox];
+            GPKGBoundingBox *geometryBoundingBox = [geomData getOrBuildBoundingBox];
             boundingBox = [converter boundingBoxToWebMercator:geometryBoundingBox];
             
         }

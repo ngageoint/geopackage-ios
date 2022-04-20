@@ -17,8 +17,8 @@ extern NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION;
 /**
  * Feature Tile Table linker, used to link feature and tile tables
  * together when the tiles represent the feature data
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/feature-tile-link.html
+ * <p>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/feature-tile-link.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-tile-link.html</a>
  */
 @interface GPKGFeatureTileTableLinker : GPKGBaseExtension
 

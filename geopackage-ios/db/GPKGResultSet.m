@@ -246,6 +246,15 @@
     return id;
 }
 
+-(int) idValue{
+    int idValue = -1;
+    NSNumber *id = [self id];
+    if(id != nil){
+        idValue = [id intValue];
+    }
+    return idValue;
+}
+
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained *)stackbuf count:(NSUInteger)len{
     self.rows = [NSMutableArray arrayWithCapacity:len];
     

@@ -409,6 +409,21 @@ static int DEFAULT_MAP_SHAPE_CACHE_SIZE = 1000;
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom;
 
 /**
+ * Calculate style pixel bounds
+ *
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculateStylePixelBounds;
+
+/**
+ * Calculate style pixel bounds
+ *
+ * @param scale scale factor
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculateStylePixelBoundsWithScale: (float) scale;
+
+/**
  * Draw a tile image from feature index results
  *
  * @param zoom                   zoom level

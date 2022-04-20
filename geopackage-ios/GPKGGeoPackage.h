@@ -628,7 +628,7 @@
 
 /**
  *  Create a new feature table
- *
+ *  <p>
  *  WARNING: only creates the feature table, call
  *  createFeatureTableWithMetadata instead to create both
  *  the table and required GeoPackage metadata
@@ -676,8 +676,8 @@
 -(BOOL) createTileMatrixTable;
 
 /**
- *  Create a new tile table
- *
+ * Create a new tile table
+ * <p>
  * WARNING: only creates the tile table, call
  * createTileTableWithMetadata instead to create both the
  * table and required GeoPackage metadata
@@ -698,7 +698,7 @@
 
 /**
  * Create a new attributes table
- *
+ * <p>
  * WARNING: only creates the attributes table, call
  * createAttributesTableWithMetadata instead to
  * create both the table and required GeoPackage metadata

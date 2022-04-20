@@ -17,8 +17,8 @@ extern NSString * const GPKG_NGA_EXTENSION_AUTHOR;
 
 /**
  *  NGA extensions
- *
- *  http://ngageoint.github.io/GeoPackage/docs/extensions/
+ * <p>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/">http://ngageoint.github.io/GeoPackage/docs/extensions/</a>
  */
 @interface GPKGNGAExtensions : GPKGExtensionManagement
 

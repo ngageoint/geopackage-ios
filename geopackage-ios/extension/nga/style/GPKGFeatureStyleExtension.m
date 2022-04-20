@@ -98,6 +98,14 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     return _contentsId;
 }
 
+-(BOOL) createStyleTable{
+    return [_relatedTables createRelatedTable:[[GPKGStyleTable alloc] init]];
+}
+
+-(BOOL) createIconTable{
+    return [_relatedTables createRelatedTable:[[GPKGIconTable alloc] init]];
+}
+
 -(void) createRelationshipsWithTable: (NSString *) featureTable{
     [self createStyleRelationshipWithTable:featureTable];
     [self createTableStyleRelationshipWithTable:featureTable];
@@ -200,6 +208,22 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
     }
     
+}
+
+-(GPKGResultSet *) styleTableRelations{
+    return [_relatedTables relationsToRelatedTable:GPKG_ST_TABLE_NAME];
+}
+
+-(BOOL) hasStyleTableRelations{
+    return [_relatedTables hasRelationsToRelatedTable:GPKG_ST_TABLE_NAME];
+}
+
+-(GPKGResultSet *) iconTableRelations{
+    return [_relatedTables relationsToRelatedTable:GPKG_IT_TABLE_NAME];
+}
+
+-(BOOL) hasIconTableRelations{
+    return [_relatedTables hasRelationsToRelatedTable:GPKG_IT_TABLE_NAME];
 }
 
 -(void) deleteRelationships{
@@ -412,6 +436,98 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         iconRow = [tableIcons iconForGeometryType:geometryType];
     }
     return iconRow;
+}
+
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) stylesWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *styles = [NSMutableDictionary dictionary];
+    
+    GPKGStyles *tableStyles = [self tableStylesWithTableName:featureTable];
+    if(tableStyles != nil){
+        GPKGStyleRow *defaultStyleRow = [tableStyles defaultStyle];
+        if(defaultStyleRow != nil){
+            [styles setObject:defaultStyleRow forKey:[defaultStyleRow id]];
+        }
+        for(GPKGStyleRow *styleRow in [[tableStyles allStyles] allValues]){
+            [styles setObject:styleRow forKey:[styleRow id]];
+        }
+    }
+    
+    [styles addEntriesFromDictionary:[self featureStylesWithTableName:featureTable]];
+    
+    return styles;
+}
+
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStylesWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGStyleRow *> *styles = [NSMutableDictionary dictionary];
+    
+    GPKGStyleMappingDao *mappingDao = [self styleMappingDaoWithTable:featureTable];
+    GPKGStyleDao *styleDao = [self styleDao];
+    
+    if(mappingDao != nil && styleDao != nil){
+        
+        GPKGResultSet *resultSet = [mappingDao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:GPKG_UMT_COLUMN_RELATED_ID]];
+        
+        @try {
+            while([resultSet moveToNext]){
+                GPKGStyleMappingRow *styleMappingRow = [mappingDao row:resultSet];
+                GPKGStyleRow *styleRow = [styleDao queryForRow:styleMappingRow];
+                [styles setObject:styleRow forKey:[styleRow id]];
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+    }
+    
+    return styles;
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) iconsWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *icons = [NSMutableDictionary dictionary];
+    
+    GPKGIcons *tableIcons = [self tableIconsWithTableName:featureTable];
+    if(tableIcons != nil){
+        GPKGIconRow *defaultIconRow = [tableIcons defaultIcon];
+        if(defaultIconRow != nil){
+            [icons setObject:defaultIconRow forKey:[defaultIconRow id]];
+        }
+        for(GPKGIconRow *iconRow in [[tableIcons allIcons] allValues]){
+            [icons setObject:iconRow forKey:[iconRow id]];
+        }
+    }
+    
+    [icons addEntriesFromDictionary:[self featureIconsWithTableName:featureTable]];
+    
+    return icons;
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIconsWithTableName: (NSString *) featureTable{
+    
+    NSMutableDictionary<NSNumber *, GPKGIconRow *> *icons = [NSMutableDictionary dictionary];
+    
+    GPKGStyleMappingDao *mappingDao = [self iconMappingDaoWithTable:featureTable];
+    GPKGIconDao *iconDao = [self iconDao];
+    
+    if(mappingDao != nil && iconDao != nil){
+        
+        GPKGResultSet *resultSet = [mappingDao queryWithDistinct:YES andColumns:[NSArray arrayWithObject:GPKG_UMT_COLUMN_RELATED_ID]];
+        
+        @try {
+            while([resultSet moveToNext]){
+                GPKGStyleMappingRow *styleMappingRow = [mappingDao row:resultSet];
+                GPKGIconRow *iconRow = [iconDao queryForRow:styleMappingRow];
+                [icons setObject:iconRow forKey:[iconRow id]];
+            }
+        } @finally {
+            [resultSet close];
+        }
+        
+    }
+    
+    return icons;
 }
 
 -(GPKGFeatureStyles *) featureStylesWithFeature: (GPKGFeatureRow *) featureRow{
@@ -1311,6 +1427,316 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
     [self deleteIconWithTableName:featureTable andId:[featureId intValue] andGeometryType:geometryType];
 }
 
+-(int) countMappingsToStyleRow: (GPKGStyleRow *) styleRow{
+    return [self countMappingsToStyleRowId:[styleRow idValue]];
+}
+
+-(int) countMappingsToStyleRowId: (int) id{
+    return [_relatedTables countMappingsToRelatedTable:GPKG_ST_TABLE_NAME andRelatedId:id];
+}
+
+-(BOOL) hasMappingToStyleRow: (GPKGStyleRow *) styleRow{
+    return [self hasMappingToStyleRowId:[styleRow idValue]];
+}
+
+-(BOOL) hasMappingToStyleRowId: (int) id{
+    return [_relatedTables hasMappingToRelatedTable:GPKG_ST_TABLE_NAME andRelatedId:id];
+}
+
+-(int) deleteMappingsToStyleRow: (GPKGStyleRow *) styleRow{
+    return [self deleteMappingsToStyleRowId:[styleRow idValue]];
+}
+
+-(int) deleteMappingsToStyleRowId: (int) id{
+    return [_relatedTables deleteMappingsToRelatedTable:GPKG_ST_TABLE_NAME andRelatedId:id];
+}
+
+-(int) deleteStyleRow: (GPKGStyleRow *) styleRow{
+    return [self deleteStyleRowById:[styleRow idValue]];
+}
+
+-(int) deleteNotMappedStyleRow: (GPKGStyleRow *) styleRow{
+    return [self deleteNotMappedStyleRowById:[styleRow idValue]];
+}
+
+-(int) deleteStyleRowById: (int) id{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count = [self deleteMappingsToStyleRowId:id];
+        count += [styleDao deleteById:[NSNumber numberWithInt:id]];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedStyleRowById: (int) id{
+    int count = 0;
+    if(![self hasMappingToStyleRowId:id]){
+        count = [self deleteStyleRowById:id];
+    }
+    return count;
+}
+
+-(int) deleteStyleRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteStyleRowsInResults:[styleDao queryWhere:where andWhereArgs:whereArgs] withDao:styleDao];
+        count += [styleDao deleteWhere:where andWhereArgs:whereArgs];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedStyleRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteNotMappedStyleRowsInResults:[styleDao queryWhere:where andWhereArgs:whereArgs] withDao:styleDao];
+    }
+    return count;
+}
+
+-(int) deleteStyleRowsByFieldValues: (GPKGColumnValues *) fieldValues{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteStyleRowsInResults:[styleDao queryForFieldValues:fieldValues] withDao:styleDao];
+        count += [styleDao deleteByFieldValues:fieldValues];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedStyleRowsByFieldValues: (GPKGColumnValues *) fieldValues{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteNotMappedStyleRowsInResults:[styleDao queryForFieldValues:fieldValues] withDao:styleDao];
+    }
+    return count;
+}
+
+-(int) deleteStyleRows{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteStyleRowsInResults:[styleDao query] withDao:styleDao];
+        count += [styleDao deleteAll];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedStyleRows{
+    int count = 0;
+    GPKGStyleDao *styleDao = [self styleDao];
+    if(styleDao != nil){
+        count += [self deleteNotMappedStyleRowsInResults:[styleDao query] withDao:styleDao];
+    }
+    return count;
+}
+
+/**
+ * Delete style rows from the results
+ *
+ * @param results style row result set
+ * @param styleDao style dao
+ * @return deleted count
+ */
+-(int) deleteStyleRowsInResults: (GPKGResultSet *) results withDao: (GPKGStyleDao *) styleDao{
+    NSMutableArray<NSNumber *> *ids = [NSMutableArray array];
+    [results setColumnsFromTable:styleDao.table];
+    @try {
+        while([results moveToNext]){
+            [ids addObject:[results id]];
+        }
+    } @finally {
+        [results close];
+    }
+    int count = 0;
+    for(NSNumber *id in ids){
+        count += [self deleteMappingsToStyleRowId:[id intValue]];
+    }
+    return count;
+}
+
+/**
+ * Delete style rows from the results if they have no mappings
+ *
+ * @param results style row result set
+ * @param styleDao style dao
+ * @return deleted count
+ */
+-(int) deleteNotMappedStyleRowsInResults: (GPKGResultSet *) results withDao: (GPKGStyleDao *) styleDao{
+    NSMutableArray<NSNumber *> *ids = [NSMutableArray array];
+    [results setColumnsFromTable:styleDao.table];
+    @try {
+        while([results moveToNext]){
+            [ids addObject:[results id]];
+        }
+    } @finally {
+        [results close];
+    }
+    int count = 0;
+    for(NSNumber *id in ids){
+        count += [self deleteNotMappedStyleRowById:[id intValue]];
+    }
+    return count;
+}
+
+-(int) countMappingsToIconRow: (GPKGIconRow *) iconRow{
+    return [self countMappingsToIconRowId:[iconRow idValue]];
+}
+
+-(int) countMappingsToIconRowId: (int) id{
+    return [_relatedTables countMappingsToRelatedTable:GPKG_IT_TABLE_NAME andRelatedId:id];
+}
+
+-(BOOL) hasMappingToIconRow: (GPKGIconRow *) iconRow{
+    return [self hasMappingToIconRowId:[iconRow idValue]];
+}
+
+-(BOOL) hasMappingToIconRowId: (int) id{
+    return [_relatedTables hasMappingToRelatedTable:GPKG_IT_TABLE_NAME andRelatedId:id];
+}
+
+-(int) deleteMappingsToIconRow: (GPKGIconRow *) iconRow{
+    return [self deleteMappingsToIconRowId:[iconRow idValue]];
+}
+
+-(int) deleteMappingsToIconRowId: (int) id{
+    return [_relatedTables deleteMappingsToRelatedTable:GPKG_IT_TABLE_NAME andRelatedId:id];
+}
+
+-(int) deleteIconRow: (GPKGIconRow *) iconRow{
+    return [self deleteIconRowById:[iconRow idValue]];
+}
+
+-(int) deleteNotMappedIconRow: (GPKGIconRow *) iconRow{
+    return [self deleteNotMappedIconRowById:[iconRow idValue]];
+}
+
+-(int) deleteIconRowById: (int) id{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count = [self deleteMappingsToIconRowId:id];
+        count += [iconDao deleteById:[NSNumber numberWithInt:id]];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedIconRowById: (int) id{
+    int count = 0;
+    if(![self hasMappingToIconRowId:id]){
+        count = [self deleteIconRowById:id];
+    }
+    return count;
+}
+
+-(int) deleteIconRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteIconRowsInResults:[iconDao queryWhere:where andWhereArgs:whereArgs] withDao:iconDao];
+        count += [iconDao deleteWhere:where andWhereArgs:whereArgs];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedIconRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteNotMappedIconRowsInResults:[iconDao queryWhere:where andWhereArgs:whereArgs] withDao:iconDao];
+    }
+    return count;
+}
+
+-(int) deleteIconRowsByFieldValues: (GPKGColumnValues *) fieldValues{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteIconRowsInResults:[iconDao queryForFieldValues:fieldValues] withDao:iconDao];
+        count += [iconDao deleteByFieldValues:fieldValues];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedIconRowsByFieldValues: (GPKGColumnValues *) fieldValues{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteNotMappedIconRowsInResults:[iconDao queryForFieldValues:fieldValues] withDao:iconDao];
+    }
+    return count;
+}
+
+-(int) deleteIconRows{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteIconRowsInResults:[iconDao query] withDao:iconDao];
+        count += [iconDao deleteAll];
+    }
+    return count;
+}
+
+-(int) deleteNotMappedIconRows{
+    int count = 0;
+    GPKGIconDao *iconDao = [self iconDao];
+    if(iconDao != nil){
+        count += [self deleteNotMappedIconRowsInResults:[iconDao query] withDao:iconDao];
+    }
+    return count;
+}
+
+/**
+ * Delete icon rows from the results
+ *
+ * @param results icon row result set
+ * @param iconDao icon dao
+ * @return deleted count
+ */
+-(int) deleteIconRowsInResults: (GPKGResultSet *) results withDao: (GPKGIconDao *) iconDao{
+    NSMutableArray<NSNumber *> *ids = [NSMutableArray array];
+    [results setColumnsFromTable:iconDao.table];
+    @try {
+        while([results moveToNext]){
+            [ids addObject:[results id]];
+        }
+    } @finally {
+        [results close];
+    }
+    int count = 0;
+    for(NSNumber *id in ids){
+        count += [self deleteMappingsToIconRowId:[id intValue]];
+    }
+    return count;
+}
+
+/**
+ * Delete icon rows from the results if they have no mappings
+ *
+ * @param results icon row result set
+ * @param iconDao icon dao
+ * @return deleted count
+ */
+-(int) deleteNotMappedIconRowsInResults: (GPKGResultSet *) results withDao: (GPKGIconDao *) iconDao{
+    NSMutableArray<NSNumber *> *ids = [NSMutableArray array];
+    [results setColumnsFromTable:iconDao.table];
+    @try {
+        while([results moveToNext]){
+            [ids addObject:[results id]];
+        }
+    } @finally {
+        [results close];
+    }
+    int count = 0;
+    for(NSNumber *id in ids){
+        count += [self deleteNotMappedIconRowById:[id intValue]];
+    }
+    return count;
+}
+
 /**
  * Delete all style mappings
  *
@@ -1397,6 +1823,81 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         iconIds = [mappingDao uniqueRelatedIds];
     }
     return iconIds;
+}
+
+-(GPKGPixelBounds *) calculatePixelBoundsWithTable: (NSString *) featureTable{
+    return [self calculatePixelBoundsWithTable:featureTable andScale:[UIScreen mainScreen].nativeScale];
+}
+
+-(GPKGPixelBounds *) calculatePixelBoundsWithTable: (NSString *) featureTable andScale: (float) scale{
+    
+    NSDictionary<NSNumber *, GPKGStyleRow *> *styles = [self stylesWithTableName:featureTable];
+    NSDictionary<NSNumber *, GPKGIconRow *> *icons = [self iconsWithTableName:featureTable];
+    
+    GPKGPixelBounds *pixelBounds = [GPKGPixelBounds create];
+    
+    for(GPKGStyleRow *styleRow in [styles allValues]){
+        [GPKGFeatureStyleExtension expandPixelBounds:pixelBounds withStyleRow:styleRow andScale:scale];
+    }
+    
+    for(GPKGIconRow *iconRow in [icons allValues]){
+        [GPKGFeatureStyleExtension expandPixelBounds:pixelBounds withIconRow:iconRow andScale:scale];
+    }
+    
+    return pixelBounds;
+}
+
++(GPKGPixelBounds *) calculatePixelBoundsWithStyleRow: (GPKGStyleRow *) styleRow{
+    return [self calculatePixelBoundsWithStyleRow:styleRow andScale:[UIScreen mainScreen].nativeScale];
+}
+
++(GPKGPixelBounds *) calculatePixelBoundsWithStyleRow: (GPKGStyleRow *) styleRow andScale: (float) scale{
+    GPKGPixelBounds *pixelBounds = [GPKGPixelBounds create];
+    [self expandPixelBounds:pixelBounds withStyleRow:styleRow andScale:scale];
+    return pixelBounds;
+}
+
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withStyleRow: (GPKGStyleRow *) styleRow{
+    [self expandPixelBounds:pixelBounds withStyleRow:styleRow andScale:[UIScreen mainScreen].nativeScale];
+}
+
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withStyleRow: (GPKGStyleRow *) styleRow andScale: (float) scale{
+    double styleHalfWidth = scale * ([styleRow widthOrDefault] / 2.0);
+    [pixelBounds expandLength:styleHalfWidth];
+}
+
++(GPKGPixelBounds *) calculatePixelBoundsWithIconRow: (GPKGIconRow *) iconRow{
+    return [self calculatePixelBoundsWithIconRow:iconRow andScale:[UIScreen mainScreen].nativeScale];
+}
+
++(GPKGPixelBounds *) calculatePixelBoundsWithIconRow: (GPKGIconRow *) iconRow andScale: (float) scale{
+    GPKGPixelBounds *pixelBounds = [GPKGPixelBounds create];
+    [self expandPixelBounds:pixelBounds withIconRow:iconRow andScale:scale];
+    return pixelBounds;
+}
+
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withIconRow: (GPKGIconRow *) iconRow{
+    [self expandPixelBounds:pixelBounds withIconRow:iconRow andScale:[UIScreen mainScreen].nativeScale];
+}
+
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withIconRow: (GPKGIconRow *) iconRow andScale: (float) scale{
+    double *iconDimensions = [iconRow derivedDimensions];
+    double iconWidth = scale * ceil(iconDimensions[0]);
+    double iconHeight = scale * ceil(iconDimensions[1]);
+    free(iconDimensions);
+    double anchorU = [iconRow anchorUOrDefault];
+    double anchorV = [iconRow anchorVOrDefault];
+    
+    double left = anchorU * iconWidth;
+    double right = iconWidth - left;
+    double top = anchorV * iconHeight;
+    double bottom = iconHeight - top;
+    
+    // Expand in the opposite directions for queries
+    [pixelBounds expandLeft:right];
+    [pixelBounds expandRight:left];
+    [pixelBounds expandUp:bottom];
+    [pixelBounds expandDown:top];
 }
 
 @end

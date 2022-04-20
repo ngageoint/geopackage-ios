@@ -506,6 +506,72 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     return [NSString stringWithFormat:@"x-%@_%@", author, name];
 }
 
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToBaseTable:baseTable];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToBaseTable: (NSString *) baseTable{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToBaseTable:baseTable];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
+-(GPKGResultSet *) relationsToRelatedTable: (NSString *) relatedTable{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToRelatedTable:relatedTable];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToRelatedTable: (NSString *) relatedTable{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToRelatedTable:relatedTable];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
+-(GPKGResultSet *) relationsToTable: (NSString *) table{
+    GPKGResultSet *extendedRelations = nil;
+    GPKGExtendedRelationsDao *dao = [self extendedRelationsDao];
+    if([dao tableExists]){
+        extendedRelations = [[self extendedRelationsDao] relationsToTable:table];
+    }
+    return extendedRelations;
+}
+
+-(BOOL) hasRelationsToTable: (NSString *) table{
+    BOOL has = NO;
+    GPKGResultSet *results = [self relationsToTable:table];
+    if(results != nil){
+        @try {
+            has = results.count > 0;
+        } @finally {
+            [results close];
+        }
+    }
+    return has;
+}
+
 -(GPKGUserCustomDao *) userDaoForTableName: (NSString *) tableName{
     return [GPKGUserCustomDao readTableWithDatabase:self.geoPackage.name andConnection:self.geoPackage.database andTable:tableName];
 }
@@ -593,6 +659,136 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
 -(BOOL) hasMappingWithTableName: (NSString *) tableName andBaseId: (int) baseId andRelatedId: (int) relatedId{
     GPKGUserMappingDao *userMappingDao = [self mappingDaoForTableName:tableName];
     return [userMappingDao countByBaseId:baseId andRelatedId:relatedId] > 0;
+}
+
+-(int) countMappingsToBaseTable: (NSString *) baseTable andBaseId: (int) baseId{
+    return [self countMappingsInRelations:[self relationsToBaseTable:baseTable] toBaseId:baseId];
+}
+
+-(BOOL) hasMappingToBaseTable: (NSString *) baseTable andBaseId: (int) baseId{
+    return [self countMappingsToBaseTable:baseTable andBaseId:baseId] > 0;
+}
+
+-(int) countMappingsInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId{
+    int count = 0;
+    if(extendedRelations != nil){
+        @try {
+            while([extendedRelations moveToNext]){
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
+                count += [self countMappingsInRelation:extendedRelation toBaseId:baseId];
+            }
+        } @finally {
+            [extendedRelations close];
+        }
+    }
+    return count;
+}
+
+-(BOOL) hasMappingInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId{
+    return [self countMappingsInRelations:extendedRelations toBaseId:baseId] > 0;
+}
+
+-(int) countMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId{
+    return [[self mappingDaoForRelation:extendedRelation] countByBaseId:baseId];
+}
+
+-(BOOL) hasMappingInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId{
+    return [self countMappingsInRelation:extendedRelation toBaseId:baseId] > 0;
+}
+
+-(int) deleteMappingsToBaseTable: (NSString *) baseTable andBaseId: (int) baseId{
+    return [self deleteMappingsInRelations:[self relationsToBaseTable:baseTable] toBaseId:baseId];
+}
+
+-(int) deleteMappingsInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId{
+    int count = 0;
+    if(extendedRelations != nil){
+        @try {
+            while([extendedRelations moveToNext]){
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
+                count += [self deleteMappingsInRelation:extendedRelation toBaseId:baseId];
+            }
+        } @finally {
+            [extendedRelations close];
+        }
+    }
+    return count;
+}
+
+-(int) deleteMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId{
+    return [[self mappingDaoForRelation:extendedRelation] deleteByBaseId:baseId];
+}
+
+-(int) countMappingsToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId{
+    return [self countMappingsInRelations:[self relationsToRelatedTable:relatedTable] toRelatedId:relatedId];
+}
+
+-(BOOL) hasMappingToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId{
+    return [self countMappingsToRelatedTable:relatedTable andRelatedId:relatedId] > 0;
+}
+
+-(int) countMappingsInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId{
+    int count = 0;
+    if(extendedRelations != nil){
+        @try {
+            while([extendedRelations moveToNext]){
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
+                count += [self countMappingsInRelation:extendedRelation toRelatedId:relatedId];
+            }
+        } @finally {
+            [extendedRelations close];
+        }
+    }
+    return count;
+}
+
+-(BOOL) hasMappingInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId{
+    return [self countMappingsInRelations:extendedRelations toRelatedId:relatedId] > 0;
+}
+
+-(int) countMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId{
+    return [[self mappingDaoForRelation:extendedRelation] countByRelatedId:relatedId];
+}
+
+-(BOOL) hasMappingInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId{
+    return [self countMappingsInRelation:extendedRelation toRelatedId:relatedId] > 0;
+}
+
+-(int) deleteMappingsToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId{
+    return [self deleteMappingsInRelations:[self relationsToRelatedTable:relatedTable] toRelatedId:relatedId];
+}
+
+-(int) deleteMappingsInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId{
+    int count = 0;
+    if(extendedRelations != nil){
+        @try {
+            while([extendedRelations moveToNext]){
+                GPKGExtendedRelation *extendedRelation = [self.extendedRelationsDao relation:extendedRelations];
+                count += [self deleteMappingsInRelation:extendedRelation toRelatedId:relatedId];
+            }
+        } @finally {
+            [extendedRelations close];
+        }
+    }
+    return count;
+}
+
+-(int) deleteMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId{
+    return [[self mappingDaoForRelation:extendedRelation] deleteByRelatedId:relatedId];
+}
+
+-(int) countMappingsToTable: (NSString *) table andId: (int) id{
+    return [self countMappingsInRelations:[self relationsToBaseTable:table] toBaseId:id] + [self countMappingsInRelations:[self relationsToRelatedTable:table] toRelatedId:id];
+}
+
+-(BOOL) hasMappingToTable: (NSString *) table andId: (int) id{
+    return [self hasMappingInRelations:[self relationsToBaseTable:table] toBaseId:id] || [self hasMappingInRelations:[self relationsToRelatedTable:table] toRelatedId:id];
+}
+
+-(int) deleteMappingsToTable: (NSString *) table andId: (int) id{
+    int count = [self deleteMappingsInRelations:[self relationsToBaseTable:table] toBaseId:id];
+    count += [self deleteMappingsInRelations:[self relationsToRelatedTable:table] toRelatedId:id];
+    return count;
 }
 
 @end

@@ -22,8 +22,8 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 
 /**
  * Related Tables extension
- *
- * http://docs.opengeospatial.org/is/18-000/18-000.html
+ * <p>
+ * <a href="http://docs.opengeospatial.org/is/18-000/18-000.html">http://docs.opengeospatial.org/is/18-000/18-000.html</a>
  */
 @interface GPKGRelatedTablesExtension : GPKGBaseExtension
 
@@ -743,6 +743,60 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
 -(NSString *) buildRelationNameWithAuthor: (NSString *) author andName: (NSString *) name;
 
 /**
+ * Get the relations to the base table
+ *
+ * @param baseTable
+ *            base table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToBaseTable: (NSString *) baseTable;
+
+/**
+ * Determine if there are relations to the base table
+ *
+ * @param baseTable
+ *            base table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToBaseTable: (NSString *) baseTable;
+
+/**
+ * Get the relations to the related table
+ *
+ * @param relatedTable
+ *            related table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Determine if there are relations to the related table
+ *
+ * @param relatedTable
+ *            related table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToRelatedTable: (NSString *) relatedTable;
+
+/**
+ * Get the relations to the table
+ *
+ * @param table
+ *            table name
+ * @return extended relations
+ */
+-(GPKGResultSet *) relationsToTable: (NSString *) table;
+
+/**
+ * Determine if there are relations to the table
+ *
+ * @param table
+ *            table name
+ * @return true if has extended relations
+ */
+-(BOOL) hasRelationsToTable: (NSString *) table;
+
+/**
  * Get a User Custom DAO from a table name
  *
  * @param tableName
@@ -876,5 +930,194 @@ extern NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION;
  * @return true if mapping exists
  */
 -(BOOL) hasMappingWithTableName: (NSString *) tableName andBaseId: (int) baseId andRelatedId: (int) relatedId;
+
+/**
+ * Count the number of mappings to the base table and id
+ *
+ * @param baseTable base table name
+ * @param baseId    base id
+ * @return mappings count
+ */
+-(int) countMappingsToBaseTable: (NSString *) baseTable andBaseId: (int) baseId;
+
+/**
+ * Determine if a mapping to the base table and id exists
+ *
+ * @param baseTable base table name
+ * @param baseId    base id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToBaseTable: (NSString *) baseTable andBaseId: (int) baseId;
+
+/**
+ * Count the number of mappings in the extended relations to the base id
+ *
+ * @param extendedRelations extended relations
+ * @param baseId            base id
+ * @return mappings count
+ */
+-(int) countMappingsInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId;
+
+/**
+ * Determine if a mapping in the extended relations to the base id exists
+ *
+ * @param extendedRelations extended relations
+ * @param baseId            base id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId;
+
+/**
+ * Count the number of mappings in the extended relation to the base id
+ *
+ * @param extendedRelation extended relation
+ * @param baseId           base id
+ * @return mappings count
+ */
+-(int) countMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId;
+
+/**
+ * Determine if a mapping in the extended relation to the base id exists
+ *
+ * @param extendedRelation extended relation
+ * @param baseId           base id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId;
+
+/**
+ * Delete mappings to the base table and id
+ *
+ * @param baseTable base table name
+ * @param baseId    base id
+ * @return rows deleted
+ */
+-(int) deleteMappingsToBaseTable: (NSString *) baseTable andBaseId: (int) baseId;
+
+/**
+ * Delete mappings in the extended relations to the base id
+ *
+ * @param extendedRelations extended relations
+ * @param baseId            base id
+ * @return rows deleted
+ */
+-(int) deleteMappingsInRelations: (GPKGResultSet *) extendedRelations toBaseId: (int) baseId;
+
+/**
+ * Delete mappings in the extended relation to the base id
+ *
+ * @param extendedRelation extended relation
+ * @param baseId           base id
+ * @return rows deleted
+ */
+-(int) deleteMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toBaseId: (int) baseId;
+
+/**
+ * Count the number of mappings to the related table and id
+ *
+ * @param relatedTable related table name
+ * @param relatedId    related id
+ * @return mappings count
+ */
+-(int) countMappingsToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId;
+
+/**
+ * Determine if a mapping to the related table and id exists
+ *
+ * @param relatedTable related table name
+ * @param relatedId    related id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId;
+
+/**
+ * Count the number of mappings in the extended relations to the related id
+ *
+ * @param extendedRelations extended relations
+ * @param relatedId         related id
+ * @return mappings count
+ */
+-(int) countMappingsInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId;
+
+/**
+ * Determine if a mapping in the extended relations to the related id exists
+ *
+ * @param extendedRelations extended relations
+ * @param relatedId         related id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId;
+
+/**
+ * Count the number of mappings in the extended relation to the related id
+ *
+ * @param extendedRelation extended relation
+ * @param relatedId        related id
+ * @return mappings count
+ */
+-(int) countMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId;
+
+/**
+ * Determine if a mapping in the extended relation to the related id exists
+ *
+ * @param extendedRelation extended relation
+ * @param relatedId        related id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId;
+
+/**
+ * Delete mappings to the related table and id
+ *
+ * @param relatedTable related table name
+ * @param relatedId    related id
+ * @return rows deleted
+ */
+-(int) deleteMappingsToRelatedTable: (NSString *) relatedTable andRelatedId: (int) relatedId;
+
+/**
+ * Delete mappings in the extended relations to the related id
+ *
+ * @param extendedRelations extended relations
+ * @param relatedId         related id
+ * @return rows deleted
+ */
+-(int) deleteMappingsInRelations: (GPKGResultSet *) extendedRelations toRelatedId: (int) relatedId;
+
+/**
+ * Delete mappings in the extended relation to the related id
+ *
+ * @param extendedRelation extended relation
+ * @param relatedId        related id
+ * @return rows deleted
+ */
+-(int) deleteMappingsInRelation: (GPKGExtendedRelation *) extendedRelation toRelatedId: (int) relatedId;
+
+/**
+ * Count the number of mappings to the table and id
+ *
+ * @param table table name
+ * @param id    table id
+ * @return mappings count
+ */
+-(int) countMappingsToTable: (NSString *) table andId: (int) id;
+
+/**
+ * Determine if a mapping to the table and id exists
+ *
+ * @param table table name
+ * @param id    table id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToTable: (NSString *) table andId: (int) id;
+
+/**
+ * Delete mappings to the table and id
+ *
+ * @param table table name
+ * @param id    table id
+ * @return rows deleted
+ */
+-(int) deleteMappingsToTable: (NSString *) table andId: (int) id;
 
 @end

@@ -215,6 +215,22 @@
     return [self.featureStyleExtension tableIconDefaultWithTableName:self.tableName];
 }
 
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) styles{
+    return [_featureStyleExtension stylesWithTableName:_tableName];
+}
+
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStyles{
+    return [_featureStyleExtension featureStylesWithTableName:_tableName];
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) icons{
+    return [_featureStyleExtension iconsWithTableName:_tableName];
+}
+
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIcons{
+    return [_featureStyleExtension featureIconsWithTableName:_tableName];
+}
+
 -(GPKGFeatureStyles *) featureStylesWithFeature: (GPKGFeatureRow *) featureRow{
     return [self.featureStyleExtension featureStylesWithFeature:featureRow];
 }
@@ -701,6 +717,14 @@
 
 -(NSArray<NSNumber *> *) allIconIds{
     return [self.featureStyleExtension allIconIdsWithTableName:self.tableName];
+}
+
+-(GPKGPixelBounds *) calculatePixelBounds{
+    return [self calculatePixelBoundsWithScale:[UIScreen mainScreen].nativeScale];
+}
+
+-(GPKGPixelBounds *) calculatePixelBoundsWithScale: (float) scale{
+    return [self.featureStyleExtension calculatePixelBoundsWithTable:self.tableName andScale:scale];
 }
 
 @end

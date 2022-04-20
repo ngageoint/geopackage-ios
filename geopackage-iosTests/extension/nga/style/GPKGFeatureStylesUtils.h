@@ -21,5 +21,12 @@
  */
 +(void) testFeatureStylesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
 
+/**
+ * Test Feature Styles shared between multiple tables
+ *
+ * @param geoPackage GeoPackage
+ */
++(void) testSharedFeatureStylesWithGeoPackage: (GPKGGeoPackage *) geoPackage;
+
 @end
 

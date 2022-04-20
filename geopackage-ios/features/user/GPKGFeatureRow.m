@@ -83,7 +83,7 @@
     GPKGGeometryData *data = [self geometry];
     SFGeometryEnvelope *envelope = nil;
     if(data != nil){
-        envelope = [data envelope];
+        envelope = [data getOrBuildEnvelope];
     }
     return envelope;
 }

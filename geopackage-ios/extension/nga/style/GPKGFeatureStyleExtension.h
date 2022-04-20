@@ -14,6 +14,7 @@
 #import "GPKGIconDao.h"
 #import "GPKGFeatureStyles.h"
 #import "GPKGFeatureStyle.h"
+#import "GPKGPixelBounds.h"
 
 extern NSString * const GPKG_EXTENSION_FEATURE_STYLE_NAME_NO_AUTHOR;
 extern NSString * const GPKG_PROP_EXTENSION_FEATURE_STYLE_DEFINITION;
@@ -40,8 +41,8 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 
 /**
  * Feature Style extension
- *
- * http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html
+ * <p>
+ * <a href="http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html">http://ngageoint.github.io/GeoPackage/docs/extensions/feature-style.html</a>
  */
 @interface GPKGFeatureStyleExtension : GPKGBaseExtension
 
@@ -106,6 +107,20 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return contents id extension
  */
 -(GPKGContentsIdExtension *) contentsId;
+
+/**
+ * Create style table
+ *
+ * @return true if created, false if the table already existed
+ */
+-(BOOL) createStyleTable;
+
+/**
+ * Create icon table
+ *
+ * @return true if created, false if the table already existed
+ */
+-(BOOL) createIconTable;
 
 /**
  * Create style, icon, table style, and table icon relationships for the
@@ -204,6 +219,34 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return mapping table name
  */
 -(NSString *) mappingTableNameWithPrefix: (NSString *) tablePrefix andTable: (NSString *) featureTable;
+
+/**
+ * Get style table relations
+ *
+ * @return extended relations
+ */
+-(GPKGResultSet *) styleTableRelations;
+
+/**
+ * Determine if there are style table relations
+ *
+ * @return true if has style table relations
+ */
+-(BOOL) hasStyleTableRelations;
+
+/**
+ * Get icon table relations
+ *
+ * @return extended relations
+ */
+-(GPKGResultSet *) iconTableRelations;
+
+/**
+ * Determine if there are icon table relations
+ *
+ * @return true if has icon table relations
+ */
+-(BOOL) hasIconTableRelations;
 
 /**
  * Delete the style and icon table and row relationships for all feature
@@ -384,6 +427,38 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return icon row
  */
 -(GPKGIconRow *) tableIconWithTableName: (NSString *) featureTable andGeometryType: (enum SFGeometryType) geometryType;
+
+/**
+ * Get all styles used by the feature table
+ *
+ * @param featureTable feature table
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) stylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all styles used by feature rows in the table
+ *
+ * @param featureTable feature table
+ * @return style rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGStyleRow *> *) featureStylesWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all icons used by the feature table
+ *
+ * @param featureTable feature table
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) iconsWithTableName: (NSString *) featureTable;
+
+/**
+ * Get all icons used by feature rows in the table
+ *
+ * @param featureTable feature table
+ * @return icon rows mapped by ids
+ */
+-(NSDictionary<NSNumber *, GPKGIconRow *> *) featureIconsWithTableName: (NSString *) featureTable;
 
 /**
  * Get the feature styles for the feature row
@@ -1524,6 +1599,262 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
 -(void) deleteIconWithTableName: (NSString *) featureTable andIdNumber: (NSNumber *) featureId andGeometryType: (enum SFGeometryType) geometryType;
 
 /**
+ * Count the number of mappings to the style row
+ *
+ * @param styleRow style row
+ * @return mappings count
+ */
+-(int) countMappingsToStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Count the number of mappings to the style row id
+ *
+ * @param id style row id
+ * @return mappings count
+ */
+-(int) countMappingsToStyleRowId: (int) id;
+
+/**
+ * Determine if a mapping to the style row exists
+ *
+ * @param styleRow style row
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Determine if a mapping to the style row id exists
+ *
+ * @param id style row id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToStyleRowId: (int) id;
+
+/**
+ * Delete style row mappings
+ *
+ * @param styleRow style row
+ * @return number of mapping rows deleted
+ */
+-(int) deleteMappingsToStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Delete style row mappings
+ *
+ * @param id style row id
+ * @return number of mapping rows deleted
+ */
+-(int) deleteMappingsToStyleRowId: (int) id;
+
+/**
+ * Delete a style row and mappings
+ *
+ * @param styleRow style row
+ * @return number of rows deleted between the style and mapping tables
+ */
+-(int) deleteStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Delete a style row only if it has no mappings
+ *
+ * @param styleRow style row
+ * @return number of style rows deleted
+ */
+-(int) deleteNotMappedStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Delete a style row by id and mappings
+ *
+ * @param id style row id
+ * @return number of rows deleted between the style and mapping tables
+ */
+-(int) deleteStyleRowById: (int) id;
+
+/**
+ * Delete a style row by id only if it has no mappings
+ *
+ * @param id style row id
+ * @return number of style rows deleted
+ */
+-(int) deleteNotMappedStyleRowById: (int) id;
+
+/**
+ * Delete style rows matching the where clause and mappings to them
+ *
+ * @param where where clause
+ * @param whereArgs   where arguments
+ * @return deleted count
+ */
+-(int) deleteStyleRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Delete style rows matching the where clause if they have no mappings
+ *
+ * @param where where clause
+ * @param whereArgs   where arguments
+ * @return deleted count
+ */
+-(int) deleteNotMappedStyleRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Delete style rows matching the field values and mappings to them
+ *
+ * @param fieldValues field values
+ * @return deleted count
+ */
+-(int) deleteStyleRowsByFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Delete style rows matching the field values if they have no mappings
+ *
+ * @param fieldValues field values
+ * @return deleted count
+ */
+-(int) deleteNotMappedStyleRowsByFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Delete all style rows and mappings to them
+ *
+ * @return deleted count
+ */
+-(int) deleteStyleRows;
+
+/**
+ * Delete all style rows if they have no mappings
+ *
+ * @return deleted count
+ */
+-(int) deleteNotMappedStyleRows;
+
+/**
+ * Count the number of mappings to the icon row
+ *
+ * @param iconRow icon row
+ * @return mappings count
+ */
+-(int) countMappingsToIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Count the number of mappings to the icon row id
+ *
+ * @param id icon row id
+ * @return mappings count
+ */
+-(int) countMappingsToIconRowId: (int) id;
+
+/**
+ * Determine if a mapping to the icon row exists
+ *
+ * @param iconRow icon row
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Determine if a mapping to the icon row id exists
+ *
+ * @param id icon row id
+ * @return true if mapping exists
+ */
+-(BOOL) hasMappingToIconRowId: (int) id;
+
+/**
+ * Delete icon row mappings
+ *
+ * @param iconRow icon row
+ * @return number of mapping rows deleted
+ */
+-(int) deleteMappingsToIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Delete icon row mappings
+ *
+ * @param id icon row id
+ * @return number of mapping rows deleted
+ */
+-(int) deleteMappingsToIconRowId: (int) id;
+
+/**
+ * Delete an icon row and mappings
+ *
+ * @param iconRow icon row
+ * @return number of rows deleted between the icon and mapping tables
+ */
+-(int) deleteIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Delete a icon row only if it has no mappings
+ *
+ * @param iconRow icon row
+ * @return number of icon rows deleted
+ */
+-(int) deleteNotMappedIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Delete an icon row by id and mappings
+ *
+ * @param id icon row id
+ * @return number of rows deleted between the icon and mapping tables
+ */
+-(int) deleteIconRowById: (int) id;
+
+/**
+ * Delete a icon row by id only if it has no mappings
+ *
+ * @param id icon row id
+ * @return number of icon rows deleted
+ */
+-(int) deleteNotMappedIconRowById: (int) id;
+
+/**
+ * Delete icon rows matching the where clause and mappings to them
+ *
+ * @param where where clause
+ * @param whereArgs   where arguments
+ * @return deleted count
+ */
+-(int) deleteIconRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Delete icon rows matching the where clause if they have no mappings
+ *
+ * @param where where clause
+ * @param whereArgs   where arguments
+ * @return deleted count
+ */
+-(int) deleteNotMappedIconRowsWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs;
+
+/**
+ * Delete icon rows matching the field values and mappings to them
+ *
+ * @param fieldValues field values
+ * @return deleted count
+ */
+-(int) deleteIconRowsByFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Delete icon rows matching the field values if they have no mappings
+ *
+ * @param fieldValues field values
+ * @return deleted count
+ */
+-(int) deleteNotMappedIconRowsByFieldValues: (GPKGColumnValues *) fieldValues;
+
+/**
+ * Delete all icon rows and mappings to them
+ *
+ * @return deleted count
+ */
+-(int) deleteIconRows;
+
+/**
+ * Delete all icon rows if they have no mappings
+ *
+ * @return deleted count
+ */
+-(int) deleteNotMappedIconRows;
+
+/**
  * Get all the unique style row ids the table maps to
  *
  * @param featureTable feature table
@@ -1586,5 +1917,90 @@ extern NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON;
  * @return icon row ids
  */
 -(NSArray<NSNumber *> *) allIconIdsWithTableName: (NSString *) featureTable;
+
+/**
+ * Calculate style pixel bounds
+ *
+ * @param featureTable feature table
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculatePixelBoundsWithTable: (NSString *) featureTable;
+
+/**
+ * Calculate style pixel bounds for the feature table
+ *
+ * @param featureTable feature table
+ * @param scale scale factor
+ * @return pixel bounds
+ */
+-(GPKGPixelBounds *) calculatePixelBoundsWithTable: (NSString *) featureTable andScale: (float) scale;
+
+/**
+ * Calculate style pixel bounds for the style row
+ *
+ * @param styleRow style row
+ * @return pixel bounds
+ */
++(GPKGPixelBounds *) calculatePixelBoundsWithStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Calculate style pixel bounds for the style row
+ *
+ * @param styleRow style row
+ * @param scale scale factor
+ * @return pixel bounds
+ */
++(GPKGPixelBounds *) calculatePixelBoundsWithStyleRow: (GPKGStyleRow *) styleRow andScale: (float) scale;
+
+/**
+ * Calculate style pixel bounds for the style row
+ *
+ * @param pixelBounds pixel bounds to expand
+ * @param styleRow    style row
+ */
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withStyleRow: (GPKGStyleRow *) styleRow;
+
+/**
+ * Calculate style pixel bounds for the style row
+ *
+ * @param pixelBounds pixel bounds to expand
+ * @param styleRow    style row
+ * @param scale scale factor
+ */
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withStyleRow: (GPKGStyleRow *) styleRow andScale: (float) scale;
+
+/**
+ * Calculate style pixel bounds for the icon row
+ *
+ * @param iconRow icon row
+ * @return pixel bounds
+ */
++(GPKGPixelBounds *) calculatePixelBoundsWithIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Calculate style pixel bounds for the icon row
+ *
+ * @param iconRow icon row
+ * @param scale scale factor
+ * @return pixel bounds
+ */
++(GPKGPixelBounds *) calculatePixelBoundsWithIconRow: (GPKGIconRow *) iconRow andScale: (float) scale;
+
+/**
+ * Calculate style pixel bounds for the icon row
+ *
+ * @param pixelBounds pixel bounds to expand
+ * @param iconRow     icon row
+ */
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withIconRow: (GPKGIconRow *) iconRow;
+
+/**
+ * Calculate style pixel bounds for the icon row
+ *
+ * @param pixelBounds pixel bounds to expand
+ * @param iconRow     icon row
+ * @param scale scale factor
+ */
++(void) expandPixelBounds: (GPKGPixelBounds *) pixelBounds withIconRow: (GPKGIconRow *) iconRow andScale: (float) scale;
 
 @end

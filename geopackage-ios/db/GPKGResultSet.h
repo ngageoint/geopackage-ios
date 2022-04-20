@@ -243,4 +243,11 @@
  */
 -(NSNumber *) id;
 
+/**
+ *  Get the id value
+ *
+ *  @return id value, or -1 if none
+ */
+-(int) idValue;
+
 @end
