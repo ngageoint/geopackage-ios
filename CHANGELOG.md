@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.2.0 (TBD)
+## [7.2.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.0) (04-20-2022)
 
 * GPKGGeometryData non parsed raw byte support for faster inserts
 * OGC Related Tables Extension relation and mapping methods
