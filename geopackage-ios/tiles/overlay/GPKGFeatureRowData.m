@@ -12,17 +12,29 @@
 @interface GPKGFeatureRowData ()
 
 @property (nonatomic, strong) NSDictionary *values;
+@property (nonatomic, strong) NSString *idColumn;
 @property (nonatomic, strong) NSString *geometryColumn;
 
 @end
 
 @implementation GPKGFeatureRowData
 
+-(instancetype) initWithValues: (NSDictionary *) values{
+    self = [self initWithValues:values andGeometryColumnName:nil];
+    return self;
+}
+
 -(instancetype) initWithValues: (NSDictionary *) values andGeometryColumnName: (NSString *) geometryColumn{
+    self = [self initWithValues:values andIdColumnName:nil andGeometryColumnName:geometryColumn];
+    return self;
+}
+
+-(instancetype) initWithValues: (NSDictionary *) values andIdColumnName: (NSString *) idColumn andGeometryColumnName: (NSString *) geometryColumn{
     self = [super init];
     if(self){
-        self.values = values;
-        self.geometryColumn = geometryColumn;
+        _values = values;
+        _idColumn = idColumn;
+        _geometryColumn = geometryColumn;
     }
     return self;
 }
@@ -31,16 +43,55 @@
     return _values;
 }
 
+-(NSString *) idColumn{
+    return _idColumn;
+}
+
+-(NSNumber *) id{
+    NSNumber *id = nil;
+    if(_idColumn != nil){
+        id = (NSNumber *) [_values objectForKey:_idColumn];
+    }
+    return id;
+}
+
 -(NSString *) geometryColumn{
     return _geometryColumn;
 }
 
 -(GPKGGeometryData *) geometryData{
-    return (GPKGGeometryData *) [self.values objectForKey:self.geometryColumn];
+    GPKGGeometryData *geometryData = nil;
+    if(_geometryColumn != nil){
+        geometryData = (GPKGGeometryData *) [self.values objectForKey:_geometryColumn];
+    }
+    return geometryData;
 }
 
 -(SFGeometry *) geometry{
-    return [self geometryData].geometry;
+    SFGeometry *geometry = nil;
+    GPKGGeometryData *geometryData = [self geometryData];
+    if(geometryData != nil){
+        geometry = geometryData.geometry;
+    }
+    return geometry;
+}
+
+-(enum SFGeometryType) geometryType{
+    enum SFGeometryType geometryType = SF_NONE;
+    SFGeometry *geometry = [self geometry];
+    if(geometry != nil){
+        geometryType = geometry.geometryType;
+    }
+    return geometryType;
+}
+
+-(SFGeometryEnvelope *) geometryEnvelope{
+    SFGeometryEnvelope *envelope = nil;
+    GPKGGeometryData *geometryData = [self geometryData];
+    if(geometryData != nil){
+        envelope = [geometryData getOrBuildEnvelope];
+    }
+    return envelope;
 }
 
 -(NSObject *) jsonCompatible{

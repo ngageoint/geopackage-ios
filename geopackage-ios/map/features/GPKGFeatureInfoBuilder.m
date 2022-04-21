@@ -99,7 +99,7 @@
 
 -(NSString *) buildResultsInfoMessageAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage andProjection: (PROJProjection *) projection{
     
-    NSMutableString * message = nil;
+    NSMutableString *message = nil;
     
     // Fine filter results so that the click location is within the tolerance of each feature row result
     GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
@@ -120,9 +120,9 @@
             
             int featureNumber = 0;
             
-            GPKGDataColumnsDao * dataColumnsDao = [self dataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [self dataColumnsDao];
             
-            for(GPKGFeatureRow * featureRow in filteredResults){
+            for(GPKGFeatureRow *featureRow in filteredResults){
                 
                 featureNumber++;
                 if(featureNumber > maxFeatureInfo){
@@ -141,16 +141,16 @@
                 int geometryColumn = [featureRow geometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     if(i != geometryColumn){
-                        NSObject * value = [featureRow valueWithIndex:i];
+                        NSObject *value = [featureRow valueWithIndex:i];
                         if(value != nil){
-                            NSString * columnName = [featureRow columnNameWithIndex:i];
+                            NSString *columnName = [featureRow columnNameWithIndex:i];
                             columnName = [self columnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                             [message appendFormat:@"\n%@: %@", columnName, value];
                         }
                     }
                 }
                 
-                GPKGGeometryData * geomData = [featureRow geometry];
+                GPKGGeometryData *geomData = [featureRow geometry];
                 if(geomData != nil && geomData.geometry != nil){
                     
                     BOOL printFeatures = NO;
@@ -212,7 +212,7 @@
 
 -(GPKGFeatureTableData *) buildTableDataAndCloseWithFeatureIndexResults: (GPKGFeatureIndexResults *) results andTolerance: (GPKGMapTolerance *) tolerance andLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage andProjection: (PROJProjection *) projection{
     
-    GPKGFeatureTableData * tableData = nil;
+    GPKGFeatureTableData *tableData = nil;
     
     // Fine filter results so that the click location is within the tolerance of each feature row result
     GPKGFeatureIndexResults *filteredResults = [self fineFilterResults:results andTolerance:tolerance andLocation:locationCoordinate andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
@@ -229,28 +229,32 @@
         
         if(featureCount <= maxFeatureInfo){
             
-            GPKGDataColumnsDao * dataColumnsDao = [self dataColumnsDao];
+            GPKGDataColumnsDao *dataColumnsDao = [self dataColumnsDao];
             
-            NSMutableArray<GPKGFeatureRowData *> * rows = [NSMutableArray array];
+            NSMutableArray<GPKGFeatureRowData *> *rows = [NSMutableArray array];
             
-            for(GPKGFeatureRow * featureRow in filteredResults){
+            for(GPKGFeatureRow *featureRow in filteredResults){
                 
-                NSMutableDictionary * values = [NSMutableDictionary dictionary];
-                NSString * geometryColumnName = nil;
+                NSMutableDictionary *values = [NSMutableDictionary dictionary];
+                NSString *idColumnName = nil;
+                NSString *geometryColumnName = nil;
                 
+                int idColumn = [featureRow pkIndex];
                 int geometryColumn = [featureRow geometryColumnIndex];
                 for(int i = 0; i < [featureRow columnCount]; i++){
                     
-                    NSObject * value = [featureRow valueWithIndex:i];
+                    NSObject *value = [featureRow valueWithIndex:i];
                     
-                    NSString * columnName = [featureRow columnNameWithIndex:i];
+                    NSString *columnName = [featureRow columnNameWithIndex:i];
                     
                     columnName = [self columnNameWithDataColumnsDao:dataColumnsDao andFeatureRow:featureRow andColumnName:columnName];
                     
-                    if(i == geometryColumn){
+                    if(i == idColumn){
+                        idColumnName = columnName;
+                    }else if(i == geometryColumn){
                         geometryColumnName = columnName;
                         if(projection != nil){
-                            GPKGGeometryData * geomData = (GPKGGeometryData *) value;
+                            GPKGGeometryData *geomData = (GPKGGeometryData *) value;
                             if(geomData != nil){
                                 [self projectGeometry:geomData inProjection:projection];
                             }
@@ -262,7 +266,7 @@
                     }
                 }
                 
-                GPKGFeatureRowData * featureRowData = [[GPKGFeatureRowData alloc] initWithValues:values andGeometryColumnName:geometryColumnName];
+                GPKGFeatureRowData *featureRowData = [[GPKGFeatureRowData alloc] initWithValues:values andIdColumnName:idColumnName andGeometryColumnName:geometryColumnName];
                 [rows addObject:featureRowData];
             }
             
@@ -282,13 +286,13 @@
     if(geometryData.geometry != nil){
         
         GPKGSpatialReferenceSystemDao *srsDao = [[GPKGSpatialReferenceSystemDao alloc] initWithDatabase:self.featureDao.database];
-        NSNumber * srsId = geometryData.srsId;
+        NSNumber *srsId = geometryData.srsId;
         GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *) [srsDao queryForIdObject:srsId];
         
         if(![projection isEqualToAuthority:srs.organization andNumberCode:srs.organizationCoordsysId]){
             
             PROJProjection *geomProjection = [srs projection];
-            SFPGeometryTransform * transform = [SFPGeometryTransform transformFromProjection:geomProjection andToProjection:projection];
+            SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:geomProjection andToProjection:projection];
             
             SFGeometry *projectedGeometry = [transform transformGeometry:geometryData.geometry];
             [geometryData setGeometry:projectedGeometry];
@@ -301,7 +305,7 @@
 
 -(GPKGDataColumnsDao *) dataColumnsDao{
     
-    GPKGDataColumnsDao * dataColumnsDao = [[GPKGDataColumnsDao alloc] initWithDatabase:self.featureDao.database];
+    GPKGDataColumnsDao *dataColumnsDao = [[GPKGDataColumnsDao alloc] initWithDatabase:self.featureDao.database];
     
     if(![dataColumnsDao tableExists]){
         dataColumnsDao = nil;
@@ -312,10 +316,10 @@
 
 -(NSString *) columnNameWithDataColumnsDao: (GPKGDataColumnsDao *) dataColumnsDao andFeatureRow: (GPKGFeatureRow *) featureRow andColumnName: (NSString *) columnName{
     
-    NSString * newColumnName = columnName;
+    NSString *newColumnName = columnName;
     
     if(dataColumnsDao != nil){
-        GPKGDataColumns * dataColumn = [dataColumnsDao dataColumnByTableName:featureRow.table.tableName andColumnName:columnName];
+        GPKGDataColumns *dataColumn = [dataColumnsDao dataColumnByTableName:featureRow.table.tableName andColumnName:columnName];
         if(dataColumn != nil){
             newColumnName = dataColumn.name;
         }
@@ -342,11 +346,12 @@
     
     if([self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:self.geometryType]]){
         filteredResults = [[GPKGFeatureIndexListResults alloc] init];
-    }else if(!CLLocationCoordinate2DIsValid(clickLocation) && self.ignoreGeometryTypes.count == 0){
+    }else if([results count] == 0 || (!CLLocationCoordinate2DIsValid(clickLocation) && self.ignoreGeometryTypes.count == 0)){
         filteredResults = results;
     }else{
         
-        GPKGFeatureIndexListResults *filteredListResults = [[GPKGFeatureIndexListResults alloc] init];
+        NSMutableArray<GPKGFeatureRow *> *sortedResults = [NSMutableArray array];
+        NSMutableArray<NSDecimalNumber *> *sortedDistances = [NSMutableArray array];
         
         GPKGMapShapeConverter *converter = [[GPKGMapShapeConverter alloc] initWithProjection:self.featureDao.projection];
         
@@ -359,22 +364,22 @@
                     
                     if(![self.ignoreGeometryTypes containsObject: [NSNumber numberWithInt:geometry.geometryType]]){
                     
-                        BOOL addRow = YES;
+                        NSDecimalNumber *distance = [[NSDecimalNumber alloc] initWithDouble:-1.0];
                         
                         if(CLLocationCoordinate2DIsValid(clickLocation)){
                         
                             GPKGMapShape *mapShape = [converter toShapeWithGeometry:geometry];
-                            NSNumber *styleFiltered = [self fineFilterStyleWithRow:featureRow andGeometry:geometry andShape:mapShape andLocation:clickLocation andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
-                            if(styleFiltered == nil){
-                                addRow = [GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance];
+                            NSDecimalNumber *styleFiltered = [self fineFilterStyleWithRow:featureRow andGeometry:geometry andShape:mapShape andLocation:clickLocation andScale:scale andZoom:zoom andMapView:mapView andScreenPercentage:screenClickPercentage];
+                            if(styleFiltered != nil && [styleFiltered doubleValue] == -2.0){
+                                distance = [GPKGMapUtils distanceIfLocation:clickLocation onShape:mapShape withTolerance:tolerance];
                             }else{
-                                addRow = [styleFiltered intValue] == 1;
+                                distance = styleFiltered;
                             }
 
                         }
                         
-                        if(addRow){
-                            [filteredListResults addRow:featureRow];
+                        if(distance != nil){
+                            [self insertFeatureRow:featureRow withDistance:distance inRows:sortedResults andDistances:sortedDistances];
                         }
                         
                     }
@@ -383,10 +388,32 @@
             
         }
         
-        filteredResults = filteredListResults;
+        filteredResults = [[GPKGFeatureIndexListResults alloc] initWithFeatureRows:sortedResults];
     }
     
     return filteredResults;
+}
+
+-(void) insertFeatureRow: (GPKGFeatureRow *) featureRow withDistance: (NSDecimalNumber *) distance inRows: (NSMutableArray<GPKGFeatureRow *> *) rows andDistances: (NSMutableArray<NSDecimalNumber *> *) distances{
+    
+    NSUInteger insertLocation = [distances indexOfObject:distance inSortedRange:NSMakeRange(0, distances.count) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(NSDecimalNumber *distance1, NSDecimalNumber *distance2){
+        
+        NSComparisonResult compare = NSOrderedSame;
+        if([distance1 doubleValue] >= 0){
+            if([distance2 doubleValue] >= 0){
+                compare = [distance1 compare:distance2];
+            }else{
+                compare = NSOrderedAscending;
+            }
+        }else if([distance2 doubleValue] >= 0){
+            compare = NSOrderedDescending;
+        }
+        
+        return compare;
+    }];
+    
+    [rows insertObject:featureRow atIndex:insertLocation];
+    [distances insertObject:distance atIndex:insertLocation];
 }
 
 /**
@@ -400,11 +427,11 @@
  * @param zoom                  current zoom level
  * @param mapView                  map view
  * @param screenClickPercentage screen click percentage between 0.0 and 1.0
- * @return true if passes fine filter
+ * @return -2.0 when not style filtered, distance if passes fine filter, -1.0 when distance not calculated, nil if does not pass
  */
--(NSNumber *) fineFilterStyleWithRow: (GPKGFeatureRow *) featureRow andGeometry: (SFGeometry *) geometry andShape: (GPKGMapShape *) mapShape andLocation: (CLLocationCoordinate2D) clickLocation andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
+-(NSDecimalNumber *) fineFilterStyleWithRow: (GPKGFeatureRow *) featureRow andGeometry: (SFGeometry *) geometry andShape: (GPKGMapShape *) mapShape andLocation: (CLLocationCoordinate2D) clickLocation andScale: (float) scale andZoom: (double) zoom andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     
-    NSNumber *passes = nil;
+    NSDecimalNumber *distance = [[NSDecimalNumber alloc] initWithDouble:-2.0];
     
     if(_featureStyles != nil && mapView != nil){
         
@@ -445,17 +472,13 @@
             // Get the map click distance tolerance
             GPKGMapTolerance *tolerance = [GPKGMapUtils toleranceWithLocationCoordinate:clickLocation andScale:scale andZoom:zoom andPixelBounds:pixelBounds andMapView:mapView andScreenPercentage:screenClickPercentage];
             
-            if([GPKGMapUtils isLocation:clickLocation onShape:mapShape withTolerance:tolerance]){
-                passes = [NSNumber numberWithInt:1];
-            }else{
-                passes = [NSNumber numberWithInt:0];
-            }
+            distance = [GPKGMapUtils distanceIfLocation:clickLocation onShape:mapShape withTolerance:tolerance];
             
         }
         
     }
     
-    return passes;
+    return distance;
 }
 
 @end

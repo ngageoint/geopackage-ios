@@ -18,6 +18,15 @@
  *  Initializer
  *
  *  @param values         value mapping
+ *
+ *  @return new instance
+ */
+-(instancetype) initWithValues: (NSDictionary *) values;
+
+/**
+ *  Initializer
+ *
+ *  @param values         value mapping
  *  @param geometryColumn geometry column name
  *
  *  @return new instance
@@ -25,11 +34,36 @@
 -(instancetype) initWithValues: (NSDictionary *) values andGeometryColumnName: (NSString *) geometryColumn;
 
 /**
+ *  Initializer
+ *
+ *  @param values         value mapping
+ *  @param idColumn id column name
+ *  @param geometryColumn geometry column name
+ *
+ *  @return new instance
+ */
+-(instancetype) initWithValues: (NSDictionary *) values andIdColumnName: (NSString *) idColumn andGeometryColumnName: (NSString *) geometryColumn;
+
+/**
  *  Get the values
  *
  *  @return values
  */
 -(NSDictionary *) values;
+
+/**
+ *  Get the id column name
+ *
+ *  @return id column name
+ */
+-(NSString *) idColumn;
+
+/**
+ *  Get the id
+ *
+ *  @return id
+ */
+-(NSNumber *) id;
 
 /**
  *  Get the geometry column name
@@ -51,6 +85,20 @@
  *  @return geometry
  */
 -(SFGeometry *) geometry;
+
+/**
+ *  Get the geometry type
+ *
+ *  @return geometry type
+ */
+-(enum SFGeometryType) geometryType;
+
+/**
+ *  Get the geometry envelope
+ *
+ *  @return geometry envelope
+ */
+-(SFGeometryEnvelope *) geometryEnvelope;
 
 /**
  *  Build a JSON compatible object

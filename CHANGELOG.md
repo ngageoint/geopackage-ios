@@ -6,7 +6,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.2.1 (TBD)
 
-* TBD
+* GPKGFeatureRowData id, geometry type, and envelope support
+* GPKGMapUtils on shape returning distance support
+* Ordering of map click queried point based features by distance
 
 ## [7.2.0](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.0) (04-20-2022)
 

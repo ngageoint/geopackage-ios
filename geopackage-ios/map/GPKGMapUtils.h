@@ -897,4 +897,44 @@
  */
 +(BOOL) isLocation: (CLLocationCoordinate2D) location onMultiPolygon: (GPKGMultiPolygon *) multiPolygon withTolerance: (GPKGMapTolerance *) tolerance;
 
+/**
+ * Is the location on or near the shape, returning the distance when on the shape
+ *
+ * @param location  location point
+ * @param mapShape  map shape
+ * @param tolerance distance and screen tolerance
+ * @return distance when on shape, -1.0 when distance not calculated, nil when not on shape
+ */
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withTolerance: (GPKGMapTolerance *) tolerance;
+
+/**
+ * Is the location near the map point, returning the distance when on point
+ *
+ * @param location  location point
+ * @param mapPoint  map point
+ * @param tolerance distance and screen tolerance
+ * @return distance when on point, nil when not
+ */
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (GPKGMapTolerance *) tolerance;
+
+/**
+ * Is the location near the other location, returning the distance when on location
+ *
+ * @param location1  location point 1
+ * @param location2  location point 2
+ * @param tolerance distance and screen tolerance
+ * @return distance when on location, nil when not
+ */
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (GPKGMapTolerance *) tolerance;
+
+/**
+ * Is the location near the multi point, returning the nearest distance when on multi point
+ *
+ * @param location   location point
+ * @param multiPoint multi point
+ * @param tolerance  distance and screen tolerance
+ * @return distance when on multi point, nil when not
+ */
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (GPKGMapTolerance *) tolerance;
+
 @end

@@ -669,4 +669,74 @@
     return onShape;
 }
 
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location onShape: (GPKGMapShape *) mapShape withTolerance: (GPKGMapTolerance *) tolerance{
+    
+    NSDecimalNumber *distance = nil;
+    
+    switch(mapShape.shapeType){
+            
+        case GPKG_MST_POINT:
+            distance = [self distanceIfLocation:location nearMapPoint:(GPKGMapPoint *) mapShape.shape withTolerance:tolerance];
+            break;
+        case GPKG_MST_POLYLINE:
+            if([self isLocation:location onPolyline:(MKPolyline *) mapShape.shape withTolerance:tolerance]){
+                distance = [[NSDecimalNumber alloc] initWithDouble:-1.0];
+            }
+            break;
+        case GPKG_MST_POLYGON:
+            if([self isLocation:location onPolygon:(MKPolygon *) mapShape.shape withTolerance:tolerance]){
+                distance = [[NSDecimalNumber alloc] initWithDouble:-1.0];
+            }
+            break;
+        case GPKG_MST_MULTI_POINT:
+            distance = [self distanceIfLocation:location nearMultiPoint:(GPKGMultiPoint *) mapShape.shape withTolerance:tolerance];
+            break;
+        case GPKG_MST_MULTI_POLYLINE:
+            if([self isLocation:location onMultiPolyline:(GPKGMultiPolyline *)mapShape.shape withTolerance:tolerance]){
+                distance = [[NSDecimalNumber alloc] initWithDouble:-1.0];
+            }
+            break;
+        case GPKG_MST_MULTI_POLYGON:
+            if([self isLocation:location onMultiPolygon:(GPKGMultiPolygon *)mapShape.shape withTolerance:tolerance]){
+                distance = [[NSDecimalNumber alloc] initWithDouble:-1.0];
+            }
+            break;
+        case GPKG_MST_COLLECTION:
+        {
+            NSArray *shapeArray = (NSArray *) mapShape.shape;
+            for(GPKGMapShape *shapeArrayItem in shapeArray){
+                NSDecimalNumber *shapeDistance = [self distanceIfLocation:location onShape:shapeArrayItem withTolerance:tolerance];
+                if(distance == nil || (shapeDistance != nil && [shapeDistance doubleValue] >= 0 && [shapeDistance compare:distance] == NSOrderedAscending)){
+                    distance = shapeDistance;
+                }
+            }
+        }
+            break;
+        default:
+            [NSException raise:@"Unsupported Shape" format:@"Unsupported Shape Type: %@", [GPKGMapShapeTypes name:mapShape.shapeType]];
+    }
+    
+    return distance;
+}
+
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location nearMapPoint: (GPKGMapPoint *) mapPoint withTolerance: (GPKGMapTolerance *) tolerance{
+    return [self distanceIfLocation:location nearLocation:mapPoint.coordinate withTolerance:tolerance];
+}
+
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location1 nearLocation: (CLLocationCoordinate2D) location2 withTolerance: (GPKGMapTolerance *) tolerance{
+    double distance = [GPKGTileBoundingBoxUtils distanceBetweenLocation:location1 andLocation:location2];
+    return distance <= tolerance.distance ? [[NSDecimalNumber alloc] initWithDouble:distance] : nil;
+}
+
++(NSDecimalNumber *) distanceIfLocation: (CLLocationCoordinate2D) location nearMultiPoint: (GPKGMultiPoint *) multiPoint withTolerance: (GPKGMapTolerance *) tolerance{
+    NSDecimalNumber *distance = nil;
+    for(GPKGMapPoint *mapPoint in multiPoint.points){
+        NSDecimalNumber *pointDistance = [self distanceIfLocation:location nearMapPoint:mapPoint withTolerance:tolerance];
+        if(distance == nil || (pointDistance != nil && [pointDistance compare:distance] == NSOrderedAscending)){
+            distance = pointDistance;
+        }
+    }
+    return distance;
+}
+
 @end
