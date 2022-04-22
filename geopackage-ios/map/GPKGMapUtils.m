@@ -244,7 +244,7 @@
                                           andMaxLatitudeDouble:locationBoundingBox.upCoordinate.latitude];
 }
 
-+(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage{
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage{
     
     // Get the screen width and height a click occurs from a feature
     struct GPKGBoundingBoxSize size = [mapBounds sizeInMeters];
@@ -256,10 +256,19 @@
     CLLocationCoordinate2D rightCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:90 andDistance:width fromLocation:location];
     CLLocationCoordinate2D downCoordinate = [GPKGTileBoundingBoxUtils locationWithBearing:180 andDistance:height fromLocation:location];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:leftCoordinate.longitude
-                                                                   andMinLatitudeDouble:downCoordinate.latitude
-                                                                  andMaxLongitudeDouble:rightCoordinate.longitude
-                                                                   andMaxLatitudeDouble:upCoordinate.latitude];
+    GPKGLocationBoundingBox *locationBoundingBox = [[GPKGLocationBoundingBox alloc] initWithLeft:leftCoordinate
+                                                                                           andUp:upCoordinate
+                                                                                        andRight:rightCoordinate
+                                                                                         andDown:downCoordinate];
+
+    return locationBoundingBox;
+}
+
++(GPKGBoundingBox *) buildClickBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage{
+    
+    GPKGLocationBoundingBox *locationBoundingBox = [self buildClickLocationBoundingBoxWithLocationCoordinate:location andMapBounds:mapBounds andScreenPercentage:screenClickPercentage];
+    
+    GPKGBoundingBox *boundingBox = [self buildClickBoundingBoxWithLocationBoundingBox:locationBoundingBox];
     
     return boundingBox;
 }

@@ -405,6 +405,18 @@
 +(GPKGBoundingBox *) buildClickBoundingBoxWithLocationBoundingBox: (GPKGLocationBoundingBox *) locationBoundingBox;
 
 /**
+ *  Build a location bounding box using the location coordinate click location and map view bounds
+ *
+ *  @param location  location coordinate
+ *  @param mapBounds map bounds
+ *  @param screenClickPercentage screen click percentage between 0.0 and 1.0 for how close a feature
+ *                              on the screen must be to be included in a click query
+ *
+ *  @return bounding box
+ */
++(GPKGLocationBoundingBox *) buildClickLocationBoundingBoxWithLocationCoordinate: (CLLocationCoordinate2D) location andMapBounds: (GPKGBoundingBox *) mapBounds andScreenPercentage: (float) screenClickPercentage;
+
+/**
  *  Build a bounding box using the location coordinate click location and map view bounds
  *
  *  @param location  location coordinate
