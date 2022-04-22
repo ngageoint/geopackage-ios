@@ -108,26 +108,25 @@
 
 -(NSObject *) jsonCompatibleWithPoints: (BOOL) includePoints andGeometries: (BOOL) includeGeometries{
     
-    NSMutableDictionary * jsonValues = [NSMutableDictionary dictionary];
+    NSMutableDictionary *jsonValues = [NSMutableDictionary dictionaryWithDictionary:_values];
     
-    for(NSString * key in [self.values allKeys]){
-        NSObject * jsonValue = nil;
-        NSObject * value = [self.values objectForKey:key];
-        if([key isEqualToString:self.geometryColumn]){
-            GPKGGeometryData * geometryData = (GPKGGeometryData *) value;
-            if(geometryData.geometry != nil){
-                if(includeGeometries || (includePoints && geometryData.geometry.geometryType == SF_POINT)){
-                    jsonValue = [SFGFeatureConverter simpleGeometryToMutableTree:geometryData.geometry];
+    if(_geometryColumn != nil && [jsonValues objectForKey:_geometryColumn] != nil){
+        
+        if(includeGeometries || includePoints){
+            SFGeometry *geometry = [self geometry];
+            if(geometry != nil){
+                if(includeGeometries || (includePoints && geometry.geometryType == SF_POINT)){
+                    [jsonValues setObject:[SFGFeatureConverter simpleGeometryToMutableTree:geometry] forKey:_geometryColumn];
+                }else{
+                    [jsonValues setObject:[NSNull null] forKey:_geometryColumn];
                 }
             }
         }else{
-            jsonValue = value;
+            [jsonValues setObject:[NSNull null] forKey:_geometryColumn];
         }
-        if(jsonValue != nil){
-            [jsonValues setObject:jsonValue forKey:key];
-        }
+        
     }
-    
+
     return jsonValues;
 }
 
