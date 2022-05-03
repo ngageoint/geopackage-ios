@@ -6,6 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.2.1 (TBD)
 
+* sf-proj-ios version 5.0.3
 * GPKGFeatureRowData id, geometry type, and envelope support
 * GPKGMapUtils on shape returning distance support
 * Ordering of map click queried point based features by distance

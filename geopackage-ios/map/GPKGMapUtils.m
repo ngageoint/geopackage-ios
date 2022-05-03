@@ -344,6 +344,16 @@
     return tolerance;
 }
 
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andBoundingBox: (GPKGLocationBoundingBox *) boundingBox{
+    
+    double distance = [self toleranceDistanceWithLocationCoordinate:location andBoundingBox:boundingBox];
+    double screen = 1.0;
+    
+    GPKGMapTolerance *tolerance = [[GPKGMapTolerance alloc] initWithDistance:distance andScreen:screen];
+    
+    return tolerance;
+}
+
 +(double) toleranceDistanceWithPoint: (SFPoint *) point andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage{
     return [self toleranceDistanceWithPoint:point andPixelBounds:nil andMapView:mapView andScreenPercentage:screenClickPercentage];
 }

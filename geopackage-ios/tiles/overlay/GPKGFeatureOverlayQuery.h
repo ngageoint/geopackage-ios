@@ -422,6 +422,17 @@
 /**
  *  Perform a query based upon the map click location and build a info message
  *
+ *  @param point   cg point
+ *  @param mapView            map view
+ *  @param projection         desired geometry projection
+ *
+ *  @return information message on what was clicked, or nil
+ */
+-(NSString *) buildMapClickMessageWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andProjection: (PROJProjection *) projection;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
  *  @param locationCoordinate location coordinate
  *  @param mapView            map view
  *  @param projection         desired geometry projection
@@ -429,6 +440,29 @@
  *  @return information message on what was clicked, or nil
  */
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (PROJProjection *) projection;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *
+ *  @return information message on what was clicked, or nil
+ */
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
+
+/**
+ *  Perform a query based upon the map click location and build a info message
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *  @param projection         desired geometry projection
+ *
+ *  @return information message on what was clicked, or nil
+ */
+-(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (PROJProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build a info message
@@ -456,6 +490,16 @@
 -(NSString *) buildMapClickMessageWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andTolerance: (GPKGMapTolerance *) tolerance andProjection: (PROJProjection *) projection;
 
 /**
+ *  Perform a query based upon the map click location and  build feature table data
+ *
+ *  @param point   cg point
+ *  @param mapView            map view
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView;
+
+/**
  *  Perform a query based upon the map click location and build feature table data
  *
  *  @param locationCoordinate location coordinate
@@ -464,6 +508,17 @@
  *  @return table data on what was clicked, or nil
  */
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView;
+
+/**
+ *  Perform a query based upon the map click location and  build feature table data
+ *
+ *  @param point   cg point
+ *  @param mapView            map view
+ *  @param projection         desired geometry projection
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithCGPoint: (CGPoint) point andMapView: (MKMapView *) mapView andProjection: (PROJProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data
@@ -475,6 +530,29 @@
  *  @return table data on what was clicked, or nil
  */
 -(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andMapView: (MKMapView *) mapView andProjection: (PROJProjection *) projection;
+
+/**
+ *  Perform a query based upon the map click location and build feature table data
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds;
+
+/**
+ *  Perform a query based upon the map click location and build feature table data
+ *
+ *  @param locationCoordinate location coordinate
+ *  @param zoom               current zoom level
+ *  @param mapBounds          map view bounds
+ *  @param projection         desired geometry projection
+ *
+ *  @return table data on what was clicked, or nil
+ */
+-(GPKGFeatureTableData *) buildMapClickTableDataWithLocationCoordinate: (CLLocationCoordinate2D) locationCoordinate andZoom: (double) zoom andMapBounds: (GPKGBoundingBox *) mapBounds andProjection: (PROJProjection *) projection;
 
 /**
  *  Perform a query based upon the map click location and build feature table data

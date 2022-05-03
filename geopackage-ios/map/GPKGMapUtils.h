@@ -603,6 +603,15 @@
 +(GPKGMapTolerance *) toleranceWithCGPoint: (CGPoint) point andBoundingBox: (GPKGLocationBoundingBox *) boundingBox andMapView: (MKMapView *) mapView andScreenPercentage: (float) screenClickPercentage;
 
 /**
+ * Get the allowable tolerance distance meters and default screen pixels from the click bounding box
+ *
+ * @param location              click location
+ * @param boundingBox click bounding box
+ * @return tolerance distance in meters and screen pixels
+ */
++(GPKGMapTolerance *) toleranceWithLocationCoordinate: (CLLocationCoordinate2D) location andBoundingBox: (GPKGLocationBoundingBox *) boundingBox;
+
+/**
  * Get the allowable tolerance distance in meters from the click location on the map view and map with the screen percentage tolerance.
  *
  * @param point                 click point

@@ -1,19 +1,20 @@
 //
-//  GPKGFeatureOverlayQueryTest.m
+//  GPKGFeatureOverlayQueryCreateTest.m
 //  geopackage-iosTests
 //
 //  Created by Brian Osborn on 3/2/22.
 //  Copyright © 2022 NGA. All rights reserved.
 //
 
-#import "GPKGFeatureOverlayQueryTest.h"
+#import "GPKGFeatureOverlayQueryCreateTest.h"
 #import "GPKGTestUtils.h"
 #import "GPKGFeatureOverlayQuery.h"
 #import "PROJProjectionFactory.h"
 #import "PROJProjectionConstants.h"
 #import "SFPGeometryTransform.h"
+#import "GPKGFeatureOverlayQueryUtils.h"
 
-@implementation GPKGFeatureOverlayQueryTest
+@implementation GPKGFeatureOverlayQueryCreateTest
 
 -(void) testTileBounds{
 
@@ -79,6 +80,13 @@
     [GPKGTestUtils assertEqualDoubleWithValue:16833268.117074657 andValue2:[boundingBox.maxLongitude doubleValue] andDelta:0.00000001];
     [GPKGTestUtils assertEqualDoubleWithValue:-4008969.2595009245 andValue2:[boundingBox.maxLatitude doubleValue] andDelta:0.00000001];
  
+}
+
+/**
+ * Test Build Map Click Table Data
+ */
+-(void) testBuildMapClickTableData{
+    [GPKGFeatureOverlayQueryUtils testBuildMapClickTableData:self.geoPackage];
 }
 
 @end

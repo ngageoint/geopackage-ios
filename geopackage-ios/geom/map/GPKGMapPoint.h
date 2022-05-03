@@ -34,17 +34,17 @@
 /**
  *  Map point options
  */
-@property (nonatomic, strong) GPKGMapPointOptions * options;
+@property (nonatomic, strong) GPKGMapPointOptions *options;
 
 /**
  *  Additional map point data stored with the point, any type of object may be stored
  */
-@property (nonatomic, strong) NSObject * data;
+@property (nonatomic, strong) NSObject *data;
 
 /**
  *  Map annotation view
  */
-@property (nonatomic, strong) MKAnnotationView * view;
+@property (nonatomic, strong) MKAnnotationView *view;
 
 /**
  *  Initialize with coordinate
