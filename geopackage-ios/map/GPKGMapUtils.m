@@ -35,12 +35,21 @@
 +(double) toleranceDistanceInMapView: (MKMapView *) mapView{
     
     CGSize mapViewSize = mapView.frame.size;
-    
-    GPKGBoundingBox * boundingBox = [self boundingBoxOfMapView:mapView];
-    struct GPKGBoundingBoxSize size = [boundingBox sizeInMeters];
-    
     float viewWidth = mapViewSize.width;
     float viewHeight = mapViewSize.height;
+    
+    GPKGBoundingBox *boundingBox = [self boundingBoxOfMapView:mapView];
+    
+    return [self toleranceDistanceWithWidth:viewWidth andHeight:viewHeight andBoundingBox:boundingBox];
+}
+
++(double) toleranceDistanceWithWidth: (float) viewWidth andHeight: (float) viewHeight andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
+    return [self toleranceDistanceWithWidth:viewWidth andHeight:viewHeight andBoundingBox:[self wgs84BoundingBoxOfBoundingBox:boundingBox inProjection:projection]];
+}
+
++(double) toleranceDistanceWithWidth: (float) viewWidth andHeight: (float) viewHeight andBoundingBox: (GPKGBoundingBox *) boundingBox{
+    
+    struct GPKGBoundingBoxSize size = [boundingBox sizeInMeters];
     
     double meters = 0;
     
@@ -53,6 +62,14 @@
     }
     
     return meters;
+}
+
++(GPKGBoundingBox *) wgs84BoundingBoxOfBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection{
+    SFPGeometryTransform *transform = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    if(![transform isSameProjection]){
+        boundingBox = [boundingBox transform:transform];
+    }
+    return boundingBox;
 }
 
 +(GPKGBoundingBox *) boundingBoxOfMapView: (MKMapView *) mapView{

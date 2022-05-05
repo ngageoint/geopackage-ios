@@ -42,13 +42,51 @@
 +(int) currentRoundedZoomWithMapView: (MKMapView *) mapView;
 
 /**
- *  Get the tolerance distance meters in the current region of the map view
+ *  Get the tolerance distance meters in the current region of the visible map view.
+ *  Tolerance distance can be used for geometry simplification and is approximately the
+ *  number of meters per view pixel.
  *
  *  @param mapView map view
  *
  *  @return tolerance distance in meters
  */
 +(double) toleranceDistanceInMapView: (MKMapView *) mapView;
+
+/**
+ *  Get the tolerance distance meters in the current region of the visible map projected bounds.
+ *  Tolerance distance can be used for geometry simplification and is approximately the
+ *  number of meters per view pixel.
+ *
+ *  @param viewWidth view width
+ *  @param viewHeight view height
+ *  @param boundingBox bounding box
+ *  @param projection bounding box projection
+ *
+ *  @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithWidth: (float) viewWidth andHeight: (float) viewHeight andBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
+
+/**
+ *  Get the tolerance distance meters in the current region of the visible map bounds.
+ *  Tolerance distance can be used for geometry simplification and is approximately the
+ *  number of meters per view pixel.
+ *
+ *  @param viewWidth view width
+ *  @param viewHeight view height
+ *  @param boundingBox WGS84 bounding box
+ *
+ *  @return tolerance distance in meters
+ */
++(double) toleranceDistanceWithWidth: (float) viewWidth andHeight: (float) viewHeight andBoundingBox: (GPKGBoundingBox *) boundingBox;
+
+/**
+ * Get a WGS84 Bounding Box from a projected bounding box
+ *
+ * @param boundingBox bounding box
+ * @param projection  bounding box projection
+ * @return WGS84 bounding box
+ */
++(GPKGBoundingBox *) wgs84BoundingBoxOfBoundingBox: (GPKGBoundingBox *) boundingBox inProjection: (PROJProjection *) projection;
 
 /**
  *  Get the WGS84 bounding box of the current map view screen.
