@@ -4,7 +4,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.2.1 (TBD)
+## [7.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.1) (05-06-2022)
 
 * sf-proj-ios version 5.0.3
 * GPKGFeatureRowData id, geometry type, and envelope support

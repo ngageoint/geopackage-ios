@@ -17,7 +17,7 @@
     <a title="GPKGMapUtils Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.0 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -4739,7 +4739,7 @@
             <p>Map utility methods</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L24-L900">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L24-L999">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -4798,7 +4798,7 @@
                         <p>current zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L33">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4856,7 +4856,7 @@
                         <p>current zoom level</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L42">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4874,7 +4874,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Get the tolerance distance meters in the current region of the map view</p>
+                        <p>Get the tolerance distance meters in the current region of the visible map view.
+  Tolerance distance can be used for geometry simplification and is approximately the
+  number of meters per view pixel.</p>
 
                       </div>
                       <div class="declaration">
@@ -4914,7 +4916,264 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L51">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L53">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)toleranceDistanceWithWidth:andHeight:andBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/+toleranceDistanceWithWidth:andHeight:andBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)toleranceDistanceWithWidth:andHeight:andBoundingBox:inProjection:">+toleranceDistanceWithWidth:<wbr>andHeight:<wbr>andBoundingBox:<wbr>inProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the tolerance distance meters in the current region of the visible map projected bounds.
+  Tolerance distance can be used for geometry simplification and is approximately the
+  number of meters per view pixel.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">toleranceDistanceWithWidth</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">viewWidth</span>
+                           <span class="nf">andHeight</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">viewHeight</span>
+                      <span class="nf">andBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
+                        <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">toleranceDistance</span><span class="p">(</span><span class="n">withWidth</span> <span class="nv">viewWidth</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andHeight</span> <span class="nv">viewHeight</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andBoundingBox</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>viewWidth</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>view width</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>viewHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>view height</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tolerance distance in meters</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L67">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)toleranceDistanceWithWidth:andHeight:andBoundingBox:"></a>
+                    <a name="//apple_ref/objc/Method/+toleranceDistanceWithWidth:andHeight:andBoundingBox:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)toleranceDistanceWithWidth:andHeight:andBoundingBox:">+toleranceDistanceWithWidth:<wbr>andHeight:<wbr>andBoundingBox:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the tolerance distance meters in the current region of the visible map bounds.
+  Tolerance distance can be used for geometry simplification and is approximately the
+  number of meters per view pixel.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">toleranceDistanceWithWidth</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">viewWidth</span>
+                           <span class="nf">andHeight</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">viewHeight</span>
+                      <span class="nf">andBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">toleranceDistance</span><span class="p">(</span><span class="n">withWidth</span> <span class="nv">viewWidth</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andHeight</span> <span class="nv">viewHeight</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="n">andBoundingBox</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>viewWidth</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>view width</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>viewHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>view height</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>WGS84 bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tolerance distance in meters</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L80">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)wgs84BoundingBoxOfBoundingBox:inProjection:"></a>
+                    <a name="//apple_ref/objc/Method/+wgs84BoundingBoxOfBoundingBox:inProjection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)wgs84BoundingBoxOfBoundingBox:inProjection:">+wgs84BoundingBoxOfBoundingBox:<wbr>inProjection:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get a WGS84 Bounding Box from a projected bounding box</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">wgs84BoundingBoxOfBoundingBox</span><span class="p">:</span>
+                         <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span>
+                                      <span class="nf">inProjection</span><span class="p">:(</span><span class="n"><a href="../Classes/PROJProjection.html">PROJProjection</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">projection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">wgs84BoundingBox</span><span class="p">(</span><span class="n">of</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="k">in</span> <span class="nv">projection</span><span class="p">:</span> <span class="kt"><a href="../Classes/PROJProjection.html">PROJProjection</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>projection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>bounding box projection</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>WGS84 bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4973,7 +5232,7 @@
                         <p>current bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L61">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L99">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5060,7 +5319,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L73">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5160,7 +5419,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L86">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5273,7 +5532,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L100">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L138">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5399,7 +5658,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L115">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L153">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5488,7 +5747,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L127">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L165">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5591,7 +5850,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L140">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5707,7 +5966,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L154">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L192">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5836,7 +6095,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L169">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L207">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5922,7 +6181,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L181">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L219">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6021,7 +6280,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L194">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L232">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6133,7 +6392,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L208">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6258,7 +6517,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L223">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L261">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6344,7 +6603,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L235">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L273">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6430,7 +6689,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L247">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L285">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6529,7 +6788,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L260">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L298">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6641,7 +6900,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L274">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L312">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6766,7 +7025,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L289">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L327">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6852,7 +7111,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L301">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L339">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -6951,7 +7210,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L314">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L352">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7063,7 +7322,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L328">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L366">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7188,7 +7447,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L343">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L381">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7274,7 +7533,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L355">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L393">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7373,7 +7632,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L368">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L406">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7485,7 +7744,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L382">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L420">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7610,7 +7869,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L397">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L435">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7669,7 +7928,96 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L405">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L443">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)buildClickLocationBoundingBoxWithLocationCoordinate:andMapBounds:andScreenPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+buildClickLocationBoundingBoxWithLocationCoordinate:andMapBounds:andScreenPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)buildClickLocationBoundingBoxWithLocationCoordinate:andMapBounds:andScreenPercentage:">+buildClickLocationBoundingBoxWithLocationCoordinate:<wbr>andMapBounds:<wbr>andScreenPercentage:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build a location bounding box using the location coordinate click location and map view bounds</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a></span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">buildClickLocationBoundingBoxWithLocationCoordinate</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span>
+                                           <span class="nf">andMapBounds</span><span class="p">:</span>
+                                               <span class="p">(</span><span class="n"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mapBounds</span>
+                                    <span class="nf">andScreenPercentage</span><span class="p">:</span>
+                                        <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="nv">screenClickPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">buildClickLocationBoundingBox</span><span class="p">(</span><span class="n">with</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andMapBounds</span> <span class="nv">mapBounds</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGBoundingBox.html">GPKGBoundingBox</a></span><span class="o">!</span><span class="p">,</span> <span class="n">andScreenPercentage</span> <span class="nv">screenClickPercentage</span><span class="p">:</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location coordinate</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapBounds</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map bounds</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenClickPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>screen click percentage between 0.0 and 1.0 for how close a feature
+                          on the screen must be to be included in a click query</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bounding box</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L455">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7755,7 +8103,7 @@
                         <p>bounding box</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L417">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L467">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7840,7 +8188,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L428">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L478">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -7938,7 +8286,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L440">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L490">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8049,7 +8397,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L453">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L503">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8173,7 +8521,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L467">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L517">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8259,7 +8607,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L478">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L528">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8358,7 +8706,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L490">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L540">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8470,7 +8818,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L503">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L553">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8595,7 +8943,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L517">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L567">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8694,7 +9042,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L529">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L579">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8779,7 +9127,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L540">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L590">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8877,7 +9225,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L552">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L602">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -8988,7 +9336,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L565">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L615">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9112,7 +9460,7 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L579">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L629">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9211,7 +9559,79 @@
                         <p>tolerance distance in meters and screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L591">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L641">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)toleranceWithLocationCoordinate:andBoundingBox:"></a>
+                    <a name="//apple_ref/objc/Method/+toleranceWithLocationCoordinate:andBoundingBox:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)toleranceWithLocationCoordinate:andBoundingBox:">+toleranceWithLocationCoordinate:<wbr>andBoundingBox:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the allowable tolerance distance meters and default screen pixels from the click bounding box</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span>
+    <span class="nf">toleranceWithLocationCoordinate</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span>
+                     <span class="nf">andBoundingBox</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">boundingBox</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">tolerance</span><span class="p">(</span><span class="n">with</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">andBoundingBox</span> <span class="nv">boundingBox</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGLocationBoundingBox.html">GPKGLocationBoundingBox</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>click location</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>boundingBox</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>click bounding box</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>tolerance distance in meters and screen pixels</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L650">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9296,7 +9716,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L602">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L661">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9394,7 +9814,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L614">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L673">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9505,7 +9925,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L627">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L686">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9629,7 +10049,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L641">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L700">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9715,7 +10135,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L652">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L711">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9814,7 +10234,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L664">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L723">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -9926,7 +10346,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L677">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L736">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10051,7 +10471,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L691">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L750">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10136,7 +10556,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L702">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L761">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10234,7 +10654,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L714">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L773">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10345,7 +10765,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L727">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L786">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10469,7 +10889,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L741">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L800">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10541,7 +10961,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L750">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L809">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10614,7 +11034,7 @@
                         <p>tolerance distance in meters</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L759">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L818">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10686,7 +11106,7 @@
                         <p>tolerance screen pixels</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L769">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L828">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10747,7 +11167,7 @@
                         <p>complementary path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L781">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L840">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10808,7 +11228,7 @@
                         <p>complementary path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L793">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L852">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10869,7 +11289,7 @@
                         <p>complementary path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L805">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L864">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -10943,7 +11363,7 @@
                         <p>complementary path</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L818">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L877">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11027,7 +11447,7 @@
                         <p>true if location is on shape</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L828">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L887">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11111,7 +11531,7 @@
                         <p>true if location is near map point</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L838">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L897">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11195,7 +11615,7 @@
                         <p>true if location 1 is near location 2</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L848">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L907">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11279,7 +11699,7 @@
                         <p>true if location is near multi point</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L858">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L917">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11363,7 +11783,7 @@
                         <p>true if location is on polyline</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L868">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L927">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11447,7 +11867,7 @@
                         <p>true if location is on multi polyline</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L878">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L937">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11531,7 +11951,7 @@
                         <p>true if location is on the polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L888">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L947">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11615,7 +12035,343 @@
                         <p>true if location is on the multi polygon</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/map/GPKGMapUtils.h#L898">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L957">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:onShape:withTolerance:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceIfLocation:onShape:withTolerance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:onShape:withTolerance:">+distanceIfLocation:<wbr>onShape:<wbr>withTolerance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Is the location on or near the shape, returning the distance when on the shape</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nf">distanceIfLocation</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span>
+                                <span class="nf">onShape</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapShape.html">GPKGMapShape</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mapShape</span>
+                          <span class="nf">withTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceIfLocation</span><span class="p">(</span><span class="n">_</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">on</span> <span class="nv">mapShape</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapShape.html">GPKGMapShape</a></span><span class="o">!</span><span class="p">,</span> <span class="n">with</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSDecimalNumber</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapShape</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map shape</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance when on shape, -1.0 when distance not calculated, nil when not on shape</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L967">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearMapPoint:withTolerance:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceIfLocation:nearMapPoint:withTolerance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearMapPoint:withTolerance:">+distanceIfLocation:<wbr>nearMapPoint:<wbr>withTolerance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Is the location near the map point, returning the distance when on point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nf">distanceIfLocation</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span>
+                           <span class="nf">nearMapPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mapPoint</span>
+                          <span class="nf">withTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceIfLocation</span><span class="p">(</span><span class="n">_</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">nearMapPoint</span> <span class="nv">mapPoint</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapPoint.html">GPKGMapPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">with</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSDecimalNumber</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mapPoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>map point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance when on point, nil when not</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L977">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearLocation:withTolerance:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceIfLocation:nearLocation:withTolerance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearLocation:withTolerance:">+distanceIfLocation:<wbr>nearLocation:<wbr>withTolerance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Is the location near the other location, returning the distance when on location</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nf">distanceIfLocation</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location1</span>
+                           <span class="nf">nearLocation</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location2</span>
+                          <span class="nf">withTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceIfLocation</span><span class="p">(</span><span class="n">_</span> <span class="nv">location1</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">nearLocation</span> <span class="nv">location2</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">with</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSDecimalNumber</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location point 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location point 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance when on location, nil when not</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L987">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearMultiPoint:withTolerance:"></a>
+                    <a name="//apple_ref/objc/Method/+distanceIfLocation:nearMultiPoint:withTolerance:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGMapUtils(cm)distanceIfLocation:nearMultiPoint:withTolerance:">+distanceIfLocation:<wbr>nearMultiPoint:<wbr>withTolerance:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Is the location near the multi point, returning the nearest distance when on multi point</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSDecimalNumber</span> <span class="o">*</span><span class="p">)</span><span class="nf">distanceIfLocation</span><span class="p">:(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span>
+                         <span class="nf">nearMultiPoint</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMultiPoint.html">GPKGMultiPoint</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">multiPoint</span>
+                          <span class="nf">withTolerance</span><span class="p">:(</span><span class="n"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">tolerance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">distanceIfLocation</span><span class="p">(</span><span class="n">_</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span><span class="p">,</span> <span class="n">nearMultiPoint</span> <span class="nv">multiPoint</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMultiPoint.html">GPKGMultiPoint</a></span><span class="o">!</span><span class="p">,</span> <span class="n">with</span> <span class="nv">tolerance</span><span class="p">:</span> <span class="kt"><a href="../Classes/GPKGMapTolerance.html">GPKGMapTolerance</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSDecimalNumber</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>location</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>location point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>multiPoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>multi point</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tolerance</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>distance and screen tolerance</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>distance when on multi point, nil when not</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/map/GPKGMapUtils.h#L997">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -11625,7 +12381,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-04-19)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

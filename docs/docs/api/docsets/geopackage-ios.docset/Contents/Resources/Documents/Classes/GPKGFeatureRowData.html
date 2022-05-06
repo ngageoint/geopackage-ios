@@ -17,7 +17,7 @@
     <a title="GPKGFeatureRowData Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">geopackage-ios 7.2.0 Docs</a> (84% documented)</p>
+        <p><a href="../index.html">geopackage-ios 7.2.1 Docs</a> (84% documented)</p>
         <p class="header-right"><a href="https://github.com/ngageoint/geopackage-ios"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -4739,12 +4739,70 @@
             <p>Represents the values of a single feature row</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L15-L90">Show on GitHub</a>
+                <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L15-L138">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)initWithValues:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithValues:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)initWithValues:">-initWithValues:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializer</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithValues</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">values</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">values</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>values</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value mapping</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new instance</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -4811,7 +4869,91 @@
                         <p>new instance</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L25">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L34">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)initWithValues:andIdColumnName:andGeometryColumnName:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithValues:andIdColumnName:andGeometryColumnName:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)initWithValues:andIdColumnName:andGeometryColumnName:">-initWithValues:<wbr>andIdColumnName:<wbr>andGeometryColumnName:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializer</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithValues</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">values</span>
+               <span class="nf">andIdColumnName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">idColumn</span>
+         <span class="nf">andGeometryColumnName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">geometryColumn</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">values</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="n">andIdColumnName</span> <span class="nv">idColumn</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">andGeometryColumnName</span> <span class="nv">geometryColumn</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>values</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value mapping</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>idColumn</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>id column name</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>geometryColumn</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>geometry column name</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>new instance</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4850,7 +4992,85 @@
                         <p>values</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L32">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L52">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)idColumn"></a>
+                    <a name="//apple_ref/objc/Method/-idColumn" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)idColumn">-idColumn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the id column name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">idColumn</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">idColumn</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>id column name</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L59">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)id"></a>
+                    <a name="//apple_ref/objc/Method/-id" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)id">-id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the id</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">id</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">NSNumber</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>id</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4889,7 +5109,7 @@
                         <p>geometry column name</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L39">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4928,7 +5148,7 @@
                         <p>geometry data</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L46">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4967,7 +5187,85 @@
                         <p>geometry</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L53">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L87">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)geometryType"></a>
+                    <a name="//apple_ref/objc/Method/-geometryType" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)geometryType">-geometryType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the geometry type</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="k">enum</span> <span class="n"><a href="../Enums/SFGeometryType.html">SFGeometryType</a></span><span class="p">)</span><span class="n">geometryType</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">geometryType</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SFGeometryType.html">SFGeometryType</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry type</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L94">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GPKGFeatureRowData(im)geometryEnvelope"></a>
+                    <a name="//apple_ref/objc/Method/-geometryEnvelope" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GPKGFeatureRowData(im)geometryEnvelope">-geometryEnvelope</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the geometry envelope</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span> <span class="o">*</span><span class="p">)</span><span class="n">geometryEnvelope</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">geometryEnvelope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SFGeometryEnvelope.html">SFGeometryEnvelope</a></span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>geometry envelope</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5006,7 +5304,7 @@
                         <p>JSON compatible object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L60">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L108">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5064,7 +5362,7 @@
                         <p>JSON compatible object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L69">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5122,7 +5420,7 @@
                         <p>JSON compatible object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L78">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L126">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5193,7 +5491,7 @@
                         <p>JSON compatible object</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.0/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L88">Show on GitHub</a>
+                        <a href="https://github.com/ngageoint/geopackage-ios/tree/7.2.1/geopackage-ios/tiles/overlay/GPKGFeatureRowData.h#L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5203,7 +5501,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-04-19)</p>
+          <p>&copy; 2022 <a class="link" href="https://www.nga.mil" target="_blank" rel="external noopener">NGA</a>. All rights reserved. (Last updated: 2022-05-06)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
