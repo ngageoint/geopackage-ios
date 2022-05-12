@@ -116,6 +116,7 @@
                                           andHaving:having
                                          andOrderBy:orderBy
                                            andLimit:limit];
+    [self.connectionPool releaseConnection:connection];
     return resultSet;
 }
 
