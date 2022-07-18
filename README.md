@@ -369,4 +369,5 @@ Run tests from Xcode or from command line:
 * [Simple Features WKT](https://github.com/ngageoint/simple-features-wkt-ios) (The MIT License (MIT)) - Simple Features Well Known Text Lib
 * [Simple Features Projection](https://github.com/ngageoint/simple-features-proj-ios) (The MIT License (MIT)) - Simple Features Projection Lib
 * [OGC API Features JSON](https://github.com/ngageoint/ogc-api-features-json-ios) (The MIT License (MIT)) - OGC API Features JSON Lib
+* [Color](https://github.com/ngageoint/color-ios) (The MIT License (MIT)) - Color Lib
 * [TIFF](https://github.com/ngageoint/tiff-ios) (The MIT License (MIT)) - Tagged Image File Format Lib

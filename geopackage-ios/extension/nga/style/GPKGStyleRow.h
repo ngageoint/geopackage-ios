@@ -8,7 +8,7 @@
 
 #import "GPKGAttributesRow.h"
 #import "GPKGStyleTable.h"
-#import "GPKGColor.h"
+#import "CLRColor.h"
 
 /**
  * Style Row containing the values from a single result set row
@@ -128,7 +128,7 @@
  *
  * @return color
  */
--(GPKGColor *) color;
+-(CLRColor *) color;
 
 /**
  * Check if the style has a color
@@ -149,7 +149,7 @@
  *
  * @param color color
  */
--(void) setColor: (GPKGColor *) color;
+-(void) setColor: (CLRColor *) color;
 
 /**
  * Set the color
@@ -163,7 +163,7 @@
  *
  * @return color
  */
--(GPKGColor *) colorOrDefault;
+-(CLRColor *) colorOrDefault;
 
 /**
  * Get the color or default value
@@ -277,7 +277,7 @@
  *
  * @return fill color
  */
--(GPKGColor *) fillColor;
+-(CLRColor *) fillColor;
 
 /**
  * Check if the style has a fill color
@@ -298,7 +298,7 @@
  *
  * @param color color
  */
--(void) setFillColor: (GPKGColor *) color;
+-(void) setFillColor: (CLRColor *) color;
 
 /**
  * Set the fill color

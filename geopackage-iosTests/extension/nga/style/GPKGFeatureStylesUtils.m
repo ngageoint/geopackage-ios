@@ -598,12 +598,12 @@
     return styleRow;
 }
 
-+(GPKGColor *) randomColor{
++(CLRColor *) randomColor{
     
-    GPKGColor *color = nil;
+    CLRColor *color = nil;
     
     if([GPKGTestUtils randomDouble] < .5){
-        color = [[GPKGColor alloc] initWithRed:[GPKGTestUtils randomIntLessThan:256] andGreen:[GPKGTestUtils randomIntLessThan:256] andBlue:[GPKGTestUtils randomIntLessThan:256]];
+        color = [[CLRColor alloc] initWithRed:[GPKGTestUtils randomIntLessThan:256] andGreen:[GPKGTestUtils randomIntLessThan:256] andBlue:[GPKGTestUtils randomIntLessThan:256]];
         if([GPKGTestUtils randomDouble] < .5){
             [color setOpacity:(float)[GPKGTestUtils randomDouble]];
         }

@@ -46,7 +46,7 @@
 #import "GPKGContentsIdExtension.h"
 #import "GPKGFeatureStyleExtension.h"
 #import "GPKGPropertyNames.h"
-#import "GPKGColorConstants.h"
+#import "CLRColorConstants.h"
 #import "GPKGFeatureTableStyles.h"
 #import "GPKGFeaturePreview.h"
 #import "GPKGImageConverter.h"
@@ -1740,30 +1740,30 @@ static int dataColumnConstraintIndex = 0;
     GPKGStyleRow *style1 = [[GPKGStyleRow alloc] init];
     [style1 setName:@"Green"];
     [style1 setDescription:@"Green Style"];
-    [style1 setHexColor:GPKG_COLOR_GREEN];
+    [style1 setHexColor:CLR_COLOR_GREEN];
     [style1 setWidthValue:2.0];
     [styles addObject:style1];
     
     GPKGStyleRow *style2 = [[GPKGStyleRow alloc] init];
     [style2 setName:@"Blue with Red Fill"];
     [style2 setDescription:@"Blue with Red Fill Style"];
-    [style2 setColor:[[GPKGColor alloc] initWithHex:GPKG_COLOR_BLUE]];
-    [style2 setFillColor:[[GPKGColor alloc] initWithRed:255 andGreen:0 andBlue:0 andOpacity:.4f]];
+    [style2 setColor:[[CLRColor alloc] initWithHex:CLR_COLOR_BLUE]];
+    [style2 setFillColor:[[CLRColor alloc] initWithRed:255 andGreen:0 andBlue:0 andOpacity:.4f]];
     [styles addObject:style2];
     
     GPKGStyleRow *style3 = [[GPKGStyleRow alloc] init];
     [style3 setName:@"Orange"];
     [style3 setDescription:@"Orange Style"];
-    [style3 setColor:[[GPKGColor alloc] initWithColor:0xFFA500]];
+    [style3 setColor:[[CLRColor alloc] initWithColor:0xFFA500]];
     [style3 setWidthValue:6.5];
     [styles addObject:style3];
     
     GPKGStyleRow *style4 = [[GPKGStyleRow alloc] init];
     [style4 setName:@"Violet with Yellow Fill"];
     [style4 setDescription:@"Violet with Yellow Fill Style"];
-    [style4 setColor:[[GPKGColor alloc] initWithRed:138 andGreen:43 andBlue:226]];
+    [style4 setColor:[[CLRColor alloc] initWithRed:138 andGreen:43 andBlue:226]];
     [style4 setWidthValue:4.1];
-    [style4 setFillColor:[[GPKGColor alloc] initWithHue:61 andSaturation:.89f andLightness:.72f andAlpha:.3f]];
+    [style4 setFillColor:[[CLRColor alloc] initWithHue:61 andSaturation:.89f andLightness:.72f andAlpha:.3f]];
     [styles addObject:style4];
 
     NSMutableArray<GPKGIconRow *> *icons = [NSMutableArray array];

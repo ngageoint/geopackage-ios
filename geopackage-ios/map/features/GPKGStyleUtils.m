@@ -91,7 +91,7 @@
     BOOL styleSet = NO;
     
     if (style != nil) {
-        GPKGColor *color = [style colorOrDefault];
+        CLRColor *color = [style colorOrDefault];
         UIColor *uiColor = [color uiColor];
         [mapPoint.options setPinTintColor:uiColor];
         styleSet = YES;
@@ -133,7 +133,7 @@
         
         GPKGPolylineOptions *options = [[GPKGPolylineOptions alloc] init];
         
-        GPKGColor *color = [style colorOrDefault];
+        CLRColor *color = [style colorOrDefault];
         [options setStrokeColor:[color uiColor]];
         
         [options setLineWidth:[style widthOrDefault]];
@@ -177,12 +177,12 @@
         
         GPKGPolygonOptions *options = [[GPKGPolygonOptions alloc] init];
         
-        GPKGColor *color = [style colorOrDefault];
+        CLRColor *color = [style colorOrDefault];
         [options setStrokeColor:[color uiColor]];
         
         [options setLineWidth:[style widthOrDefault]];
         
-        GPKGColor *fillColor = [style fillColor];
+        CLRColor *fillColor = [style fillColor];
         if(fillColor != nil){
             [options setFillColor:[fillColor uiColor]];
         }

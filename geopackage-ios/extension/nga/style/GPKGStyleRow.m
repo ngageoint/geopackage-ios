@@ -83,7 +83,7 @@ static NSRegularExpression *colorExpression;
     return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_COLOR];
 }
 
--(GPKGColor *) color{
+-(CLRColor *) color{
     return [self createColorWithHex:[self hexColor] andOpacity:[self opacity]];
 }
 
@@ -95,7 +95,7 @@ static NSRegularExpression *colorExpression;
     return (NSString *)[self valueWithIndex:[self colorColumnIndex]];
 }
 
--(void) setColor: (GPKGColor *) color{
+-(void) setColor: (CLRColor *) color{
     NSString *hex = nil;
     NSDecimalNumber *opacity = nil;
     if(color != nil){
@@ -111,10 +111,10 @@ static NSRegularExpression *colorExpression;
     [self setValueWithIndex:[self colorColumnIndex] andValue:color];
 }
 
--(GPKGColor *) colorOrDefault{
-    GPKGColor *color = [self color];
+-(CLRColor *) colorOrDefault{
+    CLRColor *color = [self color];
     if(color == nil){
-        color = [[GPKGColor alloc] init];
+        color = [[CLRColor alloc] init];
     }
     return color;
 }
@@ -197,7 +197,7 @@ static NSRegularExpression *colorExpression;
     return (GPKGAttributesColumn *)[[self attributesColumns] columnWithColumnName:GPKG_ST_COLUMN_FILL_COLOR];
 }
 
--(GPKGColor *) fillColor{
+-(CLRColor *) fillColor{
     return [self createColorWithHex:[self fillHexColor] andOpacity:[self fillOpacity]];
 }
 
@@ -209,7 +209,7 @@ static NSRegularExpression *colorExpression;
     return (NSString *)[self valueWithIndex:[self fillColorColumnIndex]];
 }
 
--(void) setFillColor: (GPKGColor *) color{
+-(void) setFillColor: (CLRColor *) color{
     NSString *hex = nil;
     NSDecimalNumber *opacity = nil;
     if(color != nil){
@@ -295,10 +295,10 @@ static NSRegularExpression *colorExpression;
  * @param opacity  opacity
  * @return color or null
  */
--(GPKGColor *) createColorWithHex: (NSString *) hexColor andOpacity: (NSDecimalNumber *) opacity{
-    GPKGColor *color = nil;
+-(CLRColor *) createColorWithHex: (NSString *) hexColor andOpacity: (NSDecimalNumber *) opacity{
+    CLRColor *color = nil;
     if(hexColor != nil || opacity != nil){
-        color = [[GPKGColor alloc] init];
+        color = [[CLRColor alloc] init];
         if(hexColor != nil){
             [color setColorWithHex:hexColor];
         }

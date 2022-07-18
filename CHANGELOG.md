@@ -4,9 +4,9 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 7.2.2 (TBD)
+## 7.3.0 (TBD)
 
-* TBD
+* color version 1.0.0
 
 ## [7.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.1) (05-06-2022)
 
