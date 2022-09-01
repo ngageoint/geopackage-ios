@@ -21,7 +21,7 @@
     CGFloat width = mapView.bounds.size.width;
     double scale = longitudeDelta * PROJ_MERCATOR_RADIUS * M_PI / (PROJ_WGS84_HALF_WORLD_LON_WIDTH * width);
     double zoom = maxZoom - log2(scale);
-    if (maxZoom < 0){
+    if (zoom < 0){
         zoom = 0;
     }
 
