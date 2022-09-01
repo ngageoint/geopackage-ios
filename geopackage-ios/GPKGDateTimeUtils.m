@@ -95,6 +95,7 @@ static NSArray * dateFormatters;
 
 +(NSDateFormatter *) createFormatterWithFormat: (NSString *) format{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]]; // for fixed format dates
     [dateFormatter setDateFormat:format];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     return dateFormatter;
