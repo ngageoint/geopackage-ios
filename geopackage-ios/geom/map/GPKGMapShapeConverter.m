@@ -53,7 +53,7 @@
 }
 
 -(SFPoint *) toWgs84WithPoint: (SFPoint *) point{
-    if(self.projection != nil){
+    if(self.projection != nil && ![self.projection isEqualToProjection:self.toWgs84.toProjection]){
         point = [self.toWebMercator transformPoint:point];
         point = [self.toWgs84 transformPoint:point];
     }
@@ -61,7 +61,7 @@
 }
 
 -(SFPoint *) toProjectionWithPoint: (SFPoint *) point{
-    if(self.projection != nil){
+    if(self.projection != nil && ![self.fromWgs84.fromProjection isEqualToProjection:self.projection]){
         point = [self.fromWgs84 transformPoint:point];
         point = [self.fromWebMercator transformPoint:point];
     }
