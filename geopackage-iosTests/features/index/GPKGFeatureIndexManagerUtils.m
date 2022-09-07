@@ -388,7 +388,7 @@
         }
         
         // Update a Geometry and update the index of a single feature row
-        SFPoint *point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        SFPoint *point = [SFPoint pointWithXValue:5.0 andYValue:5.0];
         GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:featureDao.geometryColumns.srsId andGeometry:point];
         [testFeatureRow setGeometry:geometryData];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];
@@ -1501,7 +1501,7 @@
         maxY = [envelope.maxY doubleValue];
     }
     
-    testEnvelope.envelope = [[SFGeometryEnvelope alloc] initWithMinXDouble:minX andMinYDouble:minY andMaxXDouble:maxX andMaxYDouble:maxY];
+    testEnvelope.envelope = [SFGeometryEnvelope envelopeWithMinXValue:minX andMinYValue:minY andMaxXValue:maxX andMaxYValue:maxY];
     testEnvelope.percentage = percentage;
     
     return testEnvelope;
@@ -1698,7 +1698,7 @@
                     if([envelope intersectsWithEnvelope:testEnvelope.envelope withAllowEmpty:YES]){
                         count++;
                     } else {
-                        SFGeometryEnvelope *adjustedEnvelope = [[SFGeometryEnvelope alloc] initWithMinXDouble:[envelope.minX doubleValue] - precision andMinYDouble:[envelope.minY doubleValue] - precision andMaxXDouble:[envelope.maxX doubleValue] + precision andMaxYDouble:[envelope.maxY doubleValue] + precision];
+                        SFGeometryEnvelope *adjustedEnvelope = [SFGeometryEnvelope envelopeWithMinXValue:[envelope.minX doubleValue] - precision andMinYValue:[envelope.minY doubleValue] - precision andMaxXValue:[envelope.maxX doubleValue] + precision andMaxYValue:[envelope.maxY doubleValue] + precision];
                         [GPKGTestUtils assertTrue:[adjustedEnvelope intersectsWithEnvelope:testEnvelope.envelope withAllowEmpty:YES]];
                     }
                 }

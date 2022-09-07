@@ -152,7 +152,7 @@
         [GPKGTestUtils assertTrue:resultCount >= 1];
         
         // Update a Geometry and update the index of a single feature row
-        SFPoint *point = [[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:5.0] andY:[[NSDecimalNumber alloc] initWithDouble:5.0]];
+        SFPoint *point = [SFPoint pointWithXValue:5.0 andYValue:5.0];
         GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:featureDao.geometryColumns.srsId andGeometry:point];
         [testFeatureRow setGeometry:geometryData];
         [GPKGTestUtils assertEqualIntWithValue:1 andValue2:[featureDao update:testFeatureRow]];

@@ -35,7 +35,7 @@
     
     [GPKGTestUtils assertEqualWithValue:boundingBox andValue2:boundingBox2];
     
-    SFPoint *point = [[SFPoint alloc] initWithXValue:longitude andYValue:latitude];
+    SFPoint *point = [SFPoint pointWithXValue:longitude andYValue:latitude];
     GPKGBoundingBox *boundingBox3 = [GPKGFeatureOverlayQuery tileBoundsWithPoint:point andZoom:zoom];
     
     [GPKGTestUtils assertEqualWithValue:boundingBox andValue2:boundingBox3];
@@ -67,7 +67,7 @@
     
     [GPKGTestUtils assertEqualWithValue:boundingBox andValue2:boundingBox2];
     
-    point = [[SFPoint alloc] initWithXValue:longitude andYValue:latitude];
+    point = [SFPoint pointWithXValue:longitude andYValue:latitude];
     boundingBox3 = [GPKGFeatureOverlayQuery tileBoundsWithPoint:point andZoom:zoom];
     
     [GPKGTestUtils assertEqualWithValue:boundingBox andValue2:boundingBox3];

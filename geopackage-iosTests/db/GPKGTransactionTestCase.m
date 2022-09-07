@@ -211,7 +211,7 @@
 -(void) insertRow: (GPKGFeatureDao *) featureDao{
     
     GPKGFeatureRow *row = [featureDao newRow];
-    GPKGGeometryData *geometry = [GPKGGeometryData createWithSrsId:[featureDao srsId] andGeometry:[[SFPoint alloc] initWithXValue:0 andYValue:0]];
+    GPKGGeometryData *geometry = [GPKGGeometryData createWithSrsId:[featureDao srsId] andGeometry:[SFPoint pointWithXValue:0 andYValue:0]];
     [row setGeometry:geometry];
     [featureDao insert:row];
     

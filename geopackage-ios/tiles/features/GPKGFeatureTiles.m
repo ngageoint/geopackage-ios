@@ -932,7 +932,7 @@
 
 -(SFPoint *) transformPointWithMapPoint: (GPKGMapPoint *) point{
     NSArray *lonLat = [self.wgs84ToWebMercatorTransform transformX:point.coordinate.longitude andY:point.coordinate.latitude];
-    return [[SFPoint alloc] initWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
+    return [SFPoint pointWithX:(NSDecimalNumber *)lonLat[0] andY:(NSDecimalNumber *)lonLat[1]];
 }
 
 /**

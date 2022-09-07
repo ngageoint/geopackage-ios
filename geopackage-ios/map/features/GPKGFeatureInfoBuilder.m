@@ -173,7 +173,7 @@
             [message appendFormat:@"%@\n\t%d features", self.name, featureCount];
             if(CLLocationCoordinate2DIsValid(locationCoordinate)){
                 [message appendString:@" near location:\n"];
-                SFPoint *point = [[SFPoint alloc] initWithXValue:locationCoordinate.longitude andYValue:locationCoordinate.latitude];
+                SFPoint *point = [SFPoint pointWithXValue:locationCoordinate.longitude andYValue:locationCoordinate.latitude];
                 [message appendFormat:@"%@", [SFGeometryPrinter geometryString:point]];
             }
         }

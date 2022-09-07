@@ -192,7 +192,7 @@
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
 
-    GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:srs.srsId andGeometry:[[SFPoint alloc] initWithXValue:0 andYValue:0]];
+    GPKGGeometryData *geometryData = [GPKGGeometryData createWithSrsId:srs.srsId andGeometry:[SFPoint pointWithXValue:0 andYValue:0]];
 
     GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"test_features"];

@@ -111,7 +111,7 @@
             [GPKGTestUtils assertNotNil:featureRow];
             
             GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-            [geomData setGeometry:[[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
+            [geomData setGeometry:[SFPoint pointWithXValue:45.1 andYValue:23.2]];
             [featureRow setGeometry:geomData];
             
             int updated = [featureDao update:featureRow];
@@ -371,7 +371,7 @@
     [GPKGTestUtils assertNotNil:featureRow];
     
     GPKGGeometryData * geomData = [[GPKGGeometryData alloc] initWithSrsId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
-    [geomData setGeometry:[[SFPoint alloc] initWithX:[[NSDecimalNumber alloc] initWithDouble:45.1] andY:[[NSDecimalNumber alloc] initWithDouble:23.2]]];
+    [geomData setGeometry:[SFPoint pointWithXValue:45.1 andYValue:23.2]];
     [featureRow setGeometry:geomData];
     
     int updated = [featureDao update:featureRow];

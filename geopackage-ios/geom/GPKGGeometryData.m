@@ -579,7 +579,7 @@ static int defaultByteOrder;
             maxM = [reader readDouble];
         }
         
-        envelope = [[SFGeometryEnvelope alloc] initWithHasZ:hasZ andHasM:hasM];
+        envelope = [SFGeometryEnvelope envelopeWithHasZ:hasZ andHasM:hasM];
         
         [envelope setMinX:minX];
         [envelope setMaxX:maxX];

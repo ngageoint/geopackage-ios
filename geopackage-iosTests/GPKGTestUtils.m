@@ -372,7 +372,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     double x = [self randomDoubleLessThan:180.0] * ([self randomDouble] < .5 ? 1 : -1);
     double y = [self randomDoubleLessThan:PROJ_WEB_MERCATOR_MIN_LAT_RANGE] * ([self randomDouble] < .5 ? 1 : -1);
     
-    SFPoint * point = [[SFPoint alloc] initWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
+    SFPoint *point = [SFPoint pointWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
     
     if(hasZ){
         double z = [self randomDoubleLessThan:1000.0];
@@ -389,7 +389,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(SFLineString *) createLineStringWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andRing: (BOOL) ring{
     
-    SFLineString * lineString = [[SFLineString alloc] initWithHasZ:hasZ andHasM:hasM];
+    SFLineString *lineString = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
     
     int numPoints = 2 + [self randomIntLessThan:9];
     
@@ -406,7 +406,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(SFPolygon *) createPolygonWithHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFPolygon * polygon = [[SFPolygon alloc] initWithHasZ:hasZ andHasM:hasM];
+    SFPolygon *polygon = [SFPolygon polygonWithHasZ:hasZ andHasM:hasM];
     
     int numLineStrings = 1 + [self randomIntLessThan:5];
     

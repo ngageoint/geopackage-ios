@@ -92,7 +92,7 @@
 +(SFPoint *) centroidOfBoundingBox: (GPKGBoundingBox *) boundingBox{
     double x = ([boundingBox.minLongitude doubleValue] + [boundingBox.maxLongitude doubleValue]) / 2.0;
     double y = ([boundingBox.minLatitude doubleValue] + [boundingBox.maxLatitude doubleValue]) / 2.0;
-    return [[SFPoint alloc] initWithXValue:x andYValue:y];
+    return [SFPoint pointWithXValue:x andYValue:y];
 }
 
 -(SFPoint *) centroidInProjection: (PROJProjection *) projection{
@@ -122,7 +122,7 @@
 }
 
 +(SFGeometryEnvelope *) buildEnvelopeFromBoundingBox: (GPKGBoundingBox *) boundingBox{
-    SFGeometryEnvelope * envelope = [[SFGeometryEnvelope alloc] init];
+    SFGeometryEnvelope *envelope = [SFGeometryEnvelope envelope];
     [envelope setMinX:boundingBox.minLongitude];
     [envelope setMaxX:boundingBox.maxLongitude];
     [envelope setMinY:boundingBox.minLatitude];

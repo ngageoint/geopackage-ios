@@ -142,7 +142,7 @@
 
     [indexer close];
     
-    SFGeometryEnvelope * envelope = [[SFGeometryEnvelope alloc] init];
+    SFGeometryEnvelope * envelope = [SFGeometryEnvelope envelope];
     [envelope setMinX:[[NSDecimalNumber alloc] initWithDouble:minX]];
     [envelope setMaxX:[[NSDecimalNumber alloc] initWithDouble:maxX]];
     [envelope setMinY:[[NSDecimalNumber alloc] initWithDouble:minY]];

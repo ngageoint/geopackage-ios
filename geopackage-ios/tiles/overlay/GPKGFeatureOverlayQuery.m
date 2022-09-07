@@ -80,7 +80,7 @@
     
     NSDecimalNumber *x = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.longitude];
     NSDecimalNumber *y = [[NSDecimalNumber alloc] initWithDouble:locationCoordinate.latitude];
-    SFPoint *point = [[SFPoint alloc] initWithX:x andY:y];
+    SFPoint *point = [SFPoint pointWithX:x andY:y];
     GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridFromWGS84Point:point andZoom:zoom];
     
     return [self.boundedOverlay hasTileWithX:tileGrid.minX andY:tileGrid.minY andZoom:zoom];
@@ -109,7 +109,7 @@
 }
 
 -(int) tileFeatureCountWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
-    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    SFPoint *point = [SFPoint pointWithXValue:location.longitude andYValue:location.latitude];
     return [self tileFeatureCountWithPoint:point andZoom:zoom];
 }
 
@@ -144,7 +144,7 @@
 }
 
 +(GPKGBoundingBox *) tileBoundsWithLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
-    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    SFPoint *point = [SFPoint pointWithXValue:location.longitude andYValue:location.latitude];
     return [self tileBoundsWithPoint:point andZoom:zoom];
 }
 
@@ -178,7 +178,7 @@
 }
 
 +(GPKGBoundingBox *) tileBoundsInProjection: (PROJProjection *) projection withLocationCoordinate: (CLLocationCoordinate2D) location andZoom: (int) zoom{
-    SFPoint *point = [[SFPoint alloc] initWithXValue:location.longitude andYValue:location.latitude];
+    SFPoint *point = [SFPoint pointWithXValue:location.longitude andYValue:location.latitude];
     return [self tileBoundsInProjection:projection withPoint:point andZoom:zoom];
 }
 

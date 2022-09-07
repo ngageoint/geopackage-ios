@@ -155,22 +155,22 @@ static NSString *COLUMN_NAME = @"geom";
 
 -(SFGeometry *) createGeometry{
     
-    SFPolygon *polygon = [[SFPolygon alloc] init];
-    SFLineString *ring = [[SFLineString alloc] init];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.719753]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802183 andYValue:39.719754]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802184 andYValue:39.719719]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802138 andYValue:39.719694]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802097 andYValue:39.719691]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802096 andYValue:39.719648]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801646 andYValue:39.719648]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801644 andYValue:39.719722]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801550 andYValue:39.719723]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801549 andYValue:39.720207]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801648 andYValue:39.720207]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.801648 andYValue:39.720341]];
-    [ring addPoint:[[SFPoint alloc] initWithXValue:-104.802246 andYValue:39.720343]];
+    SFPolygon *polygon = [SFPolygon polygon];
+    SFLineString *ring = [SFLineString lineString];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802246 andYValue:39.720343]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802246 andYValue:39.719753]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802183 andYValue:39.719754]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802184 andYValue:39.719719]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802138 andYValue:39.719694]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802097 andYValue:39.719691]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802096 andYValue:39.719648]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801646 andYValue:39.719648]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801644 andYValue:39.719722]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801550 andYValue:39.719723]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801549 andYValue:39.720207]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801648 andYValue:39.720207]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.801648 andYValue:39.720341]];
+    [ring addPoint:[SFPoint pointWithXValue:-104.802246 andYValue:39.720343]];
     [polygon addRing:ring];
     
     return polygon;

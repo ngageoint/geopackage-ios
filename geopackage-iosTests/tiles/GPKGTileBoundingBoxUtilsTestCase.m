@@ -23,7 +23,7 @@
     double latitude = 38.753195;
     int zoom = 6;
 
-    SFPoint *point = [[SFPoint alloc] initWithXValue:longitude andYValue:latitude];
+    SFPoint *point = [SFPoint pointWithXValue:longitude andYValue:latitude];
     GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils tileBoundsForWGS84Point:point andZoom:zoom];
 
     [GPKGTestUtils assertEqualDoubleWithValue:-78.75000000000001 andValue2:[boundingBox.minLongitude doubleValue] andDelta:0.0000000000001];
@@ -44,7 +44,7 @@
     latitude = -33.856686;
     zoom = 15;
 
-    point = [[SFPoint alloc] initWithXValue:longitude andYValue:latitude];
+    point = [SFPoint pointWithXValue:longitude andYValue:latitude];
     boundingBox = [GPKGTileBoundingBoxUtils tileBoundsForWGS84Point:point andZoom:zoom];
 
     [GPKGTestUtils assertEqualDoubleWithValue:151.20483398437506 andValue2:[boundingBox.minLongitude doubleValue] andDelta:0.000000000001];
