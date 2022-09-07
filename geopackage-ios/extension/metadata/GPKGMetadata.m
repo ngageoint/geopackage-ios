@@ -78,13 +78,13 @@ NSString * const GPKG_MST_STYLE_NAME = @"style";
 
 -(void) setMetadataScopeType: (enum GPKGMetadataScopeType) scopeType{
     
-    GPKGMetadataScope * scope = [GPKGMetadata fromScopeType:scopeType];
+    GPKGMetadataScope *scope = [GPKGMetadata fromScopeType:scopeType];
     self.scope = scope.name;
 }
 
 +(GPKGMetadataScope *) fromScopeType: (enum GPKGMetadataScopeType) type{
     
-    GPKGMetadataScope * scope = [[GPKGMetadataScope alloc] init];
+    GPKGMetadataScope *scope = [[GPKGMetadataScope alloc] init];
     
     switch(type){
         case GPKG_MST_UNDEFINED:

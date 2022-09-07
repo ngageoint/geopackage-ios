@@ -65,7 +65,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGExtendedRelation *relation = (GPKGExtendedRelation*) object;
     
@@ -156,8 +156,8 @@
     [whereValues addColumn:GPKG_ER_COLUMN_BASE_TABLE_NAME withValue:table];
     [whereValues addColumn:GPKG_ER_COLUMN_RELATED_TABLE_NAME withValue:table];
     
-    NSString * where = [self buildWhereWithFields:whereValues andOperation:@"or"];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
+    NSString *where = [self buildWhereWithFields:whereValues andOperation:@"or"];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:whereValues];
     
     return [self queryWhere:where andWhereArgs:whereArgs];
 }
@@ -190,8 +190,8 @@
         [whereValues addColumn:GPKG_ER_COLUMN_MAPPING_TABLE_NAME withValue:mappingTable];
     }
     
-    NSString * where = [self buildWhereWithFields:whereValues];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
+    NSString *where = [self buildWhereWithFields:whereValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:whereValues];
     
     return [self queryWhere:where andWhereArgs:whereArgs];
 }

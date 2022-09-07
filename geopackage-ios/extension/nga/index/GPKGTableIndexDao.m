@@ -53,7 +53,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGTableIndex *index = (GPKGTableIndex*) object;
     
@@ -79,9 +79,9 @@
     if(tableIndex != nil){
         
         // Delete Geometry Indices
-        GPKGGeometryIndexDao * geometryIndexDao = [self geometryIndexDao];
+        GPKGGeometryIndexDao *geometryIndexDao = [self geometryIndexDao];
         if([geometryIndexDao tableExists]){
-            GPKGResultSet * geometryIndexResults = [self geometryIndices:tableIndex];
+            GPKGResultSet *geometryIndexResults = [self geometryIndices:tableIndex];
             while([geometryIndexResults moveToNext]){
                 GPKGGeometryIndex * geometryIndex = (GPKGGeometryIndex *)[geometryIndexDao object:geometryIndexResults];
                 [geometryIndexDao delete:geometryIndex];
@@ -149,13 +149,13 @@
 }
 
 -(GPKGResultSet *) geometryIndices: (GPKGTableIndex *) tableIndex{
-    GPKGGeometryIndexDao * dao = [self geometryIndexDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:tableIndex.tableName];
+    GPKGGeometryIndexDao *dao = [self geometryIndexDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:tableIndex.tableName];
     return results;
 }
 
 -(int) geometryIndexCount: (GPKGTableIndex *) tableIndex{
-    GPKGResultSet * results = [self geometryIndices:tableIndex];
+    GPKGResultSet *results = [self geometryIndices:tableIndex];
     int count = results.count;
     [results close];
     return count;

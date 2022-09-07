@@ -77,7 +77,7 @@
                 }
             }
             
-            NSObject * value = nil;
+            NSObject *value = nil;
             
             switch (column.dataType) {
                     

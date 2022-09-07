@@ -23,7 +23,7 @@
 }
 
 +(NSData *) toData: (UIImage *) image andFormat: (enum GPKGCompressFormat) format andQuality: (CGFloat) quality{
-    NSData * data = nil;
+    NSData *data = nil;
     
     switch(format){
         case GPKG_CF_JPEG:

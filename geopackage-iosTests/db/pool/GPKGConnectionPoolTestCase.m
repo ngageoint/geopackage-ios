@@ -408,7 +408,7 @@
         GPKGGeometryData * geomData = [featureRow geometry];
         [GPKGTestUtils assertNotNil:geomData];
         
-        SFGeometry * geometry = geomData.geometry;
+        SFGeometry *geometry = geomData.geometry;
         [GPKGTestUtils assertNotNil:geometry];
         
         enum SFGeometryType geometryType = geometry.geometryType;
@@ -424,7 +424,7 @@
         if(featureRow != nil){
             GPKGGeometryData * geomData = [featureRow geometry];
             if(geomData != nil){
-                SFGeometry * geometry = geomData.geometry;
+                SFGeometry *geometry = geomData.geometry;
                 if(geometry != nil){
                     enum SFGeometryType geometryType = geometry.geometryType;
                     if([SFGeometryTypes name:SF_POINT] == [SFGeometryTypes name:geometryType]){

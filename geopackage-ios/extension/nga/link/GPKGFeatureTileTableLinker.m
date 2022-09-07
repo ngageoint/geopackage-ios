@@ -56,7 +56,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
             [self createFeatureTileLinkTable];
         }
         
-        GPKGFeatureTileLink * link = [[GPKGFeatureTileLink alloc] init];
+        GPKGFeatureTileLink *link = [[GPKGFeatureTileLink alloc] init];
         [link setFeatureTableName:featureTable];
         [link setTileTableName:tileTable];
         
@@ -66,12 +66,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 }
 
 -(BOOL) isLinkedWithFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    GPKGFeatureTileLink * link = [self linkFromFeatureTable:featureTable andTileTable:tileTable];
+    GPKGFeatureTileLink *link = [self linkFromFeatureTable:featureTable andTileTable:tileTable];
     return link != nil;
 }
 
 -(GPKGFeatureTileLink *) linkFromFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    GPKGFeatureTileLink * link = nil;
+    GPKGFeatureTileLink *link = nil;
     
     if([self featureTileLinksActive]){
         link = [self.featureTileLinkDao queryForFeatureTable:featureTable andTileTable:tileTable];
@@ -82,7 +82,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(GPKGResultSet *) queryForFeatureTable: (NSString *) featureTable{
     
-    GPKGResultSet * links = nil;
+    GPKGResultSet *links = nil;
     
     if([self featureTileLinksActive]){
         links = [self.featureTileLinkDao queryForFeatureTableName:featureTable];
@@ -93,7 +93,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(GPKGResultSet *) queryForTileTable: (NSString *) tileTable{
     
-    GPKGResultSet * links = nil;
+    GPKGResultSet *links = nil;
     
     if([self featureTileLinksActive]){
         links = [self.featureTileLinkDao queryForTileTableName:tileTable];
@@ -125,7 +125,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 }
 
 -(GPKGExtensions *) extensionCreate{
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 
@@ -134,7 +134,7 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 }
 
 -(GPKGExtensions *) extension{
-    GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:nil  andColumnName:nil];
+    GPKGExtensions *extension = [self extensionWithName:self.extensionName andTableName:nil  andColumnName:nil];
     return extension;
 }
 
@@ -179,12 +179,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<NSString *> *) tileTablesForFeatureTable: (NSString *) featureTable{
     
-    NSMutableArray<NSString *> * tileTables = [NSMutableArray array];
+    NSMutableArray<NSString *> *tileTables = [NSMutableArray array];
     
-    GPKGResultSet * results = [self queryForFeatureTable:featureTable];
+    GPKGResultSet *results = [self queryForFeatureTable:featureTable];
     @try {
         while([results moveToNext]){
-            GPKGFeatureTileLink * link = [self linkFromResultSet:results];
+            GPKGFeatureTileLink *link = [self linkFromResultSet:results];
             [tileTables addObject:link.tileTableName];
         }
     }
@@ -197,12 +197,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<NSString *> *) featureTablesForTileTable: (NSString *) tileTable{
     
-    NSMutableArray<NSString *> * featureTables = [NSMutableArray array];
+    NSMutableArray<NSString *> *featureTables = [NSMutableArray array];
     
-    GPKGResultSet * results = [self queryForTileTable:tileTable];
+    GPKGResultSet *results = [self queryForTileTable:tileTable];
     @try {
         while([results moveToNext]){
-            GPKGFeatureTileLink * link = [self linkFromResultSet:results];
+            GPKGFeatureTileLink *link = [self linkFromResultSet:results];
             [featureTables addObject:link.featureTableName];
         }
     }
@@ -215,12 +215,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<GPKGTileDao *> *) tileDaosForFeatureTable: (NSString *) featureTable{
     
-    NSMutableArray<GPKGTileDao *> * tileDaos = [NSMutableArray array];
+    NSMutableArray<GPKGTileDao *> *tileDaos = [NSMutableArray array];
     
-    NSArray<NSString *> * tileTables = [self tileTablesForFeatureTable:featureTable];
-    for(NSString * tileTable in tileTables){
+    NSArray<NSString *> *tileTables = [self tileTablesForFeatureTable:featureTable];
+    for(NSString *tileTable in tileTables){
         if ([self.geoPackage isTileTable:tileTable]) {
-            GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
+            GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTableName:tileTable];
             [tileDaos addObject:tileDao];
         }
     }
@@ -230,12 +230,12 @@ NSString * const GPKG_PROP_EXTENSION_FEATURE_TILE_LINK_DEFINITION = @"geopackage
 
 -(NSArray<GPKGFeatureDao *> *) featureDaosForTileTable: (NSString *) tileTable{
     
-    NSMutableArray<GPKGFeatureDao *> * featureDaos = [NSMutableArray array];
+    NSMutableArray<GPKGFeatureDao *> *featureDaos = [NSMutableArray array];
     
-    NSArray<NSString *> * featureTables = [self featureTablesForTileTable:tileTable];
-    for(NSString * featureTable in featureTables){
+    NSArray<NSString *> *featureTables = [self featureTablesForTileTable:tileTable];
+    for(NSString *featureTable in featureTables){
         if ([self.geoPackage isFeatureTable:featureTable]) {
-            GPKGFeatureDao * featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
+            GPKGFeatureDao *featureDao = [self.geoPackage featureDaoWithTableName:featureTable];
             [featureDaos addObject:featureDao];
         }
     }

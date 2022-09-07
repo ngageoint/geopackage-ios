@@ -81,7 +81,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGContents *contents = (GPKGContents*) object;
     
@@ -143,7 +143,7 @@
         switch (dataType) {
             case GPKG_CDT_FEATURES:{
                     // Features require Geometry Columns table (Spec Requirement 21)
-                    GPKGGeometryColumnsDao * geometryColumnsDao = [self geometryColumnsDao];
+                    GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
                     if(![geometryColumnsDao tableExists]){
                         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", validateObject.dataType, GPKG_GC_TABLE_NAME];
                     }
@@ -169,13 +169,13 @@
 -(void) verifyTiles: (enum GPKGContentsDataType) dataType{
     
     // Tiles require Tile Matrix Set table (Spec Requirement 37)
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
     if(![tileMatrixSetDao tableExists]){
         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TMS_TABLE_NAME];
     }
     
     // Tiles require Tile Matrix table (Spec Requirement 41)
-    GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
+    GPKGTileMatrixDao *tileMatrixDao = [self tileMatrixDao];
     if(![tileMatrixDao tableExists]){
         [NSException raise:@"Missing Table" format:@"A data type of %@ requires the %@ table to first be created using the GeoPackage.", [GPKGContentsDataTypes name:dataType], GPKG_TM_TABLE_NAME];
     }
@@ -232,9 +232,9 @@
                 case GPKG_CDT_FEATURES:
                     {
                         // Delete Geometry Columns
-                        GPKGGeometryColumnsDao * geometryColumnsDao = [self geometryColumnsDao];
+                        GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
                         if([geometryColumnsDao tableExists]){
-                            GPKGGeometryColumns * geometryColumns = [self geometryColumns:contents];
+                            GPKGGeometryColumns *geometryColumns = [self geometryColumns:contents];
                             if(geometryColumns != nil){
                                 [geometryColumnsDao delete:geometryColumns];
                             }
@@ -245,15 +245,15 @@
                 case GPKG_CDT_TILES:
                     {
                         // Delete Tile Matrix
-                        GPKGTileMatrixDao * tileMatrixDao = [self tileMatrixDao];
+                        GPKGTileMatrixDao *tileMatrixDao = [self tileMatrixDao];
                         if([tileMatrixDao tableExists]){
                             [tileMatrixDao deleteByTableName:contents.tableName];
                         }
                         
                         // Delete Tile Matrix Set
-                        GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
+                        GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
                         if([tileMatrixSetDao tableExists]){
-                            GPKGTileMatrixSet * tileMatrixSet = [self tileMatrixSet:contents];
+                            GPKGTileMatrixSet *tileMatrixSet = [self tileMatrixSet:contents];
                             if(tileMatrixSet != nil){
                                 [tileMatrixSetDao delete:tileMatrixSet];
                             }
@@ -349,7 +349,7 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection andUserTable: (BOOL) userTable{
     int count = 0;
     if(idCollection != nil){
-        for(NSString * id in idCollection){
+        for(NSString *id in idCollection){
             count += [self deleteByIdCascade:id andUserTable:userTable];
         }
     }
@@ -361,15 +361,15 @@
 }
 
 -(GPKGSpatialReferenceSystem *) srs: (GPKGContents *) contents{
-    GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:contents.srsId];
     return srs;
 }
 
 -(GPKGGeometryColumns *) geometryColumns: (GPKGContents *) contents{
-    GPKGGeometryColumns * geometryColumns = nil;
-    GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGGeometryColumns *geometryColumns = nil;
+    GPKGGeometryColumnsDao *dao = [self geometryColumnsDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_GC_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
         geometryColumns = (GPKGGeometryColumns *)[dao object:results];
     }
@@ -378,9 +378,9 @@
 }
 
 -(GPKGTileMatrixSet *) tileMatrixSet: (GPKGContents *) contents{
-    GPKGTileMatrixSet * tileMatrixSet = nil;
-    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGTileMatrixSet *tileMatrixSet = nil;
+    GPKGTileMatrixSetDao *dao = [self tileMatrixSetDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_TMS_COLUMN_TABLE_NAME andValue:contents.tableName];
     if([results moveToNext]){
         tileMatrixSet = (GPKGTileMatrixSet *)[dao object:results];
     }
@@ -389,8 +389,8 @@
 }
 
 -(GPKGResultSet *) tileMatrix: (GPKGContents *) contents{
-    GPKGTileMatrixDao * dao = [self tileMatrixDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:contents.tableName];
+    GPKGTileMatrixDao *dao = [self tileMatrixDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:contents.tableName];
     return results;
 }
 

@@ -64,7 +64,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet*) object;
     

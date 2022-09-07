@@ -24,7 +24,7 @@ NSString * const GPKG_MST_COLLECTION_NAME = @"COLLECTION";
 @implementation GPKGMapShapeTypes
 
 +(NSString *) name: (enum GPKGMapShapeType) shapeType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(shapeType){
         case GPKG_MST_POINT:

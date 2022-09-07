@@ -101,7 +101,7 @@
 -(GPKGBoundingBox *) boundingBoxInProjection: (PROJProjection *) projection{
     GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
     GPKGContents *contents = [geometryColumnsDao contents:self.geometryColumns];
-    GPKGContentsDao * contentsDao = [self contentsDao];
+    GPKGContentsDao *contentsDao = [self contentsDao];
     GPKGBoundingBox *boundingBox = [contentsDao boundingBoxOfContents:contents inProjection:projection];
     return boundingBox;
 }

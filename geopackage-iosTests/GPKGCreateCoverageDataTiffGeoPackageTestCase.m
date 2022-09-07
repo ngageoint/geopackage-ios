@@ -52,8 +52,8 @@
     GPKGSpatialReferenceSystem * tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
     GPKGCoverageDataTiff *coverageData = [GPKGCoverageDataTiff createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
-    GPKGTileDao * tileDao = coverageData.tileDao;
-    GPKGTileMatrixSet * tileMatrixSet = [coverageData tileMatrixSet];
+    GPKGTileDao *tileDao = coverageData.tileDao;
+    GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
     GPKGGriddedCoverageDao * griddedCoverageDao = [coverageData griddedCoverageDao];
     
@@ -79,7 +79,7 @@
     int griddedCoverageId = (int)[griddedCoverageDao create:griddedCoverage];
     [GPKGTestUtils assertTrue:griddedCoverageId >= 0];
     
-    NSNumber * gcId = griddedCoverage.id;
+    NSNumber *gcId = griddedCoverage.id;
     [GPKGTestUtils assertEqualIntWithValue:griddedCoverageId andValue2:[gcId intValue]];
     griddedCoverage = (GPKGGriddedCoverage *)[griddedCoverageDao queryForIdObject:gcId];
     [GPKGTestUtils assertNotNil:griddedCoverage];
@@ -181,7 +181,7 @@
                 
                 int gtCreateId = (int)[griddedTileDao create:griddedTile];
                 [GPKGTestUtils assertTrue:gtCreateId >= 0];
-                NSNumber * gtId = griddedTile.id;
+                NSNumber *gtId = griddedTile.id;
                 [GPKGTestUtils assertNotNil:gtId];
                 [GPKGTestUtils assertTrue:[gtId intValue] >= 0];
                 [GPKGTestUtils assertEqualIntWithValue:gtCreateId andValue2:[gtId intValue]];

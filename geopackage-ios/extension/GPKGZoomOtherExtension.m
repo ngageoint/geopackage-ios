@@ -26,7 +26,7 @@ NSString * const GPKG_PROP_ZOOM_OTHER_EXTENSION_DEFINITION = @"geopackage.extens
 
 -(GPKGExtensions *) extensionCreateWithTableName: (NSString *) tableName{
     
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:tableName andColumnName:GPKG_TC_COLUMN_TILE_DATA andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:tableName andColumnName:GPKG_TC_COLUMN_TILE_DATA andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }

@@ -150,7 +150,7 @@ static BOOL maintainStackTraces = NO;
         self.connectionExecs = [NSMutableDictionary dictionary];
         
         // Open a database connection
-        GPKGSqliteConnection * connection = [self openConnection];
+        GPKGSqliteConnection *connection = [self openConnection];
         [connection checkOut];
         [self.availableConnections addObject:connection];
     }
@@ -160,11 +160,11 @@ static BOOL maintainStackTraces = NO;
 
 -(void) close{
     @synchronized(self) {
-        for(GPKGSqliteConnection * connection in self.availableConnections){
+        for(GPKGSqliteConnection *connection in self.availableConnections){
             [GPKGSqlUtils closeDatabase:connection];
         }
         [self.availableConnections removeAllObjects];
-        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
+        for(GPKGSqliteConnection *connection in [self.usedConnections allValues]){
             [GPKGSqlUtils closeDatabase:connection];
         }
         [self.usedConnections removeAllObjects];
@@ -176,12 +176,12 @@ static BOOL maintainStackTraces = NO;
 }
 
 -(GPKGDbConnection *) connection{
-    GPKGDbConnection * connection = nil;
+    GPKGDbConnection *connection = nil;
     @synchronized(self) {
          if(self.writableConnection != nil){
              connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
          }else{
-             GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
+             GPKGSqliteConnection *sqlConnection = [self sqliteConnection];
              connection =  [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:YES];
          }
     }
@@ -194,7 +194,7 @@ static BOOL maintainStackTraces = NO;
  *  @return connection
  */
 -(GPKGSqliteConnection *) sqliteConnection{
-    GPKGSqliteConnection * connection = nil;
+    GPKGSqliteConnection *connection = nil;
     @synchronized(self) {
         [self checkConnections];
         if(self.availableConnections.count > 0){
@@ -211,12 +211,12 @@ static BOOL maintainStackTraces = NO;
 }
 
 -(GPKGDbConnection *) resultConnection{
-    GPKGDbConnection * connection = nil;
+    GPKGDbConnection *connection = nil;
     @synchronized(self) {
         if(self.writableConnection != nil){
             connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
         }else{
-            GPKGSqliteConnection * sqlConnection = [self sqliteConnection];
+            GPKGSqliteConnection *sqlConnection = [self sqliteConnection];
             [self createWriteFunctionsOnConnection:sqlConnection];
             [self.resultConnections setObject:sqlConnection forKey:[sqlConnection connectionId]];
             connection = [[GPKGDbConnection alloc] initWithConnection:sqlConnection andReleasable:YES];
@@ -226,12 +226,12 @@ static BOOL maintainStackTraces = NO;
 }
 
 -(GPKGDbConnection *) writeConnection{
-    GPKGDbConnection * connection = nil;
+    GPKGDbConnection *connection = nil;
     @synchronized(self) {
         if(self.writableConnection != nil){
             connection = [[GPKGDbConnection alloc] initWithDbConnection:self.writableConnection andReleasable:NO];
         } else{
-            GPKGSqliteConnection * sqlConnection = nil;
+            GPKGSqliteConnection *sqlConnection = nil;
             if(self.resultConnections.count > 0){
                 if(self.resultConnections.count > 1){
                     // Multiple open result connections causes a database locked error when trying to use the connection, regardless of which connection is used
@@ -264,7 +264,7 @@ static BOOL maintainStackTraces = NO;
         if(self.writableConnection != nil){
             [NSException raise:@"Begin Transaction Failure" format:@"Can not begin a transaction while write connection is already open on database: %@", self.filename];
         }
-        GPKGDbConnection * connection = [self writeConnection];
+        GPKGDbConnection *connection = [self writeConnection];
         int result = sqlite3_exec([connection connection], "BEGIN EXCLUSIVE TRANSACTION", 0, 0, 0);
         if(result != SQLITE_OK){
             [NSException raise:@"Begin Transaction Failure" format:@"Failed to begin exclusive transaction on database: %@, Error: %s", self.filename, sqlite3_errmsg([connection connection])];
@@ -276,7 +276,7 @@ static BOOL maintainStackTraces = NO;
 
 -(void) commitTransaction{
     @synchronized(self) {
-        GPKGDbConnection * connection = self.writableConnection;
+        GPKGDbConnection *connection = self.writableConnection;
         if(connection == nil){
             [NSException raise:@"No Active Transaction" format:@"No transaction is active to commit on database: %@", self.filename];
         }
@@ -291,7 +291,7 @@ static BOOL maintainStackTraces = NO;
 
 -(void) rollbackTransaction{
     @synchronized(self) {
-        GPKGDbConnection * connection = self.writableConnection;
+        GPKGDbConnection *connection = self.writableConnection;
         if(connection == nil){
             [NSException raise:@"No Active Transaction" format:@"No transaction is active to rollback on database: %@", self.filename];
         }
@@ -321,7 +321,7 @@ static BOOL maintainStackTraces = NO;
 -(BOOL) releaseConnectionWithId: (NSNumber *) connectionId{
     BOOL released = NO;
     @synchronized(self) {
-        GPKGSqliteConnection * connection = [self.usedConnections objectForKey:connectionId];
+        GPKGSqliteConnection *connection = [self.usedConnections objectForKey:connectionId];
         if(connection != nil){
             [self.usedConnections removeObjectForKey:connectionId];
             released = YES;
@@ -401,7 +401,7 @@ static BOOL maintainStackTraces = NO;
         [NSException raise:@"Open Database Failure" format:@"Failed to open database: %@, Error: %s", self.filename, sqlite3_errmsg(sqlite3Database)];
     }
     
-    GPKGSqliteConnection * connection = [[GPKGSqliteConnection alloc] initWithId:self.idCounter++ andConnection:sqlite3Database andPool:self andStackTrace:(checkConnections && maintainStackTraces)];
+    GPKGSqliteConnection *connection = [[GPKGSqliteConnection alloc] initWithId:self.idCounter++ andConnection:sqlite3Database andPool:self andStackTrace:(checkConnections && maintainStackTraces)];
     for(NSString *exec in [self.connectionExecs allValues]){
         [GPKGSqlUtils execWithSQLiteConnection:connection andStatement:exec];
     }
@@ -422,20 +422,20 @@ static BOOL maintainStackTraces = NO;
     if(checkConnections && ([self.lastConnectionCheck timeIntervalSinceNow] * -1) >= checkConnectionsFrequency){
         
         // Check each used connection
-        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
-            NSDate * dateCheckedOut = [connection dateCheckedOut];
+        for(GPKGSqliteConnection *connection in [self.usedConnections allValues]){
+            NSDate *dateCheckedOut = [connection dateCheckedOut];
             if(dateCheckedOut != nil){
                 NSTimeInterval time = [dateCheckedOut timeIntervalSinceNow] * -1;
                 if(time >= checkConnectionsWarningTime){
-                    NSArray<NSString *> * stackTrace = [connection stackTrace];
-                    NSMutableString * stackTraceMessage = [NSMutableString string];
+                    NSArray<NSString *> *stackTrace = [connection stackTrace];
+                    NSMutableString *stackTraceMessage = [NSMutableString string];
                     if(stackTrace != nil){
                         [stackTraceMessage appendString:@"\n\nConnection Check Out Stack Trace:\n"];
-                        for(NSString * step in stackTrace){
+                        for(NSString *step in stackTrace){
                             [stackTraceMessage appendFormat:@"\n\t%@", step];
                         }
                     }
-                    NSString * warning = [NSString stringWithFormat:@"Connection %@ to %@ has been checked out for %f seconds. Verify connections are being closed.%@", [connection connectionId], self.filename, time, stackTraceMessage];
+                    NSString *warning = [NSString stringWithFormat:@"Connection %@ to %@ has been checked out for %f seconds. Verify connections are being closed.%@", [connection connectionId], self.filename, time, stackTraceMessage];
                     os_log(OS_LOG_DEFAULT, "%s", [warning UTF8String]);
                 }
             }
@@ -457,7 +457,7 @@ static BOOL maintainStackTraces = NO;
         for(GPKGSqliteConnection *connection in self.availableConnections){
             [self createWriteFunctionsOnConnection:connection];
         }
-        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
+        for(GPKGSqliteConnection *connection in [self.usedConnections allValues]){
             connection.reusable = NO;
         }
     }
@@ -501,7 +501,7 @@ static BOOL maintainStackTraces = NO;
         for(GPKGSqliteConnection *connection in self.availableConnections){
             [GPKGSqlUtils execWithSQLiteConnection:connection andStatement:statement];
         }
-        for(GPKGSqliteConnection * connection in [self.usedConnections allValues]){
+        for(GPKGSqliteConnection *connection in [self.usedConnections allValues]){
             connection.reusable = NO;
         }
     }

@@ -773,7 +773,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         if (styleDao != nil) {
             
-            NSArray<GPKGStyleMappingRow *> * styleMappingRows = [mappingDao queryByBaseFeatureId:featureId];
+            NSArray<GPKGStyleMappingRow *> *styleMappingRows = [mappingDao queryByBaseFeatureId:featureId];
             if(styleMappingRows.count > 0){
                 
                 for(GPKGStyleMappingRow *styleMappingRow in styleMappingRows){
@@ -832,7 +832,7 @@ NSString * const GPKG_FSE_TABLE_MAPPING_TABLE_ICON = @"nga_icon_default_";
         
         if (iconDao != nil) {
             
-            NSArray<GPKGStyleMappingRow *> * styleMappingRows = [mappingDao queryByBaseFeatureId:featureId];
+            NSArray<GPKGStyleMappingRow *> *styleMappingRows = [mappingDao queryByBaseFeatureId:featureId];
             if(styleMappingRows.count > 0){
                 
                 for(GPKGStyleMappingRow *styleMappingRow in styleMappingRows){

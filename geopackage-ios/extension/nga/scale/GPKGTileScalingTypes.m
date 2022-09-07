@@ -19,7 +19,7 @@ NSString * const GPKG_TSC_CLOSEST_OUT_IN_NAME = @"closest_out_in";
 @implementation GPKGTileScalingTypes
 
 +(NSString *) name: (enum GPKGTileScalingType) tileScalingType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(tileScalingType){
         case GPKG_TSC_IN:

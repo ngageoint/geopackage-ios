@@ -16,7 +16,7 @@ NSString * const GPKG_GCET_CORNER_NAME = @"grid-value-is-corner";
 @implementation GPKGGriddedCoverageEncodingTypes
 
 +(NSString *) name: (enum GPKGGriddedCoverageEncodingType) griddedCoverageEncodingType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(griddedCoverageEncodingType){
         case GPKG_GCET_CENTER:

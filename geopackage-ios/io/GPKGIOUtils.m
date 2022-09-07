@@ -43,8 +43,8 @@ static int COPY_BUFFER_SIZE = 8192;
 }
 
 +(NSString *) documentsDirectory{
-    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString * documents = [paths objectAtIndex:0];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documents = [paths objectAtIndex:0];
     return documents;
 }
 
@@ -92,8 +92,8 @@ static int COPY_BUFFER_SIZE = 8192;
 }
 
 +(NSString *) localDocumentsDirectoryPath: (NSString *) directory{
-    NSString * documents = [NSString stringWithFormat:@"%@/", [self documentsDirectory]];
-    NSString * path = directory;
+    NSString *documents = [NSString stringWithFormat:@"%@/", [self documentsDirectory]];
+    NSString *path = directory;
     if([directory hasPrefix:documents]){
         path = [directory substringFromIndex:[documents length]];
     } else{

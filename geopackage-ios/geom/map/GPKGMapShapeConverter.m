@@ -35,9 +35,9 @@
         self.projection = projection;
         if(projection != nil){
             self.toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-            PROJProjection * webMercator = self.toWebMercator.toProjection;
+            PROJProjection *webMercator = self.toWebMercator.toProjection;
             self.toWgs84 =[SFPGeometryTransform transformFromProjection:webMercator andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-            PROJProjection * wgs84 = self.toWgs84.toProjection;
+            PROJProjection *wgs84 = self.toWgs84.toProjection;
             self.fromWgs84 = [SFPGeometryTransform transformFromProjection:wgs84 andToProjection:webMercator];
             self.fromWebMercator = [SFPGeometryTransform transformFromProjection:webMercator andToProjection:projection];
         }
@@ -70,7 +70,7 @@
 
 -(GPKGMapPoint *) toMapPointWithPoint: (SFPoint *) point{
     point = [self toWgs84WithPoint:point];
-    GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithPoint:point];
+    GPKGMapPoint *mapPoint = [[GPKGMapPoint alloc] initWithPoint:point];
     return mapPoint;
 }
 
@@ -104,7 +104,7 @@
 -(SFPoint *) toPointWithMapPoint: (GPKGMapPoint *) mapPoint andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     double y = mapPoint.coordinate.latitude;
     double x = mapPoint.coordinate.longitude;
-    SFPoint * point = [SFPoint pointWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
+    SFPoint *point = [SFPoint pointWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
     point = [self toProjectionWithPoint:point];
     return point;
 }
@@ -117,7 +117,7 @@
     CLLocationCoordinate2D coord = MKCoordinateForMapPoint(mapPoint);
     double y = coord.latitude;
     double x = coord.longitude;
-    SFPoint * point = [SFPoint pointWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
+    SFPoint *point = [SFPoint pointWithHasZ:hasZ andHasM:hasM andXValue:x andYValue:y];
     point = [self toProjectionWithPoint:point];
     return point;
 }
@@ -130,15 +130,15 @@
     NSArray *points = [self simplifyPoints:lineString.points];
     int numPoints = (int) points.count;
     
-    MKMapPoint * mapPoints = malloc(sizeof(MKMapPoint)*numPoints);
+    MKMapPoint *mapPoints = malloc(sizeof(MKMapPoint)*numPoints);
     
     for(int i = 0; i < numPoints; i++){
-        SFPoint * point = (SFPoint *)[points objectAtIndex:i];
+        SFPoint *point = (SFPoint *)[points objectAtIndex:i];
         MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
         mapPoints[i] = mapPoint;
     }
     
-    GPKGPolyline * polyline = [GPKGPolyline polylineWithPoints:mapPoints count:numPoints];
+    GPKGPolyline *polyline = [GPKGPolyline polylineWithPoints:mapPoints count:numPoints];
     
     return polyline;
 }
@@ -156,7 +156,7 @@
 }
 
 -(SFLineString *) toLineStringWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
-    SFLineString * lineString = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
+    SFLineString *lineString = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
     [self populateLineString:lineString withMKMapPoints:mapPoints andPointCount:pointCount];
     return lineString;
 }
@@ -166,7 +166,7 @@
 }
 
 -(SFLineString *) toLineStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
-    SFLineString * lineString = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
+    SFLineString *lineString = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
     [self populateLineString:lineString withMapPoints:mapPoints];
     return lineString;
 }
@@ -176,68 +176,68 @@
 }
 
 -(SFCircularString *) toCircularStringWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
-    SFCircularString * circularString = [SFCircularString circularStringWithHasZ:hasZ andHasM:hasM];
+    SFCircularString *circularString = [SFCircularString circularStringWithHasZ:hasZ andHasM:hasM];
     [self populateLineString:circularString withMapPoints:mapPoints];
     return circularString;
 }
 
 -(void) populateLineString: (SFLineString *) lineString withMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount{
     for(int i = 0; i < pointCount; i++){
-        SFPoint * point = [self toPointWithMKMapPoint:mapPoints[i] andHasZ:lineString.hasZ andHasM:lineString.hasM];
+        SFPoint *point = [self toPointWithMKMapPoint:mapPoints[i] andHasZ:lineString.hasZ andHasM:lineString.hasM];
         [lineString addPoint:point];
     }
 }
      
 -(void) populateLineString: (SFLineString *) lineString withMapPoints: (NSArray *) mapPoints{
-    for(GPKGMapPoint * mapPoint in mapPoints){
-        SFPoint * point = [self toPointWithMapPoint:mapPoint andHasZ:lineString.hasZ andHasM:lineString.hasM];
+    for(GPKGMapPoint *mapPoint in mapPoints){
+        SFPoint *point = [self toPointWithMapPoint:mapPoint andHasZ:lineString.hasZ andHasM:lineString.hasM];
         [lineString addPoint:point];
     }
 }
 
 -(GPKGPolygon *) toMapPolygonWithPolygon: (SFPolygon *) polygon{
     
-    GPKGPolygon * mapPolygon = nil;
+    GPKGPolygon *mapPolygon = nil;
     
-    NSArray * rings = polygon.rings;
+    NSArray *rings = polygon.rings;
     
     if([rings count] > 0){
         
         // Create the polygon points
-        SFLineString * polygonLineString = (SFLineString *)[rings objectAtIndex:0];
+        SFLineString *polygonLineString = (SFLineString *)[rings objectAtIndex:0];
         polygonLineString = [self shortestDirectionWithLineString:polygonLineString];
         
         // Try to simplify the number of points in the polygon
         NSArray *points = [self simplifyPoints:polygonLineString.points];
         int numPoints = (int) points.count;
         
-        MKMapPoint * polygonPoints = malloc(sizeof(MKMapPoint)*numPoints);
+        MKMapPoint *polygonPoints = malloc(sizeof(MKMapPoint)*numPoints);
         
         for(int i = 0; i < numPoints; i++){
-            SFPoint * point = (SFPoint *)[points objectAtIndex:i];
+            SFPoint *point = (SFPoint *)[points objectAtIndex:i];
             MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
             polygonPoints[i] = mapPoint;
         }
         
         // Add the holes
         NSUInteger ringCount = [rings count];
-        NSMutableArray * holes = [NSMutableArray arrayWithCapacity:ringCount-1];
+        NSMutableArray *holes = [NSMutableArray arrayWithCapacity:ringCount-1];
         for(int i = 1; i < ringCount; i++){
-            SFLineString * hole = (SFLineString *)[rings objectAtIndex:i];
+            SFLineString *hole = (SFLineString *)[rings objectAtIndex:i];
             hole = [self shortestDirectionWithLineString:hole];
             
             // Try to simplify the number of points in the hole
             NSArray *holePoints = [self simplifyPoints:hole.points];
             int numHolePoints = (int) holePoints.count;
             
-            MKMapPoint * polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
+            MKMapPoint *polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
             
             for(int j = 0; j < numHolePoints; j++){
-                SFPoint * point = (SFPoint *)[holePoints objectAtIndex:j];
+                SFPoint *point = (SFPoint *)[holePoints objectAtIndex:j];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                 polygonHolePoints[j] = mapPoint;
             }
-            GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
+            GPKGPolygon *holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
             [holes addObject:holePolygon];
         }
         
@@ -248,9 +248,9 @@
 
 -(GPKGPolygon *) toMapCurvePolygonWithPolygon: (SFCurvePolygon *) curvePolygon{
     
-    GPKGPolygon * mapPolygon = nil;
+    GPKGPolygon *mapPolygon = nil;
     
-    NSArray * rings = curvePolygon.rings;
+    NSArray *rings = curvePolygon.rings;
     
     if([rings count] > 0){
     
@@ -281,7 +281,7 @@
             numPoints = (int) points.count;
             polygonPoints = malloc(sizeof(MKMapPoint) * numPoints);
             for(int i = 0; i < numPoints; i++){
-                SFPoint * point = (SFPoint *)[points objectAtIndex:i];
+                SFPoint *point = (SFPoint *)[points objectAtIndex:i];
                 MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                 polygonPoints[i] = mapPoint;
             }
@@ -291,7 +291,7 @@
         
         // Add the holes
         NSUInteger ringCount = [rings count];
-        NSMutableArray * holes = [NSMutableArray array];
+        NSMutableArray *holes = [NSMutableArray array];
         for(int i = 1; i < ringCount; i++){
             SFCurve *hole = (SFCurve *)[rings objectAtIndex:i];
             if([hole isKindOfClass:[SFCompoundCurve class]]){
@@ -300,7 +300,7 @@
                 for(SFLineString *holeLineString in holeCompoundCurve.lineStrings){
                     numHolePoints += [holeLineString numPoints];
                 }
-                MKMapPoint * holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
+                MKMapPoint *holePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 int index = 0;
                 for(SFLineString *holeLineString in holeCompoundCurve.lineStrings){
                     SFLineString *compoundCurveHoleLineString = [self shortestDirectionWithLineString:holeLineString];
@@ -310,20 +310,20 @@
                         holePoints[index++] = mapPoint;
                     }
                 }
-                GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:holePoints count:numHolePoints];
+                GPKGPolygon *holePolygon = [GPKGPolygon polygonWithPoints:holePoints count:numHolePoints];
                 [holes addObject:holePolygon];
             }else if([hole isKindOfClass:[SFLineString class]]){
                 SFLineString *holeLineString = (SFLineString *)hole;
                 holeLineString = [self shortestDirectionWithLineString:holeLineString];
                 NSArray *holePoints = [self simplifyPoints:holeLineString.points];
                 int numHolePoints = (int) holePoints.count;
-                MKMapPoint * polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
+                MKMapPoint *polygonHolePoints = malloc(sizeof(MKMapPoint)*numHolePoints);
                 for(int j = 0; j < numHolePoints; j++){
-                    SFPoint * point = (SFPoint *)[holePoints objectAtIndex:j];
+                    SFPoint *point = (SFPoint *)[holePoints objectAtIndex:j];
                     MKMapPoint mapPoint = [self toMKMapPointWithPoint:point];
                     polygonHolePoints[j] = mapPoint;
                 }
-                GPKGPolygon * holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
+                GPKGPolygon *holePolygon = [GPKGPolygon polygonWithPoints:polygonHolePoints count:numHolePoints];
                 [holes addObject:holePolygon];
             }else{
                 [NSException raise:@"Unsupported Curve Hole Type" format:@"Unsupported Curve Hole Type: %@", NSStringFromClass([hole class])];
@@ -349,34 +349,34 @@
 
 -(SFPolygon *) toPolygonWithMKMapPoints: (MKMapPoint *) mapPoints andPointCount: (NSUInteger) pointCount andHolePolygons: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFPolygon * polygon = [SFPolygon polygonWithHasZ:hasZ andHasM:hasM];
+    SFPolygon *polygon = [SFPolygon polygonWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    NSMutableArray<SFPoint *> * polygonPoints = [NSMutableArray array];
+    NSMutableArray<SFPoint *> *polygonPoints = [NSMutableArray array];
     for(int i = 0; i < pointCount; i++){
         MKMapPoint mapPoint = mapPoints[i];
-        SFPoint * point = [self toPointWithMKMapPoint:mapPoint];
+        SFPoint *point = [self toPointWithMKMapPoint:mapPoint];
         [polygonPoints addObject:point];
     }
     
     // Add the exterior ring
-    SFLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    SFLineString *ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
     [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
-        for(MKPolygon * hole in holes){
+        for(MKPolygon *hole in holes){
             
             // Add the hole points
-            NSMutableArray<SFPoint *> * holePoints = [NSMutableArray array];
+            NSMutableArray<SFPoint *> *holePoints = [NSMutableArray array];
             for(int i = 0; i < hole.pointCount; i++){
                 MKMapPoint mapPoint = hole.points[i];
-                SFPoint * point = [self toPointWithMKMapPoint:mapPoint];
+                SFPoint *point = [self toPointWithMKMapPoint:mapPoint];
                 [holePoints addObject:point];
             }
             
             // Add the hole ring
-            SFLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            SFLineString *holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
             [polygon addRing:holeRing];
         }
     }
@@ -390,31 +390,31 @@
 
 -(SFPolygon *) toPolygonWithMapPoints: (NSArray *) mapPoints andHolePoints: (NSArray *) holes andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
 
-    SFPolygon * polygon = [SFPolygon polygonWithHasZ:hasZ andHasM:hasM];
+    SFPolygon *polygon = [SFPolygon polygonWithHasZ:hasZ andHasM:hasM];
     
     // Add the polygon points
-    NSMutableArray<SFPoint *> * polygonPoints = [NSMutableArray array];
-    for(GPKGMapPoint * mapPoint in mapPoints){
-        SFPoint * point = [self toPointWithMapPoint:mapPoint];
+    NSMutableArray<SFPoint *> *polygonPoints = [NSMutableArray array];
+    for(GPKGMapPoint *mapPoint in mapPoints){
+        SFPoint *point = [self toPointWithMapPoint:mapPoint];
         [polygonPoints addObject:point];
     }
     
     // Add the exterior ring
-    SFLineString * ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
+    SFLineString *ring = [self buildPolygonRingWithPoints:polygonPoints andHasZ:hasZ andHasM:hasM];
     [polygon addRing:ring];
     
     // Add the holes
     if(holes != nil){
-        for(NSArray * hole in holes){
+        for(NSArray *hole in holes){
             
-            NSMutableArray<SFPoint *> * holePoints = [NSMutableArray array];
-            for(GPKGMapPoint * mapPoint in hole){
-                SFPoint * point = [self toPointWithMapPoint:mapPoint];
+            NSMutableArray<SFPoint *> *holePoints = [NSMutableArray array];
+            for(GPKGMapPoint *mapPoint in hole){
+                SFPoint *point = [self toPointWithMapPoint:mapPoint];
                 [holePoints addObject:point];
             }
             
             // Add the hole ring
-            SFLineString * holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
+            SFLineString *holeRing = [self buildPolygonRingWithPoints:holePoints andHasZ:hasZ andHasM:hasM];
             [polygon addRing:holeRing];
         }
     }
@@ -465,7 +465,7 @@
     }
     
     // Create the ring
-    SFLineString * ring = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
+    SFLineString *ring = [SFLineString lineStringWithHasZ:hasZ andHasM:hasM];
     [ring setPoints:points];
     
     return ring;
@@ -473,7 +473,7 @@
 
 -(void) closePolygonRingWithPoints: (NSMutableArray<SFPoint *> *) points{
     if(![GPKGGeometryUtils isClosedPolygonWithPoints:points]){
-        SFPoint * first = [points objectAtIndex:0];
+        SFPoint *first = [points objectAtIndex:0];
         [points addObject:[SFPoint pointWithX:first.x andY:first.y]];
     }
 }
@@ -520,10 +520,10 @@
 
 -(GPKGMultiPoint *) toMapMultiPointWithMultiPoint: (SFMultiPoint *) multiPoint{
     
-    GPKGMultiPoint * mapMultiPoint = [[GPKGMultiPoint alloc] init];
+    GPKGMultiPoint *mapMultiPoint = [[GPKGMultiPoint alloc] init];
     
-    for(SFPoint * point in [multiPoint points]){
-        GPKGMapPoint * mapPoint = [self toMapPointWithPoint:point];
+    for(SFPoint *point in [multiPoint points]){
+        GPKGMapPoint *mapPoint = [self toMapPointWithPoint:point];
         [mapMultiPoint addPoint:mapPoint];
     }
     
@@ -544,10 +544,10 @@
 
 -(SFMultiPoint *) toMultiPointWithMapPoints: (NSArray *) mapPoints andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiPoint * multiPoint = [SFMultiPoint multiPointWithHasZ:hasZ andHasM:hasM];
+    SFMultiPoint *multiPoint = [SFMultiPoint multiPointWithHasZ:hasZ andHasM:hasM];
     
-    for(GPKGMapPoint * mapPoint in mapPoints){
-        SFPoint * point = [self toPointWithMapPoint:mapPoint];
+    for(GPKGMapPoint *mapPoint in mapPoints){
+        SFPoint *point = [self toPointWithMapPoint:mapPoint];
         [multiPoint addPoint:point];
     }
     
@@ -556,10 +556,10 @@
 
 -(GPKGMultiPolyline *) toMapMultiPolylineWithMultiLineString: (SFMultiLineString *) multiLineString{
     
-    GPKGMultiPolyline * mapMultiPoyline = [[GPKGMultiPolyline alloc] init];
+    GPKGMultiPolyline *mapMultiPoyline = [[GPKGMultiPolyline alloc] init];
     
-    for(SFLineString * lineString in [multiLineString lineStrings]){
-        GPKGPolyline * polyline = [self toMapPolylineWithLineString:lineString];
+    for(SFLineString *lineString in [multiLineString lineStrings]){
+        GPKGPolyline *polyline = [self toMapPolylineWithLineString:lineString];
         [mapMultiPoyline addPolyline:polyline];
     }
     
@@ -572,10 +572,10 @@
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiLineString * multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
+    SFMultiLineString *multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolyline * mapPolyline in mapPolylines){
-        SFLineString * lineString = [self toLineStringWithMapPolyline:mapPolyline];
+    for(MKPolyline *mapPolyline in mapPolylines){
+        SFLineString *lineString = [self toLineStringWithMapPolyline:mapPolyline];
         [multiLineString addLineString:lineString];
     }
     
@@ -588,10 +588,10 @@
 
 -(SFMultiLineString *) toMultiLineStringWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
 
-    SFMultiLineString * multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
+    SFMultiLineString *multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
     
-    for(NSArray * polyline in mapPolylinesArray){
-        SFLineString * lineString = [self toLineStringWithMapPoints:polyline];
+    for(NSArray *polyline in mapPolylinesArray){
+        SFLineString *lineString = [self toLineStringWithMapPoints:polyline];
         [multiLineString addLineString:lineString];
     }
     
@@ -604,10 +604,10 @@
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylinesArray: (NSArray *) mapPolylinesArray andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
 
-    SFCompoundCurve * compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
+    SFCompoundCurve *compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
     
-    for(NSArray * polyline in mapPolylinesArray){
-        SFLineString * lineString = [self toLineStringWithMapPoints:polyline];
+    for(NSArray *polyline in mapPolylinesArray){
+        SFLineString *lineString = [self toLineStringWithMapPoints:polyline];
         [compoundCurve addLineString:lineString];
     }
     
@@ -620,10 +620,10 @@
 
 -(SFMultiLineString *) toMultiLineStringWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiLineString * multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
+    SFMultiLineString *multiLineString = [SFMultiLineString multiLineStringWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolyline * mapPolyline in multiPolyline.polylines){
-        SFLineString * lineString = [self toLineStringWithMapPolyline:mapPolyline];
+    for(MKPolyline *mapPolyline in multiPolyline.polylines){
+        SFLineString *lineString = [self toLineStringWithMapPolyline:mapPolyline];
         [multiLineString addLineString:lineString];
     }
     
@@ -636,10 +636,10 @@
 
 -(SFCompoundCurve *) toCompoundCurveWithMapMultiPolyline: (GPKGMultiPolyline *) multiPolyline andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFCompoundCurve * compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
+    SFCompoundCurve *compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolyline * mapPolyline in multiPolyline.polylines){
-        SFLineString * lineString = [self toLineStringWithMapPolyline:mapPolyline];
+    for(MKPolyline *mapPolyline in multiPolyline.polylines){
+        SFLineString *lineString = [self toLineStringWithMapPolyline:mapPolyline];
         [compoundCurve addLineString:lineString];
     }
     
@@ -648,10 +648,10 @@
 
 -(GPKGMultiPolygon *) toMapMultiPolygonWithMultiPolygon: (SFMultiPolygon *) multiPolygon{
     
-    GPKGMultiPolygon * mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
+    GPKGMultiPolygon *mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
     
-    for(SFPolygon * polygon in [multiPolygon polygons]){
-        GPKGPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
+    for(SFPolygon *polygon in [multiPolygon polygons]){
+        GPKGPolygon *mapPolygon = [self toMapPolygonWithPolygon:polygon];
         [mapMultiPolygon addPolygon:mapPolygon];
     }
     
@@ -664,10 +664,10 @@
 
 -(SFMultiPolygon *) toMultiPolygonWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiPolygon * multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
+    SFMultiPolygon *multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolygon * mapPolygon in mapPolygons){
-        SFPolygon * polygon = [self toPolygonWithMapPolygon:mapPolygon];
+    for(MKPolygon *mapPolygon in mapPolygons){
+        SFPolygon *polygon = [self toPolygonWithMapPolygon:mapPolygon];
         [multiPolygon addPolygon:polygon];
     }
     
@@ -680,9 +680,9 @@
 
 -(SFMultiPolygon *) createMultiPolygonWithPolygons: (NSArray *) polygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiPolygon * multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
+    SFMultiPolygon *multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
     
-    for(SFPolygon * polygon in polygons){
+    for(SFPolygon *polygon in polygons){
         [multiPolygon addPolygon:polygon];
     }
     
@@ -695,10 +695,10 @@
 
 -(SFMultiPolygon *) toMultiPolygonWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFMultiPolygon * multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
+    SFMultiPolygon *multiPolygon = [SFMultiPolygon multiPolygonWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolygon * mapPolygon in mapMultiPolygon.polygons){
-        SFPolygon * polygon = [self toPolygonWithMapPolygon:mapPolygon];
+    for(MKPolygon *mapPolygon in mapMultiPolygon.polygons){
+        SFPolygon *polygon = [self toPolygonWithMapPolygon:mapPolygon];
         [multiPolygon addPolygon:polygon];
     }
     
@@ -707,10 +707,10 @@
 
 -(GPKGMultiPolyline *) toMapMultiPolylineWithCompoundCurve: (SFCompoundCurve *) compoundCurve{
     
-    GPKGMultiPolyline * mapMultiPolyline = [[GPKGMultiPolyline alloc] init];
+    GPKGMultiPolyline *mapMultiPolyline = [[GPKGMultiPolyline alloc] init];
     
-    for(SFLineString * lineString in compoundCurve.lineStrings){
-        GPKGPolyline * mapPolyline = [self toMapPolylineWithLineString:lineString];
+    for(SFLineString *lineString in compoundCurve.lineStrings){
+        GPKGPolyline *mapPolyline = [self toMapPolylineWithLineString:lineString];
         [mapMultiPolyline addPolyline:mapPolyline];
     }
     
@@ -723,10 +723,10 @@
 
 -(SFCompoundCurve *) toCompoundCurveWithMapPolylines: (NSArray *) mapPolylines andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFCompoundCurve * compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
+    SFCompoundCurve *compoundCurve = [SFCompoundCurve compoundCurveWithHasZ:hasZ andHasM:hasM];
     
-    for(MKPolyline * mapPolyline in mapPolylines){
-        SFLineString * lineString = [self toLineStringWithMapPolyline:mapPolyline];
+    for(MKPolyline *mapPolyline in mapPolylines){
+        SFLineString *lineString = [self toLineStringWithMapPolyline:mapPolyline];
         [compoundCurve addLineString:lineString];
     }
     
@@ -735,10 +735,10 @@
 
 -(GPKGMultiPolygon *) toMapMultiPolygonWithPolyhedralSurface: (SFPolyhedralSurface *) polyhedralSurface{
     
-    GPKGMultiPolygon * mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
+    GPKGMultiPolygon *mapMultiPolygon = [[GPKGMultiPolygon alloc] init];
     
-    for(SFPolygon * polygon in polyhedralSurface.polygons){
-        GPKGPolygon * mapPolygon = [self toMapPolygonWithPolygon:polygon];
+    for(SFPolygon *polygon in polyhedralSurface.polygons){
+        GPKGPolygon *mapPolygon = [self toMapPolygonWithPolygon:polygon];
         [mapMultiPolygon addPolygon:mapPolygon];
     }
     
@@ -751,10 +751,10 @@
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapPolygons: (NSArray *) mapPolygons andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFPolyhedralSurface * polyhedralSurface = [SFPolyhedralSurface polyhedralSurfaceWithHasZ:hasZ andHasM:hasM];
+    SFPolyhedralSurface *polyhedralSurface = [SFPolyhedralSurface polyhedralSurfaceWithHasZ:hasZ andHasM:hasM];
     
-    for (MKPolygon * mapPolygon in mapPolygons) {
-        SFPolygon * polygon = [self toPolygonWithMapPolygon:mapPolygon];
+    for (MKPolygon *mapPolygon in mapPolygons) {
+        SFPolygon *polygon = [self toPolygonWithMapPolygon:mapPolygon];
         [polyhedralSurface addPolygon:polygon];
     }
     
@@ -767,10 +767,10 @@
 
 -(SFPolyhedralSurface *) toPolyhedralSurfaceWithMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM{
     
-    SFPolyhedralSurface * polyhedralSurface = [SFPolyhedralSurface polyhedralSurfaceWithHasZ:hasZ andHasM:hasM];
+    SFPolyhedralSurface *polyhedralSurface = [SFPolyhedralSurface polyhedralSurfaceWithHasZ:hasZ andHasM:hasM];
     
-    for (MKPolygon * mapPolygon in mapMultiPolygon.polygons) {
-        SFPolygon * polygon = [self toPolygonWithMapPolygon:mapPolygon];
+    for (MKPolygon *mapPolygon in mapMultiPolygon.polygons) {
+        SFPolygon *polygon = [self toPolygonWithMapPolygon:mapPolygon];
         [polyhedralSurface addPolygon:polygon];
     }
     
@@ -779,7 +779,7 @@
 
 -(GPKGMapShape *) toShapeWithGeometry: (SFGeometry *) geometry{
     
-    GPKGMapShape * shape = nil;
+    GPKGMapShape *shape = nil;
     
     enum SFGeometryType geometryType = geometry.geometryType;
     switch (geometryType) {
@@ -831,10 +831,10 @@
 
 -(NSArray *) toShapesWithGeometryCollection: (SFGeometryCollection *) geometryCollection{
     
-    NSMutableArray * shapes = [NSMutableArray array];
+    NSMutableArray *shapes = [NSMutableArray array];
     
-    for(SFGeometry * geometry in geometryCollection.geometries){
-        GPKGMapShape * shape = [self toShapeWithGeometry:geometry];
+    for(SFGeometry *geometry in geometryCollection.geometries){
+        GPKGMapShape *shape = [self toShapeWithGeometry:geometry];
         [GPKGUtils addObject:shape toArray:shapes];
     }
     
@@ -843,7 +843,7 @@
 
 -(GPKGMapShape *) addGeometry: (SFGeometry *) geometry toMapView: (MKMapView *) mapView{
     
-    GPKGMapShape * addedShape = nil;
+    GPKGMapShape *addedShape = nil;
     
     enum SFGeometryType geometryType = geometry.geometryType;
     switch (geometryType) {
@@ -895,7 +895,7 @@
 
 +(GPKGMapShape *) addMapShape: (GPKGMapShape *) mapShape toMapView: (MKMapView *) mapView{
     
-    GPKGMapShape * addedShape = nil;
+    GPKGMapShape *addedShape = nil;
     
     switch (mapShape.shapeType) {
             
@@ -919,9 +919,9 @@
             break;
         case GPKG_MST_COLLECTION:
             {
-                NSMutableArray * addedShapeArray = [NSMutableArray array];
-                NSArray * shapeArray = (NSArray *) mapShape.shape;
-                for(GPKGMapShape * shapeArrayItem in shapeArray){
+                NSMutableArray *addedShapeArray = [NSMutableArray array];
+                NSArray *shapeArray = (NSArray *) mapShape.shape;
+                for(GPKGMapShape *shapeArrayItem in shapeArray){
                     [GPKGUtils addObject:[self addMapShape:shapeArrayItem toMapView:mapView] toArray:addedShapeArray];
                 }
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_COLLECTION andShape:addedShapeArray];
@@ -950,7 +950,7 @@
 }
 
 +(GPKGMapPoint *) addMKMapPoint: (MKMapPoint) mkMapPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
-    GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
+    GPKGMapPoint *mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
     return [self addMapPoint:mapPoint toMapView:mapView withPointOptions:pointOptions];
 }
 
@@ -969,21 +969,21 @@
 }
 
 +(GPKGMultiPoint *) addMapMultiPoint: (GPKGMultiPoint *) mapMultiPoint toMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions{
-    for(GPKGMapPoint * point in mapMultiPoint.points){
+    for(GPKGMapPoint *point in mapMultiPoint.points){
         [self addMapPoint:point toMapView:mapView withPointOptions:pointOptions];
     }
     return mapMultiPoint;
 }
 
 +(GPKGMultiPolyline *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline toMapView: (MKMapView *) mapView{
-    for(GPKGPolyline * polyline in mapMultiPolyline.polylines){
+    for(GPKGPolyline *polyline in mapMultiPolyline.polylines){
         [self addMapPolyline:polyline toMapView:mapView];
     }
     return mapMultiPolyline;
 }
 
 +(GPKGMultiPolygon *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon toMapView: (MKMapView *) mapView{
-    for(GPKGPolygon * polygon in mapMultiPolygon.polygons){
+    for(GPKGPolygon *polygon in mapMultiPolygon.polygons){
         [self addMapPolygon:polygon toMapView:mapView];
     }
     return mapMultiPolygon;
@@ -991,10 +991,10 @@
 
 -(NSArray *) addGeometryCollection: (SFGeometryCollection *) geometryCollection toMapView: (MKMapView *) mapView{
     
-    NSMutableArray * shapes = [NSMutableArray array];
+    NSMutableArray *shapes = [NSMutableArray array];
     
-    for(SFGeometry * geometry in geometryCollection.geometries){
-        GPKGMapShape * shape = [self addGeometry:geometry toMapView:mapView];
+    for(SFGeometry *geometry in geometryCollection.geometries){
+        GPKGMapShape *shape = [self addGeometry:geometry toMapView:mapView];
         [GPKGUtils addObject:shape toArray:shapes];
     }
     
@@ -1003,58 +1003,58 @@
 
 -(GPKGMapShapePoints *) addMapShape: (GPKGMapShape *) mapShape asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
     
-    GPKGMapShapePoints * shapePoints = [[GPKGMapShapePoints alloc] init];
-    GPKGMapShape * addedShape = nil;
+    GPKGMapShapePoints *shapePoints = [[GPKGMapShapePoints alloc] init];
+    GPKGMapShape *addedShape = nil;
     
     switch(mapShape.shapeType){
             
         case GPKG_MST_POINT:
             {
-                GPKGMapPoint * point = (GPKGMapPoint *) mapShape.shape;
-                GPKGMapPoint * mapPoint = [GPKGMapShapeConverter addMapPoint:point toMapView:mapView withPointOptions:pointOptions];
+                GPKGMapPoint *point = (GPKGMapPoint *) mapShape.shape;
+                GPKGMapPoint *mapPoint = [GPKGMapShapeConverter addMapPoint:point toMapView:mapView withPointOptions:pointOptions];
                 [shapePoints addPoint:mapPoint];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POINT andShape:mapPoint];
             }
             break;
         case GPKG_MST_POLYLINE:
             {
-                GPKGPolylinePoints * polylinePoints = [self addMapPolyline:(GPKGPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
+                GPKGPolylinePoints *polylinePoints = [self addMapPolyline:(GPKGPolyline *) mapShape.shape asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
                 [shapePoints addShapePoints:polylinePoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYLINE_POINTS andShape:polylinePoints];
             }
             break;
         case GPKG_MST_POLYGON:
             {
-                GPKGPolygonPoints * polygonPoints = [self addMapPolygon:(GPKGPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
+                GPKGPolygonPoints *polygonPoints = [self addMapPolygon:(GPKGPolygon *) mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
                 [shapePoints addShapePoints:polygonPoints];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_POLYGON_POINTS andShape:polygonPoints];
             }
             break;
         case GPKG_MST_MULTI_POINT:
             {
-                GPKGMultiPoint * multiPoint = [GPKGMapShapeConverter addMapMultiPoint:(GPKGMultiPoint *) mapShape.shape toMapView:mapView withPointOptions:pointOptions];
+                GPKGMultiPoint *multiPoint = [GPKGMapShapeConverter addMapMultiPoint:(GPKGMultiPoint *) mapShape.shape toMapView:mapView withPointOptions:pointOptions];
                 [shapePoints addShapePoints:multiPoint];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POINT andShape:multiPoint];
             }
             break;
         case GPKG_MST_MULTI_POLYLINE:
             {
-                GPKGMultiPolylinePoints * multiPolylinePoints = [self addMapMultiPolyline:(GPKGMultiPolyline *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
+                GPKGMultiPolylinePoints *multiPolylinePoints = [self addMapMultiPolyline:(GPKGMultiPolyline *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POLYLINE_POINTS andShape:multiPolylinePoints];
             }
             break;
         case GPKG_MST_MULTI_POLYGON:
             {
-                GPKGMultiPolygonPoints * multiPolygonPoints = [self addMapMultiPolygon:(GPKGMultiPolygon *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
+                GPKGMultiPolygonPoints *multiPolygonPoints = [self addMapMultiPolygon:(GPKGMultiPolygon *)mapShape.shape asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
                 addedShape = [[GPKGMapShape alloc] initWithGeometryType:mapShape.geometryType andShapeType:GPKG_MST_MULTI_POLYGON_POINTS andShape:multiPolygonPoints];
             }
             break;
         case GPKG_MST_COLLECTION:
             {
-                NSMutableArray * addedShapeArray = [NSMutableArray array];
-                NSArray * shapeArray = (NSArray *) mapShape.shape;
-                for(GPKGMapShape * shapeArrayItem in shapeArray){
-                    GPKGMapShapePoints * shapeArrayItemPoints = [self addMapShape:shapeArrayItem asPointsToMapView:mapView withPointOptions:pointOptions andPolylinePointOptions:polylinePointOptions andPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolylineOptions:globalPolylineOptions andPolygonOptions:globalPolygonOptions];
+                NSMutableArray *addedShapeArray = [NSMutableArray array];
+                NSArray *shapeArray = (NSArray *) mapShape.shape;
+                for(GPKGMapShape *shapeArrayItem in shapeArray){
+                    GPKGMapShapePoints *shapeArrayItemPoints = [self addMapShape:shapeArrayItem asPointsToMapView:mapView withPointOptions:pointOptions andPolylinePointOptions:polylinePointOptions andPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolylineOptions:globalPolylineOptions andPolygonOptions:globalPolygonOptions];
                     [shapePoints addMapShapePoints:shapeArrayItemPoints];
                     [GPKGUtils addObject:shapeArrayItemPoints.shape toArray:addedShapeArray];
                 }
@@ -1071,7 +1071,7 @@
 
 -(NSMutableArray *) addMKMapPoints: (MKMapPoint *) mapPoints withPointCount: (NSUInteger) pointCount asPointsToMapView: (MKMapView *) mapView withPointOptions: (GPKGMapPointOptions *) pointOptions andIgnoreIdenticalEnds: (BOOL) ignoreIdenticalEnds{
     
-    NSMutableArray * points = [NSMutableArray array];
+    NSMutableArray *points = [NSMutableArray array];
     for(int i = 0; i < pointCount; i++){
         MKMapPoint point = mapPoints[i];
         
@@ -1082,7 +1082,7 @@
             }
         }
         
-        GPKGMapPoint * mapPoint = [GPKGMapShapeConverter addMKMapPoint:point toMapView:mapView withPointOptions:pointOptions];
+        GPKGMapPoint *mapPoint = [GPKGMapShapeConverter addMKMapPoint:point toMapView:mapView withPointOptions:pointOptions];
         [GPKGUtils addObject:mapPoint toArray:points];
     }
     return points;
@@ -1090,7 +1090,7 @@
 
 -(GPKGPolylinePoints *) addMapPolyline: (GPKGPolyline *) mapPolyline asPointsToMapView: (MKMapView *) mapView withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions{
     
-    GPKGPolylinePoints * polylinePoints = [[GPKGPolylinePoints alloc] init];
+    GPKGPolylinePoints *polylinePoints = [[GPKGPolylinePoints alloc] init];
     
     if(globalPolylineOptions != nil){
         GPKGPolylineOptions *options = [[GPKGPolylineOptions alloc] init];
@@ -1099,10 +1099,10 @@
         [mapPolyline setOptions:options];
     }
     
-    GPKGPolyline * polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
+    GPKGPolyline *polyline = [GPKGMapShapeConverter addMapPolyline:mapPolyline toMapView:mapView];
     [polylinePoints setPolyline:polyline];
     
-    NSMutableArray * points = [self addMKMapPoints:polyline.points withPointCount:polyline.pointCount asPointsToMapView:mapView withPointOptions:polylinePointOptions andIgnoreIdenticalEnds:NO];
+    NSMutableArray *points = [self addMKMapPoints:polyline.points withPointCount:polyline.pointCount asPointsToMapView:mapView withPointOptions:polylinePointOptions andIgnoreIdenticalEnds:NO];
     [polylinePoints setPoints:points];
     
     return polylinePoints;
@@ -1110,7 +1110,7 @@
 
 -(GPKGPolygonPoints *) addMapPolygon: (GPKGPolygon *) mapPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
     
-    GPKGPolygonPoints * polygonPoints = [[GPKGPolygonPoints alloc] init];
+    GPKGPolygonPoints *polygonPoints = [[GPKGPolygonPoints alloc] init];
     
     if(globalPolygonOptions != nil){
         GPKGPolygonOptions *options = [[GPKGPolygonOptions alloc] init];
@@ -1120,15 +1120,15 @@
         [mapPolygon setOptions:options];
     }
     
-    GPKGPolygon * polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
+    GPKGPolygon *polygon = [GPKGMapShapeConverter addMapPolygon:mapPolygon toMapView:mapView];
     [polygonPoints setPolygon:polygon];
     
-    NSMutableArray * points = [self addMKMapPoints:polygon.points withPointCount:polygon.pointCount asPointsToMapView:mapView withPointOptions:polygonPointOptions andIgnoreIdenticalEnds:YES];
+    NSMutableArray *points = [self addMKMapPoints:polygon.points withPointCount:polygon.pointCount asPointsToMapView:mapView withPointOptions:polygonPointOptions andIgnoreIdenticalEnds:YES];
     [polygonPoints setPoints:points];
     
-    for(MKPolygon * hole in polygon.interiorPolygons){
-        NSMutableArray * holePoints = [self addMKMapPoints:hole.points withPointCount:hole.pointCount asPointsToMapView:mapView withPointOptions:polygonHolePointOptions andIgnoreIdenticalEnds:YES];
-        GPKGPolygonHolePoints * polygonHolePoints = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:polygonPoints];
+    for(MKPolygon *hole in polygon.interiorPolygons){
+        NSMutableArray *holePoints = [self addMKMapPoints:hole.points withPointCount:hole.pointCount asPointsToMapView:mapView withPointOptions:polygonHolePointOptions andIgnoreIdenticalEnds:YES];
+        GPKGPolygonHolePoints *polygonHolePoints = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:polygonPoints];
         [polygonHolePoints setPoints:holePoints];
         [shapePoints addShapePoints:polygonHolePoints];
         [polygonPoints addHole:polygonHolePoints];
@@ -1139,9 +1139,9 @@
 
 -(GPKGMultiPolylinePoints *) addMapMultiPolyline: (GPKGMultiPolyline *) mapMultiPolyline asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolylinePointOptions: (GPKGMapPointOptions *) polylinePointOptions andPolylineOptions: (GPKGPolylineOptions *) globalPolylineOptions{
     
-    GPKGMultiPolylinePoints * multiPolylinePoints = [[GPKGMultiPolylinePoints alloc] init];
-    for(GPKGPolyline * polyline in mapMultiPolyline.polylines){
-        GPKGPolylinePoints * polylinePoints = [self addMapPolyline:polyline asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
+    GPKGMultiPolylinePoints *multiPolylinePoints = [[GPKGMultiPolylinePoints alloc] init];
+    for(GPKGPolyline *polyline in mapMultiPolyline.polylines){
+        GPKGPolylinePoints *polylinePoints = [self addMapPolyline:polyline asPointsToMapView:mapView withPolylinePointOptions:polylinePointOptions andPolylineOptions:globalPolylineOptions];
         [shapePoints addShapePoints:polylinePoints];
         [multiPolylinePoints addPolylinePoints:polylinePoints];
     }
@@ -1150,9 +1150,9 @@
 
 -(GPKGMultiPolygonPoints *) addMapMultiPolygon: (GPKGMultiPolygon *) mapMultiPolygon asPointsToMapView: (MKMapView *) mapView withShapePoints: (GPKGMapShapePoints *) shapePoints withPolygonPointOptions: (GPKGMapPointOptions *) polygonPointOptions andPolygonPointHoleOptions: (GPKGMapPointOptions *) polygonHolePointOptions andPolygonOptions: (GPKGPolygonOptions *) globalPolygonOptions{
 
-    GPKGMultiPolygonPoints * multiPolygonPoints = [[GPKGMultiPolygonPoints alloc] init];
-    for(GPKGPolygon * polygon in mapMultiPolygon.polygons){
-        GPKGPolygonPoints * polygonPoints = [self addMapPolygon:polygon asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
+    GPKGMultiPolygonPoints *multiPolygonPoints = [[GPKGMultiPolygonPoints alloc] init];
+    for(GPKGPolygon *polygon in mapMultiPolygon.polygons){
+        GPKGPolygonPoints *polygonPoints = [self addMapPolygon:polygon asPointsToMapView:mapView withShapePoints:shapePoints withPolygonPointOptions:polygonPointOptions andPolygonPointHoleOptions:polygonHolePointOptions andPolygonOptions:globalPolygonOptions];
         [shapePoints addShapePoints:polygonPoints];
         [multiPolygonPoints addPolygonPoints:polygonPoints];
     }
@@ -1162,7 +1162,7 @@
 +(CLLocationCoordinate2D *) locationCoordinatesFromPoints: (NSArray *) points{
     CLLocationCoordinate2D *coordinates = calloc([points count], sizeof(CLLocationCoordinate2D));
     int index = 0;
-    for(GPKGMapPoint * point in points){
+    for(GPKGMapPoint *point in points){
         coordinates[index++] = point.coordinate;
     }
     return coordinates;
@@ -1171,7 +1171,7 @@
 +(CLLocationCoordinate2D *) locationCoordinatesFromLocations: (NSArray *) locations{
     CLLocationCoordinate2D *coordinates = calloc([locations count], sizeof(CLLocationCoordinate2D));
     int index = 0;
-    for(CLLocation * location in locations){
+    for(CLLocation *location in locations){
         coordinates[index++] = location.coordinate;
     }
     return coordinates;
@@ -1179,10 +1179,10 @@
 
 -(NSArray *) toMapPointsFromMKMapPoints: (MKMapPoint *) mkMapPoints andPointCount: (NSUInteger) pointCount{
     
-    NSMutableArray * mapPoints = [NSMutableArray arrayWithCapacity:pointCount];
+    NSMutableArray *mapPoints = [NSMutableArray arrayWithCapacity:pointCount];
     for(int i = 0; i < pointCount; i++){
         MKMapPoint mkMapPoint = mkMapPoints[i];
-        GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
+        GPKGMapPoint *mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
         [GPKGUtils addObject:mapPoint toArray:mapPoints];
     }
     
@@ -1191,14 +1191,14 @@
 
 -(SFGeometry *) toGeometryFromMapShape: (GPKGMapShape *) mapShape{
     
-    SFGeometry * geometry = nil;
-    NSObject * shapeObject = mapShape.shape;
+    SFGeometry *geometry = nil;
+    NSObject *shapeObject = mapShape.shape;
     
     switch(mapShape.geometryType){
 
         case SF_POINT:
             {
-                GPKGMapPoint * point = nil;
+                GPKGMapPoint *point = nil;
                 switch(mapShape.shapeType){
                     case GPKG_MST_POINT:
                         point = (GPKGMapPoint *) shapeObject;
@@ -1215,18 +1215,18 @@
         case SF_LINESTRING:
         case SF_CIRCULARSTRING:
             {
-                NSArray * lineStringPoints = nil;
+                NSArray *lineStringPoints = nil;
                 
                 switch(mapShape.shapeType){
                     case GPKG_MST_POLYLINE:
                         {
-                            MKPolyline * polyline = (MKPolyline *) shapeObject;
+                            MKPolyline *polyline = (MKPolyline *) shapeObject;
                             lineStringPoints = [self toMapPointsFromMKMapPoints:polyline.points andPointCount:polyline.pointCount];
                         }
                         break;
                     case GPKG_MST_POLYLINE_POINTS:
                         {
-                            GPKGPolylinePoints * polylinePoints = (GPKGPolylinePoints *) shapeObject;
+                            GPKGPolylinePoints *polylinePoints = (GPKGPolylinePoints *) shapeObject;
                             if(![polylinePoints isValid]){
                                 [NSException raise:@"Not Valid" format:@"Polyline Points is not valid to create %@", [SFGeometryTypes name:mapShape.geometryType]];
                             }
@@ -1254,17 +1254,17 @@
             break;
         case SF_POLYGON:
             {
-                NSArray * polygonPoints = nil;
-                NSMutableArray * holePointArray = nil;
+                NSArray *polygonPoints = nil;
+                NSMutableArray *holePointArray = nil;
                 switch(mapShape.shapeType){
                     case GPKG_MST_POLYGON:
                         {
-                            MKPolygon * polygon = (MKPolygon *) shapeObject;
+                            MKPolygon *polygon = (MKPolygon *) shapeObject;
                             polygonPoints = [self toMapPointsFromMKMapPoints:polygon.points andPointCount:polygon.pointCount];
                             if(polygon.interiorPolygons != nil){
                                 holePointArray = [NSMutableArray array];
-                                for(MKPolygon * holePolygon in polygon.interiorPolygons){
-                                    NSArray * holePolygonPoints = [self toMapPointsFromMKMapPoints:holePolygon.points andPointCount:holePolygon.pointCount];
+                                for(MKPolygon *holePolygon in polygon.interiorPolygons){
+                                    NSArray *holePolygonPoints = [self toMapPointsFromMKMapPoints:holePolygon.points andPointCount:holePolygon.pointCount];
                                     [GPKGUtils addObject:holePolygonPoints toArray:holePointArray];
                                 }
                             }
@@ -1272,14 +1272,14 @@
                         break;
                     case GPKG_MST_POLYGON_POINTS:
                         {
-                            GPKGPolygonPoints * thePolygonPoints = (GPKGPolygonPoints *) shapeObject;
+                            GPKGPolygonPoints *thePolygonPoints = (GPKGPolygonPoints *) shapeObject;
                             if(![thePolygonPoints isValid]){
                                 [NSException raise:@"Not Valid" format:@"Polygon Points is not valid to create %@", [SFGeometryTypes name:mapShape.geometryType]];
                             }
                             if(![thePolygonPoints isDeleted]){
                                 polygonPoints = thePolygonPoints.points;
                                 holePointArray = [NSMutableArray array];
-                                for(GPKGPolygonHolePoints * holePoints in thePolygonPoints.holes){
+                                for(GPKGPolygonHolePoints *holePoints in thePolygonPoints.holes){
                                     if(![holePoints isDeleted]){
                                         [GPKGUtils addObject:holePoints.points toArray:holePointArray];
                                     }
@@ -1297,11 +1297,11 @@
             break;
         case SF_MULTIPOINT:
             {
-                NSArray * multiPoints = nil;
+                NSArray *multiPoints = nil;
                 switch(mapShape.shapeType){
                     case GPKG_MST_MULTI_POINT:
                         {
-                            GPKGMultiPoint * multiPoint = (GPKGMultiPoint *) shapeObject;
+                            GPKGMultiPoint *multiPoint = (GPKGMultiPoint *) shapeObject;
                             multiPoints = multiPoint.points;
                         }
                         break;
@@ -1319,7 +1319,7 @@
                 switch(mapShape.shapeType){
                     case GPKG_MST_MULTI_POLYLINE:
                         {
-                            GPKGMultiPolyline * multiPolyline = (GPKGMultiPolyline *) shapeObject;
+                            GPKGMultiPolyline *multiPolyline = (GPKGMultiPolyline *) shapeObject;
                             switch(mapShape.geometryType){
                                 case SF_MULTILINESTRING:
                                     geometry = [self toMultiLineStringWithMapMultiPolyline:multiPolyline];
@@ -1334,13 +1334,13 @@
                         break;
                     case GPKG_MST_MULTI_POLYLINE_POINTS:
                         {
-                            GPKGMultiPolylinePoints * multiPolylinePoints = (GPKGMultiPolylinePoints *) shapeObject;
+                            GPKGMultiPolylinePoints *multiPolylinePoints = (GPKGMultiPolylinePoints *) shapeObject;
                             if(![multiPolylinePoints isValid]){
                                 [NSException raise:@"Not Valid" format:@"Multi Polyline Points is not valid to create %@", [SFGeometryTypes name:mapShape.geometryType]];
                             }
                             if(![multiPolylinePoints isDeleted]){
-                                NSMutableArray * multiPolylinePointsArray = [NSMutableArray array];
-                                for(GPKGPolylinePoints * polylinePoints in multiPolylinePoints.polylinePoints){
+                                NSMutableArray *multiPolylinePointsArray = [NSMutableArray array];
+                                for(GPKGPolylinePoints *polylinePoints in multiPolylinePoints.polylinePoints){
                                     if(![polylinePoints isDeleted]){
                                         [GPKGUtils addObject:polylinePoints.points toArray:multiPolylinePointsArray];
                                     }
@@ -1368,30 +1368,30 @@
                 switch(mapShape.shapeType){
                     case GPKG_MST_MULTI_POLYGON:
                         {
-                            GPKGMultiPolygon * multiPolygon = (GPKGMultiPolygon *) shapeObject;
+                            GPKGMultiPolygon *multiPolygon = (GPKGMultiPolygon *) shapeObject;
                             geometry = [self toMultiPolygonWithMapMultiPolygon:multiPolygon];
                         }
                         break;
                     case GPKG_MST_MULTI_POLYGON_POINTS:
                         {
-                            GPKGMultiPolygonPoints * multiPolygonPoints = (GPKGMultiPolygonPoints *) shapeObject;
+                            GPKGMultiPolygonPoints *multiPolygonPoints = (GPKGMultiPolygonPoints *) shapeObject;
                             if(![multiPolygonPoints isValid]){
                                 [NSException raise:@"Not Valid" format:@"Multi Polygon Points is not valid to create %@", [SFGeometryTypes name:mapShape.geometryType]];
                             }
                             if(![multiPolygonPoints isDeleted]){
-                                NSMutableArray * multiPolygonPointsArray = [NSMutableArray array];
-                                for(GPKGPolygonPoints * polygonPoints in multiPolygonPoints.polygonPoints){
+                                NSMutableArray *multiPolygonPointsArray = [NSMutableArray array];
+                                for(GPKGPolygonPoints *polygonPoints in multiPolygonPoints.polygonPoints){
                                     if(![polygonPoints isDeleted]){
                                         
-                                        NSArray * multiPolygonPoints = polygonPoints.points;
-                                        NSMutableArray * multiPolygonHolePoints = [NSMutableArray array];
-                                        for(GPKGPolygonHolePoints * hole in polygonPoints.holes){
+                                        NSArray *multiPolygonPoints = polygonPoints.points;
+                                        NSMutableArray *multiPolygonHolePoints = [NSMutableArray array];
+                                        for(GPKGPolygonHolePoints *hole in polygonPoints.holes){
                                             if(![hole isDeleted]){
                                                 [GPKGUtils addObject:hole.points toArray:multiPolygonHolePoints];
                                             }
                                         }
                                         
-                                        SFPolygon * polygon = [self toPolygonWithMapPoints:multiPolygonPoints andHolePoints:multiPolygonHolePoints];
+                                        SFPolygon *polygon = [self toPolygonWithMapPoints:multiPolygonPoints andHolePoints:multiPolygonHolePoints];
                                         [GPKGUtils addObject:polygon toArray:multiPolygonPointsArray];
                                     }
                                 }
@@ -1411,10 +1411,10 @@
             break;
         case SF_GEOMETRYCOLLECTION:
             {
-                NSArray * shapeArray = (NSArray *) mapShape.shape;
-                SFGeometryCollection * geometryCollection = [SFGeometryCollection geometryCollectionWithHasZ:NO andHasM:NO];
-                for(GPKGMapShape * shapeArrayItem in shapeArray){
-                    SFGeometry * subGeometry = [self toGeometryFromMapShape:shapeArrayItem];
+                NSArray *shapeArray = (NSArray *) mapShape.shape;
+                SFGeometryCollection *geometryCollection = [SFGeometryCollection geometryCollectionWithHasZ:NO andHasM:NO];
+                for(GPKGMapShape *shapeArrayItem in shapeArray){
+                    SFGeometry *subGeometry = [self toGeometryFromMapShape:shapeArrayItem];
                     if(subGeometry != nil){
                         [geometryCollection addGeometry:subGeometry];
                     }

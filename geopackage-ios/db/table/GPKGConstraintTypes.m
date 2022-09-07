@@ -68,7 +68,7 @@ static NSMutableDictionary<NSString *, NSNumber *> *columnLookup = nil;
 }
 
 +(NSString *) name: (enum GPKGConstraintType) type{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(type){
         case GPKG_CT_PRIMARY_KEY:

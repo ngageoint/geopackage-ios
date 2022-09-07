@@ -116,12 +116,12 @@ NSString * const GPKG_PROP_EXTENSION_TILE_SCALING_DEFINITION = @"geopackage.exte
 }
 
 -(GPKGExtensions *) extensionCreate{
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:self.tableName andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:self.tableName andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     return extension;
 }
 
 -(GPKGExtensions *) extension{
-    GPKGExtensions * extension = [self extensionWithName:self.extensionName andTableName:self.tableName andColumnName:nil];
+    GPKGExtensions *extension = [self extensionWithName:self.extensionName andTableName:self.tableName andColumnName:nil];
     return extension;
 }
 

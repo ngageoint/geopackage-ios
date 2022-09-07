@@ -59,7 +59,7 @@
 
 +(UIColor *) color: (NSDictionary *) color{
     
-    UIColor * createdColor = nil;
+    UIColor *createdColor = nil;
     
     NSNumber * alpha = [color objectForKey:GPKG_PROP_COLORS_ALPHA];
     NSNumber * white = [color objectForKey:GPKG_PROP_COLORS_WHITE];

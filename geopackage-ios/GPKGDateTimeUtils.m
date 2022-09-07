@@ -43,7 +43,7 @@ static NSArray * dateFormatters;
 
 +(NSDate *) convertToDateWithString: (NSString *) dateTimeString andExpected: (BOOL) expected{
 
-    NSDate * date = nil;
+    NSDate *date = nil;
     
     if(dateTimeString != nil && dateTimeString.length > 0){
     

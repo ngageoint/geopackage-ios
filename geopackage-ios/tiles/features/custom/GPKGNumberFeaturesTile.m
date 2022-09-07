@@ -61,7 +61,7 @@
 
 -(UIImage *) drawUnindexedTileWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andTotalFeatureCount: (int) totalFeatureCount andFeatureDao: (GPKGFeatureDao *) featureDao andResults: (GPKGResultSet *) results{
     
-    UIImage * image = nil;
+    UIImage *image = nil;
     
     if(self.drawUnindexedTiles){
         // Draw a tile indicating we have no idea if there are features inside.
@@ -157,7 +157,7 @@
     CGContextScaleCTM(context, 1.0, -1.0);
     [text drawInRect:bounds withAttributes:attributes];
     
-    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
     return image;

@@ -102,7 +102,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                         andHaving: (NSString *) having
                         andOrderBy: (NSString *) orderBy
                         andLimit: (NSString *) limit{
-    NSString * query = [self querySQLWithDistinct:distinct
+    NSString *query = [self querySQLWithDistinct:distinct
                                      andTable:table
                                     andColumns:columns
                                       andWhere:where
@@ -509,7 +509,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(NSNumber *) minWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
-    NSNumber * min = nil;
+    NSNumber *min = nil;
     if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
         NSMutableString *minStatement = [NSMutableString string];
         
@@ -535,7 +535,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 
 +(NSNumber *) maxWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table andColumn: (NSString *) column andWhere: (NSString *) where andWhereArgs: (NSArray *) whereArgs{
     
-    NSNumber * max = nil;
+    NSNumber *max = nil;
     if([self countWithDatabase:connection andTable:table andWhere:where andWhereArgs:whereArgs] > 0){
         NSMutableString *maxStatement = [NSMutableString string];
         
@@ -567,15 +567,15 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     [insertStatement appendString:@"("];
     
     int size = (values != nil) ? [values size] : 0;
-    NSMutableArray * args = [NSMutableArray arrayWithCapacity:size];
+    NSMutableArray *args = [NSMutableArray arrayWithCapacity:size];
     
     int i = 0;
-    for(NSString * colName in [values keySet]){
+    for(NSString *colName in [values keySet]){
         if(i > 0){
             [insertStatement appendString:@","];
         }
         [insertStatement appendString:[self quoteWrapName:colName]];
-        NSObject * value = [values valueForKey:colName];
+        NSObject *value = [values valueForKey:colName];
         if(value == nil){
             value = [NSNull null];
         }
@@ -644,15 +644,15 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     
     int setValuesSize = [values size];
     int argsSize = (whereArgs == nil) ? setValuesSize : (setValuesSize + (int)[whereArgs count]);
-    NSMutableArray * args = [NSMutableArray arrayWithCapacity:argsSize];
+    NSMutableArray *args = [NSMutableArray arrayWithCapacity:argsSize];
     
     int i = 0;
-    for(NSString * colName in [values keySet]){
+    for(NSString *colName in [values keySet]){
         if(i > 0){
             [updateStatement appendString:@","];
         }
         [updateStatement appendString:[self quoteWrapName:colName]];
-        NSObject * value = [values valueForKey:colName];
+        NSObject *value = [values valueForKey:colName];
         if(value == nil){
             value = [NSNull null];
         }
@@ -732,36 +732,36 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 +(void) setArguments: (NSArray *) arguments inStatement: (sqlite3_stmt *) statement{
     if(arguments != nil){
         for(int i = 0; i < [arguments count]; i++){
-            NSObject * argument = [arguments objectAtIndex:i];
+            NSObject *argument = [arguments objectAtIndex:i];
             int index = i+1;
             if([argument isKindOfClass:[NSData class]]){
-                NSData * data = (NSData *) argument;
+                NSData *data = (NSData *) argument;
                 int bindResult = sqlite3_bind_blob(statement, index, [data bytes], (int)[data length], SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind Blob" format:@"Failed to bind blob in SQL statement: %@, Error Code: %d", statement, bindResult];
                 }
             }else if([argument isKindOfClass:[NSDate class]]){
-                NSDate * date = (NSDate *) argument;
+                NSDate *date = (NSDate *) argument;
                 NSString *dateString = [GPKGDateTimeUtils convertToDateTimeStringWithDate:date];
                 int bindResult = sqlite3_bind_text(statement, index, [dateString UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind Date" format:@"Failed to bind date in SQL statement: %@, Error Code: %d", statement, bindResult];
                 }
             }else if([argument isKindOfClass:[NSString class]]){
-                NSString * string = (NSString *) argument;
+                NSString *string = (NSString *) argument;
                 int bindResult = sqlite3_bind_text(statement, index, [string UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind String" format:@"Failed to bind string in SQL statement: %@, Error Code: %d", statement, bindResult];
                 }
             }else if([argument isKindOfClass:[NSDecimalNumber class]]){
-                NSDecimalNumber * decimal = (NSDecimalNumber *) argument;
-                NSString * decimalString = [decimal stringValue];
+                NSDecimalNumber *decimal = (NSDecimalNumber *) argument;
+                NSString *decimalString = [decimal stringValue];
                 int bindResult = sqlite3_bind_text(statement, index, [decimalString UTF8String], -1, SQLITE_TRANSIENT);
                 if(bindResult != SQLITE_OK){
                     [NSException raise:@"Bind Decimal" format:@"Failed to bind decimal in SQL statement: %@, Error Code: %d", statement, bindResult];
                 }
             }else if([argument isKindOfClass:[NSNumber class]]){
-                NSNumber * number = (NSNumber *) argument;
+                NSNumber *number = (NSNumber *) argument;
                 CFNumberType numberType = CFNumberGetType((CFNumberRef)number);
                 
                 BOOL success = NO;
@@ -830,7 +830,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(NSString *) quoteWrapName: (NSString *) name{
-    NSString * quoteName = nil;
+    NSString *quoteName = nil;
     if(name != nil){
         if([name hasPrefix:@"\""] && [name hasSuffix:@"\""]){
             quoteName = name;
@@ -842,10 +842,10 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
 }
 
 +(NSArray<NSString *> *) quoteWrapNames: (NSArray<NSString *> *) names{
-    NSMutableArray * quoteNames = nil;
+    NSMutableArray *quoteNames = nil;
     if(names != nil){
         quoteNames = [NSMutableArray array];
-        for(NSString * name in names){
+        for(NSString *name in names){
             [quoteNames addObject:[self quoteWrapName:name]];
         }
     }

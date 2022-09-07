@@ -64,7 +64,7 @@
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
-    NSData * tileData = nil;
+    NSData *tileData = nil;
     
     GPKGGeoPackageTile * geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){

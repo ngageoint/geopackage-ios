@@ -17,7 +17,7 @@ NSString * const GPKG_FIT_NONE_NAME = @"NONE";
 @implementation GPKGFeatureIndexTypes
 
 +(NSString *) name: (enum GPKGFeatureIndexType) featureIndexType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(featureIndexType){
         case GPKG_FIT_METADATA:

@@ -51,7 +51,7 @@
 
 +(NSNumber *) zoomLevelWithWidths: (NSArray *) widths andHeights: (NSArray *) heights andTileMatrices: (NSArray<GPKGTileMatrix *> *) tileMatrices andWidth: (double) width andHeight: (double) height andLengthChecks: (BOOL) lengthChecks{
     
-    NSNumber * zoomLevel = nil;
+    NSNumber *zoomLevel = nil;
     
     // Find where the width and height fit in
     NSDecimalNumber * widthNumber = [[NSDecimalNumber alloc] initWithDouble:width];

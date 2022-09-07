@@ -69,7 +69,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGDataColumnConstraints *constraints = (GPKGDataColumnConstraints*) object;
     
@@ -110,7 +110,7 @@
     GPKGDataColumnConstraints *projectionObject = (GPKGDataColumnConstraints*) object;
     GPKGResultSet *dataColumnResults = [self dataColumns:projectionObject];
     GPKGDataColumnsDao *dataColumnsDao = [self dataColumnsDao];
-    PROJProjection * projection = nil;
+    PROJProjection *projection = nil;
     if([dataColumnResults moveToNext]){
         GPKGDataColumns *dataColumns = (GPKGDataColumns *)[dataColumnsDao object:dataColumnResults];
         projection = [dataColumnsDao projection:dataColumns];
@@ -192,14 +192,14 @@
                                          andConstraintType: (enum GPKGDataColumnConstraintType) constraintType
                                                   andValue: (NSString *) value{
     
-    GPKGDataColumnConstraints * dataColumnConstraints = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *dataColumnConstraints = [[GPKGDataColumnConstraints alloc] init];
     dataColumnConstraints.constraintName = constraintName;
     [dataColumnConstraints setDataColumnConstraintType:constraintType];
     dataColumnConstraints.value = value;
     
-    NSObject * resultObject = [self queryForSameId:dataColumnConstraints];
+    NSObject *resultObject = [self queryForSameId:dataColumnConstraints];
     
-    GPKGDataColumnConstraints * result = nil;
+    GPKGDataColumnConstraints *result = nil;
     if(resultObject != nil){
         result = (GPKGDataColumnConstraints *) resultObject;
     }
@@ -209,7 +209,7 @@
 }
 
 -(GPKGResultSet *) dataColumns: (GPKGDataColumnConstraints *) dataColumnConstraints{
-    GPKGDataColumnsDao * dao = [self dataColumnsDao];
+    GPKGDataColumnsDao *dao = [self dataColumnsDao];
     GPKGResultSet *results = [dao queryByConstraintName:dataColumnConstraints.constraintName];
     return results;
 }

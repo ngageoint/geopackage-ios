@@ -193,7 +193,7 @@
 }
 
 -(GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:DBL_MAX andMinLatitudeDouble:DBL_MAX andMaxLongitudeDouble:-DBL_MAX andMaxLatitudeDouble:-DBL_MAX];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:DBL_MAX andMinLatitudeDouble:DBL_MAX andMaxLongitudeDouble:-DBL_MAX andMaxLatitudeDouble:-DBL_MAX];
     [self expandBoundingBox:boundingBox];
     return boundingBox;
 }

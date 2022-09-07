@@ -16,7 +16,7 @@ NSString * const GPKG_CF_NONE_NAME = @"none";
 @implementation GPKGCompressFormats
 
 +(NSString *) name: (enum GPKGCompressFormat) compressFormat{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(compressFormat){
         case GPKG_CF_JPEG:

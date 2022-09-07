@@ -16,7 +16,7 @@ NSString * const GPKG_CDA_BICUBIC_NAME = @"Bicubic";
 @implementation GPKGCoverageDataAlgorithms
 
 +(NSString *) name: (enum GPKGCoverageDataAlgorithm) algorithm{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(algorithm){
         case GPKG_CDA_NEAREST_NEIGHBOR:

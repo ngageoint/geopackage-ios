@@ -38,7 +38,7 @@
 
 -(NSMutableDictionary<NSString *, NSMutableDictionary *> *) tablesInDatabase: (NSString *) database{
     
-    NSMutableDictionary * tables = [_databases objectForKey:database];
+    NSMutableDictionary *tables = [_databases objectForKey:database];
     if(tables == nil){
         tables = [NSMutableDictionary dictionary];
         [_databases setObject:tables forKey:database];
@@ -52,8 +52,8 @@
 
 -(NSMutableDictionary<NSNumber *, GPKGFeatureShape *> *) featureIdsInDatabase: (NSString *) database withTable: (NSString *) table{
     
-    NSMutableDictionary * tables = [self tablesInDatabase:database];
-    NSMutableDictionary * featureIds = [self featureIdsInTables:tables withTable:table];
+    NSMutableDictionary *tables = [self tablesInDatabase:database];
+    NSMutableDictionary *featureIds = [self featureIdsInTables:tables withTable:table];
     return featureIds;
 }
 
@@ -63,7 +63,7 @@
 
 -(NSMutableDictionary<NSNumber *, NSArray *> *) featureIdsInTables: (NSMutableDictionary *) tables withTable: (NSString *) table{
     
-    NSMutableDictionary * featureIds = [tables objectForKey:table];
+    NSMutableDictionary *featureIds = [tables objectForKey:table];
     if(featureIds == nil){
         featureIds = [NSMutableDictionary dictionary];
         [tables setObject:featureIds forKey:table];
@@ -73,7 +73,7 @@
 
 -(GPKGFeatureShape *) featureShapeInDatabase: (NSString *) database withTable: (NSString *) table withFeatureId: (NSNumber *) featureId{
     
-    NSMutableDictionary * featureIds = [self featureIdsInDatabase:database withTable:table];
+    NSMutableDictionary *featureIds = [self featureIdsInDatabase:database withTable:table];
     GPKGFeatureShape *featureShape = [self featureShapeInFeatureIds:featureIds withFeatureId:featureId];
     return featureShape;
 }
@@ -104,10 +104,10 @@
 
 -(BOOL) existsWithFeatureId: (NSNumber *) featureId inDatabase: (NSString *) database withTable: (NSString *) table{
     BOOL exists = NO;
-    NSMutableDictionary * tables = [_databases objectForKey:database];
+    NSMutableDictionary *tables = [_databases objectForKey:database];
     if(tables != nil){
         
-        NSMutableDictionary * featureIds = [tables objectForKey:table];
+        NSMutableDictionary *featureIds = [tables objectForKey:table];
         if(featureIds != nil){
             GPKGFeatureShape *shapes = [featureIds objectForKey:featureId];
             exists = shapes != nil && [shapes hasShapes];
@@ -295,7 +295,7 @@
     
     int count = 0;
     
-    NSMutableDictionary * featureIds = [self featureIdsInDatabase:database withTable:table];
+    NSMutableDictionary *featureIds = [self featureIdsInDatabase:database withTable:table];
     
     if(featureIds != nil){
     

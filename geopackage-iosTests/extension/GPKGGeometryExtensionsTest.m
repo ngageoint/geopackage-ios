@@ -206,7 +206,7 @@
 - (void)testGeometryExtension {
     
     GPKGGeometryExtensions * extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
-    GPKGExtensionsDao * extensionsDao = extensions.extensionsDao;
+    GPKGExtensionsDao *extensionsDao = extensions.extensionsDao;
     
     // Test non extension geometries
     for(int i = SF_GEOMETRY; i <= SF_GEOMETRYCOLLECTION; i++){
@@ -261,7 +261,7 @@
 - (void)testUserGeometryExtension {
     
     GPKGGeometryExtensions * extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
-    GPKGExtensionsDao * extensionsDao = extensions.extensionsDao;
+    GPKGExtensionsDao *extensionsDao = extensions.extensionsDao;
     
     NSString *author = @"nga";
     

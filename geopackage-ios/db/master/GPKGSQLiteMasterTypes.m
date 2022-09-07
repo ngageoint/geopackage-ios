@@ -17,7 +17,7 @@ NSString * const GPKG_SMT_TRIGGER_NAME = @"TRIGGER";
 @implementation GPKGSQLiteMasterTypes
 
 +(NSString *) name: (enum GPKGSQLiteMasterType) type{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(type){
         case GPKG_SMT_TABLE:

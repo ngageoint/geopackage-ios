@@ -17,9 +17,9 @@
 
 @interface GPKGFeatureIndexer()
 
-@property (nonatomic, strong)  GPKGUserRowSync * featureRowSync;
-@property (nonatomic, strong)  GPKGMetadataDb * db;
-@property (nonatomic, strong)  GPKGGeometryMetadataDao * geometryMetadataDataSource;
+@property (nonatomic, strong)  GPKGUserRowSync *featureRowSync;
+@property (nonatomic, strong)  GPKGMetadataDb *db;
+@property (nonatomic, strong)  GPKGGeometryMetadataDao *geometryMetadataDataSource;
 
 @end
 
@@ -59,7 +59,7 @@
 
 -(BOOL) indexFeatureRow: (GPKGFeatureRow *) row{
     
-    NSNumber * geoPackageId = [self.geometryMetadataDataSource geoPackageIdForGeoPackageName:self.featureDao.databaseName];
+    NSNumber *geoPackageId = [self.geometryMetadataDataSource geoPackageIdForGeoPackageName:self.featureDao.databaseName];
     BOOL indexed = [self indexWithGeoPackageId:geoPackageId andFeatureRow:row andPossibleUpdate:YES];
     
     // Update the last indexed time
@@ -73,8 +73,8 @@
     int count = 0;
     
     // Get or create the table metadata
-    GPKGTableMetadataDao * tableDao = [self.db tableMetadataDao];
-    GPKGTableMetadata * metadata = [tableDao metadataCreateByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    GPKGTableMetadataDao *tableDao = [self.db tableMetadataDao];
+    GPKGTableMetadata *metadata = [tableDao metadataCreateByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
         
     // Delete existing index rows
     [self.geometryMetadataDataSource deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
@@ -149,15 +149,15 @@
     
     BOOL indexed = NO;
     
-    GPKGGeometryData * geomData = [row geometry];
+    GPKGGeometryData *geomData = [row geometry];
     if(geomData != nil){
         
         // Get the envelope
-        SFGeometryEnvelope * envelope = geomData.envelope;
+        SFGeometryEnvelope *envelope = geomData.envelope;
         
         // If not envelope, build on from the geometry
         if(envelope == nil){
-            SFGeometry * geometry = geomData.geometry;
+            SFGeometry *geometry = geomData.geometry;
             if(geometry != nil){
                 envelope = [geometry envelope];
             }
@@ -165,7 +165,7 @@
         
         // Create the new index row
         if(envelope != nil){
-            GPKGGeometryMetadata * metadata = [self.geometryMetadataDataSource populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row id] andEnvelope:envelope];
+            GPKGGeometryMetadata *metadata = [self.geometryMetadataDataSource populateMetadataWithGeoPackageId:geoPackageId andTableName:self.featureDao.tableName andId:[row id] andEnvelope:envelope];
             if(possibleUpdate){
                 [self.geometryMetadataDataSource createOrUpdateMetadata:metadata];
             }else{
@@ -180,9 +180,9 @@
 
 -(void) updateLastIndexedWithGeoPackageId: (NSNumber *) geoPackageId{
     
-    NSDate * indexedTime = [NSDate date];
+    NSDate *indexedTime = [NSDate date];
     
-    GPKGTableMetadataDao * dao = [self.db tableMetadataDao];
+    GPKGTableMetadataDao *dao = [self.db tableMetadataDao];
     if(![dao updateLastIndexed:indexedTime withGeoPackageId:geoPackageId andTableName:self.featureDao.tableName]){
         [NSException raise:@"Last Indexed Time" format:@"Failed to update last indexed time. GeoPackage Id: %@, Table: %@, Last Indexed: %@", geoPackageId, self.featureDao.tableName, indexedTime];
     }
@@ -190,7 +190,7 @@
 }
 
 -(BOOL) deleteIndex{
-    GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
+    GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
     BOOL deleted = [tableMetadataDao deleteByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
     return deleted;
 }
@@ -208,11 +208,11 @@
     
     BOOL indexed = NO;
     
-    NSDate * lastIndexed = [self lastIndexed];
+    NSDate *lastIndexed = [self lastIndexed];
     if(lastIndexed != nil){
-        GPKGGeometryColumnsDao * geometryColumnsDao = [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.featureDao.database];
-        GPKGContents * contents = [geometryColumnsDao contents:self.featureDao.geometryColumns];
-        NSDate * lastChange = contents.lastChange;
+        GPKGGeometryColumnsDao *geometryColumnsDao = [[GPKGGeometryColumnsDao alloc] initWithDatabase:self.featureDao.database];
+        GPKGContents *contents = [geometryColumnsDao contents:self.featureDao.geometryColumns];
+        NSDate *lastChange = contents.lastChange;
         indexed = [lastIndexed compare:lastChange] != NSOrderedAscending;
     }
     
@@ -220,9 +220,9 @@
 }
 
 -(NSDate *) lastIndexed{
-    NSDate * date = nil;
-    GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
-    GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
+    NSDate *date = nil;
+    GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:self.db.connection];
+    GPKGTableMetadata *metadata = [tableMetadataDao metadataByGeoPackageName:self.featureDao.databaseName andTableName:self.featureDao.tableName];
     if(metadata != nil){
         date = metadata.lastIndexed;
     }

@@ -59,7 +59,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGExtensions *extensions = (GPKGExtensions*) object;
     
@@ -88,8 +88,8 @@
 }
 
 -(int) deleteByExtension: (NSString *) extensionName{
-    NSString * where = [self buildWhereWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:extensionName];
+    NSString *where = [self buildWhereWithField:GPKG_EX_COLUMN_EXTENSION_NAME andValue:extensionName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:extensionName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
@@ -100,8 +100,8 @@
     [values addColumn:GPKG_EX_COLUMN_EXTENSION_NAME withValue:extensionName];
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     
-    NSString * where = [self buildWhereWithFields:values];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
@@ -113,8 +113,8 @@
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     [values addColumn:GPKG_EX_COLUMN_COLUMN_NAME withValue:columnName];
     
-    NSString * where = [self buildWhereWithFields:values];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
@@ -124,8 +124,8 @@
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     
-    NSString * where = [self buildWhereWithFields:values];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
@@ -135,7 +135,7 @@
 }
 
 -(int) countByExtension: (NSString *) extensionName{
-    GPKGResultSet * extensions = [self queryByExtension:extensionName];
+    GPKGResultSet *extensions = [self queryByExtension:extensionName];
     int count = extensions.count;
     [extensions close];
     return count;
@@ -151,7 +151,7 @@
 }
 
 -(int) countByExtension: (NSString *) extensionName andTable: (NSString *) tableName{
-    GPKGResultSet * extensions = [self queryByExtension:extensionName andTable:tableName];
+    GPKGResultSet *extensions = [self queryByExtension:extensionName andTable:tableName];
     int count = extensions.count;
     [extensions close];
     return count;
@@ -164,9 +164,9 @@
     [values addColumn:GPKG_EX_COLUMN_TABLE_NAME withValue:tableName];
     [values addColumn:GPKG_EX_COLUMN_COLUMN_NAME withValue:columnName];
     
-    GPKGResultSet * extensions = [self queryForFieldValues:values];
+    GPKGResultSet *extensions = [self queryForFieldValues:values];
     
-    GPKGExtensions * extension = nil;
+    GPKGExtensions *extension = nil;
     if(extensions.count > 1){
         [NSException raise:@"Too Many Results" format:@"More than one Extension existed for unique combination of Extension Name: %@, Table Name: %@, Column Name: %@", extensionName, tableName, columnName];
     } else if([extensions moveToNext]){

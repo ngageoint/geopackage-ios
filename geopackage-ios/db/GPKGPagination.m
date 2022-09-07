@@ -80,7 +80,7 @@ static NSRegularExpression *limitExpression = nil;
 }
 
 +(NSString *) replaceSQL: (NSString *) sql withPagination: (GPKGPagination *) pagination{
-    NSString * replaced = nil;
+    NSString *replaced = nil;
     NSArray<NSTextCheckingResult *> *matches = [limitExpression matchesInString:sql options:0 range:NSMakeRange(0, [sql length])];
     if([matches count] > 0){
         replaced = [limitExpression stringByReplacingMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:[NSString stringWithFormat:@" %@", [pagination description]]];

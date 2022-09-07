@@ -23,7 +23,7 @@
 
 +(GPKGBoundedOverlay *) boundedOverlay: (GPKGTileDao *) tileDao{
     
-    GPKGBoundedOverlay * overlay = nil;
+    GPKGBoundedOverlay *overlay = nil;
     
     if([tileDao isXYZTiles]){
         overlay = [[GPKGXYZOverlay alloc] initWithTileDao:tileDao];

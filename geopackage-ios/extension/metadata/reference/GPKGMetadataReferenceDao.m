@@ -67,7 +67,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGMetadataReference *reference = (GPKGMetadataReference*) object;
     
@@ -102,8 +102,8 @@
 }
 
 -(int) deleteByMetadata: (NSNumber *) fileId{
-    NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_FILE_ID andValue:fileId];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:fileId];
+    NSString *where = [self buildWhereWithField:GPKG_MR_COLUMN_FILE_ID andValue:fileId];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:fileId];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
@@ -113,8 +113,8 @@
     GPKGContentValues *values = [[GPKGContentValues alloc] init];
     [values putKey:GPKG_MR_COLUMN_PARENT_ID withValue:nil];
 
-    NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:parentId];
+    NSString *where = [self buildWhereWithField:GPKG_MR_COLUMN_PARENT_ID andValue:parentId];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:parentId];
     
     int count = [self updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     return count;
@@ -142,8 +142,8 @@
 }
 
 -(int) deleteByTableName: (NSString *) tableName{
-    NSString * where = [self buildWhereWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:tableName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    NSString *where = [self buildWhereWithField:GPKG_MR_COLUMN_TABLE_NAME andValue:tableName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     return [self deleteWhere:where andWhereArgs:whereArgs];
 }
 

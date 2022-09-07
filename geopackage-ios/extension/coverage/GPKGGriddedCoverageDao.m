@@ -79,7 +79,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGGriddedCoverage *griddedCoverage = (GPKGGriddedCoverage*) object;
     
@@ -136,8 +136,8 @@
 }
 
 -(GPKGGriddedCoverage *) queryByTileMatrixSetName: (NSString *) tileMatrixSetName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
-    GPKGGriddedCoverage * griddedCoverage = (GPKGGriddedCoverage *)[self firstObject:results];
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tileMatrixSetName];
+    GPKGGriddedCoverage *griddedCoverage = (GPKGGriddedCoverage *)[self firstObject:results];
     return griddedCoverage;
 }
 
@@ -146,14 +146,14 @@
 }
 
 -(int) deleteByTableName: (NSString *) tableName{
-    NSString * where = [self buildWhereWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tableName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    NSString *where = [self buildWhereWithField:GPKG_CDGC_COLUMN_TILE_MATRIX_SET_NAME andValue:tableName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(GPKGTileMatrixSet *) tileMatrixSet: (GPKGGriddedCoverage *) griddedCoverage{
-    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
+    GPKGTileMatrixSetDao *dao = [self tileMatrixSetDao];
     GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:griddedCoverage.tileMatrixSetName];
     return tileMatrixSet;
 }

@@ -15,7 +15,7 @@ NSString * const GPKG_GCDT_FLOAT_NAME = @"float";
 @implementation GPKGGriddedCoverageDataTypes
 
 +(NSString *) name: (enum GPKGGriddedCoverageDataType) griddedCoverageDataType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(griddedCoverageDataType){
         case GPKG_GCDT_INTEGER:

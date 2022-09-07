@@ -174,19 +174,19 @@
     [GPKGTestUtils assertTrue:[griddedTile.id intValue] >= 0];
     [GPKGTestUtils assertNotNil:[griddedTileDao contents:griddedTile]];
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
-    NSNumber * tableId = griddedTile.tableId;
+    NSNumber *tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
     [GPKGTestUtils assertEqualDoubleWithValue:1.0 andValue2:[griddedTile.scale doubleValue]];
     [GPKGTestUtils assertEqualDoubleWithValue:0.0 andValue2:[griddedTile.offset doubleValue]];
     [GPKGTestUtils assertNotNil:tileRow];
     
-    NSData * tileData = [tileRow tileData];
+    NSData *tileData = [tileRow tileData];
     [GPKGTestUtils assertTrue:tileData.length > 0];
     GPKGCoverageDataTiffImage * image = [[GPKGCoverageDataTiffImage alloc] initWithTileRow:tileRow];
     
     // Get all the pixel values of the image
-    NSArray * arrayValues = [coverageData pixelArrayValuesWithData: tileData];
-    float * pixelValues = [coverageData pixelValuesArrayToFloat:arrayValues];
+    NSArray *arrayValues = [coverageData pixelArrayValuesWithData: tileData];
+    float *pixelValues = [coverageData pixelValuesArrayToFloat:arrayValues];
     if (coverageDataValues != nil) {
         for (int i = 0; i < arrayValues.count; i++) {
             [GPKGTestUtils assertEqualDoubleWithValue:[coverageDataValues tilePixelFlatAsFloatWithIndex:i] andValue2:pixelValues[i]];

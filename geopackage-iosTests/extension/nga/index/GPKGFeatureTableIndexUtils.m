@@ -28,8 +28,8 @@
         
         // Determine how many features have geometry envelopes or geometries
         int expectedCount = 0;
-        GPKGFeatureRow * testFeatureRow = nil;
-        GPKGResultSet * featureResultSet = [featureDao queryForAll];
+        GPKGFeatureRow *testFeatureRow = nil;
+        GPKGResultSet *featureResultSet = [featureDao queryForAll];
         while([featureResultSet moveToNext]){
             GPKGFeatureRow * featureRow = [featureDao row:featureResultSet];
             if([featureRow geometryEnvelope] != nil){
@@ -125,7 +125,7 @@
                                                                        andMinLatitudeDouble:[envelope.minY doubleValue] - 1.0
                                                                       andMaxLongitudeDouble:[envelope.maxX doubleValue] + 1.0
                                                                        andMaxLatitudeDouble:[envelope.maxY doubleValue] + 1.0];
-        PROJProjection * projection = nil;
+        PROJProjection *projection = nil;
         if(![featureDao.projection isEqualToAuthority:PROJ_AUTHORITY_EPSG andNumberCode:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]]){
             projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
         }else{

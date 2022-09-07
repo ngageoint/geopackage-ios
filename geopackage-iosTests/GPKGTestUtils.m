@@ -263,7 +263,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                 
                 if([column isGeometry]){
                     
-                    SFGeometry * geometry = nil;
+                    SFGeometry *geometry = nil;
                     
                     switch(column.geometryType){
                             
@@ -285,7 +285,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                     [newRow setGeometry:geometryData];
                 }else{
                     
-                    NSObject * value = nil;
+                    NSObject *value = nil;
                     
                     switch(column.dataType){
                             

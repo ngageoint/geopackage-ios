@@ -374,7 +374,7 @@
     
     // Projected tile pixels to draw the reprojected tile
     //uint8_t projectedPixels[requestedTileWidth * requestedTileHeight * 4];
-    uint8_t * projectedPixels = calloc(requestedTileWidth * requestedTileHeight * 4, sizeof(unsigned char));
+    uint8_t *projectedPixels = calloc(requestedTileWidth * requestedTileHeight * 4, sizeof(unsigned char));
     
     // Retrieve each pixel in the new tile from the unprojected tile
     for (int y = 0; y < requestedTileHeight; y++) {
@@ -431,7 +431,7 @@
             - [projectedRequestBoundingBox.minLatitude doubleValue];
         
         // Get the zoom level to request based upon the tile size
-        NSNumber * requestZoomLevel = nil;
+        NSNumber *requestZoomLevel = nil;
         if(self.scaling != nil){
             // When options are provided, get the approximate zoom level regardless of whether a tile level exists
             requestZoomLevel = [self.tileDao approximateZoomLevelWithWidth:distanceWidth andHeight:distanceHeight];
@@ -544,7 +544,7 @@
 
 -(GPKGResultSet *) retrieveTileResultsWithBoundingBox: (GPKGBoundingBox *) projectedRequestBoundingBox andTileMatrix: (GPKGTileMatrix *) tileMatrix{
     
-    GPKGResultSet * tileResults = nil;
+    GPKGResultSet *tileResults = nil;
     
     if (tileMatrix != nil) {
         

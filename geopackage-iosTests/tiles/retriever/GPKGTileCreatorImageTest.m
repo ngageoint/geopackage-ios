@@ -57,13 +57,13 @@
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:wgs84Tile.width];
     [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:wgs84Tile.height];
     
-    NSData * webMercatorTileData = webMercatorTile.data;
+    NSData *webMercatorTileData = webMercatorTile.data;
     [GPKGTestUtils assertNotNil:webMercatorTileData];
-    UIImage * webMercatorImage = [GPKGImageConverter toImage:webMercatorTileData];
+    UIImage *webMercatorImage = [GPKGImageConverter toImage:webMercatorTileData];
     
-    NSData * wgs84TileData = wgs84Tile.data;
+    NSData *wgs84TileData = wgs84Tile.data;
     [GPKGTestUtils assertNotNil:wgs84TileData];
-    UIImage * wgs84Image = [GPKGImageConverter toImage:wgs84TileData];
+    UIImage *wgs84Image = [GPKGImageConverter toImage:wgs84TileData];
     
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:webMercatorImage.size.width];
     [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:webMercatorImage.size.height];

@@ -33,8 +33,8 @@
     // Verify not indexed
     [GPKGTestUtils assertFalse:[indexer isIndexed]];
     
-    NSDate * currentTime = [NSDate date];
-    NSDate * lastIndexed = nil;
+    NSDate *currentTime = [NSDate date];
+    NSDate *lastIndexed = nil;
     
     [NSThread sleepForTimeInterval:1];
     
@@ -165,7 +165,7 @@
             while([results moveToNext]){
                 
                 GPKGGeometryMetadata * metadata = (GPKGGeometryMetadata *)[geometryMetadataDao object:results];
-                NSNumber * id = metadata.id;
+                NSNumber *id = metadata.id;
                 
                 GPKGFeatureRow * queryRow = (GPKGFeatureRow *)[featureDao queryForIdObject:id];
                 [GPKGTestUtils assertNotNil:queryRow];

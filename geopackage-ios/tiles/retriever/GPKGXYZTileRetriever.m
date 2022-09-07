@@ -31,7 +31,7 @@
 
 -(GPKGGeoPackageTile *) tileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
-    GPKGGeoPackageTile * tile = nil;
+    GPKGGeoPackageTile *tile = nil;
     
     GPKGTileRow * tileRow = [self retrieveTileRowWithX:x andY:y andZoom:zoom];
     if(tileRow != nil){

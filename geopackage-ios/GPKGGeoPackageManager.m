@@ -92,7 +92,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSString *) pathForDatabase: (NSString *) database{
     
-    NSString * path = nil;
+    NSString *path = nil;
     
     GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
@@ -308,7 +308,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     [GPKGGeoPackageValidate validateGeoPackageExtension:path];
     
     // Use the provided name or the base file name as the database name
-    NSString * database = nil;
+    NSString *database = nil;
     if(name != nil){
         database = name;
     } else{
@@ -500,7 +500,7 @@ didCompleteWithError:(nullable NSError *)error{
     if(error){
         GPKGSessionTaskData *data = objc_getAssociatedObject(task, &IMPORT_GEOPACKAGE_FROM_URL_KEY);
         if(data.progress != nil){
-            NSString * errorString = nil;
+            NSString *errorString = nil;
             if([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled){
                 errorString = @"Operation was canceled";
             }else{
@@ -578,7 +578,7 @@ didCompleteWithError:(nullable NSError *)error{
 
 -(GPKGGeoPackage *) open: (NSString *) database{
     
-    GPKGGeoPackage * geoPackage = nil;
+    GPKGGeoPackage *geoPackage = nil;
     
     if([self exists:database]){
         NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
@@ -663,7 +663,7 @@ didCompleteWithError:(nullable NSError *)error{
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
     
-    NSString * copyPath = nil;
+    NSString *copyPath = nil;
     if(sameDirectory){
         copyPath = [self buildNewPathWithPath:metadata.path andNewName:databaseCopy];
     }else{
@@ -703,7 +703,7 @@ didCompleteWithError:(nullable NSError *)error{
     
     BOOL success = YES;
     
-    NSString * renamePath = metadata.path;
+    NSString *renamePath = metadata.path;
     if(renameFile){
         renamePath = [self buildNewPathWithPath:renamePath andNewName:newDatabase];
         NSString * documentsRenamePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:renamePath];
@@ -877,7 +877,7 @@ didCompleteWithError:(nullable NSError *)error{
 -(BOOL) isDatabaseHeaderValid: (NSString *) databaseFile{
     
     BOOL validHeader = NO;
-    NSInputStream * is = nil;
+    NSInputStream *is = nil;
     @try {
         is = [NSInputStream inputStreamWithFileAtPath:databaseFile];
         [is open];

@@ -144,7 +144,7 @@ NSString * const GPKG_TI_DEFAULT_NULL = @"NULL";
             if(maxStartRange.length != 0){
                 NSInteger maxStart = maxStartRange.location + 1;
                 NSRange maxRange = NSMakeRange(maxStart, [type length] - maxStart);
-                NSString * maxString = [type substringWithRange:maxRange];
+                NSString *maxString = [type substringWithRange:maxRange];
                 if([maxString length] > 0){
                     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
                     formatter.numberStyle = NSNumberFormatterDecimalStyle;

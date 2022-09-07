@@ -84,7 +84,7 @@ static BOOL allowNulls = NO;
 
 -(void) testRandomLocations{
     
-    GPKGBoundingBox * projectedBoundingBox = nil;
+    GPKGBoundingBox *projectedBoundingBox = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageDataPng tablesForGeoPackage:self.geoPackage];
     GPKGTileMatrixSetDao * dao = [self.geoPackage tileMatrixSetDao];

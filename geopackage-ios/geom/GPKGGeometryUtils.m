@@ -20,7 +20,7 @@
     NSUInteger size = path.count;
     if (size < 3) { return 0; }
     double total = 0;
-    SFPoint * prev = [path objectAtIndex:size - 1];
+    SFPoint *prev = [path objectAtIndex:size - 1];
 
     double prevTanLat = tan((M_PI / 2.0 - [self toRadiansWithDegrees:[prev.y doubleValue]]) / 2.0);
     double prevLng = [self toRadiansWithDegrees:[prev.x doubleValue]];
@@ -43,8 +43,8 @@
 }
 
 +(BOOL) isClosedPolygonWithPoints: (NSArray<SFPoint *> *) points{
-    SFPoint * firstPoint = [points objectAtIndex:0];
-    SFPoint * lastPoint = [points objectAtIndex:points.count - 1];
+    SFPoint *firstPoint = [points objectAtIndex:0];
+    SFPoint *lastPoint = [points objectAtIndex:points.count - 1];
     BOOL closed = [firstPoint.x isEqualToNumber:lastPoint.x] && [firstPoint.y isEqualToNumber:lastPoint.y];
     return closed;
 }

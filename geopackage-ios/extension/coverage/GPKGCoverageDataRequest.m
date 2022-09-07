@@ -51,7 +51,7 @@
 
 
 -(GPKGBoundingBox *) overlapWithBoundingBox: (GPKGBoundingBox *) projectedCoverage{
-    GPKGBoundingBox * overlap = nil;
+    GPKGBoundingBox *overlap = nil;
     if(self.point){
         overlap = self.projectedBoundingBox;
     }else{

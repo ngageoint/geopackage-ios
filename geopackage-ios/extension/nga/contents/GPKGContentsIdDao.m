@@ -50,7 +50,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGContentsId *contentsId = (GPKGContentsId*) object;
     
@@ -90,15 +90,15 @@
 }
 
 -(GPKGContentsId *) queryForTableName: (NSString *) tableName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
     GPKGContentsId *contentsId = (GPKGContentsId *)[self firstObject:results];
     [self setContents:contentsId];
     return contentsId;
 }
 
 -(int) deleteByTableName: (NSString *) tableName{
-    NSString * where = [self buildWhereWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    NSString *where = [self buildWhereWithField:GPKG_CI_COLUMN_TABLE_NAME andValue:tableName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     return [self deleteWhere:where andWhereArgs:whereArgs];
 }
 

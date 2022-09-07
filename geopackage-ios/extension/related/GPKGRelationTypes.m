@@ -19,7 +19,7 @@ NSString * const GPKG_RT_TILES_NAME = @"tiles";
 @implementation GPKGRelationTypes
 
 +(NSString *) name: (enum GPKGRelationType) relationType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(relationType){
         case GPKG_RT_FEATURES:
@@ -65,7 +65,7 @@ NSString * const GPKG_RT_TILES_NAME = @"tiles";
 }
 
 +(NSString *) dataType: (enum GPKGRelationType) relationType{
-    NSString * dataType = nil;
+    NSString *dataType = nil;
     
     switch(relationType){
         case GPKG_RT_FEATURES:

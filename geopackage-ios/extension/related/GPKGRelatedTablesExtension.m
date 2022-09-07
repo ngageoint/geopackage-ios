@@ -56,7 +56,7 @@ NSString * const GPKG_PROP_EXTENSION_RELATED_TABLES_DEFINITION = @"geopackage.ex
     
     [self extensionCreate];
     
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:mappingTable andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:mappingTable andColumnName:nil andDefinition:self.extensionDefinition andScope:GPKG_EST_READ_WRITE];
     
     return extension;
 }

@@ -55,7 +55,7 @@
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];
     [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:tile.height];
     
-    NSData * tileData = tile.data;
+    NSData *tileData = tile.data;
     [GPKGTestUtils assertNotNil:tileData];
     UIImage * image = [GPKGImageConverter toImage:tileData];
     

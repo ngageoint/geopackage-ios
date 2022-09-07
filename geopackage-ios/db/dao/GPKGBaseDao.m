@@ -151,8 +151,8 @@
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forId: (NSObject *) idValue{
-    NSString * whereString = [self buildPkWhereWithValue:idValue];
-    NSArray * whereArgs = [self buildPkWhereArgsWithValue:idValue];
+    NSString *whereString = [self buildPkWhereWithValue:idValue];
+    NSArray *whereArgs = [self buildPkWhereArgsWithValue:idValue];
     GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
@@ -163,7 +163,7 @@
 
 -(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forIdObject: (NSObject *) idValue{
     GPKGResultSet *results = [self queryWithColumns:columns forId:idValue];
-    NSObject * objectResult = [self firstObject:results];
+    NSObject *objectResult = [self firstObject:results];
     return objectResult;
 }
 
@@ -172,8 +172,8 @@
 }
 
 -(GPKGResultSet *) queryWithColumns: (NSArray<NSString *> *) columns forMultiId: (NSArray *) idValues{
-    NSString * whereString = [self buildPkWhereWithValues:idValues];
-    NSArray * whereArgs = [self buildPkWhereArgsWithValues:idValues];
+    NSString *whereString = [self buildPkWhereWithValues:idValues];
+    NSArray *whereArgs = [self buildPkWhereArgsWithValues:idValues];
     GPKGResultSet *results = [self.database queryWithTable:self.tableName andColumns:columns andWhere:whereString andWhereArgs:whereArgs andGroupBy:nil andHaving:nil andOrderBy:nil];
     return results;
 }
@@ -184,7 +184,7 @@
 
 -(NSObject *) queryWithColumns: (NSArray<NSString *> *) columns forMultiIdObject: (NSArray *) idValues{
     GPKGResultSet *results = [self queryWithColumns:columns forMultiId:idValues];
-    NSObject * objectResult = [self firstObject:results];
+    NSObject *objectResult = [self firstObject:results];
     return objectResult;
 }
 
@@ -2072,9 +2072,9 @@
 
 -(NSObject *) queryForSameId: (NSObject *) object{
     
-    NSObject * sameIdObject = nil;
+    NSObject *sameIdObject = nil;
     if(object != nil){
-        NSArray * idValues = [self multiId:object];
+        NSArray *idValues = [self multiId:object];
         sameIdObject = [self queryForMultiIdObject:idValues];
     }
     return sameIdObject;
@@ -2172,7 +2172,7 @@
 
 -(long long) createIfNotExists: (NSObject *) object{
     
-    NSObject * existingObject = [self queryForSameId:object];
+    NSObject *existingObject = [self queryForSameId:object];
     
     long long id = -1;
     
@@ -2185,7 +2185,7 @@
 
 -(long long) createOrUpdate: (NSObject *) object{
     
-     NSObject * existingObject = [self queryForSameId:object];
+     NSObject *existingObject = [self queryForSameId:object];
     
     long long id = -1;
     
@@ -2227,8 +2227,8 @@
 
 -(GPKGColumnValues *) values: (NSObject *) object{
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
-    for(NSString * column in self.columnNames){
-        NSObject * value = [self valueFromObject:object withColumnName:column];
+    for(NSString *column in self.columnNames){
+        NSObject *value = [self valueFromObject:object withColumnName:column];
         [values addColumn:column withValue:value];
     }
     return values;
@@ -2243,7 +2243,7 @@
 }
 
 -(NSString *) buildPkWhereWithValues: (NSArray *) idValues{
-    NSString * whereString = nil;
+    NSString *whereString = nil;
     if(idValues != nil && idValues.count > 0){
         GPKGColumnValues *idColumnValues = [[GPKGColumnValues alloc] init];
         for(int i = 0; i < [idValues count]; i++){
@@ -2255,7 +2255,7 @@
 }
 
 -(NSArray *) buildPkWhereArgsWithValues: (NSArray *) idValues{
-    NSMutableArray * values = [NSMutableArray array];
+    NSMutableArray *values = [NSMutableArray array];
     for(int i = 0; i < [idValues count]; i++){
         NSObject *value = [GPKGUtils objectAtIndex:i inArray:idValues];
         if(value != nil){
@@ -2348,9 +2348,9 @@
 }
 
 -(NSArray *) buildWhereArgsWithValues: (GPKGColumnValues *) values{
-    NSMutableArray * args = [NSMutableArray array];
-    for(NSString * column in values.columns){
-        NSObject * value = [values value:column];
+    NSMutableArray *args = [NSMutableArray array];
+    for(NSString *column in values.columns){
+        NSObject *value = [values value:column];
         if(value != nil){
             [GPKGUtils addObject:value toArray:args];
         }
@@ -2359,8 +2359,8 @@
 }
 
 -(NSArray *) buildWhereArgsWithValueArray: (NSArray *) values{
-    NSMutableArray * args = [NSMutableArray array];
-    for(NSObject * value in values){
+    NSMutableArray *args = [NSMutableArray array];
+    for(NSObject *value in values){
         if(value != nil){
             [GPKGUtils addObject:value toArray:args];
         }
@@ -2369,9 +2369,9 @@
 }
 
 -(NSArray *) buildWhereArgsWithColumnValues: (GPKGColumnValues *) values{
-    NSMutableArray * args = [NSMutableArray array];
-    for(NSString * column in values.columns){
-        GPKGColumnValue * value = (GPKGColumnValue *)[values value:column];
+    NSMutableArray *args = [NSMutableArray array];
+    for(NSString *column in values.columns){
+        GPKGColumnValue *value = (GPKGColumnValue *)[values value:column];
         if(value != nil && value.value != nil){
             if(value.tolerance != nil){
                 [args addObjectsFromArray:[self valueToleranceRange:value]];
@@ -2384,7 +2384,7 @@
 }
 
 -(NSArray *) buildWhereArgsWithValue: (NSObject *) value{
-    NSMutableArray * args = nil;
+    NSMutableArray *args = nil;
     if(value != nil){
         args = [NSMutableArray array];
         [GPKGUtils addObject:value toArray:args];
@@ -2393,7 +2393,7 @@
 }
 
 -(NSArray *) buildWhereArgsWithColumnValue: (GPKGColumnValue *) value{
-    NSArray * args = nil;
+    NSArray *args = nil;
     if(value != nil){
         if(value.value != nil && value.tolerance != nil){
             args = [self valueToleranceRange:value];

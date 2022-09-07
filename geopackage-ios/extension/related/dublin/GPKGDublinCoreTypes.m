@@ -28,7 +28,7 @@ NSString * const GPKG_DCM_ID_NAME = @"id";
 @implementation GPKGDublinCoreTypes
 
 +(NSString *) name: (enum GPKGDublinCoreType) dublinCoreType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(dublinCoreType){
         case GPKG_DCM_DATE:

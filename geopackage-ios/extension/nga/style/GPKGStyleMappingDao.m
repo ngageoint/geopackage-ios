@@ -59,8 +59,8 @@
     [values addColumn:GPKG_UMT_COLUMN_BASE_ID withValue:[NSNumber numberWithInt:id]];
     [values addColumn:GPKG_SMT_COLUMN_GEOMETRY_TYPE_NAME withValue:geometryTypeName];
     
-    NSString * where = [self buildWhereWithFields:values];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     
     int deleted = [self deleteWhere:where andWhereArgs:whereArgs];
     

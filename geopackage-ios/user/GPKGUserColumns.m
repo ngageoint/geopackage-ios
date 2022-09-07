@@ -241,7 +241,7 @@
 }
 
 -(GPKGUserColumn *) pkColumn{
-    GPKGUserColumn * column = nil;
+    GPKGUserColumn *column = nil;
     if([self hasPkColumn]){
         column = [GPKGUtils objectAtIndex:self.pkIndex inArray:self.columns];
     }

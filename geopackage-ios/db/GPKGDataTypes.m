@@ -27,7 +27,7 @@ NSString * const GPKG_DT_DATETIME_NAME = @"DATETIME";
 @implementation GPKGDataTypes
 
 +(NSString *) name: (enum GPKGDataType) dataType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(dataType){
         case GPKG_DT_BOOLEAN:

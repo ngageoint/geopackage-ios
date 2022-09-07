@@ -177,7 +177,7 @@
     [GPKGTestUtils assertTrue:[griddedTile.id intValue] >= 0];
     [GPKGTestUtils assertNotNil:[griddedTileDao contents:griddedTile]];
     [GPKGTestUtils assertEqualWithValue:tileMatrixSet.tableName andValue2:griddedTile.tableName];
-    NSNumber * tableId = griddedTile.tableId;
+    NSNumber *tableId = griddedTile.tableId;
     [GPKGTestUtils assertTrue:[tableId intValue] >= 0];
     [GPKGTestUtils assertTrue:[griddedTile scaleOrDefault] >= 0];
     if(coverageDataValues != nil){

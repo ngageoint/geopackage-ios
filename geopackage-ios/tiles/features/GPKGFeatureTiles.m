@@ -245,7 +245,7 @@
     
     UIImage * image = [self drawTileWithX:x andY:y andZoom:zoom];
     
-    NSData * tileData = nil;
+    NSData *tileData = nil;
     
     // Convert the image to bytes
     if(image != nil){
@@ -257,7 +257,7 @@
 
 -(UIImage *) drawTileWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    UIImage * image = nil;
+    UIImage *image = nil;
     @try {
         if([self isIndexQuery]){
             image = [self drawTileQueryIndexWithX:x andY:y andZoom:zoom];
@@ -406,7 +406,7 @@
     
     GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
-    UIImage * image = nil;
+    UIImage *image = nil;
     
     // Query for all features
     GPKGResultSet * results = [self.featureDao queryForAll];
@@ -564,7 +564,7 @@
     GPKGMapShape *shape = nil;
     
     GPKGBoundingBox *boundingBox = nil;
-    GPKGGeometryData * geomData = nil;
+    GPKGGeometryData *geomData = nil;
     
     NSNumber *rowId = nil;
     
@@ -626,7 +626,7 @@
     
     if(geomData != nil){
         
-        SFGeometry * geometry = geomData.geometry;
+        SFGeometry *geometry = geomData.geometry;
         if(geometry != nil){
             
             GPKGBoundingBox *geometryBoundingBox = [geomData getOrBuildBoundingBox];
@@ -646,7 +646,7 @@
         geomData = [row geometry];
     }
     
-    SFGeometry * geometry = geomData.geometry;
+    SFGeometry *geometry = geomData.geometry;
     if(geometry != nil){
         shape = [converter toShapeWithGeometry:geometry];
     }

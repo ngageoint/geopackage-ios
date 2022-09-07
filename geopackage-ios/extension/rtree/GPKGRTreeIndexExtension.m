@@ -69,7 +69,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
         self.extensionName = [GPKGExtensions buildDefaultAuthorExtensionName:GPKG_RTREE_INDEX_EXTENSION_NAME];
         self.definition = [GPKGProperties valueOfProperty:GPKG_PROP_RTREE_INDEX_EXTENSION_DEFINITION];
         
-        NSString * sqlProperties = [GPKGIOUtils propertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
+        NSString *sqlProperties = [GPKGIOUtils propertyListPathWithName:GPKG_RTREE_INDEX_RESOURCES_SQL];
         self.sqlStatements = [NSDictionary dictionaryWithContentsOfFile:sqlProperties];
         
         self.tableSubstitute = [self.sqlStatements objectForKey:GPKG_PROP_RTREE_INDEX_TABLE_SUBSTITUTE];
@@ -190,7 +190,7 @@ NSString * const GPKG_PROP_RTREE_INDEX_TRIGGER_SUBSTITUTE = @"substitute.trigger
     
     GPKGGeometryData *geometryData = nil;
     
-    const void * bytes = sqlite3_value_blob(args[0]);
+    const void *bytes = sqlite3_value_blob(args[0]);
     int byteCount = sqlite3_value_bytes(args[0]);
     if(byteCount > 0){
         NSData *data = [NSData dataWithBytes:bytes length:byteCount];

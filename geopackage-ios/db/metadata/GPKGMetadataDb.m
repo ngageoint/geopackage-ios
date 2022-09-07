@@ -17,13 +17,13 @@
 -(instancetype)init{
     self = [super init];
     if(self != nil){
-        NSString * metadataFile = [GPKGIOUtils metadataDatabaseFile];
-        NSString * documentsMetadataFile = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadataFile];
+        NSString *metadataFile = [GPKGIOUtils metadataDatabaseFile];
+        NSString *documentsMetadataFile = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadataFile];
         self.connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsMetadataFile];
         
         // For future upgrades, read the application id here and if populated and different, perform metadata database upgrades as needed
         
-        GPKGGeoPackageMetadataDao * dao = [self geoPackageMetadataDao];
+        GPKGGeoPackageMetadataDao *dao = [self geoPackageMetadataDao];
         if(![dao tableExists]){
         
             // Set the application id
@@ -57,10 +57,10 @@
 }
 
 +(BOOL) deleteMetadataFile{
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
-    NSString * metadataFile = [GPKGIOUtils metadataDatabaseFile];
-    NSString * documentsMetadataFile = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadataFile];
+    NSString *metadataFile = [GPKGIOUtils metadataDatabaseFile];
+    NSString *documentsMetadataFile = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadataFile];
     BOOL fileDeleted = [fileManager removeItemAtPath:documentsMetadataFile error:&error];
     if(error || !fileDeleted){
         [NSException raise:@"Delete GeoPackage Metadata File" format:@"Failed to delete GeoPackage Metadata file at path '%@' with error: %@", documentsMetadataFile, error];
@@ -70,9 +70,9 @@
 
 -(BOOL) createGeoPackageMetadataTable{
     BOOL created = NO;
-    GPKGGeoPackageMetadataDao * dao = [self geoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao *dao = [self geoPackageMetadataDao];
     if(![dao tableExists]){
-        GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
+        GPKGGeoPackageMetadataTableCreator *tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createGeoPackageMetadata] > 0;
     }
     return created;
@@ -80,9 +80,9 @@
 
 -(BOOL) createTableMetadataTable{
     BOOL created = NO;
-    GPKGTableMetadataDao * dao = [self tableMetadataDao];
+    GPKGTableMetadataDao *dao = [self tableMetadataDao];
     if(![dao tableExists]){
-        GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
+        GPKGGeoPackageMetadataTableCreator *tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createTableMetadata] > 0;
     }
     return created;
@@ -90,9 +90,9 @@
 
 -(BOOL) createGeometryMetadataTable{
     BOOL created = NO;
-    GPKGGeometryMetadataDao * dao = [self geometryMetadataDao];
+    GPKGGeometryMetadataDao *dao = [self geometryMetadataDao];
     if(![dao tableExists]){
-        GPKGGeoPackageMetadataTableCreator * tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
+        GPKGGeoPackageMetadataTableCreator *tableCreator = [[GPKGGeoPackageMetadataTableCreator alloc] initWithDatabase:self.connection];
         created = [tableCreator createGeometryMetadata] > 0;
     }
     return created;

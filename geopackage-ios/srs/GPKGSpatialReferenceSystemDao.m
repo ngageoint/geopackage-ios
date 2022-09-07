@@ -83,7 +83,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem*) object;
     
@@ -211,7 +211,7 @@
 }
 
 -(NSString *) definition_12_063WithSrsId: (NSNumber *) srsId{
-    NSString * definition = nil;
+    NSString *definition = nil;
     if([self hasDefinition_12_063]){
         definition = [self.crsWktExt definitionWithSrsId:srsId];
     }
@@ -241,7 +241,7 @@
 
 -(void) updateDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs{
     if(srs != nil){
-        NSString * definition = srs.definition_12_063;
+        NSString *definition = srs.definition_12_063;
         if(definition != nil){
             [self updateDefinition_12_063WithSrsId:srs.srsId andDefinition: definition];
         }

@@ -59,7 +59,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGMetadata *metadata = (GPKGMetadata*) object;
     
@@ -99,7 +99,7 @@
     if(metadata != nil){
         
         // Delete Metadata References and remove parent references
-        GPKGMetadataReferenceDao * dao = [self metadataReferenceDao];
+        GPKGMetadataReferenceDao *dao = [self metadataReferenceDao];
         [dao deleteByMetadata:metadata.id];
         [dao removeMetadataParent:metadata.id];
         

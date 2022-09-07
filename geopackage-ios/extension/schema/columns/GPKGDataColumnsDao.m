@@ -66,7 +66,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGDataColumns *columns = (GPKGDataColumns*) object;
     
@@ -104,18 +104,18 @@
     GPKGDataColumns *projectionObject = (GPKGDataColumns*) object;
     GPKGContents *contents = [self contents:projectionObject];
     GPKGContentsDao *contentsDao = [self contentsDao];
-    PROJProjection * projection = [contentsDao projection:contents];
+    PROJProjection *projection = [contentsDao projection:contents];
     return projection;
 }
 
 -(GPKGContents *) contents: (GPKGDataColumns *) dataColumns{
-    GPKGContentsDao * dao = [self contentsDao];
+    GPKGContentsDao *dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:dataColumns.tableName];
     return contents;
 }
 
 -(GPKGResultSet *) queryByConstraintName: (NSString *) constraintName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_DC_COLUMN_CONSTRAINT_NAME andValue:constraintName];
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_DC_COLUMN_CONSTRAINT_NAME andValue:constraintName];
     return results;
 }
 
@@ -125,10 +125,10 @@
 
 -(GPKGDataColumns *) dataColumnByTableName: tableName andColumnName: columnName {
     if (![self tableExists]) return nil;
-    NSString * whereClause = [NSString stringWithFormat:@"%@ and %@",
+    NSString *whereClause = [NSString stringWithFormat:@"%@ and %@",
                               [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName],
                               [self buildWhereWithField:GPKG_DC_COLUMN_COLUMN_NAME andValue:columnName]];
-    NSArray * values = [NSArray arrayWithObjects:tableName, columnName, nil];
+    NSArray *values = [NSArray arrayWithObjects:tableName, columnName, nil];
                         
     return (GPKGDataColumns *)[self firstObject:[self queryWhere: whereClause andWhereArgs: values]];
 }
@@ -138,8 +138,8 @@
 }
 
 -(int) deleteByTableName: (NSString *) tableName{
-    NSString * where = [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    NSString *where = [self buildWhereWithField:GPKG_DC_COLUMN_TABLE_NAME andValue:tableName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     return [self deleteWhere:where andWhereArgs:whereArgs];
 }
 

@@ -39,7 +39,7 @@ NSString * const GPKG_PROP_CRS_WKT_EXTENSION_COLUMN_DEF = @"geopackage.extension
 
 -(GPKGExtensions *) extensionCreate{
     
-    GPKGExtensions * extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
+    GPKGExtensions *extension = [self extensionCreateWithName:self.extensionName andTableName:nil andColumnName:nil andDefinition:self.definition andScope:GPKG_EST_READ_WRITE];
     
     if(![self hasColumn]){
         [self createColumn];

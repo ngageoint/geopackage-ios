@@ -82,7 +82,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 }
 
 +(NSString *) authorWithExtensionName: (NSString *) extensionName{
-    NSString * author = nil;
+    NSString *author = nil;
     if(extensionName != nil){
         author = [GPKGUtils objectAtIndex:0 inArray:[extensionName componentsSeparatedByString:GPKG_EX_EXTENSION_NAME_DIVIDER]];
     }
@@ -90,7 +90,7 @@ NSString * const GPKG_EST_WRITE_ONLY_NAME = @"write-only";
 }
 
 +(NSString *) extensionNameNoAuthorWithExtensionName: (NSString *) extensionName{
-    NSString * value = nil;
+    NSString *value = nil;
     if(extensionName != nil){
         NSRange range = [extensionName rangeOfString:GPKG_EX_EXTENSION_NAME_DIVIDER];
         value = [extensionName substringFromIndex:NSMaxRange(range)];

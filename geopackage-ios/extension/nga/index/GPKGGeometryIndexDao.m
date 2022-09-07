@@ -75,7 +75,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGGeometryIndex *index = (GPKGGeometryIndex*) object;
     
@@ -119,7 +119,7 @@
 }
 
 -(GPKGTableIndex *) tableIndex: (GPKGGeometryIndex *) geometryIndex{
-    GPKGTableIndexDao * dao = [self tableIndexDao];
+    GPKGTableIndexDao *dao = [self tableIndexDao];
     GPKGTableIndex *tableIndex = (GPKGTableIndex *)[dao queryForIdObject:geometryIndex.tableName];
     return tableIndex;
 }
@@ -129,12 +129,12 @@
 }
 
 -(GPKGResultSet *) queryForTableName: (NSString *) tableName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:tableName];
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_GI_COLUMN_TABLE_NAME andValue:tableName];
     return results;
 }
 
 -(int) countByTableName: (NSString *) tableName{
-    GPKGResultSet * results = [self queryForTableName:tableName];
+    GPKGResultSet *results = [self queryForTableName:tableName];
     int count = results.count;
     [results close];
     return count;
@@ -142,7 +142,7 @@
 
 -(GPKGGeometryIndex *) populateWithTableIndex: (GPKGTableIndex *) tableIndex andGeomId: (int) geomId andEnvelope: (SFGeometryEnvelope *) envelope{
     
-    GPKGGeometryIndex * geometryIndex = [[GPKGGeometryIndex alloc] init];
+    GPKGGeometryIndex *geometryIndex = [[GPKGGeometryIndex alloc] init];
     [geometryIndex setTableIndex:tableIndex];
     [geometryIndex setGeomId:[NSNumber numberWithInt:geomId]];
     [geometryIndex setMinX:envelope.minX];

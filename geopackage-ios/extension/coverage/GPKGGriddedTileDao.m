@@ -73,7 +73,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGGriddedTile *griddedTile = (GPKGGriddedTile*) object;
     
@@ -124,7 +124,7 @@
 }
 
 -(GPKGResultSet *) queryByTableName: (NSString *) tableName{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_CDGT_COLUMN_TABLE_NAME andValue:tableName];
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_CDGT_COLUMN_TABLE_NAME andValue:tableName];
     return results;
 }
 
@@ -134,11 +134,11 @@
     [whereValues addColumn:GPKG_CDGT_COLUMN_TABLE_NAME withValue:tableName];
     [whereValues addColumn:GPKG_CDGT_COLUMN_TABLE_ID withValue:[NSNumber numberWithInt:tileId]];
     
-    NSString * where = [self buildWhereWithFields:whereValues];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
+    NSString *where = [self buildWhereWithFields:whereValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:whereValues];
     
-    GPKGResultSet * results = [self queryWhere:where andWhereArgs:whereArgs];
-    GPKGGriddedTile * griddedTile = (GPKGGriddedTile *)[self firstObject:results];
+    GPKGResultSet *results = [self queryWhere:where andWhereArgs:whereArgs];
+    GPKGGriddedTile *griddedTile = (GPKGGriddedTile *)[self firstObject:results];
 
     return griddedTile;
 }
@@ -148,14 +148,14 @@
 }
 
 -(int) deleteByTableName: (NSString *) tableName{
-    NSString * where = [self buildWhereWithField:GPKG_CDGT_COLUMN_TABLE_NAME andValue:tableName];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:tableName];
+    NSString *where = [self buildWhereWithField:GPKG_CDGT_COLUMN_TABLE_NAME andValue:tableName];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:tableName];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }
 
 -(GPKGContents *) contents: (GPKGGriddedTile *) griddedTile{
-    GPKGContentsDao * dao = [self contentsDao];
+    GPKGContentsDao *dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:griddedTile.tableName];
     return contents;
 }

@@ -193,7 +193,7 @@ NSString * const GPKG_EXTENSION_PROPERTIES_COLUMN_VALUE = @"value";
 
 -(void) removeExtension{
     
-    GPKGExtensionsDao * extensionsDao = [self.geoPackage extensionsDao];
+    GPKGExtensionsDao *extensionsDao = [self.geoPackage extensionsDao];
     
     if([self.geoPackage isTable:GPKG_EXTENSION_PROPERTIES_TABLE_NAME]){
         GPKGContentsDao *contentsDao = [self.geoPackage contentsDao];

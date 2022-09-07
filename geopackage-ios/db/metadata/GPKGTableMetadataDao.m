@@ -51,7 +51,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGTableMetadata *metadata = (GPKGTableMetadata*) object;
     
@@ -83,11 +83,11 @@
 
 -(BOOL) deleteByGeoPackageId: (NSNumber *) geoPackageId{
     
-    GPKGGeometryMetadataDao * geomDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.database];
+    GPKGGeometryMetadataDao *geomDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.database];
     [geomDao deleteByGeoPackageId:geoPackageId];
     
-    NSString * where = [self buildWhereWithField:GPKG_GPTM_COLUMN_GEOPACKAGE_ID andValue:geoPackageId];
-    NSArray * whereArgs = [self buildWhereArgsWithValue:geoPackageId];
+    NSString *where = [self buildWhereWithField:GPKG_GPTM_COLUMN_GEOPACKAGE_ID andValue:geoPackageId];
+    NSArray *whereArgs = [self buildWhereArgsWithValue:geoPackageId];
     
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count > 0;
@@ -99,15 +99,15 @@
 
 -(BOOL) deleteByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
     
-    GPKGGeometryMetadataDao * geomDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.database];
+    GPKGGeometryMetadataDao *geomDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:self.database];
     [geomDao deleteByGeoPackageId:geoPackageId andTableName:tableName];
     
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
     [values addColumn:GPKG_GPTM_COLUMN_GEOPACKAGE_ID withValue:geoPackageId];
     [values addColumn:GPKG_GPTM_COLUMN_TABLE_NAME withValue:tableName];
     
-    NSString * where = [self buildWhereWithFields:values];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count > 0;
@@ -134,8 +134,8 @@
     [whereValues addColumn:GPKG_GPTM_COLUMN_GEOPACKAGE_ID withValue:geoPackageId];
     [whereValues addColumn:GPKG_GPTM_COLUMN_TABLE_NAME withValue:tableName];
     
-    NSString * where = [self buildWhereWithFields:whereValues];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:whereValues];
+    NSString *where = [self buildWhereWithFields:whereValues];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:whereValues];
     
     int count = [self updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     return count > 0;
@@ -147,13 +147,13 @@
 
 -(GPKGTableMetadata *) metadataByGeoPackageId: (NSNumber *) geoPackageId andTableName: (NSString *) tableName{
     
-    GPKGTableMetadata * metadata = nil;
+    GPKGTableMetadata *metadata = nil;
     
     GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
     [values addColumn:GPKG_GPTM_COLUMN_GEOPACKAGE_ID withValue:geoPackageId];
     [values addColumn:GPKG_GPTM_COLUMN_TABLE_NAME withValue:tableName];
     
-    GPKGResultSet * results = [self queryForFieldValues:values];
+    GPKGResultSet *results = [self queryForFieldValues:values];
     @try{
         if([results moveToNext]){
             metadata = (GPKGTableMetadata *) [self object:results];
@@ -167,10 +167,10 @@
 
 -(GPKGTableMetadata *) metadataCreateByGeoPackageName: (NSString *) name andTableName: (NSString *) tableName{
     
-    GPKGGeoPackageMetadataDao * ds = [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.database];
-    GPKGGeoPackageMetadata * geoPackageMetadata = [ds metadataCreateByName:name];
+    GPKGGeoPackageMetadataDao *ds = [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.database];
+    GPKGGeoPackageMetadata *geoPackageMetadata = [ds metadataCreateByName:name];
     
-    GPKGTableMetadata * metadata = [self metadataByGeoPackageId:geoPackageMetadata.id andTableName:tableName];
+    GPKGTableMetadata *metadata = [self metadataByGeoPackageId:geoPackageMetadata.id andTableName:tableName];
     
     if(metadata == nil){
         metadata = [[GPKGTableMetadata alloc] init];
@@ -182,9 +182,9 @@
 }
 
 -(NSNumber *) geoPackageIdForGeoPackageName: (NSString *) name{
-    NSNumber * id  = [NSNumber numberWithInt:-1];
-    GPKGGeoPackageMetadataDao * ds = [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.database];
-    GPKGGeoPackageMetadata * metadata = [ds metadataCreateByName:name];
+    NSNumber *id  = [NSNumber numberWithInt:-1];
+    GPKGGeoPackageMetadataDao *ds = [[GPKGGeoPackageMetadataDao alloc] initWithDatabase:self.database];
+    GPKGGeoPackageMetadata *metadata = [ds metadataCreateByName:name];
     if(metadata != nil){
         id = metadata.id;
     }

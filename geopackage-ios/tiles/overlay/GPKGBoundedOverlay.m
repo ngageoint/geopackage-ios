@@ -50,7 +50,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
     dispatch_async(queue, ^{
         
-        NSData * tileData = nil;
+        NSData *tileData = nil;
         
         // Check if there is a tile
         if([self hasTileWithX:path.x andY:path.y andZoom:path.z]){

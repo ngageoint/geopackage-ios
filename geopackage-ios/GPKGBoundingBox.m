@@ -232,7 +232,7 @@
 
 -(GPKGBoundingBox *) complementaryWithMaxLongitude: (double) maxProjectionLongitude{
     
-    GPKGBoundingBox * complementary = nil;
+    GPKGBoundingBox *complementary = nil;
     
     NSDecimalNumber *adjust = nil;
     
@@ -345,7 +345,7 @@
     double minLatitude = MAX([self.minLatitude doubleValue], [boundingBox.minLatitude doubleValue]);
     double maxLatitude = MIN([self.maxLatitude doubleValue], [boundingBox.maxLatitude doubleValue]);
     
-    GPKGBoundingBox * overlap = nil;
+    GPKGBoundingBox *overlap = nil;
     
     if((minLongitude < maxLongitude && minLatitude < maxLatitude) || (allowEmpty && minLongitude <= maxLongitude && minLatitude <= maxLatitude)){
         overlap = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
@@ -361,7 +361,7 @@
     double minLatitude = MIN([self.minLatitude doubleValue], [boundingBox.minLatitude doubleValue]);
     double maxLatitude = MAX([self.maxLatitude doubleValue], [boundingBox.maxLatitude doubleValue]);
     
-    GPKGBoundingBox * unionBox = nil;
+    GPKGBoundingBox *unionBox = nil;
     
     if(minLongitude < maxLongitude && minLatitude < maxLatitude){
         unionBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];

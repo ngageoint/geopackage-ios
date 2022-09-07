@@ -33,7 +33,7 @@ static NSMutableDictionary<NSString *, NSNumber *> *types = nil;
 }
 
 +(NSString *) name: (enum GPKGContentsDataType) contentsDataType{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(contentsDataType){
         case GPKG_CDT_FEATURES:

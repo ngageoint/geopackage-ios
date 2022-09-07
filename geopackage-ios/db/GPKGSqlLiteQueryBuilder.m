@@ -36,7 +36,7 @@
         [NSException raise:@"Illegal Arguments" format:@"having clauses require a groupBy clause"];
     }
     
-    NSMutableString * query = [NSMutableString string];
+    NSMutableString *query = [NSMutableString string];
     
     [query appendString:@"select "];
     if(distinct){
@@ -50,7 +50,7 @@
     
     [query appendString:@"from "];
     for (int i = 0; i < tables.count; i++) {
-        NSString * table = [tables objectAtIndex:i];
+        NSString *table = [tables objectAtIndex:i];
         if (i > 0) {
             [query appendString:@", "];
         }
@@ -75,7 +75,7 @@
 +(void) appendColumnsToString: (NSArray<NSString *> *) columns toString: (NSMutableString *) string{
     
     BOOL first = YES;
-    for(NSString * column in columns){
+    for(NSString *column in columns){
         
         if(column != nil){
             if(first){

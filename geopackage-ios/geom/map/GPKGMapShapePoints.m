@@ -143,8 +143,8 @@
             }
         }
         
-        NSNumber * beforeLocation = insertLocation > 0 ? [NSNumber numberWithInt:(insertLocation - 1)] : nil;
-        NSNumber * afterLocation = insertLocation < pointCount - 1 ? [NSNumber numberWithInt:(insertLocation + 1)] : nil;
+        NSNumber *beforeLocation = insertLocation > 0 ? [NSNumber numberWithInt:(insertLocation - 1)] : nil;
+        NSNumber *afterLocation = insertLocation < pointCount - 1 ? [NSNumber numberWithInt:(insertLocation + 1)] : nil;
         
         if(beforeLocation != nil && afterLocation != nil){
             if(distances[[beforeLocation intValue]] > distances[[afterLocation intValue]]){

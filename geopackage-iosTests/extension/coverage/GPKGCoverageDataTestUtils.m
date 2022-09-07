@@ -29,10 +29,10 @@
     // Determine an alternate projection
     GPKGBoundingBox * boundingBox = [tileMatrixSet boundingBox];
     GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
-    NSNumber * srsId = tileMatrixSet.srsId;
+    NSNumber *srsId = tileMatrixSet.srsId;
     GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
     
-    NSNumber * epsg = srs.organizationCoordsysId;
+    NSNumber *epsg = srs.organizationCoordsysId;
     PROJProjection * projection = [srs projection];
     int requestEpsg = -1;
     if ([epsg intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM) {
@@ -211,7 +211,7 @@
 
 +(NSDecimalNumber *) valueWithGeoPackage: (GPKGGeoPackage *) geoPackage andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andLatitude: (double) latitude andLongitude: (double) longitude andEpsg: (int) epsg{
     
-    NSDecimalNumber * value = nil;
+    NSDecimalNumber *value = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
     GPKGTileMatrixSetDao * dao = [geoPackage tileMatrixSetDao];
@@ -234,7 +234,7 @@
 
 +(GPKGCoverageDataResults *) valuesWithGeoPackage: (GPKGGeoPackage *) geoPackage andAlgorithm: (enum GPKGCoverageDataAlgorithm) algorithm andBoundingBox: (GPKGBoundingBox *) boundingBox andWidth: (int) width andHeight: (int) height andEpsg: (int) epsg{
     
-    GPKGCoverageDataResults * values = nil;
+    GPKGCoverageDataResults *values = nil;
     
     NSArray * coverageDataTables = [GPKGCoverageData tablesForGeoPackage:geoPackage];
     GPKGTileMatrixSetDao * dao = [geoPackage tileMatrixSetDao];

@@ -87,7 +87,7 @@
         CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
         CGContextFillEllipseInRect(ctx, rect);
         CGContextRestoreGState(ctx);
-        UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         GPKGFeatureTilePointIcon *pointIcon = [[GPKGFeatureTilePointIcon alloc] initWithIcon:image];
         [pointIcon centerIcon];

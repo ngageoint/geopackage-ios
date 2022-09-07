@@ -62,7 +62,7 @@ static NSString *COLUMN_NAME = @"geom";
                         [self compareByteArrayWithExpected:[geometryData data] andActual:geometryDataToBytes];
                     }
                     
-                    GPKGGeometryData * geometryDataAfterToBytes = geometryData;
+                    GPKGGeometryData *geometryDataAfterToBytes = geometryData;
                     
                     // Re-retrieve the original geometry data
                     geometryData = [featureRow geometry];
@@ -129,12 +129,12 @@ static NSString *COLUMN_NAME = @"geom";
                 
                 if(geometryData != nil){
                     
-                    SFGeometry * geometry = geometryData.geometry;
+                    SFGeometry *geometry = geometryData.geometry;
                     
                     if(geometry != nil){
                         
                         GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
-                        NSNumber * srsId = geometryData.srsId;
+                        NSNumber *srsId = geometryData.srsId;
                         GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
                         PROJProjection * projection = [srs projection];

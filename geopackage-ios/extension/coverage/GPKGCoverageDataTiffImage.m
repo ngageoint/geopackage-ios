@@ -78,7 +78,7 @@
 
 -(void) writeTiff{
     if ([self.directory writeRasters] != nil) {
-        TIFFImage * tiffImage = [[TIFFImage alloc] init];
+        TIFFImage *tiffImage = [[TIFFImage alloc] init];
         [tiffImage addFileDirectory:self.directory];
         self.imageData = [TIFFWriter writeTiffToDataWithImage:tiffImage];
     }

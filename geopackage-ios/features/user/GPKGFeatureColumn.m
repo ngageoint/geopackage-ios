@@ -151,7 +151,7 @@
 }
 
 -(NSString *) typeNameForName: (NSString *) name withDataType: (enum GPKGDataType) dataType andGeometryType: (enum SFGeometryType) geometryType{
-    NSString * type = nil;
+    NSString *type = nil;
     if(geometryType != SF_NONE && geometryType >= 0){
         type = [SFGeometryTypes name:geometryType];
     }else {

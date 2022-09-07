@@ -49,7 +49,7 @@
 
 -(NSObject *) valueFromObject: (NSObject*) object withColumnIndex: (int) columnIndex{
     
-    NSObject * value = nil;
+    NSObject *value = nil;
     
     GPKGFeatureTileLink *link = (GPKGFeatureTileLink*) object;
     
@@ -69,7 +69,7 @@
 }
 
 -(GPKGFeatureTileLink *) queryForFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    NSArray * id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
+    NSArray *id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
     GPKGFeatureTileLink * link = (GPKGFeatureTileLink *)[self queryForMultiIdObject:id];
     return link;
 }
@@ -83,7 +83,7 @@
 }
 
 -(int) deleteByFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
-    NSArray * id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
+    NSArray *id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
     int count = [self deleteByMultiId:id];
     return count;
 }
@@ -94,8 +94,8 @@
     [values addColumn:GPKG_FTL_COLUMN_FEATURE_TABLE_NAME withValue:tableName];
     [values addColumn:GPKG_FTL_COLUMN_TILE_TABLE_NAME withValue:tableName];
     
-    NSString * where = [self buildWhereWithFields:values andOperation:@"or"];
-    NSArray * whereArgs = [self buildWhereArgsWithValues:values];
+    NSString *where = [self buildWhereWithFields:values andOperation:@"or"];
+    NSArray *whereArgs = [self buildWhereArgsWithValues:values];
     int count = [self deleteWhere:where andWhereArgs:whereArgs];
     return count;
 }

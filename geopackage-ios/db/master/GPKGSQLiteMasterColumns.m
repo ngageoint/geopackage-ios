@@ -18,7 +18,7 @@ NSString * const GPKG_SMC_SQL_NAME = @"SQL";
 @implementation GPKGSQLiteMasterColumns
 
 +(NSString *) name: (enum GPKGSQLiteMasterColumn) type{
-    NSString * name = nil;
+    NSString *name = nil;
     
     switch(type){
         case GPKG_SMC_TYPE:

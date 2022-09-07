@@ -37,7 +37,7 @@
             [GPKGTestUtils assertEqualWithValue:tableName andValue2:dao.tableName];
             
             GPKGAttributesTable * attributesTable = (GPKGAttributesTable *) dao.table;
-            NSArray * columns = attributesTable.columnNames;
+            NSArray *columns = attributesTable.columnNames;
             
             // Query for all
             GPKGRowResultSet *attributesResults = [dao results:[dao queryForAll]];
@@ -78,8 +78,8 @@
             [GPKGTestUtils assertEqualWithValue:[attributesRow id] andValue2:[queryAttributesRow id]];
             
             // Find two non id columns
-            GPKGAttributesColumn * column1 = nil;
-            GPKGAttributesColumn * column2 = nil;
+            GPKGAttributesColumn *column1 = nil;
+            GPKGAttributesColumn *column2 = nil;
             for (GPKGAttributesColumn * column in attributesRow.table.columns){
                 if (!column.primaryKey) {
                     if (column1 == nil) {
@@ -97,7 +97,7 @@
                 NSObject * column1Value = [attributesRow valueWithColumnName:column1.name];
                 enum GPKGDataType column1ClassType = column1.dataType;
                 BOOL column1Decimal = column1ClassType == GPKG_DT_DOUBLE || column1ClassType == GPKG_DT_FLOAT;
-                GPKGColumnValue * column1AttributesValue = nil;
+                GPKGColumnValue *column1AttributesValue = nil;
                 if(column1Decimal){
                     column1AttributesValue = [[GPKGColumnValue alloc] initWithValue:column1Value andTolerance:[[NSDecimalNumber alloc] initWithDouble:.000001]];
                 }else{
@@ -120,13 +120,13 @@
                 // Query for field values
                 GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
                 [fieldValues addColumn:column1.name withValue:column1AttributesValue];
-                NSObject * column2Value = nil;
+                NSObject *column2Value = nil;
                 
                 if (column2 != nil) {
                     column2Value = [attributesRow valueWithColumnName:column2.name];
                     enum GPKGDataType column2ClassType = column2.dataType;
                     BOOL column2Decimal = column2ClassType == GPKG_DT_DOUBLE || column1ClassType == GPKG_DT_FLOAT;
-                    GPKGColumnValue * column2AttributesValue = nil;
+                    GPKGColumnValue *column2AttributesValue = nil;
                     if(column2Decimal){
                         column2AttributesValue = [[GPKGColumnValue alloc] initWithValue:column2Value andTolerance:[[NSDecimalNumber alloc] initWithDouble:.000001]];
                     }else{
@@ -439,18 +439,18 @@
         [results moveToFirst];
         [results moveToNext];
         
-        NSString * updatedString = nil;
-        NSString * updatedLimitedString = nil;
+        NSString *updatedString = nil;
+        NSString *updatedLimitedString = nil;
         NSDate *updatedDate = nil;
-        NSNumber * updatedBoolean = nil;
-        NSNumber * updatedByte = nil;
-        NSNumber * updatedShort = nil;
-        NSNumber * updatedInteger = nil;
-        NSNumber * updatedLong = nil;
-        NSDecimalNumber * updatedFloat = nil;
-        NSDecimalNumber * updatedDouble = nil;
-        NSData * updatedBytes = nil;
-        NSData * updatedLimitedBytes = nil;
+        NSNumber *updatedBoolean = nil;
+        NSNumber *updatedByte = nil;
+        NSNumber *updatedShort = nil;
+        NSNumber *updatedInteger = nil;
+        NSNumber *updatedLong = nil;
+        NSDecimalNumber *updatedFloat = nil;
+        NSDecimalNumber *updatedDouble = nil;
+        NSData *updatedBytes = nil;
+        NSData *updatedLimitedBytes = nil;
         
         GPKGAttributesRow * originalRow = [dao row:results];
         GPKGAttributesRow * attributesRow = [dao row:results];

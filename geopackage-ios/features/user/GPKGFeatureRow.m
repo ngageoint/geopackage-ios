@@ -49,7 +49,7 @@
 }
 
 -(GPKGGeometryData *) geometry{
-    GPKGGeometryData * geometryData = nil;
+    GPKGGeometryData *geometryData = nil;
     NSObject *value = [self valueWithIndex:[self.featureColumns geometryIndex]];
     if(value != nil){
         geometryData = (GPKGGeometryData *) value;
@@ -90,7 +90,7 @@
 
 -(NSObject *) toObjectValueWithIndex: (int) index andValue: (NSObject *) value{
     
-    NSObject * objectValue = value;
+    NSObject *objectValue = value;
     
     GPKGFeatureColumn * column = (GPKGFeatureColumn *)[self columnWithIndex:index];
     if([column isGeometry] && ![value isKindOfClass:[GPKGGeometryData class]]){
@@ -107,7 +107,7 @@
 
 -(NSObject *) toDatabaseValueWithIndex: (int) index andValue: (NSObject *) value{
 
-    NSObject * dbValue = value;
+    NSObject *dbValue = value;
     
     GPKGFeatureColumn * column = (GPKGFeatureColumn *)[self columnWithIndex:index];
     if([column isGeometry] && ![value isKindOfClass:[NSData class]]){

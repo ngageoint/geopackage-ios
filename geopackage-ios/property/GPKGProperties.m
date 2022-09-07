@@ -54,8 +54,8 @@ static NSDictionary *properties;
 }
 
 +(NSNumber *) numberValueOfProperty: (NSString *) property andRequired: (BOOL) required{
-    NSNumber * value = nil;
-    NSString * stringValue = [self valueOfProperty:property andRequired:required];
+    NSNumber *value = nil;
+    NSString *stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
         NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
