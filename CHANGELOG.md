@@ -6,6 +6,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 7.3.0 (TBD)
 
+* sf-wkb-ios version 4.1.0
+* sf-wkt-ios version 2.1.0
+* sf-proj-ios version 5.1.0
+* ogc-api-features-json-ios version 4.1.0
 * color version 1.0.0
 
 ## [7.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.1) (05-06-2022)
