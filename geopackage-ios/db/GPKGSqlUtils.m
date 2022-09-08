@@ -139,7 +139,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     NSMutableArray<NSString *> *sqlCommands = [NSMutableArray array];
     
     NSString *upperCaseSQL = [statement uppercaseString];
-    NSRange selectRange = [upperCaseSQL rangeOfString:@"SELECT"];
+    NSRange selectRange = [self rangeOfValue:@"SELECT" inSQL:upperCaseSQL];
     
     if(selectRange.length > 0){
         
@@ -151,7 +151,7 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
         }else{
             
             int fromIndex = -1;
-            NSRange fromRange = [upperCaseSQL rangeOfString:@"FROM"];
+            NSRange fromRange = [self rangeOfValue:@"FROM" inSQL:upperCaseSQL];
             if(fromRange.length > 0){
                 fromIndex = (int) fromRange.location;
             }
@@ -164,10 +164,10 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
                     [sqlCommands addObject:[NSString stringWithFormat:@"SELECT COUNT(%@) %@", [statement substringWithRange:NSMakeRange(afterSelectIndex, fromIndex - afterSelectIndex)], [statement substringFromIndex:fromIndex]]];
                     
                     NSMutableString *isNull = [NSMutableString stringWithString:@"SELECT COUNT(*) > 0 "];
-                    NSRange distinctRange = [upperCaseSQL rangeOfString:@"DISTINCT"];
+                    NSRange distinctRange = [self rangeOfValue:@"DISTINCT" inSQL:upperCaseSQL];
                     int afterDistinctIndex = (int) distinctRange.location + (int) distinctRange.length;
                     NSString *columnIsNull = [NSString stringWithFormat:@"%@IS NULL", [statement substringWithRange:NSMakeRange(afterDistinctIndex, fromIndex - afterDistinctIndex)]];
-                    NSRange whereRange = [upperCaseSQL rangeOfString:@"WHERE"];
+                    NSRange whereRange = [self rangeOfValue:@"WHERE" inSQL:upperCaseSQL];
                     NSRange endRange = [statement rangeOfString:@";"];
                     int endIndex;
                     if(endRange.length == 0){
@@ -219,6 +219,15 @@ static NSRegularExpression *nonWordCharacterExpression = nil;
     }
     
     return count;
+}
+
++(NSRange) rangeOfValue: (NSString *) value inSQL: (NSString *) sql{
+    NSString *pattern = [NSString stringWithFormat:@"(^|\\s)%@\\s", value];
+    NSRange range = [sql rangeOfString:pattern options:NSRegularExpressionSearch];
+    if(range.length > 0){
+        range = [sql rangeOfString:value options:0 range:range];
+    }
+    return range;
 }
 
 +(int) countWithDatabase: (GPKGDbConnection *) connection andTable: (NSString *) table{
