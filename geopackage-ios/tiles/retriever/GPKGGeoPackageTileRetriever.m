@@ -32,12 +32,12 @@
         
         [tileDao adjustTileMatrixLengths];
         
-        PROJProjection * webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+        PROJProjection *webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
         
         self.tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
         
         SFPGeometryTransform *projectionToWebMercator = [SFPGeometryTransform transformFromProjection:[self.tileCreator tilesProjection] andToProjection:webMercator];
-        GPKGBoundingBox * tileSetBoundingBox = [self.tileCreator tileSetBoundingBox];
+        GPKGBoundingBox *tileSetBoundingBox = [self.tileCreator tileSetBoundingBox];
         if([[self.tileCreator tilesProjection] isUnit:PROJ_UNIT_DEGREES]){
             tileSetBoundingBox = [GPKGTileBoundingBoxUtils boundDegreesBoundingBoxWithWebMercatorLimits:tileSetBoundingBox];
         }
@@ -49,7 +49,7 @@
 -(BOOL) hasTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Get the bounding box of the requested tile
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
     BOOL hasTile = [self.tileCreator hasTileWithBoundingBox:webMercatorBoundingBox];
     
@@ -59,9 +59,9 @@
 -(GPKGGeoPackageTile *) tileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
     // Get the bounding box of the requested tile
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
-    GPKGGeoPackageTile * tile = [self.tileCreator tileWithBoundingBox:webMercatorBoundingBox];
+    GPKGGeoPackageTile *tile = [self.tileCreator tileWithBoundingBox:webMercatorBoundingBox];
     
     return tile;
 }

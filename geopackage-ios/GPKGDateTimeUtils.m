@@ -27,9 +27,9 @@ static NSArray * dateFormatters;
 +(void) initialize{
     if(dateFormatters == nil){
         // Build a lite of date formatters for each confured datetime format
-        NSMutableArray * formatters = [NSMutableArray array];
-        NSArray * dateTimeFormats = [GPKGProperties arrayValueOfProperty:GPKG_PROP_DATETIME_FORMATS];
-        for(NSString * dateTimeFormat in dateTimeFormats){
+        NSMutableArray *formatters = [NSMutableArray array];
+        NSArray *dateTimeFormats = [GPKGProperties arrayValueOfProperty:GPKG_PROP_DATETIME_FORMATS];
+        for(NSString *dateTimeFormat in dateTimeFormats){
             NSDateFormatter *dateFormatter = [self createFormatterWithFormat:dateTimeFormat];
             [formatters addObject:dateFormatter];
         }

@@ -15,15 +15,15 @@
 
 - (void)testIndexer {
     
-    GPKGFeatureDao * featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
+    GPKGFeatureDao *featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
     
     int initialFeatures = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureIndexer * indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
+    GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
     
-    GPKGMetadataDb * db= [[GPKGMetadataDb alloc] init];
+    GPKGMetadataDb *db= [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
         [GPKGTestUtils assertNil:[tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName]];
     }
     @finally {
@@ -43,8 +43,8 @@
     
     db = [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGTableMetadata *metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         lastIndexed = metadata.lastIndexed;
         [GPKGTestUtils assertNotNil:lastIndexed];
@@ -64,8 +64,8 @@
     
     db= [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGTableMetadata *metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         // Index date should not change
         [GPKGTestUtils assertTrue:([lastIndexed compare:metadata.lastIndexed] == NSOrderedSame)];
@@ -82,8 +82,8 @@
     
     db= [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGTableMetadataDao * tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGTableMetadata * metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGTableMetadataDao *tableMetadataDao = [[GPKGTableMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGTableMetadata *metadata = [tableMetadataDao metadataByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         [GPKGTestUtils assertNotNil:metadata];
         [GPKGTestUtils assertNotNil:metadata.lastIndexed];
         [GPKGTestUtils assertTrue:([metadata.lastIndexed compare:lastIndexed] == NSOrderedDescending)];
@@ -101,7 +101,7 @@
     double minY = 6.82645;
     double maxY = 9.134445;
     long long id1 = [GPKGFeatureTileUtils insertPointWithFeatureDao:featureDao andX:minX andY:maxY];
-    NSArray * linePoints = [NSArray arrayWithObjects:
+    NSArray *linePoints = [NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
                         nil];
@@ -117,7 +117,7 @@
     [GPKGTestUtils assertTrue:[indexer isIndexed]];
     
     // Insert a polygon and index manually
-    NSArray * polygonPoints = [NSArray arrayWithObjects:
+    NSArray *polygonPoints = [NSArray arrayWithObjects:
                             [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:minX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
                             [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:minY], nil],
                             [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:maxX], [[NSDecimalNumber alloc] initWithDouble:maxY], nil],
@@ -125,13 +125,13 @@
     long long id3 = [GPKGFeatureTileUtils insertPolygonWithFeatureDao:featureDao andLines:[NSArray arrayWithObjects:polygonPoints, nil]];
     [NSThread sleepForTimeInterval:1];
     [GPKGFeatureTileUtils updateLastChangeWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
-    GPKGFeatureRow * polygonRow = (GPKGFeatureRow * )[featureDao queryForIdObject:[NSNumber numberWithLongLong:id3]];
+    GPKGFeatureRow *polygonRow = (GPKGFeatureRow * )[featureDao queryForIdObject:[NSNumber numberWithLongLong:id3]];
     [GPKGTestUtils assertNotNil:polygonRow];
     [GPKGTestUtils assertTrue:[indexer indexFeatureRow:polygonRow]];
     [GPKGTestUtils assertTrue:[indexer isIndexed]];
     
     // Update the point coordinates
-    GPKGFeatureRow * pointRow = (GPKGFeatureRow * )[featureDao queryForIdObject:[NSNumber numberWithLongLong:id1]];
+    GPKGFeatureRow *pointRow = (GPKGFeatureRow * )[featureDao queryForIdObject:[NSNumber numberWithLongLong:id1]];
     [GPKGTestUtils assertNotNil:pointRow];
     [GPKGFeatureTileUtils setPointWithFeatureRow:pointRow andX:maxX andY:minY];
     [GPKGTestUtils assertTrue:[featureDao update:pointRow] > 0];
@@ -142,7 +142,7 @@
 
     [indexer close];
     
-    SFGeometryEnvelope * envelope = [SFGeometryEnvelope envelope];
+    SFGeometryEnvelope *envelope = [SFGeometryEnvelope envelope];
     [envelope setMinX:[[NSDecimalNumber alloc] initWithDouble:minX]];
     [envelope setMaxX:[[NSDecimalNumber alloc] initWithDouble:maxX]];
     [envelope setMinY:[[NSDecimalNumber alloc] initWithDouble:minY]];
@@ -156,18 +156,18 @@
     
     db= [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGGeometryMetadataDao * geometryMetadataDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGResultSet * results = [geometryMetadataDao queryByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName andEnvelope:envelope];
+        GPKGGeometryMetadataDao *geometryMetadataDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGResultSet *results = [geometryMetadataDao queryByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName andEnvelope:envelope];
         @try {
             [GPKGTestUtils assertNotNil:results];
             count = results.count;
             [GPKGTestUtils assertTrue:count >= 3];
             while([results moveToNext]){
                 
-                GPKGGeometryMetadata * metadata = (GPKGGeometryMetadata *)[geometryMetadataDao object:results];
+                GPKGGeometryMetadata *metadata = (GPKGGeometryMetadata *)[geometryMetadataDao object:results];
                 NSNumber *id = metadata.id;
                 
-                GPKGFeatureRow * queryRow = (GPKGFeatureRow *)[featureDao queryForIdObject:id];
+                GPKGFeatureRow *queryRow = (GPKGFeatureRow *)[featureDao queryForIdObject:id];
                 [GPKGTestUtils assertNotNil:queryRow];
                 
                 enum SFGeometryType geometryType = [queryRow geometry].geometry.geometryType;
@@ -211,8 +211,8 @@
     // Verify querying for all geometry metadata gets more results
     db= [[GPKGMetadataDb alloc] init];
     @try {
-        GPKGGeometryMetadataDao * geometryMetadataDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:db.connection];
-        GPKGResultSet * results = [geometryMetadataDao queryByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
+        GPKGGeometryMetadataDao *geometryMetadataDao = [[GPKGGeometryMetadataDao alloc] initWithDatabase:db.connection];
+        GPKGResultSet *results = [geometryMetadataDao queryByGeoPackageName:self.geoPackage.name andTableName:featureDao.tableName];
         @try {
             [GPKGTestUtils assertNotNil:results];
             [GPKGTestUtils assertEqualIntWithValue:initialFeatures + 3 andValue2:results.count];

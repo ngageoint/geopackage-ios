@@ -543,8 +543,8 @@
             break;
         case GPKG_MST_COLLECTION:
         {
-            NSArray * shapeArray = (NSArray *) mapShape.shape;
-            for(GPKGMapShape * shapeArrayItem in shapeArray){
+            NSArray *shapeArray = (NSArray *) mapShape.shape;
+            for(GPKGMapShape *shapeArrayItem in shapeArray){
                 onShape = [self isLocation:location onShape:shapeArrayItem withTolerance:tolerance];
                 if(onShape){
                     break;

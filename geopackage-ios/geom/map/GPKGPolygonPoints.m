@@ -40,13 +40,13 @@
             
             GPKGPolygonOptions *options = self.polygon.options;
             
-            CLLocationCoordinate2D * points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D *points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
             
-            NSMutableArray * holePolygons = [NSMutableArray array];
-            for(GPKGPolygonHolePoints * hole in self.holes){
+            NSMutableArray *holePolygons = [NSMutableArray array];
+            for(GPKGPolygonHolePoints *hole in self.holes){
                 if(![hole isDeleted]){
-                    CLLocationCoordinate2D * holePoints = [GPKGMapShapeConverter locationCoordinatesFromPoints: [hole points]];
-                    GPKGPolygon * holePolygon = [GPKGPolygon polygonWithCoordinates:holePoints count:[[hole points] count]];
+                    CLLocationCoordinate2D *holePoints = [GPKGMapShapeConverter locationCoordinatesFromPoints: [hole points]];
+                    GPKGPolygon *holePolygon = [GPKGPolygon polygonWithCoordinates:holePoints count:[[hole points] count]];
                     free(holePoints);
                     [GPKGUtils addObject:holePolygon toArray:holePolygons];
                 }
@@ -69,7 +69,7 @@
         self.polygon = nil;
     }
     [mapView removeAnnotations:self.points];
-    for(GPKGPolygonHolePoints * hole in self.holes){
+    for(GPKGPolygonHolePoints *hole in self.holes){
         [hole removeFromMapView:mapView];
     }
 }
@@ -78,7 +78,7 @@
     NSUInteger count = [self.points count];
     BOOL valid = count == 0 || count >= 3;
     if(valid){
-        for(GPKGPolygonHolePoints * hole in self.holes){
+        for(GPKGPolygonHolePoints *hole in self.holes){
             valid = [hole isValid];
             if(!valid){
                 break;
@@ -116,10 +116,10 @@
             [mapView addOverlay:self.polygon];
         }
     }
-    for(GPKGMapPoint * point in self.points){
+    for(GPKGMapPoint *point in self.points){
         [point hidden:hidden];
     }
-    for(GPKGPolygonHolePoints * hole in self.holes){
+    for(GPKGPolygonHolePoints *hole in self.holes){
         [hole hidden: hidden fromMapView:mapView];
     }
 }
@@ -128,13 +128,13 @@
     for(GPKGMapPoint * point in self.points){
         [point hidden:hidden];
     }
-    for(GPKGPolygonHolePoints * hole in self.holes){
+    for(GPKGPolygonHolePoints *hole in self.holes){
         [hole hiddenPoints: hidden];
     }
 }
 
 -(NSObject<GPKGShapePoints> *) createChild{
-    GPKGPolygonHolePoints * hole = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:self];
+    GPKGPolygonHolePoints *hole = [[GPKGPolygonHolePoints alloc] initWithPolygonPoints:self];
     [GPKGUtils addObject:hole toArray:self.holes];
     return hole;
 }

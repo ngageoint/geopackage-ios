@@ -40,14 +40,14 @@
 }
 
 -(NSString *) keyAsString: (NSString *) key{
-    NSObject * value = [self valueForKey:key];
+    NSObject *value = [self valueForKey:key];
     return value != nil ? [value description] : nil;
 }
 
 - (NSString *)description {
-    NSMutableString * descriptionString = [NSMutableString string];
-    for(NSString * name in [self keySet]){
-        NSString * value = [self keyAsString:name];
+    NSMutableString *descriptionString = [NSMutableString string];
+    for(NSString *name in [self keySet]){
+        NSString *value = [self keyAsString:name];
         if([descriptionString length] > 0){
             [descriptionString appendString:@" "];
         }

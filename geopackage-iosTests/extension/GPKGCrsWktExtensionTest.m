@@ -17,32 +17,32 @@
 
 - (void)testExtension {
     
-    GPKGSpatialReferenceSystemDao * srsDao = [self.geoPackage spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *srsDao = [self.geoPackage spatialReferenceSystemDao];
     
-    GPKGCrsWktExtension * wktExtension = [[GPKGCrsWktExtension alloc] initWithGeoPackage:self.geoPackage];
+    GPKGCrsWktExtension *wktExtension = [[GPKGCrsWktExtension alloc] initWithGeoPackage:self.geoPackage];
     [GPKGTestUtils assertFalse:[wktExtension has]];
     
     // Test querying and setting the definitions before the column exists
-    GPKGSpatialReferenceSystem * wgs84Srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
+    GPKGSpatialReferenceSystem *wgs84Srs = [srsDao srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM]];
     [GPKGTestUtils assertNotNil:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:wgs84Srs];
     [GPKGTestUtils assertNil:wgs84Srs.definition_12_063];
     
-    GPKGSpatialReferenceSystem * undefinedCartesianSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
+    GPKGSpatialReferenceSystem *undefinedCartesianSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_CARTESIAN]];
     [GPKGTestUtils assertNotNil:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:undefinedCartesianSrs];
     [GPKGTestUtils assertNil:undefinedCartesianSrs.definition_12_063];
     
-    GPKGSpatialReferenceSystem * undefinedGeographicSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
+    GPKGSpatialReferenceSystem *undefinedGeographicSrs = [srsDao srsWithOrganization:PROJ_AUTHORITY_NONE andCoordsysId:[NSNumber numberWithInt:PROJ_UNDEFINED_GEOGRAPHIC]];
     [GPKGTestUtils assertNotNil:undefinedGeographicSrs];
     [GPKGTestUtils assertNil:undefinedGeographicSrs.definition_12_063];
     [srsDao setDefinition_12_063WithSrs:undefinedGeographicSrs];
     [GPKGTestUtils assertNil:undefinedGeographicSrs.definition_12_063];
     
     // Create a new SRS
-    GPKGSpatialReferenceSystem * newSrs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *newSrs = [[GPKGSpatialReferenceSystem alloc] init];
     [newSrs setSrsName:@"name"];
     [newSrs setSrsId:[NSNumber numberWithInt:1234]];
     [newSrs setOrganization:@"organization"];
@@ -57,7 +57,7 @@
     [GPKGTestUtils assertNil:newSrs.definition_12_063];
     
     // Create the extension
-    GPKGExtensions * extension = [wktExtension extensionCreate];
+    GPKGExtensions *extension = [wktExtension extensionCreate];
     [GPKGTestUtils assertNotNil:extension];
     [GPKGTestUtils assertTrue:[wktExtension has]];
     [GPKGTestUtils assertEqualWithValue:extension.extensionName andValue2:@"gpkg_crs_wkt"];
@@ -106,15 +106,15 @@
     [GPKGTestUtils assertEqualWithValue:undefinedGeographicSrs.definition_12_063 andValue2:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_DEFINITION_12_063]];
     
     // Create the web mercator srs and test
-    GPKGSpatialReferenceSystem * webMercator = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *webMercator = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     [GPKGTestUtils assertNotNil:webMercator.definition_12_063];
     
     // Read the web mercator srs and test
-    GPKGSpatialReferenceSystem * webMercator2 = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGSpatialReferenceSystem *webMercator2 = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     [GPKGTestUtils assertNotNil:webMercator2.definition_12_063];
     [GPKGTestUtils assertEqualWithValue:webMercator.definition_12_063 andValue2:webMercator2.definition_12_063];
     
-    GPKGSpatialReferenceSystem * newSrs2 = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *newSrs2 = [[GPKGSpatialReferenceSystem alloc] init];
     [newSrs2 setSrsName:@"name"];
     [newSrs2 setSrsId:[NSNumber numberWithInt:4321]];
     [newSrs2 setOrganization:@"organization"];
@@ -129,7 +129,7 @@
     [GPKGTestUtils assertEqualWithValue:newSrs2.definition_12_063 andValue2:@"definition_12_063"];
     
     // Create a new SRS without specifying new definition
-    GPKGSpatialReferenceSystem * newSrs3 = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *newSrs3 = [[GPKGSpatialReferenceSystem alloc] init];
     [newSrs3 setSrsName:@"name"];
     [newSrs3 setSrsId:[NSNumber numberWithInt:1324]];
     [newSrs3 setOrganization:@"organization"];

@@ -20,11 +20,11 @@
  */
 -(void) testWebPExtension{
     
-    GPKGWebPExtension * webpExtension = [[GPKGWebPExtension alloc] initWithGeoPackage:self.geoPackage];
+    GPKGWebPExtension *webpExtension = [[GPKGWebPExtension alloc] initWithGeoPackage:self.geoPackage];
     
     NSString * tableName = @"table";
     
-    GPKGExtensions * extension = [webpExtension extensionCreateWithTableName:tableName];
+    GPKGExtensions *extension = [webpExtension extensionCreateWithTableName:tableName];
     [GPKGTestUtils assertNotNil:extension];
     [GPKGTestUtils assertTrue:[webpExtension hasWithTableName:tableName]];
      

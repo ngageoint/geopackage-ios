@@ -62,7 +62,7 @@
         [queryContentsResults close];
         
         // Query for field values
-        GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
+        GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
         [fieldValues addColumn:GPKG_CON_COLUMN_DATA_TYPE withValue:contents.dataType];
         if(contents.srsId != nil){
             [fieldValues addColumn:GPKG_CON_COLUMN_SRS_ID withValue:contents.srsId];
@@ -84,9 +84,9 @@
         [queryContentsBaseResults close];
         
         // Prepared query, less than equal date
-        NSMutableString * where = [NSMutableString string];
+        NSMutableString *where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_LAST_CHANGE andValue:contents.lastChange andOperation:@"<="]];
-        NSMutableArray * whereArgs = [NSMutableArray array];
+        NSMutableArray *whereArgs = [NSMutableArray array];
         [whereArgs addObject:contents.lastChange];
         queryContentsResults = [dao queryWhere:where andWhereArgs:whereArgs];
         
@@ -155,11 +155,11 @@
         
         // Find expected results for prepared update
         NSDecimalNumber *updatedMinimum = [[NSDecimalNumber alloc] initWithDouble:-90.0];
-        NSMutableString * where = [NSMutableString string];
+        NSMutableString *where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_X andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
         [where appendString:@" or "];
         [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_MIN_Y andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
-        NSMutableArray * whereArgs = [NSMutableArray array];
+        NSMutableArray *whereArgs = [NSMutableArray array];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         GPKGResultSet *queryResults = [dao queryWhere:where andWhereArgs:whereArgs];
@@ -413,9 +413,9 @@
             
             // Delete
             int deleted;
-            NSMutableString * where = [NSMutableString string];
+            NSMutableString *where = [NSMutableString string];
             [where appendString:[dao buildWhereWithField:GPKG_CON_COLUMN_DATA_TYPE andValue:contents.dataType]];
-            NSMutableArray * whereArgs = [NSMutableArray array];
+            NSMutableArray *whereArgs = [NSMutableArray array];
             [whereArgs addObject:contents.dataType];
             if (cascade) {
                 deleted = [dao deleteCascadeWhere:where andWhereArgs:whereArgs];

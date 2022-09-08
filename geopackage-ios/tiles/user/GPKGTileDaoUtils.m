@@ -54,7 +54,7 @@
     NSNumber *zoomLevel = nil;
     
     // Find where the width and height fit in
-    NSDecimalNumber * widthNumber = [[NSDecimalNumber alloc] initWithDouble:width];
+    NSDecimalNumber *widthNumber = [[NSDecimalNumber alloc] initWithDouble:width];
     int widthIndex = (int)[widths indexOfObject:widthNumber
                                         inSortedRange:NSMakeRange(0, [widths count])
                                               options:NSBinarySearchingInsertionIndex
@@ -62,7 +62,7 @@
                             {
                                 return [obj1 compare:obj2];
                             }];
-    NSDecimalNumber * heightNumber = [[NSDecimalNumber alloc] initWithDouble:height];
+    NSDecimalNumber *heightNumber = [[NSDecimalNumber alloc] initWithDouble:height];
     int heightIndex = (int)[heights indexOfObject:heightNumber
                                     inSortedRange:NSMakeRange(0, [heights count])
                                           options:NSBinarySearchingInsertionIndex
@@ -228,7 +228,7 @@
     }
     // Length is between the available tiles
     else {
-        NSDecimalNumber * lengthNumber = [[NSDecimalNumber alloc] initWithDouble:length];
+        NSDecimalNumber *lengthNumber = [[NSDecimalNumber alloc] initWithDouble:length];
         int lengthIndex = (int)[lengths indexOfObject:lengthNumber
                                       inSortedRange:NSMakeRange(0, [lengths count])
                                             options:NSBinarySearchingInsertionIndex

@@ -24,8 +24,8 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(NSString *) resourcePathWithName: (NSString *) name andType: (NSString *) type{
     
-    NSString * resource = [NSString stringWithFormat:@"%@/%@", GPKG_BUNDLE_NAME, name];
-    NSString * resourcePath = [[NSBundle mainBundle] pathForResource:resource ofType:type];
+    NSString *resource = [NSString stringWithFormat:@"%@/%@", GPKG_BUNDLE_NAME, name];
+    NSString *resourcePath = [[NSBundle mainBundle] pathForResource:resource ofType:type];
     if(resourcePath == nil){
         resourcePath = [[NSBundle bundleForClass:[self class]] pathForResource:resource ofType:type];
         if(resourcePath == nil){
@@ -49,39 +49,39 @@ static int COPY_BUFFER_SIZE = 8192;
 }
 
 +(NSString *) documentsDirectoryWithSubDirectory: (NSString *) subDirectory{
-    NSString * documents = [self documentsDirectory];
-    NSString * directory = [documents stringByAppendingPathComponent:subDirectory];
+    NSString *documents = [self documentsDirectory];
+    NSString *directory = [documents stringByAppendingPathComponent:subDirectory];
     return directory;
 }
 
 +(NSString *) geoPackageDirectory{
-    NSString * geopackage = [GPKGProperties valueOfProperty:GPKG_PROP_DIR_GEOPACKAGE];
+    NSString *geopackage = [GPKGProperties valueOfProperty:GPKG_PROP_DIR_GEOPACKAGE];
     [self createDirectoryIfNotExists:geopackage];
     return geopackage;
 }
 
 +(NSString *) databaseDirectory{
-    NSString * geopackage = [self geoPackageDirectory];
-    NSString * database = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_DATABASE]];
+    NSString *geopackage = [self geoPackageDirectory];
+    NSString *database = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_DATABASE]];
     [self createDirectoryIfNotExists:database];
     return database;
 }
 
 +(NSString *) metadataDirectory{
-    NSString * geopackage = [self geoPackageDirectory];
-    NSString * metadata = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA]];
+    NSString *geopackage = [self geoPackageDirectory];
+    NSString *metadata = [geopackage stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA]];
     [self createDirectoryIfNotExists:metadata];
     return metadata;
 }
 
 +(NSString *) metadataDatabaseFile{
-    NSString * metadataDirectory = [self metadataDirectory];
-    NSString * metadataFile = [metadataDirectory stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA_FILE_DB]];
+    NSString *metadataDirectory = [self metadataDirectory];
+    NSString *metadataFile = [metadataDirectory stringByAppendingPathComponent:[GPKGProperties valueOfProperty:GPKG_PROP_DIR_METADATA_FILE_DB]];
     return metadataFile;
 }
 
 +(void) createDirectoryIfNotExists: (NSString *) directory{
-    NSString * documentsDirectory = [self documentsDirectoryWithSubDirectory:directory];
+    NSString *documentsDirectory = [self documentsDirectoryWithSubDirectory:directory];
     if (![[NSFileManager defaultManager] fileExistsAtPath:documentsDirectory]) {
         NSError *error = nil;
         BOOL created = [[NSFileManager defaultManager] createDirectoryAtPath:documentsDirectory withIntermediateDirectories:YES attributes:nil error:&error];
@@ -107,8 +107,8 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(void) copyFile: (NSString *) copyFrom toFile: (NSString *) copyTo{
     
-    NSInputStream * from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
-    NSOutputStream * to = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
+    NSInputStream *from = [NSInputStream inputStreamWithFileAtPath:copyFrom];
+    NSOutputStream *to = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
     
     [to open];
     @try {
@@ -125,7 +125,7 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(void) copyInputStream: (NSInputStream *) copyFrom toFile: (NSString *) copyTo withProgress: (NSObject<GPKGProgress> *) progress{
     
-    NSOutputStream * outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
+    NSOutputStream *outputStream = [NSOutputStream outputStreamToFileAtPath:copyTo append:NO];
     [outputStream open];
     @try {
         [self copyInputStream:copyFrom toOutputStream:outputStream withProgress:progress];
@@ -135,7 +135,7 @@ static int COPY_BUFFER_SIZE = 8192;
     
     // Try to delete the file if progress was canceled
     if(progress != nil && ![progress isActive] && [progress cleanupOnCancel]){
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError *error = nil;
         BOOL fileDeleted = [fileManager removeItemAtPath:copyTo error:&error];
         if(error || !fileDeleted){
@@ -146,7 +146,7 @@ static int COPY_BUFFER_SIZE = 8192;
 
 +(NSData *) fileData: (NSString *) file{
     
-    NSInputStream * inputStream = [NSInputStream inputStreamWithFileAtPath:file];
+    NSInputStream *inputStream = [NSInputStream inputStreamWithFileAtPath:file];
     [inputStream open];
     
     return [self streamData:inputStream];
@@ -156,7 +156,7 @@ static int COPY_BUFFER_SIZE = 8192;
     
     NSData *data = nil;
     
-    NSOutputStream * outputStream = [NSOutputStream outputStreamToMemory];
+    NSOutputStream *outputStream = [NSOutputStream outputStreamToMemory];
     [outputStream open];
     @try {
         [self copyInputStream:stream toOutputStream:outputStream];
@@ -209,7 +209,7 @@ static int COPY_BUFFER_SIZE = 8192;
 }
 
 +(BOOL) deleteFile: (NSString *) file{
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     BOOL fileDeleted = [fileManager removeItemAtPath:file error:&error];
     if(error || !fileDeleted){
@@ -221,7 +221,7 @@ static int COPY_BUFFER_SIZE = 8192;
 +(NSString *) formatBytes: (int) bytes{
     
     double value = bytes;
-    NSString * unit = @"B";
+    NSString *unit = @"B";
     
     if (bytes >= 1024) {
         int exponent = (int) (log(bytes) / log(1024));

@@ -45,8 +45,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databases{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao allNamesSorted];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray *databases = [geoPackageMetadataDao allNamesSorted];
 
     databases = [self deleteMissingDatabases:databases];
     
@@ -55,8 +55,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databasesLike: (NSString *) like{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao metadataWhereNameLike:like sortedBy:GPKG_GPM_COLUMN_NAME];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray *databases = [geoPackageMetadataDao metadataWhereNameLike:like sortedBy:GPKG_GPM_COLUMN_NAME];
     
     databases = [self deleteMissingDatabases:databases];
     
@@ -65,8 +65,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) databasesNotLike: (NSString *) notLike{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    NSArray * databases = [geoPackageMetadataDao metadataWhereNameNotLike:notLike sortedBy:GPKG_GPM_COLUMN_NAME];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray *databases = [geoPackageMetadataDao metadataWhereNameNotLike:notLike sortedBy:GPKG_GPM_COLUMN_NAME];
     
     databases = [self deleteMissingDatabases:databases];
     
@@ -75,8 +75,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(NSArray *) deleteMissingDatabases: (NSArray *) databases{
     
-    NSMutableArray * filesExist = [NSMutableArray array];
-    for(NSString * database in databases){
+    NSMutableArray *filesExist = [NSMutableArray array];
+    for(NSString *database in databases){
         if([self exists:database]){
             [filesExist addObject:database];
         }
@@ -85,7 +85,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(int) count{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     int count = [geoPackageMetadataDao count];
     return count;
 }
@@ -94,8 +94,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     
     NSString *path = nil;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
 
     if(metadata != nil){
         path = metadata.path;
@@ -105,7 +105,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(NSString *) documentsPathForDatabase: (NSString *) database{
-    NSString * path = [self pathForDatabase:database];
+    NSString *path = [self pathForDatabase:database];
     if(path != nil){
         path = [GPKGIOUtils documentsDirectoryWithSubDirectory:path];
     }
@@ -113,7 +113,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(NSString *) requiredPathForDatabase: (NSString *) database{
-    NSString * path = [self pathForDatabase:database];
+    NSString *path = [self pathForDatabase:database];
     if(path == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -121,18 +121,18 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(NSString *) requiredDocumentsPathForDatabase: (NSString *) database{
-    NSString * path = [self requiredPathForDatabase:database];
+    NSString *path = [self requiredPathForDatabase:database];
     path = [GPKGIOUtils documentsDirectoryWithSubDirectory:path];
     return path;
 }
 
 -(BOOL) exists: (NSString *) database{
     BOOL exists = NO;
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata != nil){
-        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSString *documentsPath = [self requiredDocumentsPathForDatabase:database];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         if([fileManager fileExistsAtPath:documentsPath]){
             exists = YES;
         }else{
@@ -144,13 +144,13 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(int) size: (NSString *) database{
     
-    NSString * documentsFilename = [self requiredDocumentsPathForDatabase:database];
+    NSString *documentsFilename = [self requiredDocumentsPathForDatabase:database];
     NSError *error = nil;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:documentsFilename error:&error];
     if(error){
         [NSException raise:@"Database Size" format:@"Failed to get the size of database '%@' with error: %@", database, error];
     }
-    NSNumber * size = [fileAttributes objectForKey:NSFileSize];
+    NSNumber *size = [fileAttributes objectForKey:NSFileSize];
     
     return [size intValue];
 }
@@ -168,13 +168,13 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
     BOOL deleted = NO;
     
     // Get the metadata record
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata != nil){
         
         // Delete the file
         if(deleteFile){
-            NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
+            NSString *documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
             [GPKGIOUtils deleteFile:documentsPath];
         }
         
@@ -191,11 +191,11 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 
 -(BOOL) deleteAllAndFiles: (BOOL) deleteFiles{
 
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    NSArray * allMetadata = [geoPackageMetadataDao all];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    NSArray *allMetadata = [geoPackageMetadataDao all];
     
     if(allMetadata != nil){
-        for(GPKGGeoPackageMetadata * metadata in allMetadata){
+        for(GPKGGeoPackageMetadata *metadata in allMetadata){
             [self delete:metadata.name andFile:deleteFiles];
         }
     }
@@ -206,8 +206,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         
         // Delete the GeoPackage database directory in case any orphan database files are left
         NSError *error = nil;
-        NSString * documentsDatabaseDirectory = [GPKGIOUtils documentsDirectoryWithSubDirectory:[GPKGIOUtils databaseDirectory]];
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSString *documentsDatabaseDirectory = [GPKGIOUtils documentsDirectoryWithSubDirectory:[GPKGIOUtils databaseDirectory]];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL directoryDeleted = [fileManager removeItemAtPath:documentsDatabaseDirectory error:&error];
         if(error || !directoryDeleted){
             NSLog(@"Failed to delete GeoPackage db directory at path '%@' with error: %@", documentsDatabaseDirectory, error);
@@ -229,10 +229,10 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", database];
     }
     
-    NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database];
-    NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
+    NSString *databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database];
+    NSString *documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
     
-    GPKGConnection * connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsDatabasePath andName:database];
+    GPKGConnection *connection = [[GPKGConnection alloc] initWithDatabaseFilename:documentsDatabasePath andName:database];
     @try {
         
         // Set the GeoPackage application id and user version
@@ -240,7 +240,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         [connection setUserVersion];
         
         // Create the minimum required tables
-        GPKGGeoPackageTableCreator * tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:connection];
+        GPKGGeoPackageTableCreator *tableCreator = [[GPKGGeoPackageTableCreator alloc] initWithDatabase:connection];
         [tableCreator createRequired];
         
         // Create the metadata record
@@ -249,7 +249,7 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         created = YES;
     }
     @catch (NSException *e) {
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         [fileManager removeItemAtPath:documentsDatabasePath error:nil];
         @throw e;
     }
@@ -326,11 +326,11 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         }
     }
     
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if([fileManager isReadableFileAtPath:path]){
-        NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database andExtension:[path pathExtension]];
-        NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
+        NSString *databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:database andExtension:[path pathExtension]];
+        NSString *documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
         NSError *error = nil;
         if([fileManager isReadableFileAtPath:documentsDatabasePath]){
             [NSException raise:@"Import GeoPackage File" format:@"Failed to import GeoPackage '%@' at path '%@' to path '%@' because a file already exists with error: %@", database, path, documentsDatabasePath, error];
@@ -352,12 +352,12 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url{
-    NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
+    NSString *name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
     [self importGeoPackageFromUrl:url withName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
 -(void) importGeoPackageFromUrl: (NSURL *) url withSession: (NSURLSession *) session{
-    NSString * name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
+    NSString *name = [[[url absoluteString] lastPathComponent] stringByDeletingPathExtension];
     [self importGeoPackageFromUrl:url withSession:session andName:name inDirectory:nil andOverride:NO andProgress:nil];
 }
 
@@ -421,8 +421,8 @@ static char IMPORT_GEOPACKAGE_FROM_URL_KEY;
         [NSException raise:@"Database Exists" format:@"GeoPackage already exists: %@", name];
     }
     
-    NSString * databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:name];
-    NSString * documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
+    NSString *databasePath = [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:name];
+    NSString *documentsDatabasePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:databasePath];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithRequest:request];
@@ -536,7 +536,7 @@ didCompleteWithError:(nullable NSError *)error{
     [self createMetadataWithName:name andPath:path];
     
     // Open and validate the GeoPackage
-    GPKGGeoPackage * geoPackage = [self open:name];
+    GPKGGeoPackage *geoPackage = [self open:name];
     if(geoPackage != nil){
         @try {
             if(![[geoPackage spatialReferenceSystemDao] tableExists] || ! [[geoPackage contentsDao] tableExists]){
@@ -564,7 +564,7 @@ didCompleteWithError:(nullable NSError *)error{
 
 -(void) exportGeoPackage: (NSString *) database withName: (NSString *) name toDirectory: (NSString *) directory{
     
-    NSString * file = [directory stringByAppendingPathComponent:name];
+    NSString *file = [directory stringByAppendingPathComponent:name];
     
     // Add the extension if not on the name
     if(![GPKGGeoPackageValidate hasGeoPackageExtension:file]){
@@ -572,7 +572,7 @@ didCompleteWithError:(nullable NSError *)error{
     }
     
     // Copy the geopackage database to the new file location
-    NSString * documentsDbFile = [self requiredDocumentsPathForDatabase:database];
+    NSString *documentsDbFile = [self requiredDocumentsPathForDatabase:database];
     [GPKGIOUtils copyFile:documentsDbFile toFile:file];
 }
 
@@ -581,9 +581,9 @@ didCompleteWithError:(nullable NSError *)error{
     GPKGGeoPackage *geoPackage = nil;
     
     if([self exists:database]){
-        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
+        NSString *documentsPath = [self requiredDocumentsPathForDatabase:database];
     
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         
         if(![fileManager fileExistsAtPath:documentsPath]){
             [NSException raise:@"No Database File" format:@"Database '%@' does not exist at path: %@", database, documentsPath];
@@ -634,9 +634,9 @@ didCompleteWithError:(nullable NSError *)error{
     BOOL valid = NO;
     
     if([self exists:database]){
-        NSString * documentsPath = [self requiredDocumentsPathForDatabase:database];
+        NSString *documentsPath = [self requiredDocumentsPathForDatabase:database];
         
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         
         @try {
             valid = [fileManager fileExistsAtPath:documentsPath]
@@ -657,8 +657,8 @@ didCompleteWithError:(nullable NSError *)error{
 
 -(BOOL) copy: (NSString *) database to: (NSString *) databaseCopy andSameDirectory: (BOOL) sameDirectory{
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -669,11 +669,11 @@ didCompleteWithError:(nullable NSError *)error{
     }else{
         copyPath = [self buildDatabasePathWithDatabase:databaseCopy andExtension:[metadata.path pathExtension]];
     }
-    NSString * documentsCopyPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:copyPath];
+    NSString *documentsCopyPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:copyPath];
 
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
-    NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
+    NSString *documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
     BOOL copied = [fileManager copyItemAtPath:documentsPath toPath:documentsCopyPath error:&error];
     if(error || !copied){
         [NSException raise:@"Copy GeoPackage" format:@"Failed to copy GeoPackage '%@' at path '%@' to GeoPackage '%@' at path '%@' with error: %@", database, documentsPath, databaseCopy, documentsCopyPath, error];
@@ -695,8 +695,8 @@ didCompleteWithError:(nullable NSError *)error{
     
     BOOL renamed = NO;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
@@ -706,11 +706,11 @@ didCompleteWithError:(nullable NSError *)error{
     NSString *renamePath = metadata.path;
     if(renameFile){
         renamePath = [self buildNewPathWithPath:renamePath andNewName:newDatabase];
-        NSString * documentsRenamePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:renamePath];
+        NSString *documentsRenamePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:renamePath];
 
-        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError *error = nil;
-        NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
+        NSString *documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
         success = [fileManager moveItemAtPath:documentsPath toPath:documentsRenamePath error:&error];
         if(error || !success){
             [NSException raise:@"Rename GeoPackage" format:@"Failed to rename GeoPackage '%@' at path '%@' to GeoPackage '%@' at path '%@' with error: %@", database, documentsPath, newDatabase, documentsRenamePath, error];
@@ -730,18 +730,18 @@ didCompleteWithError:(nullable NSError *)error{
     
     BOOL moved = NO;
     
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
-    GPKGGeoPackageMetadata * metadata = [geoPackageMetadataDao metadataByName:database];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadata *metadata = [geoPackageMetadataDao metadataByName:database];
     if(metadata == nil){
         [NSException raise:@"No Database" format:@"Database does not exist: %@", database];
     }
     
-    NSString * movePath = [dbDirectory stringByAppendingPathComponent:[metadata.path lastPathComponent]];
-    NSString * documentsMovePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:movePath];
+    NSString *movePath = [dbDirectory stringByAppendingPathComponent:[metadata.path lastPathComponent]];
+    NSString *documentsMovePath = [GPKGIOUtils documentsDirectoryWithSubDirectory:movePath];
         
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
-    NSString * documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
+    NSString *documentsPath = [GPKGIOUtils documentsDirectoryWithSubDirectory:metadata.path];
     BOOL success = [fileManager moveItemAtPath:documentsPath toPath:movePath error:&error];
     if(error || !success){
         [NSException raise:@"Move GeoPackage" format:@"Failed to move GeoPackage '%@' at path '%@' to path '%@' with error: %@", database, documentsPath, documentsMovePath, error];
@@ -764,11 +764,11 @@ didCompleteWithError:(nullable NSError *)error{
     // Verify the file has the right extension
     [GPKGGeoPackageValidate validateGeoPackageExtension:path];
     
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     
     if([fileManager isReadableFileAtPath:path]){
         // Validate the imported GeoPackage and create the metadata
-        NSString * subPath = [GPKGIOUtils localDocumentsDirectoryPath:path];
+        NSString *subPath = [GPKGIOUtils localDocumentsDirectoryPath:path];
         [self validateAndCreateImportGeoPackageWithName:name andPath:subPath andDocumentsPath:path andDeleteOnError:NO];
     }
     
@@ -884,7 +884,7 @@ didCompleteWithError:(nullable NSError *)error{
         NSInteger bufferSize = 16;
         uint8_t buffer[bufferSize];
         if([is read:buffer maxLength:bufferSize] == bufferSize){
-            NSData * data = [[NSData alloc] initWithBytes:buffer length:bufferSize];
+            NSData *data = [[NSData alloc] initWithBytes:buffer length:bufferSize];
             SFByteReader *byteReader = [[SFByteReader alloc] initWithData:data];
             NSString *header = [byteReader readString:(int)bufferSize];
             NSString *headerPrefix = [header substringToIndex:[GPKG_SQLITE_HEADER_PREFIX length]];
@@ -954,14 +954,14 @@ didCompleteWithError:(nullable NSError *)error{
 }
 
 -(void) createMetadataWithDao: (GPKGGeoPackageMetadataDao *) dao andName: (NSString *) name andPath: (NSString *) path{
-    GPKGGeoPackageMetadata * metadata = [[GPKGGeoPackageMetadata alloc] init];
+    GPKGGeoPackageMetadata *metadata = [[GPKGGeoPackageMetadata alloc] init];
     [metadata setName:name];
     [metadata setPath:path];
     [dao create:metadata];
 }
 
 -(void) createMetadataWithName: (NSString *) name andPath: (NSString *) path{
-    GPKGGeoPackageMetadataDao * geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
+    GPKGGeoPackageMetadataDao *geoPackageMetadataDao = [self.metadataDb geoPackageMetadataDao];
     [self createMetadataWithDao:geoPackageMetadataDao andName:name andPath:path];
 }
 
@@ -981,13 +981,13 @@ didCompleteWithError:(nullable NSError *)error{
     if(dbDirectory == nil){
         dbDirectory = [GPKGIOUtils databaseDirectory];
     }
-    NSString * databasePath = [dbDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", database, extension]];
+    NSString *databasePath = [dbDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", database, extension]];
     return databasePath;
 }
 
 -(NSString *) buildNewPathWithPath: (NSString *) path andNewName: (NSString *) newName{
-    NSString * dbDirectory = [path stringByDeletingLastPathComponent];
-    NSString * extension = [path pathExtension];
+    NSString *dbDirectory = [path stringByDeletingLastPathComponent];
+    NSString *extension = [path pathExtension];
     return [self buildDatabasePathWithDbDirectory:dbDirectory andDatabase:newName andExtension:extension];
 }
 

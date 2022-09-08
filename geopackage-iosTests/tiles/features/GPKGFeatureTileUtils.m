@@ -15,9 +15,9 @@
 
 +(GPKGFeatureDao *) createFeatureDaoWithGeoPackage: (GPKGGeoPackage *) geoPackage{
     
-    GPKGBoundingBox * boundingBox = [GPKGBoundingBox worldWGS84];
+    GPKGBoundingBox *boundingBox = [GPKGBoundingBox worldWGS84];
     
-    GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_tiles"];
     [geometryColumns setColumnName:@"gome"];
     [geometryColumns setGeometryType:SF_GEOMETRY];
@@ -27,7 +27,7 @@
     
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andBoundingBox:boundingBox]];
     
-    GPKGFeatureDao * featureDao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     return featureDao;
 }
@@ -49,7 +49,7 @@
     [self insertFourPointsWithFeatureDao:featureDao andX:90 andY:45];
     
     count+=4;
-    NSArray * points = [NSArray arrayWithObjects:
+    NSArray *points = [NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:67.5], nil],
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:90.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:135.0], [[NSDecimalNumber alloc] initWithDouble:45.0], nil],
@@ -57,19 +57,19 @@
     [self insertFourLinesWithFeatureDao:featureDao andPoints:points];
     
     count+=4;
-    NSArray * outerRing = [NSArray arrayWithObjects:
+    NSArray *outerRing = [NSArray arrayWithObjects:
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:60.0], [[NSDecimalNumber alloc] initWithDouble:35.0], nil],
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:65.0], [[NSDecimalNumber alloc] initWithDouble:15.0], nil],
                         [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:15.0], [[NSDecimalNumber alloc] initWithDouble:20.0], nil],
                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:20.0], [[NSDecimalNumber alloc] initWithDouble:40.0], nil],
                         nil];
-    NSArray * innerRing = [NSArray arrayWithObjects:
+    NSArray *innerRing = [NSArray arrayWithObjects:
                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:50.0], [[NSDecimalNumber alloc] initWithDouble:30.0], nil],
                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:48.0], [[NSDecimalNumber alloc] initWithDouble:22.0], nil],
                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:30.0], [[NSDecimalNumber alloc] initWithDouble:23.0], nil],
                            [NSArray arrayWithObjects:[[NSDecimalNumber alloc] initWithDouble:25.0], [[NSDecimalNumber alloc] initWithDouble:34.0], nil],
                            nil];
-    NSArray * lines = [NSArray arrayWithObjects:outerRing, innerRing, nil];
+    NSArray *lines = [NSArray arrayWithObjects:outerRing, innerRing, nil];
     [self insertFourPolygonsWithFeatureDao:featureDao andLines:lines];
     
     return count;
@@ -77,7 +77,7 @@
 
 +(GPKGFeatureTiles *) createFeatureTilesWithGeoPackage: (GPKGGeoPackage *) geoPackage andFeatureDao: (GPKGFeatureDao *) featureDao andUseIcon: (BOOL) useIcon{
     
-    GPKGFeatureTiles * featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
+    GPKGFeatureTiles *featureTiles = [[GPKGFeatureTiles alloc] initWithFeatureDao:featureDao];
     
     if(useIcon){
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(5.f, 5.f), NO, 0.0f);
@@ -130,7 +130,7 @@
     
     NSMutableArray *newPoints = [NSMutableArray array];
     for(NSArray *point in points){
-        NSMutableArray * newPoint = [NSMutableArray array];
+        NSMutableArray *newPoint = [NSMutableArray array];
         
         double x = [(NSDecimalNumber *)[point objectAtIndex:0] doubleValue];
         if(negativeX){

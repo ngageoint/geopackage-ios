@@ -97,7 +97,7 @@
 
 -(PROJProjection *) projection: (NSObject *) object{
     GPKGTileMatrixSet *projectionObject = (GPKGTileMatrixSet*) object;
-    GPKGSpatialReferenceSystem * srs = [self srs:projectionObject];
+    GPKGSpatialReferenceSystem *srs = [self srs:projectionObject];
     PROJProjection *projection = [srs projection];
     return projection;
 }
@@ -114,13 +114,13 @@
 }
 
 -(GPKGSpatialReferenceSystem *) srs: (GPKGTileMatrixSet *) tileMatrixSet{
-    GPKGSpatialReferenceSystemDao * dao = [self spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystemDao *dao = [self spatialReferenceSystemDao];
     GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[dao queryForIdObject:tileMatrixSet.srsId];
     return srs;
 }
 
 -(GPKGContents *) contents: (GPKGTileMatrixSet *) tileMatrixSet{
-    GPKGContentsDao * dao = [self contentsDao];
+    GPKGContentsDao *dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrixSet.tableName];
     return contents;
 }

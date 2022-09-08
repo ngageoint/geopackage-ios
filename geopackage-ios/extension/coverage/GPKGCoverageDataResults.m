@@ -63,8 +63,8 @@
 }
 
 -(NSDecimalNumber *) valueAtRow: (int) row andColumn: (int) column{
-    NSArray * rowArray = (NSArray *)[self.values objectAtIndex:row];
-    NSDecimalNumber * value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:column inArray:rowArray];
+    NSArray *rowArray = (NSArray *)[self.values objectAtIndex:row];
+    NSDecimalNumber *value = (NSDecimalNumber *)[GPKGUtils objectAtIndex:column inArray:rowArray];
     return value;
 }
 

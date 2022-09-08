@@ -70,7 +70,7 @@
 
 -(GPKGFeatureTileLink *) queryForFeatureTable: (NSString *) featureTable andTileTable: (NSString *) tileTable{
     NSArray *id = [NSArray arrayWithObjects:featureTable, tileTable, nil];
-    GPKGFeatureTileLink * link = (GPKGFeatureTileLink *)[self queryForMultiIdObject:id];
+    GPKGFeatureTileLink *link = (GPKGFeatureTileLink *)[self queryForMultiIdObject:id];
     return link;
 }
 

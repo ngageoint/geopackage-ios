@@ -28,7 +28,7 @@
 }
 
 -(void) addShapePoints: (NSObject<GPKGShapePoints> *) shapePoints{
-    for(GPKGMapPoint * point in [shapePoints points]){
+    for(GPKGMapPoint *point in [shapePoints points]){
         [self addPoint:point withShape:shapePoints];
     }
 }
@@ -38,7 +38,7 @@
 }
 
 -(void) addPoints: (NSArray *) points{
-    for(GPKGMapPoint * point in points){
+    for(GPKGMapPoint *point in points){
         [self addPoint:point];
     }
 }
@@ -67,7 +67,7 @@
     BOOL deleted = NO;
     if([self containsPoint:point]){
         deleted = YES;
-        NSObject<GPKGShapePoints> * shapePoints = [self shapePointsForPoint:point];
+        NSObject<GPKGShapePoints> *shapePoints = [self shapePointsForPoint:point];
         [self.shapePoints removeObjectForKey:[NSNumber numberWithInteger:point.id]];
         if(shapePoints != nil){
             [shapePoints deletePoint:point fromMapView:mapView];
@@ -100,7 +100,7 @@
 +(void) addPointAsPolygon: (GPKGMapPoint *) point toPoints: (NSMutableArray *) points{
     
     CLLocationCoordinate2D position = point.coordinate;
-    CLLocation * location = [[CLLocation alloc] initWithLatitude:position.latitude longitude:position.longitude];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:position.latitude longitude:position.longitude];
     int pointCount = (int)[points count];
     int insertLocation = pointCount;
     if(pointCount > 2){
@@ -108,7 +108,7 @@
         insertLocation = 0;
         for(int i = 0; i < pointCount; i++){
             CLLocationCoordinate2D aPoint = ((GPKGMapPoint *) [points objectAtIndex:i]).coordinate;
-            CLLocation * aLocation = [[CLLocation alloc] initWithLatitude:aPoint.latitude longitude:aPoint.longitude];
+            CLLocation *aLocation = [[CLLocation alloc] initWithLatitude:aPoint.latitude longitude:aPoint.longitude];
             distances[i] = [location distanceFromLocation:aLocation];
             if(i > 0 && distances[i] < distances[insertLocation]){
                 insertLocation = i;
@@ -128,7 +128,7 @@
 +(void) addPointAsPolyline: (GPKGMapPoint *) point toPoints: (NSMutableArray *) points{
     
     CLLocationCoordinate2D position = point.coordinate;
-    CLLocation * location = [[CLLocation alloc] initWithLatitude:position.latitude longitude:position.longitude];
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:position.latitude longitude:position.longitude];
     int pointCount = (int)[points count];
     int insertLocation = pointCount;
     if(pointCount > 1){
@@ -136,7 +136,7 @@
         insertLocation = 0;
         for(int i = 0; i < pointCount; i++){
             CLLocationCoordinate2D aPoint = ((GPKGMapPoint *) [points objectAtIndex:i]).coordinate;
-            CLLocation * aLocation = [[CLLocation alloc] initWithLatitude:aPoint.latitude longitude:aPoint.longitude];
+            CLLocation *aLocation = [[CLLocation alloc] initWithLatitude:aPoint.latitude longitude:aPoint.longitude];
             distances[i] = [location distanceFromLocation:aLocation];
             if(i > 0 && distances[i] < distances[insertLocation]){
                 insertLocation = i;
@@ -153,17 +153,17 @@
         } else{
             
             CLLocationCoordinate2D insertPoint = ((GPKGMapPoint *) [points objectAtIndex:insertLocation]).coordinate;
-            CLLocation * insertPointLocation = [[CLLocation alloc] initWithLatitude:insertPoint.latitude longitude:insertPoint.longitude];
+            CLLocation *insertPointLocation = [[CLLocation alloc] initWithLatitude:insertPoint.latitude longitude:insertPoint.longitude];
             
             if(beforeLocation != nil){
                 CLLocationCoordinate2D beforePoint = ((GPKGMapPoint *) [points objectAtIndex:[beforeLocation intValue]]).coordinate;
-                CLLocation * beforePointLocation = [[CLLocation alloc] initWithLatitude:beforePoint.latitude longitude:beforePoint.longitude];
+                CLLocation *beforePointLocation = [[CLLocation alloc] initWithLatitude:beforePoint.latitude longitude:beforePoint.longitude];
                 if(distances[[beforeLocation intValue]] >= [insertPointLocation distanceFromLocation:beforePointLocation]){
                     insertLocation++;
                 }
             }else{
                 CLLocationCoordinate2D afterPoint = ((GPKGMapPoint *) [points objectAtIndex:[afterLocation intValue]]).coordinate;
-                CLLocation * afterPointLocation = [[CLLocation alloc] initWithLatitude:afterPoint.latitude longitude:afterPoint.longitude];
+                CLLocation *afterPointLocation = [[CLLocation alloc] initWithLatitude:afterPoint.latitude longitude:afterPoint.longitude];
                 if(distances[[afterLocation intValue]] < [insertPointLocation distanceFromLocation:afterPointLocation]){
                     insertLocation++;
                 }
@@ -179,7 +179,7 @@
 }
 
 -(void) hiddenPoints: (BOOL) hidden{
-    for(NSObject<GPKGShapePoints> * shapePoints in [self.shapePoints allValues]){
+    for(NSObject<GPKGShapePoints> *shapePoints in [self.shapePoints allValues]){
         [shapePoints hiddenPoints:hidden];
     }
 }

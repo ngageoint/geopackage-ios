@@ -113,7 +113,7 @@
     
         GPKGTileMatrix *tileMatrix = [tileMatrices objectAtIndex:i];
         
-        GPKGResultSet * tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
+        GPKGResultSet *tileResults = [self retrieveTileResultsWithBoundingBox:tilesBoundingBox andTileMatrix:tileMatrix];
         if(tileResults != nil){
             
             @try{
@@ -408,7 +408,7 @@
     CGColorSpaceRef projectedTileColorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef projectedContext = CGBitmapContextCreate(&projectedPixels[0], requestedTileWidth, requestedTileHeight, 8, 4 * requestedTileWidth, projectedTileColorSpace, kCGImageAlphaPremultipliedLast);
     CGImageRef projectedImageRef = CGBitmapContextCreateImage(projectedContext);
-    UIImage * projectedTileImage = [[UIImage alloc] initWithCGImage:projectedImageRef];
+    UIImage *projectedTileImage = [[UIImage alloc] initWithCGImage:projectedImageRef];
     CGColorSpaceRelease(projectedTileColorSpace);
     CGContextRelease(projectedContext);
     
@@ -549,7 +549,7 @@
     if (tileMatrix != nil) {
         
         // Get the tile grid
-        GPKGTileGrid * tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:self.tileSetBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:projectedRequestBoundingBox];
+        GPKGTileGrid *tileGrid = [GPKGTileBoundingBoxUtils tileGridWithTotalBoundingBox:self.tileSetBoundingBox andMatrixWidth:[tileMatrix.matrixWidth intValue] andMatrixHeight:[tileMatrix.matrixHeight intValue] andBoundingBox:projectedRequestBoundingBox];
         
         // Query for matching tiles in the tile grid
         tileResults = [self.tileDao queryByTileGrid:tileGrid andZoomLevel:[tileMatrix.zoomLevel intValue]];

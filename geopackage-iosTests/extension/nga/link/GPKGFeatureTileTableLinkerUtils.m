@@ -19,26 +19,26 @@
     
     [[GPKGExtensionManager createWithGeoPackage:geoPackage] deleteExtensions];
     
-    GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
+    GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:geoPackage];
     [GPKGTestUtils assertNil:[linker extension]];
     
     // Test linking feature and tile tables
-    NSArray * featureTables = [geoPackage featureTables];
-    NSArray * tileTables = [geoPackage tileTables];
+    NSArray *featureTables = [geoPackage featureTables];
+    NSArray *tileTables = [geoPackage tileTables];
     
     if([featureTables count] != 0 && [tileTables count] != 0){
         
-        GPKGFeatureTileLinkDao * dao = [linker dao];
+        GPKGFeatureTileLinkDao *dao = [linker dao];
         
-        NSMutableSet * linkedFeatureTables = [NSMutableSet set];
+        NSMutableSet *linkedFeatureTables = [NSMutableSet set];
         
-        for(NSString * featureTable in featureTables){
+        for(NSString *featureTable in featureTables){
             
             [linkedFeatureTables addObject:featureTable];
             
-            NSMutableSet * linkedTileTables = [NSMutableSet set];
+            NSMutableSet *linkedTileTables = [NSMutableSet set];
             
-            for(NSString * tileTable in tileTables){
+            for(NSString *tileTable in tileTables){
                 
                 [linkedTileTables addObject:tileTable];
                 
@@ -62,10 +62,10 @@
                 [GPKGTestUtils assertNotNil:[linker extension]];
                 
                 // Verify linked feature tables
-                GPKGResultSet * links = [linker queryForTileTable:tileTable];
+                GPKGResultSet *links = [linker queryForTileTable:tileTable];
                 [GPKGTestUtils assertEqualIntWithValue:(int)[linkedFeatureTables count] andValue2:[links count]];
                 while([links moveToNext]){
-                    GPKGFeatureTileLink * link = [linker linkFromResultSet:links];
+                    GPKGFeatureTileLink *link = [linker linkFromResultSet:links];
                     [GPKGTestUtils assertTrue:[linkedFeatureTables containsObject:link.featureTableName]];
                 }
                 [links close];
@@ -74,14 +74,14 @@
                 links = [linker queryForFeatureTable:featureTable];
                 [GPKGTestUtils assertEqualIntWithValue:(int)[linkedTileTables count] andValue2:[links count]];
                 while([links moveToNext]){
-                    GPKGFeatureTileLink * link = [linker linkFromResultSet:links];
+                    GPKGFeatureTileLink *link = [linker linkFromResultSet:links];
                     [GPKGTestUtils assertTrue:[linkedTileTables containsObject:link.tileTableName]];
                 }
                 [links close];
             }
         }
         
-        GPKGExtensions * extension  = [linker extension];
+        GPKGExtensions *extension  = [linker extension];
         [GPKGTestUtils assertEqualWithValue:[GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR] andValue2:extension.extensionName];
         [GPKGTestUtils assertEqualWithValue:GPKG_NGA_EXTENSION_AUTHOR andValue2:[extension author]];
         [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_FEATURE_TILE_LINK_NAME_NO_AUTHOR andValue2:[extension extensionNameNoAuthor]];
@@ -91,8 +91,8 @@
         
         // Delete a single link
         int count = [dao count];
-        NSString * featureTable = [featureTables objectAtIndex:0];
-        NSString * tileTable = [tileTables objectAtIndex:0];
+        NSString *featureTable = [featureTables objectAtIndex:0];
+        NSString *tileTable = [tileTables objectAtIndex:0];
         [GPKGTestUtils assertTrue:[linker isLinkedWithFeatureTable:featureTable andTileTable:tileTable]];
         [linker deleteLinkWithFeatureTable:featureTable andTileTable:tileTable];
         [GPKGTestUtils assertFalse:[linker isLinkedWithFeatureTable:featureTable andTileTable:tileTable]];
@@ -100,7 +100,7 @@
         
         // Delete all links from a feature table
         if([tileTables count] > 1){
-            GPKGResultSet * links = [linker queryForFeatureTable:featureTable];
+            GPKGResultSet *links = [linker queryForFeatureTable:featureTable];
             int linkedTables = [links count];
             [links close];
             [GPKGTestUtils assertTrue:linkedTables > 0];
@@ -113,7 +113,7 @@
         
         // Delete all links from a tile table
         if([featureTables count] > 1){
-            GPKGResultSet * links = [linker queryForTileTable:tileTable];
+            GPKGResultSet *links = [linker queryForTileTable:tileTable];
             int linkedTables = [links count];
             [links close];
             [GPKGTestUtils assertTrue:linkedTables > 0];
@@ -133,8 +133,8 @@
         [GPKGTestUtils assertFalse:[dao tableExists]];
         [GPKGTestUtils assertNil:[linker extension]];
         
-        for(NSString * ft in featureTables){
-            for(NSString * tt in tileTables){
+        for(NSString *ft in featureTables){
+            for(NSString *tt in tileTables){
                 [GPKGTestUtils assertFalse:[linker isLinkedWithFeatureTable:ft andTileTable:tt]];
             }
         }

@@ -15,7 +15,7 @@
 
 -(GPKGGeoPackage *) createGeoPackage{
     
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
@@ -26,7 +26,7 @@
     [manager importGeoPackageFromPath:filePath withName:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
+    GPKGGeoPackage *geoPackage = [manager open:GPKG_TEST_IMPORT_COVERAGE_DATA_DB_NAME];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];

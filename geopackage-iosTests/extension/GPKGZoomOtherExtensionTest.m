@@ -20,11 +20,11 @@
  */
 -(void) testZoomOtherExtension{
     
-    GPKGZoomOtherExtension * zoomOtherExtension = [[GPKGZoomOtherExtension alloc] initWithGeoPackage:self.geoPackage];
+    GPKGZoomOtherExtension *zoomOtherExtension = [[GPKGZoomOtherExtension alloc] initWithGeoPackage:self.geoPackage];
     
     NSString * tableName = @"table";
     
-    GPKGExtensions * extension = [zoomOtherExtension extensionCreateWithTableName:tableName];
+    GPKGExtensions *extension = [zoomOtherExtension extensionCreateWithTableName:tableName];
     [GPKGTestUtils assertNotNil:extension];
     [GPKGTestUtils assertTrue:[zoomOtherExtension hasWithTableName:tableName]];
     

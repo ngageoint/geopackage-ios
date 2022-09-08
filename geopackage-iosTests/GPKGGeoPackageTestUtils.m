@@ -21,7 +21,7 @@
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata"];
     [geometryColumns setColumnName:@"geom"];
     [geometryColumns setGeometryType:SF_POINT];
@@ -29,7 +29,7 @@
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumns setSrs:srs];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andBoundingBox:boundingBox]];
     
@@ -40,7 +40,7 @@
 
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata2"];
     [geometryColumns setColumnName:@"geom2"];
     [geometryColumns setGeometryType:SF_POINT];
@@ -48,9 +48,9 @@
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumns setSrs:srs];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    NSString * idColumn = @"my_id";
+    NSString *idColumn = @"my_id";
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andIdColumn:idColumn andBoundingBox:boundingBox]];
     
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:nil];
@@ -60,7 +60,7 @@
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata3"];
     [geometryColumns setColumnName:@"geom3"];
     [geometryColumns setGeometryType:SF_POINT];
@@ -68,9 +68,9 @@
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumns setSrs:srs];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    NSArray * additionalColumns = [self featureColumns];
+    NSArray *additionalColumns = [self featureColumns];
     
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andAdditionalColumns:additionalColumns andBoundingBox:boundingBox]];
     
@@ -81,7 +81,7 @@
     
     GPKGSpatialReferenceSystem *srs = [[geoPackage spatialReferenceSystemDao] srsWithOrganization:PROJ_AUTHORITY_EPSG andCoordsysId:[NSNumber numberWithInt:PROJ_EPSG_WEB_MERCATOR]];
     
-    GPKGGeometryColumns * geometryColumns = [[GPKGGeometryColumns alloc] init];
+    GPKGGeometryColumns *geometryColumns = [[GPKGGeometryColumns alloc] init];
     [geometryColumns setTableName:@"feature_metadata4"];
     [geometryColumns setColumnName:@"geom4"];
     [geometryColumns setGeometryType:SF_POINT];
@@ -89,18 +89,18 @@
     [geometryColumns setM:[NSNumber numberWithInt:0]];
     [geometryColumns setSrs:srs];
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:-90 andMinLatitudeDouble:-45 andMaxLongitudeDouble:90 andMaxLatitudeDouble:45];
     
-    NSArray * additionalColumns = [self featureColumns];
+    NSArray *additionalColumns = [self featureColumns];
     
-    NSString * idColumn = @"my_other_id";
+    NSString *idColumn = @"my_other_id";
     [geoPackage createFeatureTableWithMetadata:[GPKGFeatureTableMetadata createWithGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:additionalColumns andBoundingBox:boundingBox]];
     
     [self validateFeatureTableWithMetadata:geoPackage andGeometryColumns:geometryColumns andIdColumn:idColumn andAdditionalColumns:additionalColumns];
 }
 
 +(NSArray *) featureColumns{
-    NSMutableArray * columns = [NSMutableArray array];
+    NSMutableArray *columns = [NSMutableArray array];
     
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5] andNotNull:NO andDefaultValue:nil] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:8 andName:@"test_blob_limited" andDataType:GPKG_DT_BLOB andMax: [NSNumber numberWithInt:7] andNotNull:NO andDefaultValue:nil] toArray:columns];
@@ -117,9 +117,9 @@
 
 +(void) validateFeatureTableWithMetadata: (GPKGGeoPackage *) geoPackage andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andIdColumn: (NSString *) idColumn andAdditionalColumns: (NSArray *) additionalColumns{
     
-    GPKGGeometryColumnsDao * dao = [geoPackage geometryColumnsDao];
+    GPKGGeometryColumnsDao *dao = [geoPackage geometryColumnsDao];
     
-    GPKGGeometryColumns * queryGeometryColumns = (GPKGGeometryColumns *)[dao queryForMultiIdObject:[dao multiId:geometryColumns]];
+    GPKGGeometryColumns *queryGeometryColumns = (GPKGGeometryColumns *)[dao queryForMultiIdObject:[dao multiId:geometryColumns]];
     [GPKGTestUtils assertNotNil:queryGeometryColumns];
     
     [GPKGTestUtils assertEqualWithValue:geometryColumns.tableName andValue2:queryGeometryColumns.tableName];
@@ -128,8 +128,8 @@
     [GPKGTestUtils assertEqualWithValue:geometryColumns.z andValue2:queryGeometryColumns.z];
     [GPKGTestUtils assertEqualWithValue:geometryColumns.m andValue2:queryGeometryColumns.m];
     
-    GPKGFeatureDao * featureDao = [geoPackage featureDaoWithTableName:geometryColumns.tableName];
-    GPKGFeatureRow * featureRow = [featureDao newRow];
+    GPKGFeatureDao *featureDao = [geoPackage featureDaoWithTableName:geometryColumns.tableName];
+    GPKGFeatureRow *featureRow = [featureDao newRow];
     
     [GPKGTestUtils assertEqualIntWithValue:(2 + (additionalColumns != nil ? (int)[additionalColumns count] : 0)) andValue2:[featureRow columnCount]];
     if(idColumn == nil){

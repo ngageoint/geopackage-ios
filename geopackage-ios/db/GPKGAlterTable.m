@@ -138,9 +138,9 @@
 +(void) alterTable: (GPKGUserTable *) newTable withMapping: (GPKGTableMapping *) tableMapping withConnection: (GPKGConnection *) db{
 
     // Update column constraints
-    for(GPKGUserColumn * column in [newTable columns]){
+    for(GPKGUserColumn *column in [newTable columns]){
         NSArray<GPKGConstraint *> *columnConstraints = [column clearConstraints];
-        for(GPKGConstraint * columnConstraint in columnConstraints){
+        for(GPKGConstraint *columnConstraint in columnConstraints){
             NSString *updatedSql = [GPKGSqlUtils modifySQL:[columnConstraint buildSql] withName:columnConstraint.name andTableMapping:tableMapping];
             if (updatedSql != nil) {
                 [column addConstraint:[[GPKGRawConstraint alloc] initWithType:columnConstraint.type andSql:updatedSql]];
@@ -150,7 +150,7 @@
     
     // Update table constraints
     NSArray<GPKGConstraint *> *tableContraints = [newTable clearConstraints];
-    for(GPKGConstraint * tableConstraint in tableContraints){
+    for(GPKGConstraint *tableConstraint in tableContraints){
         NSString *updatedSql = [GPKGSqlUtils modifySQL:[tableConstraint buildSql] withName:tableConstraint.name andTableMapping:tableMapping];
         if (updatedSql != nil) {
             [newTable addConstraint:[[GPKGRawConstraint alloc] initWithType:tableConstraint.type andSql:updatedSql]];

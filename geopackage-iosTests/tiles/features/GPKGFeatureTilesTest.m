@@ -25,14 +25,14 @@
 
 -(void) testFeatureTilesWithUseIcon: (BOOL) useIcon{
     
-    GPKGFeatureDao * featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
+    GPKGFeatureDao *featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
     
     int num = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureTiles * featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
+    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
     
     @try{
-        GPKGFeatureIndexer * indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
+        GPKGFeatureIndexer *indexer = [[GPKGFeatureIndexer alloc] initWithFeatureDao:featureDao];
         @try{
             [indexer index];
         }@finally{
@@ -63,7 +63,7 @@
     int tilesPerSide = [GPKGTileBoundingBoxUtils tilesPerSideWithZoom:zoom];
     for(int i = 0; i < tilesPerSide; i++){
         for(int j = 0; j < tilesPerSide; j++){
-            UIImage * image = [featureTiles drawTileWithX:i andY:j andZoom:zoom];
+            UIImage *image = [featureTiles drawTileWithX:i andY:j andZoom:zoom];
             if(image != nil){
                 int count = [featureTiles queryIndexedFeaturesCountWithX:i andY:j andZoom:zoom];
                 [GPKGTestUtils assertTrue:count > 0];

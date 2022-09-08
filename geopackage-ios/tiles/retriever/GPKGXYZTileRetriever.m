@@ -33,9 +33,9 @@
     
     GPKGGeoPackageTile *tile = nil;
     
-    GPKGTileRow * tileRow = [self retrieveTileRowWithX:x andY:y andZoom:zoom];
+    GPKGTileRow *tileRow = [self retrieveTileRowWithX:x andY:y andZoom:zoom];
     if(tileRow != nil){
-        GPKGTileMatrix * tileMatrix = [self.tileDao tileMatrixWithZoomLevel:(int)zoom];
+        GPKGTileMatrix *tileMatrix = [self.tileDao tileMatrixWithZoomLevel:(int)zoom];
         int tileWidth = [tileMatrix.tileWidth intValue];
         int tileHeight = [tileMatrix.tileHeight intValue];
         tile = [[GPKGGeoPackageTile alloc] initWithWidth:tileWidth andHeight:tileHeight andData:[tileRow tileData]];

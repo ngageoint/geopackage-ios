@@ -35,28 +35,28 @@ static NSString *COLUMN_NAME = @"geom";
 
 +(void) testReadWriteBytesWithGeoPackage: (GPKGGeoPackage *) geoPackage andCompareGeometryBytes: (BOOL) compareGeometryBytes{
     
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
-        GPKGResultSet * results = [geometryColumnsDao queryForAll];
+        GPKGResultSet *results = [geometryColumnsDao queryForAll];
         
         while([results moveToNext]){
             
-            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
             
-            GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
 
-            GPKGResultSet * featureResults = [dao queryForAll];
+            GPKGResultSet *featureResults = [dao queryForAll];
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao row:featureResults];
-                GPKGGeometryData * geometryData = [featureRow geometry];
+                GPKGFeatureRow *featureRow = [dao row:featureResults];
+                GPKGGeometryData *geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){
                     
-                    NSData * geometryDataToBytes = [geometryData toData];
+                    NSData *geometryDataToBytes = [geometryData toData];
                     [GPKGTestUtils assertEqualIntWithValue:(int)[geometryData data].length andValue2:(int)geometryDataToBytes.length];
                     if(compareGeometryBytes){
                         [self compareByteArrayWithExpected:[geometryData data] andActual:geometryDataToBytes];
@@ -108,24 +108,24 @@ static NSString *COLUMN_NAME = @"geom";
 
 +(void) testGeometryProjectionTransform: (GPKGGeoPackage *) geoPackage{
     
-    GPKGGeometryColumnsDao * geometryColumnsDao = [geoPackage geometryColumnsDao];
+    GPKGGeometryColumnsDao *geometryColumnsDao = [geoPackage geometryColumnsDao];
     
     if([geometryColumnsDao tableExists]){
-        GPKGResultSet * results = [geometryColumnsDao queryForAll];
+        GPKGResultSet *results = [geometryColumnsDao queryForAll];
         
         while([results moveToNext]){
             
-            GPKGGeometryColumns * geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
+            GPKGGeometryColumns *geometryColumns = (GPKGGeometryColumns *)[geometryColumnsDao object:results];
             
-            GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+            GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
             [GPKGTestUtils assertNotNil:dao];
             
-            GPKGResultSet * featureResults = [dao queryForAll];
+            GPKGResultSet *featureResults = [dao queryForAll];
             
             while([featureResults moveToNext]){
                 
-                GPKGFeatureRow * featureRow = [dao row:featureResults];
-                GPKGGeometryData * geometryData = [featureRow geometry];
+                GPKGFeatureRow *featureRow = [dao row:featureResults];
+                GPKGGeometryData *geometryData = [featureRow geometry];
                 
                 if(geometryData != nil){
                     
@@ -133,11 +133,11 @@ static NSString *COLUMN_NAME = @"geom";
                     
                     if(geometry != nil){
                         
-                        GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
+                        GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
                         NSNumber *srsId = geometryData.srsId;
-                        GPKGSpatialReferenceSystem * srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
+                        GPKGSpatialReferenceSystem *srs = (GPKGSpatialReferenceSystem *)[srsDao queryForIdObject:srsId];
                         
-                        PROJProjection * projection = [srs projection];
+                        PROJProjection *projection = [srs projection];
                         int toEpsg = -1;
                         if([srs.organizationCoordsysId intValue] == PROJ_EPSG_WORLD_GEODETIC_SYSTEM){
                             toEpsg = PROJ_EPSG_WEB_MERCATOR;
@@ -147,16 +147,16 @@ static NSString *COLUMN_NAME = @"geom";
                         SFPGeometryTransform *transformTo = [SFPGeometryTransform transformFromProjection:projection andToEpsg:toEpsg];
                         SFPGeometryTransform *transformFrom = [SFPGeometryTransform transformFromProjection:transformTo.toProjection andToProjection:projection];
 
-                        NSData * bytes = [geometryData wkb];
+                        NSData *bytes = [geometryData wkb];
                         
-                        SFGeometry * projectedGeometry = [transformTo transformGeometry:geometry];
+                        SFGeometry *projectedGeometry = [transformTo transformGeometry:geometry];
                         NSData *projectedBytes = [GPKGGeometryData wkbFromGeometry:projectedGeometry];
                         
                         if([srs.organizationCoordsysId intValue] > 0){
                             [GPKGTestUtils assertFalse:[bytes isEqualToData:projectedBytes]];
                         }
                         
-                        SFGeometry * restoredGeometry = [transformFrom transformGeometry:projectedGeometry];
+                        SFGeometry *restoredGeometry = [transformFrom transformGeometry:projectedGeometry];
                         [self compareGeometriesWithExpected:geometry andActual:restoredGeometry andDelta:.001];
                     }
                 }

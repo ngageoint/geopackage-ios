@@ -17,7 +17,7 @@ static NSDictionary *properties;
 
 +(void) initialize{
     if(properties == nil){
-        NSString * propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_PROPERTIES];
+        NSString *propertiesPath = [GPKGIOUtils propertyListPathWithName:GPKG_RESOURCES_PROPERTIES];
         properties = [NSDictionary dictionaryWithContentsOfFile:propertiesPath];
     }
 }
@@ -32,7 +32,7 @@ static NSDictionary *properties;
 
 +(NSString *) valueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
-    NSString * value = [properties valueForKey:property];
+    NSString *value = [properties valueForKey:property];
     
     if(value == nil && required){
         [NSException raise:@"Required Property" format:@"Required property not found: %@", property];
@@ -57,7 +57,7 @@ static NSDictionary *properties;
     NSNumber *value = nil;
     NSString *stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
-        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
         value = [formatter numberFromString:stringValue];
     }
@@ -78,7 +78,7 @@ static NSDictionary *properties;
 
 +(BOOL) boolValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     BOOL value = NO;
-    NSString * stringValue = [self valueOfProperty:property andRequired:required];
+    NSString *stringValue = [self valueOfProperty:property andRequired:required];
     if(stringValue != nil){
         value = [stringValue boolValue];
     }
@@ -99,7 +99,7 @@ static NSDictionary *properties;
 
 +(NSArray *) arrayValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
-    NSArray * value = [properties objectForKey:property];
+    NSArray *value = [properties objectForKey:property];
     
     if(value == nil && required){
         [NSException raise:@"Required Property" format:@"Required property not found: %@", property];
@@ -122,7 +122,7 @@ static NSDictionary *properties;
 
 +(NSDictionary *) dictionaryValueOfProperty: (NSString *) property andRequired: (BOOL) required{
     
-    NSDictionary * value = [properties objectForKey:property];
+    NSDictionary *value = [properties objectForKey:property];
     
     if(value == nil && required){
         [NSException raise:@"Required Property" format:@"Required property not found: %@", property];

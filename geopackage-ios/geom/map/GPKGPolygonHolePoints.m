@@ -59,7 +59,7 @@
 }
 
 -(void) hiddenPoints: (BOOL) hidden{
-    for(GPKGMapPoint * point in self.points){
+    for(GPKGMapPoint *point in self.points){
         [point hidden:hidden];
     }
 }

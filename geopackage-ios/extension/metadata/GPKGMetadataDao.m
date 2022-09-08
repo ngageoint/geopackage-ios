@@ -151,7 +151,7 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection{
     int count = 0;
     if(idCollection != nil){
-        for(NSNumber * id in idCollection){
+        for(NSNumber *id in idCollection){
             count += [self deleteByIdCascade:id];
         }
     }

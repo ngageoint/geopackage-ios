@@ -59,7 +59,7 @@
         [querySrsResults close];
         
         // Query for fields values
-        GPKGColumnValues * fieldValues = [[GPKGColumnValues alloc] init];
+        GPKGColumnValues *fieldValues = [[GPKGColumnValues alloc] init];
         [fieldValues addColumn:GPKG_SRS_COLUMN_DEFINITION withValue:srs.definition];
         if(srs.theDescription != nil){
             [fieldValues addColumn:GPKG_SRS_COLUMN_DESCRIPTION withValue:srs.theDescription];
@@ -113,9 +113,9 @@
         NSString *updatedDescription = @"TEST_DESCRIPTION";
         GPKGContentValues *values = [[GPKGContentValues alloc] init];
         [values putKey:GPKG_SRS_COLUMN_DESCRIPTION withValue:updatedDescription];
-        NSMutableString * where = [NSMutableString string];
+        NSMutableString *where = [NSMutableString string];
         [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_PK andValue:[NSNumber numberWithInt:0] andOperation:@">="]];
-        NSMutableArray * whereArgs = [NSMutableArray array];
+        NSMutableArray *whereArgs = [NSMutableArray array];
         [whereArgs addObject:[NSNumber numberWithInt:0]];
         int updated = [dao updateWithValues:values andWhere:where andWhereArgs:whereArgs];
     
@@ -323,9 +323,9 @@
             
             // Delete
             int deleted;
-            NSMutableString * where = [NSMutableString string];
+            NSMutableString *where = [NSMutableString string];
             [where appendString:[dao buildWhereWithField:GPKG_SRS_COLUMN_ORGANIZATION andValue:srs.organization]];
-            NSMutableArray * whereArgs = [NSMutableArray array];
+            NSMutableArray *whereArgs = [NSMutableArray array];
             [whereArgs addObject:srs.organization];
             if (cascade) {
                 deleted = [dao deleteCascadeWhere:where andWhereArgs:whereArgs];

@@ -28,26 +28,26 @@
 
 -(void) testTileImage{
     
-    GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
+    GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES2_DB_TABLE_NAME];
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    PROJProjection * webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
-    PROJProjection * wgs84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection *webMercator = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR];
+    PROJProjection *wgs84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    NSNumber * width = [NSNumber numberWithInt:256];
-    NSNumber * height = [NSNumber numberWithInt:256];
-    GPKGTileCreator * webMercatorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
-    GPKGTileCreator * wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
+    NSNumber *width = [NSNumber numberWithInt:256];
+    NSNumber *height = [NSNumber numberWithInt:256];
+    GPKGTileCreator *webMercatorTileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:webMercator];
+    GPKGTileCreator *wgs84TileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height];
     
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
-    GPKGBoundingBox * wgs84BoundingBox = [webMercatorBoundingBox transform:[SFPGeometryTransform transformFromProjection:webMercator andToProjection:wgs84]];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:0 andY:4 andZoom:4];
+    GPKGBoundingBox *wgs84BoundingBox = [webMercatorBoundingBox transform:[SFPGeometryTransform transformFromProjection:webMercator andToProjection:wgs84]];
     
     [GPKGTestUtils assertTrue:[webMercatorTileCreator hasTileWithBoundingBox:webMercatorBoundingBox]];
     [GPKGTestUtils assertTrue:[wgs84TileCreator hasTileWithBoundingBox:wgs84BoundingBox]];
     
-    GPKGGeoPackageTile * webMercatorTile = [webMercatorTileCreator tileWithBoundingBox:webMercatorBoundingBox];
-    GPKGGeoPackageTile * wgs84Tile = [wgs84TileCreator tileWithBoundingBox:wgs84BoundingBox];
+    GPKGGeoPackageTile *webMercatorTile = [webMercatorTileCreator tileWithBoundingBox:webMercatorBoundingBox];
+    GPKGGeoPackageTile *wgs84Tile = [wgs84TileCreator tileWithBoundingBox:wgs84BoundingBox];
     
     [GPKGTestUtils assertNotNil:webMercatorTile];
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:webMercatorTile.width];
@@ -74,11 +74,11 @@
     [self validateNoTransparency:wgs84Image];
     
     
-    NSString * webMercatorTestImagePath  = [[[NSBundle bundleForClass:[GPKGTileCreatorImageTest class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE];
-    UIImage * webMercatorTestImage = [UIImage imageWithContentsOfFile:webMercatorTestImagePath];
+    NSString *webMercatorTestImagePath  = [[[NSBundle bundleForClass:[GPKGTileCreatorImageTest class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE];
+    UIImage *webMercatorTestImage = [UIImage imageWithContentsOfFile:webMercatorTestImagePath];
     
-    NSString * wgs84TestImagePath  = [[[NSBundle bundleForClass:[GPKGTileCreatorImageTest class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILES2_WGS84_TEST_IMAGE];
-    UIImage * wgs84TestImage = [UIImage imageWithContentsOfFile:wgs84TestImagePath];
+    NSString *wgs84TestImagePath  = [[[NSBundle bundleForClass:[GPKGTileCreatorImageTest class]] resourcePath] stringByAppendingPathComponent:GPKG_TEST_TILES2_WGS84_TEST_IMAGE];
+    UIImage *wgs84TestImage = [UIImage imageWithContentsOfFile:wgs84TestImagePath];
     
     int redDiff = 0;
     int greenDiff = 0;
@@ -87,10 +87,10 @@
     int widthValue = [width intValue];
     int heightValue = [height intValue];
     
-    unsigned char * webMercatorPixels = [self pixels:webMercatorImage];
-    unsigned char * webMercatorTestPixels = [self pixels:webMercatorTestImage];
-    unsigned char * wgs84Pixels = [self pixels:wgs84Image];
-    unsigned char * wgs84TestPixels = [self pixels:wgs84TestImage];
+    unsigned char *webMercatorPixels = [self pixels:webMercatorImage];
+    unsigned char *webMercatorTestPixels = [self pixels:webMercatorTestImage];
+    unsigned char *wgs84Pixels = [self pixels:wgs84Image];
+    unsigned char *wgs84TestPixels = [self pixels:wgs84TestImage];
     
     // Compare the image pixels with the expected test image pixels
     for (int x = 0; x < widthValue; x++) {
@@ -144,7 +144,7 @@
     
     // To save the images to user documents directory if the test images need to change
     /*
-    NSString * saveLocation = @"/Users/osbornb/Documents/";
+    NSString *saveLocation = @"/Users/osbornb/Documents/";
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSData *webMercatorData = UIImagePNGRepresentation(webMercatorImage);
     [fileManager createFileAtPath:[NSString stringWithFormat:@"%@%@", saveLocation, GPKG_TEST_TILES2_WEB_MERCATOR_TEST_IMAGE] contents:webMercatorData attributes:nil];

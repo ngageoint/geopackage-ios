@@ -2162,7 +2162,7 @@
     
     GPKGContentValues *values = [self contentValuesWithObject:object andIncludeNils:NO];
     if([values size] == 0){
-        for(NSString * column in self.columnNames){
+        for(NSString *column in self.columnNames){
             [values putKey:column withValue:[NSNull null]];
         }
     }
@@ -2271,7 +2271,7 @@
 
 -(NSString *) buildWhereWithFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
-    for(NSString * column in fields.columns){
+    for(NSString *column in fields.columns){
         if([whereString length] > 0){
             [whereString appendFormat:@" %@ ", operation];
         }
@@ -2286,7 +2286,7 @@
 
 -(NSString *) buildWhereWithColumnValueFields: (GPKGColumnValues *) fields andOperation: (NSString *) operation{
     NSMutableString *whereString = [NSMutableString string];
-    for(NSString * column in fields.columns){
+    for(NSString *column in fields.columns){
         if([whereString length] > 0){
             [whereString appendFormat:@" %@ ", operation];
         }

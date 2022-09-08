@@ -89,7 +89,7 @@
     NSString *featureTable = [self.featureTiles featureDao].tableName;
     NSString *tileTable = self.tableName;
     if (self.linkTables && [self.geoPackage isFeatureTable:featureTable] && [self.geoPackage isTileTable:tileTable]) {
-        GPKGFeatureTileTableLinker * linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:self.geoPackage];
+        GPKGFeatureTileTableLinker *linker = [[GPKGFeatureTileTableLinker alloc] initWithGeoPackage:self.geoPackage];
         [linker linkWithFeatureTable:featureTable andTileTable:tileTable];
     }
     
@@ -97,7 +97,7 @@
 
 -(NSData *) createTileWithZ: (int) z andX: (int) x andY: (int) y{
     
-    NSData * tileData = [self.featureTiles drawTileDataWithX:x andY:y andZoom:z];
+    NSData *tileData = [self.featureTiles drawTileDataWithX:x andY:y andZoom:z];
     
     return tileData;
 }

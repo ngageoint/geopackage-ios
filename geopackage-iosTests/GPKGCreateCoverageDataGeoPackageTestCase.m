@@ -24,7 +24,7 @@
 
 -(GPKGGeoPackage *) createGeoPackage{
 
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
@@ -33,7 +33,7 @@
     [manager create:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
+    GPKGGeoPackage *geoPackage = [manager open:GPKG_TEST_CREATE_COVERAGE_DATA_DB_NAME];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
@@ -44,19 +44,19 @@
     double minLatitude = PROJ_WEB_MERCATOR_MIN_LAT_RANGE + ((PROJ_WEB_MERCATOR_MAX_LAT_RANGE - PROJ_WEB_MERCATOR_MIN_LAT_RANGE) * [GPKGTestUtils randomDouble]);
     double maxLatitude = minLatitude + ((PROJ_WEB_MERCATOR_MAX_LAT_RANGE - minLatitude) * [GPKGTestUtils randomDouble]);
     
-    GPKGBoundingBox * bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox *bbox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
-    GPKGSpatialReferenceSystemDao * srsDao = [geoPackage spatialReferenceSystemDao];
-    GPKGSpatialReferenceSystem * contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
-    GPKGSpatialReferenceSystem * tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystemDao *srsDao = [geoPackage spatialReferenceSystemDao];
+    GPKGSpatialReferenceSystem *contentsSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
+    GPKGSpatialReferenceSystem *tileMatrixSetSrs = [srsDao srsWithEpsg:[NSNumber numberWithInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM_GEOGRAPHICAL_3D]];
     
     GPKGCoverageDataPng *coverageData = [GPKGCoverageDataPng createTileTableWithGeoPackage:geoPackage andMetadata:[GPKGTileTableMetadata createWithTable:GPKG_TEST_CREATE_COVERAGE_DATA_DB_TABLE_NAME andContentsBoundingBox:bbox andContentsSrsId:contentsSrs.srsId andTileBoundingBox:bbox andTileSrsId:tileMatrixSetSrs.srsId]];
     GPKGTileDao *tileDao = coverageData.tileDao;
     GPKGTileMatrixSet *tileMatrixSet = [coverageData tileMatrixSet];
     
-    GPKGGriddedCoverageDao * griddedCoverageDao = [coverageData griddedCoverageDao];
+    GPKGGriddedCoverageDao *griddedCoverageDao = [coverageData griddedCoverageDao];
     
-    GPKGGriddedCoverage * griddedCoverage = [[GPKGGriddedCoverage alloc] init];
+    GPKGGriddedCoverage *griddedCoverage = [[GPKGGriddedCoverage alloc] init];
     [griddedCoverage setTileMatrixSet:tileMatrixSet];
     [griddedCoverage setGriddedCoverageDataType:GPKG_GCDT_INTEGER];
     BOOL defaultScale = YES;
@@ -112,9 +112,9 @@
     [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.fieldName];
     [GPKGTestUtils assertEqualWithValue:@"Height" andValue2:griddedCoverage.quantityDefinition];
     
-    GPKGGriddedTile * commonGriddedTile = [[GPKGGriddedTile alloc] init];
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage tileMatrixSetDao];
-    GPKGContents * contents = [tileMatrixSetDao contents:tileMatrixSet];
+    GPKGGriddedTile *commonGriddedTile = [[GPKGGriddedTile alloc] init];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGContents *contents = [tileMatrixSetDao contents:tileMatrixSet];
     [commonGriddedTile setContents:contents];
     BOOL defaultGTScale = YES;
     if([GPKGTestUtils randomDouble] <.5){
@@ -153,7 +153,7 @@
         defaultGTStandardDeviation = NO;
     }
     
-    GPKGGriddedTileDao * griddedTileDao = [coverageData griddedTileDao];
+    GPKGGriddedTileDao *griddedTileDao = [coverageData griddedTileDao];
     
     int width = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
     int height = 1 + (int) floor(([GPKGTestUtils randomDouble] * 4.0));
@@ -164,13 +164,13 @@
     
     // Just draw one image and re-use
     coverageData = [[GPKGCoverageDataPng alloc] initWithGeoPackage:geoPackage andTileDao:tileDao];
-    NSData * imageData = [self drawTileWithCoverageData:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
+    NSData *imageData = [self drawTileWithCoverageData:coverageData andTileWidth:tileWidth andTileHeight:tileHeight andGriddedCoverage:griddedCoverage andGriddedTile:commonGriddedTile];
     
-    GPKGTileMatrixDao * tileMatrixDao = [geoPackage tileMatrixDao];
+    GPKGTileMatrixDao *tileMatrixDao = [geoPackage tileMatrixDao];
     
     for (int zoomLevel = minZoomLevel; zoomLevel <= maxZoomLevel; zoomLevel++) {
         
-        GPKGTileMatrix * tileMatrix = [[GPKGTileMatrix alloc] init];
+        GPKGTileMatrix *tileMatrix = [[GPKGTileMatrix alloc] init];
         [tileMatrix setContents:contents];
         [tileMatrix setMatrixHeight:[NSNumber numberWithInt:height]];
         [tileMatrix setMatrixWidth:[NSNumber numberWithInt:width]];
@@ -185,7 +185,7 @@
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
                 
-                GPKGTileRow * tileRow = [tileDao newRow];
+                GPKGTileRow *tileRow = [tileDao newRow];
                 [tileRow setTileColumn:column];
                 [tileRow setTileRow:row];
                 [tileRow setZoomLevel:zoomLevel];
@@ -194,7 +194,7 @@
                 int tileId = (int)[tileDao create:tileRow];
                 [GPKGTestUtils assertTrue:tileId > 0];
                 
-                GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
+                GPKGGriddedTile *griddedTile = [[GPKGGriddedTile alloc] init];
                 [griddedTile setContents:contents];
                 [griddedTile setTableId:[NSNumber numberWithInt:tileId]];
                 [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
@@ -271,13 +271,13 @@
 
 -(NSData *) drawTileWithCoverageData: (GPKGCoverageDataPng *) coverageData andTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andGriddedCoverage: (GPKGGriddedCoverage *) griddedCoverage andGriddedTile : (GPKGGriddedTile *) commonGriddedTile{
     
-    GPKGCoverageDataValues * values = [[GPKGCoverageDataValues alloc] init];
+    GPKGCoverageDataValues *values = [[GPKGCoverageDataValues alloc] init];
     values.tilePixels = [NSMutableArray arrayWithCapacity:tileHeight];
     values.coverageData = [NSMutableArray arrayWithCapacity:tileHeight];
     values.tilePixelsFlat = [NSMutableArray arrayWithCapacity:tileHeight * tileWidth];
     values.coverageDataFlat = [NSMutableArray arrayWithCapacity:tileHeight * tileWidth];
     
-    GPKGGriddedTile * griddedTile = [[GPKGGriddedTile alloc] init];
+    GPKGGriddedTile *griddedTile = [[GPKGGriddedTile alloc] init];
     [griddedTile setScale:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile scaleOrDefault]]];
     [griddedTile setOffset:[[NSDecimalNumber alloc] initWithDouble:[commonGriddedTile offsetOrDefault]]];
     [griddedTile setMin:commonGriddedTile.min];
@@ -288,10 +288,10 @@
     // Create the image and graphics
     for (int y = 0; y < tileHeight; y++) {
         
-        NSMutableArray * tilePixelsRow = [NSMutableArray arrayWithCapacity:tileWidth];
+        NSMutableArray *tilePixelsRow = [NSMutableArray arrayWithCapacity:tileWidth];
         [values.tilePixels addObject:tilePixelsRow];
         
-        NSMutableArray * coverageDataRow = [NSMutableArray arrayWithCapacity:tileWidth];
+        NSMutableArray *coverageDataRow = [NSMutableArray arrayWithCapacity:tileWidth];
         [values.coverageData addObject:coverageDataRow];
         
         for (int x = 0; x < tileWidth; x++) {
@@ -302,9 +302,9 @@
                 pixelValue = floor([GPKGTestUtils randomDouble] * USHRT_MAX);
             }
             
-            NSNumber * pixelValueNumber = [NSNumber numberWithUnsignedShort:pixelValue];
+            NSNumber *pixelValueNumber = [NSNumber numberWithUnsignedShort:pixelValue];
             [tilePixelsRow addObject:pixelValueNumber];
-            NSDecimalNumber * value = [coverageData valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
+            NSDecimalNumber *value = [coverageData valueWithGriddedTile:griddedTile andPixelValue:pixelValue];
             [GPKGUtils addObject:value toArray:coverageDataRow];
             
             [values.tilePixelsFlat addObject:pixelValueNumber];
@@ -312,15 +312,15 @@
         }
     }
     
-    NSData * imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
+    NSData *imageData = [coverageData drawTileDataWithDoubleArrayPixelValues:values.tilePixels];
     
-    NSData * imageData2 = [coverageData drawTileDataWithGriddedTile:griddedTile andDoubleArrayValues:values.coverageData];
+    NSData *imageData2 = [coverageData drawTileDataWithGriddedTile:griddedTile andDoubleArrayValues:values.coverageData];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData2];
     
-    NSData * imageData3 = [coverageData drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData *imageData3 = [coverageData drawTileDataWithPixelValues:values.tilePixelsFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData3];
     
-    NSData * imageData4 = [coverageData drawTileDataWithGriddedTile:griddedTile andValues:values.coverageDataFlat andTileWidth:tileWidth andTileHeight:tileHeight];
+    NSData *imageData4 = [coverageData drawTileDataWithGriddedTile:griddedTile andValues:values.coverageDataFlat andTileWidth:tileWidth andTileHeight:tileHeight];
     [GPKGGeoPackageGeometryDataUtils compareByteArrayWithExpected:imageData andActual:imageData4];
     
     self.coverageDataValues = values;

@@ -129,7 +129,7 @@
         if(remainingConstraints.count == 1){
             
             if([remainingConstraints moveToNext]){
-                GPKGDataColumnConstraints * remainingConstraint = (GPKGDataColumnConstraints *) [self object:remainingConstraints];
+                GPKGDataColumnConstraints *remainingConstraint = (GPKGDataColumnConstraints *) [self object:remainingConstraints];
                 
                 // Compare the name, type, and value
                 if([remainingConstraint.constraintName isEqualToString: constraints.constraintName]

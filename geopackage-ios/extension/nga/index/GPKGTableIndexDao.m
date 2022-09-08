@@ -83,7 +83,7 @@
         if([geometryIndexDao tableExists]){
             GPKGResultSet *geometryIndexResults = [self geometryIndices:tableIndex];
             while([geometryIndexResults moveToNext]){
-                GPKGGeometryIndex * geometryIndex = (GPKGGeometryIndex *)[geometryIndexDao object:geometryIndexResults];
+                GPKGGeometryIndex *geometryIndex = (GPKGGeometryIndex *)[geometryIndexDao object:geometryIndexResults];
                 [geometryIndexDao delete:geometryIndex];
             }
             [geometryIndexResults close];
@@ -137,7 +137,7 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection{
     int count = 0;
     if(idCollection != nil){
-        for(NSString * id in idCollection){
+        for(NSString *id in idCollection){
             count += [self deleteByIdCascade:id];
         }
     }

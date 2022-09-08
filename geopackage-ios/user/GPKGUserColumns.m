@@ -110,7 +110,7 @@
         
         GPKGUserColumn *column = [self.columns objectAtIndex:index];
         NSString *columnName = column.name;
-        NSString * lowerCaseColumnName = [columnName lowercaseString];
+        NSString *lowerCaseColumnName = [columnName lowercaseString];
         
         if(!self.custom){
         
@@ -258,7 +258,7 @@
 }
 
 -(NSArray *) columnsOfType: (enum GPKGDataType) type{
-    NSMutableArray * columnsOfType = [NSMutableArray array];
+    NSMutableArray *columnsOfType = [NSMutableArray array];
     for(GPKGUserColumn *column in self.columns){
         if(column.dataType == type){
             [columnsOfType addObject:column];

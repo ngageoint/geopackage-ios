@@ -205,7 +205,7 @@
  */
 - (void)testGeometryExtension {
     
-    GPKGGeometryExtensions * extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
+    GPKGGeometryExtensions *extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
     GPKGExtensionsDao *extensionsDao = extensions.extensionsDao;
     
     // Test non extension geometries
@@ -237,9 +237,9 @@
     for(int i = SF_CIRCULARSTRING; i <= SF_SURFACE; i++){
         
         enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
-        NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
-        NSString * columnName = @"geom";
-        GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andType:geometryType];
+        NSString *tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
+        NSString *columnName = @"geom";
+        GPKGExtensions *extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andType:geometryType];
         [GPKGTestUtils assertNotNil:extension];
         [GPKGTestUtils assertTrue:[extensions hasWithTable:tableName andColumn:columnName andType:geometryType]];
         [GPKGTestUtils assertEqualIntWithValue:++count andValue2:[extensionsDao count]];
@@ -260,7 +260,7 @@
  */
 - (void)testUserGeometryExtension {
     
-    GPKGGeometryExtensions * extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
+    GPKGGeometryExtensions *extensions = [[GPKGGeometryExtensions alloc] initWithGeoPackage:self.geoPackage];
     GPKGExtensionsDao *extensionsDao = extensions.extensionsDao;
     
     NSString *author = @"nga";
@@ -282,9 +282,9 @@
     for(int i = SF_CIRCULARSTRING; i <= SF_TRIANGLE; i++){
         
         enum SFGeometryType geometryType = [SFWBGeometryCodes geometryTypeFromCode:i];
-        NSString * tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
-        NSString * columnName = @"geom";
-        GPKGExtensions * extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType];
+        NSString *tableName = [NSString stringWithFormat:@"table_%@", [SFGeometryTypes name:geometryType]];
+        NSString *columnName = @"geom";
+        GPKGExtensions *extension = [extensions extensionCreateWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType];
         [GPKGTestUtils assertNotNil:extension];
         [GPKGTestUtils assertTrue:[extensions hasWithTable:tableName andColumn:columnName andAuthor:author andType:geometryType]];
         [GPKGTestUtils assertEqualIntWithValue:++count andValue2:[extensionsDao count]];

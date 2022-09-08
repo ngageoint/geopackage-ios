@@ -18,7 +18,7 @@
 
 @interface GPKGSpatialReferenceSystemDao()
 
-@property (nonatomic, strong)  GPKGCrsWktExtension * crsWktExt;
+@property (nonatomic, strong)  GPKGCrsWktExtension *crsWktExt;
 
 @end
 
@@ -116,13 +116,13 @@
 
 -(PROJProjection *) projection: (NSObject *) object{
     GPKGSpatialReferenceSystem *projectionObject = (GPKGSpatialReferenceSystem*) object;
-    PROJProjection * projection = [projectionObject projection];
+    PROJProjection *projection = [projectionObject projection];
     return projection;
 }
 
 -(GPKGSpatialReferenceSystem *) createWgs84{
     
-    GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     [srs setSrsName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_NAME]];
     [srs setSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_SRS_ID]];
     [srs setOrganization:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84 andProperty:GPKG_PROP_SRS_ORGANIZATION]];
@@ -140,7 +140,7 @@
 
 -(GPKGSpatialReferenceSystem *) createUndefinedCartesian{
     
-    GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     [srs setSrsName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_NAME]];
     [srs setSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_SRS_ID]];
     [srs setOrganization:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_CARTESIAN andProperty:GPKG_PROP_SRS_ORGANIZATION]];
@@ -158,7 +158,7 @@
 
 -(GPKGSpatialReferenceSystem *) createUndefinedGeographic{
     
-    GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     [srs setSrsName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_NAME]];
     [srs setSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_SRS_ID]];
     [srs setOrganization:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_UNDEFINED_GEOGRAPHIC andProperty:GPKG_PROP_SRS_ORGANIZATION]];
@@ -176,7 +176,7 @@
 
 -(GPKGSpatialReferenceSystem *) createWebMercator{
     
-    GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     [srs setSrsName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_NAME]];
     [srs setSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_SRS_ID]];
     [srs setOrganization:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WEB_MERCATOR andProperty:GPKG_PROP_SRS_ORGANIZATION]];
@@ -194,7 +194,7 @@
 
 -(GPKGSpatialReferenceSystem *) createWgs84Geographical3D{
     
-    GPKGSpatialReferenceSystem * srs = [[GPKGSpatialReferenceSystem alloc] init];
+    GPKGSpatialReferenceSystem *srs = [[GPKGSpatialReferenceSystem alloc] init];
     [srs setSrsName:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84_3D andProperty:GPKG_PROP_SRS_SRS_NAME]];
     [srs setSrsId:[GPKGProperties numberValueOfBaseProperty:GPKG_PROP_SRS_WGS_84_3D andProperty:GPKG_PROP_SRS_SRS_ID]];
     [srs setOrganization:[GPKGProperties valueOfBaseProperty:GPKG_PROP_SRS_WGS_84_3D andProperty:GPKG_PROP_SRS_ORGANIZATION]];
@@ -220,7 +220,7 @@
 
 -(void) setDefinition_12_063WithSrs: (GPKGSpatialReferenceSystem *) srs{
     if(srs != nil){
-        NSString * definition = [self definition_12_063WithSrsId:srs.srsId];
+        NSString *definition = [self definition_12_063WithSrsId:srs.srsId];
         if(definition != nil){
             [srs setDefinition_12_063:definition];
         }
@@ -228,7 +228,7 @@
 }
 
 -(void) setDefinition_12_063WithSrsArray: (NSArray *) srsArray{
-    for(GPKGSpatialReferenceSystem * srs in srsArray){
+    for(GPKGSpatialReferenceSystem *srs in srsArray){
         [self setDefinition_12_063WithSrs:srs];
     }
 }
@@ -249,31 +249,31 @@
 }
 
 -(NSObject *) queryForIdObject: (NSObject *) idValue{
-    NSObject * result = [super queryForIdObject:idValue];
+    NSObject *result = [super queryForIdObject:idValue];
     [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) queryForMultiIdObject: (NSArray *) idValues{
-    NSObject * result = [super queryForMultiIdObject:idValues];
+    NSObject *result = [super queryForMultiIdObject:idValues];
     [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) object: (GPKGResultSet *) results{
-    NSObject * result = [super object:results];
+    NSObject *result = [super object:results];
     [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) firstObject: (GPKGResultSet *)results{
-    NSObject * result = [super firstObject:results];
+    NSObject *result = [super firstObject:results];
     [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
 
 -(NSObject *) queryForSameId: (NSObject *) object{
-    NSObject * result = [super queryForSameId:object];
+    NSObject *result = [super queryForSameId:object];
     [self setDefinition_12_063WithSrs:(GPKGSpatialReferenceSystem *) result];
     return result;
 }
@@ -316,7 +316,7 @@
 
 -(GPKGSpatialReferenceSystem *) srsWithOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
     
-    GPKGSpatialReferenceSystem * srs = [self queryForOrganization:organization andCoordsysId:coordsysId];
+    GPKGSpatialReferenceSystem *srs = [self queryForOrganization:organization andCoordsysId:coordsysId];
     
     srs = [self createIfNeededWithSrs:srs andOrganization:organization andCoordsysId:coordsysId];
     
@@ -331,7 +331,7 @@
 -(GPKGSpatialReferenceSystem *) queryForOrganization: (NSString *) organization andCoordsysId: (NSNumber *) coordsysId{
     GPKGSpatialReferenceSystem *srs = nil;
     
-    GPKGColumnValues * values = [[GPKGColumnValues alloc] init];
+    GPKGColumnValues *values = [[GPKGColumnValues alloc] init];
     [values addColumn:GPKG_SRS_COLUMN_ORGANIZATION withValue:organization];
     [values addColumn:GPKG_SRS_COLUMN_ORGANIZATION_COORDSYS_ID withValue:coordsysId];
     
@@ -398,31 +398,31 @@
     if(srs != nil){
         
         // Delete contents
-        GPKGContentsDao * contentsDao = [self contentsDao];
-        GPKGResultSet * contents = [self contents:srs];
+        GPKGContentsDao *contentsDao = [self contentsDao];
+        GPKGResultSet *contents = [self contents:srs];
         while([contents moveToNext]){
-            GPKGContents * content = (GPKGContents *) [contentsDao object:contents];
+            GPKGContents *content = (GPKGContents *) [contentsDao object:contents];
             [contentsDao delete:content];
         }
         [contents close];
         
         // Delete Geometry Columns
-        GPKGGeometryColumnsDao * geometryColumnsDao = [self geometryColumnsDao];
+        GPKGGeometryColumnsDao *geometryColumnsDao = [self geometryColumnsDao];
         if([geometryColumnsDao tableExists]){
-            GPKGResultSet * geometryColumns = [self geometryColumns:srs];
+            GPKGResultSet *geometryColumns = [self geometryColumns:srs];
             while([geometryColumns moveToNext]){
-                GPKGGeometryColumns * geometryColumn = (GPKGGeometryColumns *) [geometryColumnsDao object:geometryColumns];
+                GPKGGeometryColumns *geometryColumn = (GPKGGeometryColumns *) [geometryColumnsDao object:geometryColumns];
                 [geometryColumnsDao delete:geometryColumn];
             }
             [geometryColumns close];
         }
         
         // Delete Tile Matrix Set
-        GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
+        GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
         if([tileMatrixSetDao tableExists]){
-            GPKGResultSet * tileMatrixSets = [self tileMatrixSet:srs];
+            GPKGResultSet *tileMatrixSets = [self tileMatrixSet:srs];
             while([tileMatrixSets moveToNext]){
-                GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *) [tileMatrixSetDao object:tileMatrixSets];
+                GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *) [tileMatrixSetDao object:tileMatrixSets];
                 [tileMatrixSetDao delete:tileMatrixSet];
             }
             [tileMatrixSets close];
@@ -476,7 +476,7 @@
 -(int) deleteIdsCascade: (NSArray *) idCollection{
     int count = 0;
     if(idCollection != nil){
-        for(NSNumber * id in idCollection){
+        for(NSNumber *id in idCollection){
             count += [self deleteByIdCascade:id];
         }
     }
@@ -484,21 +484,21 @@
 }
 
 -(GPKGResultSet *) contents: (GPKGSpatialReferenceSystem *) srs{
-    GPKGContentsDao * dao = [self contentsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_CON_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGContentsDao *dao = [self contentsDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_CON_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 
 -(GPKGResultSet *) geometryColumns: (GPKGSpatialReferenceSystem *) srs{
-    GPKGGeometryColumnsDao * dao = [self geometryColumnsDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_GC_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGGeometryColumnsDao *dao = [self geometryColumnsDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_GC_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 
 
 -(GPKGResultSet *) tileMatrixSet: (GPKGSpatialReferenceSystem *) srs{
-    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
-    GPKGResultSet * results = [dao queryForEqWithField:GPKG_TMS_COLUMN_SRS_ID andValue:srs.srsId];
+    GPKGTileMatrixSetDao *dao = [self tileMatrixSetDao];
+    GPKGResultSet *results = [dao queryForEqWithField:GPKG_TMS_COLUMN_SRS_ID andValue:srs.srsId];
     return results;
 }
 

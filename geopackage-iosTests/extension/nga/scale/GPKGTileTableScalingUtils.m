@@ -45,7 +45,7 @@
             [tableScaling createOrUpdate:newTileScaling];
             
             GPKGExtensions *extension = [tableScaling extension];
-            NSString * extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
+            NSString *extensionName = [GPKGExtensions buildExtensionNameWithAuthor:GPKG_NGA_EXTENSION_AUTHOR andExtensionName:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR];
             [GPKGTestUtils assertEqualWithValue:extensionName andValue2:extension.extensionName];
             [GPKGTestUtils assertEqualWithValue:GPKG_NGA_EXTENSION_AUTHOR andValue2:[extension author]];
             [GPKGTestUtils assertEqualWithValue:GPKG_EXTENSION_TILE_SCALING_NAME_NO_AUTHOR andValue2:[extension extensionNameNoAuthor]];

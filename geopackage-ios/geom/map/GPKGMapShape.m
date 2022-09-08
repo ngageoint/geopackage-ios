@@ -63,8 +63,8 @@
             [(GPKGMultiPolygonPoints *)self.shape removeFromMapView:mapView];
             break;
         case GPKG_MST_COLLECTION:{
-            NSArray * shapeCollection = (NSArray *) self.shape;
-            for(GPKGMapShape * collectionShape in shapeCollection){
+            NSArray *shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape *collectionShape in shapeCollection){
                 [collectionShape removeFromMapView:mapView];
             }
             break;
@@ -81,7 +81,7 @@
             [((GPKGMapPoint *)self.shape) hidden:hidden];
             break;
         case GPKG_MST_POLYGON:{
-            MKPolygon * polygon = (MKPolygon *)self.shape;
+            MKPolygon *polygon = (MKPolygon *)self.shape;
             if(hidden){
                 [mapView removeOverlay:polygon];
             }else{
@@ -90,7 +90,7 @@
             break;
         }
         case GPKG_MST_POLYLINE:{
-            MKPolyline * polyline = (MKPolyline *)self.shape;
+            MKPolyline *polyline = (MKPolyline *)self.shape;
             if(hidden){
                 [mapView removeOverlay:polyline];
             }else{
@@ -120,8 +120,8 @@
             [((GPKGMultiPolygonPoints *)self.shape) hidden:hidden fromMapView:mapView];
             break;
         case GPKG_MST_COLLECTION:{
-            NSArray * shapeCollection = (NSArray *) self.shape;
-            for(GPKGMapShape * collectionShape in shapeCollection){
+            NSArray *shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape *collectionShape in shapeCollection){
                 [collectionShape hidden:hidden fromMapView:mapView];
             }
             break;
@@ -147,8 +147,8 @@
             [(GPKGMultiPolygonPoints *)self.shape updateWithMapView:mapView];
             break;
         case GPKG_MST_COLLECTION:{
-            NSArray * shapeCollection = (NSArray *) self.shape;
-            for(GPKGMapShape * collectionShape in shapeCollection){
+            NSArray *shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape *collectionShape in shapeCollection){
                 [collectionShape updateWithMapView:mapView];
             }
             break;
@@ -176,8 +176,8 @@
             valid = [(GPKGMultiPolygonPoints *)self.shape isValid];
             break;
         case GPKG_MST_COLLECTION:{
-            NSArray * shapeCollection = (NSArray *) self.shape;
-            for(GPKGMapShape * collectionShape in shapeCollection){
+            NSArray *shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape *collectionShape in shapeCollection){
                 valid = [collectionShape isValid];
                 if(!valid){
                     break;
@@ -206,13 +206,13 @@
             break;
         case GPKG_MST_POLYGON:
             {
-                MKPolygon * polygon = (MKPolygon *) self.shape;
+                MKPolygon *polygon = (MKPolygon *) self.shape;
                 [self expandBoundingBox:boundingBox withMapPoints:[polygon points] andCount:(int)[polygon pointCount]];
             }
             break;
         case GPKG_MST_POLYLINE:
             {
-                MKPolyline * polyline = (MKPolyline *) self.shape;
+                MKPolyline *polyline = (MKPolyline *) self.shape;
                 [self expandBoundingBox:boundingBox withMapPoints:[polyline points] andCount:(int)[polyline pointCount]];
             }
             break;
@@ -221,16 +221,16 @@
             break;
         case GPKG_MST_MULTI_POLYLINE:
             {
-                GPKGMultiPolyline * multiPolyline = (GPKGMultiPolyline *) self.shape;
-                for(MKPolyline * polyline in multiPolyline.polylines){
+                GPKGMultiPolyline *multiPolyline = (GPKGMultiPolyline *) self.shape;
+                for(MKPolyline *polyline in multiPolyline.polylines){
                     [self expandBoundingBox:boundingBox withMapPoints:[polyline points] andCount:(int)[polyline pointCount]];
                 }
             }
             break;
         case GPKG_MST_MULTI_POLYGON:
             {
-                GPKGMultiPolygon * multiPolygon = (GPKGMultiPolygon *) self.shape;
-                for(MKPolygon * polygon in multiPolygon.polygons){
+                GPKGMultiPolygon *multiPolygon = (GPKGMultiPolygon *) self.shape;
+                for(MKPolygon *polygon in multiPolygon.polygons){
                     [self expandBoundingBox:boundingBox withMapPoints:[polygon points] andCount:(int)[polygon pointCount]];
                 }
             }
@@ -243,23 +243,23 @@
             break;
         case GPKG_MST_MULTI_POLYLINE_POINTS:
             {
-                GPKGMultiPolylinePoints * multiPolylinePoints = (GPKGMultiPolylinePoints *) self.shape;
-                for(GPKGPolylinePoints * polylinePoints in multiPolylinePoints.polylinePoints){
+                GPKGMultiPolylinePoints *multiPolylinePoints = (GPKGMultiPolylinePoints *) self.shape;
+                for(GPKGPolylinePoints *polylinePoints in multiPolylinePoints.polylinePoints){
                     [self expandBoundingBox:boundingBox withPoints:[polylinePoints points]];
                 }
             }
             break;
         case GPKG_MST_MULTI_POLYGON_POINTS:
             {
-                GPKGMultiPolygonPoints * multiPolygonPoints = (GPKGMultiPolygonPoints *) self.shape;
-                for(GPKGPolygonPoints * polygonPoints in multiPolygonPoints.polygonPoints){
+                GPKGMultiPolygonPoints *multiPolygonPoints = (GPKGMultiPolygonPoints *) self.shape;
+                for(GPKGPolygonPoints *polygonPoints in multiPolygonPoints.polygonPoints){
                     [self expandBoundingBox:boundingBox withPoints:[polygonPoints points]];
                 }
             }
             break;
         case GPKG_MST_COLLECTION:{
-            NSArray * shapeCollection = (NSArray *) self.shape;
-            for(GPKGMapShape * collectionShape in shapeCollection){
+            NSArray *shapeCollection = (NSArray *) self.shape;
+            for(GPKGMapShape *collectionShape in shapeCollection){
                 [collectionShape expandBoundingBox:boundingBox];
             }
             break;
@@ -304,7 +304,7 @@
 }
 
 -(void) expandBoundingBox:(GPKGBoundingBox *)boundingBox withPoints: (NSArray *) points{
-    for(GPKGMapPoint * point in points){
+    for(GPKGMapPoint *point in points){
         [self expandBoundingBox:boundingBox withPoint:point];
     }
 }

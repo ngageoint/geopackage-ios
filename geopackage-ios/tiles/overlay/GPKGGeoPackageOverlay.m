@@ -38,7 +38,7 @@
     self = [super init];
     if(self != nil){
         self.tileSize = CGSizeMake(width, height);
-        GPKGGeoPackageTileRetriever * retriever = [[GPKGGeoPackageTileRetriever alloc] initWithTileDao:tileDao andWidth:[NSNumber numberWithInt:width] andHeight:[NSNumber numberWithInt:height]];
+        GPKGGeoPackageTileRetriever *retriever = [[GPKGGeoPackageTileRetriever alloc] initWithTileDao:tileDao andWidth:[NSNumber numberWithInt:width] andHeight:[NSNumber numberWithInt:height]];
         if(scaling != nil){
             [retriever setScaling:scaling];
         }
@@ -50,7 +50,7 @@
 -(void) initHelperWithRetriever: (GPKGGeoPackageTileRetriever *) retriever{
     self.retriever = retriever;
     SFPGeometryTransform *transform = [SFPGeometryTransform transformFromEpsg:PROJ_EPSG_WEB_MERCATOR andToEpsg:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
-    GPKGBoundingBox * boundingBox = [[retriever webMercatorBoundingBox] transform:transform];
+    GPKGBoundingBox *boundingBox = [[retriever webMercatorBoundingBox] transform:transform];
     self.mapRect = [boundingBox mapRect];
     self.center = [boundingBox center];
     
@@ -66,7 +66,7 @@
     
     NSData *tileData = nil;
     
-    GPKGGeoPackageTile * geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
+    GPKGGeoPackageTile *geoPackageTile = [self.retriever tileWithX:x andY:y andZoom:zoom];
     if(geoPackageTile != nil){
         tileData = geoPackageTile.data;
     }

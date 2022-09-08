@@ -35,7 +35,7 @@
             
             GPKGPolylineOptions *options = self.polyline.options;
             
-            CLLocationCoordinate2D * points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
+            CLLocationCoordinate2D *points = [GPKGMapShapeConverter locationCoordinatesFromPoints: self.points];
             self.polyline = [GPKGPolyline polylineWithCoordinates:points count:[self.points count]];
             
             [self.polyline setOptions:options];
@@ -92,7 +92,7 @@
 }
 
 -(void) hiddenPoints: (BOOL) hidden{
-    for(GPKGMapPoint * point in self.points){
+    for(GPKGMapPoint *point in self.points){
         [point hidden:hidden];
     }
 }

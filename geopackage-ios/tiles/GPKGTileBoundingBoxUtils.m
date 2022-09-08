@@ -130,7 +130,7 @@
     double maxLat = PROJ_WGS84_HALF_WORLD_LAT_HEIGHT - (y * tileHeightDegrees);
     double minLat = maxLat - tileHeightDegrees;
     
-    GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
+    GPKGBoundingBox *box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
     
     return box;
 }
@@ -152,7 +152,7 @@
     double maxLat = PROJ_WEB_MERCATOR_HALF_WORLD_WIDTH
 				- (tileGrid.minY * tileSize);
     
-    GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
+    GPKGBoundingBox *box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
     
     return box;
 }
@@ -274,18 +274,18 @@
 }
 
 +(GPKGTileGrid *) tileGridFromWGS84Point: (SFPoint *) point andZoom: (int) zoom{
-    PROJProjection * projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection *projection = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     return [GPKGTileBoundingBoxUtils tileGridFromPoint:point andZoom:zoom andProjection:projection];
 }
 
 +(GPKGTileGrid *) tileGridFromPoint: (SFPoint *) point andZoom: (int) zoom andProjection: (PROJProjection *) projection{
     SFPGeometryTransform *toWebMercator = [SFPGeometryTransform transformFromProjection:projection andToEpsg:PROJ_EPSG_WEB_MERCATOR];
-    SFPoint * webMercatorPoint = [toWebMercator transformPoint:point];
+    SFPoint *webMercatorPoint = [toWebMercator transformPoint:point];
     return [self tileGridFromWebMercatorPoint:webMercatorPoint andZoom:zoom];
 }
 
 +(GPKGTileGrid *) tileGridFromWebMercatorPoint: (SFPoint *) point andZoom: (int) zoom{
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMinLatitude:point.y andMaxLongitude:point.x andMaxLatitude:point.y];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitude:point.x andMinLatitude:point.y andMaxLongitude:point.x andMaxLatitude:point.y];
     return [GPKGTileBoundingBoxUtils tileGridWithWebMercatorBoundingBox:boundingBox andZoom:zoom];
 }
 
@@ -310,7 +310,7 @@
     }
     maxY = MIN(maxY, tilesPerSide - 1);
     
-    GPKGTileGrid * grid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    GPKGTileGrid *grid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
     
     return grid;
 }
@@ -357,7 +357,7 @@
     lowerLeftPoint = [toWebMercator transformPoint:lowerLeftPoint];
     upperRightPoint = [toWebMercator transformPoint:upperRightPoint];
     
-    GPKGBoundingBox * mercatorBox = [[GPKGBoundingBox alloc] initWithMinLongitude:lowerLeftPoint.x andMinLatitude:lowerLeftPoint.y andMaxLongitude:upperRightPoint.x andMaxLatitude:upperRightPoint.y];
+    GPKGBoundingBox *mercatorBox = [[GPKGBoundingBox alloc] initWithMinLongitude:lowerLeftPoint.x andMinLatitude:lowerLeftPoint.y andMaxLongitude:upperRightPoint.x andMaxLatitude:upperRightPoint.y];
     
     return mercatorBox;
 }
@@ -450,7 +450,7 @@
         }
     }
     
-    GPKGTileGrid * tileGrid = [[GPKGTileGrid alloc] initWithMinX:minColumn andMinY:minRow andMaxX:maxColumn andMaxY:maxRow];
+    GPKGTileGrid *tileGrid = [[GPKGTileGrid alloc] initWithMinX:minColumn andMinY:minRow andMaxX:maxColumn andMaxY:maxRow];
     
     return tileGrid;
 }
@@ -498,7 +498,7 @@
 }
 
 +(GPKGBoundingBox *) boundingBoxWithTotalBoundingBox: (GPKGBoundingBox *) totalBox andTileMatrixWidth: (int) tileMatrixWidth andTileMatrixHeight: (int) tileMatrixHeight andTileColumn: (int) tileColumn andTileRow: (int) tileRow{
-    GPKGTileGrid * tileGrid = [[GPKGTileGrid alloc] initWithMinX:tileColumn andMinY:tileRow andMaxX:tileColumn andMaxY:tileRow];
+    GPKGTileGrid *tileGrid = [[GPKGTileGrid alloc] initWithMinX:tileColumn andMinY:tileRow andMaxX:tileColumn andMaxY:tileRow];
     return [self boundingBoxWithTotalBoundingBox:totalBox andTileMatrixWidth:tileMatrixWidth andTileMatrixHeight:tileMatrixHeight andTileGrid:tileGrid];
 }
 
@@ -528,7 +528,7 @@
     double maxLat = matrixMaxY - (tileHeight * tileGrid.minY);
     double minLat = matrixMaxY - (tileHeight * (tileGrid.maxY + 1));
     
-    GPKGBoundingBox * boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
+    GPKGBoundingBox *boundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
     
     return boundingBox;
 }
@@ -594,8 +594,8 @@
 }
 
 +(double) distanceBetweenLocation: (CLLocationCoordinate2D) location1 andLocation: (CLLocationCoordinate2D) location2{
-    CLLocation * loc1 = [[CLLocation alloc] initWithLatitude:location1.latitude longitude:location1.longitude];
-    CLLocation * loc2 = [[CLLocation alloc] initWithLatitude:location2.latitude longitude:location2.longitude];
+    CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:location1.latitude longitude:location1.longitude];
+    CLLocation *loc2 = [[CLLocation alloc] initWithLatitude:location2.latitude longitude:location2.longitude];
     double distance = [loc1 distanceFromLocation:loc2];
     return distance;
 }
@@ -636,7 +636,7 @@
 }
 
 +(GPKGBoundingBox *) boundDegreesBoundingBoxWithWebMercatorLimits: (GPKGBoundingBox *) boundingBox{
-    GPKGBoundingBox * bounded = [boundingBox mutableCopy];
+    GPKGBoundingBox *bounded = [boundingBox mutableCopy];
     if([bounded.minLatitude doubleValue] < PROJ_WEB_MERCATOR_MIN_LAT_RANGE){
         [bounded setMinLatitude:[[NSDecimalNumber alloc] initWithDouble:PROJ_WEB_MERCATOR_MIN_LAT_RANGE]];
     }
@@ -721,7 +721,7 @@
     }
     maxY = MIN(maxY, tilesPerLat - 1);
     
-    GPKGTileGrid * grid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
+    GPKGTileGrid *grid = [[GPKGTileGrid alloc] initWithMinX:minX andMinY:minY andMaxX:maxX andMaxY:maxY];
     
     return grid;
 }
@@ -747,7 +747,7 @@
     double maxLat = PROJ_WGS84_HALF_WORLD_LAT_HEIGHT
 				- (tileGrid.minY * tileSizeLat);
     
-    GPKGBoundingBox * box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
+    GPKGBoundingBox *box = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLon andMinLatitudeDouble:minLat andMaxLongitudeDouble:maxLon andMaxLatitudeDouble:maxLat];
     
     return box;
 }

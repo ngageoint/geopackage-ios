@@ -109,14 +109,14 @@
 
 -(PROJProjection *) projection: (NSObject *) object{
     GPKGTileMatrix *projectionObject = (GPKGTileMatrix*) object;
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [self tileMatrixSetDao];
-    GPKGTileMatrixSet * tileMatrixSet = [self tileMatrixSet:projectionObject];
-    PROJProjection * projection = [tileMatrixSetDao projection:tileMatrixSet];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [self tileMatrixSetDao];
+    GPKGTileMatrixSet *tileMatrixSet = [self tileMatrixSet:projectionObject];
+    PROJProjection *projection = [tileMatrixSetDao projection:tileMatrixSet];
     return projection;
 }
 
 -(GPKGTileMatrixSet *) tileMatrixSet: (GPKGTileMatrix *) tileMatrix{
-    GPKGTileMatrixSetDao * dao = [self tileMatrixSetDao];
+    GPKGTileMatrixSetDao *dao = [self tileMatrixSetDao];
     GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[dao queryForIdObject:tileMatrix.tableName];
     return tileMatrixSet;
 }
@@ -126,13 +126,13 @@
 }
 
 -(GPKGContents *) contents: (GPKGTileMatrix *) tileMatrix{
-    GPKGContentsDao * dao = [self contentsDao];
+    GPKGContentsDao *dao = [self contentsDao];
     GPKGContents *contents = (GPKGContents *)[dao queryForIdObject:tileMatrix.tableName];
     return contents;
 }
 
 -(GPKGResultSet *) queryForTableName: (NSString *) table{
-    GPKGResultSet * results = [self queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:table andGroupBy:nil andHaving:nil
+    GPKGResultSet *results = [self queryForEqWithField:GPKG_TM_COLUMN_TABLE_NAME andValue:table andGroupBy:nil andHaving:nil
                   andOrderBy:[NSString stringWithFormat:@"%@ ASC, %@ DESC, %@ DESC", GPKG_TM_COLUMN_ZOOM_LEVEL, GPKG_TM_COLUMN_PIXEL_X_SIZE, GPKG_TM_COLUMN_PIXEL_Y_SIZE]];
     return results;
 }

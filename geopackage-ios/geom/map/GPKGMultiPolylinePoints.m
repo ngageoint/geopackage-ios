@@ -24,26 +24,26 @@
 }
 
 -(void) updateWithMapView: (MKMapView *) mapView{
-    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+    for(GPKGPolylinePoints *polylinePoint in self.polylinePoints){
         [polylinePoint updateWithMapView:mapView];
     }
 }
 
 -(void) removeFromMapView: (MKMapView *) mapView{
-    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+    for(GPKGPolylinePoints *polylinePoint in self.polylinePoints){
         [polylinePoint removeFromMapView:mapView];
     }
 }
 
 -(void) hidden: (BOOL) hidden fromMapView: (MKMapView *) mapView{
-    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+    for(GPKGPolylinePoints *polylinePoint in self.polylinePoints){
         [polylinePoint hidden:hidden fromMapView:mapView];
     }
 }
 
 -(BOOL) isValid{
     BOOL valid = YES;
-    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+    for(GPKGPolylinePoints *polylinePoint in self.polylinePoints){
         valid = [polylinePoint isValid];
         if(!valid){
             break;
@@ -54,7 +54,7 @@
 
 -(BOOL) isDeleted{
     BOOL deleted = YES;
-    for(GPKGPolylinePoints * polylinePoint in self.polylinePoints){
+    for(GPKGPolylinePoints *polylinePoint in self.polylinePoints){
         deleted = [polylinePoint isDeleted];
         if(!deleted){
             break;

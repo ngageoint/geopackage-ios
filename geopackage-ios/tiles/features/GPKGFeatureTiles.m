@@ -243,7 +243,7 @@
 
 -(NSData *) drawTileDataWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    UIImage * image = [self drawTileWithX:x andY:y andZoom:zoom];
+    UIImage *image = [self drawTileWithX:x andY:y andZoom:zoom];
     
     NSData *tileData = nil;
     
@@ -274,12 +274,12 @@
 -(UIImage *) drawTileQueryIndexWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     // Get the web mercator bounding box
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     UIImage *image = nil;
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
+    GPKGFeatureIndexResults *results = [self queryIndexedFeaturesWithWebMercatorBoundingBox:webMercatorBoundingBox];
     
     @try {
         
@@ -313,7 +313,7 @@
 -(int) queryIndexedFeaturesCountWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
     // Get the web mercator bounding box
-    GPKGBoundingBox * webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *webMercatorBoundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     // Query for the count of geometries matching the bounds in the index
     int count = [self queryIndexedFeaturesCountWithWebMercatorBoundingBox:webMercatorBoundingBox];
@@ -352,7 +352,7 @@
     GPKGBoundingBox *expandedQueryBoundingBox = [self expandBoundingBox:webMercatorBoundingBox];
     
     // Query for geometries matching the bounds in the index
-    GPKGFeatureIndexResults * results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+    GPKGFeatureIndexResults *results = [self.indexManager queryWithBoundingBox:expandedQueryBoundingBox inProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
     
     return results;
 }
@@ -394,7 +394,7 @@
     minLatitude = MIN(minLatitude, [webMercatorBoundingBox.minLatitude doubleValue]);
     maxLatitude = MAX(maxLatitude, [webMercatorBoundingBox.maxLatitude doubleValue]);
     
-    GPKGBoundingBox * expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
+    GPKGBoundingBox *expandedBoundingBox = [[GPKGBoundingBox alloc] initWithMinLongitudeDouble:minLongitude andMinLatitudeDouble:minLatitude andMaxLongitudeDouble:maxLongitude andMaxLatitudeDouble:maxLatitude];
     
     // Bound with the web mercator limits
     expandedBoundingBox = [GPKGTileBoundingBoxUtils boundWebMercatorBoundingBox:expandedBoundingBox];
@@ -404,12 +404,12 @@
 
 -(UIImage *) drawTileQueryAllWithX: (int) x andY: (int) y andZoom: (int) zoom{
     
-    GPKGBoundingBox * boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
+    GPKGBoundingBox *boundingBox = [GPKGTileBoundingBoxUtils webMercatorBoundingBoxWithX:x andY:y andZoom:zoom];
     
     UIImage *image = nil;
     
     // Query for all features
-    GPKGResultSet * results = [self.featureDao queryForAll];
+    GPKGResultSet *results = [self.featureDao queryForAll];
     
     @try {
         
@@ -668,13 +668,13 @@
             
         case GPKG_MST_POINT:
             {
-                GPKGMapPoint * point = (GPKGMapPoint *) shapeObject;
+                GPKGMapPoint *point = (GPKGMapPoint *) shapeObject;
                 drawn = [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point andStyle:featureStyle];
             }
             break;
         case GPKG_MST_POLYLINE:
             {
-                MKPolyline * polyline = (MKPolyline *) shapeObject;
+                MKPolyline *polyline = (MKPolyline *) shapeObject;
                 CGMutablePathRef linePath = CGPathCreateMutable();
                 [self addPolyline:polyline toPath:linePath withBoundingBox:boundingBox];
                 drawn = [self drawLinePath:linePath andContext:context andStyle:featureStyle];
@@ -682,7 +682,7 @@
             break;
         case GPKG_MST_POLYGON:
             {
-                MKPolygon * polygon = (MKPolygon *) shapeObject;
+                MKPolygon *polygon = (MKPolygon *) shapeObject;
                 CGMutablePathRef polygonPath = CGPathCreateMutable();
                 [self addPolygon:polygon toPath:polygonPath withBoundingBox:boundingBox];
                 drawn = [self drawPolygonPath:polygonPath andContext:context andStyle:featureStyle];
@@ -690,16 +690,16 @@
             break;
         case GPKG_MST_MULTI_POINT:
             {
-                GPKGMultiPoint * multiPoint = (GPKGMultiPoint *) shapeObject;
-                for(GPKGMapPoint * point in multiPoint.points){
+                GPKGMultiPoint *multiPoint = (GPKGMultiPoint *) shapeObject;
+                for(GPKGMapPoint *point in multiPoint.points){
                     drawn = [self drawPointWithBoundingBox:boundingBox andContext:context andPoint:point andStyle:featureStyle] || drawn;
                 }
             }
             break;
         case GPKG_MST_MULTI_POLYLINE:
             {
-                GPKGMultiPolyline * multiPolyline = (GPKGMultiPolyline *) shapeObject;
-                for(MKPolyline * polyline in multiPolyline.polylines){
+                GPKGMultiPolyline *multiPolyline = (GPKGMultiPolyline *) shapeObject;
+                for(MKPolyline *polyline in multiPolyline.polylines){
                     CGMutablePathRef multiLinePath = CGPathCreateMutable();
                     [self addPolyline:polyline toPath:multiLinePath withBoundingBox:boundingBox];
                     drawn = [self drawLinePath:multiLinePath andContext:context andStyle:featureStyle] || drawn;
@@ -708,9 +708,9 @@
             break;
         case GPKG_MST_MULTI_POLYGON:
             {
-                GPKGMultiPolygon * multiPolygon = (GPKGMultiPolygon *) shapeObject;
+                GPKGMultiPolygon *multiPolygon = (GPKGMultiPolygon *) shapeObject;
                 CGMutablePathRef multiPolygonPath = CGPathCreateMutable();
-                for(MKPolygon * polygon in multiPolygon.polygons){
+                for(MKPolygon *polygon in multiPolygon.polygons){
                     [self addPolygon:polygon toPath:multiPolygonPath withBoundingBox:boundingBox];
                 }
                 drawn = [self drawPolygonPath:multiPolygonPath andContext:context andStyle:featureStyle];
@@ -718,8 +718,8 @@
             break;
         case GPKG_MST_COLLECTION:
             {
-                NSArray * shapes = (NSArray *) shapeObject;
-                for(GPKGMapShape * arrayShape in shapes){
+                NSArray *shapes = (NSArray *) shapeObject;
+                for(GPKGMapShape *arrayShape in shapes){
                     drawn = [self drawShapeWithBoundingBox:boundingBox andContext:context andFeature:featureRow andMapShape:arrayShape] || drawn;
                 }
             }
@@ -809,7 +809,7 @@
         if(polygon.pointCount >= 2){
             [self addRing:polygon toPath:path withBoundingBox:boundingBox];
             
-            for(MKPolygon * hole in polygon.interiorPolygons){
+            for(MKPolygon *hole in polygon.interiorPolygons){
                 if(hole.pointCount >= 2){
                     [self addRing:hole toPath:path withBoundingBox:boundingBox];
                 }
@@ -827,7 +827,7 @@
 
     for(int i = 0; i < multiPoint.pointCount; i++){
         MKMapPoint mkMapPoint = multiPoint.points[i];
-        GPKGMapPoint * mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
+        GPKGMapPoint *mapPoint = [[GPKGMapPoint alloc] initWithMKMapPoint:mkMapPoint];
         SFPoint *sfPoint = [self transformPointWithMapPoint:mapPoint];
         double x = [GPKGTileBoundingBoxUtils xPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
         double y = [GPKGTileBoundingBoxUtils yPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
@@ -843,7 +843,7 @@
     
     BOOL drawn = NO;
     
-    SFPoint * sfPoint = [self transformPointWithMapPoint:point];
+    SFPoint *sfPoint = [self transformPointWithMapPoint:point];
     double x = [GPKGTileBoundingBoxUtils xPixelWithWidth:self.tileWidth andBoundingBox:boundingBox andLongitude:[sfPoint.x doubleValue]];
     double y = [GPKGTileBoundingBoxUtils yPixelWithHeight:self.tileHeight andBoundingBox:boundingBox andLatitude:[sfPoint.y doubleValue]];
     

@@ -312,7 +312,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
     
     NSString *exportDirectory = [GPKGIOUtils documentsDirectory];
     
-    NSString * exportedFile = [[exportDirectory stringByAppendingPathComponent:GEOPACKAGE_NAME] stringByAppendingPathExtension:GPKG_EXTENSION];
+    NSString *exportedFile = [[exportDirectory stringByAppendingPathComponent:GEOPACKAGE_NAME] stringByAppendingPathExtension:GPKG_EXTENSION];
     [GPKGIOUtils deleteFile:exportedFile];
     
     [manager exportGeoPackage:GEOPACKAGE_NAME toDirectory:exportDirectory];
@@ -760,7 +760,7 @@ static NSString *DATETIME_COLUMN = @"datetime";
                     NSData *tileData = [[NSFileManager defaultManager] contentsAtPath:yPath];
                     
                     if (tileWidth == nil || tileHeight == nil) {
-                        UIImage * tileImage = [UIImage imageWithContentsOfFile:yPath];
+                        UIImage *tileImage = [UIImage imageWithContentsOfFile:yPath];
                         if (tileImage != nil) {
                             tileHeight = [NSNumber numberWithInt:tileImage.size.height];
                             tileWidth = [NSNumber numberWithInt:tileImage.size.width];
@@ -900,7 +900,7 @@ static int dataColumnConstraintIndex = 0;
     
     GPKGDataColumnConstraintsDao *dao = [schemaExtension dataColumnConstraintsDao];
     
-    GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:@"sampleRange"];
     [sampleRange setDataColumnConstraintType:GPKG_DCCT_RANGE];
     [sampleRange setMinValue:1.0];
@@ -910,42 +910,42 @@ static int dataColumnConstraintIndex = 0;
     [sampleRange setTheDescription:@"sampleRange description"];
     [dao create:sampleRange];
     
-    GPKGDataColumnConstraints * sampleEnum1 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum1 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum1 setConstraintName:@"sampleEnum"];
     [sampleEnum1 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum1 setValue:@"1"];
     [sampleEnum1 setTheDescription:@"sampleEnum description"];
     [dao create:sampleEnum1];
     
-    GPKGDataColumnConstraints * sampleEnum3 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum3 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum3 setConstraintName:sampleEnum1.constraintName];
     [sampleEnum3 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum3 setValue:@"3"];
     [sampleEnum3 setTheDescription:sampleEnum1.theDescription];
     [dao create:sampleEnum3];
     
-    GPKGDataColumnConstraints * sampleEnum5 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum5 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum5 setConstraintName:sampleEnum1.constraintName];
     [sampleEnum5 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum5 setValue:@"5"];
     [sampleEnum5 setTheDescription:sampleEnum1.theDescription];
     [dao create:sampleEnum5];
     
-    GPKGDataColumnConstraints * sampleEnum7 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum7 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum7 setConstraintName:sampleEnum1.constraintName];
     [sampleEnum7 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum7 setValue:@"7"];
     [sampleEnum7 setTheDescription:sampleEnum1.theDescription];
     [dao create:sampleEnum7];
     
-    GPKGDataColumnConstraints * sampleEnum9 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum9 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum9 setConstraintName:sampleEnum1.constraintName];
     [sampleEnum9 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum9 setValue:@"9"];
     [sampleEnum9 setTheDescription:sampleEnum1.theDescription];
     [dao create:sampleEnum9];
     
-    GPKGDataColumnConstraints * sampleGlob = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleGlob = [[GPKGDataColumnConstraints alloc] init];
     [sampleGlob setConstraintName:@"sampleGlob"];
     [sampleGlob setDataColumnConstraintType:GPKG_DCCT_GLOB];
     [sampleGlob setValue:@"[1-2][0-9][0-9][0-9]"];

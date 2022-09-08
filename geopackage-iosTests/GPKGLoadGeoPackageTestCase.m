@@ -23,7 +23,7 @@
 }
 
 -(GPKGGeoPackage *) createGeoPackage{
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     
     // Delete
     [manager delete:self.dbName];
@@ -34,7 +34,7 @@
     [manager importGeoPackageFromPath:filePath withName:self.dbName];
     
     // Open
-    GPKGGeoPackage * geoPackage = [manager open:self.dbName];
+    GPKGGeoPackage *geoPackage = [manager open:self.dbName];
     [manager close];
     if(geoPackage == nil){
         [NSException raise:@"Failed to Open" format:@"Failed to open database"];
@@ -55,7 +55,7 @@
     }
     
     // Delete
-    GPKGGeoPackageManager * manager = [GPKGGeoPackageFactory manager];
+    GPKGGeoPackageManager *manager = [GPKGGeoPackageFactory manager];
     [manager delete:self.dbName];
     [manager close];
     

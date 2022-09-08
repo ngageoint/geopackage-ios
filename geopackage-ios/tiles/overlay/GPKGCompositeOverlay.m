@@ -55,7 +55,7 @@
 }
 
 -(void) addOverlays: (NSArray<GPKGBoundedOverlay *> *) overlays{
-    for(GPKGBoundedOverlay * overlay in overlays){
+    for(GPKGBoundedOverlay *overlay in overlays){
         [self addOverlay:overlay];
     }
 }

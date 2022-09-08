@@ -22,7 +22,7 @@
 
 +(NSArray<GPKGUserCustomColumn *> *) createAdditionalUserColumnsWithNotNil: (BOOL) notNull{
     
-    NSMutableArray * columns = [NSMutableArray array];
+    NSMutableArray *columns = [NSMutableArray array];
     
     // Add Dublin Core Metadata term columns
     [GPKGUtils addObject:[GPKGUserCustomColumn createColumnWithName:[GPKGDublinCoreTypes name:GPKG_DCM_DATE] andDataType:GPKG_DT_DATETIME andNotNull:notNull] toArray:columns];
@@ -83,7 +83,7 @@
                     
                 case GPKG_DT_TEXT:
                 {
-                    NSString * text = [[NSProcessInfo processInfo] globallyUniqueString];
+                    NSString *text = [[NSProcessInfo processInfo] globallyUniqueString];
                     if(column.max != nil && [text length] > [column.max intValue]){
                         text = [text substringToIndex:[column.max intValue]];
                     }
@@ -103,7 +103,7 @@
                     break;
                 case GPKG_DT_BLOB:
                 {
-                    NSData * blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                    NSData *blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
                     if(column.max != nil && [blob length] > [column.max intValue]){
                         blob = [blob subdataWithRange:NSMakeRange(0, [column.max intValue])];
                     }

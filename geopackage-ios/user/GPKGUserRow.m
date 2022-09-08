@@ -30,7 +30,7 @@
         self.columns = [table userColumns];
         
         int columnCount = [_columns columnCount];
-        NSMutableArray * tempValues = [NSMutableArray arrayWithCapacity:columnCount];
+        NSMutableArray *tempValues = [NSMutableArray arrayWithCapacity:columnCount];
         for(int i = 0; i < columnCount; i++){
             [GPKGUtils addObject:nil toArray:tempValues];
         }
@@ -89,9 +89,9 @@
 }
 
 -(NSObject *) valueWithIndex: (int) index{
-    NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
+    NSObject *value = [GPKGUtils objectAtIndex:index inArray:self.values];
     if(value != nil){
-        GPKGUserColumn * column = [self columnWithIndex:index];
+        GPKGUserColumn *column = [self columnWithIndex:index];
         if([value isKindOfClass:[NSString class]] && (column.dataType == GPKG_DT_DATE || column.dataType == GPKG_DT_DATETIME)){
             value = [GPKGDateTimeUtils convertToDateWithString:((NSString *) value)];
         }else{
@@ -123,7 +123,7 @@
 }
 
 -(NSObject *) databaseValueWithIndex: (int) index{
-    NSObject * value = [GPKGUtils objectAtIndex:index inArray:self.values];
+    NSObject *value = [GPKGUtils objectAtIndex:index inArray:self.values];
     if(value != nil){
         value =[self toDatabaseValueWithIndex:index andValue:value];
     }
@@ -200,7 +200,7 @@
 -(BOOL) hasId{
     BOOL hasId = NO;
     if([self hasIdColumn]){
-        NSObject * objectValue = [self valueWithIndex:[self idIndex]];
+        NSObject *objectValue = [self valueWithIndex:[self idIndex]];
         hasId = objectValue != nil && [objectValue isKindOfClass:[NSNumber class]];
     }
     return hasId;
@@ -229,7 +229,7 @@
 -(BOOL) hasPk{
     BOOL hasPk = NO;
     if([self hasPkColumn]){
-        NSObject * objectValue = [self valueWithIndex:[self pkIndex]];
+        NSObject *objectValue = [self valueWithIndex:[self pkIndex]];
         hasPk = objectValue != nil;
     }
     return hasPk;

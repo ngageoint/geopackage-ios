@@ -324,7 +324,7 @@
             
         }
         
-        for(NSNumber * deleteFeatureId in deleteFeatureIds){
+        for(NSNumber *deleteFeatureId in deleteFeatureIds){
             
             GPKGFeatureShape *featureShape = [self featureShapeInFeatureIds:featureIds withFeatureId:deleteFeatureId];
             

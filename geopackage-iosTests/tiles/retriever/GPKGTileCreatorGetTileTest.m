@@ -29,19 +29,19 @@
  */
 -(void) testGetTile{
     
-    GPKGTileDao * tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES_DB_TABLE_NAME];
+    GPKGTileDao *tileDao = [self.geoPackage tileDaoWithTableName:GPKG_TEST_TILES_DB_TABLE_NAME];
     [GPKGTestUtils assertEqualWithValue:[tileDao.projection authority] andValue2:PROJ_AUTHORITY_EPSG];
     [GPKGTestUtils assertEqualIntWithValue:[tileDao.projection.code intValue] andValue2:PROJ_EPSG_WEB_MERCATOR];
     
     [tileDao adjustTileMatrixLengths];
     
-    PROJProjection * wgs84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
+    PROJProjection *wgs84 = [PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WORLD_GEODETIC_SYSTEM];
     
-    NSNumber * width = [NSNumber numberWithInt:256];
-    NSNumber * height = [NSNumber numberWithInt:140];
-    GPKGTileCreator * tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:wgs84];
+    NSNumber *width = [NSNumber numberWithInt:256];
+    NSNumber *height = [NSNumber numberWithInt:140];
+    GPKGTileCreator *tileCreator = [[GPKGTileCreator alloc] initWithTileDao:tileDao andWidth:width andHeight:height andProjection:wgs84];
     
-    GPKGBoundingBox * boundingBox = [GPKGBoundingBox worldWGS84];
+    GPKGBoundingBox *boundingBox = [GPKGBoundingBox worldWGS84];
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertFalse:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
@@ -49,7 +49,7 @@
     boundingBox = [GPKGTileBoundingBoxUtils boundWgs84BoundingBoxWithWebMercatorLimits:boundingBox];
     [GPKGTestUtils assertTrue:[tileCreator hasTileWithBoundingBox:boundingBox]];
     
-    GPKGGeoPackageTile * tile = [tileCreator tileWithBoundingBox:boundingBox];
+    GPKGGeoPackageTile *tile = [tileCreator tileWithBoundingBox:boundingBox];
     
     [GPKGTestUtils assertNotNil:tile];
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:tile.width];
@@ -57,7 +57,7 @@
     
     NSData *tileData = tile.data;
     [GPKGTestUtils assertNotNil:tileData];
-    UIImage * image = [GPKGImageConverter toImage:tileData];
+    UIImage *image = [GPKGImageConverter toImage:tileData];
     
     [GPKGTestUtils assertEqualIntWithValue:[width intValue] andValue2:image.size.width];
     [GPKGTestUtils assertEqualIntWithValue:[height intValue] andValue2:image.size.height];

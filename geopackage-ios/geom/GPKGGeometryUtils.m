@@ -26,7 +26,7 @@
     double prevLng = [self toRadiansWithDegrees:[prev.x doubleValue]];
     // For each edge, accumulate the signed area of the triangle formed by the North Pole
     // and that edge ("polar triangle").
-    for (SFPoint * point in path) {
+    for (SFPoint *point in path) {
         double tanLat = tan((M_PI / 2.0 - [self toRadiansWithDegrees:[point.y doubleValue]]) / 2.0);
         double lng = [self toRadiansWithDegrees:[point.x doubleValue]];
         total += [self polarTriangleAreaWithTan1:tanLat andLng1:lng andTan2:prevTanLat andLng2:prevLng];

@@ -36,7 +36,7 @@
 }
 
 -(GPKGGeoPackage *) geoPackageOpenName: (NSString *) name andCache: (BOOL) cache{
-    GPKGGeoPackage * geoPackage = [self geoPackageWithName:name];
+    GPKGGeoPackage *geoPackage = [self geoPackageWithName:name];
     if(geoPackage == nil){
         geoPackage = [self.manager open:name];
         if(cache){
@@ -67,7 +67,7 @@
 }
 
 -(void) closeAll{
-    for(GPKGGeoPackage * geoPackage in [self.cache allValues]){
+    for(GPKGGeoPackage *geoPackage in [self.cache allValues]){
         [self closeGeoPackage:geoPackage];
     }
     [self clear];
@@ -84,7 +84,7 @@
 }
 
 -(GPKGGeoPackage *) removeByName: (NSString *) name{
-    GPKGGeoPackage * geoPackage = [self geoPackageWithName:name];
+    GPKGGeoPackage *geoPackage = [self geoPackageWithName:name];
     if(geoPackage != nil){
         [self.cache removeObjectForKey:name];
     }
@@ -96,7 +96,7 @@
 }
 
 -(BOOL) closeByName: (NSString *) name{
-    GPKGGeoPackage * geoPackage = [self removeByName:name];
+    GPKGGeoPackage *geoPackage = [self removeByName:name];
     if(geoPackage != nil){
         [self closeGeoPackage:geoPackage];
     }
@@ -104,15 +104,15 @@
 }
 
 -(void) closeRetain: (NSArray *) retain{
-    NSMutableArray * close = [NSMutableArray arrayWithArray:[self.cache allKeys]];
+    NSMutableArray *close = [NSMutableArray arrayWithArray:[self.cache allKeys]];
     [close removeObjectsInArray:retain];
-    for(NSString * name in close){
+    for(NSString *name in close){
         [self closeByName:name];
     }
 }
 
 -(void) closeNames: (NSArray *) names{
-    for(NSString * name in names){
+    for(NSString *name in names){
         [self closeByName:name];
     }
 }

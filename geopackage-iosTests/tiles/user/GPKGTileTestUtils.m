@@ -223,18 +223,18 @@
 
 +(void)testTileMatrixBoundingBox: (GPKGGeoPackage *) geoPackage{
     
-    GPKGTileMatrixSetDao * tileMatrixSetDao = [geoPackage tileMatrixSetDao];
+    GPKGTileMatrixSetDao *tileMatrixSetDao = [geoPackage tileMatrixSetDao];
     
     if([tileMatrixSetDao tableExists]){
-        GPKGResultSet * results = [tileMatrixSetDao queryForAll];
+        GPKGResultSet *results = [tileMatrixSetDao queryForAll];
         
         while([results moveToNext]){
-            GPKGTileMatrixSet * tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao object:results];
+            GPKGTileMatrixSet *tileMatrixSet = (GPKGTileMatrixSet *)[tileMatrixSetDao object:results];
             
-            GPKGTileDao * dao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
+            GPKGTileDao *dao = [geoPackage tileDaoWithTileMatrixSet:tileMatrixSet];
             [GPKGTestUtils assertNotNil:dao];
             
-            GPKGBoundingBox * totalBoundingBox = [tileMatrixSet boundingBox];
+            GPKGBoundingBox *totalBoundingBox = [tileMatrixSet boundingBox];
             [GPKGTestUtils assertTrue:[totalBoundingBox equals:[dao boundingBox]]];
             
             NSArray<GPKGTileMatrix *> *tileMatrices = dao.tileMatrices;
@@ -243,9 +243,9 @@
                 
                 int zoomLevel = [tileMatrix.zoomLevel intValue];
                 int count = [dao countWithZoomLevel:zoomLevel];
-                GPKGTileGrid * totalTileGrid = [dao tileGridWithZoomLevel:zoomLevel];
-                GPKGTileGrid * tileGrid = [dao queryForTileGridWithZoomLevel:zoomLevel];
-                GPKGBoundingBox * boundingBox = [dao boundingBoxWithZoomLevel:zoomLevel];
+                GPKGTileGrid *totalTileGrid = [dao tileGridWithZoomLevel:zoomLevel];
+                GPKGTileGrid *tileGrid = [dao queryForTileGridWithZoomLevel:zoomLevel];
+                GPKGBoundingBox *boundingBox = [dao boundingBoxWithZoomLevel:zoomLevel];
                 
                 if([totalTileGrid equals:tileGrid]){
                     [GPKGTestUtils assertTrue:[totalBoundingBox equals:boundingBox]];
@@ -301,8 +301,8 @@
                 int updatedCount = [dao countWithZoomLevel:zoomLevel];
                 [GPKGTestUtils assertEqualIntWithValue:count - deleted andValue2:updatedCount];
                 
-                GPKGTileGrid * updatedTileGrid = [dao queryForTileGridWithZoomLevel:zoomLevel];
-                GPKGBoundingBox * updatedBoundingBox = [dao boundingBoxWithZoomLevel:zoomLevel];
+                GPKGTileGrid *updatedTileGrid = [dao queryForTileGridWithZoomLevel:zoomLevel];
+                GPKGBoundingBox *updatedBoundingBox = [dao boundingBoxWithZoomLevel:zoomLevel];
                 
                 if(updatedCount == 0 || ([tileMatrix.matrixHeight intValue] <= 2 && [tileMatrix.matrixWidth intValue] <= 2)){
                     [GPKGTestUtils assertNil:updatedTileGrid];
@@ -323,7 +323,7 @@
                         [GPKGTestUtils assertEqualIntWithValue:tileGrid.maxY andValue2:updatedTileGrid.maxY];
                     }
                     
-                    GPKGBoundingBox * tileGridBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
+                    GPKGBoundingBox *tileGridBoundingBox = [GPKGTileBoundingBoxUtils boundingBoxWithTotalBoundingBox:totalBoundingBox andTileMatrix:tileMatrix andTileGrid:updatedTileGrid];
                     [GPKGTestUtils assertTrue:[tileGridBoundingBox equals:updatedBoundingBox]];
                 }
             }

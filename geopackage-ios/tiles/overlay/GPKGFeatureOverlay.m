@@ -35,7 +35,7 @@
     
     // Determine if the tile should be drawn
     BOOL drawTile = YES;
-    for(GPKGGeoPackageOverlay * geoPackageOverlay in self.linkedOverlays){
+    for(GPKGGeoPackageOverlay *geoPackageOverlay in self.linkedOverlays){
         if([geoPackageOverlay hasTileWithX:x andY:y andZoom:zoom]){
             drawTile = NO;
             break;
@@ -47,14 +47,14 @@
 
 -(NSData *) retrieveTileWithX: (NSInteger) x andY: (NSInteger) y andZoom: (NSInteger) zoom{
     
-    NSData * tileData = [self.featureTiles drawTileDataWithX:(int)x andY:(int)y andZoom:(int)zoom];
+    NSData *tileData = [self.featureTiles drawTileDataWithX:(int)x andY:(int)y andZoom:(int)zoom];
     
     return tileData;
 }
 
 -(void) ignoreTileDaos: (NSArray<GPKGTileDao *> *) tileDaos{
     
-    for(GPKGTileDao * tileDao in tileDaos){
+    for(GPKGTileDao *tileDao in tileDaos){
         [self ignoreTileDao:tileDao];
     }
     

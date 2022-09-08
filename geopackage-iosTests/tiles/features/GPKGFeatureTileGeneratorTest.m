@@ -48,11 +48,11 @@
     int minZoom = 0;
     int maxZoom = 4;
     
-    GPKGFeatureDao * featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
+    GPKGFeatureDao *featureDao = [GPKGFeatureTileUtils createFeatureDaoWithGeoPackage:self.geoPackage];
     
     int num = [GPKGFeatureTileUtils insertFeaturesWithGeoPackage:self.geoPackage andFeatureDao:featureDao];
     
-    GPKGFeatureTiles * featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
+    GPKGFeatureTiles *featureTiles = [GPKGFeatureTileUtils createFeatureTilesWithGeoPackage:self.geoPackage andFeatureDao:featureDao andUseIcon:useIcon];
     
     @try{
     
@@ -73,7 +73,7 @@
             [featureTiles setMaxFeaturesTileDraw:numberFeaturesTile];
         }
         
-        GPKGTileGenerator * tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
+        GPKGTileGenerator *tileGenerator = [[GPKGFeatureTileGenerator alloc] initWithGeoPackage:self.geoPackage andTableName:@"gen_feature_tiles" andFeatureTiles:featureTiles andMinZoom:minZoom andMaxZoom:maxZoom andProjection:[PROJProjectionFactory projectionWithEpsgInt:PROJ_EPSG_WEB_MERCATOR]];
         [tileGenerator setXyzTiles:NO];
         
         int tiles = [tileGenerator generateTiles];

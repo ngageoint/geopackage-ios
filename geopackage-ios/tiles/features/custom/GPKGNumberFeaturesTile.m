@@ -53,8 +53,8 @@
 
 -(UIImage *) drawTileWithTileWidth: (int) tileWidth andTileHeight: (int) tileHeight andTileFeatureCount: (int) tileFeatureCount andFeatureIndexResults: (GPKGFeatureIndexResults *) featureIndexResults{
     
-    NSString * featureText = [NSString stringWithFormat:@"%d",tileFeatureCount];
-    UIImage * image = [self drawTileWithTileWidth:tileWidth andTileHeight:tileHeight andText:featureText];
+    NSString *featureText = [NSString stringWithFormat:@"%d",tileFeatureCount];
+    UIImage *image = [self drawTileWithTileWidth:tileWidth andTileHeight:tileHeight andText:featureText];
     
     return image;
 }
@@ -111,7 +111,7 @@
     }
     
     // Determine the text bounds
-    UIFont * font = [UIFont fontWithName:self.textFont size:self.textFontSize];
+    UIFont *font = [UIFont fontWithName:self.textFont size:self.textFontSize];
     CGSize textSize = [text sizeWithAttributes:@{ NSFontAttributeName : font }];
     textSize = CGSizeMake(ceil(textSize.width), ceil(textSize.height));
     

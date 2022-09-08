@@ -130,9 +130,9 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     GPKGSchemaExtension *schemaExtension = [[GPKGSchemaExtension alloc] initWithGeoPackage:geoPackage];
     [schemaExtension createDataColumnConstraintsTable];
     
-    GPKGDataColumnConstraintsDao * dao = [schemaExtension dataColumnConstraintsDao];
+    GPKGDataColumnConstraintsDao *dao = [schemaExtension dataColumnConstraintsDao];
     
-    GPKGDataColumnConstraints * sampleRange = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleRange = [[GPKGDataColumnConstraints alloc] init];
     [sampleRange setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_RANGE_CONSTRAINT];
     [sampleRange setDataColumnConstraintType:GPKG_DCCT_RANGE];
     [sampleRange setMin: [[NSDecimalNumber alloc] initWithDouble:1.0]];
@@ -141,37 +141,37 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [sampleRange setMaxIsInclusiveValue:YES];
     [dao create:sampleRange];
     
-    GPKGDataColumnConstraints * sampleEnum1 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum1 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum1 setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT];
     [sampleEnum1 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum1 setValue:@"1"];
     [dao create:sampleEnum1];
     
-    GPKGDataColumnConstraints * sampleEnum3 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum3 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum3 setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT];
     [sampleEnum3 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum3 setValue:@"3"];
     [dao create:sampleEnum3];
     
-    GPKGDataColumnConstraints * sampleEnum5 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum5 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum5 setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT];
     [sampleEnum5 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum5 setValue:@"5"];
     [dao create:sampleEnum5];
     
-    GPKGDataColumnConstraints * sampleEnum7 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum7 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum7 setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT];
     [sampleEnum7 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum7 setValue:@"7"];
     [dao create:sampleEnum7];
     
-    GPKGDataColumnConstraints * sampleEnum9 = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleEnum9 = [[GPKGDataColumnConstraints alloc] init];
     [sampleEnum9 setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_ENUM_CONSTRAINT];
     [sampleEnum9 setDataColumnConstraintType:GPKG_DCCT_ENUM];
     [sampleEnum9 setValue:@"9"];
     [dao create:sampleEnum9];
     
-    GPKGDataColumnConstraints * sampleGlob = [[GPKGDataColumnConstraints alloc] init];
+    GPKGDataColumnConstraints *sampleGlob = [[GPKGDataColumnConstraints alloc] init];
     [sampleGlob setConstraintName:GPKG_GEOPACKAGE_TEST_SAMPLE_GLOB_CONSTRAINT];
     [sampleGlob setDataColumnConstraintType:GPKG_DCCT_GLOB];
     [sampleGlob setValue:@"[1-2][0-9][0-9][0-9]"];
@@ -180,14 +180,14 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(GPKGFeatureTable *) createFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andContents: (GPKGContents *) contents andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType{
     
-    GPKGFeatureTable * table = [self buildFeatureTableWithTableName:contents.tableName andGeometryColumn:geometryColumn andGeometryType:geometryType];
+    GPKGFeatureTable *table = [self buildFeatureTableWithTableName:contents.tableName andGeometryColumn:geometryColumn andGeometryType:geometryType];
     [geoPackage createFeatureTable:table];
     
     srandom((unsigned int)time(NULL));
     int random = [self randomIntLessThan:3];
     
-    GPKGDataColumnsDao * dataColumnsDao = [GPKGSchemaExtension dataColumnsDaoWithGeoPackage:geoPackage];
-    GPKGDataColumns * dataColumns = [[GPKGDataColumns alloc] init];
+    GPKGDataColumnsDao *dataColumnsDao = [GPKGSchemaExtension dataColumnsDaoWithGeoPackage:geoPackage];
+    GPKGDataColumns *dataColumns = [[GPKGDataColumns alloc] init];
     [dataColumns setContents:contents];
     [dataColumns setColumnName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN];
     [dataColumns setName:contents.tableName];
@@ -213,7 +213,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(GPKGFeatureTable *) buildFeatureTableWithTableName: (NSString *) tableName andGeometryColumn: (NSString *) geometryColumn andGeometryType: (enum SFGeometryType) geometryType{
     
-    NSMutableArray * columns = [NSMutableArray array];
+    NSMutableArray *columns = [NSMutableArray array];
     
     [GPKGUtils addObject:[GPKGFeatureColumn createPrimaryKeyColumnWithIndex:0 andName:@"id"] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:7 andName:@"test_text_limited" andDataType:GPKG_DT_TEXT andMax: [NSNumber numberWithInt:5]] toArray:columns];
@@ -227,31 +227,31 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:5 andName:@"test_blob" andDataType:GPKG_DT_BLOB] toArray:columns];
     [GPKGUtils addObject:[GPKGFeatureColumn createColumnWithIndex:6 andName:GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN andDataType:GPKG_DT_INTEGER] toArray:columns];
     
-    GPKGFeatureTable * table = [[GPKGFeatureTable alloc] initWithTable:tableName andGeometryColumn:geometryColumn andColumns:columns];
+    GPKGFeatureTable *table = [[GPKGFeatureTable alloc] initWithTable:tableName andGeometryColumn:geometryColumn andColumns:columns];
     
     return table;
 }
 
 +(GPKGTileTable *) buildTileTableWithTableName: (NSString *) tableName{
     
-    NSArray * columns = [GPKGTileTable createRequiredColumns];
+    NSArray *columns = [GPKGTileTable createRequiredColumns];
     
-    GPKGTileTable * table = [[GPKGTileTable alloc] initWithTable:tableName andColumns:columns];
+    GPKGTileTable *table = [[GPKGTileTable alloc] initWithTable:tableName andColumns:columns];
     
     return table;
 }
 
 +(void) addRowsToFeatureTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andGeometryColumns: (GPKGGeometryColumns *) geometryColumns andFeatureTable: (GPKGFeatureTable *) table andNumRows: (int) numRows andHasZ: (BOOL) hasZ andHasM: (BOOL) hasM andAllowEmptyFeatures: (BOOL) allowEmptyFeatures{
     
-    GPKGFeatureDao * dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
+    GPKGFeatureDao *dao = [geoPackage featureDaoWithGeometryColumns:geometryColumns];
     
     srandom((unsigned int)time(NULL));
     
     for(int i = 0; i < numRows; i++){
         
-        GPKGFeatureRow * newRow = [dao newRow];
+        GPKGFeatureRow *newRow = [dao newRow];
         
-        for(GPKGFeatureColumn * column in table.columns){
+        for(GPKGFeatureColumn *column in table.columns){
             if(!column.primaryKey){
                 
                 // Leave nullable columns null 20% of the time
@@ -291,7 +291,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             
                         case GPKG_DT_TEXT:
                             {
-                                NSString * text = [[NSProcessInfo processInfo] globallyUniqueString];
+                                NSString *text = [[NSProcessInfo processInfo] globallyUniqueString];
                                 if(column.max != nil && [text length] > [column.max intValue]){
                                     text = [text substringToIndex:[column.max intValue]];
                                 }
@@ -311,7 +311,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
                             break;
                         case GPKG_DT_BLOB:
                             {
-                                NSData * blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
+                                NSData *blob = [[[NSProcessInfo processInfo] globallyUniqueString] dataUsingEncoding:NSUTF8StringEncoding];
                                 if(column.max != nil && [blob length] > [column.max intValue]){
                                     blob = [blob subdataWithRange:NSMakeRange(0, [column.max intValue])];
                                 }
@@ -349,13 +349,13 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
 
 +(void) addRowsToTileTableWithGeoPackage: (GPKGGeoPackage *) geoPackage andTileMatrix: (GPKGTileMatrix *) tileMatrix andData: (NSData *) tileData{
     
-    GPKGTileDao * dao = [geoPackage tileDaoWithTableName:tileMatrix.tableName];
+    GPKGTileDao *dao = [geoPackage tileDaoWithTableName:tileMatrix.tableName];
     
     for(int column = 0; column < [tileMatrix.matrixWidth intValue]; column++){
         
         for(int row = 0; row < [tileMatrix.matrixHeight intValue]; row++){
             
-            GPKGTileRow * newRow = [dao newRow];
+            GPKGTileRow *newRow = [dao newRow];
             
             [newRow setZoomLevel:[tileMatrix.zoomLevel intValue]];
             [newRow setTileColumn:column];
@@ -474,7 +474,7 @@ NSString * const GPKG_GEOPACKAGE_TEST_INTEGER_COLUMN = @"test_integer";
             case GPKG_DT_REAL:
                 {
                     [GPKGTestUtils assertTrue:[value isKindOfClass:[NSNumber class]]];
-                    NSDecimalNumber * decimalNumber = ((NSDecimalNumber *)value);
+                    NSDecimalNumber *decimalNumber = ((NSDecimalNumber *)value);
                     [GPKGTestUtils assertNotNil:decimalNumber];
                 }
                 break;
