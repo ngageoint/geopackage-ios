@@ -11,6 +11,11 @@ Adheres to [Semantic Versioning](http://semver.org/).
 * sf-proj-ios version 5.1.0
 * ogc-api-features-json-ios version 4.1.0
 * color version 1.0.0
+* Date formatter parsing fix when device default date settings are changed
+* Count fix for table and column names with embedded SQL keywords [Issue #51](https://github.com/ngageoint/geopackage-ios/issues/51)
+* Fix for potential map view negative zoom level calculations
+* Map shape converter same projection conversion shortcuts
+* Geometry Crop utility
 
 ## [7.2.1](https://github.com/ngageoint/geopackage-ios/releases/tag/7.2.1) (05-06-2022)
 
